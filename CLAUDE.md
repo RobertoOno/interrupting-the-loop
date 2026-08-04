@@ -21,9 +21,18 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
 
 ## Estado atual
 
-Item 1 do roadmap concluído (2026-08-03): pacote `creative_machine` em
-`src/` — sampler anti-provável adaptativo por entropia, métricas, telemetria,
-adapter `mlx-lm` (import preguiçoso) e `scripts/generate_mlx.py`. Suíte
-sintética: `python3 -m pytest` (43 testes; os de mlx pulam sem Apple silicon).
-Próximo passo: item 2 — primeira execução no Mac (venv com `mlx-lm`,
-`Qwen3-8B-Base` 8-bit, calibrar λ / piso / gatilho).
+Item 1 do roadmap concluído (2026-08-03); item 2 em andamento (2026-08-04).
+Pacote `creative_machine` em `src/` — sampler anti-provável adaptativo por
+entropia, métricas, telemetria, adapter `mlx-lm` e `scripts/generate_mlx.py`.
+Testes: `.venv/bin/python -m pytest` (47, todos passam no Mac; `.venv` local
+tem `mlx-lm` instalado). Smoke test no `Qwen3-0.6B-Base-8bit` validou o
+pipeline ponta a ponta (ver "Primeira execução" no PLANO).
+
+Retomada do item 2 (parado no meio):
+
+1. Completar o download (retoma sozinho; ~3 de 16.4 GB no cache):
+   `.venv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('mlx-community/Qwen3-8B-Base-bf16')"`
+2. Quantizar: `.venv/bin/python -m mlx_lm convert --hf-path mlx-community/Qwen3-8B-Base-bf16 --mlx-path ~/models/mlx/Qwen3-8B-Base-8bit -q --q-bits 8`
+3. Sanidade + velocidade com defaults; depois varredura λ ∈ {0, 3, 6, 10}
+   (mesma seed/prompt, `--baseline`, telemetria em `runs/`), ler os textos e
+   calibrar gatilho/piso. Registrar no PLANO.
