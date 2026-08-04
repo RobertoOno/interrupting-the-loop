@@ -111,6 +111,31 @@ Strategies de Eno).
   distribuições sintéticas — sem pesos reais); Mac = sala de concerto
   (execução, calibração, escuta). Git é a ponte.
 
+## Decisões de design do sampler (2026-08-03, item 1 do roadmap)
+
+- **Piso de coerência relativo (estilo min-p)**: candidato precisa de
+  `p ≥ floor × p_max`. Piso absoluto quebraria exatamente onde perturbamos —
+  nas distribuições achatadas, todo token tem p baixa.
+- **Régua de distância da Fase 1: embeddings de entrada do próprio modelo.**
+  De graça via MLX, sempre no vocabulário certo. O adapter chama o *módulo*
+  de embedding (não indexa a matriz), então funciona igual com
+  `QuantizedEmbedding` (dequantiza no lookup).
+- **Contexto = EMA dos embeddings** dos tokens vistos (prompt incluído, via
+  `observe_prompt`), meia-vida configurável (default 16 tokens).
+- **Anti-atrator emergente** (descoberto nos testes sintéticos): o sampler
+  observa o próprio desvio, então o contexto migra na direção do que escolhe —
+  o desvio de agora vira o normal de depois, e o polo distante alterna. A
+  máquina não fica presa no mesmo desvio; oscila entre polos
+  (`test_context_follows_deviation_and_oscillates`).
+- **Escolha entre candidatos**: `sample` de softmax(score) (default, via
+  Gumbel-max) ou `argmax` determinístico. Com λ=0 o modo perturbado degenera
+  para min-p sampling — os casos-limite são samplers conhecidos, bom sinal.
+- **`max_candidates`** (default 128): teto de candidatos que entram no lookup
+  de embeddings, mantém o custo por passo limitado.
+- **Núcleo em numpy puro**; mlx só no adapter, com import preguiçoso — a
+  suíte sintética roda em qualquer máquina (43 testes; os de mlx pulam onde
+  não há Apple silicon).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
@@ -122,10 +147,10 @@ Strategies de Eno).
 
 ## Roadmap
 
-- [ ] **1. Esqueleto** (nuvem): pacote Python; núcleo do sampler (recebe
-  logits + embeddings → token) com anti-provável adaptativo por entropia
-  (parâmetros: λ, piso de coerência, gatilho de entropia); métricas;
-  telemetria; testes com distribuição sintética; adapter `mlx-lm` pronto.
+- [x] **1. Esqueleto** — feito 2026-08-03: pacote `creative_machine`
+  (`src/`), núcleo do sampler adaptativo por entropia, métricas, telemetria
+  JSONL, 43 testes sintéticos, adapter `mlx-lm` e script
+  `scripts/generate_mlx.py` para a primeira execução.
 - [ ] **2. Primeira execução** (Mac): Qwen3-8B-Base; calibrar λ, piso,
   gatilho; sentir onde o texto quebra.
 - [ ] **3. Harness de experimentos**: varreduras de parâmetros, logging

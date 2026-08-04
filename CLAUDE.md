@@ -21,6 +21,9 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
 
 ## Estado atual
 
-Fase de fundação: visão e plano documentados, nenhum código ainda.
-Próximo passo: item 1 do roadmap em `docs/PLANO.md` (esqueleto do pacote +
-sampler adaptativo + testes sintéticos).
+Item 1 do roadmap concluído (2026-08-03): pacote `creative_machine` em
+`src/` — sampler anti-provável adaptativo por entropia, métricas, telemetria,
+adapter `mlx-lm` (import preguiçoso) e `scripts/generate_mlx.py`. Suíte
+sintética: `python3 -m pytest` (43 testes; os de mlx pulam sem Apple silicon).
+Próximo passo: item 2 — primeira execução no Mac (venv com `mlx-lm`,
+`Qwen3-8B-Base` 8-bit, calibrar λ / piso / gatilho).
