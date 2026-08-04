@@ -75,9 +75,12 @@ def main() -> None:
     if args.baseline:
         from mlx_lm.sample_utils import make_sampler
 
-        print("\n=== baseline (default sampling) ===")
+        # Fair baseline: same relative floor (min-p), same temperature, no
+        # distance push — isolates the effect of lam. Plain categorical at
+        # T=1 degenerates on its own in small base models.
+        print("\n=== baseline (min-p at same floor) ===")
         print(args.prompt, end="", flush=True)
-        base = make_sampler(temp=args.temperature)
+        base = make_sampler(temp=args.temperature, min_p=args.coherence_floor)
         for out in stream_generate(model, tokenizer, args.prompt, max_tokens=args.max_tokens, sampler=base):
             print(out.text, end="", flush=True)
         print()

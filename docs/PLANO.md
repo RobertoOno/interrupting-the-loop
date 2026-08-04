@@ -136,6 +136,22 @@ Strategies de Eno).
   suíte sintética roda em qualquer máquina (43 testes; os de mlx pulam onde
   não há Apple silicon).
 
+## Primeira execução (2026-08-04, smoke test 0.6B)
+
+Pipeline validado ponta a ponta com `Qwen3-0.6B-Base-8bit` (o 8B Base não
+existe quantizado para MLX; baixamos o bf16 e quantizamos localmente).
+Defaults (λ=3, gatilho 2.0, piso 0.05): taxa de perturbação 34%, rank médio
+2.6 nos perturbados, distância média 0.89, perplexidade 3.2 — texto coerente.
+
+- **Achado**: o anti-provável saiu *mais* coerente que o baseline categorical
+  T=1, que degenerou sozinho (base 0.6B amostra lixo da cauda profunda). O
+  piso min-p já é um guarda melhor que o sampling padrão.
+- **Decisão de método**: baseline justo = **min-p com o mesmo piso, mesma
+  temperatura, λ=0 implícito** — isola exatamente o efeito do empurrão de
+  distância. `generate_mlx.py --baseline` faz isso.
+- λ=3 é tímido (desvios concentrados em rank 0–3). Calibração no 8B deve
+  varrer λ mais alto.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
