@@ -69,6 +69,7 @@ def main() -> None:
     base = make_sampler(temp=args.temperature, min_p=args.coherence_floor)
     text, tps = generate(model, tokenizer, args.prompt, args.max_tokens, base)
     runs.append(("baseline min-p", text, {"tps": tps}))
+    (args.out / "baseline.txt").write_text(args.prompt + text)
 
     for lam in (float(x) for x in args.lams.split(",")):
         config = SamplerConfig(
