@@ -206,6 +206,32 @@ normalizada por log V — alternativa considerada e rejeitada: recalibramos por
 modelo de qualquer forma). A branch remota ficou como registro histórico;
 `main` é a fonte única.
 
+## Item 4 — novidade objetiva via infini-gram (2026-08-09, em andamento)
+
+- Módulo `creative_machine/novelty.py`: cliente infini-gram (API pública,
+  rate-limit-educado, zero dependências novas) + `novelty_report`: fração de
+  janelas de n palavras com count 0 no corpus (n ∈ {4,6,8}) e o maior trecho
+  do texto presente no corpus (extensão gulosa; counts são monótonos).
+- **Índice resolvido**: `v4_olmo-2-1124-13b-instruct_llama` — corpus de
+  treino completo da família 13B (superconjunto do que o base viu →
+  conservador para "o modelo viu isto?"). Modelo alvo:
+  `allenai/OLMo-2-1124-13B` (base) quantizado 8-bit local.
+- **Primeira medição comparativa** (textos do Qwen da rodada com banda,
+  mesma seed/prompt; medição contra o corpus OLMo — valida o instrumento;
+  a alegação literal "não estava no treino" fecha quando o gerador for o
+  próprio OLMo):
+
+  | n-grama | baseline min-p | máquina (λ=3, banda) |
+  |---|---|---|
+  | 4 | 13.9% novos | 32.6% novos (2.3×) |
+  | 6 | 62.9% | 91.1% |
+  | 8 | 91.2% | 97.7% |
+  | maior cópia | 8 palavras | 8 palavras |
+
+  O empurrão desloca a curva inteira de novidade sem alongar o maior trecho
+  copiado: mais recombinação local, zero cópia extra. n=1 por braço —
+  significância exige o harness multi-seed (item 3).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
