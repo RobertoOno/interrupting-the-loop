@@ -192,6 +192,20 @@ resenha) ainda ocorrem (~1 em 3 gerações com λ=2). Não é degeneração — 
 colagem; caso para o Avaliador/loop de seleção, não para mais guardas no
 sampler. Hipótese adicional: prompts mais longos ancoram o gênero.
 
+## Revisão da branch antiga (2026-08-09)
+
+`origin/claude/llm-unlikely-predictions-fa5yej` continha uma implementação
+paralela do item 1 (sessão antiga, na nuvem): mesmo núcleo conceitual, sem
+nada da calibração em modelo real — inclusive com o bug do sampling
+desprotegido fora do gate. **Absorvido**: o `ToyLM` (modelo de brinquedo
+determinístico com alternância de entropia + embeddings clusterizados),
+portado para `src/creative_machine/toy.py` com teste de integração do loop
+completo — a oficina da nuvem testa o instrumento inteiro sem pesos.
+**Descartado**: o resto (backends próprios, loop de geração manual, entropia
+normalizada por log V — alternativa considerada e rejeitada: recalibramos por
+modelo de qualquer forma). A branch remota ficou como registro histórico;
+`main` é a fonte única.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
