@@ -104,6 +104,59 @@ def test_max_candidates_caps_scored_set():
     assert token < 10  # the distant token never entered scoring
 
 
+def test_entropy_ceiling_holds_rails_at_genre_forks():
+    logits = np.zeros(256)  # entropy = log 256 ~ 5.55: a document-level fork
+    cfg = SamplerConfig(entropy_trigger=2.0, entropy_ceiling=4.5, seed=0)
+    s = AntiprobableSampler(cfg, embed_fn=make_embed(np.eye(256)))
+    s.step(logits)
+    assert not s.telemetry.records[0].perturbed
+    # inside the band it still perturbs
+    s.step(np.array([0.0] * 12 + [-np.inf] * 244))  # entropy = log 12 ~ 2.48
+    assert s.telemetry.records[1].perturbed
+
+
+def test_no_push_ids_get_no_bonus():
+    # Token 5 is the distant pole but is push-exempt (e.g. EOS): with all
+    # log-probs equal it must not win via distance. The machine must not
+    # discover that the most radical deviation is leaving the text.
+    logits = np.zeros(6)
+    cfg = SamplerConfig(
+        entropy_trigger=1.5, lam=3.0, perturb_choice="argmax", no_push_ids=(5,), seed=0
+    )
+    s = AntiprobableSampler(cfg, embed_fn=make_embed(CLUSTER_TABLE))
+    s.observe(0)
+    assert s.step(logits) != 5
+
+
+def test_standardize_gives_resolution_where_raw_cannot():
+    # Two candidates: slightly likelier vs slightly more distant. With raw
+    # cosine distances the tiny spread (0.4) times a small lam loses to the
+    # logprob gap; standardized, the same lam reads in sigmas and wins.
+    logits = np.array([0.0, -0.4])
+    table = np.array([[1.0, 0.0], [0.6, 0.8]])  # d0 = 0, d1 = 0.4 from context
+    picks = {}
+    for scale in ("raw", "standardize"):
+        cfg = SamplerConfig(
+            entropy_trigger=0.5, lam=0.5, distance_scale=scale, perturb_choice="argmax", seed=0
+        )
+        s = AntiprobableSampler(cfg, embed_fn=make_embed(table))
+        s.observe(0)
+        picks[scale] = s.step(logits)
+    assert picks["raw"] == 0
+    assert picks["standardize"] == 1
+
+
+def test_floor_applies_in_normal_mode_too():
+    # Two strong tokens plus a fat tail of weak ones. Unguarded categorical
+    # sampling would hit the tail ~10% of the time (a dumb accident, not a
+    # fertile error); the global floor makes that impossible.
+    logits = np.array([3.0, 2.9] + [-2.0] * 30)  # entropy ~ 0.9 < trigger
+    s = AntiprobableSampler(SamplerConfig(entropy_trigger=2.0, seed=0))
+    picks = [s.step(logits) for _ in range(100)]
+    assert all(p < 2 for p in picks)
+    assert all(not r.perturbed and r.n_candidates == 2 for r in s.telemetry.records)
+
+
 def test_masked_tokens_never_chosen():
     logits = np.array([0.0] * 4 + [-np.inf] * 4)  # entropy = log 4
     for trigger in (1.2, 10.0):  # perturbation mode and plain mode
@@ -182,6 +235,8 @@ def test_same_seed_same_trajectory():
     "kwargs",
     [
         {"temperature": 0.0},
+        {"distance_scale": "cosine"},
+        {"entropy_trigger": 2.0, "entropy_ceiling": 2.0},
         {"coherence_floor": 0.0},
         {"coherence_floor": 1.5},
         {"lam": -1.0},

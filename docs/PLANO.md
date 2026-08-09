@@ -149,8 +149,48 @@ Defaults (λ=3, gatilho 2.0, piso 0.05): taxa de perturbação 34%, rank médio
 - **Decisão de método**: baseline justo = **min-p com o mesmo piso, mesma
   temperatura, λ=0 implícito** — isola exatamente o efeito do empurrão de
   distância. `generate_mlx.py --baseline` faz isso.
-- λ=3 é tímido (desvios concentrados em rank 0–3). Calibração no 8B deve
-  varrer λ mais alto.
+
+## Calibração no 8B (2026-08-09) — item 2 concluído
+
+Quatro varreduras no `Qwen3-8B-Base-8bit` (quantizado local, ~31 tok/s;
+`scripts/sweep_lambda.py`, prompt narrativo do faroleiro, seed 0). Cada
+colapso observado virou um mecanismo do sampler:
+
+1. **Piso global** — com o piso só nas bifurcações, um passo *não*-perturbado
+   amostrou rank 540 (p≈10⁻⁶) e quebrou o texto (quiz, chinês): o acidente
+   burro foi 30× mais fundo que o desvio deliberado (rank ≤ 18). O piso de
+   coerência agora vale em todo passo; o que é adaptativo é só o empurrão.
+   Bônus: λ=0 ≡ baseline min-p exatamente.
+2. **Régua padronizada** — o spread de distâncias entre candidatos é ~0.08
+   (espaço de embeddings anisotrópico): λ cru < 6 era no-op (trajetórias
+   idênticas) e a distância média (~0.8) não discrimina. Distâncias agora são
+   z-scoradas por passo entre os candidatos (`distance_scale="standardize"`);
+   λ lê-se em nats/σ, faixa útil 0.5–3.
+3. **EOS sem empurrão** (`no_push_ids`) — o EOS é "distante de tudo" e o
+   empurrão o favorecia (escolhido com d=0.94 num passo perturbado; geração
+   morreu com 36 tokens). A forma mais radical de desviar é sair do texto —
+   proibida por design; EOS ainda vence pelo próprio logprob.
+4. **Banda de entropia** (`entropy_ceiling`) — os colapsos de registro
+   (aula de gramática em chinês com λ=3, quiz NLI com gatilho 3.0, o EOS em
+   H=4.75) aconteceram todos em passos de entropia altíssima: bifurcações de
+   *documento/gênero*, não de narrativa. O empurrão agora atua na banda
+   [gatilho, teto); acima do teto, sampling normal com piso — desviar dentro
+   da narrativa, segurar o trilho nas encruzilhadas de gênero. Validação: com
+   banda [2.0, 4.5], o λ=3 que colapsava produziu a melhor peça até aqui (a
+   fábula das tempestades — ver `docs/GALERIA.md`).
+
+**Calibração recomendada (Qwen3-8B-Base)**: λ 1–3 standardized (default 1.5),
+banda [2.0, 4.5] nats, piso 0.05, meia-vida 16, modo sample. Perturba ~45–50%
+dos passos em prosa, ppl 5–7 (baseline min-p ~3–4), sem colapso de gênero nas
+rodadas com banda. Defaults dos scripts refletem isso; o core mantém
+`entropy_ceiling=None` (neutro) — teto é política de uso, calibrada por
+modelo.
+
+**Deriva residual conhecida**: transições suaves de documento por caminhos de
+entropia média (ex.: atribuir a frase a um autor fictício e derivar para
+resenha) ainda ocorrem (~1 em 3 gerações com λ=2). Não é degeneração — é
+colagem; caso para o Avaliador/loop de seleção, não para mais guardas no
+sampler. Hipótese adicional: prompts mais longos ancoram o gênero.
 
 ## Métricas
 
@@ -167,10 +207,12 @@ Defaults (λ=3, gatilho 2.0, piso 0.05): taxa de perturbação 34%, rank médio
   (`src/`), núcleo do sampler adaptativo por entropia, métricas, telemetria
   JSONL, 43 testes sintéticos, adapter `mlx-lm` e script
   `scripts/generate_mlx.py` para a primeira execução.
-- [ ] **2. Primeira execução** (Mac): Qwen3-8B-Base; calibrar λ, piso,
-  gatilho; sentir onde o texto quebra.
-- [ ] **3. Harness de experimentos**: varreduras de parâmetros, logging
-  estruturado, comparação lado a lado com decodificação normal.
+- [x] **2. Primeira execução** — feito 2026-08-09: Qwen3-8B-Base-8bit
+  calibrado (ver "Calibração no 8B"); os pontos de quebra viraram quatro
+  mecanismos novos do sampler; primeiros artefatos em `docs/GALERIA.md`.
+- [ ] **3. Harness de experimentos**: proto pronto (`sweep_lambda.py`: um
+  load, N configs, telemetria + textos + tabela). Falta: multi-seed,
+  multi-prompt, varredura 2D (λ × banda), e comparação automatizada.
 - [ ] **4. OLMo-2** + métrica de novidade via infini-gram.
 - [ ] **5. Fase 2**: blending conceitual via API (pares distantes por
   embeddings → costura → juiz).

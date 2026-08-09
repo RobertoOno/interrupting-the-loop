@@ -6,8 +6,10 @@ branchings, where the model itself admits many continuations; only there does
 the sampler reach into the tail, pulled by semantic distance and held by the
 coherence floor:
 
-    score(token) = log P(token | context) + lam * distance(token, context)
+    score(token) = log P(token | context) + lam * push(token)
 
+where push is the candidate's semantic distance to the context, by default
+standardized across the step's candidates (see SamplerConfig.distance_scale).
 "Context" is an exponential moving average over the embeddings of tokens seen
 so far (prompt included, via :meth:`AntiprobableSampler.observe_many`).
 """
@@ -82,18 +84,29 @@ class AntiprobableSampler:
             self._update_context(vec)
 
     def step(self, logits: np.ndarray) -> int:
-        """Choose the next token for one step's logits (or logprobs)."""
+        """Choose the next token for one step's logits (or logprobs).
+
+        The coherence floor applies at every step — it is the permanent
+        guard. Only the distance push is entropy-gated: an unguarded
+        categorical draw can fall 500 ranks deep by accident, a dumb
+        accident rather than a fertile error.
+        """
         cfg = self.config
         logprobs = log_softmax(logits, cfg.temperature)
         h = entropy(logprobs)
 
-        if h >= cfg.entropy_trigger:
-            token, distance, n_candidates = self._perturb(logprobs)
-            perturbed = True
+        p = np.exp(logprobs)
+        candidates = np.flatnonzero(p >= cfg.coherence_floor * p.max())
+        n_candidates = len(candidates)
+
+        perturbed = h >= cfg.entropy_trigger and (
+            cfg.entropy_ceiling is None or h < cfg.entropy_ceiling
+        )
+        if perturbed:
+            token, distance, spread = self._perturb(logprobs, candidates)
         else:
-            token = self._gumbel_argmax(logprobs)
-            distance, n_candidates = None, None
-            perturbed = False
+            token = int(candidates[self._gumbel_argmax(logprobs[candidates])])
+            distance, spread = None, None
 
         self.telemetry.record(
             StepRecord(
@@ -105,6 +118,7 @@ class AntiprobableSampler:
                 prob=float(np.exp(logprobs[token])),
                 rank=token_rank(logprobs, token),
                 distance=distance,
+                distance_spread=spread,
                 n_candidates=n_candidates,
             )
         )
@@ -112,13 +126,13 @@ class AntiprobableSampler:
         self.observe(token)
         return token
 
-    def _perturb(self, logprobs: np.ndarray) -> tuple[int, float | None, int]:
+    def _perturb(
+        self, logprobs: np.ndarray, candidates: np.ndarray
+    ) -> tuple[int, float | None, float | None]:
         cfg = self.config
-        p = np.exp(logprobs)
-        candidates = np.flatnonzero(p >= cfg.coherence_floor * p.max())
-        n_candidates = len(candidates)
-        if n_candidates > cfg.max_candidates:
-            keep = np.argsort(p[candidates])[::-1][: cfg.max_candidates]
+        if len(candidates) > cfg.max_candidates:
+            p = np.exp(logprobs[candidates])
+            keep = np.argsort(p)[::-1][: cfg.max_candidates]
             candidates = candidates[keep]
 
         if self.embed_fn is not None and self._context is not None:
@@ -127,13 +141,30 @@ class AntiprobableSampler:
         else:
             distances = np.zeros(len(candidates))
 
-        scores = logprobs[candidates] + cfg.lam * distances
+        # Telemetry reports real distances; the push is computed over the
+        # non-exempt candidates only (exempt ones stay neutral at 0).
+        exempt = (
+            np.isin(candidates, cfg.no_push_ids)
+            if cfg.no_push_ids
+            else np.zeros(len(candidates), dtype=bool)
+        )
+        active = ~exempt
+        push = np.zeros(len(candidates))
+        spread = float(np.std(distances[active])) if active.any() else 0.0
+        if cfg.distance_scale == "standardize":
+            if spread > 1e-9:
+                push[active] = (distances[active] - np.mean(distances[active])) / spread
+        else:
+            push[active] = distances[active]
+
+        scores = logprobs[candidates] + cfg.lam * push
         if cfg.perturb_choice == "argmax":
             pick = int(np.argmax(scores))
         else:
             pick = self._gumbel_argmax(scores)
-        chosen_distance = float(distances[pick]) if self.embed_fn is not None else None
-        return int(candidates[pick]), chosen_distance, n_candidates
+        if self.embed_fn is not None:
+            return int(candidates[pick]), float(distances[pick]), spread
+        return int(candidates[pick]), None, None
 
     def _gumbel_argmax(self, scores: np.ndarray) -> int:
         """Draw from softmax(scores) via the Gumbel-max trick."""

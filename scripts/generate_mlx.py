@@ -33,14 +33,24 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--max-tokens", type=int, default=200)
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--entropy-trigger", type=float, default=2.0)
+    p.add_argument("--entropy-ceiling", type=float, default=4.5)
     p.add_argument("--coherence-floor", type=float, default=0.05)
-    p.add_argument("--lam", type=float, default=3.0)
+    p.add_argument("--lam", type=float, default=1.5)
+    p.add_argument("--distance-scale", choices=["raw", "standardize"], default="standardize")
     p.add_argument("--halflife", type=float, default=16.0)
     p.add_argument("--choice", choices=["sample", "argmax"], default="sample")
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--telemetry", type=Path, default=None, help="write per-step JSONL here")
     p.add_argument("--baseline", action="store_true", help="also generate with default sampling")
     return p.parse_args()
+
+
+def eos_ids(tokenizer) -> tuple[int, ...]:
+    """EOS ids to exempt from the distance push (never push out of the text)."""
+    ids = getattr(tokenizer, "eos_token_ids", None)
+    if not ids and tokenizer.eos_token_id is not None:
+        ids = [tokenizer.eos_token_id]
+    return tuple(ids or ())
 
 
 def main() -> None:
@@ -51,8 +61,11 @@ def main() -> None:
     config = SamplerConfig(
         temperature=args.temperature,
         entropy_trigger=args.entropy_trigger,
+        entropy_ceiling=args.entropy_ceiling,
         coherence_floor=args.coherence_floor,
         lam=args.lam,
+        distance_scale=args.distance_scale,
+        no_push_ids=eos_ids(tokenizer),
         context_halflife=args.halflife,
         perturb_choice=args.choice,
         seed=args.seed,

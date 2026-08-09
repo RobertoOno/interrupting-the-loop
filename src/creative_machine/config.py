@@ -20,13 +20,30 @@ class SamplerConfig:
         temperature: Softmax temperature applied to incoming logits.
         entropy_trigger: Entropy threshold in nats. Steps with entropy >= this
             value enter perturbation mode; below it, plain sampling.
+        entropy_ceiling: Upper bound (nats) of the fertile band, or None for
+            no bound. Very-high-entropy steps are document/genre forks — the
+            observed collapse points (EOS bait, register switches into
+            quiz/translation modes) — so above the ceiling the sampler stays
+            on plain (floored) sampling: deviate inside the narrative, hold
+            the rails at genre crossroads.
         coherence_floor: Relative probability floor (min-p style). A token is a
             perturbation candidate only if p(token) >= coherence_floor * p(top).
             Relative (not absolute) so the floor scales with how confident the
             model is at this step.
         lam: Weight (the plan's λ) of semantic distance in the perturbation
             score. 0 disables the distance pull, reducing perturbation mode to
-            min-p sampling.
+            min-p sampling. With distance_scale="standardize", lam reads as
+            nats per sigma of distance; useful range is roughly 0.5-3.
+        distance_scale: How the distance term enters the score.
+            "standardize" (default) z-scores distances across the step's
+            candidates, giving lam a model-independent meaning and full
+            resolution even when raw distances barely differ (token-embedding
+            spaces are anisotropic: raw candidate spreads run ~0.1).
+            "raw" uses cosine distances as-is.
+        no_push_ids: Token ids (e.g. EOS) that never receive the distance
+            bonus. They can still win a step on their own log-probability, in
+            any mode — the perturbator just must not push the text into
+            ending: leaving the text is not a deviation inside it.
         context_halflife: Half-life, in tokens, of the exponential moving
             average over token embeddings that represents "the context" for
             distance measurement.
@@ -40,18 +57,26 @@ class SamplerConfig:
 
     temperature: float = 1.0
     entropy_trigger: float = 2.0
+    entropy_ceiling: float | None = None
     coherence_floor: float = 0.05
-    lam: float = 3.0
+    lam: float = 1.5
+    distance_scale: str = "standardize"
+    no_push_ids: tuple[int, ...] = ()
     context_halflife: float = 16.0
     perturb_choice: str = "sample"
     max_candidates: int = 128
     seed: int | None = None
 
     def __post_init__(self) -> None:
+        self.no_push_ids = tuple(self.no_push_ids)
+        if self.distance_scale not in ("raw", "standardize"):
+            raise ValueError('distance_scale must be "raw" or "standardize"')
         if self.temperature <= 0:
             raise ValueError("temperature must be > 0")
         if self.entropy_trigger < 0:
             raise ValueError("entropy_trigger must be >= 0")
+        if self.entropy_ceiling is not None and self.entropy_ceiling <= self.entropy_trigger:
+            raise ValueError("entropy_ceiling must be > entropy_trigger (or None)")
         if not 0 < self.coherence_floor <= 1:
             raise ValueError("coherence_floor must be in (0, 1]")
         if self.lam < 0:

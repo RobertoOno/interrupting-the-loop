@@ -21,18 +21,14 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
 
 ## Estado atual
 
-Item 1 do roadmap concluído (2026-08-03); item 2 em andamento (2026-08-04).
-Pacote `creative_machine` em `src/` — sampler anti-provável adaptativo por
-entropia, métricas, telemetria, adapter `mlx-lm` e `scripts/generate_mlx.py`.
-Testes: `.venv/bin/python -m pytest` (47, todos passam no Mac; `.venv` local
-tem `mlx-lm` instalado). Smoke test no `Qwen3-0.6B-Base-8bit` validou o
-pipeline ponta a ponta (ver "Primeira execução" no PLANO).
+Itens 1 e 2 do roadmap concluídos (2026-08-09). Pacote `creative_machine` em
+`src/`; modelo calibrado: `~/models/mlx/Qwen3-8B-Base-8bit` (quantizado
+local, ~31 tok/s). Calibração, decisões e os quatro mecanismos que saíram
+dela (piso global, régua padronizada, `no_push_ids`, banda de entropia) na
+seção "Calibração no 8B" do PLANO; artefatos em `docs/GALERIA.md`.
+Testes: `.venv/bin/python -m pytest` (53). Gerar:
+`scripts/generate_mlx.py` (uma config) / `scripts/sweep_lambda.py`
+(varredura; defaults já na calibração recomendada).
 
-Retomada do item 2 (parado no meio):
-
-1. Completar o download (retoma sozinho; ~3 de 16.4 GB no cache):
-   `.venv/bin/python -c "from huggingface_hub import snapshot_download; snapshot_download('mlx-community/Qwen3-8B-Base-bf16')"`
-2. Quantizar: `.venv/bin/python -m mlx_lm convert --hf-path mlx-community/Qwen3-8B-Base-bf16 --mlx-path ~/models/mlx/Qwen3-8B-Base-8bit -q --q-bits 8`
-3. Sanidade + velocidade com defaults; depois varredura λ ∈ {0, 3, 6, 10}
-   (mesma seed/prompt, `--baseline`, telemetria em `runs/`), ler os textos e
-   calibrar gatilho/piso. Registrar no PLANO.
+Próximo: completar o item 3 (harness multi-seed/prompt) ou partir para o
+item 4 (OLMo-2 + novidade via infini-gram) — decidir com o Roberto.

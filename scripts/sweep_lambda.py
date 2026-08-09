@@ -24,16 +24,19 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from creative_machine import SamplerConfig  # noqa: E402
 from creative_machine.adapters.mlx_lm import MLXAntiprobableSampler  # noqa: E402
+from generate_mlx import eos_ids  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--model", required=True)
     p.add_argument("--prompt", required=True)
-    p.add_argument("--lams", default="0,3,6,10", help="comma-separated lambda values")
+    p.add_argument("--lams", default="0,0.5,1,2,3", help="comma-separated lambda values")
+    p.add_argument("--distance-scale", choices=["raw", "standardize"], default="standardize")
     p.add_argument("--max-tokens", type=int, default=150)
     p.add_argument("--temperature", type=float, default=1.0)
     p.add_argument("--entropy-trigger", type=float, default=2.0)
+    p.add_argument("--entropy-ceiling", type=float, default=4.5)
     p.add_argument("--coherence-floor", type=float, default=0.05)
     p.add_argument("--halflife", type=float, default=16.0)
     p.add_argument("--choice", choices=["sample", "argmax"], default="sample")
@@ -42,13 +45,14 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def generate(model, tokenizer, prompt: str, max_tokens: int, sampler) -> str:
+def generate(model, tokenizer, prompt: str, max_tokens: int, sampler) -> tuple[str, float]:
     from mlx_lm import stream_generate
 
-    pieces = []
+    pieces, tps = [], 0.0
     for out in stream_generate(model, tokenizer, prompt, max_tokens=max_tokens, sampler=sampler):
         pieces.append(out.text)
-    return "".join(pieces)
+        tps = out.generation_tps
+    return "".join(pieces), tps
 
 
 def main() -> None:
@@ -63,29 +67,33 @@ def main() -> None:
     runs: list[tuple[str, str, dict]] = []
 
     base = make_sampler(temp=args.temperature, min_p=args.coherence_floor)
-    text = generate(model, tokenizer, args.prompt, args.max_tokens, base)
-    runs.append(("baseline min-p", text, {}))
+    text, tps = generate(model, tokenizer, args.prompt, args.max_tokens, base)
+    runs.append(("baseline min-p", text, {"tps": tps}))
 
     for lam in (float(x) for x in args.lams.split(",")):
         config = SamplerConfig(
             temperature=args.temperature,
             entropy_trigger=args.entropy_trigger,
+            entropy_ceiling=args.entropy_ceiling,
             coherence_floor=args.coherence_floor,
             lam=lam,
+            distance_scale=args.distance_scale,
+            no_push_ids=eos_ids(tokenizer),
             context_halflife=args.halflife,
             perturb_choice=args.choice,
             seed=args.seed,
         )
         sampler = MLXAntiprobableSampler(model, config=config)
         sampler.observe_prompt(prompt_ids)
-        text = generate(model, tokenizer, args.prompt, args.max_tokens, sampler)
+        text, tps = generate(model, tokenizer, args.prompt, args.max_tokens, sampler)
         summary = sampler.telemetry.summary()
+        summary["tps"] = tps
         label = f"lam={lam:g}"
         sampler.telemetry.to_jsonl(args.out / f"{label}.jsonl")
         (args.out / f"{label}.txt").write_text(args.prompt + text)
         runs.append((label, text, summary))
 
-    cols = ["perturb_rate", "mean_entropy", "mean_rank", "mean_rank_perturbed", "mean_distance_perturbed", "perplexity"]
+    cols = ["perturb_rate", "mean_rank", "mean_rank_perturbed", "mean_distance_perturbed", "mean_distance_spread", "perplexity", "tps"]
     header = f"{'run':<16}" + "".join(f"{c:>24}" for c in cols)
     print("\n" + header)
     print("-" * len(header))

@@ -23,8 +23,11 @@ class StepRecord:
         distance: Semantic distance of the chosen token to the context EMA.
             None when the step did not compute distances (not perturbed, or no
             embeddings available).
-        n_candidates: Number of tokens that passed the coherence floor.
-            None when the step was not perturbed.
+        distance_spread: Standard deviation of candidate distances at this
+            step — the resolution the distance ruler actually had. None when
+            distances were not computed.
+        n_candidates: Number of tokens that passed the coherence floor (the
+            floor applies at every step).
     """
 
     step: int
@@ -35,6 +38,7 @@ class StepRecord:
     prob: float
     rank: int
     distance: float | None
+    distance_spread: float | None
     n_candidates: int | None
 
 
@@ -75,4 +79,7 @@ class Telemetry:
             distances = [r.distance for r in perturbed if r.distance is not None]
             if distances:
                 out["mean_distance_perturbed"] = sum(distances) / len(distances)
+            spreads = [r.distance_spread for r in perturbed if r.distance_spread is not None]
+            if spreads:
+                out["mean_distance_spread"] = sum(spreads) / len(spreads)
         return out
