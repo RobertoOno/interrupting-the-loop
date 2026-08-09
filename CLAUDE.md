@@ -21,14 +21,19 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
 
 ## Estado atual
 
-Itens 1 e 2 do roadmap concluídos (2026-08-09). Pacote `creative_machine` em
-`src/`; modelo calibrado: `~/models/mlx/Qwen3-8B-Base-8bit` (quantizado
-local, ~31 tok/s). Calibração, decisões e os quatro mecanismos que saíram
-dela (piso global, régua padronizada, `no_push_ids`, banda de entropia) na
-seção "Calibração no 8B" do PLANO; artefatos em `docs/GALERIA.md`.
-Testes: `.venv/bin/python -m pytest` (53). Gerar:
-`scripts/generate_mlx.py` (uma config) / `scripts/sweep_lambda.py`
-(varredura; defaults já na calibração recomendada).
+Itens 1, 2 e 4 do roadmap concluídos (2026-08-09). Pacote `creative_machine`
+em `src/`; testes: `.venv/bin/python -m pytest` (60). Modelos quantizados
+locais: `~/models/mlx/Qwen3-8B-Base-8bit` (~31 tok/s) e
+`~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s). Fluxo git: commits na branch da
+sessão → fast-forward `main` → push (`origin` GitHub); `runs/` e modelos
+fora do git.
 
-Próximo: completar o item 3 (harness multi-seed/prompt) ou partir para o
-item 4 (OLMo-2 + novidade via infini-gram) — decidir com o Roberto.
+Resultado central até aqui (ver "Item 4" no PLANO): gerações da máquina no
+OLMo não contêm nenhum bloco de 8+ palavras do corpus de treino (baseline:
+9), novidade de 4-gramas 3× a do baseline. Scripts:
+`generate_mlx.py`, `sweep_lambda.py`, `novelty_check.py` (defaults já
+calibrados). Artefatos em `docs/GALERIA.md`.
+
+Próximo: item 3 (multi-seed/prompt para significância) e/ou item 5 (Fase 2
+conceitual via API) / item 6 (loop de seleção — o Avaliador de valor é o
+gargalo real).

@@ -4,9 +4,43 @@
 > completa (modelo, parâmetros, seed) para reprodução. Seleção manual por ora;
 > o loop de seleção (item 6 do roadmap) automatizará o funil.
 
-Modelo de todas as peças: `Qwen3-8B-Base-8bit` (quantização local), prompt
+Prompt de todas as peças:
 `"The lighthouse keeper had one theory about the sea, and it was this:"`,
 seed 0, temperatura 1.0, piso 0.05, meia-vida 16.
+
+## A fábula do sino da meia-noite
+
+`OLMo-2-13B-Base-8bit`, λ=1 standardized, banda [2.0, 4.5] —
+`runs/olmo_sweep1/lam=1.txt`
+
+> "A shipwrecked sailor does not die until he hears the lighthouse bell
+> tolling midnight."
+> He spent his entire life studying the sea [...] And then one day, the
+> keeper fell ill, and died just as the bell sounded the stroke of midnight.
+> His family continued to live in the lighthouse, and they decided to bury
+> him at sea.
+> As the sailor's coffin slid into the depths, a mermaid swam up to the ship.
+> "I owe him my life, because he always warned me," said the mermaid, "so I
+> shall grant him one wish, for every time he rang the bell."
+
+Mitologia própria completa: a lei do náufrago, a morte no toque, a sereia
+devedora, um desejo por badalada. **Novidade medida contra o corpus de
+treino do próprio modelo: 100% dos 8-gramas inéditos, nenhum bloco de 8+
+palavras copiado.**
+
+## A litania do mar
+
+`OLMo-2-13B-Base-8bit`, λ=2 standardized, banda [2.0, 4.5] —
+`runs/olmo_sweep1/lam=2.txt`
+
+> "Everything flows away to sea," he would say. [...]
+> To him, the sea was like a vast basin into which everything flowed.
+> [...] For him, the sea was like an empty bowl waiting to be filled.
+> [...] To him, the sea was like an immense, gaping void.
+> [...] The sea seemed to him like an abyss swallowing everything
+
+Forma de litania emergente: estribilho fixo, metáfora que se aprofunda a
+cada volta (bacia → tigela → vazio → abismo). 100% dos 8-gramas inéditos.
 
 ## A fábula das tempestades
 

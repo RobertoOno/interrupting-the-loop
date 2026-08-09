@@ -132,8 +132,7 @@ def novelty_report(
     report = NoveltyReport(index=client.index, n_words=len(words))
     start_requests = client.n_requests
 
-    present: list[tuple[int, int]] = []  # (start, length) of found windows
-    base_n = extend_from_n or max(ns)
+    present_by_n: dict[int, list[int]] = {}  # n -> starts of found windows
     for n in sorted(ns):
         wins = _windows(words, n, stride)
         if not wins:
@@ -142,10 +141,15 @@ def novelty_report(
         for start, q in wins:
             if client.count(q) == 0:
                 novel += 1
-            elif n == base_n:
-                present.append((start, n))
+            else:
+                present_by_n.setdefault(n, []).append(start)
         report.novelty_by_n[n] = novel / len(wins)
         report.windows_by_n[n] = len(wins)
+
+    # Extend from the largest n that has any window present (falling back to
+    # smaller n keeps the metric honest when all large windows are novel).
+    base_n = extend_from_n if extend_from_n in present_by_n else max(present_by_n, default=None)
+    present = [(start, base_n) for start in present_by_n.get(base_n, [])]
 
     best_start, best_len = -1, 0
     for start, length in present:

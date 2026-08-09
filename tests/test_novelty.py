@@ -49,6 +49,17 @@ def test_fully_novel_text():
     assert rep.longest_copied == ""
 
 
+def test_longest_span_falls_back_to_smaller_n():
+    # No 8-word window is present, but a 4-word one is: extension must fall
+    # back to the largest n with hits instead of reporting 0.
+    client = FakeClient(CORPUS)
+    text = "the sea was calm and glowing with borrowed thunder tonight it seems"
+    rep = novelty_report(client, text, ns=(4, 8), stride=1)
+    assert rep.novelty_by_n[8] == 1.0
+    assert rep.longest_copied == "the sea was calm and"
+    assert rep.longest_copied_len == 5
+
+
 def test_text_shorter_than_window():
     client = FakeClient(CORPUS)
     rep = novelty_report(client, "too short", ns=(4,), stride=1)

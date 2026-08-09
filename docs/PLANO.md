@@ -232,6 +232,31 @@ modelo de qualquer forma). A branch remota ficou como registro histórico;
   copiado: mais recombinação local, zero cópia extra. n=1 por braço —
   significância exige o harness multi-seed (item 3).
 
+### Resultado central (gerador e corpus casados) — item 4 concluído
+
+`OLMo-2-13B-Base` 8-bit local (~17 tok/s; banda [2.0, 4.5] transferiu do
+Qwen sem retoque, sem colapso de gênero). Geração vs corpus de treino da
+própria família, mesmo prompt/seed:
+
+  | métrica (vs treino do OLMo) | baseline min-p | λ=1 | λ=2 | λ=3 |
+  |---|---|---|---|---|
+  | 4-gramas novos | 12.3% | 35.9% | 49.2% | 45.3% |
+  | 6-gramas novos | 71.9% | 87.3% | 90.6% | 85.7% |
+  | 8-gramas novos | 96.8% | **100%** | **100%** | **100%** |
+  | maior bloco copiado | 9 palavras | <8 | <8 | <8 |
+
+  **Nenhuma geração da máquina contém bloco de 8+ palavras do treino; o
+  baseline contém um de 9.** Novidade de 4-gramas triplica. A alegação
+  "gerou o que não estava lá" agora é literal — e a régua corrigiu uma
+  intuição: o texto λ=3 em registro oitocentista ("brooks flow, torrents
+  dash, rivulets trickle") *parecia* eco de Gutenberg; não há bloco de 8+
+  no corpus — pastiche de estilo, não cópia.
+
+  Ressalvas: 1 prompt, 1 seed por braço (multi-seed no item 3); novidade
+  n-gram = recombinação local, não novidade conceitual — o distante-valioso
+  (Boden) continua sendo o gargalo do Avaliador. Textos do OLMo em
+  `docs/GALERIA.md` (fábula do sino, litania do mar).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
@@ -253,7 +278,11 @@ modelo de qualquer forma). A branch remota ficou como registro histórico;
 - [ ] **3. Harness de experimentos**: proto pronto (`sweep_lambda.py`: um
   load, N configs, telemetria + textos + tabela). Falta: multi-seed,
   multi-prompt, varredura 2D (λ × banda), e comparação automatizada.
-- [ ] **4. OLMo-2** + métrica de novidade via infini-gram.
+- [x] **4. OLMo-2 + novidade via infini-gram** — feito 2026-08-09:
+  OLMo-2-13B-Base 8-bit rodando; `novelty.py` + `novelty_check.py`; índice
+  do corpus da família resolvido; resultado central: zero blocos de 8+
+  palavras do treino nas gerações da máquina (baseline: 9), novidade de
+  4-gramas 3× a do baseline.
 - [ ] **5. Fase 2**: blending conceitual via API (pares distantes por
   embeddings → costura → juiz).
 - [ ] **6. Loop evolutivo**: seleção dos desvios sobreviventes; nos domínios
