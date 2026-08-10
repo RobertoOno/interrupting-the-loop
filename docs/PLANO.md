@@ -382,6 +382,15 @@ NER/juiz); (3) re-rodar híbrido com sementes limpas.
   distância semântica percorrida, P(token escolhido). É o que permite *ver*
   o instrumento enquanto toca.
 
+## A tese da raridade (Roberto, 2026-08-10)
+
+Criar o novo-que-importa é raro também em cérebros naturais — pouquíssimos
+humanos o fazem, mesmo com uma vida de treino. A raridade não é defeito do
+processo criativo; é a estatística dele. Consequência de design: não
+esperar valor de cada geração, e sim **volume barato de variação + funil
+implacável + critério de valor que não seja gosto**. As duas primeiras
+partes existem; a terceira é a rota do verificador (item 7).
+
 ## Roadmap
 
 - [x] **1. Esqueleto** — feito 2026-08-03: pacote `creative_machine`
@@ -414,6 +423,14 @@ NER/juiz); (3) re-rodar híbrido com sementes limpas.
   do corpus da família resolvido; resultado central: zero blocos de 8+
   palavras do treino nas gerações da máquina (baseline: 9), novidade de
   4-gramas 3× a do baseline.
+- [ ] **7. Rota do verificador (decidida 2026-08-10)**: domínio 1 = online
+  bin packing (verificador determinístico, baselines clássicos, espaço de
+  melhoria comprovado por FunSearch/AlphaEvolve). Pergunta do experimento:
+  **o sampler anti-provável encontra heurísticas que a amostragem normal
+  não encontra, no mesmo orçamento?** Braços: λ=0 vs λ calibrado, mesmo
+  modelo (Qwen3-8B-Base — mais código no treino), mesmo n de amostras;
+  seleção pelo verificador, não por juiz. Domínio 2 candidato: mecanismos
+  econômicos verificáveis por simulação (leilões, incentivos).
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga
