@@ -12,6 +12,35 @@ from __future__ import annotations
 import re
 
 
+def looks_factual(sentence: str) -> bool:
+    """Cheap guard against escape mode 3 (factual paraphrase) in seed picks.
+
+    Real-world assertions carry telltales the surreal doesn't need: digits
+    (years, statistics), percent signs, and proper names mid-sentence. The
+    n-gram ruler scores paraphrased facts as "novel", so seeds must be
+    screened before they poison a pipeline (learned from hybrid run 1:
+    Ostman's 1924 Sasquatch account, Alzheimer stats, guild history).
+    """
+    if re.search(r"[0-9%]", sentence):
+        return True
+    # Leading "Name wrote/said/claimed ..." is the classic recitation shape.
+    if re.match(
+        r"^[A-Z][a-z]+ (wrote|said|claimed|reported|argued|explained|described|noted)\b",
+        sentence,
+    ):
+        return True
+    words = sentence.split()
+    for prev, word in zip(words, words[1:]):
+        stripped = word.strip("\"'()[]")
+        if (
+            re.match(r"^[A-Z][a-z]+", stripped)
+            and stripped != "I"
+            and not prev.rstrip("\"'")[-1:] in ".!?:"
+        ):
+            return True
+    return False
+
+
 def split_sentences(text: str) -> list[tuple[int, int, str]]:
     """Split into sentences as (word_start, word_end, sentence) triples.
 

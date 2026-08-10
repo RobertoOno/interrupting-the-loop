@@ -71,8 +71,9 @@ def main() -> None:
             verdict = judge(client, args.judge, f"concepts {a} + {b}", cell["blend"])
             cell["judgment"] = verdict
             print(
-                f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/s{verdict['surprise']:.0f}/"
-                f"v{verdict['value']:.0f}) known={verdict['known_equivalent']}: {verdict['verdict']}",
+                f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/d{verdict['delta_significance']:.0f}/"
+                f"v{verdict['value']:.0f}) nearest={verdict['nearest_equivalent']}\n"
+                f"   delta: {verdict['novel_delta']}\n   {verdict['verdict']}",
                 flush=True,
             )
         except Exception as exc:

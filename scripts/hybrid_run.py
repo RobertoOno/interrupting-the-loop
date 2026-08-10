@@ -25,16 +25,18 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from creative_machine import SamplerConfig  # noqa: E402
 from creative_machine.adapters.mlx_lm import MLXAntiprobableSampler  # noqa: E402
 from creative_machine.blend import OpenRouterClient, couture_seed, judge  # noqa: E402
-from creative_machine.evolve import extract_novel_sentence  # noqa: E402
+from creative_machine.evolve import extract_novel_sentence, looks_factual  # noqa: E402
 from creative_machine.novelty import InfiniGramClient, novelty_report  # noqa: E402
 from generate_mlx import eos_ids  # noqa: E402
 from novelty_check import ALIASES  # noqa: E402
 
+# Personal belief/theory/habit openings pull invention; "encyclopedia" and
+# "field guide" style prompts pull recitation (hybrid run 1's contamination).
 SEED_PROMPTS = [
     "The lighthouse keeper had one theory about the sea, and it was this:",
-    "The old encyclopedia defined it plainly:",
-    "Every apprentice learns the first law of the workshop:",
-    "The field guide's strangest entry began:",
+    "The apprentice wrote down the workshop's secret rule:",
+    "Her grandmother's last superstition was the strangest one:",
+    "The night watchman explained the building's oldest habit:",
 ]
 
 
@@ -43,7 +45,7 @@ def main() -> None:
     p.add_argument("--model", default="~/models/mlx/OLMo-2-13B-8bit")
     p.add_argument("--couturier", default="moonshotai/kimi-k2.6")
     p.add_argument("--judge", default="anthropic/claude-sonnet-5")
-    p.add_argument("--seeds-per-prompt", type=int, default=3)
+    p.add_argument("--seeds-per-prompt", type=int, default=4)
     p.add_argument("--lam", type=float, default=3.0)
     p.add_argument("--max-tokens", type=int, default=90)
     p.add_argument("--novel-n", type=int, default=6)
@@ -76,7 +78,12 @@ def main() -> None:
             sentence = extract_novel_sentence(
                 text, rep.novel_starts.get(args.novel_n, []), n=args.novel_n
             )
-            if sentence and sentence not in [s["sentence"] for s in seeds]:
+            if sentence is None:
+                continue
+            if looks_factual(sentence):
+                print(f"  p{pi}_r{rng_seed}: DISCARDED as factual: {sentence[:70]}", flush=True)
+                continue
+            if sentence not in [s["sentence"] for s in seeds]:
                 seeds.append({"name": f"p{pi}_r{rng_seed}", "sentence": sentence, "text": text})
                 print(f"  p{pi}_r{rng_seed}: {sentence}", flush=True)
 
@@ -94,8 +101,9 @@ def main() -> None:
             )
             cell["judgment"] = verdict
             print(
-                f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/s{verdict['surprise']:.0f}/"
-                f"v{verdict['value']:.0f}) known={verdict['known_equivalent']}: {verdict['verdict']}",
+                f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/d{verdict['delta_significance']:.0f}/"
+                f"v{verdict['value']:.0f}) nearest={verdict['nearest_equivalent']}\n"
+                f"   delta: {verdict['novel_delta']}\n   {verdict['verdict']}",
                 flush=True,
             )
         except Exception as exc:
@@ -105,8 +113,8 @@ def main() -> None:
         (args.out / "hybrids.json").write_text(json.dumps(results, indent=2))
 
     scored = sorted((r for r in results if "judgment" in r), key=lambda r: -r["judgment"]["score"])
-    known = [r for r in scored if r["judgment"].get("known_equivalent")]
-    print(f"\n== {len(scored)} judged; {len(known)} with known equivalent ==")
+    with_delta = [r for r in scored if r["judgment"].get("novel_delta")]
+    print(f"\n== {len(scored)} judged; {len(with_delta)} with a genuine novel delta ==")
     for r in scored[:5]:
         print(f"  {r['judgment']['score']:>5}  {r['sentence'][:70]}")
     print(f"tokens used: {client.usage}; infini-gram requests: {ig.n_requests}")

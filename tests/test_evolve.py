@@ -1,4 +1,33 @@
-from creative_machine.evolve import extract_novel_sentence, split_sentences
+import pytest
+
+from creative_machine.evolve import extract_novel_sentence, looks_factual, split_sentences
+
+
+@pytest.mark.parametrize(
+    "sentence",
+    [
+        "Alzheimer's Disease affects nearly 50% of persons 85 years of age and older.",
+        "28, 1995, outside San Antonio, another witness reported a figure.",
+        "Ostman claimed he was scooped up by a Sasquatch near the river.",
+        "Apprenticeships provided training to craftsmen across Europe.",
+        "Marshall wrote about the mantis shrimp appendage.",
+    ],
+)
+def test_factual_telltales_are_caught(sentence):
+    assert looks_factual(sentence)
+
+
+@pytest.mark.parametrize(
+    "sentence",
+    [
+        "Everything flows away to sea, he would say.",
+        "Icebergs do not float, nor does seaweed or plankton.",
+        "Storms are sailors who forgot how to drown quietly.",
+        "And I told him the truth. But he never listened.",
+    ],
+)
+def test_surreal_sentences_pass(sentence):
+    assert not looks_factual(sentence)
 
 
 def test_split_sentences_tracks_word_positions():

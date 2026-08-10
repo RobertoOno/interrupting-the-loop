@@ -37,12 +37,17 @@ HYBRID_COUTURE_SYSTEM = (
 )
 
 JUDGE_SYSTEM = (
-    "You are a strict judge of conceptual inventions. Given two source "
-    "concepts and a proposed blend, return ONLY a JSON object with keys: "
+    "You are a strict judge of conceptual inventions. Every idea has "
+    "relatives; what matters is the delta over the nearest one (blockchain "
+    "had ledgers and gossip protocols as relatives — the delta was removing "
+    "the central authority). Return ONLY a JSON object with keys: "
     '"coherence" (0-10: does the blend have working internal logic?), '
-    '"surprise" (0-10: would a domain expert not have thought of this?), '
-    '"value" (0-10: is it generative — new questions, uses, consequences?), '
-    '"known_equivalent" (name of an existing thing this essentially is, or null), '
+    '"nearest_equivalent" (the closest existing thing — always name one), '
+    '"novel_delta" (what the blend genuinely adds over that nearest thing, '
+    "or null if it adds nothing but vocabulary), "
+    '"delta_significance" (0-10: how consequential that delta would be if '
+    "real; 0 when novel_delta is null), "
+    '"value" (0-10: generative — new questions, uses, consequences?), '
     '"verdict" (one blunt sentence). Score harshly; 7+ must be rare.'
 )
 
@@ -134,9 +139,10 @@ def parse_judgment(raw: str) -> dict:
     if not match:
         raise ValueError(f"no JSON object in judgment: {raw[:120]!r}")
     out = json.loads(match.group(0))
-    for k in ("coherence", "surprise", "value"):
+    for k in ("coherence", "delta_significance", "value"):
         out[k] = float(out[k])
-    out.setdefault("known_equivalent", None)
+    out.setdefault("nearest_equivalent", None)
+    out.setdefault("novel_delta", None)
     out.setdefault("verdict", "")
     return out
 
@@ -150,5 +156,7 @@ def judge(client: OpenRouterClient, model: str, source_desc: str, blend_text: st
     )
     out = parse_judgment(raw)
     # geometric mean punishes any dimension near zero
-    out["score"] = round((out["coherence"] * out["surprise"] * out["value"]) ** (1 / 3), 2)
+    out["score"] = round(
+        (out["coherence"] * out["delta_significance"] * out["value"]) ** (1 / 3), 2
+    )
     return out

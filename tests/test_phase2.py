@@ -55,11 +55,15 @@ def test_word_embedder_averages_token_embeddings():
 
 
 def test_parse_judgment_tolerates_fences():
-    raw = 'Here you go:\n```json\n{"coherence": 7, "surprise": 4.5, "value": 6, "known_equivalent": null, "verdict": "fine."}\n```'
+    raw = (
+        'Here you go:\n```json\n{"coherence": 7, "delta_significance": 4.5, "value": 6, '
+        '"nearest_equivalent": "a ledger", "novel_delta": null, "verdict": "fine."}\n```'
+    )
     j = parse_judgment(raw)
     assert j["coherence"] == 7.0
-    assert j["surprise"] == 4.5
-    assert j["known_equivalent"] is None
+    assert j["delta_significance"] == 4.5
+    assert j["nearest_equivalent"] == "a ledger"
+    assert j["novel_delta"] is None
 
 
 def test_parse_judgment_rejects_junk():
