@@ -28,7 +28,10 @@ locais: `~/models/mlx/Qwen3-8B-Base-8bit` (~31 tok/s) e
 sessão → fast-forward `main` → push (`origin` GitHub); `runs/` e modelos
 fora do git.
 
-Resultado central até aqui (ver "Item 4" no PLANO): gerações da máquina no
+Pré-paper em `docs/PAPER.md` (working draft argumentativo, claims com
+[TBD] especificando os experimentos que faltam na §8; manter em sincronia
+com resultados novos). Resultado central até aqui (ver "Item 4" no PLANO):
+gerações da máquina no
 OLMo não contêm nenhum bloco de 8+ palavras do corpus de treino (baseline:
 9), novidade de 4-gramas 3× a do baseline. Scripts:
 `generate_mlx.py`, `sweep_lambda.py`, `novelty_check.py` (defaults já
