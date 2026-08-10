@@ -93,6 +93,7 @@ class NoveltyReport:
     n_words: int
     novelty_by_n: dict[int, float] = field(default_factory=dict)  # n -> novel fraction
     windows_by_n: dict[int, int] = field(default_factory=dict)  # n -> windows checked
+    novel_starts: dict[int, list[int]] = field(default_factory=dict)  # n -> word starts of novel windows
     longest_copied: str = ""
     longest_copied_len: int = 0  # in words
     n_requests: int = 0
@@ -141,6 +142,7 @@ def novelty_report(
         for start, q in wins:
             if client.count(q) == 0:
                 novel += 1
+                report.novel_starts.setdefault(n, []).append(start)
             else:
                 present_by_n.setdefault(n, []).append(start)
         report.novelty_by_n[n] = novel / len(wins)
