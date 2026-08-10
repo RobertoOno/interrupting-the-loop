@@ -34,6 +34,9 @@ OLMo não contêm nenhum bloco de 8+ palavras do corpus de treino (baseline:
 `generate_mlx.py`, `sweep_lambda.py`, `novelty_check.py` (defaults já
 calibrados). Artefatos em `docs/GALERIA.md`.
 
-Próximo: item 3 (multi-seed/prompt para significância) e/ou item 5 (Fase 2
-conceitual via API) / item 6 (loop de seleção — o Avaliador de valor é o
-gargalo real).
+Itens 3 e 4 também concluídos; Avaliador mínimo pronto (juiz cross-family +
+detector de colapso; funil em `scripts/evaluate_experiment.py` — ver
+"Avaliador mínimo" no PLANO). Resultado com significância: novidade de
+4-gramas da máquina 2× o baseline (ICs excluem zero), custo de coerência
+~+1.2 ppl sob juiz independente. Próximo: item 6 (loop de seleção com as
+sementes da shortlist) e/ou item 5 (Fase 2 conceitual via API).

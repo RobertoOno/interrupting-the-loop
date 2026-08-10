@@ -126,7 +126,7 @@ def novelty_phase(args: argparse.Namespace) -> None:
     for cell in manifest["cells"]:
         text = (args.out / f"{cell['name']}.txt").read_text()
         rep = novelty_report(client, text, ns=ns, stride=args.stride)
-        results.setdefault(cell["arm"], []).append(rep.summary())
+        results.setdefault(cell["arm"], []).append({"name": cell["name"], **rep.summary()})
         print(f"measured {cell['name']}: {rep.summary()['novelty_by_n']}", flush=True)
     (args.out / "novelty.json").write_text(json.dumps(results, indent=2))
 

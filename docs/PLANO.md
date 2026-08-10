@@ -257,6 +257,33 @@ própria família, mesmo prompt/seed:
   (Boden) continua sendo o gargalo do Avaliador. Textos do OLMo em
   `docs/GALERIA.md` (fábula do sino, litania do mar).
 
+## Avaliador mínimo e o funil de seleção (2026-08-09)
+
+`evaluator.py` + `scripts/evaluate_experiment.py` — o embrião do órgão 3/4:
+
+- **Juiz de outra família** (Qwen julga OLMo): ppl da continuação dada o
+  prompt. Resultado no exp1: baseline 7.3±2.0, máquina 8.4–8.5±1.6–3.1 —
+  o desvio custa ~+1.2 de ppl aos olhos de um juiz independente. Resolve o
+  paradoxo do juiz único para coerência.
+- **Dois modos de colapso, dois detectores complementares** (validados
+  lendo os casos-limite): colapso-recitação (exercício, credencial factual)
+  *cristaliza* a entropia → `entropy_drop_score` pega (queda >0.35 da 1ª
+  para a 2ª metade; saudável assenta ~0.2); colapso-colagem (relógio → guia
+  turístico de Paris com navegação de site) mantém entropia alta e o
+  detector não vê — mas o juiz flagra (ppl 15.3 vs teto 10.2). O filtro é a
+  conjunção: `collapse < 0.35 AND judge_ppl < 1.5×mediana(baseline)`.
+- **Funil no exp1**: 20/30 células da máquina sobrevivem; ranking por
+  novidade média. O topo redescobriu automaticamente a parábola da
+  cartógrafa que havia sido selecionada à mão para a galeria — o curador
+  automático aproxima o humano.
+- Falso positivo conhecido do detector: narrativa que assenta em registro
+  infantil simples (entropia cai sem colapso). Aceito: em seleção,
+  precisão > recall — perder um bom custa pouco, deixar passar lixo custa o
+  funil.
+
+Próximo: fechar o loop (item 6) — sementes da shortlist realimentam a
+geração; e a Fase 2 (item 5).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
