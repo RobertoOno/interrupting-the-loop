@@ -62,22 +62,30 @@ def main() -> None:
     for i, j, dist in pairs:
         a, b = concepts[i], concepts[j]
         print(f"\n== {a} + {b} (dist {dist:.3f})", flush=True)
-        blend_text = couture(client, args.couturier, a, b)
-        print(blend_text, flush=True)
-        verdict = judge(client, args.judge, a, b, blend_text)
-        print(
-            f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/s{verdict['surprise']:.0f}/"
-            f"v{verdict['value']:.0f}) known={verdict['known_equivalent']}: {verdict['verdict']}",
-            flush=True,
-        )
-        results.append(
-            {"a": a, "b": b, "distance": dist, "blend": blend_text, "judgment": verdict}
-        )
+        cell = {"a": a, "b": b, "distance": dist}
+        # One cell must never kill the run (content filters, transient API
+        # failures); record the error and keep going, save incrementally.
+        try:
+            cell["blend"] = couture(client, args.couturier, a, b)
+            print(cell["blend"], flush=True)
+            verdict = judge(client, args.judge, a, b, cell["blend"])
+            cell["judgment"] = verdict
+            print(
+                f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/s{verdict['surprise']:.0f}/"
+                f"v{verdict['value']:.0f}) known={verdict['known_equivalent']}: {verdict['verdict']}",
+                flush=True,
+            )
+        except Exception as exc:
+            cell["error"] = str(exc)
+            print(f"-> cell failed: {exc}", flush=True)
+        results.append(cell)
+        (args.out / "blends.json").write_text(json.dumps(results, indent=2))
 
-    results.sort(key=lambda r: -r["judgment"]["score"])
-    (args.out / "blends.json").write_text(json.dumps(results, indent=2))
-    print(f"\n== top blends -> {args.out}/blends.json ==")
-    for r in results[:5]:
+    scored = sorted(
+        (r for r in results if "judgment" in r), key=lambda r: -r["judgment"]["score"]
+    )
+    print(f"\n== top blends ({len(scored)}/{len(results)} judged) -> {args.out}/blends.json ==")
+    for r in scored[:5]:
         print(f"  {r['judgment']['score']:>5}  {r['a']} + {r['b']}")
     print(f"tokens used: {client.usage}")
 

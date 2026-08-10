@@ -63,6 +63,10 @@ class OpenRouterClient:
             {
                 "model": model,
                 "max_tokens": max_tokens,
+                # Weaving and judging need answers, not chains of thought;
+                # some models (kimi-k2.6) reason by default and would spend
+                # the whole budget before emitting any content.
+                "reasoning": {"enabled": False},
                 "messages": [
                     {"role": "system", "content": system},
                     {"role": "user", "content": user},
@@ -88,7 +92,13 @@ class OpenRouterClient:
                 usage = out.get("usage", {})
                 self.usage["prompt_tokens"] += usage.get("prompt_tokens", 0)
                 self.usage["completion_tokens"] += usage.get("completion_tokens", 0)
-                return out["choices"][0]["message"]["content"]
+                choice = out["choices"][0]
+                content = choice["message"].get("content")
+                if not content:
+                    raise RuntimeError(
+                        f"empty content (finish_reason={choice.get('finish_reason')})"
+                    )
+                return content
             except Exception:
                 if attempt == self.max_retries - 1:
                     raise
