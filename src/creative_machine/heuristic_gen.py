@@ -16,6 +16,8 @@ placed in the bin with the highest score. If no bin fits, a new bin is
 opened. Goal: use as few bins as possible over the whole stream.
 """
 
+import math
+
 
 def priority_first_fit(item: float, remaining: list[float]) -> list[float]:
     """First fit: take the oldest feasible bin."""
@@ -51,6 +53,17 @@ def extract_function(completion: str) -> str | None:
         break
     while body_lines and body_lines[-1].strip() == "":
         body_lines.pop()
-    if not any(line.strip() for line in body_lines):
+    indents = [
+        (i, len(line) - len(line.lstrip())) for i, line in enumerate(body_lines) if line.strip()
+    ]
+    if not indents:
         return None
+    # Streaming detokenizers can drop a space at the completion boundary:
+    # the FIRST body line arrives one space short while the rest are fine.
+    # Realign only the first content line to the rest's base level.
+    first_i, first_ind = indents[0]
+    rest = [ind for _, ind in indents[1:]]
+    level = min(rest) if rest else 4
+    if first_ind != level:
+        body_lines[first_i] = " " * level + body_lines[first_i].lstrip()
     return HEADER + "\n".join(body_lines) + "\n"

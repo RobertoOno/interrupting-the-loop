@@ -30,6 +30,28 @@ def test_extracted_function_runs_in_verifier():
     assert out["mean_excess"] >= 0.0
 
 
+def test_boundary_space_loss_first_line_realigned():
+    # First line 3 spaces (detokenizer boundary loss); rest correct at 4/8.
+    completion = (
+        "   scores = []\n"
+        "    for r in remaining:\n"
+        "        scores.append(r * item)\n"
+        "    return scores\n"
+    )
+    fn = extract_function(completion)
+    assert fn is not None
+    compile(fn, "<candidate>", "exec")
+    assert "\n    scores = []\n" in fn  # realigned to 4
+    assert "\n        scores.append(r * item)\n" in fn  # inner level untouched
+
+
+def test_single_short_line_gets_standard_indent():
+    fn = extract_function("   return [r for r in remaining]\n")
+    assert fn is not None
+    compile(fn, "<candidate>", "exec")
+    assert "\n    return [r for r in remaining]\n" in fn
+
+
 def test_empty_or_immediate_dedent_returns_none():
     assert extract_function("") is None
     assert extract_function("\n\n") is None

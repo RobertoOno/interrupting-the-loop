@@ -16,7 +16,7 @@ import tempfile
 from pathlib import Path
 
 _RUNNER = """
-import json, sys
+import json, math, random, sys
 sys.path.insert(0, {src_path!r})
 from creative_machine.domains import binpack
 
