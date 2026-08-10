@@ -275,9 +275,24 @@ própria família, mesmo prompt/seed:
 - [x] **2. Primeira execução** — feito 2026-08-09: Qwen3-8B-Base-8bit
   calibrado (ver "Calibração no 8B"); os pontos de quebra viraram quatro
   mecanismos novos do sampler; primeiros artefatos em `docs/GALERIA.md`.
-- [ ] **3. Harness de experimentos**: proto pronto (`sweep_lambda.py`: um
-  load, N configs, telemetria + textos + tabela). Falta: multi-seed,
-  multi-prompt, varredura 2D (λ × banda), e comparação automatizada.
+- [x] **3. Harness de experimentos** — feito 2026-08-09:
+  `run_experiment.py` (grid prompts × seeds × braços, um load; fase de
+  novidade com IC bootstrap vs baseline) + `sweep_lambda.py`. Resultado com
+  significância (3 prompts × 5 seeds, OLMo-13B, 3133 consultas):
+
+  | braço | 4-gramas novos | 6-gramas novos | Δ4 vs baseline (IC95) |
+  |---|---|---|---|
+  | baseline min-p | 21.5% ± 10.4 | 70.9% ± 12.4 | — |
+  | λ=1 | 36.0% ± 12.8 | 87.6% ± 7.7 | [+6.9, +23.0]pp ✓ |
+  | λ=2 | 45.5% ± 11.2 | 89.7% ± 6.1 | [+16.3, +31.4]pp ✓ |
+
+  Todos os ICs excluem zero; efeito monotônico em λ; λ=2 dobra a novidade
+  local. **Modo de falha mapeado**: as piores células do λ=2 são colapsos de
+  fronteira de gênero — exercício de matemática (prompt do relojoeiro) e
+  recitação factual (credencial real de 13 palavras copiada do corpus). Ao
+  cruzar o gênero, o texto fica *menos* novo: o modelo recita. A novidade
+  n-gram não detecta o colapso didático (números novos contam como novos) —
+  os dois fatos apontam o mesmo próximo órgão: detector de gênero/Avaliador.
 - [x] **4. OLMo-2 + novidade via infini-gram** — feito 2026-08-09:
   OLMo-2-13B-Base 8-bit rodando; `novelty.py` + `novelty_check.py`; índice
   do corpus da família resolvido; resultado central: zero blocos de 8+

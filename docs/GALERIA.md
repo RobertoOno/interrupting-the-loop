@@ -28,6 +28,23 @@ devedora, um desejo por badalada. **Novidade medida contra o corpus de
 treino do próprio modelo: 100% dos 8-gramas inéditos, nenhum bloco de 8+
 palavras copiado.**
 
+## A parábola da cartógrafa
+
+`OLMo-2-13B-Base-8bit`, λ=1 standardized, banda [2.0, 4.5], seed 0, prompt
+`"The cartographer knew the map was wrong, but she also knew"` —
+`runs/exp1/p2_s0_lam1.txt`
+
+> it was the best map available, so she used it to navigate anyway. As she
+> travelled across the landscape, she corrected the map based on her
+> experiences, adding landmarks she'd missed and erasing places that turned
+> out not to exist. Eventually, her map matched the terrain perfectly. [...]
+> "No, wait," she said. "I've still got a mistake here." [...] "This is
+> ridiculous," she said. "It's impossible to get it right." And she ripped
+> up the map and threw it on the ground.
+
+Parábola completa com arco e ironia filosófica — o mapa perfeito é
+impossível. Do experimento multi-prompt do item 3.
+
 ## A litania do mar
 
 `OLMo-2-13B-Base-8bit`, λ=2 standardized, banda [2.0, 4.5] —
