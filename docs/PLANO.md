@@ -346,6 +346,33 @@ Próximos degraus definidos: (1) rubrica novel_delta; (2) filtro
 anti-factual de sementes (heurística: anos/números/nomes próprios; depois
 NER/juiz); (3) re-rodar híbrido com sementes limpas.
 
+### Confronto sob a régua de delta (2026-08-10) — os 3 degraus executados
+
+| braço | julgados | c/ delta | delta_signif. média (máx) | score médio (máx) |
+|---|---|---|---|---|
+| pares de conceitos (rejulgado) | 10 | 9 | 2.50 (4) | 3.62 (5.24) |
+| sementes surreais limpas | 13 | 13 | 2.38 (4) | 3.50 (5.52) |
+
+- **A régua antiga era o gargalo**: "existe equivalente?" dava 32/32
+  recombinações; "qual o delta?" revela deltas articuláveis em 22/23. A
+  pergunta certa muda a resposta — invenção se mede pelo delta, não pela
+  ausência de parentes.
+- **Empate entre perturbadores** (n pequeno): sementes surreais ≈ pares de
+  conceitos em delta e score. A hipótese do híbrido não se sustenta nem
+  morre com n=10–13; deixa de ser prioridade.
+- **Teto comum ~4/10 de delta — e um padrão sistemático**: o juiz aponta
+  repetidamente a mesma anatomia ("mecanismo é pseudo-física, MAS a
+  consequência institucional é genuinamente boa"): Resonance Stewardship
+  (captura regulatória de infraestrutura envelhecida), Somnomemorics
+  (inversão atuarial velho=estável=barato → engenharia de antiguidade
+  falsa). **O costurador é fraco em mecanismo físico e forte em efeitos de
+  segunda ordem institucionais.** Hipótese seguinte natural: blends em
+  domínio institucional/econômico (onde "mecanismo" é regra de incentivo,
+  não física) devem ter delta maior.
+- Filtro de sementes funcionou (pegou até comentário Disqus); vazamento
+  menor: "Rosalba recalls" (adicionar verbos de memória à lista).
+- Custo total da Fase 2 até aqui: ~US$0.35.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
