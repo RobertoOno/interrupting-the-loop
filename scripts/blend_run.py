@@ -68,7 +68,7 @@ def main() -> None:
         try:
             cell["blend"] = couture(client, args.couturier, a, b)
             print(cell["blend"], flush=True)
-            verdict = judge(client, args.judge, a, b, cell["blend"])
+            verdict = judge(client, args.judge, f"concepts {a} + {b}", cell["blend"])
             cell["judgment"] = verdict
             print(
                 f"-> score {verdict['score']} (c{verdict['coherence']:.0f}/s{verdict['surprise']:.0f}/"

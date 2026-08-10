@@ -27,6 +27,15 @@ COUTURE_SYSTEM = (
     "non-obvious consequence of its existence."
 )
 
+HYBRID_COUTURE_SYSTEM = (
+    "You are a conceptual development engine. You receive one surreal "
+    "sentence produced by an anti-probable text sampler — an accident, not a "
+    "quote. Take it as literally true. FIRST derive the mechanism that would "
+    "have to exist for it to be true (2-3 sentences of internal logic, no "
+    "hand-waving); THEN name the resulting phenomenon/practice/object; THEN "
+    "state one non-obvious consequence. Never treat the sentence as metaphor."
+)
+
 JUDGE_SYSTEM = (
     "You are a strict judge of conceptual inventions. Given two source "
     "concepts and a proposed blend, return ONLY a JSON object with keys: "
@@ -112,6 +121,13 @@ def couture(client: OpenRouterClient, model: str, concept_a: str, concept_b: str
     ).strip()
 
 
+def couture_seed(client: OpenRouterClient, model: str, seed_sentence: str) -> str:
+    """Hybrid path: develop one of our sampler's surreal sentences."""
+    return client.chat(
+        model, HYBRID_COUTURE_SYSTEM, f"Sentence: {seed_sentence}", max_tokens=350
+    ).strip()
+
+
 def parse_judgment(raw: str) -> dict:
     """Extract the judge's JSON object, tolerating fences and surrounding prose."""
     match = re.search(r"\{.*\}", raw, flags=re.DOTALL)
@@ -125,13 +141,11 @@ def parse_judgment(raw: str) -> dict:
     return out
 
 
-def judge(
-    client: OpenRouterClient, model: str, concept_a: str, concept_b: str, blend_text: str
-) -> dict:
+def judge(client: OpenRouterClient, model: str, source_desc: str, blend_text: str) -> dict:
     raw = client.chat(
         model,
         JUDGE_SYSTEM,
-        f"Source concepts: {concept_a} + {concept_b}\n\nProposed blend:\n{blend_text}",
+        f"Source: {source_desc}\n\nProposed blend:\n{blend_text}",
         max_tokens=300,
     )
     out = parse_judgment(raw)
