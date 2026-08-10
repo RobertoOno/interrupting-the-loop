@@ -36,6 +36,38 @@ def priority(item: float, remaining: list[float]) -> list[float]:
 HEADER = 'def priority(item: float, remaining: list[float]) -> list[float]:\n    """A better heuristic than best fit for uniformly distributed item sizes."""\n'
 
 
+MODULE_DOC = '''"""Online bin packing heuristics.
+
+An item arrives; `remaining` lists the residual capacity of each bin the
+item currently fits in. Return one score per feasible bin: the item is
+placed in the bin with the highest score. If no bin fits, a new bin is
+opened. Goal: use as few bins as possible over the whole stream.
+"""
+
+import math
+'''
+
+# Calibrated on the measured entropy profile of code generation (perturb
+# rate ~40%, ceiling at ~p95): code crystallizes at far lower entropies
+# than prose, so the prose band [2.0, 4.5] barely engages there.
+CODE_ENTROPY_BAND = (0.9, 4.0)
+
+
+def build_evolution_prompt(population: list[tuple[str, float]]) -> str:
+    """FunSearch-style prompt: prior best versions (worst to best, best
+    last for recency), each renamed and annotated with its verified score,
+    then the header of the next version to complete."""
+    parts = [MODULE_DOC]
+    for i, (code, excess) in enumerate(population):
+        renamed = code.replace("def priority(", f"def priority_v{i}(", 1)
+        parts.append(f"\n# mean excess over lower bound: {excess:.4f} (lower is better)\n{renamed}")
+    parts.append(
+        "\n# Improve on all versions above: lower mean excess than every one of them.\n"
+        + HEADER
+    )
+    return "".join(parts)
+
+
 def extract_function(completion: str) -> str | None:
     """Body lines of the completed function, cut at the first dedent.
 

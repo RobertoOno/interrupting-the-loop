@@ -2,7 +2,20 @@ import numpy as np
 
 from creative_machine.code_exec import run_heuristic_code
 from creative_machine.domains.binpack import generate_instances
-from creative_machine.heuristic_gen import extract_function
+from creative_machine.heuristic_gen import build_evolution_prompt, extract_function
+
+
+def test_evolution_prompt_renames_and_orders():
+    pop = [
+        ("def priority(item, remaining):\n    return [0.0] * len(remaining)\n", 0.11),
+        ("def priority(item, remaining):\n    return [-(r - item) for r in remaining]\n", 0.06),
+    ]
+    prompt = build_evolution_prompt(pop)
+    assert "def priority_v0(" in prompt and "def priority_v1(" in prompt
+    assert prompt.index("priority_v0") < prompt.index("priority_v1")
+    assert "0.0600" in prompt and "0.1100" in prompt
+    assert prompt.rstrip().endswith('"""A better heuristic than best fit for uniformly distributed item sizes."""')
+    assert prompt.count("def priority(") == 1  # only the final open header
 
 
 def test_extracts_body_and_stops_at_dedent():
