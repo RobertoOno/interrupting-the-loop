@@ -445,6 +445,23 @@ partes existem; a terceira é a rota do verificador (item 7).
   fix). Próximo: o loop evolutivo verificado (prompt com melhores versões
   anteriores, estilo FunSearch) — é onde o operador de variação
   realmente compete.
+
+  **V1 — evolução verificada (5 ger × 20/braço, banda de código [0.9, 4.0],
+  `runs/evoverify1`)**: o primeiro sinal. O braço plain ficou **100
+  amostras parado no best-fit** (nunca saiu do platô em 5 gerações). O
+  braço anti-provável **saiu do platô na geração 3** com uma heurística de
+  forma não-humana (transformação não-linear em dois estágios:
+  `(rr+item)^(-1/3) − √rr` escalada por `|item−rr|`, re-pontuada por razão
+  quadrática sobre o resultado) que domina o best-fit no treino (0.0590 vs
+  0.0610) mas **empata em teste** (0.0593 vs 0.0588) — a vantagem não
+  generalizou (20 instâncias de treino = overfit fácil). Leitura honesta:
+  n=1 corrida/braço; "o anti-provável explora onde o plain congela" é
+  sugestivo, não provado. Experimento definitivo desenhado: treino maior
+  (100+ instâncias), 5+ corridas por braço com seeds de experimento
+  distintas, mais gerações, e teste de significância sobre as curvas.
+  Perfil de entropia de código medido: p50=0.57, p80=2.17, p95=4.14 —
+  código cristaliza muito abaixo da prosa; a banda de prosa só engajava
+  ~20% dos passos.
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga
