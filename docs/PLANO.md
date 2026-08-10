@@ -284,6 +284,30 @@ própria família, mesmo prompt/seed:
 Próximo: fechar o loop (item 6) — sementes da shortlist realimentam a
 geração; e a Fase 2 (item 5).
 
+## Piloto do loop evolutivo (2026-08-09)
+
+3 gerações, 3 linhagens iniciais, OLMo gera + Qwen julga + infini-gram mede
+(622 consultas). O que o piloto mostrou:
+
+- **A seleção negativa funciona entre linhagens**: o relojoeiro (que colapsa
+  consistentemente em exercício, collapse 0.62–0.68) foi *extinto* pelo
+  funil na geração 0. A cartógrafa caiu pelo teto do juiz nesta config.
+- **Deriva temática coerente e crescentemente específica** na linhagem
+  sobrevivente: teoria do faroleiro → mergulhadores de dobrões → "rumors
+  persisted that Bimini contained the Fountain of Youth". Tema marítimo
+  mantido por 3 gerações sem instrução (EMA + sementes carregam semântica).
+- **Terceiro modo de escape descoberto — paráfrase factual**: a linhagem
+  Bimini terminou em narrativa histórica *correta* de Ponce de León —
+  novelty n-gram 0.91, juiz 7.6, entropia estável: **nenhuma das três
+  réguas detecta**. Recontagem de conhecimento com palavras novas ≠
+  invenção. Os três modos de escape mapeados: recitação (entropia despenca
+  → detector pega), colagem (juiz flagra), paráfrase factual (aberto).
+  Caminhos possíveis: checagem de entidades reais (NER), ou juiz-LLM
+  perguntando "invenção ou recontagem?" — ponte natural para a Fase 2.
+- **Aprendizado de população**: quase-extinção na geração 1 (1 semente).
+  Próxima versão: repescagem por rank quando sobreviventes < 2, ou
+  população maior.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
@@ -327,5 +351,8 @@ geração; e a Fase 2 (item 5).
   4-gramas 3× a do baseline.
 - [ ] **5. Fase 2**: blending conceitual via API (pares distantes por
   embeddings → costura → juiz).
-- [ ] **6. Loop evolutivo**: seleção dos desvios sobreviventes; nos domínios
-  verificáveis (matemática/código), verificador programático estilo FunSearch.
+- [x] **6. Loop evolutivo (versão estética mínima)** — piloto 2026-08-09:
+  `scripts/evolve.py` (gerar → funil → extrair sentença mais nova →
+  ressemear, linhagem registrada). Aberto: verificador programático estilo
+  FunSearch para domínios verificáveis, e o detector de paráfrase factual
+  (ver piloto abaixo).
