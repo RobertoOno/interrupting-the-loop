@@ -431,6 +431,20 @@ partes existem; a terceira é a rota do verificador (item 7).
   modelo (Qwen3-8B-Base — mais código no treino), mesmo n de amostras;
   seleção pelo verificador, não por juiz. Domínio 2 candidato: mecanismos
   econômicos verificáveis por simulação (leilões, incentivos).
+
+  **V0 rodado (amostragem pura, 40/braço, `runs/verify2`)**: qualidade
+  empatada (CI da diferença de excess cruza zero); ambos os braços
+  *reinventaram* o best-fit (excess_min = baseline exato), nenhum o
+  superou — esperado sem evolução (FunSearch usou milhões de amostras +
+  loop). Sinais: (a) validade 40/40 no anti-provável vs 34/40 no plain —
+  contra-intuitivo, re-testar; (b) **perturb_rate ~0.15 em código vs ~0.45
+  em prosa** — a banda confirma que código é cristalizado, mas com só 15%
+  dos tokens empurrados o operador quase não atua: recalibrar a banda para
+  código (trigger < 2.0?) antes de concluir; (c) infra: detokenizer do
+  streaming perde 1 espaço na fronteira da completion (61/80 mortes até o
+  fix). Próximo: o loop evolutivo verificado (prompt com melhores versões
+  anteriores, estilo FunSearch) — é onde o operador de variação
+  realmente compete.
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga
