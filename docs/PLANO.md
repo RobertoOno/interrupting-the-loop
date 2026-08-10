@@ -59,6 +59,18 @@ Strategies de Eno).
   artificialmente estreitada; literatura mostra queda mensurável de
   diversidade. Consequência: usar modelos **base**, nunca chat/instruct, no
   papel de perturbador.
+- **Vizinhança na literatura (checada 2026-08-09)**: min-p (arXiv
+  2407.01082) é o nosso piso; Rusty-DAWG (2406.13069), Creativity Index e
+  infini-gram (2401.17377) são a régua padrão de novidade n-gram — falamos a
+  língua da área. Fronteira ativa que co-descobrimos por experimento:
+  "Death of the Novel(ty)" (ICLR 2026, 2509.22641) argumenta que novidade
+  n-gram sozinha não é criatividade — exatamente o nosso modo de escape 3
+  (paráfrase factual); "Measuring LLM Novelty as the Frontier of Original
+  and High-Quality Output" (OpenReview) propõe novidade = originalidade ×
+  qualidade — a estrutura do nosso funil. Não encontrado equivalente: o
+  empurrão *ativo* para a cauda semanticamente distante (vs regular a
+  cauda), o **teto** de entropia por fronteira de gênero, e a taxonomia
+  operacional dos três modos de escape com detectores.
 
 ## Arquitetura: quatro órgãos
 
