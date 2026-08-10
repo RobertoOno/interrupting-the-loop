@@ -361,8 +361,22 @@ geração; e a Fase 2 (item 5).
   do corpus da família resolvido; resultado central: zero blocos de 8+
   palavras do treino nas gerações da máquina (baseline: 9), novidade de
   4-gramas 3× a do baseline.
-- [ ] **5. Fase 2**: blending conceitual via API (pares distantes por
-  embeddings → costura → juiz).
+- [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
+  (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
+  na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga
+  via OpenRouter; ~US$0.05/rodada de 12). **Resultado sóbrio: 21/21 blends
+  julgados receberam `known_equivalent`** — recombinações fluentes e
+  vistosas, nenhuma invenção pelo critério do juiz duro (scores 2.0–5.65,
+  nenhum ≥7). O detector nascido da paráfrase de Ponce de León funcionou na
+  primeira missão: o sistema *sabe* que ainda não inventou. Aprendizados
+  operacionais: kimi-k2.6 raciocina por default (desligar via
+  `reasoning.enabled=false`); filtros de conteúdo derrubam julgamentos de
+  texto médico (célula falha sozinha, corrida segue); o juiz tem variância
+  entre corridas (mesmo blend, 3.56 vs 5.65 — julgamento fino exige k
+  amostras). Próximos degraus: costura com mecanismo obrigatório +
+  autocrítica; julgamento k-amostrado; e o híbrido Fase 1+2 — usar as
+  frases surreais do *nosso* sampler como matéria-prima da costura (a
+  vantagem que só nós temos).
 - [x] **6. Loop evolutivo (versão estética mínima)** — piloto 2026-08-09:
   `scripts/evolve.py` (gerar → funil → extrair sentença mais nova →
   ressemear, linhagem registrada). Aberto: verificador programático estilo
