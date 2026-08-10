@@ -1,0 +1,584 @@
+tide
+lichen
+glacier
+aurora
+sediment
+watershed
+mangrove
+permafrost
+estuary
+foehn wind
+riptide
+petrichor
+murmuration
+bioluminescence
+camouflage
+hibernation
+molt
+symbiosis
+mycelium
+pheromone
+swarm
+coral bleaching
+germination
+pollination
+photosynthesis
+metamorphosis
+immune memory
+phantom limb
+placebo
+fever
+scar tissue
+reflex
+anesthesia
+graft
+transfusion
+quarantine
+vaccine
+prosthesis
+gut flora
+circadian rhythm
+rem sleep
+lucid dream
+deja vu
+tinnitus
+synesthesia
+muscle memory
+stage fright
+homesickness
+longing
+dread
+awe
+grief
+nostalgia
+boredom
+stubbornness
+tenderness
+grudge
+forgiveness
+embarrassment
+charisma
+intuition
+hunch
+doubt
+denial
+consolation
+gossip
+rumor
+etiquette
+hospitality
+apprenticeship
+inheritance
+dowry
+ransom
+oath
+alibi
+jurisprudence
+habeas corpus
+amnesty
+tariff
+embargo
+arbitrage
+auction
+barter
+counterfeit
+ledger
+escrow
+interest rate
+inflation
+bankruptcy
+insurance
+lottery
+pension
+tithe
+smuggling
+piracy
+toll
+census
+passport
+border
+exile
+pilgrimage
+caravan
+nomadism
+cartography
+dead reckoning
+ballast
+keel
+anchorage
+lighthouse
+harbor
+shipwreck
+buoy
+periscope
+sonar
+compass
+sextant
+gyroscope
+pendulum
+hourglass
+sundial
+metronome
+tuning fork
+resonance
+echo
+reverberation
+harmonic
+counterpoint
+cadence
+lullaby
+requiem
+improvisation
+syncopation
+falsetto
+chorus
+orchestra
+conductor
+score
+rehearsal
+encore
+silence
+whisper
+scream
+accent
+dialect
+pidgin
+palindrome
+anagram
+pun
+metaphor
+euphemism
+subjunctive
+conjugation
+alphabet
+hieroglyph
+shorthand
+translation
+mistranslation
+calligraphy
+typography
+palimpsest
+marginalia
+footnote
+index
+encyclopedia
+dictionary
+library
+archive
+censorship
+forgery
+plagiarism
+manifesto
+epitaph
+lullaby verse
+riddle
+proverb
+fable
+myth
+psychopomp
+underworld
+reincarnation
+purgatory
+sabbath
+fasting
+communion
+relic
+altar
+idol
+totem
+taboo
+ritual
+initiation
+exorcism
+blessing
+curse
+prophecy
+oracle
+omen
+martyrdom
+sainthood
+heresy
+monastery
+labyrinth
+threshold
+doorway
+staircase
+scaffold
+foundation
+keystone
+arch
+flying buttress
+dome
+spire
+facade
+courtyard
+attic
+cellar
+corridor
+alcove
+balcony
+ruin
+demolition
+blueprint
+mortar
+brick
+concrete
+glass
+rust
+patina
+varnish
+lacquer
+enamel
+alloy
+solder
+weld
+forge
+anvil
+bellows
+kiln
+loom
+spindle
+thimble
+needle
+seam
+hem
+embroidery
+quilt
+felt
+tannery
+leather
+parchment
+ink
+pigment
+dye
+bleach
+mordant
+fermentation
+distillation
+curing
+smoking
+pickling
+brine
+yeast
+sourdough
+broth
+marrow
+gristle
+umami
+aftertaste
+appetite
+famine
+harvest
+threshing
+winnowing
+fallow field
+crop rotation
+grafting orchard
+beekeeping
+honeycomb
+royal jelly
+hive collapse
+shepherding
+sheepdog
+pasture
+fence
+gate
+scarecrow
+granary
+mill
+watermill
+windmill
+turbine
+dynamo
+capacitor
+transistor
+relay
+fuse
+short circuit
+feedback loop
+thermostat
+governor
+ratchet
+flywheel
+gear train
+clutch
+brake
+lever
+pulley
+winch
+crane
+catapult
+trebuchet
+fulcrum
+counterweight
+friction
+lubricant
+viscosity
+turbulence
+laminar flow
+vortex
+siphon
+capillary action
+osmosis
+diffusion
+evaporation
+condensation
+sublimation
+crystallization
+supercooling
+annealing
+entropy
+inertia
+momentum
+torque
+centrifuge
+gravity assist
+orbit
+eclipse
+solstice
+leap year
+dusk
+gloaming
+afterglow
+zenith
+horizon
+mirage
+parallax
+vanishing point
+perspective
+silhouette
+chiaroscuro
+stained glass
+mosaic
+fresco
+engraving
+etching
+woodcut
+stencil
+collage
+diorama
+miniature
+scale model
+mannequin
+puppet
+marionette
+ventriloquism
+pantomime
+masquerade
+understudy
+prompter
+intermission
+curtain call
+audition
+typecasting
+plot twist
+cliffhanger
+flashback
+foreshadowing
+unreliable narrator
+epilogue
+sequel
+adaptation
+subtitle
+dubbing
+laugh track
+rerun
+zugzwang
+gambit
+stalemate
+checkmate
+bluff
+poker face
+wager
+handicap
+tiebreaker
+overtime
+relay race
+marathon
+decathlon
+juggling
+tightrope
+trapeze
+somersault
+dizziness
+vertigo
+balance
+posture
+gait
+limp
+fingerprint
+handshake
+salute
+curtsy
+applause
+standing ovation
+queue
+crowd
+stampede
+procession
+parade
+funeral
+wake
+toast
+banquet
+leftovers
+crumbs
+compost
+landfill
+recycling
+scavenging
+salvage
+flotsam
+driftwood
+message in a bottle
+time capsule
+souvenir
+heirloom
+hand-me-down
+counterfeit relic
+replica
+prototype
+rough draft
+erasure
+correction fluid
+watermark
+signature
+initials
+nickname
+alias
+pseudonym
+anonymity
+witness
+bystander
+eavesdropping
+surveillance
+password
+cipher
+codebook
+dead drop
+smoke signal
+semaphore
+carrier pigeon
+telegraph
+morse code
+static
+white noise
+jamming
+frequency
+wavelength
+antenna
+satellite
+constellation
+star chart
+almanac
+tide table
+weather vane
+barometer
+seismograph
+richter scale
+epicenter
+aftershock
+fault line
+tectonic plate
+magma
+geyser
+hot spring
+stalactite
+cave painting
+fossil
+amber
+petrified wood
+carbon dating
+half-life
+isotope
+prism
+spectrum
+polarization
+lens
+microscope
+kaleidoscope
+periscope mirror
+one-way mirror
+funhouse mirror
+shadow puppet
+sundog
+halo
+rainbow
+afterimage
+blind spot
+peripheral vision
+tunnel vision
+depth perception
+optical illusion
+camouflage pattern
+warning coloration
+mimicry
+decoy
+lure
+bait
+trap
+snare
+net
+sieve
+filter
+funnel
+valve
+lock and key
+combination lock
+skeleton key
+master key
+latch
+hinge
+knot
+splice
+lasso
+harness
+yoke
+bridle
+stirrup
+saddle
+horseshoe
+plow
+furrow
+irrigation
+aqueduct
+canal
+dam
+levee
+floodplain
+reservoir
+well
+cistern
+fountain
+drain
+gutter
+sewer
+spring water
+mineral vein
+lode
+prospecting
+panning
+quarry
+mineshaft
+canary
+lantern
+wick
+candle
+chandelier
+gaslight
+filament
+neon
+strobe
+beacon
+flare
+bonfire
+ember
+ash
+soot
+chimney
+hearth
+kindling
+tinderbox
+wildfire
+firebreak
+controlled burn
