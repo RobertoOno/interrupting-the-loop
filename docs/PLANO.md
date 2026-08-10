@@ -320,6 +320,32 @@ geração; e a Fase 2 (item 5).
   Próxima versão: repescagem por rank quando sobreviventes < 2, ou
   população maior.
 
+## Híbrido Fase 1+2 (2026-08-10) — resultado negativo informativo
+
+Hipótese: sementes surreais do nosso sampler → menos `known_equivalent` que
+pares de conceitos. **Não confirmada: 11/11 também com equivalente.** Mas o
+diagnóstico muda o quadro:
+
+- **As sementes estavam contaminadas pelo modo de escape 3.** A maioria não
+  era surreal — eram paráfrases factuais que a régua n-gram marca como
+  "novas" (estatística de Alzheimer, o relato Ostman/Sasquatch de 1924,
+  história de guildas). Prompts "enciclopédia/guia de campo" convidam o
+  base model à recitação. O detector de paráfrase factual saiu de "aberto"
+  para **pré-requisito** do pipeline de sementes.
+- A única semente genuinamente da máquina (a litania "everything flows away
+  to sea") produziu o único score alto (5.65) — anedótico, na direção da
+  hipótese.
+- **Questão de régua descoberta**: "existe equivalente?" sempre acha um
+  parente — toda invenção tem precursores (blockchain ≈ ledger + gossip;
+  o que importa é o *delta*). Próxima rubrica: `nearest_equivalent` +
+  `novel_delta` ("o que isto adiciona sobre o vizinho mais próximo?") —
+  invenção real = parente próximo E delta claro. Sem isso, 32/32
+  "recombinações" pode medir o viés do juiz, não a geração.
+
+Próximos degraus definidos: (1) rubrica novel_delta; (2) filtro
+anti-factual de sementes (heurística: anos/números/nomes próprios; depois
+NER/juiz); (3) re-rodar híbrido com sementes limpas.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
