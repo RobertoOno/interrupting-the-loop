@@ -373,6 +373,50 @@ NER/juiz); (3) re-rodar híbrido com sementes limpas.
   menor: "Rosalba recalls" (adicionar verbos de memória à lista).
 - Custo total da Fase 2 até aqui: ~US$0.35.
 
+## Experimento do input improvável (2026-08-15) — a hipótese original do Roberto
+
+Tese: prompts humanos são amostras da distribuição de treino; todos ativam
+as mesmas regiões. Um input que nenhum humano faria ativa configurações não
+ativadas → criatividade. Desenho: 3 braços de input, mesma tarefa
+(desenvolver ideia com mecanismo), Opus 5 desenvolve (Bedrock,
+`main-account`), Sonnet 5 julga (rubrica de delta), improbabilidade do
+input **medida** (ppl sob Qwen3-8B). 8 células/braço, ~US$1.5.
+
+| braço | ppl do input | delta_signif | score médio (máx) |
+|---|---|---|---|
+| típico ("me dê uma ideia inovadora sobre X") | 287 | 4.43 ± 0.49 | 5.86 (6.54) |
+| par de conceitos distantes | 777 | 4.50 ± 0.87 | 5.83 (6.95) |
+| **contexto composto improvável** | 256 | **5.12 ± 0.93** | **6.64 (7.56)** |
+
+- **O braço improvável venceu** (+0.7 de delta médio, +0.8 de score, os 3
+  melhores blends do experimento; primeiro score >7 e primeiro delta 6 de
+  toda a Fase 2 — teto anterior era 4). Com n=8 é sinal, não prova
+  (~1σ). Direção da hipótese.
+- **Reviravolta metodológica**: a perplexidade n-gram do input NÃO mede a
+  improbabilidade certa. Os pares de conceitos têm a ppl mais alta (777:
+  duas palavras soltas são "estranhas" para um LM) e o menor delta; o
+  contexto composto tem ppl *baixa* (256: é prosa fluente) e o maior delta.
+  Correlação log-ppl × delta = −0.26. **Improbabilidade sintática ≠
+  improbabilidade semântica**: o que importa é o quão longe o *pedido* está
+  dos pedidos plausíveis, não quão estranha é a superfície. Régua correta
+  para o definitivo: distância do embedding do input ao centróide de um
+  corpus de prompts reais (ex.: um subconjunto de instruções públicas),
+  não ppl.
+- **Anatomia do que funcionou**: os três melhores vieram do registro
+  "instructions left for a successor who will not be human" — o Opus
+  sustentou o frame estranho sem domesticar e derivou mecanismos com lógica
+  interna (arquivo de saudade apagável por "bondade administrada";
+  orçamento de capacidade de um agente atado à entropia de uma enquete
+  sobre ele mesmo; calendário como recibo termodinâmico de combustível
+  queimado). O modelo forte NÃO colapsou o input de volta para o familiar —
+  o medo da Fase 2 (Kimi domesticava) não se confirmou com o Opus.
+- Ruído: 1 refusal (`typical`, classificador de segurança do Opus 5 num
+  prompt inócuo) — tratar com fallback no definitivo.
+
+Próximo (Paper B, `docs/PAPER_B.md`): régua semântica de improbabilidade,
+n≥30/braço, k=3 julgamentos por célula, braço extra "improvável sem
+registro" para separar o efeito do registro do efeito dos fragmentos.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
