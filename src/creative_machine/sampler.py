@@ -55,6 +55,11 @@ class AntiprobableSampler:
         self._context: np.ndarray | None = None
         self._step = 0
         self._recent: list[int] = []  # recent token ids for the repetition penalty
+        self._anchors: np.ndarray | None = None  # (k, d) old regions for the bridge term
+
+    def set_anchors(self, anchors: np.ndarray | None) -> None:
+        """Old-region vectors (k, d) the bridge term may pull toward. None clears."""
+        self._anchors = None if anchors is None or len(anchors) == 0 else np.asarray(anchors, dtype=np.float64)
 
     def reset(self) -> None:
         """Clear context and step counter (telemetry is left to its owner)."""
@@ -183,6 +188,8 @@ class AntiprobableSampler:
             push[active] = distances[active]
 
         scores = logprobs[candidates] + cfg.lam * push
+        if cfg.bridge > 0 and self._anchors is not None and self._context is not None and self.embed_fn is not None:
+            scores = scores + cfg.bridge * self._bridge_push(vecs, active)
         if cfg.perturb_choice == "argmax":
             pick = int(np.argmax(scores))
         else:
@@ -190,6 +197,30 @@ class AntiprobableSampler:
         if self.embed_fn is not None:
             return int(candidates[pick]), float(distances[pick]), spread
         return int(candidates[pick]), None, None
+
+    def _bridge_push(self, vecs: np.ndarray, active: np.ndarray) -> np.ndarray:
+        """Standardized bridge bonus per candidate.
+
+        For each anchor a: weight w_a = distance(a, recent context) — only
+        far banks count. Candidate c's raw bridge = max_a w_a * (1 - dist(c, a))
+        (how much c moves toward the farthest-from-here old region). Z-scored
+        across active candidates like the distance push, so `bridge` reads in
+        the same units as `lam` (nats per sigma).
+        """
+        anchors = self._anchors
+        w = cosine_distances(anchors, self._context)          # (k,) far banks weigh more
+        if not np.any(w > 1e-9):
+            return np.zeros(len(vecs))
+        norms_c = np.linalg.norm(vecs, axis=1, keepdims=True) + 1e-12
+        norms_a = np.linalg.norm(anchors, axis=1, keepdims=True) + 1e-12
+        sims = (vecs / norms_c) @ (anchors / norms_a).T           # (n, k) cosine similarity
+        raw = np.max(sims * w[None, :], axis=1)                    # toward the far bank
+        out = np.zeros(len(vecs))
+        if active.any():
+            spread = float(np.std(raw[active]))
+            if spread > 1e-9:
+                out[active] = (raw[active] - np.mean(raw[active])) / spread
+        return out
 
     def _gumbel_argmax(self, scores: np.ndarray) -> int:
         """Draw from softmax(scores) via the Gumbel-max trick."""

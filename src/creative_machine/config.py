@@ -44,6 +44,14 @@ class SamplerConfig:
             bonus. They can still win a step on their own log-probability, in
             any mode — the perturbator just must not push the text into
             ending: leaving the text is not a deviation inside it.
+        bridge: Weight of the bridge term. The distance push pulls the
+            stream *away* from its recent context (an anti-attractor); on
+            its own that produces subject changes, not synthesis. The bridge
+            rewards candidates that move the stream *toward* old anchor
+            regions that are themselves far from the recent context — the
+            two banks the insight must join (Beaty: creative ideas connect
+            distant regions). 0 disables; anchors are supplied by the loop
+            via ``set_anchors``.
         context_halflife: Half-life, in tokens, of the exponential moving
             average over token embeddings that represents "the context" for
             distance measurement.
@@ -67,11 +75,14 @@ class SamplerConfig:
     max_candidates: int = 128
     repetition_window: int = 0       # 0 = off; else penalize tokens seen in the last N steps
     repetition_penalty: float = 1.5  # divisor on p for penalized tokens (>1 suppresses)
+    bridge: float = 0.0              # weight of the bridge term (see AntiprobableSampler.set_anchors)
     seed: int | None = None
 
     def __post_init__(self) -> None:
         if self.repetition_window < 0 or self.repetition_penalty <= 0:
             raise ValueError("repetition_window must be >= 0 and repetition_penalty > 0")
+        if self.bridge < 0:
+            raise ValueError("bridge must be >= 0")
         self.no_push_ids = tuple(self.no_push_ids)
         if self.distance_scale not in ("raw", "standardize"):
             raise ValueError('distance_scale must be "raw" or "standardize"')

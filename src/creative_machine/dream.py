@@ -43,8 +43,17 @@ class DreamConfig:
     total_tokens: int = 2000
     drift: SamplerConfig = field(
         default_factory=lambda: SamplerConfig(
-            lam=2.5, entropy_trigger=1.8, entropy_ceiling=4.5, context_halflife=48, **_HABIT
+            lam=2.5, entropy_trigger=1.8, entropy_ceiling=4.5, context_halflife=48,
+            bridge=1.5, **_HABIT
         )
+    )
+    anchor_every: int = 200          # snapshot the slow context EMA as an anchor every N tokens
+    max_anchors: int = 12            # keep the premise + the most recent anchors
+    reencounter: bool = True         # on a passing event, inject a textual return to the premise
+    reencounter_texts: tuple[str, ...] = (
+        "\n\nAnd this, she realized, was the same thing as the beginning — because",
+        "\n\nIt came back to the notebook, of course; it always did, but this time",
+        "\n\nWhich is exactly what the first line had meant, seen from here:",
     )
     escalate: SamplerConfig = field(
         default_factory=lambda: SamplerConfig(
@@ -169,6 +178,21 @@ def dream(
     fast_ctx = None
     embed_fn = sampler.core.embed_fn
 
+    anchors: list = []
+    premise_vec = None
+    if embed_fn is not None:
+        pv = np.asarray(embed_fn(np.asarray(prompt_ids)), dtype=np.float64).mean(axis=0)
+        premise_vec = pv
+        anchors.append(pv)
+        sampler.core.set_anchors(np.stack(anchors))
+
+    def refresh_anchors():
+        if embed_fn is None or sampler.core.context is None:
+            return
+        anchors.append(sampler.core.context.copy())
+        keep = [anchors[0]] + anchors[1:][-(config.max_anchors - 1) :]
+        sampler.core.set_anchors(np.stack(keep))
+
     def salience_vector(tok: int):
         nonlocal fast_ctx
         if embed_fn is None:
@@ -220,6 +244,9 @@ def dream(
         sampler.core.reset()
         sampler.observe_prompt(memory_ids)
         fast_ctx = None
+        anchors[:] = [anchors[0]] if anchors else []
+        if anchors:
+            sampler.core.set_anchors(np.stack(anchors))
         run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"working_memory_tokens": len(memory_ids)})
         return memory_ids, make_prompt_cache(model)
 
@@ -237,6 +264,9 @@ def dream(
         rec: StepRecord = sampler.telemetry.records[-1]
         run.n_tokens += 1
         step = run.n_tokens
+
+        if step % config.anchor_every == 0:
+            refresh_anchors()
 
         # regime bookkeeping: escalate/kick stretches end -> back to drift
         if regime != "drift" and step >= regime_until:
@@ -312,6 +342,21 @@ def dream(
                 regime = "escalate"
                 regime_until = step + config.escalate_tokens
                 run.regime_switches.append((step, "escalate"))
+                if config.reencounter and config.reencounter_texts:
+                    # Re-encounter: the drift is asked, in its own voice, to
+                    # bring the find back to the premise. Injected on top of
+                    # the live cache (no forgetting here — this is the stitch).
+                    rt = config.reencounter_texts[len(run.insights) % len(config.reencounter_texts)]
+                    rt_ids = tokenizer.encode(rt, add_special_tokens=False)
+                    for sid in rt_ids:
+                        generated_ids.append(sid)
+                        detok.add_token(sid)
+                    sampler.observe_prompt(rt_ids)
+                    run.reseeds.append((step, rt, {"kind": "reencounter"}))
+                    pending_prompt = rt_ids
+                    reseed_now = True
+                    run.events.append({"step": step, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": judged})
+                    break
             else:
                 log(f"[step {step}] event {event.kind} ({event.magnitude:.2f}) -> no insight "
                     f"(score {verdict.get('score')})")

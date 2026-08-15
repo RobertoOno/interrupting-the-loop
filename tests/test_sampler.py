@@ -215,6 +215,35 @@ def test_reset_clears_state():
     assert next_step == 0
 
 
+def test_bridge_pulls_toward_far_old_region():
+    # Recent context on the x-axis; an old anchor on the y-axis (a far bank).
+    # Candidates: 0 = toward the anchor (the bridge), 1 = away from both
+    # (pure escape), 2 = back into the recent context. Equal log-probs.
+    table = np.array([[0.0, 1.0], [-1.0, 0.0], [1.0, 0.0]])
+    logits = np.zeros(3)  # entropy log 3 > trigger
+    lam_only = SamplerConfig(entropy_trigger=1.0, lam=2.0, bridge=0.0, perturb_choice="argmax")
+    with_bridge = SamplerConfig(entropy_trigger=1.0, lam=2.0, bridge=4.0, perturb_choice="argmax")
+    for cfg, expected in ((lam_only, {0, 1}), (with_bridge, {0})):
+        s = AntiprobableSampler(cfg, embed_fn=make_embed(table))
+        s.observe(2)  # recent context = x-axis
+        s.set_anchors(np.array([[0.0, 1.0]]))  # old region = y-axis
+        pick = s.step(logits)
+        assert pick in expected, (cfg.bridge, pick)
+    # lam alone cannot separate 0 from 1 (both equally far from x); the bridge picks 0
+
+
+def test_bridge_ignores_anchors_near_recent_context():
+    # If the only anchor IS the recent region, there is no far bank to join:
+    # the bridge term must be a no-op (weight ~0), and lam alone decides.
+    table = np.array([[0.0, 1.0], [-1.0, 0.0], [1.0, 0.0]])
+    cfg = SamplerConfig(entropy_trigger=1.0, lam=2.0, bridge=4.0, perturb_choice="argmax", seed=0)
+    s = AntiprobableSampler(cfg, embed_fn=make_embed(table))
+    s.observe(2)
+    s.set_anchors(np.array([[1.0, 0.0]]))  # anchor == recent context
+    pick = s.step(np.zeros(3))
+    assert pick in {0, 1}  # far from recent, not the bridge-favored 0 specifically
+
+
 def test_repetition_penalty_breaks_literal_orbit():
     # Token 0 is overwhelmingly likely; without habituation the stream is
     # 0,0,0,...; with a window it must escape to token 1 (the runner-up).
