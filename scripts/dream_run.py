@@ -31,7 +31,7 @@ SEEDS = [
 
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--model", default="~/models/mlx/OLMo-2-13B-8bit")
+    p.add_argument("--model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
     p.add_argument("--tokens", type=int, default=3000)
     p.add_argument("--seed-index", type=int, default=0)
     p.add_argument("--rng-seed", type=int, default=0)

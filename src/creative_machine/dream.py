@@ -65,6 +65,9 @@ class DreamConfig:
         "\n\nA question nobody had asked yet:",
     )
     kicks_before_reseed: int = 2     # consecutive stagnations before injecting a seed
+    forget_on_reseed: bool = True    # rebuild the working memory instead of stacking on the well
+    keep_recent_tokens: int = 200    # ...retaining this much of the pre-collapse stream
+    keep_insight_windows: int = 3    # ...and the last N insight windows (what salience kept)
     fast_halflife: float = 24.0      # fast context EMA fed to salience (theme, not phrase)
     salience: SalienceConfig = field(default_factory=lambda: SalienceConfig(jump_threshold=0.55))
     genre_check_every: int = 64      # check the recent window for genre collapse every N tokens
@@ -184,6 +187,42 @@ def dream(
     consecutive_stagnations = 0
     reseed_i = 0
 
+    def do_reseed(seed_text: str, collapsed: bool):
+        """Change the subject. With forgetting: rebuild the working memory —
+        initial seed + what salience kept (insight windows) + a slice of the
+        stream from before the collapse + the new seed — in a fresh KV cache,
+        so the well cannot pull the seed back. Without forgetting: just
+        append the seed on top of everything (the pre-forgetting behavior)."""
+        nonlocal regime, fast_ctx
+        seed_ids = tokenizer.encode(seed_text, add_special_tokens=False)
+        # the reseed text becomes part of the visible stream either way
+        for sid in seed_ids:
+            generated_ids.append(sid)
+            detok.add_token(sid)
+        sampler.switch_regime(config.drift)
+        regime = "drift"
+        if not config.forget_on_reseed:
+            sampler.observe_prompt(seed_ids)
+            return seed_ids, cache
+        # working memory: initial seed + kept insight windows + recent stream + new seed
+        kept = [prompt_ids]
+        for ins in run.insights[-config.keep_insight_windows :]:
+            kept.append(tokenizer.encode(ins.window_text, add_special_tokens=False))
+        # generated_ids now ends with seed_ids; take the stretch before them
+        stream_before = generated_ids[: -len(seed_ids)]
+        if collapsed:
+            # skip the collapsed window itself: keep what came before it
+            stream_before = stream_before[: -config.genre_window_tokens] or stream_before
+        kept.append(stream_before[-config.keep_recent_tokens :])
+        kept.append(seed_ids)
+        memory_ids = [t for part in kept for t in part]
+        # the sampler's own context EMA restarts from the kept memory too
+        sampler.core.reset()
+        sampler.observe_prompt(memory_ids)
+        fast_ctx = None
+        run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"working_memory_tokens": len(memory_ids)})
+        return memory_ids, make_prompt_cache(model)
+
     while run.n_tokens < config.total_tokens:
       step_iter = generate_step(
           mx.array(pending_prompt), model, max_tokens=config.total_tokens - run.n_tokens,
@@ -217,14 +256,7 @@ def dream(
                 log(f"[step {step}] genre collapse ({gscore:.2f}) -> reseed {seed_text.strip()!r}")
                 run.events.append({"step": step, "kind": "genre_collapse", "magnitude": round(gscore, 3), "judged": False})
                 run.reseeds.append((step, seed_text))
-                seed_ids = tokenizer.encode(seed_text, add_special_tokens=False)
-                for sid in seed_ids:
-                    generated_ids.append(sid)
-                    detok.add_token(sid)
-                sampler.observe_prompt(seed_ids)
-                pending_prompt = seed_ids
-                sampler.switch_regime(config.drift)
-                regime = "drift"
+                pending_prompt, cache = do_reseed(seed_text, collapsed=True)
                 consecutive_stagnations = 0
                 reseed_now = True
                 break
@@ -244,14 +276,7 @@ def dream(
                 consecutive_stagnations = 0
                 log(f"[step {step}] stagnation persists -> reseed {seed_text.strip()!r}")
                 run.reseeds.append((step, seed_text))
-                seed_ids = tokenizer.encode(seed_text, add_special_tokens=False)
-                for sid in seed_ids:
-                    generated_ids.append(sid)
-                    detok.add_token(sid)
-                sampler.observe_prompt(seed_ids)
-                pending_prompt = seed_ids
-                sampler.switch_regime(config.drift)
-                regime = "drift"
+                pending_prompt, cache = do_reseed(seed_text, collapsed=False)
                 reseed_now = True
                 break
             log(f"[step {step}] stagnation ({event.magnitude:.2f}) -> kick")

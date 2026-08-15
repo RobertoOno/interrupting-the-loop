@@ -579,6 +579,24 @@ curta, memória longa apenas do que valeu. Também: testar Qwen3-30B como
 Deriva (outra dieta de pré-treino, poço de boilerplate possivelmente
 mais raso).
 
+**Sondas 6–7 (mesma noite): o gerador era a variável dominante.**
+- Sonda 6 (OLMo + esquecimento seletivo): a dinâmica mudou (3 reseeds em
+  vez de 12; a saliência volta a variar) mas o destino não — os 200 tokens
+  "de antes do colapso" já eram o começo do colapso; qualquer fatia do
+  fluxo do OLMo carrega a semente do rodapé. Como Deriva, o OLMo-2 é o
+  gerador errado (perfeito para a Fase 1 pelo corpus público; errado para
+  devanear pela dieta de web crua).
+- **Sonda 7 (Qwen3-30B-A3B, mesma semente/config): devaneia.** 1.000+
+  tokens de narrativa genuína (a menina, o caderno "The Edge", a pena
+  negra), reseeds voltando para *prosa* (fábula do gênio, com moral) e ao
+  fim uma deriva para devaneio matemático que **encena um insight**
+  ("Perhaps instead of viewing summation as repeated addition, we should
+  view it as repeated application of addition! Ahhhhh… Aha!"). Zero
+  boilerplate em 14k caracteres. Poços restantes são os nossos: repetição
+  de parágrafos (órbita longa; a estagnação pega, o kick resolve) e
+  história que se reinicia. **Decisão: Qwen3-30B é a Deriva do DREAM.**
+  Próximo: primeira rodada com juiz.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
