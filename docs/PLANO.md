@@ -417,6 +417,33 @@ Próximo (Paper B, `docs/PAPER_B.md`): régua semântica de improbabilidade,
 n≥30/braço, k=3 julgamentos por célula, braço extra "improvável sem
 registro" para separar o efeito do registro do efeito dos fragmentos.
 
+### Definitivo (2026-08-15, interrompido em 79/150 células por decisão —
+o quadro já estava claro; ~US$18): **o efeito do piloto NÃO se replica.**
+
+| braço | n | delta (mediana de 3 juízes) | Δ vs típico (IC95) |
+|---|---|---|---|
+| típico | 15 | **5.20 ± 1.05** | — |
+| conceitos | 14 | 4.00 ± 1.25 | [−2.04, −0.36] ✗ pior |
+| improvável | 15 | 4.60 ± 0.95 | [−1.33, +0.13] |
+| fragmentos (sem registro) | 16 | 4.69 ± 1.26 | [−1.34, +0.29] |
+| registro (sem fragmentos) | 15 | 4.40 ± 0.80 | [−1.47, −0.13] ✗ pior |
+
+- O prompt típico venceu ou empatou com todos; dois braços improváveis são
+  *significativamente piores*. Correlação improbabilidade×delta ≈ 0 em
+  qualquer régua (kNN +0.05; centróide −0.07; log-ppl −0.17). O piloto
+  (n=8, k=1) era variância + juiz de humor variável — exatamente o que o
+  desenho k=3/n=30 existia para pegar. **Bom nulo**: régua semântica
+  construída e validada, ablação feita, custo controlado.
+- Leitura: com um desenvolvedor forte (Opus 5, effort alto), o pedido
+  típico já extrai mecanismos sólidos e o juiz premia coerência; o input
+  estranho externo custa coerência sem comprar delta. **O improvável de
+  fora é ruído** — o que fundamenta a migração da hipótese para o loop
+  interno (DREAM, abaixo). Paper B fica como capítulo negativo honesto do
+  Paper A (ou seção do paper do DREAM), não como paper próprio.
+- Infra a corrigir antes de reusar o juiz: `max_tokens` do julgamento
+  (2 JSONs cortados), regex de parse mais tolerante, refusal-fallback
+  cobrindo o desenvolvedor em todos os caminhos.
+
 ## O loop de devaneio — projeto de arquitetura (2026-08-15)
 
 ### A tese (Roberto)

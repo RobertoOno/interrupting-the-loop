@@ -1,7 +1,16 @@
 # Improbable Inputs: Prompting from the Tail of the Prompt Distribution
 
+> **Status (2026-08-15): the pilot effect did not replicate.** Definitive
+> run (5 arms, k=3 judgments, n≈15/arm when stopped): the typical prompt
+> matched or beat every improbable arm; two improbable arms were
+> significantly *worse*; input improbability (semantic or perplexity) did
+> not correlate with judged novelty (|r| < 0.2). This document is kept as
+> an honest negative result and as the motivation for the reverie-loop
+> program (PLANO → "O loop de devaneio"): the fertile improbable is
+> generated from inside a closed loop, not injected from outside.
+> Details: PLANO.md ("Experimento do input improvável" → "Definitivo").
+
 > Working draft (pre-paper B). Thesis by Roberto Onofilho; pilot 2026-08-15.
-> Claims marked **[TBD]** need the definitive experiment specified in §6.
 > Lab notebook: PLANO.md ("Experimento do input improvável").
 
 ## Abstract (draft)
