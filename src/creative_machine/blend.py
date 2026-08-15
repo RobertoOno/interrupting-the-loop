@@ -36,6 +36,15 @@ HYBRID_COUTURE_SYSTEM = (
     "state one non-obvious consequence. Never treat the sentence as metaphor."
 )
 
+DEVELOP_SYSTEM = (
+    "You are an idea-development engine. You receive an input context. Develop "
+    "from it ONE new idea — a mechanism, practice, object, institution, theory "
+    "or phenomenon with working internal logic. FIRST derive the mechanism "
+    "(2-3 sentences, no hand-waving); THEN name it; THEN state one "
+    "non-obvious consequence. Take everything in the input as material to "
+    "build from, however strange; never dismiss or normalize it."
+)
+
 JUDGE_SYSTEM = (
     "You are a strict judge of conceptual inventions. Every idea has "
     "relatives; what matters is the delta over the nearest one (blockchain "
@@ -120,10 +129,49 @@ class OpenRouterClient:
         raise RuntimeError("unreachable")
 
 
+class BedrockClient:
+    """Claude via Amazon Bedrock (Mantle), same .chat() contract as OpenRouterClient.
+
+    Credentials come from the AWS profile/env (SigV4) — nothing stored here.
+    Model ids carry the `anthropic.` prefix (e.g. anthropic.claude-opus-5).
+    """
+
+    def __init__(self, aws_region: str = "us-east-1", effort: str = "high") -> None:
+        from anthropic import AnthropicBedrockMantle
+
+        self._client = AnthropicBedrockMantle(aws_region=aws_region)
+        self.effort = effort
+        self.usage = {"prompt_tokens": 0, "completion_tokens": 0}
+
+    def chat(self, model: str, system: str, user: str, max_tokens: int = 400) -> str:
+        # Adaptive thinking on Opus 5 shares max_tokens with the answer, so
+        # give it real headroom regardless of the caller's small budgets.
+        response = self._client.messages.create(
+            model=model,
+            max_tokens=max(max_tokens, 4000),
+            system=system,
+            output_config={"effort": self.effort},
+            messages=[{"role": "user", "content": user}],
+        )
+        self.usage["prompt_tokens"] += response.usage.input_tokens
+        self.usage["completion_tokens"] += response.usage.output_tokens
+        if response.stop_reason == "refusal":
+            raise RuntimeError("model refused (stop_reason=refusal)")
+        text = "".join(b.text for b in response.content if b.type == "text").strip()
+        if not text:
+            raise RuntimeError(f"empty content (stop_reason={response.stop_reason})")
+        return text
+
+
 def couture(client: OpenRouterClient, model: str, concept_a: str, concept_b: str) -> str:
     return client.chat(
         model, COUTURE_SYSTEM, f"Concepts: {concept_a} + {concept_b}", max_tokens=300
     ).strip()
+
+
+def develop(client, model: str, input_text: str) -> str:
+    """Improbable-input experiment: same task for every arm, only the input differs."""
+    return client.chat(model, DEVELOP_SYSTEM, f"Input:\n{input_text}", max_tokens=500).strip()
 
 
 def couture_seed(client: OpenRouterClient, model: str, seed_sentence: str) -> str:
