@@ -22,9 +22,10 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
 ## Estado atual
 
 Itens 1, 2 e 4 do roadmap concluídos (2026-08-09). Pacote `creative_machine`
-em `src/`; testes: `.venv/bin/python -m pytest` (60). Modelos quantizados
-locais: `~/models/mlx/Qwen3-8B-Base-8bit` (~31 tok/s) e
-`~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s). Fluxo git: commits na branch da
+em `src/`; testes: `.venv/bin/python -m pytest` (102). Modelos quantizados
+locais: `~/models/mlx/Qwen3-8B-Base-8bit` (~31 tok/s),
+`~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s) e
+`~/models/mlx/Qwen3-30B-A3B-Base-8bit` (MoE, ~53 tok/s; rota B). Fluxo git: commits na branch da
 sessão → fast-forward `main` → push (`origin` GitHub); `runs/` e modelos
 fora do git.
 
