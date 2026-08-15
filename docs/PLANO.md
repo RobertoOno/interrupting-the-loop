@@ -481,6 +481,15 @@ partes existem; a terceira é a rota do verificador (item 7).
   espaço de heurísticas acima do baseline é mais denso. Item 7 fica como
   infraestrutura pronta + resultado nulo documentado; a rota B só volta
   com um desses três.
+
+  **Decisão (2026-08-15): voltar com modelo maior E orçamento maior de uma
+  vez** — `Qwen3-30B-A3B-Base` (MoE, 30B total / 3B ativos: conhecimento
+  de 30B com velocidade acima do 8B denso; 8-bit ~32 GB cabe nos 48 GB).
+  Levantamento de alternativas: Qwen3-Coder-Next-Base (80B MoE, o melhor
+  coder base atual — não cabe), Qwen2.5-Coder-32B base (denso, ~8 tok/s
+  em 6-bit — aposta de capacidade, plano B), Olmo-3-1125-32B base (corpus
+  público — candidato para o §8-A do Paper A). Cache HF limpo (Mistral-7B
+  descartado em favor do Olmo-3 como terceira família).
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga
