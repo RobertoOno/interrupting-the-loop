@@ -45,6 +45,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--pop-size", type=int, default=3)
     p.add_argument("--lam", type=float, default=1.5)
     p.add_argument("--max-tokens", type=int, default=180)
+    p.add_argument("--runs", type=int, default=1, help="independent runs per arm (§8-B: >=5)")
+    p.add_argument("--n-train", type=int, default=20)
+    p.add_argument("--n-test", type=int, default=40)
     p.add_argument("--out", type=Path, required=True)
     return p.parse_args()
 
@@ -54,8 +57,8 @@ def main() -> None:
     from mlx_lm import load, stream_generate
 
     model, tokenizer = load(str(Path(args.model).expanduser()))
-    train = generate_instances(20, 120, np.random.default_rng(99))
-    test = generate_instances(40, 120, np.random.default_rng(777))
+    train = generate_instances(args.n_train, 120, np.random.default_rng(99))
+    test = generate_instances(args.n_test, 120, np.random.default_rng(777))
     bf_train = evaluate(best_fit, train)["mean_excess"]
     bf_test = evaluate(best_fit, test)["mean_excess"]
     print(f"best-fit excess: train {bf_train:.4f}, test {bf_test:.4f}", flush=True)
@@ -64,7 +67,10 @@ def main() -> None:
     args.out.mkdir(parents=True, exist_ok=True)
     history: dict[str, list] = {}
 
-    for arm_lam, arm in ((0.0, "plain"), (args.lam, "antiprob")):
+    arms = [(0.0, "plain"), (args.lam, "antiprob")]
+    for run in range(args.runs):
+      for arm_lam, arm_name in arms:
+        arm = f"{arm_name}_r{run}" if args.runs > 1 else arm_name
         ff = run_heuristic_code(FIRST_FIT_CODE, train)["mean_excess"]
         bf = run_heuristic_code(BEST_FIT_CODE, train)["mean_excess"]
         population = sorted(
@@ -82,7 +88,7 @@ def main() -> None:
                     entropy_trigger=trigger,
                     entropy_ceiling=ceiling,
                     no_push_ids=eos_ids(tokenizer),
-                    seed=1000 * gen + seed,
+                    seed=100_000 * run + 1000 * gen + seed,
                 )
                 sampler = MLXAntiprobableSampler(model, config=config)
                 sampler.observe_prompt(prompt_ids)
@@ -110,24 +116,41 @@ def main() -> None:
             print(f"{arm} gen{gen}: {len(candidates)} valid, best train excess {best_now:.4f}", flush=True)
 
         champion_code, champion_train = population[-1]
-        champ_test = run_heuristic_code(champion_code, test, timeout_s=20.0)
+        champ_test = run_heuristic_code(champion_code, test, timeout_s=30.0)
+        escape_gen = next(
+            (g["gen"] for g in arm_history if g["best_train_excess"] < bf_train - 1e-9), None
+        )
         history[arm] = {
+            "arm": arm_name,
+            "run": run,
             "generations": arm_history,
             "n_valid_total": n_valid_total,
+            "escape_gen": escape_gen,
             "champion_train_excess": round(champion_train, 4),
             "champion_test_excess": round(champ_test.get("mean_excess", float("nan")), 4),
             "champion_code": champion_code,
         }
         (args.out / "history.json").write_text(json.dumps(history, indent=2))
 
-    print(f"\n== verified evolution ({args.gens} gens x {args.samples_per_gen}/arm) ==")
-    print(f"  best-fit test excess: {bf_test:.4f}")
+    print(f"\n== verified evolution ({args.runs} runs x {args.gens} gens x {args.samples_per_gen}/arm) ==")
+    print(f"  best-fit excess: train {bf_train:.4f}, test {bf_test:.4f}")
     for arm, h in history.items():
-        beat = "BEATS best-fit" if h["champion_test_excess"] < bf_test - 1e-9 else "does not beat best-fit"
+        beat = "BEATS best-fit on test" if h["champion_test_excess"] < bf_test - 1e-9 else "ties/loses on test"
+        esc = f"escaped gen {h['escape_gen']}" if h["escape_gen"] is not None else "never escaped"
         print(
-            f"  {arm:<9} champion train {h['champion_train_excess']:.4f} "
+            f"  {arm:<12} {esc:<16} champion train {h['champion_train_excess']:.4f} "
             f"test {h['champion_test_excess']:.4f} ({beat}); valid {h['n_valid_total']}"
         )
+    if args.runs > 1:
+        for arm_name in ("plain", "antiprob"):
+            hs = [h for h in history.values() if h["arm"] == arm_name]
+            escapes = [h["escape_gen"] for h in hs if h["escape_gen"] is not None]
+            tests = [h["champion_test_excess"] for h in hs]
+            print(
+                f"  {arm_name:<9} escaped {len(escapes)}/{len(hs)} runs"
+                f" (gens {escapes}); test excess mean {np.mean(tests):.4f}"
+                f" min {np.min(tests):.4f}"
+            )
     print(f"history -> {args.out}/history.json")
 
 
