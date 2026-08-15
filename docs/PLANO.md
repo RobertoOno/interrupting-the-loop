@@ -462,6 +462,25 @@ partes existem; a terceira é a rota do verificador (item 7).
   Perfil de entropia de código medido: p50=0.57, p80=2.17, p95=4.14 —
   código cristaliza muito abaixo da prosa; a banda de prosa só engajava
   ~20% dos passos.
+
+  **§8-B definitivo (2026-08-15, 5 corridas × 8 ger × 20/braço, treino
+  100, teste 200, `runs/evoverify_definitive`, ~2h de máquina, térmica
+  nominal o tempo todo): RESULTADO NULO LIMPO.** Fugas do platô no treino:
+  plain 2/5, anti-provável 1/5. Em teste, nenhum campeão de nenhum braço
+  bate o best-fit (0.0603) além do ruído (melhor: 0.0599 antiprob_r1,
+  0.0600 plain_r1); as fugas do plain no treino (0.0639, 0.0649)
+  *pioraram* em teste (0.0610) — overfit ao conjunto de seleção. Média de
+  excess em teste: plain 0.0605, antiprob 0.0602. **O sinal do V1 era
+  variância de n=1.** Conclusão honesta: neste problema, com este modelo
+  (8B base) e este orçamento (160 amostras/corrida), o operador
+  anti-provável não separa da amostragem plain sob evolução verificada; o
+  gargalo é a capacidade do gerador de propor heurísticas melhores que o
+  best-fit, não a política de variação. Não generaliza para "anti-provável
+  não ajuda em busca verificada" — generaliza para "não a este custo". O
+  que mudaria o quadro: modelo maior, orçamento 10–100×, ou domínio onde o
+  espaço de heurísticas acima do baseline é mais denso. Item 7 fica como
+  infraestrutura pronta + resultado nulo documentado; a rota B só volta
+  com um desses três.
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga

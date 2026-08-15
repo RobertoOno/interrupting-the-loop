@@ -24,10 +24,11 @@ training data** (baseline: one 9-word block) and triple 4-gram novelty
 perplexity under a cross-family judge. We map three escape modes of
 creative decoding — recitation, collage, and factual paraphrase — and show
 the third defeats surface novelty metrics entirely, corroborating recent
-arguments against n-gram novelty as a creativity metric. In preliminary
-verified-search experiments (online bin packing), the anti-probable
-operator escaped the best-fit plateau that conventional sampling never
-left **[TBD: definitive multi-run experiment]**.
+arguments against n-gram novelty as a creativity metric. In verified
+search (online bin packing, FunSearch's benchmark) the operator did *not*
+separate from conventional sampling at 8B scale and small budgets — a
+scoped null result we report as a boundary of the method, not a
+refutation.
 
 ## 1. Introduction
 
@@ -55,8 +56,9 @@ Contributions:
 4. **Objective novelty against the generator's own training corpus** (§4):
    with OLMo-2 + infini-gram, "generated what was not in training" becomes
    a lookup, not a vibe.
-5. **Preliminary evidence in verified search** (§6): the anti-probable
-   operator moves where conventional sampling freezes **[TBD]**.
+5. **A scoped null in verified search** (§6): under FunSearch-style
+   evolution at 8B scale, the variation operator is not the bottleneck —
+   the generator's ceiling is.
 
 ## 2. Related Work
 
@@ -165,10 +167,20 @@ Base model Qwen3-8B; seed-paired arms; only λ differs.
   plain sampling stayed at best-fit for all 100 samples; the anti-probable
   arm escaped at generation 3 with a two-stage nonlinear heuristic
   dominating best-fit on train (0.0590 vs 0.0610) but tying on held-out
-  test — train-set overfit. n=1 run/arm: suggestive, not proven.
+  test — train-set overfit. n=1 run/arm.
+- **Definitive (5 runs × 8 generations × 20/arm, train 100, test 200)**:
+  **null result.** Train-plateau escapes: plain 2/5, anti-probable 1/5;
+  no champion of either arm beats best-fit on held-out test beyond noise
+  (mean test excess 0.0605 vs 0.0602; best 0.0599 vs baseline 0.0603);
+  plain's train escapes (0.0639, 0.0649) *worsened* on test (0.0610) —
+  selection-set overfit. The V1 signal was n=1 variance. At this model
+  size (8B base) and budget (160 samples/run), the variation operator is
+  not the bottleneck; the generator's ability to propose heuristics above
+  best-fit is. We report this as scoped: it does not license "anti-probable
+  decoding does not help verified search", only "not at this cost".
 
-**[TBD]** Definitive experiment (§8-B): 100+ train instances, ≥5 runs/arm,
-escape-time and best-test-excess distributions, significance over curves.
+**[TBD]** Only if revisited: larger model or 10–100× budget, or a domain
+with a denser space of above-baseline heuristics.
 
 ## 7. Discussion & limitations
 
@@ -182,7 +194,9 @@ escape-time and best-test-excess distributions, significance over curves.
   low delta over nearest equivalents (~2.4/10, ceiling 4) regardless of
   seed type; the couturier's systematic strength is institutional
   second-order consequences, suggesting incentive-rule domains.
-- The verified-search signal is n=1; the entire route-B claim rests on §8-B.
+- Verified search: null at our scale (§6). The novelty gains of §4 are
+  real but do not, by themselves, translate into better verified
+  heuristics from an 8B generator with 160 samples per run.
 
 ## 8. Experiment specifications by claim
 
@@ -191,11 +205,8 @@ escape-time and best-test-excess distributions, significance over curves.
   copied per cell; human eval: 3 raters × 30 pairs (machine vs baseline,
   same prompt), preference + coherence Likert. Claim passes if novelty CIs
   exclude zero on ≥2 families with human coherence non-inferior.
-- **B (verified search)**: bin packing, 5 runs/arm × 8 generations × 20
-  samples, train=100 instances, test=200; metrics: escape time (first gen
-  with train excess < best-fit − ε), final test excess, distinct-body
-  count; Mann-Whitney on escape times; secondary domain (e.g. flow-shop or
-  auction-mechanism simulation) if positive.
+- **B (verified search)** — DONE, null (§6). Revisit only with a larger
+  model, 10–100× budget, or a denser domain.
 - **C (paraphrase detector)**: NER-based entity-density score + retrieval
   probe vs the factual-paraphrase cells; target: separate mode-3 cells
   from gallery pieces at fixed FPR.
