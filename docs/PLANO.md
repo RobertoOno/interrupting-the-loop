@@ -417,6 +417,106 @@ Próximo (Paper B, `docs/PAPER_B.md`): régua semântica de improbabilidade,
 n≥30/braço, k=3 julgamentos por célula, braço extra "improvável sem
 registro" para separar o efeito do registro do efeito dos fragmentos.
 
+## O loop de devaneio — projeto de arquitetura (2026-08-15)
+
+### A tese (Roberto)
+
+A mente não é um LLM que recebe prompts. É um sistema em **loop fechado
+com o próprio output** — pensamento gerando pensamento — e o novo surge
+quando esse loop, rodando sem tarefa, produz um desvio que sobrevive à
+crítica. O improvável de fora é ruído; o improvável fértil é o que o
+próprio sistema gera de dentro, porque já vem costurado ao resto do que ele
+sabe. Consequência: **a criatividade não está no input, está no loop.**
+(Corrobora: no híbrido, a única semente boa foi a única gerada pelo nosso
+sampler; no experimento do input improvável, o prompt estranho *externo*
+não bate o típico na prévia parcial.)
+
+### O que a neurociência acrescenta
+
+Três redes, não dois modos (Beaty et al., 2014–2024): a **default mode**
+(geração espontânea, recuperação de memória — o devaneio), a **executiva**
+(avaliação, controle) e a **de saliência** (o *switch*: decide o que merece
+atenção e alterna as outras duas). O achado central: pessoas mais criativas
+têm mais *acoplamento* DMN–executiva — sinergia, não revezamento rígido.
+Insight = desvio gerado no modo espontâneo que sobrevive à passagem pelo
+modo crítico; incubação = deixar o loop rodar sem tarefa. Também: a fase de
+geração ativa recuperação de memória (lobo temporal medial) — o novo é
+recombinação de material *acumulado*.
+
+### O que já temos que corresponde
+
+| órgão da mente | o que temos | o que falta |
+|---|---|---|
+| default mode (devaneio) | o sampler anti-provável — desvio *dentro* da geração, EMA de contexto migrando (o anti-atrator) | rodar sem tarefa, longo, com o output como próximo contexto |
+| executiva (crítica) | o funil: juiz cross-family, detector de colapso, régua de delta | rodar *intercalado* no fluxo, não em batelada no fim |
+| saliência (switch) | a banda de entropia (decide *onde* desviar) | um sinal de "isto merece atenção" que dispare a crítica no meio do fluxo |
+| memória acumulada | o EMA (meia-vida 16 tokens); a população do loop evolutivo | memória de longo prazo do que o loop já pensou (dias, não tokens) |
+
+### Arquitetura proposta: DREAM (Drift–Review–Escalate–Accumulate–Memory)
+
+Um fluxo único e longo, sem prompt de tarefa (só uma semente inicial),
+com quatro processos acoplados:
+
+1. **Deriva** (default mode): o sampler anti-provável gera continuamente
+   em modo "solto" — banda de entropia larga, λ alto, meia-vida do EMA
+   longa (o contexto lembra mais). O texto gerado É o próximo contexto.
+   Sem instrução, sem persona: base model puro pensando alto.
+2. **Saliência** (o switch): um monitor barato roda a cada N tokens sobre
+   o fluxo e dispara quando detecta um *evento*: (a) salto semântico —
+   distância entre o EMA de agora e o EMA de M tokens atrás acima de um
+   limiar (o pensamento mudou de região); (b) queda de entropia depois de
+   um trecho de alta entropia (o modelo "cristalizou" algo depois de
+   vagar); (c) recorrência — o fluxo voltou a um tema de muito antes (o
+   loop se fechou). Sem saliência, nada é avaliado — a crítica não roda o
+   tempo todo (isso mataria a deriva, como o controle executivo mata o
+   devaneio).
+3. **Revisão** (executiva): no evento, o trecho recente vai ao juiz — que
+   pergunta três coisas: é coerente? conecta duas regiões *distantes* do
+   que veio antes (o critério de Beaty/Kenett)? tem delta sobre o parente
+   mais próximo? Se passa: **insight candidato** registrado com proveniência
+   (posição no fluxo, EMA antes/depois, veredito). Se não passa: o fluxo
+   segue; nada é descartado do texto (a deriva não é editada — a mente não
+   apaga devaneios, só não os promove).
+4. **Escalada** (o acoplamento DMN–executiva): quando um insight candidato
+   é registrado, o loop **muda de regime**: por um trecho, o sampler roda
+   com banda estreita e λ baixo (modo "desenvolver o achado", quase
+   normal), e o insight é injetado como contexto explícito — o pensamento
+   *elabora* o que a saliência marcou. Depois volta à deriva. Isso é a
+   sinergia: geração e controle no mesmo fluxo, alternando por sinal
+   interno, não por relógio.
+5. **Memória** (acumulação): os insights candidatos vão para uma memória de
+   longo prazo (arquivo versionado); sementes de sessões futuras são
+   sorteadas dela — o loop de amanhã começa do que o de hoje achou (a
+   população do `evolve.py`, elevada a dias). Métrica de longo prazo: os
+   insights ficam mais *conectados* entre si com o tempo? (a rede de
+   conceitos do próprio sistema fica mais densa — o "material acumulado").
+
+### Como medir (o que torna isso ciência e não poesia)
+
+- **Controle A**: mesmo fluxo com sampler plain (λ=0) — o loop sem
+  devaneio. **Controle B**: prompts improváveis externos (o experimento de
+  hoje) no mesmo orçamento de tokens. **Controle C**: saliência
+  desligada, crítica por relógio (a cada N tokens) — testa se o *switch*
+  importa.
+- **Variáveis**: taxa de insights candidatos por 10k tokens; delta médio
+  dos candidatos (juiz); *distância conectada* — quão longe estão as duas
+  regiões que o insight une (Beaty); sobrevivência ao rejulgamento k=3;
+  e, no longo prazo, densidade da memória.
+- **Predição da tese**: DREAM > controle B (loop interno bate input
+  externo) e DREAM > controle C (o switch por saliência bate a crítica por
+  relógio). Se DREAM ≈ A, a deriva não importa e a tese cai; se DREAM ≈ C,
+  a saliência não importa (só o intercalar).
+
+### Custo e ordem de construção
+
+Tudo local exceto o juiz (Bedrock, só nos eventos de saliência — barato
+por construção). Ordem: (1) monitor de saliência sobre o telemetria que já
+existe (puro numpy, testável com o ToyLM); (2) o fluxo Deriva+Escalada como
+modo novo do sampler (dois SamplerConfigs alternando por sinal); (3) a
+Revisão plugando o juiz existente; (4) a memória como diretório em `runs/`
++ sorteio de sementes; (5) os três controles no harness. Estimativa: 2–3
+sessões para o piloto.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
