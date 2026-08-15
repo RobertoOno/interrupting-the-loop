@@ -648,6 +648,26 @@ snapshots do EMA lento, Escalada com reencontro textual.
   reseed com esquecimento só sobrava a premissa como âncora. Correção
   (dream5): âncoras persistem através do esquecimento — apaga-se o texto do
   poço, não a memória do que foi pensado (esqueço o fluxo, lembro os temas).
+- **dream5 (4.500 tokens, âncoras persistentes): o primeiro insight
+  candidato do DREAM.** A janela "the boy didn't become an adult, he
+  became an animal; [...] someone didn't die, he lived; the world didn't
+  spin, it stopped. **Almost-happens happened late one night.**" — a
+  premissa (coisas que quase aconteceram) invertida em realização: os
+  quases aconteceram, a lista virou clímax. Três julgamentos da mesma
+  janela: **4.76 / 5.24 / 4.93** — exatamente sobre o limiar 5; o juiz vê
+  e nomeia ("converts the catalog into a realized climax, collapsing the
+  almost/real distinction the text spent building"; `connects_distant`
+  5–6) e desconta ("payoff competente do próprio setup, não um salto").
+  Curva do melhor score por rodada: 0 → 2.29 → 3.91 → 4.16 → 4.76 —
+  sobe a cada mecanismo. Um candidato marginal em 4.500 tokens com dez
+  mudanças de assunto: a tese da raridade em ação.
+- Gargalo atual mudou: não é mais o poço, é a **frequência de reseed** —
+  10 em 4.500 tokens; a "mente" muda de assunto antes de sintetizar.
+  Próximo: (a) k=3 com mediana no juiz da Revisão (a Escalada não pode
+  depender do humor de um julgamento); (b) reseed menos ansioso (mais kicks
+  antes de reseed, janela de estagnação maior) para as ideias amadurecerem;
+  (c) então os três controles (plain / clock / input externo) para a
+  primeira comparação formal do DREAM.
 
 ## Métricas
 
