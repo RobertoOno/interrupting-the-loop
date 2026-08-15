@@ -597,6 +597,36 @@ mais raso).
   história que se reinicia. **Decisão: Qwen3-30B é a Deriva do DREAM.**
   Próximo: primeira rodada com juiz.
 
+**Primeiras rodadas com juiz (dream1, dream2; ~US$0.15 total):**
+- dream1 (semente do faroleiro): a semente carrega o gênero — "X had one
+  theory about Y, and it was this:" é frase de *sinopse* no pré-treino; o
+  Qwen deslizou em 3 linhas para blurb de livro infantil e #kidlitreview.
+  13 revisões, todas `connects_distant: 0`, vereditos precisos. Regra:
+  sementes devem ser narrativa em primeira ordem (algo aconteceu a
+  alguém), nunca frames de metadiscurso.
+- dream2 (semente do caderno, deriva boa): 7 revisões, 1 score não-zero
+  (2.29). Sobre a melhor prosa (a pena negra), o juiz: "coerente, mas
+  vinheta genérica que **abandona a premissa do caderno em vez de ligá-la**".
+  **Achado**: a deriva pura produz *mudança de assunto*, não insight —
+  o loop vaga fluentemente de tema em tema *abandonando* o anterior. O EMA
+  de contexto puxa para longe (anti-atrator por desenho); não existe força
+  de **retorno com síntese**. Insight, pela definição que adotamos (Beaty),
+  é ligar o novo ao velho — e nada no Deriva empurra para a ligação. A
+  saliência e o juiz funcionaram como desenhados (o crítico não deixou
+  passar nada; a Escalada não disparou porque nada mereceu).
+
+**Estado do DREAM ao fim da noite**: o loop inteiro toca junto (Deriva,
+Saliência, Revisão, Escalada, reseed com esquecimento) e a Deriva devaneia
+sem cair nos poços; o que falta é o mecanismo que a mente tem e o loop não:
+a **puxada de volta com síntese** — o insight nasce quando o devaneio
+*reencontra* a premissa. Próximo mecanismo (a implementar): a Escalada
+como *reencontro* — não só "desenvolver o achado", mas injetar, no evento
+de saliência, um retorno explícito à premissa/regiões antigas (as
+recorrências e a memória de insights) e pedir ao Deriva que costure; e/ou
+um segundo termo no score do sampler que, em vez de só distância ao
+contexto recente, recompense *proximidade a regiões antigas distantes do
+recente* (a ponte). É a diferença entre vagar e devanear.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
