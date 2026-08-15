@@ -684,6 +684,28 @@ snapshots do EMA lento, Escalada com reencontro textual.
   (0.22/1k); depois dele o loop voltou ao ciclo estagnação→reseed sem
   novo candidato — reseed ainda ansioso demais (11). Custo ~US$0.30.
 
+**Primeira comparação formal (2026-08-16, madrugada; 1 rodada/condição,
+mesma semente, 4.500 tokens, juiz k=3):**
+
+| condição | revisões | candidatos | melhor score |
+|---|---|---|---|
+| **DREAM** (deriva + saliência) | 10 | **1** | **5.24** |
+| controle A — plain (λ=0, sem ponte) | 8 | 0 | 2.71 |
+| controle C — clock (saliência off, juiz a cada 150) | 30 | 0 | 2.88 |
+
+Ambas as predições na direção da tese: DREAM > plain (o devaneio importa)
+e DREAM > clock (o *switch* importa: o relógio revisou 3× mais, gastou 4×
+mais tokens de juiz e não achou nada — revisa onde nada aconteceu). n=1
+por condição: **direção, não prova**. Custo dos controles ~US$0.50.
+
+**Experimento definitivo do DREAM (a rodar)**: 5 sementes narrativas em
+primeira ordem × 3 condições (+ o controle B de input externo com a mesma
+rubrica), 4.500 tokens, k=3; métricas: candidatos/1k, melhor mediana,
+`connects_distant` médio das revisões; IC bootstrap sobre sementes.
+~US$5 de juiz, ~4h de máquina (rodar de madrugada, tampa aberta).
+Predição: DREAM > C > A em candidatos/1k; se DREAM ≈ A a deriva não
+importa; se DREAM ≈ C o switch não importa.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
