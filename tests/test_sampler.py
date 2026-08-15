@@ -215,6 +215,34 @@ def test_reset_clears_state():
     assert next_step == 0
 
 
+def test_repetition_penalty_breaks_literal_orbit():
+    # Token 0 is overwhelmingly likely; without habituation the stream is
+    # 0,0,0,...; with a window it must escape to token 1 (the runner-up).
+    logits = np.array([4.0, 1.0, -5.0])  # p(0) ~ 0.95: a peaked orbit
+    off = AntiprobableSampler(SamplerConfig(entropy_trigger=99.0, seed=0))
+    on = AntiprobableSampler(SamplerConfig(entropy_trigger=99.0, repetition_window=8, repetition_penalty=3.0, seed=0))
+    a = [off.step(logits) for _ in range(40)]
+    b = [on.step(logits) for _ in range(40)]
+    assert a.count(0) >= 34
+    assert b.count(1) >= 12 and b.count(0) >= 12  # alternates rather than orbits
+
+
+def test_switch_regime_keeps_context_and_changes_policy():
+    table = np.array([[1.0, 0.0], [0.0, 1.0]])
+    drift = SamplerConfig(entropy_trigger=0.5, lam=3.0, context_halflife=1.0)
+    escalate = SamplerConfig(entropy_trigger=10.0, lam=0.0, context_halflife=1.0)
+    s = AntiprobableSampler(drift, embed_fn=make_embed(table))
+    s.observe(0)
+    before = s.context.copy()
+    s.switch_regime(escalate)
+    assert np.allclose(s.context, before)  # memory survives the switch
+    s.step(np.array([0.0, 0.0]))  # entropy log 2 < 10: plain mode now
+    assert not s.telemetry.records[-1].perturbed
+    s.switch_regime(drift)
+    s.step(np.array([0.0, 0.0]))  # log 2 > 0.5: perturbs again
+    assert s.telemetry.records[-1].perturbed
+
+
 def test_same_seed_same_trajectory():
     rng = np.random.default_rng(42)
     logit_seq = rng.normal(scale=3.0, size=(50, 32))

@@ -65,9 +65,13 @@ class SamplerConfig:
     context_halflife: float = 16.0
     perturb_choice: str = "sample"
     max_candidates: int = 128
+    repetition_window: int = 0       # 0 = off; else penalize tokens seen in the last N steps
+    repetition_penalty: float = 1.5  # divisor on p for penalized tokens (>1 suppresses)
     seed: int | None = None
 
     def __post_init__(self) -> None:
+        if self.repetition_window < 0 or self.repetition_penalty <= 0:
+            raise ValueError("repetition_window must be >= 0 and repetition_penalty > 0")
         self.no_push_ids = tuple(self.no_push_ids)
         if self.distance_scale not in ("raw", "standardize"):
             raise ValueError('distance_scale must be "raw" or "standardize"')

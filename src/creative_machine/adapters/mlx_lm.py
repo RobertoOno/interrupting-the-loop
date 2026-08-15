@@ -125,6 +125,10 @@ class MLXAntiprobableSampler:
         if prompt_ids is not None:
             self.observe_prompt(prompt_ids)
 
+    def switch_regime(self, config: SamplerConfig) -> None:
+        """Swap decoding policy mid-stream (context EMA preserved)."""
+        self.core.switch_regime(config)
+
     def __call__(self, logprobs):
         import mlx.core as mx
 

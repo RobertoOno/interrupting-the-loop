@@ -54,11 +54,24 @@ class AntiprobableSampler:
         self._decay = 0.5 ** (1.0 / self.config.context_halflife)
         self._context: np.ndarray | None = None
         self._step = 0
+        self._recent: list[int] = []  # recent token ids for the repetition penalty
 
     def reset(self) -> None:
         """Clear context and step counter (telemetry is left to its owner)."""
         self._context = None
         self._step = 0
+        self._recent = []
+
+    def switch_regime(self, config: SamplerConfig) -> None:
+        """Swap the decoding policy mid-stream, keeping the context EMA.
+
+        The reverie loop alternates a drift regime (wide band, high lam) and
+        an escalate regime (narrow band, low lam) by internal signal; the
+        thought's memory must survive the switch, so only the policy and
+        its derived decay change.
+        """
+        self.config = config
+        self._decay = 0.5 ** (1.0 / config.context_halflife)
 
     @property
     def context(self) -> np.ndarray | None:
@@ -93,6 +106,15 @@ class AntiprobableSampler:
         """
         cfg = self.config
         logprobs = log_softmax(logits, cfg.temperature)
+        # Habituation: suppress what was just said. A closed loop feeding on
+        # its own output otherwise locks into short literal orbits where the
+        # distribution is peaked and the entropy band never opens.
+        if cfg.repetition_window > 0 and self._recent:
+            # graded by recent frequency: the more often said, the more suppressed
+            ids, counts = np.unique(np.asarray(self._recent[-cfg.repetition_window :]), return_counts=True)
+            logprobs = logprobs.copy()
+            logprobs[ids] -= counts * np.log(cfg.repetition_penalty)
+            logprobs = log_softmax(logprobs)
         h = entropy(logprobs)
 
         p = np.exp(logprobs)
@@ -123,6 +145,9 @@ class AntiprobableSampler:
             )
         )
         self._step += 1
+        self._recent.append(token)
+        if len(self._recent) > 4096:
+            self._recent = self._recent[-2048:]
         self.observe(token)
         return token
 

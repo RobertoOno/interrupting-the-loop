@@ -544,6 +544,41 @@ Revisão plugando o juiz existente; (4) a memória como diretório em `runs/`
 + sorteio de sementes; (5) os três controles no harness. Estimativa: 2–3
 sessões para o piloto.
 
+### Construído e calibrado até aqui (2026-08-15, noite)
+
+`salience.py` (jump / crystallize / recurrence / stagnation +
+`genre_collapse_score`), `dream.py` (motor: `generate_step` manual, EOS
+mascarado, KV cache único, regimes drift/escalate/kick trocáveis sem
+perder o EMA, reseed por injeção de semente, juiz só nos eventos),
+`scripts/dream_run.py` (controles plain/clock, `--no-judge` para
+calibrar), habituação graduada no sampler (`repetition_window/penalty`),
+juiz da Revisão (`judge_reverie`: coerência / conecta-regiões-distantes /
+delta). 115 testes.
+
+**Cinco sondas de deriva sem juiz (OLMo-2-13B, 1.5k–3k tokens) — os
+poços da mente sem controle, cada um ensinando um mecanismo:**
+
+| sonda | o que aconteceu | lição / mecanismo |
+|---|---|---|
+| 1 | morreu em 125 tokens (EOS) | mascarar EOS; laço próprio sobre `generate_step` |
+| 2 | ruminação erudita (Eco→Heráclito→Platão, 1.500 tokens circulando; ao fim recita o Crátilo) | detector de estagnação + kick (λ alto por um trecho) |
+| 3 | começo lindo → quiz → **órbita literal** de 4 frases que λ=4 não quebra (distribuição pontuda: a banda nunca abre) | habituação graduada por frequência recente (o kick não chuta porta fechada) |
+| 4 | sem órbita, mas **afunda no rodapé de site** ("Terms of Service \| © LLC") por 2.000 tokens; jump disparava a cada 24 (EMA rápido curto demais) | detector de colapso de gênero por superfície (diversidade lexical, capitalização, símbolos — separa 0.09 vs 0.6); EMA rápido 24 |
+| 5 | detector dispara, reseed injeta semente boa ("what if gravity suddenly stopped working") e **em 20 tokens volta ao rodapé** — 12 vezes seguidas | **o contexto acumulado É o poço**: 3k tokens de boilerplate no KV cache puxam qualquer semente de volta |
+
+**Achado central da calibração**: um loop fechado *sem esquecimento*
+converge para o atrator mais frequente do pré-treino e não sai — a
+"mente" do modelo base largada não devaneia, **recita a web**. A mente
+humana escapa disso porque (a) o buffer de trabalho é curto e (b) o que
+persiste é a memória *selecionada* (o que a saliência marcou), não o
+fluxo bruto; e (c) valores puxam o devaneio (interesse), não só
+habituação empurrando de trás. **Próxima mudança (arquitetural):
+esquecimento seletivo** — no reseed, truncar o KV cache e reter só
+semente inicial + trechos/insights bons + nova semente; deriva com janela
+curta, memória longa apenas do que valeu. Também: testar Qwen3-30B como
+Deriva (outra dieta de pré-treino, poço de boilerplate possivelmente
+mais raso).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.

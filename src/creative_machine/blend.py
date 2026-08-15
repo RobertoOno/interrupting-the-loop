@@ -45,6 +45,21 @@ DEVELOP_SYSTEM = (
     "build from, however strange; never dismiss or normalize it."
 )
 
+REVERIE_JUDGE_SYSTEM = (
+    "You judge a stretch of a language model's unsupervised reverie — text it "
+    "generated with no task, feeding on its own output. You see the RECENT "
+    "window and the EARLIER text. Return ONLY a JSON object with keys: "
+    '"coherence" (0-10: does the recent window hold together?), '
+    '"connects_distant" (0-10: does it bring together two regions of the '
+    "earlier text that were far apart, or a region of it with something "
+    "new, in a way that makes sense — 0 if it merely continues one thread "
+    "or copies a document form like a web page/quiz/citation), "
+    '"nearest_equivalent" (closest existing idea or trope — always name one), '
+    '"novel_delta" (what the window adds over that, or null), '
+    '"delta_significance" (0-10; 0 when novel_delta is null), '
+    '"verdict" (one blunt sentence). Score harshly; 7+ must be rare.'
+)
+
 JUDGE_SYSTEM = (
     "You are a strict judge of conceptual inventions. Every idea has "
     "relatives; what matters is the delta over the nearest one (blockchain "
@@ -192,6 +207,29 @@ def parse_judgment(raw: str) -> dict:
     out.setdefault("nearest_equivalent", None)
     out.setdefault("novel_delta", None)
     out.setdefault("verdict", "")
+    return out
+
+
+def judge_reverie(client, model: str, window_text: str, earlier_text: str) -> dict:
+    """The Review step of the reverie loop: three questions on the recent window."""
+    raw = client.chat(
+        model,
+        REVERIE_JUDGE_SYSTEM,
+        f"EARLIER TEXT:\n{earlier_text}\n\nRECENT WINDOW:\n{window_text}",
+        max_tokens=600,
+    )
+    match = re.search(r"\{.*\}", raw, flags=re.DOTALL)
+    if not match:
+        raise ValueError(f"no JSON object in judgment: {raw[:120]!r}")
+    out = json.loads(match.group(0))
+    for k in ("coherence", "connects_distant", "delta_significance"):
+        out[k] = float(out.get(k, 0))
+    out.setdefault("nearest_equivalent", None)
+    out.setdefault("novel_delta", None)
+    out.setdefault("verdict", "")
+    out["score"] = round(
+        (out["coherence"] * out["connects_distant"] * out["delta_significance"]) ** (1 / 3), 2
+    )
     return out
 
 
