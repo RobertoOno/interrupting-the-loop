@@ -490,6 +490,23 @@ partes existem; a terceira é a rota do verificador (item 7).
   em 6-bit — aposta de capacidade, plano B), Olmo-3-1125-32B base (corpus
   público — candidato para o §8-A do Paper A). Cache HF limpo (Mistral-7B
   descartado em favor do Olmo-3 como terceira família).
+
+  **§8-B no Qwen3-30B-A3B (2026-08-15, 5 × 8 × 40/braço = 3.200
+  heurísticas, treino 100, teste 200, `runs/evoverify_30b`, ~1h): NULO DE
+  NOVO, agora com modelo 4× maior e orçamento 2×.** Fugas no treino: plain
+  2/5, antiprob 3/5 — mas todas rasas (melhor treino 0.0633 vs 0.0652) e
+  **nenhuma sobrevive ao teste** (médias 0.0602 vs 0.0604; melhor 0.0600 vs
+  baseline 0.0603 — ruído). Validade 5/6 → 90%+ em ambos os braços. O teto
+  do gerador subiu pouco: um base 30B redescobre o best-fit à vontade, mas
+  não propõe nada estruturalmente melhor com 320 amostras/corrida. Dois
+  modelos, dois orçamentos, mesmo resultado → o nulo é robusto **neste
+  domínio**: online bin packing com itens uniformes(0.1, 0.7) tem best-fit
+  perto do ótimo (excess ~6% do LB); o espaço acima do baseline é ralo
+  demais para qualquer operador de variação brilhar com <10³ amostras. O
+  FunSearch precisou de ~10⁶ e de instâncias OR-Library difíceis. Lição:
+  a próxima tentativa da rota B, se houver, precisa de **domínio com
+  headroom mensurável** (baseline claramente sub-ótimo), não de mais
+  modelo. Rota B pausada; foco no Paper A.
 - [x] **5. Fase 2 (piloto)** — 2026-08-10: pipeline completo
   (`data/concepts.txt` ~580 conceitos → embeddings da régua da casa → pares
   na banda de distância p75–95 → Kimi K2.6 costura → Claude Sonnet 5 julga

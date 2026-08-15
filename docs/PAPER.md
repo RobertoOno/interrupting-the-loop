@@ -173,14 +173,21 @@ Base model Qwen3-8B; seed-paired arms; only λ differs.
   no champion of either arm beats best-fit on held-out test beyond noise
   (mean test excess 0.0605 vs 0.0602; best 0.0599 vs baseline 0.0603);
   plain's train escapes (0.0639, 0.0649) *worsened* on test (0.0610) —
-  selection-set overfit. The V1 signal was n=1 variance. At this model
-  size (8B base) and budget (160 samples/run), the variation operator is
-  not the bottleneck; the generator's ability to propose heuristics above
-  best-fit is. We report this as scoped: it does not license "anti-probable
-  decoding does not help verified search", only "not at this cost".
+  selection-set overfit. The V1 signal was n=1 variance.
+- **Replication at 4× model / 2× budget** (Qwen3-30B-A3B-Base MoE, 5 runs
+  × 8 gens × 40/arm = 3,200 verified heuristics): same null. Train escapes
+  plain 2/5 vs anti-probable 3/5, all shallow (best 0.0633 vs 0.0652), none
+  surviving held-out test (means 0.0602 vs 0.0604). Validity >90% in both
+  arms.
 
-**[TBD]** Only if revisited: larger model or 10–100× budget, or a domain
-with a denser space of above-baseline heuristics.
+Interpretation: two model sizes and two budgets give the same answer, so
+the null is robust *for this domain*: with uniform(0.1, 0.7) items,
+best-fit sits within ~6% of the LP bound and the space of structurally
+better online heuristics is sparse — FunSearch needed ~10⁶ samples and
+harder OR-Library instances to move it. The variation operator cannot be
+the bottleneck where there is little headroom to find. A fair test of the
+operator needs a domain with measurable headroom over the baseline; we
+leave that as future work and do not claim either direction.
 
 ## 7. Discussion & limitations
 
@@ -205,8 +212,8 @@ with a denser space of above-baseline heuristics.
   copied per cell; human eval: 3 raters × 30 pairs (machine vs baseline,
   same prompt), preference + coherence Likert. Claim passes if novelty CIs
   exclude zero on ≥2 families with human coherence non-inferior.
-- **B (verified search)** — DONE, null (§6). Revisit only with a larger
-  model, 10–100× budget, or a denser domain.
+- **B (verified search)** — DONE, null at 8B and 30B (§6). Revisit only
+  in a domain with measurable headroom over the baseline.
 - **C (paraphrase detector)**: NER-based entity-density score + retrieval
   probe vs the factual-paraphrase cells; target: separate mode-3 cells
   from gallery pieces at fixed FPR.
