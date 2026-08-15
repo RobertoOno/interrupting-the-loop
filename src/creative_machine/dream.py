@@ -35,7 +35,7 @@ from .telemetry import StepRecord
 JudgeFn = Callable[[str, str], dict]
 
 
-_HABIT = dict(repetition_window=64, repetition_penalty=1.3)  # habituation: no literal orbits
+_HABIT = dict(repetition_window=512, repetition_penalty=1.15)  # habituation over the working memory: return to the theme, not the sentence
 
 
 @dataclass

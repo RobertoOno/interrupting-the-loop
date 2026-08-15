@@ -21,6 +21,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
+import re
+
 import numpy as np
 
 
@@ -56,9 +58,16 @@ def genre_collapse_score(text: str) -> float:
     caps = sum(1 for w in words if w[:1].isupper()) / len(words)
     symbols = sum(text.count(ch) for ch in "|©™®•·") + text.count(" - ") + text.count("http")
     sym_rate = min(1.0, symbols / max(1, len(words) / 10))
+    # Parallel-corpus / translation-table collapse: language tags ("ru:",
+    # "zh-cn:") and mixed scripts. A base model asked to repeat a premise
+    # rationalizes the repetition as a translation table.
+    lang_tags = len(re.findall(r"(?m)^\s*[a-z]{2}(?:-[a-z]{2})?:", text))
+    non_latin = sum(1 for ch in text if ord(ch) > 0x2E7F) / max(1, len(text))
+    parallel = min(1.0, lang_tags / 4.0) * 0.6 + min(1.0, non_latin * 4) * 0.4
     # narrative prose: uniq ~0.7, caps ~0.15, symbols ~0 -> ~0.1
     # boilerplate:     uniq ~0.25, caps ~0.55, symbols high -> ~0.8+
-    return float(np.clip(0.45 * (1 - uniq) + 0.35 * caps + 0.20 * sym_rate, 0.0, 1.0))
+    base = 0.45 * (1 - uniq) + 0.35 * caps + 0.20 * sym_rate
+    return float(np.clip(max(base, parallel), 0.0, 1.0))
 
 
 @dataclass
