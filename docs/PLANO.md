@@ -668,6 +668,21 @@ snapshots do EMA lento, Escalada com reencontro textual.
   antes de reseed, janela de estagnação maior) para as ideias amadurecerem;
   (c) então os três controles (plain / clock / input externo) para a
   primeira comparação formal do DREAM.
+- **dream6 (k=3 mediana, reseed paciente): o ciclo completo fechou.**
+  `[step 788] INSIGHT via crystallize: score 5.24 delta 4.0` (mediana de
+  3; `connects_distant` 6) — a Escalada disparou pela primeira vez, o
+  reencontro foi injetado ("It came back to the notebook, of course; it
+  always did, but this time") e o modelo, em regime estreito, **elaborou
+  o achado**: "Everything that almost happened piled up inside her like
+  snow falling sideways through open windowsills into rooms filled with
+  silence instead of noise. [...] Piled up until almosts were real. She
+  kept a notebook because sometimes almosts piled up too much to be
+  ignored." — as inversões da deriva integradas à premissa numa imagem
+  única, e a mecânica do insight com explicação interna (os quases se
+  acumulam até virarem reais). Deriva → Saliência → Revisão → Escalada,
+  de ponta a ponta, com produto legível. Um candidato em 4.500 tokens
+  (0.22/1k); depois dele o loop voltou ao ciclo estagnação→reseed sem
+  novo candidato — reseed ainda ansioso demais (11). Custo ~US$0.30.
 
 ## Métricas
 
