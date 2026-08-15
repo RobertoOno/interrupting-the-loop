@@ -244,9 +244,12 @@ def dream(
         sampler.core.reset()
         sampler.observe_prompt(memory_ids)
         fast_ctx = None
-        anchors[:] = [anchors[0]] if anchors else []
+        # Forgetting erases the *text* of the well, not the memory of what
+        # was thought: anchors (regions visited) persist across reseeds so
+        # the bridge has more than one bank to join. Only the fast/slow EMAs
+        # restart from the kept working memory.
         if anchors:
-            sampler.core.set_anchors(np.stack(anchors))
+            sampler.core.set_anchors(np.stack([anchors[0]] + anchors[1:][-(config.max_anchors - 1) :]))
         run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"working_memory_tokens": len(memory_ids)})
         return memory_ids, make_prompt_cache(model)
 

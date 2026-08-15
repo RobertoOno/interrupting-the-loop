@@ -627,6 +627,28 @@ um segundo termo no score do sampler que, em vez de só distância ao
 contexto recente, recompense *proximidade a regiões antigas distantes do
 recente* (a ponte). É a diferença entre vagar e devanear.
 
+**A ponte (2026-08-16, madrugada) — implementada e testada em 3 rodadas:**
+`bridge` no sampler (bônus por aproximar-se de âncoras antigas *distantes
+do contexto recente*, z-scorado como o empurrão), âncoras = premissa +
+snapshots do EMA lento, Escalada com reencontro textual.
+- dream3: primeira escada de scores (2.0→3.91), recorrências cedo — a
+  ponte puxa de volta. Mas puxou a premissa como **repetição literal**, e o
+  Qwen racionalizou a repetição no gênero em que ela é normal: **corpus
+  paralelo de tradução** (`ru:`/`zh-cn:`, cada frase em três línguas). Poço
+  novo, detector adicionado (tags de língua + script não-latino);
+  habituação alargada para a memória de trabalho inteira (voltar ao tema,
+  não à frase).
+- dream4: sem corpus paralelo; melhor 4.16 — e o veredito do juiz é o
+  marco: sobre "Almost-happens happened late one night [...] Her notebook
+  held names for nameless things", ele diz `connects_distant: 4`, "converte
+  a lista de hipotético em realizado — um *payoff* do setup anterior".
+  **Três rodadas antes dizia "abandona a premissa"; agora diz "o setup se
+  cumprindo".** O loop dobrou sobre si mesmo. O que falta para o 5: a
+  conexão é premissa+eco, não *duas margens distantes* — porque após o
+  reseed com esquecimento só sobrava a premissa como âncora. Correção
+  (dream5): âncoras persistem através do esquecimento — apaga-se o texto do
+  poço, não a memória do que foi pensado (esqueço o fluxo, lembro os temas).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
