@@ -73,12 +73,15 @@ class DreamConfig:
         "\n\nThere is an older story about this, and it goes:",
         "\n\nA question nobody had asked yet:",
     )
-    kicks_before_reseed: int = 2     # consecutive stagnations before injecting a seed
+    kicks_before_reseed: int = 3     # consecutive stagnations before injecting a seed
+    judge_k: int = 3                 # judgments per review; median decides (judge variance ~±0.5-1)
     forget_on_reseed: bool = True    # rebuild the working memory instead of stacking on the well
     keep_recent_tokens: int = 200    # ...retaining this much of the pre-collapse stream
     keep_insight_windows: int = 3    # ...and the last N insight windows (what salience kept)
     fast_halflife: float = 24.0      # fast context EMA fed to salience (theme, not phrase)
-    salience: SalienceConfig = field(default_factory=lambda: SalienceConfig(jump_threshold=0.55))
+    salience: SalienceConfig = field(
+        default_factory=lambda: SalienceConfig(jump_threshold=0.55, stagnation_window=600)
+    )
     genre_check_every: int = 64      # check the recent window for genre collapse every N tokens
     genre_window_tokens: int = 160
     genre_collapse_threshold: float = 0.5
@@ -136,6 +139,22 @@ class DreamRun:
                 indent=2,
             )
         )
+
+
+def _median_verdict(verdicts: list[dict]) -> dict:
+    """Per-field median across k judgments; text fields from the median-score one."""
+    import statistics
+
+    if len(verdicts) == 1:
+        return verdicts[0]
+    ref = sorted(verdicts, key=lambda v: v.get("score", 0.0))[len(verdicts) // 2]
+    out = dict(ref)
+    for key in ("coherence", "connects_distant", "delta_significance", "score"):
+        vals = [float(v.get(key, 0.0)) for v in verdicts]
+        out[key] = statistics.median(vals)
+    out["k"] = len(verdicts)
+    out["score_spread"] = round(max(v.get("score", 0.0) for v in verdicts) - min(v.get("score", 0.0) for v in verdicts), 2)
+    return out
 
 
 def dream(
@@ -331,7 +350,10 @@ def dream(
         if judge is not None:
             run.n_reviews += 1
             try:
-                verdict = judge(window_text, earlier_text)
+                verdicts = []
+                for _ in range(max(1, config.judge_k)):
+                    verdicts.append(judge(window_text, earlier_text))
+                verdict = _median_verdict(verdicts)
                 judged = True
             except Exception as exc:  # judge failures never stop the reverie
                 verdict = {"error": str(exc), "score": 0.0}
