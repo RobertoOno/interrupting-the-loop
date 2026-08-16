@@ -28,6 +28,39 @@ SEEDS = [
     "The map was accurate in every detail except one, and nobody could say which.",
 ]
 
+# Return-to-the-premise stitches, premise-agnostic (the DreamConfig defaults
+# name "the notebook", which fits one seed only). Used by the battery-2
+# re-encounter conditions.
+REENCOUNTER_TEXTS = (
+    "\n\nAnd this, it turned out, was the same thing as the beginning — because",
+    "\n\nIt came back to where it had started, of course; it always did, but this time",
+    "\n\nWhich is exactly what the first line had meant, seen from here:",
+    "\n\nSo the opening sentence had been true after all, only not in the way it seemed:",
+)
+
+_HABIT = dict(repetition_window=512, repetition_penalty=1.15)  # the scaffold's habituation (dream.py)
+
+
+def add_review_points(run, clock: int, near: int = 20) -> None:
+    """Mark the windows the offline judge will read, with exact positions:
+    kind 'cut' right before every injected text (what the stream produced
+    up to the interruption) and kind 'clock' on a fixed grid of generated
+    steps (uniform sample), grid points within `near` tokens of a cut dropped."""
+    cuts = []
+    for r in run.reseeds:
+        meta = r[2] if len(r) > 2 and isinstance(r[2], dict) else {}
+        if "pos" in meta:
+            cuts.append((r[0], meta["pos"]))
+    for step, pos in cuts:
+        run.events.append({"step": step, "pos": pos, "kind": "cut", "magnitude": 0.0, "judged": True})
+    cut_pos = [p for _, p in cuts]
+    for s in range(clock, run.n_tokens + 1, clock):
+        pos = run.step_pos[s - 1] if run.step_pos else s
+        if any(abs(pos - c) <= near for c in cut_pos):
+            continue
+        run.events.append({"step": s, "pos": pos, "kind": "clock", "magnitude": 0.0, "judged": True})
+    run.events.sort(key=lambda e: (e["step"], e.get("pos", 0)))
+
 
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
@@ -42,8 +75,16 @@ def main() -> None:
         "abl_salience",   # salience-gated review only: no forgetting, no reseed, no kick, no re-encounter
         "abl_forget",     # + forgetting/reseed/kick (subject changes with a short working memory), no re-encounter
         "bare_reseed",    # honesty control: bare generation + subject change on a clock (no salience)
+        # battery 2: what is the interruption made of?
+        "bare_habit",     # bare + the scaffold's habituation (repetition penalty), NO interruption — the confound control
+        "clock_reenc",    # clock interruption injecting a return-to-the-premise stitch instead of a subject change
+        "clock_premise",  # clock interruption injecting the opening line itself
+        "clock_self",     # clock interruption injecting a window of the stream's own past (thought feeding on thought)
+        "sal_reenc",      # salience-timed re-encounter: the event itself injects the stitch (no judge in the loop)
     ], default="none")
     p.add_argument("--clock-every", type=int, default=150)
+    p.add_argument("--review-clock", type=int, default=0,
+                   help="mark offline-review windows: 'cut' before every injection + 'clock' every N generated steps")
     p.add_argument("--no-judge", action="store_true")
     p.add_argument("--judge-model", default="anthropic.claude-sonnet-5")
     p.add_argument("--region", default="us-east-1")
@@ -68,21 +109,27 @@ def main() -> None:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
-    if args.control in ("abl_salience", "abl_forget", "bare_reseed"):
+    CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self")
+    if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
-    if args.control == "abl_salience":
+    if args.control in ("abl_salience", "sal_reenc"):
         cfg.kick_seeds = ()             # no reseed / no kick response
         cfg.reencounter = False
         cfg.forget_on_reseed = False
         cfg.genre_collapse_threshold = 9.0
         cfg.salience.stagnation_threshold = -1.0  # stagnation never fires (no kick)
         cfg.salience.entropy_floor = -1.0
+    if args.control == "sal_reenc":
+        # the salience event itself injects a return to the premise (no judge gate)
+        cfg.reencounter_texts = REENCOUNTER_TEXTS
+        cfg.reencounter_on_event = True
     if args.control == "abl_forget":
         cfg.reencounter = False         # everything but the re-encounter/escalation
-    if args.control == "bare_reseed":
-        # bare + a subject change every N tokens by clock (no salience, no forgetting)
+    if args.control in CLOCK_FAMILY:
+        # bare + an injection every N tokens by clock (no salience, no forgetting);
+        # the family differs only in WHAT is injected
         cfg.reencounter = False
         cfg.forget_on_reseed = False
         cfg.genre_collapse_threshold = 9.0
@@ -91,6 +138,27 @@ def main() -> None:
             jump_threshold=9.0, entropy_drop=9.0, recurrence_threshold=-1.0,
             stagnation_window=1, stagnation_threshold=9.0,  # "stagnation" fires on every check -> reseed
             entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
+        )
+        if args.control == "clock_reenc":
+            cfg.kick_seeds = REENCOUNTER_TEXTS
+        elif args.control == "clock_premise":
+            cfg.reseed_source = "premise"
+        elif args.control == "clock_self":
+            cfg.reseed_source = "self"   # falls back to the premise until the stream has a past
+            cfg.self_min_age, cfg.self_window = 400, 64
+    if args.control == "bare_habit":
+        # bare (no interruption of any kind) + the scaffold's habituation only:
+        # separates "not eating your own literal past" from "being interrupted".
+        cfg.drift = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed, **_HABIT)
+        cfg.escalate = cfg.drift
+        cfg.kick = cfg.drift
+        cfg.kick_seeds = ()
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.salience = SalienceConfig(   # nothing fires; windows come from --review-clock
+            jump_threshold=9.0, entropy_drop=9.0, recurrence_threshold=-1.0,
+            stagnation_threshold=-1.0, entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
         )
     if args.control == "bare":
         # No scaffold at all: continuous plain generation, EOS masked, judged on
@@ -126,6 +194,8 @@ def main() -> None:
     seed = args.seed_text if args.seed_text else SEEDS[args.seed_index % len(SEEDS)]
     print(f"== DREAM ({args.control}) seed: {seed!r}", flush=True)
     run = dream(model, tokenizer, sampler, seed, cfg, judge=judge)
+    if args.review_clock > 0:
+        add_review_points(run, args.review_clock)
     run.save(args.out)
     print("\n== summary ==")
     print(run.summary())

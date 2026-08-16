@@ -28,18 +28,27 @@ CONDITIONS = ("none", "plain", "clock")
 
 
 def windows_of(cell_dir: Path, tokenizer, review_tokens: int, earlier_tokens: int) -> list[dict]:
-    """Recut the reviewed windows from text.txt at the judged event steps."""
+    """Recut the reviewed windows at the judged events. Exact when the cell
+    has tokens.json (the stream's ids + per-event positions); otherwise
+    re-encode text.txt and cut at the event step (older cells; positions
+    drift by the injected text, a few tokens per interruption)."""
     run = json.loads((cell_dir / "run.json").read_text())
-    text = (cell_dir / "text.txt").read_text()
     seed = run["seed"]
-    gen = text[len(seed):] if text.startswith(seed) else text
-    ids = tokenizer.encode(gen, add_special_tokens=False)
+    tok_path = cell_dir / "tokens.json"
+    if tok_path.exists():
+        ids = json.loads(tok_path.read_text())["ids"]
+        exact = True
+    else:
+        text = (cell_dir / "text.txt").read_text()
+        gen = text[len(seed):] if text.startswith(seed) else text
+        ids = tokenizer.encode(gen, add_special_tokens=False)
+        exact = False
     out = []
     for ev in run["events"]:
         if not ev.get("judged"):
             continue
         step = ev["step"]
-        end = min(step, len(ids))
+        end = min(ev["pos"] if (exact and "pos" in ev) else step, len(ids))
         w_ids = ids[max(0, end - review_tokens):end]
         e_ids = ids[max(0, end - review_tokens - earlier_tokens): max(0, end - review_tokens)]
         out.append({

@@ -74,6 +74,15 @@ class DreamConfig:
         "\n\nA question nobody had asked yet:",
     )
     kicks_before_reseed: int = 3     # consecutive stagnations before injecting a seed
+    # What an interruption is made of (battery 2). "fixed": cycle kick_seeds;
+    # "premise": inject the opening line itself; "self": inject a window of the
+    # stream's own past (>= self_min_age tokens ago) — thought feeding on thought.
+    reseed_source: str = "fixed"
+    self_min_age: int = 600
+    self_window: int = 64
+    # Re-encounter armed on the salience event itself (no judge in the loop):
+    # every reviewable event injects a return-to-the-premise text.
+    reencounter_on_event: bool = False
     judge_k: int = 3                 # judgments per review; median decides (judge variance ~±0.5-1)
     forget_on_reseed: bool = True    # rebuild the working memory instead of stacking on the well
     keep_recent_tokens: int = 200    # ...retaining this much of the pre-collapse stream
@@ -110,6 +119,8 @@ class DreamRun:
     reseeds: list = field(default_factory=list)  # (step, seed_text)
     n_tokens: int = 0
     n_reviews: int = 0
+    token_ids: list = field(default_factory=list)  # the whole stream incl. injected text (exact positions)
+    step_pos: list = field(default_factory=list)   # step i (1-based) -> len(token_ids) right after that token
 
     def summary(self) -> dict:
         return {
@@ -139,6 +150,8 @@ class DreamRun:
                 indent=2,
             )
         )
+        if self.token_ids:
+            (path / "tokens.json").write_text(json.dumps({"ids": self.token_ids, "step_pos": self.step_pos}))
 
 
 def _median_verdict(verdicts: list[dict]) -> dict:
@@ -229,6 +242,34 @@ def dream(
     pending_prompt = list(prompt_ids)
     consecutive_stagnations = 0
     reseed_i = 0
+    self_rng = np.random.default_rng(getattr(config.drift, "seed", 0) or 0)
+    run.token_ids = generated_ids  # same list object: exact positions of everything, injected text included
+
+    def next_seed() -> str:
+        """The text an interruption injects (see DreamConfig.reseed_source)."""
+        nonlocal reseed_i
+        if config.reseed_source == "premise":
+            return "\n\n" + seed.strip()
+        if config.reseed_source == "self":
+            n = len(generated_ids)
+            if n >= config.self_min_age + config.self_window:
+                hi = n - config.self_min_age - config.self_window
+                start = int(self_rng.integers(0, hi + 1))
+                txt = tokenizer.decode(generated_ids[start : start + config.self_window]).strip()
+                # snap to sentence boundaries where there are any
+                cut = max(txt.find(". "), txt.find("? "), txt.find("! "))
+                if 0 < cut < len(txt) // 2:
+                    txt = txt[cut + 2 :]
+                end = max(txt.rfind(". "), txt.rfind("? "), txt.rfind("! "))
+                if end > len(txt) // 2:
+                    txt = txt[: end + 1]
+                if txt:
+                    return "\n\n" + txt
+            # too early for a past: the stream's own past is its opening line
+            return "\n\n" + seed.strip()
+        s = config.kick_seeds[reseed_i % len(config.kick_seeds)]
+        reseed_i += 1
+        return s
 
     def do_reseed(seed_text: str, collapsed: bool):
         """Change the subject. With forgetting: rebuild the working memory —
@@ -238,6 +279,7 @@ def dream(
         append the seed on top of everything (the pre-forgetting behavior)."""
         nonlocal regime, fast_ctx
         seed_ids = tokenizer.encode(seed_text, add_special_tokens=False)
+        inject_pos = len(generated_ids)
         # the reseed text becomes part of the visible stream either way
         for sid in seed_ids:
             generated_ids.append(sid)
@@ -246,6 +288,7 @@ def dream(
         regime = "drift"
         if not config.forget_on_reseed:
             sampler.observe_prompt(seed_ids)
+            run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"pos": inject_pos})
             return seed_ids, cache
         # working memory: initial seed + kept insight windows + recent stream + new seed
         kept = [prompt_ids]
@@ -269,7 +312,7 @@ def dream(
         # restart from the kept working memory.
         if anchors:
             sampler.core.set_anchors(np.stack([anchors[0]] + anchors[1:][-(config.max_anchors - 1) :]))
-        run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"working_memory_tokens": len(memory_ids)})
+        run.reseeds[-1] = (run.reseeds[-1][0], seed_text, {"working_memory_tokens": len(memory_ids), "pos": inject_pos})
         return memory_ids, make_prompt_cache(model)
 
     while run.n_tokens < config.total_tokens:
@@ -286,6 +329,8 @@ def dream(
         rec: StepRecord = sampler.telemetry.records[-1]
         run.n_tokens += 1
         step = run.n_tokens
+        run.step_pos.append(len(generated_ids))
+        pos = len(generated_ids)
 
         if step % config.anchor_every == 0:
             refresh_anchors()
@@ -303,10 +348,9 @@ def dream(
             recent_text = tokenizer.decode(generated_ids[-config.genre_window_tokens :])
             gscore = genre_collapse_score(recent_text)
             if gscore >= config.genre_collapse_threshold:
-                seed_text = config.kick_seeds[reseed_i % len(config.kick_seeds)]
-                reseed_i += 1
+                seed_text = next_seed()
                 log(f"[step {step}] genre collapse ({gscore:.2f}) -> reseed {seed_text.strip()!r}")
-                run.events.append({"step": step, "kind": "genre_collapse", "magnitude": round(gscore, 3), "judged": False})
+                run.events.append({"step": step, "pos": pos, "kind": "genre_collapse", "magnitude": round(gscore, 3), "judged": False})
                 run.reseeds.append((step, seed_text))
                 pending_prompt, cache = do_reseed(seed_text, collapsed=True)
                 consecutive_stagnations = 0
@@ -321,10 +365,9 @@ def dream(
             # Rumination is not reviewed; it is broken. First a kick (hard
             # push); if it persists, change the subject (inject a seed).
             consecutive_stagnations += 1
-            run.events.append({"step": step, "kind": "stagnation", "magnitude": round(event.magnitude, 3), "judged": False})
+            run.events.append({"step": step, "pos": pos, "kind": "stagnation", "magnitude": round(event.magnitude, 3), "judged": False})
             if consecutive_stagnations >= config.kicks_before_reseed and config.kick_seeds:
-                seed_text = config.kick_seeds[reseed_i % len(config.kick_seeds)]
-                reseed_i += 1
+                seed_text = next_seed()
                 consecutive_stagnations = 0
                 log(f"[step {step}] stagnation persists -> reseed {seed_text.strip()!r}")
                 run.reseeds.append((step, seed_text))
@@ -347,6 +390,29 @@ def dream(
         earlier_ids = generated_ids[: -config.review_window_tokens][-config.earlier_context_tokens :]
         earlier_text = tokenizer.decode(earlier_ids) if earlier_ids else seed
         judged = False
+
+        def inject_reencounter(index: int) -> list[int]:
+            # Re-encounter: the drift is asked, in its own voice, to bring
+            # the find back to the premise. Injected on top of the live
+            # cache (no forgetting here — this is the stitch).
+            rt = config.reencounter_texts[index % len(config.reencounter_texts)]
+            rt_ids = tokenizer.encode(rt, add_special_tokens=False)
+            for sid in rt_ids:
+                generated_ids.append(sid)
+                detok.add_token(sid)
+            sampler.observe_prompt(rt_ids)
+            run.reseeds.append((step, rt, {"kind": "reencounter", "pos": pos}))
+            return rt_ids
+
+        if config.reencounter_on_event and config.reencounter_texts:
+            # Salience-armed re-encounter: no judge in the loop; the event
+            # itself is the cue to return. (Judged offline by the rejudge.)
+            log(f"[step {step}] event {event.kind} ({event.magnitude:.2f}) -> re-encounter")
+            run.events.append({"step": step, "pos": pos, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": False})
+            pending_prompt = inject_reencounter(len(run.reseeds))
+            reseed_now = True
+            break
+
         if judge is not None:
             run.n_reviews += 1
             try:
@@ -368,26 +434,16 @@ def dream(
                 regime_until = step + config.escalate_tokens
                 run.regime_switches.append((step, "escalate"))
                 if config.reencounter and config.reencounter_texts:
-                    # Re-encounter: the drift is asked, in its own voice, to
-                    # bring the find back to the premise. Injected on top of
-                    # the live cache (no forgetting here — this is the stitch).
-                    rt = config.reencounter_texts[len(run.insights) % len(config.reencounter_texts)]
-                    rt_ids = tokenizer.encode(rt, add_special_tokens=False)
-                    for sid in rt_ids:
-                        generated_ids.append(sid)
-                        detok.add_token(sid)
-                    sampler.observe_prompt(rt_ids)
-                    run.reseeds.append((step, rt, {"kind": "reencounter"}))
-                    pending_prompt = rt_ids
+                    run.events.append({"step": step, "pos": pos, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": judged})
+                    pending_prompt = inject_reencounter(len(run.insights))
                     reseed_now = True
-                    run.events.append({"step": step, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": judged})
                     break
             else:
                 log(f"[step {step}] event {event.kind} ({event.magnitude:.2f}) -> no insight "
                     f"(score {verdict.get('score')})")
         else:
             log(f"[step {step}] event {event.kind} ({event.magnitude:.2f})")
-        run.events.append({"step": step, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": judged})
+        run.events.append({"step": step, "pos": pos, "kind": event.kind, "magnitude": round(event.magnitude, 3), "judged": judged})
       if not reseed_now:
           break  # generator exhausted: budget reached
 
