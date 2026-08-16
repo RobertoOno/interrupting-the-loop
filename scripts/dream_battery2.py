@@ -42,6 +42,11 @@ BATTERIES = {
         ("clock300", "bare_reseed", ["--clock-every", "300"]),
         ("clock600", "bare_reseed", ["--clock-every", "600"]),
     ],
+    # matched-frequency controls for sal_reenc (~5 injections per 4,500 tokens): every 900 on the clock
+    "b2x": [
+        ("clock900_reenc", "clock_reenc", ["--clock-every", "900"]),
+        ("clock900", "bare_reseed", ["--clock-every", "900"]),
+    ],
     # second generator family: the four conditions that carry the argument
     "fam8b": [
         ("bare", "bare", []),
