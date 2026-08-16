@@ -90,9 +90,13 @@ def forward_capture(model, ids: list[int], layers: list[int], chunk: int = 512):
         tops = np.stack([np.asarray(t) for t in tops], axis=1)   # (n, L)
         final_top = tops[:, -1]
         agree = tops == final_top[:, None]                       # (n, L)
-        # commitment layer: first captured layer index (into `layers`) that agrees with the final top-1
-        first = np.argmax(agree, axis=1)                          # argmax on bool = first True
-        lens_ent.append(ents); commit.append(first); fin_ent.append(ents[:, -1]); fin_top.append(final_top)
+        # commitment layer (index into `layers`): 'stable' = the captured layer from which
+        # the top-1 never changes again (0 = decided from the start, L-1 = only at the end)
+        L = agree.shape[1]
+        any_false = (~agree).any(axis=1)
+        k = np.argmax(~agree[:, ::-1], axis=1)                    # first disagreement counted from the end
+        stable = np.where(any_false, L - k, 0)
+        lens_ent.append(ents); commit.append(stable); fin_ent.append(ents[:, -1]); fin_top.append(final_top)
         mx.eval(h)
     out = {l: np.concatenate(v, axis=0) for l, v in hidden.items()}
     return out, np.concatenate(lens_ent), np.concatenate(commit), np.concatenate(fin_ent), np.concatenate(fin_top), layers
