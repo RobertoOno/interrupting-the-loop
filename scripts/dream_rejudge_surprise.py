@@ -35,6 +35,9 @@ def main() -> None:
     p.add_argument("--max-windows-per-cell", type=int, default=6)
     p.add_argument("--region", default="us-east-1")
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
+    p.add_argument("--reverse", action="store_true", help="process cells from the end (second worker)")
+    p.add_argument("--out-name", default="rejudge_surprise.json", help="results file name (a second worker writes elsewhere; merge later)")
+    p.add_argument("--skip-from", default=None, help="also skip windows already present in this results file")
     args = p.parse_args()
 
     from mlx_lm.utils import load_tokenizer  # tokenizer only: never materialize the weights here
@@ -58,10 +61,19 @@ def main() -> None:
                 items.append({"cell": d.name, "cond": cond, **w})
     print(f"{len(items)} windows x k={args.k}, judge {args.judge}", flush=True)
 
-    out_path = args.run_dir / "rejudge_surprise.json"
+    out_path = args.run_dir / args.out_name
     results = json.loads(out_path.read_text()) if out_path.exists() else []
     done = {(r["cell"], r["step"]) for r in results}
+    if args.reverse:
+        items = items[::-1]
     for it in items:
+        if args.skip_from:  # re-read the other worker's file each time: stop where it has already been
+            other = args.run_dir / args.skip_from
+            if other.exists():
+                try:
+                    done |= {(r["cell"], r["step"]) for r in json.loads(other.read_text())}
+                except Exception:
+                    pass
         if (it["cell"], it["step"]) in done:
             continue
         vs = []
