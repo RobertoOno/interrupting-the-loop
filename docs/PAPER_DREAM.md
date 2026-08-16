@@ -16,33 +16,48 @@ anti-probable decoder that pushes each step toward semantically distant
 tokens cuts the rate of verbatim 8+-word training blocks from 0.80 to 0.20
 of generations and roughly doubles 4-gram novelty over min-p sampling
 (21.5% → 45.5%; paired Δ +24.0 pp, CI [18.2, 29.5]) at a small
-perplexity cost — but
-this surface novelty does not rise to the level of ideas: inside a
-reverie loop, the same push produces no measurable difference from plain
-sampling in judged surprise, connection, or novel delta (1,335
-judgments, 2 judges, 3 rubrics). **(2) The prompt.** Composed inputs
-built to sit far from any human prompt do not outperform a typical
-request when a strong model develops them (Opus 5; n=15/arm, k=3):
-improbable inputs are noise. **(3) The loop.** Bare continuous generation from a base model is dead:
-it converges on the deepest attractor of pretraining (website footers,
-literal orbits) and stays (judged surprise 0.33/10). A closed reverie loop
-built on the architecture of spontaneous cognition — salience-gated
-review, selective forgetting, reseeding, re-encounter — brings it to life
-(surprise 3.22, connection 1.60; vs bare, Cliff's δ = +0.88, p ≈ 10⁻¹⁶,
-10 seeds, Opus 5 k=5). But ablation shows that almost the whole effect
-is carried by **one operation: periodically interrupting the stream and
-injecting a new starting sentence over the preserved context**. Bare
-generation plus a clock reseed and nothing else ties the full scaffold on
-surprise (3.08 vs 3.22) and beats it on connection (3.15 vs 1.60) and
-coherence (4.78 vs 3.72); salience, forgetting and kicks add no surprise
-on top, and forgetting costs connection. Salience-gated review does beat
-clock review as a *when-to-look* policy, but not as a generation
-architecture. Trajectory analysis in sentence-embedding space shows the
-geometry: bare generation freezes far from the premise (mean step 0.14,
-distance 0.78); interrupted loops explore ~3× the radius and return. In
-this system, creativity is not in the noise injected into decoding, nor
-in the strangeness of the input, nor in an elaborate cognitive scaffold —
-it is in **interrupting the loop**: leaving, and being made to start again.
+perplexity cost — but this surface novelty does not rise to the level of
+ideas: inside a reverie loop, the same push produces no measurable
+difference from plain sampling in judged surprise, connection, or novel
+delta (1,335 judgments, 2 judges, 3 rubrics). **(2) The prompt.**
+Composed inputs built to sit far from any human prompt do not outperform
+a typical request when a strong model develops them (Opus 5; n=15/arm,
+k=3): improbable inputs are noise. **(3) The loop.** Bare continuous
+generation from a base model is dead: it converges on the deepest
+attractors of pretraining (literal orbits, website footers, exam keys) and
+stays (judged surprise 0.33/10). A closed reverie loop built on the
+architecture of spontaneous cognition — salience-gated review, selective
+forgetting, reseeding, re-encounter — brings it to life (surprise 3.22;
+vs bare, Cliff's δ = +0.88, p ≈ 10⁻¹⁶, 10 seeds, Opus 5 k=5). Ablation
+and a second battery (28 conditions, 2,600 judged windows) locate the
+effect in two operations and say what they are made of. *Habituation*
+(not letting the loop feed on its literal past) lifts the stream from
+0.33 to 1.70; *interruption* — periodically injecting a new starting
+sentence over the preserved context — lifts it to 3.08 and carries all
+of the connection (1.08 → 3.15, δ = +0.75). The interruption must lead
+away: injecting the premise or the stream's own past is as bad as not
+interrupting; a return works only as a short stitch that opens a new
+sentence. Its yield depends on the thread it breaks and decays with
+distance: interrupting every 75 tokens is dead (0.88), every 150 gives
+3.08, and the 150 tokens after breaking a 300–900-token thread score
+5.3–5.9 with coherence ~6 — the best text of the program — before the
+stream re-settles at ~3.2; the best rhythm is a break every ~300 tokens.
+Salience is a good reader and a bad metronome: it selects the windows
+worth judging but, as an interruption trigger, fires too rarely and
+unevenly (2.18 vs 4.70 for the same stitch on a matched clock). Inside
+the network (residual stream at 13 layers, logit lens), bare generation
+freezes at every layer, most at the surface, and ends certain (final
+entropy 0.34); what the judge calls surprise is surface departure with
+deep continuity; and the interruption that works barely moves the deep
+state (+0.01–0.03 cosine across an injection, no return to the premise),
+whereas forgetting is a deep re-encounter with the beginning (+0.2, and
+the premise's own state recovered) that the judge rewards less. The
+ladder bare → habituation → interruption → scaffold replicates on a
+second generator family (Qwen3-8B-Base) [8B numbers]. In this system,
+creativity is not in the noise injected into decoding, nor in the
+strangeness of the input, nor in an elaborate cognitive scaffold — it is
+in **interrupting the loop**: letting a thread develop, then making it
+start again somewhere else, over everything it remembers.
 
 ## 1. Thesis and program
 
