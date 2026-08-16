@@ -47,11 +47,11 @@ RUNS, FIG, DOCS = ROOT / "runs", ROOT / "docs" / "figures", ROOT / "docs"
 DIMS = ("surprise", "connection", "coherence")
 PAL = {"bare": "#4a3aa7", "bare_habit": "#7a7a7a", "bare_reseed": "#eda100", "scaffold0": "#2a78d6", "abl_salience": "#1baf7a",
        "clock_reenc": "#2a78d6", "clock_premise": "#eb6834", "clock_self": "#1baf7a", "sal_reenc": "#c2185b",
-       "clock75": "#9ecae1", "clock300": "#4292c6", "clock600": "#08306b"}
+       "clock75": "#9ecae1", "clock300": "#4292c6", "clock600": "#08306b", "clock900": "#041c3d", "clock900_reenc": "#7b1fa2"}
 LABEL = {"bare": "bare", "bare_habit": "bare +\nhabituation", "bare_reseed": "bare +\nclock reseed", "scaffold0": "DREAM\nscaffold",
          "abl_salience": "salience\nonly", "clock_reenc": "clock:\nre-encounter", "clock_premise": "clock:\npremise",
          "clock_self": "clock:\nown past", "sal_reenc": "salience:\nre-encounter", "clock75": "clock 75", "clock300": "clock 300",
-         "clock600": "clock 600"}
+         "clock600": "clock 600", "clock900": "clock 900", "clock900_reenc": "clock 900:\nre-encounter"}
 
 
 def load(run: str):
@@ -164,8 +164,12 @@ def main() -> None:
     # Q3 timing (sal_reenc event windows may be labeled by the salience kind or as 'cut', depending on the run's version)
     EVENT = ("cut", "jump", "crystallize", "recurrence")
     q3 = [("clock_reenc", ("cut",), "re-encounter on the clock (150)"),
+          ("clock900_reenc", ("cut",), "re-encounter on the clock (900; matched frequency)"),
+          ("clock900", ("cut",), "neutral change on the clock (900; matched frequency)"),
           ("sal_reenc", EVENT, "re-encounter on salience events (event windows)"),
           ("sal_reenc", ("clock",), "re-encounter on salience events (uniform windows)"),
+          ("clock900_reenc", ("clock",), "re-encounter on the clock (900), uniform windows"),
+          ("clock900", ("clock",), "neutral change on the clock (900), uniform windows"),
           ("abl_salience", None, "salience only, no injection (event windows)")]
     compare_table("Q3 — timing of the re-encounter: clock vs salience", q3, ref=0)
     violin_fig("fig8_q3_timing.png", q3, "Q3 — when to return: clock vs salience-timed re-encounter")
@@ -175,10 +179,12 @@ def main() -> None:
           ("bare_reseed", ("clock",), "every 150 (before injection)"),
           ("clock300", ("cut",), "every 300 (before injection)"),
           ("clock600", ("cut",), "every 600 (before injection)"),
+          ("clock900", ("cut",), "every 900 (before injection)"),
           ("clock300", ("clock",), "every 300 (mid-segment)"),
-          ("clock600", ("clock",), "every 600 (mid-segment)")]
+          ("clock600", ("clock",), "every 600 (mid-segment)"),
+          ("clock900", ("clock",), "every 900 (mid-segment)")]
     compare_table("Q4 — frequency of interruption (neutral seed)", q4, ref=1)
-    violin_fig("fig8_q4_frequency.png", q4[:4], "Q4 — how often to interrupt: neutral subject change every 75 / 150 / 300 / 600 tokens")
+    violin_fig("fig8_q4_frequency.png", q4[:5], "Q4 — how often to interrupt: neutral subject change every 75 / 150 / 300 / 600 / 900 tokens")
 
     out = DOCS / "APPENDIX_B2.md"
     out.write_text("\n".join(md) + "\n")
