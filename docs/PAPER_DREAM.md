@@ -1,9 +1,10 @@
 # Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt — Interrupting the Loop
 
-> Main working draft (2026-08-16). Supersedes the framing of PAPER.md
-> (whose Phase-1 results become §3 here) and absorbs PAPER_B.md (the
-> negative result, §4). Numbers marked **[TBD]** come from the ablation
-> battery running today (10 seeds × 5 conditions). Lab notebook: PLANO.md.
+> Complete working draft v1 (2026-08-16, night). Supersedes the framing
+> of PAPER.md (whose Phase-1 results become §3 here) and absorbs
+> PAPER_B.md (the negative result, §4). All batteries reported here have
+> run; what remains before submission is a human blind rating (pack ready)
+> and a revision pass. Lab notebook: PLANO.md.
 
 ## Abstract (draft)
 
@@ -439,16 +440,23 @@ is an explicit engineering of the first three into a text loop.
 
 ## 9. Limitations and next
 
-Ten seeds; one generator family for the loop (Qwen3-30B-A3B); LLM judges
-(calibrated, not human); English narrative only; the re-encounter arm was
-never exercised. The ablation's lesson reorders the program: the cheap
-operation (interrupt + reseed) carries the effect, so the next questions
-are about *it* — interruption frequency, seed quality (which starting
-sentences make good interruptions and why), and whether a salience-timed
-interruption beats a clock when the seeds are matched. Then: human blind
-rating of top windows per condition; a second generator family; and the
-fusion the program points to — an interrupted loop over a *problem*, with
-a verifier in place of the judge.
+Ten seeds; two generator families for the loop (Qwen3-30B-A3B and
+Qwen3-8B, both Qwen3 — a third family, OLMo-2, sinks into footers and
+was not run through the batteries); LLM judges (Opus 5, calibrated, not
+human — a blind human-rating pack of 42 windows across 7 conditions is
+built and awaits its rater); English narrative seeds only; the judged
+sample of each cell is 6 windows per kind, evenly spread, and the
+salience-timed arms are judged on selected moments as well as on a
+uniform grid (both reported); the residual-stream analysis is
+correlational and uses mean-pooled windows at 13 layers, not attention
+or causal interventions. The frequency and content results say what a
+good interruption is made of in one system; whether the rhythm (~300
+tokens) and the "lead away, then let it come back on its own" rule hold
+for other genres and for tasks with a verifier is the next question —
+the fusion the program points to: an interrupted loop over a *problem*,
+with a verifier in place of the judge. Also next: a salience monitor
+used as a reader (which windows to keep) inside a clock-driven loop, the
+combination this battery recommends; and human validation of the judge.
 
 ## 10. Reproducibility
 
@@ -457,7 +465,7 @@ salience monitor, reverie engine, judges, novelty client, experiment
 runners with resumable overnight execution and thermal logging. Every
 run's per-step telemetry, texts and judgments under `runs/`; dated
 decision log in `docs/PLANO.md`. Judge cost of the entire program to
-date: ≈US$60.
+date: ≈US$120.
 
 ## References
 
