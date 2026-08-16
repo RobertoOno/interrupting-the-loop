@@ -211,8 +211,9 @@ of every event and injection).
 - **Timing.** The re-encounter stitch injected on the **salience event**
   (jump / crystallization / recurrence, no judge gate) vs on the clock,
   and vs salience-only without injection.
-- **Frequency.** The neutral subject change every 75 / 150 / 300 / 600
-  tokens.
+- **Frequency.** The neutral subject change every 75 / 150 / 300 / 600 /
+  900 tokens (900 also with the re-encounter stitch: the matched-frequency
+  controls for the timing question).
 
 **Results** (60 windows per arm unless noted; Δ are paired-by-seed
 bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
