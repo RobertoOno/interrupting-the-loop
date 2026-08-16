@@ -215,17 +215,20 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
   interrupt it" — with the connection effect belonging to the
   interruption.
 - **The interruption must lead away.** With the same clock (150), a
-  neutral subject change beats a re-encounter stitch on surprise
-  (3.08 vs 2.28, Δ −0.80 [−1.35, −0.25]) and coherence (4.78 vs 4.30),
-  and ties on connection (3.15 vs 3.03). Injecting the **premise
-  itself** (1.12 / 0.90 / 3.07) or a window of the stream's **own past**
-  (1.36 / 1.33 / 2.95) is as bad as not interrupting at all — every
-  paired CI vs the neutral change excludes zero (surprise −1.97 [−2.65,
-  −1.38] and −1.73 [−2.30, −1.19]; connection −2.25 and −1.82; δ ≈
-  −0.7). Qualitatively, the own-past injection *reinforces* whatever
-  attractor the stream is in (an exam-key well fed its own questions
-  back). The judge sees connection when the stream finds its own way
-  back after being sent away — not when it is told to return.
+  neutral subject change and a re-encounter stitch are close: 3.08 /
+  3.15 / 4.78 vs 2.68 / 3.64 / 4.72 (surprise / connection / coherence;
+  the stitch trades some surprise for connection, Δ connection +0.49
+  [−0.09, +1.07], not significant). Injecting the **premise itself**
+  (1.14 / 1.04 / 3.18) or a window of the stream's **own past** (1.42 /
+  1.52 / 3.06) is as bad as not interrupting at all — every paired CI vs
+  the neutral change excludes zero (connection −2.11 [−2.83, −1.46] and
+  −1.63 [−2.37, −0.91]; coherence −1.60 and −1.72; δ ≈ −0.6 to −0.7).
+  Qualitatively, the own-past injection *reinforces* whatever attractor
+  the stream is in (an exam-key well fed its own questions back). A
+  return works only as a short stitch that still opens a new sentence;
+  a literal return closes the loop. (Windows ending before 100 generated
+  tokens — the two-token fragment before the first clock cut — are
+  excluded throughout; 73 such windows, mean surprise 0.95.)
 - **Timing.** [TBD — salience-timed re-encounter vs matched-frequency
   clock controls; judging]
 - **Frequency: the yield of an interruption depends on the thread it
