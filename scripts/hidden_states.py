@@ -77,17 +77,21 @@ def forward_capture(model, ids: list[int], layers: list[int], chunk: int = 512):
             h = layer(h, mask, c)
             if li in want:
                 caps[li] = h
-        # logit lens at every captured layer (final layer included)
+        # logit lens at every captured layer (final layer included). Evaluate per
+        # layer and drop the logits at once: 13 lazily-held fp32 logit tensors of
+        # 151k vocab would otherwise pile up (GBs) and push the weights into swap.
         ents, tops = [], []
         for li in layers:
             logits = head(caps[li])[0].astype(mx.float32)
             lp = logits - mx.logsumexp(logits, axis=-1, keepdims=True)
             ent = -mx.sum(mx.exp(lp) * lp, axis=-1)
-            ents.append(ent)
-            tops.append(mx.argmax(logits, axis=-1))
+            top = mx.argmax(logits, axis=-1)
+            mx.eval(ent, top)
+            ents.append(np.asarray(ent)); tops.append(np.asarray(top))
             hidden[li].append(np.asarray(caps[li][0].astype(mx.float16)))
-        ents = np.stack([np.asarray(e) for e in ents], axis=1)   # (n, L)
-        tops = np.stack([np.asarray(t) for t in tops], axis=1)   # (n, L)
+            del logits, lp, ent, top
+        ents = np.stack(ents, axis=1)   # (n, L)
+        tops = np.stack(tops, axis=1)   # (n, L)
         final_top = tops[:, -1]
         agree = tops == final_top[:, None]                       # (n, L)
         # commitment layer (index into `layers`): 'stable' = the captured layer from which
@@ -98,6 +102,8 @@ def forward_capture(model, ids: list[int], layers: list[int], chunk: int = 512):
         stable = np.where(any_false, L - k, 0)
         lens_ent.append(ents); commit.append(stable); fin_ent.append(ents[:, -1]); fin_top.append(final_top)
         mx.eval(h)
+        del caps
+        mx.clear_cache()  # return freed buffers to the OS between chunks
     out = {l: np.concatenate(v, axis=0) for l, v in hidden.items()}
     return out, np.concatenate(lens_ent), np.concatenate(commit), np.concatenate(fin_ent), np.concatenate(fin_top), layers
 
@@ -177,7 +183,7 @@ def main() -> None:
     p.add_argument("--layers", default="0,4,8,12,16,20,24,28,32,36,40,44,47")
     p.add_argument("--window", type=int, default=64)
     p.add_argument("--stride", type=int, default=32)
-    p.add_argument("--chunk", type=int, default=512)
+    p.add_argument("--chunk", type=int, default=256)
     p.add_argument("--max-tokens", type=int, default=0, help="truncate the stream (debug)")
     args = p.parse_args()
 
