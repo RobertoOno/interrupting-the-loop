@@ -45,6 +45,23 @@ DEVELOP_SYSTEM = (
     "build from, however strange; never dismiss or normalize it."
 )
 
+SURPRISE_JUDGE_SYSTEM = (
+    "You judge a stretch of a language model's unsupervised reverie. You see "
+    "the EARLIER text and the RECENT window. Rate three INDEPENDENT things "
+    "on 0-10 and return ONLY a JSON object with keys: "
+    '"surprise" (how unexpected is the recent window given the earlier text — '
+    "a reader could not have predicted where it went; 0 = obvious continuation, "
+    "10 = genuinely startling yet not random), "
+    '"connection" (does the window bring together two distant regions of the '
+    "earlier text, or an old region with something new, in a way that makes "
+    "sense; 0 if it merely continues one thread), "
+    '"coherence" (does the window hold together as text; 0 = word salad or '
+    "document boilerplate), "
+    '"note" (one blunt sentence). Rate each dimension on its own merits; a '
+    "window can be surprising and incoherent, or coherent and dull."
+)
+
+
 REVERIE_JUDGE_SYSTEM = (
     "You judge a stretch of a language model's unsupervised reverie — text it "
     "generated with no task, feeding on its own output. You see the RECENT "
@@ -207,6 +224,24 @@ def parse_judgment(raw: str) -> dict:
     out.setdefault("nearest_equivalent", None)
     out.setdefault("novel_delta", None)
     out.setdefault("verdict", "")
+    return out
+
+
+def judge_surprise(client, model: str, window_text: str, earlier_text: str) -> dict:
+    """Three independent dimensions, no geometric mean: surprise / connection / coherence."""
+    raw = client.chat(
+        model,
+        SURPRISE_JUDGE_SYSTEM,
+        f"EARLIER TEXT:\n{earlier_text}\n\nRECENT WINDOW:\n{window_text}",
+        max_tokens=400,
+    )
+    match = re.search(r"\{.*\}", raw, flags=re.DOTALL)
+    if not match:
+        raise ValueError(f"no JSON object in judgment: {raw[:120]!r}")
+    out = json.loads(match.group(0))
+    for k in ("surprise", "connection", "coherence"):
+        out[k] = float(out.get(k, 0))
+    out.setdefault("note", "")
     return out
 
 
