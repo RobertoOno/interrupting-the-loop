@@ -812,6 +812,39 @@ arcabouço vencer, a tese "a criatividade está no loop" tem sua evidência
 na forma certa: é a *estrutura do loop* (esquecer, voltar, elaborar), não
 o ruído no sampler, que faz o devaneio.
 
+**Arcabouço vs nada (2026-08-16, 03h17–04h05, 10 células, térmica
+nominal; re-julgamento Opus k=5, 3 dimensões, 51 janelas, ~US$4):**
+
+| dimensão | arcabouço DREAM (λ=0) | geração nua | diff (IC95) |
+|---|---|---|---|
+| **surpresa** | **3.24 ± 1.77** (n=21) | 0.47 ± 0.76 (n=30) | **[+1.99, +3.60]** ✓ |
+| **conexão** | **1.48 ± 1.37** | 0.27 ± 0.63 | **[+0.61, +1.87]** ✓ |
+| coerência | 3.48 ± 1.22 | 2.60 ± 2.12 | [−0.08, +1.74] |
+
+**O arcabouço vence, e vence forte**: ~7× a surpresa e ~5× a conexão da
+geração contínua nua, com ICs longe de zero, sem perda de coerência (se
+algo, ganho). 3/21 janelas do arcabouço com surpresa ≥5 e coerência ≥5;
+0/30 na nua. Juiz sobre a melhor: "a dead stretch of sidebar boilerplate
+suddenly breaks into a lucid dream-image of a river renamed at..." (a
+semente do rio reencontrada como imagem onírica).
+
+**Conclusão do programa DREAM (primeira evidência com significância)**:
+a criatividade do loop está na sua **estrutura** — saliência (quando
+olhar), esquecimento seletivo (soltar o poço), reseed (mudar de assunto),
+reencontro/Escalada (voltar e elaborar) — e **não** no empurrão
+anti-provável do sampler (λ, ponte: sem efeito mensurável, 1.335
+julgamentos). Isso refina a tese do Roberto na direção mais forte:
+pensamento gerando pensamento cria *quando o loop tem a arquitetura da
+mente* — esquecer, voltar, saber quando prestar atenção. O ruído injetado
+é irrelevante; a dinâmica é tudo.
+
+Ressalvas honestas: n=5 sementes; juiz-LLM (Opus, k=5, ±0.5 por dimensão)
+— o efeito aqui é grande o bastante para o instrumento (≥2 pontos), ao
+contrário do empurrão; a "geração nua" é um controle forte mas não o
+único possível (falta desmontar o arcabouço peça a peça: só saliência /
+só esquecimento / só reencontro — a ablação que diz *qual* parte da
+estrutura importa). Custo total do DREAM até aqui: ~US$30 de juiz.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
