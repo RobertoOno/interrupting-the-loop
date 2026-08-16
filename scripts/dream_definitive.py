@@ -28,8 +28,13 @@ SEEDS = [
     "Every morning the baker counted the loaves twice, and every morning the count was different.",
     "He had inherited his grandfather's watch and, with it, the habit of arriving early to places that no longer existed.",
     "The river changed its name each time it crossed the border, and the villagers kept all the names.",
+    "The town had two clocks, and nobody remembered which one had been right first.",
+    "Her brother collected sounds the way other children collected stones.",
+    "The letter arrived forty years late and was still, somehow, on time.",
+    "Every door in the house opened onto the same room, seen from a different year.",
+    "The translator kept a list of words she refused to translate.",
 ]
-CONDITIONS = ["scaffold0", "bare"]  # scaffold-vs-nothing (push off in both)
+CONDITIONS = ["scaffold0", "abl_forget", "abl_salience", "bare_reseed", "bare"]
 
 
 def thermal() -> str:

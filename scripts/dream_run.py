@@ -36,7 +36,13 @@ def main() -> None:
     p.add_argument("--seed-index", type=int, default=0)
     p.add_argument("--seed-text", default=None, help="explicit seed (overrides --seed-index)")
     p.add_argument("--rng-seed", type=int, default=0)
-    p.add_argument("--control", choices=["none", "plain", "clock", "bare", "scaffold0"], default="none")
+    p.add_argument("--control", choices=[
+        "none", "plain", "clock", "bare", "scaffold0",
+        # ablation ladder (all with the push off): what part of the scaffold carries the effect?
+        "abl_salience",   # salience-gated review only: no forgetting, no reseed, no kick, no re-encounter
+        "abl_forget",     # + forgetting/reseed/kick (subject changes with a short working memory), no re-encounter
+        "bare_reseed",    # honesty control: bare generation + subject change on a clock (no salience)
+    ], default="none")
     p.add_argument("--clock-every", type=int, default=150)
     p.add_argument("--no-judge", action="store_true")
     p.add_argument("--judge-model", default="anthropic.claude-sonnet-5")
@@ -62,6 +68,30 @@ def main() -> None:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
+    if args.control in ("abl_salience", "abl_forget", "bare_reseed"):
+        for name in ("drift", "escalate", "kick"):
+            base = getattr(cfg, name)
+            setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
+    if args.control == "abl_salience":
+        cfg.kick_seeds = ()             # no reseed / no kick response
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.salience.stagnation_threshold = -1.0  # stagnation never fires (no kick)
+        cfg.salience.entropy_floor = -1.0
+    if args.control == "abl_forget":
+        cfg.reencounter = False         # everything but the re-encounter/escalation
+    if args.control == "bare_reseed":
+        # bare + a subject change every N tokens by clock (no salience, no forgetting)
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.kicks_before_reseed = 1
+        cfg.salience = SalienceConfig(
+            jump_threshold=9.0, entropy_drop=9.0, recurrence_threshold=-1.0,
+            stagnation_window=1, stagnation_threshold=9.0,  # "stagnation" fires on every check -> reseed
+            entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
+        )
     if args.control == "bare":
         # No scaffold at all: continuous plain generation, EOS masked, judged on
         # a clock for comparable review counts. No forgetting, no reseed, no
