@@ -1,4 +1,4 @@
-# Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt — the Loop
+# Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt — Interrupting the Loop
 
 > Main working draft (2026-08-16). Supersedes the framing of PAPER.md
 > (whose Phase-1 results become §3 here) and absorbs PAPER_B.md (the
@@ -23,18 +23,26 @@ sampling in judged surprise, connection, or novel delta (1,335
 judgments, 2 judges, 3 rubrics). **(2) The prompt.** Composed inputs
 built to sit far from any human prompt do not outperform a typical
 request when a strong model develops them (Opus 5; n=15/arm, k=3):
-improbable inputs are noise. **(3) The loop.** A closed reverie loop with
-the architecture of spontaneous cognition — salience-gated review
-(when to look), selective forgetting (drop the well), reseeding (change
-the subject), and re-encounter with the premise (return and elaborate) —
-produces ~7× the judged surprise and ~5× the judged connection of bare
-continuous generation from the same seeds and model, without loss of
-coherence (surprise 3.24 vs 0.47, CI [+1.99, +3.60]; connection 1.48 vs
-0.27, CI [+0.61, +1.87]; Opus k=5). Ablation shows **[TBD which
-components carry the effect]**. Creativity, in this system, is a
-property of the loop's dynamics — forgetting, returning, and knowing when
-to attend — not of the noise injected into decoding nor of the strangeness
-of the input.
+improbable inputs are noise. **(3) The loop.** Bare continuous generation from a base model is dead:
+it converges on the deepest attractor of pretraining (website footers,
+literal orbits) and stays (judged surprise 0.33/10). A closed reverie loop
+built on the architecture of spontaneous cognition — salience-gated
+review, selective forgetting, reseeding, re-encounter — brings it to life
+(surprise 3.22, connection 1.60; vs bare, Cliff's δ = +0.88, p ≈ 10⁻¹⁶,
+10 seeds, Opus 5 k=5). But ablation shows that almost the whole effect
+is carried by **one operation: periodically interrupting the stream and
+injecting a new starting sentence over the preserved context**. Bare
+generation plus a clock reseed and nothing else ties the full scaffold on
+surprise (3.08 vs 3.22) and beats it on connection (3.15 vs 1.60) and
+coherence (4.78 vs 3.72); salience, forgetting and kicks add no surprise
+on top, and forgetting costs connection. Salience-gated review does beat
+clock review as a *when-to-look* policy, but not as a generation
+architecture. Trajectory analysis in sentence-embedding space shows the
+geometry: bare generation freezes far from the premise (mean step 0.14,
+distance 0.78); interrupted loops explore ~3× the radius and return. In
+this system, creativity is not in the noise injected into decoding, nor
+in the strangeness of the input, nor in an elaborate cognitive scaffold —
+it is in **interrupting the loop**: leaving, and being made to start again.
 
 ## 1. Thesis and program
 
@@ -131,9 +139,26 @@ back within ~20 tokens; forgetting is what lets a seed take.
   1.77 vs 0.47 ± 0.76 (CI [+1.99, +3.60]); connection 1.48 ± 1.37 vs 0.27
   ± 0.63 (CI [+0.61, +1.87]); coherence 3.48 vs 2.60 (CI [−0.08, +1.74]);
   3/21 scaffold windows with surprise ≥5 and coherence ≥5, 0/30 bare.
-- **Ablation** (10 seeds × {salience-only, +forgetting/reseed, full
-  scaffold, bare+clock-reseed, bare}) **[TBD today]**: which component
-  carries the effect, and how much of "surprise" is mere subject change.
+- **Ablation** (10 seeds × {full scaffold, salience-only, bare+clock
+  reseed, bare}; 212 windows, Opus k=5): scaffold vs bare replicates
+  (surprise 3.22 vs 0.33, δ = +0.88, p ≈ 10⁻¹⁶). Salience-only reaches
+  2.74 (scaffold − salience-only CI [−0.26, +1.24]). **Bare + clock
+  reseed** — no salience, no forgetting, no kicks — reaches surprise
+  3.08 (CI vs scaffold [−0.50, +0.80]), connection 3.15 (scaffold lower:
+  δ = −0.60, p ≈ 3×10⁻⁸) and coherence 4.78 (δ = −0.41), with 12/60
+  windows judged surprising *and* coherent vs 8/50 for the scaffold and
+  0/60 for bare. The re-encounter arm never fired (it was gated on the
+  retired binary judge), so its ablation is empty. **Reading**: the
+  interruption is the mechanism; the rest of the scaffold does not pay
+  for itself at this resolution, and forgetting trades connection for
+  return-to-premise.
+- **Trajectories** (sentence-embedding space, PCA per seed, 10 seeds):
+  bare generation has explored radius 0.18 and mean step 0.14 — it
+  freezes — ending at distance 0.78 from the premise; the scaffold has
+  radius 0.51 (CI vs bare [+0.27, +0.40]) and returns to within 0.57 of
+  the premise (CI [−0.37, −0.06] vs bare); clock reseed spreads over the
+  space in jumps (48 pseudo-closures) while keeping the whole context,
+  which is where its connection advantage comes from.
 - Qualitative: the loop elaborates its own finds after re-encounter
   ("Everything that almost happened piled up inside her like snow falling
   sideways through open windowsills into rooms filled with silence
@@ -182,12 +207,16 @@ is an explicit engineering of the first three into a text loop.
 
 ## 8. Limitations and next
 
-Five to ten seeds; one generator family for the loop (Qwen3-30B); LLM
-judges (calibrated, but not human); English narrative only. Next: human
-blind rating of top windows per condition; the ablation battery (today);
-a second generator family for the loop; and the fusion the program points
-to — the reverie loop over a *problem*, with a verifier in place of the
-judge (the DREAM structure brought to verified search).
+Ten seeds; one generator family for the loop (Qwen3-30B-A3B); LLM judges
+(calibrated, not human); English narrative only; the re-encounter arm was
+never exercised. The ablation's lesson reorders the program: the cheap
+operation (interrupt + reseed) carries the effect, so the next questions
+are about *it* — interruption frequency, seed quality (which starting
+sentences make good interruptions and why), and whether a salience-timed
+interruption beats a clock when the seeds are matched. Then: human blind
+rating of top windows per condition; a second generator family; and the
+fusion the program points to — an interrupted loop over a *problem*, with
+a verifier in place of the judge.
 
 ## 9. Reproducibility
 
