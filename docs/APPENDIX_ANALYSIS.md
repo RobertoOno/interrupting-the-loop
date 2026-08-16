@@ -6,35 +6,32 @@
 | dimension | condition | n | mean ± sd | scaffold − cond CI95 | Cliff's δ | Mann-Whitney p |
 |---|---|---|---|---|---|---|
 | surprise | DREAM scaffold (λ=0) | 50 | 3.22 ± 1.91 | — | — | — |
-| surprise | salience+forgetting | 50 | 3.16 ± 1.82 | [-0.66, +0.78] | +0.01 | 0.944 |
 | surprise | salience only | 42 | 2.74 ± 1.76 | [-0.26, +1.24] | +0.14 | 0.255 |
 | surprise | bare + clock reseed | 60 | 3.08 ± 1.48 | [-0.50, +0.80] | +0.02 | 0.88 |
 | surprise | bare generation | 60 | 0.33 ± 0.70 | [+2.33, +3.44] | +0.88 | 1.29e-16 |
 | connection | DREAM scaffold (λ=0) | 50 | 1.60 ± 1.52 | — | — | — |
-| connection | salience+forgetting | 50 | 1.64 ± 1.63 | [-0.66, +0.56] | -0.00 | 0.983 |
 | connection | salience only | 42 | 1.36 ± 1.36 | [-0.34, +0.82] | +0.09 | 0.419 |
 | connection | bare + clock reseed | 60 | 3.15 ± 1.53 | [-2.11, -0.98] | -0.60 | 3.27e-08 |
 | connection | bare generation | 60 | 0.17 ± 0.52 | [+1.01, +1.89] | +0.68 | 4.21e-12 |
 | coherence | DREAM scaffold (λ=0) | 50 | 3.72 ± 1.67 | — | — | — |
-| coherence | salience+forgetting | 50 | 3.76 ± 1.73 | [-0.70, +0.62] | -0.02 | 0.88 |
 | coherence | salience only | 42 | 3.71 ± 1.59 | [-0.65, +0.68] | -0.01 | 0.908 |
 | coherence | bare + clock reseed | 60 | 4.78 ± 0.95 | [-1.59, -0.53] | -0.41 | 0.00016 |
 | coherence | bare generation | 60 | 2.08 ± 1.86 | [+0.97, +2.27] | +0.58 | 7.69e-08 |
 
 ### Per-seed mean surprise by condition (robustness)
 
-| seed | DREAM scaffold (λ=0) | salience+forgetting | salience only | bare + clock reseed | bare generation |
-|---|---|---|---|---|---|
-| s0 | 2.25 (n=4) | 2.50 (n=4) | 2.25 (n=4) | 2.00 (n=6) | 0.17 (n=6) |
-| s1 | 2.33 (n=6) | 2.50 (n=6) | 2.50 (n=6) | 3.17 (n=6) | 0.17 (n=6) |
-| s2 | 4.00 (n=4) | 3.75 (n=4) | 4.00 (n=3) | 3.67 (n=6) | 0.83 (n=6) |
-| s3 | 6.00 (n=1) | 6.00 (n=1) | 3.00 (n=1) | 2.50 (n=6) | 0.67 (n=6) |
-| s4 | 3.83 (n=6) | 3.50 (n=6) | 2.00 (n=6) | 2.67 (n=6) | 0.50 (n=6) |
-| s5 | 5.60 (n=5) | 5.40 (n=5) | 5.00 (n=4) | 4.83 (n=6) | 0.00 (n=6) |
-| s6 | 3.00 (n=6) | 2.83 (n=6) | 3.00 (n=1) | 3.00 (n=6) | 0.00 (n=6) |
-| s7 | 2.67 (n=6) | 2.83 (n=6) | 2.20 (n=5) | 3.50 (n=6) | 0.17 (n=6) |
-| s8 | 3.00 (n=6) | 3.00 (n=6) | 3.17 (n=6) | 3.00 (n=6) | 0.17 (n=6) |
-| s9 | 2.17 (n=6) | 2.00 (n=6) | 1.83 (n=6) | 2.50 (n=6) | 0.67 (n=6) |
+| seed | DREAM scaffold (λ=0) | salience only | bare + clock reseed | bare generation |
+|---|---|---|---|---|
+| s0 | 2.25 (n=4) | 2.25 (n=4) | 2.00 (n=6) | 0.17 (n=6) |
+| s1 | 2.33 (n=6) | 2.50 (n=6) | 3.17 (n=6) | 0.17 (n=6) |
+| s2 | 4.00 (n=4) | 4.00 (n=3) | 3.67 (n=6) | 0.83 (n=6) |
+| s3 | 6.00 (n=1) | 3.00 (n=1) | 2.50 (n=6) | 0.67 (n=6) |
+| s4 | 3.83 (n=6) | 2.00 (n=6) | 2.67 (n=6) | 0.50 (n=6) |
+| s5 | 5.60 (n=5) | 5.00 (n=4) | 4.83 (n=6) | 0.00 (n=6) |
+| s6 | 3.00 (n=6) | 3.00 (n=1) | 3.00 (n=6) | 0.00 (n=6) |
+| s7 | 2.67 (n=6) | 2.20 (n=5) | 3.50 (n=6) | 0.17 (n=6) |
+| s8 | 3.00 (n=6) | 3.17 (n=6) | 3.00 (n=6) | 0.17 (n=6) |
+| s9 | 2.17 (n=6) | 1.83 (n=6) | 2.50 (n=6) | 0.67 (n=6) |
 
 ### Push vs plain vs clock inside the DREAM loop (dream_def, Opus k=5)
 

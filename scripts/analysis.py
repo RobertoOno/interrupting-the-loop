@@ -32,6 +32,8 @@ PAL = {"scaffold0": "#2a78d6", "none": "#2a78d6", "abl_forget": "#eb6834", "abl_
 LABEL = {"scaffold0": "DREAM scaffold (λ=0)", "none": "DREAM (λ>0)", "abl_forget": "salience+forgetting",
          "abl_salience": "salience only", "bare_reseed": "bare + clock reseed", "bare": "bare generation",
          "plain": "plain in loop (λ=0)", "clock": "clock review"}
+SHORT = {"scaffold0": "DREAM\nscaffold", "abl_salience": "salience\nonly", "bare_reseed": "bare +\nclock reseed",
+         "bare": "bare", "none": "DREAM", "plain": "plain", "clock": "clock", "abl_forget": "sal.+forget"}
 DIMS = ("surprise", "connection", "coherence")
 
 import matplotlib  # noqa: E402
@@ -74,7 +76,8 @@ def table(title: str, header: list[str], rows: list[list]) -> None:
 
 # ---------------------------------------------------------------- reverie: scaffold battery
 sc = load_json(RUNS / "dream_scaffold" / "rejudge_surprise.json") or []
-conds_present = [c for c in ("scaffold0", "abl_forget", "abl_salience", "bare_reseed", "bare")
+# abl_forget is text-identical to scaffold0 (re-encounter never fired): not a separate condition
+conds_present = [c for c in ("scaffold0", "abl_salience", "bare_reseed", "bare")
                  if any(r["cond"] == c for r in sc)]
 if sc:
     # Fig 1: distributions per condition per dimension (violin + points)
@@ -89,7 +92,7 @@ if sc:
             ax.scatter(np.full(len(d), i) + jitter, d, s=9, color=PAL[c], alpha=0.8, linewidths=0)
             ax.hlines(np.mean(d), i - 0.3, i + 0.3, color=PAL[c], linewidth=2)
         ax.set_xticks(range(1, len(conds_present) + 1))
-        ax.set_xticklabels([LABEL[c].replace(" ", "\n", 1) for c in conds_present], fontsize=7)
+        ax.set_xticklabels([SHORT[c] for c in conds_present], fontsize=7)
         ax.set_title(dim); ax.set_ylim(-0.3, 10.3)
     axes[0].set_ylabel("judged score (0–10, median of k=5)")
     fig.suptitle("Reverie windows by condition — distributions (Opus 5 judge)", y=1.02)
