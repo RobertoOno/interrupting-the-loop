@@ -228,7 +228,24 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
   back after being sent away — not when it is told to return.
 - **Timing.** [TBD — salience-timed re-encounter vs matched-frequency
   clock controls; judging]
-- **Frequency.** [TBD — 75/150/300/600/900; judging]
+- **Frequency: the yield of an interruption depends on the thread it
+  breaks, and decays with distance from it.** With the neutral change
+  every 75 tokens the stream is dead (surprise 0.88, δ = −0.83 vs 150):
+  nothing has time to develop. Every 150: 3.08. Every 300 and 600, the
+  windows that end within ~150 tokens *after* an interruption score
+  **5.28 / 3.60 / 6.08** and 5.23 / 3.10 / 5.70 (surprise / connection /
+  coherence; n = 50 and 30) — the highest values in the whole program,
+  and 34/60 of the 300-early windows are judged surprising *and*
+  coherent (12/60 at 150) — while windows deeper into the segment fall
+  back to ~3.0 / 2.7 / 5.9 and stay there (170–330 and 490–650 tokens
+  after the break: 2.95 and 3.06). The same window shape (a break plus
+  150 tokens of development) scores 3.08 when the broken thread was 150
+  tokens long and 5.3 when it was 300 or 600: surprise needs a developed
+  background to break. Over the whole stream the period 300 is best
+  (mean surprise 4.01, connection 3.12, coherence 5.98; 600: 3.64 /
+  2.64 / 5.50; 150: 3.08 / 3.15 / 4.78; 75: 0.88 / 1.35 / 3.15). The
+  loop's rhythm is: let a thread develop for a few hundred tokens, then
+  break it away.
 
 ### 5.2 A second generator family
 
