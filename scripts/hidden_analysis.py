@@ -86,17 +86,34 @@ def load_cells(run_dirs):
     return cells
 
 
-def geometry_per_layer(c):
+def centered(c, l, mu):
+    """Window vectors at layer l, mean-centered by the analysis-set mean (removes the
+    shared anisotropic component of mean-pooled hidden states) and re-normalized."""
+    W = c["z"][f"win_L{l}"].astype(np.float32) - mu[l]
+    return W / (np.linalg.norm(W, axis=1, keepdims=True) + 1e-6)
+
+
+def layer_means(cells):
+    mu = {}
+    for l in cells[0]["layers"]:
+        acc = np.zeros(cells[0]["z"][f"win_L{l}"].shape[1], dtype=np.float64); n = 0
+        for c in cells:
+            W = c["z"][f"win_L{l}"].astype(np.float64); acc += W.sum(axis=0); n += len(W)
+        mu[l] = (acc / max(n, 1)).astype(np.float32)
+    return mu
+
+
+def geometry_per_layer(c, mu):
     out = {}
     for l in c["layers"]:
-        W = c["z"][f"win_L{l}"].astype(np.float32)
+        W = centered(c, l, mu)
         steps = 1.0 - np.sum(W[1:] * W[:-1], axis=1)
         cen = W.mean(axis=0); cen /= np.linalg.norm(cen) + 1e-6
         out[l] = {"step": float(steps.mean()), "radius": float(np.mean(1.0 - W @ cen))}
     return out
 
 
-def judged_features(c, review_tokens=160):
+def judged_features(c, mu, review_tokens=160):
     """Per judged window: novelty per layer (vs all past), local step per layer, commitment, lens entropy."""
     ends = c["z"]["win_ends"]
     rows = []
@@ -110,7 +127,7 @@ def judged_features(c, review_tokens=160):
         feat = {"cond": c["cond"], "cell": c["cell"], "surprise": j["surprise"], "connection": j.get("connection"),
                 "coherence": j.get("coherence"), "kind": j["kind"]}
         for l in c["layers"]:
-            W = c["z"][f"win_L{l}"].astype(np.float32)
+            W = centered(c, l, mu)
             a = W[cur].mean(axis=0); a /= np.linalg.norm(a) + 1e-6
             b = W[past].mean(axis=0); b /= np.linalg.norm(b) + 1e-6
             feat[f"nov_L{l}"] = float(1.0 - a @ b)
@@ -139,10 +156,12 @@ def main() -> None:
         raise SystemExit("no hidden/*.npz found")
     layers = cells[0]["layers"]
     conds = [c for c in LABEL if any(x["cond"] == c for x in cells)]
-    md = [f"# Residual-stream analysis ({args.tag})\n", f"{len(cells)} cells, layers {layers}\n"]
+    mu = layer_means(cells)
+    md = [f"# Residual-stream analysis ({args.tag})\n", f"{len(cells)} cells, layers {layers}. Window vectors are mean-centered per layer "
+          f"over all cells of this set before cosine geometry (anisotropy of mean-pooled states); premise similarity and injection deltas are raw.\n"]
 
     # ---------------- H1 geometry per layer (+ logit-lens commitment per condition)
-    geo = {c["cell"]: geometry_per_layer(c) for c in cells}
+    geo = {c["cell"]: geometry_per_layer(c, mu) for c in cells}
     fig, axes = plt.subplots(1, 3, figsize=(15, 3.8))
     md.append("\n## H1 — per-layer geometry (mean over cells; 95% bootstrap CI over cells)\n")
     md.append("| condition | n | " + " | ".join(f"radius L{l}" for l in layers) + " | commit layer (idx) | final entropy |")
@@ -179,7 +198,7 @@ def main() -> None:
     fig.tight_layout(); fig.savefig(FIG / f"hidden_h1_geometry_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
 
     # ---------------- H2 novelty per layer vs judged surprise
-    rows = [r for c in cells for r in judged_features(c)]
+    rows = [r for c in cells for r in judged_features(c, mu)]
     md.append(f"\n## H2 — which layer's novelty predicts judged surprise? ({len(rows)} judged windows)\n")
     if rows:
         def spear(key, subset):
