@@ -195,6 +195,11 @@ def main() -> None:
     print(f"== DREAM ({args.control}) seed: {seed!r}", flush=True)
     run = dream(model, tokenizer, sampler, seed, cfg, judge=judge)
     if args.review_clock > 0:
+        if args.no_judge:
+            # no judge in the loop: the salience events are still the windows to review offline
+            for e in run.events:
+                if e["kind"] in ("jump", "crystallize", "recurrence"):
+                    e["judged"] = True
         add_review_points(run, args.review_clock)
     run.save(args.out)
     print("\n== summary ==")

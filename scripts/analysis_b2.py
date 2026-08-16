@@ -161,9 +161,10 @@ def main() -> None:
     compare_table("Q2 — content of the interruption (windows right before each injection)", q2, ref=0)
     violin_fig("fig8_q2_content.png", q2, "Q2 — what the interruption injects: neutral change vs re-encounter vs premise vs own past (clock 150)")
 
-    # Q3 timing
+    # Q3 timing (sal_reenc event windows may be labeled by the salience kind or as 'cut', depending on the run's version)
+    EVENT = ("cut", "jump", "crystallize", "recurrence")
     q3 = [("clock_reenc", ("cut",), "re-encounter on the clock (150)"),
-          ("sal_reenc", ("cut",), "re-encounter on salience events (event windows)"),
+          ("sal_reenc", EVENT, "re-encounter on salience events (event windows)"),
           ("sal_reenc", ("clock",), "re-encounter on salience events (uniform windows)"),
           ("abl_salience", None, "salience only, no injection (event windows)")]
     compare_table("Q3 — timing of the re-encounter: clock vs salience", q3, ref=0)
