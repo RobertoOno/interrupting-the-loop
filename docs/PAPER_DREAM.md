@@ -198,7 +198,37 @@ of every event and injection).
 - **Frequency.** The neutral subject change every 75 / 150 / 300 / 600
   tokens.
 
-**Results.** [TBD — battery 2, running]
+**Results** (60 windows per arm unless noted; Δ are paired-by-seed
+bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
+
+- **Habituation and interruption are two operations, and both matter.**
+  Bare 0.33 → bare + habituation **1.70** (surprise Δ +1.37 [+1.07,
+  +1.67]; connection 0.17 → 1.08; coherence 2.08 → 4.08) → bare +
+  habituation + clock reseed **3.08** (Δ +1.38 [+0.92, +1.92] over
+  habituation alone). Habituation removes the literal orbits and buys
+  about half of the surprise gain; the interruption buys the other half
+  and **all of the connection** (1.08 → 3.15, Δ +2.07 [+1.63, +2.57],
+  δ = +0.75, p ≈ 5×10⁻¹³) and the coherence (4.08 → 4.78). The full
+  scaffold over habituation alone: surprise +1.52 [+0.85, +2.20],
+  connection +0.52. The ablation's headline survives corrected: not
+  "interruption alone" but "don't let the loop eat its literal past, and
+  interrupt it" — with the connection effect belonging to the
+  interruption.
+- **The interruption must lead away.** With the same clock (150), a
+  neutral subject change beats a re-encounter stitch on surprise
+  (3.08 vs 2.28, Δ −0.80 [−1.35, −0.25]) and coherence (4.78 vs 4.30),
+  and ties on connection (3.15 vs 3.03). Injecting the **premise
+  itself** (1.12 / 0.90 / 3.07) or a window of the stream's **own past**
+  (1.36 / 1.33 / 2.95) is as bad as not interrupting at all — every
+  paired CI vs the neutral change excludes zero (surprise −1.97 [−2.65,
+  −1.38] and −1.73 [−2.30, −1.19]; connection −2.25 and −1.82; δ ≈
+  −0.7). Qualitatively, the own-past injection *reinforces* whatever
+  attractor the stream is in (an exam-key well fed its own questions
+  back). The judge sees connection when the stream finds its own way
+  back after being sent away — not when it is told to return.
+- **Timing.** [TBD — salience-timed re-encounter vs matched-frequency
+  clock controls; judging]
+- **Frequency.** [TBD — 75/150/300/600/900; judging]
 
 ### 5.2 A second generator family
 
