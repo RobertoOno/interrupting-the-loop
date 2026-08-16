@@ -63,7 +63,19 @@ def load_cells(run_dirs):
             cell = f.stem
             cond = cell.split("_", 1)[1]
             run = json.loads((rd / cell / "run.json").read_text())
-            pos_of = {(e["step"], e["kind"]): e.get("pos", e["step"]) for e in run["events"]}
+            # exact event positions in the generated stream; older cells (no 'pos') are
+            # reconstructed from the injections recorded at capture time
+            inj = []
+            if "inj_pos" in z and "inj_len" in z:
+                acc = 0
+                for gp, n in zip(z["inj_pos"], z["inj_len"]):
+                    step_i = int(gp) - int(z["n_seed"]) - acc
+                    inj.append((step_i, int(n))); acc += int(n)
+            def pos_of_event(e):
+                if "pos" in e:
+                    return e["pos"]
+                return e["step"] + sum(n for s_i, n in inj if s_i < e["step"])
+            pos_of = {(e["step"], e["kind"]): pos_of_event(e) for e in run["events"]}
             judged = []
             for r in rej.get(cell, []):
                 if r.get("surprise") is None:

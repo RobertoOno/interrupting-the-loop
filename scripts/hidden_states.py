@@ -213,6 +213,7 @@ def main() -> None:
         inj_delta, ctrl_delta, inj_ret, ctrl_ret = interruption_depth(H, used, pts, len(ids), args.window, prem=prem)
         pooled["inj_delta"], pooled["ctrl_delta"], pooled["inj_return"], pooled["ctrl_return"] = inj_delta, ctrl_delta, inj_ret, ctrl_ret
         pooled["inj_pos"] = np.array([p for p, _ in pts])
+        pooled["inj_len"] = np.array([n for _, n in pts])
         # per-window commitment / lens entropy summaries over the generated part
         gen_commit = commit[n_seed:]; gen_lens = lens_ent[n_seed:]; gen_fin = fin_ent[n_seed:]
         win_commit = np.array([gen_commit[e - args.window : e].mean() for e in ends])
