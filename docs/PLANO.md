@@ -766,6 +766,52 @@ qualitativa (dream6 elaborou o achado de forma legível), não estatística.
   arcabouço; o que se distingue é a saliência (vs relógio). A peça da
   arquitetura que a evidência sustenta hoje é o **switch**, não o empurrão.
 
+**Teste da leitura 3 — rubrica de surpresa (mesmas 89 janelas, Opus
+k=5, três dimensões independentes, ~US$5):**
+
+| dimensão | DREAM | plain | clock | DREAM−plain | DREAM−clock |
+|---|---|---|---|---|---|
+| surpresa | 2.97 ± 1.87 | 3.48 ± 2.01 | 1.43 ± 1.65 | [−1.50, +0.49] | [+0.63, +2.43] ✓ |
+| conexão | 1.93 ± 1.75 | 1.97 ± 1.27 | 0.73 ± 0.96 | [−0.80, +0.74] | [+0.50, +1.93] ✓ |
+| coerência | 4.37 ± 1.99 | 4.14 ± 1.36 | 3.73 ± 2.24 | [−0.64, +1.10] | [−0.47, +1.70] |
+
+- **O empurrão não compra surpresa** (plain até ligeiramente acima; IC
+  cruza zero). Empate em conexão e coerência. Leitura 3 descartada; fica
+  a **leitura 2**: dentro do arcabouço DREAM, o sampler anti-provável
+  (λ + ponte) não produz diferença mensurável sobre amostragem plain — em
+  nenhuma das réguas (delta, conexão, surpresa, coerência; 1.335
+  julgamentos, 2 juízes). O que produz diferença robusta é a **saliência**
+  (vs relógio, ICs positivos em surpresa e conexão).
+- Os "top por surpresa" são quase todos "abandona um loop degenerado por
+  algo não relacionado": o juiz premia o **reseed** (nossa injeção de
+  semente), não a deriva. A surpresa visível é a mudança de assunto.
+
+**Síntese da noite (2026-08-16, 03h)** — o que a evidência sustenta e o
+que não:
+1. Sustenta: o **switch por saliência** (revisar quando o fluxo faz algo
+   notável) bate revisão por relógio, com IC, em duas rubricas. É a peça
+   de Beaty que sobreviveu à medição.
+2. Sustenta (qualitativo): o arcabouço — esquecimento, reseed, reencontro,
+   Escalada — produz elaborações legíveis (dream6). Não medimos o
+   arcabouço contra sua ausência (o controle plain o *inclui*).
+3. **Não sustenta**: que o empurrão anti-provável token-a-token melhore o
+   devaneio. Isso é coerente com a Fase 1? Sim, se lida com cuidado: lá o
+   empurrão comprou *novidade n-gram* (recombinação local, medida contra o
+   corpus) e custou coerência; aqui a régua é conexão/surpresa/delta de
+   *ideia*, e nesse nível o empurrão não aparece. **A novidade de superfície
+   não sobe de nível sozinha.** É a mesma lição de "Death of the Novelty",
+   agora dentro do nosso próprio loop.
+4. Instrumento: juiz-LLM tem ±0.6–0.7 de ruído por dimensão mesmo com k=5;
+   detecta efeitos ≥1 ponto (saliência vs relógio), não efeitos de meio
+   ponto. Diferenças menores exigem avaliação humana cega ou n muito maior.
+
+**Próximo passo lógico**: o experimento que falta é **arcabouço vs sem
+arcabouço** — DREAM completo (com λ=0, já que o empurrão não importa) vs
+geração contínua sem saliência/esquecimento/reseed/reencontro. Se o
+arcabouço vencer, a tese "a criatividade está no loop" tem sua evidência
+na forma certa: é a *estrutura do loop* (esquecer, voltar, elaborar), não
+o ruído no sampler, que faz o devaneio.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
