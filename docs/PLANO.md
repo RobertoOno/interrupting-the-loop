@@ -941,6 +941,35 @@ reencontro neutros quanto à premissa (o padrão antigo dizia "the
 notebook", de uma semente só). Reencontro rearmado por saliência sem
 passar pelo juiz binário aposentado (`reencounter_on_event`).
 
+**Resultados parciais (2026-08-16, 15h; Q1 e Q2 completos, 60 janelas
+por braço, ICs pareados por semente):**
+
+| condição | surpresa | conexão | coerência |
+|---|---|---|---|
+| nu (sem habituação) | 0.33 | 0.17 | 2.08 |
+| nu + habituação (`bare_habit`) | **1.70** | 1.08 | 4.08 |
+| nu + habituação + reseed neutro/150 (`bare_reseed`) | **3.08** | **3.15** | **4.78** |
+| relógio/150, costura de reencontro | 2.28 | 3.03 | 4.30 |
+| relógio/150, a própria premissa | 1.12 | 0.90 | 3.07 |
+| relógio/150, o próprio passado | 1.36 | 1.33 | 2.95 |
+
+- **Q1**: habituação e interrupção são duas operações e as duas importam
+  em surpresa (Δ +1.37 [+1.07, +1.67] e depois +1.38 [+0.92, +1.92]);
+  a **conexão é toda da interrupção** (+2.07 [+1.63, +2.57], δ=0.75).
+  A manchete corrigida: "não deixe o loop comer o próprio passado
+  literal, e interrompa-o".
+- **Q2**: **a interrupção precisa levar para longe.** Neutro > costura de
+  reencontro (surpresa −0.80 [−1.35, −0.25]; conexão empata) ≫ premissa ≈
+  próprio passado (todos os ICs pareados excluem zero; δ≈−0.7) — injetar
+  uma *volta* equivale a não interromper. O próprio passado realimenta o
+  atrator (o poço de gabarito de prova recebeu de volta as suas próprias
+  questões). O juiz vê conexão quando o fluxo acha sozinho o caminho de
+  volta, não quando é mandado voltar. Isso inverte a intuição de projeto
+  do DREAM (reencontro como peça-chave) — e é exatamente o tipo de coisa
+  que só a medição mostra.
+- Q3 (timing: reencontro por saliência vs relógio casado em frequência) e
+  Q4 (frequência) em julgamento.
+
 Encadeada na mesma execução: **segunda família de gerador** —
 Qwen3-8B-Base-8bit em `bare` / `bare_habit` / `bare_reseed` / `scaffold0`
 (`runs/dream_fam8b/`), para saber se "nu morto / interrompido vivo" é sobre
