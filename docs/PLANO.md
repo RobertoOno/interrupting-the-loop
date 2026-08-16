@@ -786,6 +786,41 @@ do arcabouço vem do re-julgamento contínuo (`rejudge_surprise.json`), que
 ele não analisou. Sua conclusão sobre o instrumento ("gargalo no scorer")
 coincide com a nossa. Papers corrigidos.
 
+## Ablação do arcabouço (2026-08-16, 10 sementes × 5 condições, 212 janelas
+re-julgadas Opus k=5; ~US$15) — o controle de honestidade venceu
+
+| condição | surpresa | conexão | coerência | boas (S≥5 & H≥5) |
+|---|---|---|---|---|
+| **arcabouço** (saliência+esquecimento+reseed+kick) | 3.22 ± 1.91 | 1.60 ± 1.52 | 3.72 ± 1.67 | 8/50 |
+| só saliência (revisão gatilhada, sem reseed) | 2.74 ± 1.76 | 1.36 ± 1.36 | 3.71 ± 1.59 | 2/42 |
+| **nu + reseed por relógio** (sem saliência, sem esquecimento) | **3.08 ± 1.48** | **3.15 ± 1.53** | **4.78 ± 0.95** | **12/60** |
+| nu | 0.33 ± 0.70 | 0.17 ± 0.52 | 2.08 ± 1.86 | 0/60 |
+
+- Arcabouço vs nu replica com 10 sementes: surpresa δ=+0.88, p≈10⁻¹⁶.
+- **Mas nu+reseed-por-relógio empata com o arcabouço em surpresa (IC
+  [−0.50, +0.80]) e o supera em conexão (δ=−0.60, p≈3×10⁻⁸) e coerência
+  (δ=−0.41).** Quase todo o efeito "estrutura vs nada" é explicado por
+  **uma** operação: interromper periodicamente e injetar uma nova frase de
+  partida. Saliência, esquecimento seletivo e kicks não somam surpresa em
+  cima disso; o esquecimento *tira* conexão (a nua-com-reseed lembra tudo
+  e conecta mais).
+- Reencontro: nunca disparou (atrelado ao juiz binário) — `abl_forget` ≡
+  `scaffold0` em texto nos 10 casos; ablação vazia; a testar com gatilho
+  por saliência.
+- Geometria (todas as sementes): o arcabouço volta mais perto da premissa
+  (0.57 vs 0.72 só-saliência vs 0.78 nu) e explora 3× o raio da nua;
+  nu+relógio salta pelo espaço (48 "fechamentos") — assinaturas distintas,
+  e o juiz prefere a do relógio-sem-esquecer em conexão.
+
+**Leitura**: a tese estrutural sobrevive na forma mais simples e mais
+forte — geração contínua sem interrupção é morta (0.33; congela no poço), e
+o que a ressuscita é **interromper e ressemear**, sobre contexto
+preservado. Os mecanismos elaborados (saliência como gatilho de *revisão*
+continua valendo — dream_def — mas não como arquitetura de *geração*)
+não pagam seu custo. Abstract a reescrever: "creativity is in interrupting
+the loop". Próxima pergunta boa, e barata: **frequência** e **qualidade da
+semente de interrupção** — é onde o efeito mora.
+
 **Teste da leitura 3 — rubrica de surpresa (mesmas 89 janelas, Opus
 k=5, três dimensões independentes, ~US$5):**
 
