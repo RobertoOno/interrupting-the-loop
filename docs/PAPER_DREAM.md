@@ -54,7 +54,8 @@ state (+0.01–0.03 cosine across an injection, no return to the premise),
 whereas forgetting is a deep re-encounter with the beginning (+0.2, and
 the premise's own state recovered) that the judge rewards less. The
 ladder bare → habituation → interruption → scaffold replicates on a
-second generator family (Qwen3-8B-Base) [8B numbers]. In this system,
+second generator family (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, connection
+0.87 → 3.23, δ = +0.80). In this system,
 creativity is not in the noise injected into decoding, nor in the
 strangeness of the input, nor in an elaborate cognitive scaffold — it is
 in **interrupting the loop**: letting a thread develop, then making it
@@ -283,8 +284,19 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
 
 ### 5.2 A second generator family
 
-[TBD — Qwen3-8B-Base on bare / bare + habituation / bare + clock reseed /
-scaffold, 10 seeds; running]
+The four conditions that carry the argument, re-run on Qwen3-8B-Base
+(dense, 36 layers; same 10 seeds, 4,500 tokens, λ = 0, judged offline as
+in battery 2). The ladder replicates with the same shape and slightly
+lower values: bare 0.68 / 0.38 / 3.45 (surprise / connection /
+coherence; 110 windows) → bare + habituation **1.47** / 0.87 / 3.93
+(surprise Δ +0.78 [+0.45, +1.13] paired by seed) → bare + habituation +
+clock reseed **2.73** / **3.23** / 4.42 (Δ +1.26 [+0.52, +2.14] over
+habituation; connection Δ +2.37 [+1.68, +3.12], δ = +0.80, p ≈ 10⁻¹⁴)
+≈ full scaffold 2.73 / 1.53 / 4.30 (146 windows; connection Δ +0.66
+[+0.27, +1.07] over habituation, again below the plain clock reseed).
+On a second family, habituation buys part of the surprise, the
+interruption buys the rest and all of the connection, and the elaborate
+scaffold adds nothing over the plain interruption.
 
 ## 6. The instrument, measured
 

@@ -141,21 +141,21 @@ vs **every 150 (before injection)** (Δ mean, 95% bootstrap CI over windows; Cli
 
 | condition | windows | kind | surprise | connection | coherence | good (S≥5&H≥5) |
 |---|---|---|---|---|---|---|
-| 8B: bare | 63 | clock/jump | 0.71 ± 1.30 | 0.43 ± 0.79 | 3.35 ± 2.42 | 1/63 |
-| 8B: bare + habituation | 30 | clock | 1.40 ± 1.54 | 0.73 ± 1.18 | 4.27 ± 2.34 | 2/30 |
-| 8B: bare + habituation + clock reseed 150 | 30 | clock/cut | 3.12 ± 1.40 | 3.50 ± 1.65 | 4.43 ± 0.96 | 0/30 |
-| 8B: DREAM scaffold (λ=0) | 81 | clock/crystallize/cut/jump | 2.72 ± 2.30 | 1.23 ± 1.27 | 4.06 ± 1.87 | 6/81 |
+| 8B: bare | 110 | clock/jump | 0.68 ± 1.26 | 0.38 ± 0.73 | 3.45 ± 2.64 | 1/110 |
+| 8B: bare + habituation | 60 | clock | 1.47 ± 1.69 | 0.87 ± 1.23 | 3.93 ± 2.26 | 4/60 |
+| 8B: bare + habituation + clock reseed 150 | 60 | clock/cut | 2.73 ± 1.41 | 3.23 ± 1.60 | 4.42 ± 1.28 | 1/60 |
+| 8B: DREAM scaffold (λ=0) | 146 | clock/crystallize/cut/jump | 2.73 ± 2.13 | 1.53 ± 1.47 | 4.30 ± 1.88 | 15/146 |
 
 vs **8B: bare + habituation** (Δ mean, 95% bootstrap CI over windows; Cliff's δ; Mann-Whitney p; paired-by-seed Δ [CI]):
 
 | condition | dim | Δ [CI] | δ | p | paired-by-seed Δ [CI] (n seeds) |
 |---|---|---|---|---|---|
-| 8B: bare | surprise | **-0.69 [-1.34, -0.06]** | -0.30 | 9.2e-03 | -0.75 [-1.29, -0.25] (5) |
-| 8B: bare | connection | -0.30 [-0.82, +0.12] | -0.17 | 1.0e-01 | -0.37 [-0.82, +0.04] (5) |
-| 8B: bare | coherence | -0.92 [-1.95, +0.12] | -0.23 | 7.4e-02 | -1.58 [-3.78, +0.32] (5) |
-| 8B: bare + habituation + clock reseed 150 | surprise | **+1.72 [+0.97, +2.45]** | +0.59 | 6.4e-05 | +1.72 [+0.47, +3.18] (5) |
-| 8B: bare + habituation + clock reseed 150 | connection | **+2.77 [+2.03, +3.47]** | +0.86 | 5.2e-09 | +2.77 [+1.47, +4.07] (5) |
-| 8B: bare + habituation + clock reseed 150 | coherence | +0.17 [-0.73, +1.07] | +0.04 | 7.8e-01 | +0.17 [-1.47, +1.67] (5) |
-| 8B: DREAM scaffold (λ=0) | surprise | **+1.32 [+0.58, +2.05]** | +0.35 | 4.4e-03 | +1.22 [+0.28, +2.01] (5) |
-| 8B: DREAM scaffold (λ=0) | connection | +0.50 [-0.02, +0.97] | +0.28 | 1.8e-02 | +0.47 [-0.06, +0.96] (5) |
-| 8B: DREAM scaffold (λ=0) | coherence | -0.20 [-1.15, +0.72] | -0.04 | 7.2e-01 | -0.16 [-1.72, +1.05] (5) |
+| 8B: bare | surprise | **-0.78 [-1.28, -0.30]** | -0.30 | 3.0e-04 | -0.78 [-1.13, -0.45] (10) |
+| 8B: bare | connection | **-0.48 [-0.84, -0.16]** | -0.27 | 7.1e-04 | -0.48 [-0.84, -0.14] (10) |
+| 8B: bare | coherence | -0.49 [-1.23, +0.28] | -0.13 | 1.5e-01 | -0.49 [-2.43, +1.58] (10) |
+| 8B: bare + habituation + clock reseed 150 | surprise | **+1.26 [+0.69, +1.80]** | +0.47 | 6.3e-06 | +1.26 [+0.52, +2.14] (10) |
+| 8B: bare + habituation + clock reseed 150 | connection | **+2.37 [+1.87, +2.87]** | +0.80 | 9.4e-15 | +2.37 [+1.68, +3.12] (10) |
+| 8B: bare + habituation + clock reseed 150 | coherence | +0.48 [-0.18, +1.13] | +0.13 | 2.1e-01 | +0.48 [-0.53, +1.43] (10) |
+| 8B: DREAM scaffold (λ=0) | surprise | **+1.27 [+0.70, +1.81]** | +0.38 | 1.8e-05 | +1.17 [+0.62, +1.68] (10) |
+| 8B: DREAM scaffold (λ=0) | connection | **+0.66 [+0.25, +1.04]** | +0.31 | 2.7e-04 | +0.67 [+0.27, +1.07] (10) |
+| 8B: DREAM scaffold (λ=0) | coherence | +0.36 [-0.30, +1.01] | +0.10 | 2.4e-01 | +0.52 [-0.44, +1.27] (10) |
