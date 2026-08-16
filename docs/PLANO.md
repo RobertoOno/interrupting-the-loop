@@ -706,6 +706,45 @@ rubrica), 4.500 tokens, k=3; métricas: candidatos/1k, melhor mediana,
 Predição: DREAM > C > A em candidatos/1k; se DREAM ≈ A a deriva não
 importa; se DREAM ≈ C o switch não importa.
 
+**Resultado do definitivo (rodou 20:52–21:58 de 2026-08-15, 15 células,
+~1h, térmica nominal em todos os checkpoints, ~US$4): NULO — e um achado
+sobre o instrumento.**
+
+| condição | revisões | score médio | ≥4 | melhor por semente |
+|---|---|---|---|---|
+| DREAM | 49 | 0.48 | 1 | 4.48, 2.88, 2.88, 0, 0 |
+| plain | 40 | 0.46 | 0 | 2.71, 2.88, 3.11, 0, 2.29 |
+| clock | 150 | 0.10 | 0 | 3.78, 2.88, 0, 0, 1.82 |
+
+- **Zero candidatos acima do limiar em todas as 15 células — inclusive
+  `s0_none`, a configuração exata do dream6.** A mesma janela (passo 788,
+  texto idêntico) que ontem recebeu 5.24 (mediana de 3) hoje recebeu
+  4.48 (mediana de 3): **a diferença é inteiramente do juiz**. O "primeiro
+  insight" do dream6 e o "não-insight" de hoje são a mesma janela em dias
+  diferentes. Com a variância do juiz (~±0.5–1 mesmo com k=3), o limiar 5
+  não é um detector — é uma moeda.
+- ICs bootstrap: DREAM−plain [−0.41, +0.44] em todas as revisões (empate);
+  DREAM−clock [+0.10, +0.70] (o DREAM revisa melhor que o relógio — mas o
+  relógio dilui a média revisando 3× mais onde nada aconteceu; no melhor
+  por semente, empate). **A comparação de ontem (n=1) não se replica.**
+- Sinais fracos e honestos: o DREAM tem o único ≥4 (4.48) e o melhor por
+  semente mais alto; nenhuma condição passa de ~3 nas outras 4 sementes.
+  As sementes novas (mapa, padeiro, relógio, rio) renderam pouco em todas
+  as condições — a semente do caderno era excepcionalmente fértil, e boa
+  parte da "curva ascendente" 0→4.76 vinha de *uma* semente e da
+  variância do juiz.
+
+**Leitura**: (1) o loop toca junto e produz janelas na faixa 4–5 numa
+semente boa — mas *não* de forma que os controles não produzam também, na
+amostra que temos; (2) o gargalo real agora é **a régua**: um juiz LLM
+com ±1 de ruído sobre um limiar binário não mede diferenças da ordem
+que estamos procurando. Antes de qualquer mecanismo novo: régua melhor —
+k maior *e* score contínuo (sem limiar) como métrica primária, e/ou juiz
+mais forte (Opus como juiz), e/ou avaliação humana cega das top janelas de
+cada condição; (3) e mais sementes (n=5 é pouco para efeitos deste
+tamanho). O DREAM segue como programa; a evidência a favor, hoje, é
+qualitativa (dream6 elaborou o achado de forma legível), não estatística.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
