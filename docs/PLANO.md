@@ -967,8 +967,65 @@ por braço, ICs pareados por semente):**
   volta, não quando é mandado voltar. Isso inverte a intuição de projeto
   do DREAM (reencontro como peça-chave) — e é exatamente o tipo de coisa
   que só a medição mostra.
-- Q3 (timing: reencontro por saliência vs relógio casado em frequência) e
-  Q4 (frequência) em julgamento.
+- **Q3 (timing) — a saliência é boa leitora e mau metrônomo** (fechado
+  19h30, com controles de frequência casada a cada 900): a costura de
+  reencontro nos eventos de saliência (1–9/célula) melhora as *janelas de
+  evento* (3.92 / 2.99 / 3.75 vs só-saliência 2.63 / 1.39 / 3.71), mas o
+  *fluxo* fica pobre: janelas uniformes 2.18 / 1.68 / 3.93 vs **4.70 /
+  3.48 / 5.50** para a mesma costura no relógio de 900 (surpresa Δ +2.02
+  [+1.62, +2.44] pareado) e 5.48 / 2.87 / 5.95 para o neutro a cada 900
+  (45/60 "boas" — a melhor célula do programa). A saliência decide *onde
+  olhar*, não *quando interromper*.
+- **Q4 (frequência) — o rendimento da interrupção depende do fio que ela
+  quebra, e decai.** 75: morto (0.88, δ −0.83 vs 150). 150: 3.08. 300 /
+  600 / 900: janelas até ~160 tokens *depois* da quebra **5.28 / 3.35 /
+  5.95**, 5.40 / 3.20 / 5.65 e 5.90 / 2.80 / 6.10 (34/60 "boas" no início
+  de 300 vs 12/60 a 150); mais fundo no segmento volta a ≈3.2. Ponderando
+  as fases pela composição do fluxo (160/período): 300 dá o melhor fluxo
+  (4.35 / 3.18 / 5.97) > 600 (3.82) > 900 (3.68) > 150 (3.08) > 75 (0.88);
+  a conexão cai com segmentos mais longos. Ritmo: deixar desenvolver
+  algumas centenas de tokens, depois quebrar para longe.
+- Correção de medição no caminho: o primeiro `cut` das condições novas
+  cai no passo 2 (janela de 2 tokens) e a amostragem uniforme sempre o
+  pegava — 73 janelas degeneradas (S 0.95) excluídas (`MIN_STEP=100`);
+  sem elas, a costura de reencontro fica em 2.68 / **3.64** / 4.72 (troca
+  surpresa por conexão em relação ao neutro; conexão +0.49 [−0.09, +1.07]).
+
+**Q5 — segunda família (Qwen3-8B-Base, 40 células, 398 janelas)**: a
+escada replica com a mesma forma: nu 0.68 → habituação **1.47** (Δ +0.78
+[+0.45, +1.13]) → interrupção **2.73** (Δ +1.26; conexão 0.87 → **3.23**,
+Δ +2.37 [+1.68, +3.12], δ=0.80) ≈ arcabouço 2.73 (conexão 1.53).
+
+**Dentro da rede (2026-08-16, noite; 180 células capturadas, 13 camadas +
+logit lens; `docs/APPENDIX_HIDDEN_*.md`, `docs/figures/hidden_*.png`)**:
+- H1: o nu congela em todas as camadas, mais na superfície (raio 0.13 vs
+  0.42–0.53 na camada 0; 0.24 vs 0.33–0.34 no topo, ICs disjuntos); no
+  30B ele "decide tarde e com certeza" (compromisso estável 11.12 vs
+  10.9; entropia final 0.34 vs 0.42–1.08 — assinatura de cópia); no 8B a
+  ordem de compromisso não replica (só a entropia).
+- H2: o que o juiz chama de surpresa é *partida na superfície com
+  continuidade profunda*: passo na camada 0 ρ +0.2 a +0.6 com a surpresa
+  dentro das condições; em profundidade o sinal inverte nas condições por
+  saliência (−0.3 a −0.5); entropia final ρ +0.3 a +0.6 em toda parte
+  ("confiante = sem surpresa").
+- H3: o reseed **com esquecimento** move o estado profundo (+0.09 → +0.21
+  de cosseno além do controle) e o traz de volta à premissa (+0.20); o
+  reseed por relógio **sobre contexto preservado** quase não o toca
+  (+0.01–0.03, sem volta) — e é o que o juiz premia. A profundidade da
+  interrupção escala com o comprimento do fio quebrado (75 ≈ 0; 150 0.01;
+  300 0.02–0.04; 600 0.04–0.075), não com o conteúdo injetado. Replica no
+  8B (+0.03 → +0.10 vs +0.01–0.03).
+- Correção operacional: a captura fez o sistema debulhar (25 GB no
+  compressor) por logits fp32 de 13 camadas vivos no grafo preguiçoso do
+  MLX; corrigido com avaliação por camada + `mx.clear_cache()` + bloco de
+  256 (23 s → 8–14 s por célula).
+
+**Estado do manuscrito (2026-08-16, 20h)**: rascunho completo v1 —
+`docs/PAPER_DREAM.md` (inglês) e `docs/PAPER_DREAM_pt.md` (tradução
+integral), HTMLs autocontidos com 16 figuras e 6 apêndices
+(`docs/manuscript.html`, `docs/manuscrito.html`). Falta para "final":
+avaliação humana cega (`docs/blind/pack_v1.html`, 42 janelas) e passada
+de revisão; venue a decidir (ver seção Publicação).
 
 Encadeada na mesma execução: **segunda família de gerador** —
 Qwen3-8B-Base-8bit em `bare` / `bare_habit` / `bare_reseed` / `scaffold0`

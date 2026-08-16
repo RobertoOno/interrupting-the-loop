@@ -19,32 +19,49 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
   Hugging Face: todo teste aqui usa distribuições sintéticas / modelo de
   brinquedo, nunca pesos reais.
 
-## Estado atual
+## Estado atual (2026-08-16)
 
-Itens 1, 2 e 4 do roadmap concluídos (2026-08-09). Pacote `creative_machine`
-em `src/`; testes: `.venv/bin/python -m pytest` (102). Modelos quantizados
-locais: `~/models/mlx/Qwen3-8B-Base-8bit` (~31 tok/s),
-`~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s) e
-`~/models/mlx/Qwen3-30B-A3B-Base-8bit` (MoE, ~53 tok/s; rota B). Fluxo git: commits na branch da
-sessão → fast-forward `main` → push (`origin` GitHub); `runs/` e modelos
-fora do git.
+Pacote `creative_machine` em `src/`; testes: `.venv/bin/python -m pytest`
+(117). Modelos quantizados locais: `~/models/mlx/Qwen3-8B-Base-8bit`
+(~31 tok/s), `~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s) e
+`~/models/mlx/Qwen3-30B-A3B-Base-8bit` (MoE, ~53 tok/s; gerador principal
+do loop). Fluxo git: commits na branch da sessão → fast-forward `main` →
+push (`origin` GitHub); `runs/` e modelos fora do git. Juízes via Bedrock
+com `AWS_PROFILE=main-account` (nunca outros perfis). Memória: um modelo
+por vez (o 30B ocupa ~34 GB); scripts offline carregam só o tokenizer
+(`mlx_lm.utils.load_tokenizer`).
 
-Pré-paper em `docs/PAPER.md` (working draft argumentativo, claims com
-[TBD] especificando os experimentos que faltam na §8; manter em sincronia
-com resultados novos). Resultado central até aqui (ver "Item 4" no PLANO):
-gerações da máquina no
-OLMo não contêm nenhum bloco de 8+ palavras do corpus de treino (baseline:
-9), novidade de 4-gramas 3× a do baseline. Scripts:
-`generate_mlx.py`, `sweep_lambda.py`, `novelty_check.py` (defaults já
-calibrados). Artefatos em `docs/GALERIA.md`.
+**Manuscrito principal**: `docs/PAPER_DREAM.md` (inglês) e
+`docs/PAPER_DREAM_pt.md` (tradução integral) — rascunho completo v1;
+HTMLs autocontidos por `scripts/build_manuscript.py --lang en|pt`
+(`docs/manuscript.html`, `docs/manuscrito.html`), figuras em
+`docs/figures/`, apêndices `docs/APPENDIX_*.md` gerados por
+`scripts/analysis.py`, `scripts/analysis_b2.py`, `scripts/hidden_analysis.py`.
+Bibliografia em `docs/references.bib`. `docs/PAPER.md` (Fase 1) e
+`docs/PAPER_B.md` (input improvável) são absorvidos por PAPER_DREAM.
 
-Itens 3, 4 e 6 (versão mínima) também concluídos; Avaliador mínimo pronto
-(juiz cross-family + detector de colapso; funil em
-`scripts/evaluate_experiment.py`); loop evolutivo piloto rodado
-(`scripts/evolve.py`, linhagem em `runs/evo1/`). Resultados-chave: novidade
-de 4-gramas da máquina 2× o baseline (ICs excluem zero); custo de coerência
-~+1.2 ppl sob juiz independente; três modos de escape mapeados (recitação,
-colagem, paráfrase factual — o último sem detector ainda). Em aberto:
-item 5 (Fase 2 conceitual via API — exige chaves/custos, decidir com o
-Roberto), detector de paráfrase factual, verificador programático
-(FunSearch) para domínios verificáveis.
+**Resultado do programa** (detalhes e datas no PLANO): o sampler
+anti-provável compra só novidade de superfície; inputs improváveis são
+ruído; a geração nua de um modelo base é morta; o que a ressuscita são
+duas operações — habituação (não comer o próprio passado literal) e
+**interrupção** (injetar uma frase nova sobre contexto preservado, que
+carrega toda a conexão). A interrupção precisa levar para longe (voltar à
+premissa ou ao próprio passado = não interromper), rende conforme o fio
+que quebra (ritmo ótimo ~300 tokens; a cada 75 é morto) e o relógio bate
+a saliência como gatilho (a saliência é boa leitora, mau metrônomo).
+Replica no Qwen3-8B. Dentro da rede: o juiz premia partida na superfície
+com continuidade profunda; o esquecimento é um reencontro profundo com a
+premissa que o juiz premia menos.
+
+**Infra de experimentos**: `scripts/dream_run.py` (condições),
+`scripts/dream_battery2.py` (baterias resumíveis; nohup + caffeinate),
+`scripts/dream_rejudge_surprise.py` (julgamento offline Opus k=5, dois
+trabalhadores + `rejudge_merge.py`), `scripts/hidden_states.py` +
+`hidden_analysis.py` (residual por camada, logit lens),
+`scripts/trajectories.py`, `scripts/blind_pack.py`/`blind_score.py`
+(avaliação humana cega; pacote v1 em `docs/blind/`).
+
+**Em aberto**: avaliação humana cega (hora do Roberto); revisão do texto;
+venue (ver "Publicação" no PLANO: ICLR 2027 no Brasil, paper 25/09/2026;
+workshops NeurIPS 29/08; ICCC'27 ~março; arXiv); item 8 do roadmap
+(fusão: loop interrompido sobre problema com verificador).
