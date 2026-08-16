@@ -745,6 +745,27 @@ cada condição; (3) e mais sementes (n=5 é pouco para efeitos deste
 tamanho). O DREAM segue como programa; a evidência a favor, hoje, é
 qualitativa (dream6 elaborou o achado de forma legível), não estatística.
 
+**Medindo a régua (2026-08-16, madrugada; 89 janelas × k=5 × 2 juízes =
+890 julgamentos, ~US$12):**
+
+| juiz | spread intra-janela | DREAM | plain | clock | DREAM−plain | DREAM−clock |
+|---|---|---|---|---|---|---|
+| Opus 5 | 0.71 (sd 0.30) | 1.41 (máx 4.16) | 1.67 | 0.67 | [−0.87, +0.38] | [+0.14, +1.34] |
+| Sonnet 5 | 0.27 (sd 0.11) | 0.57 (máx 4.76) | 0.35 | 0.00 | [−0.26, +0.74] | [+0.21, +1.02] |
+
+- **O Sonnet é "consistente" porque dá zero em quase tudo** (`connects_
+  distant: 0` → score 0 na média geométrica; todas as 30 janelas do clock
+  = 0). O Opus distribui scores contínuos e por isso tem resolução — ao
+  custo de ±0.7 de ruído, da mesma ordem que as diferenças entre
+  condições. Nenhum dos dois é instrumento de precisão para este efeito.
+- **DREAM ≈ plain nos dois juízes** (ICs cruzam zero); **DREAM > clock**
+  em ambos (a saliência revisa melhor que o relógio). O único ≥4 é do
+  DREAM (a janela do caderno).
+- **Conclusão honesta**: com esta amostra e esta régua, o loop *com*
+  deriva (λ + ponte) não se distingue do loop *sem* deriva no mesmo
+  arcabouço; o que se distingue é a saliência (vs relógio). A peça da
+  arquitetura que a evidência sustenta hoje é o **switch**, não o empurrão.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
