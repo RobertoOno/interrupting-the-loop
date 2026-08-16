@@ -29,7 +29,7 @@ SEEDS = [
     "He had inherited his grandfather's watch and, with it, the habit of arriving early to places that no longer existed.",
     "The river changed its name each time it crossed the border, and the villagers kept all the names.",
 ]
-CONDITIONS = ["none", "plain", "clock"]
+CONDITIONS = ["scaffold0", "bare"]  # scaffold-vs-nothing (push off in both)
 
 
 def thermal() -> str:
@@ -97,14 +97,14 @@ def main() -> None:
     from creative_machine.stats import bootstrap_diff_ci
     by = {c: [r for r in rows if r["cond"] == c] for c in CONDITIONS}
     log(f"{'cond':<8} {'n':>2} {'ins/1k mean':>12} {'insights':>9} {'reviews':>8}  CI(ins/1k - none)")
-    base = [r["insights_per_1k"] for r in by["none"]]
+    base = [r["insights_per_1k"] for r in by[CONDITIONS[0]]]
     for c in CONDITIONS:
         rs = by[c]
         if not rs:
             continue
         v = [r["insights_per_1k"] for r in rs]
         ci = ""
-        if c != "none" and base and len(base) > 1 and len(v) > 1:
+        if c != CONDITIONS[0] and base and len(base) > 1 and len(v) > 1:
             lo, hi = bootstrap_diff_ci(v, base)
             ci = f"[{lo:+.3f}, {hi:+.3f}]"
         log(f"{c:<8} {len(rs):>2} {np.mean(v):>12.3f} {sum(r['n_insights'] for r in rs):>9} {sum(r['n_reviews'] for r in rs):>8}  {ci}")

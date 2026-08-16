@@ -36,7 +36,7 @@ def main() -> None:
     p.add_argument("--seed-index", type=int, default=0)
     p.add_argument("--seed-text", default=None, help="explicit seed (overrides --seed-index)")
     p.add_argument("--rng-seed", type=int, default=0)
-    p.add_argument("--control", choices=["none", "plain", "clock"], default="none")
+    p.add_argument("--control", choices=["none", "plain", "clock", "bare", "scaffold0"], default="none")
     p.add_argument("--clock-every", type=int, default=150)
     p.add_argument("--no-judge", action="store_true")
     p.add_argument("--judge-model", default="anthropic.claude-sonnet-5")
@@ -56,6 +56,27 @@ def main() -> None:
         # Control A: no drift — plain (floored) sampling in both regimes
         cfg.drift = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed)
         cfg.escalate = cfg.drift
+    if args.control == "scaffold0":
+        # Full DREAM scaffold (salience, forgetting, reseed, kick, re-encounter)
+        # with the anti-probable push OFF in every regime: isolates the scaffold.
+        for name in ("drift", "escalate", "kick"):
+            base = getattr(cfg, name)
+            setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
+    if args.control == "bare":
+        # No scaffold at all: continuous plain generation, EOS masked, judged on
+        # a clock for comparable review counts. No forgetting, no reseed, no
+        # kick, no re-encounter, no salience.
+        cfg.drift = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed)
+        cfg.escalate = cfg.drift
+        cfg.kick = cfg.drift
+        cfg.kick_seeds = ()
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.salience = SalienceConfig(
+            jump_threshold=-1.0, jump_lag=1, entropy_drop=9.0, recurrence_threshold=-1.0,
+            stagnation_threshold=-1.0, entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
+        )
     if args.control == "clock":
         # Control C: salience off — review on a clock. Emulated by a monitor
         # that fires a "clock" jump every N steps (thresholds unreachable).
