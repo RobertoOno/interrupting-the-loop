@@ -165,6 +165,46 @@ back within ~20 tokens; forgetting is what lets a seed take.
   instead of noise [...] She kept a notebook because sometimes almosts
   piled up too much to be ignored").
 
+### 5.1 What the interruption is made of (battery 2)
+
+The ablation left the effect in one operation and raised four questions
+about it. Battery 2 answers them with the same 10 seeds, 4,500 tokens per
+cell, λ = 0, no forgetting, no judge in the loop; every cell's windows are
+judged offline (Opus 5, k = 5, three dimensions) at two kinds of review
+point — **cut** (the 160 tokens right before each injection: what the
+stream produced up to the interruption) and **clock** (a uniform grid of
+150 generated tokens, points within 20 tokens of a cut dropped) — with
+exact token positions (each cell stores its token stream and the position
+of every event and injection).
+
+- **Confound control.** While designing the battery we found that the
+  `bare` arm of the ablation ran without the scaffold's habituation
+  (a graded repetition penalty over the last 512 tokens, factor 1.15),
+  which every interrupted arm had. Bare generation dies in *literal*
+  orbits ("Highly recommended." ×100, number tables, exam keys) —
+  precisely what a repetition penalty undoes — so `bare` vs `bare + clock
+  reseed` confounded interruption with habituation. **`bare_habit`**
+  (habituation, no interruption of any kind) separates them.
+- **Content.** Same clock (150), different injected text: a neutral
+  subject change (the ablation's `bare_reseed`), a **re-encounter**
+  stitch that asks the stream to return to its beginning ("Which is
+  exactly what the first line had meant, seen from here:"), the
+  **premise itself**, or a window of the stream's **own past** (≥400
+  tokens back; before it has one, the premise) — thought feeding on
+  thought.
+- **Timing.** The re-encounter stitch injected on the **salience event**
+  (jump / crystallization / recurrence, no judge gate) vs on the clock,
+  and vs salience-only without injection.
+- **Frequency.** The neutral subject change every 75 / 150 / 300 / 600
+  tokens.
+
+**Results.** [TBD — battery 2, running]
+
+### 5.2 A second generator family
+
+[TBD — Qwen3-8B-Base on bare / bare + habituation / bare + clock reseed /
+scaffold, 10 seeds; running]
+
 ## 6. The instrument, measured
 
 Same 89 windows, k=5, two judges: Opus 5 spread 0.71 (continuous scores,
@@ -177,7 +217,36 @@ the push's null is reported as "undetectable at this resolution", not
 "absent". A binary threshold on a noisy judge is a coin: the same window
 scored 5.24 one night and 4.48 the next.
 
-## 7. Related work
+## 7. Inside the network
+
+Judges and sentence embeddings see the text; the model's own residual
+stream sees the computation. We re-run every finished stream through the
+generator (one forward pass with a KV cache; exact token positions) and
+capture the residual at 13 layers (every 4th of 48 for Qwen3-30B-A3B;
+every 3rd of 36 for Qwen3-8B), mean-pooled over 64-token windows (stride
+32), plus a logit lens at each captured layer (the final norm and unembedding
+applied to the intermediate state). Three questions:
+
+- **H1 — where does the stream freeze?** Per-layer trajectory geometry of
+  the window vectors (mean step between consecutive windows, explored
+  radius), by condition; and the logit-lens **commitment layer** — the
+  captured layer from which the top-1 token no longer changes — as a
+  measure of how early the network has decided.
+- **H2 — which layer's movement predicts judged surprise?** For every
+  judged window, its novelty at layer *l* (cosine distance between the
+  window's mean state and the mean state of everything before it) and
+  its local step (vs the previous 160 tokens); Spearman with judged
+  surprise, pooled and within condition.
+- **H3 — how deep does an interruption reach?** Cosine distance between
+  the 64 tokens before an injection and the 64 after it (the injected
+  text skipped), per layer, minus the same at random positions; and the
+  change in similarity to the premise's own state (after − before) —
+  whether a re-encounter brings the network back toward its beginning in
+  its own representation, and at which depth.
+
+**Results.** [TBD — capture running after the batteries]
+
+## 8. Related work
 
 **Decoding.** Nucleus sampling [holtzman2020curious] truncates the unreliable
 tail; locally typical sampling [meister2023typical] targets human-like
@@ -205,7 +274,7 @@ Boden's novelty/surprise/value triad [boden2004creative]; conceptual
 blending [fauconnier2002way]; novelty search [stanley2015greatness]. DREAM
 is an explicit engineering of the first three into a text loop.
 
-## 8. Limitations and next
+## 9. Limitations and next
 
 Ten seeds; one generator family for the loop (Qwen3-30B-A3B); LLM judges
 (calibrated, not human); English narrative only; the re-encounter arm was
@@ -218,7 +287,7 @@ rating of top windows per condition; a second generator family; and the
 fusion the program points to — an interrupted loop over a *problem*, with
 a verifier in place of the judge.
 
-## 9. Reproducibility
+## 10. Reproducibility
 
 Everything in this repository (117 tests): sampler core, MLX adapter,
 salience monitor, reverie engine, judges, novelty client, experiment
