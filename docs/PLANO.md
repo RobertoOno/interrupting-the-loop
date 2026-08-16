@@ -1132,6 +1132,22 @@ partes existem; a terceira é a rota do verificador (item 7).
   autocrítica; julgamento k-amostrado; e o híbrido Fase 1+2 — usar as
   frases surreais do *nosso* sampler como matéria-prima da costura (a
   vantagem que só nós temos).
+- [ ] **8. Fusão — loop interrompido sobre um problema com verificador
+  (desenho, 2026-08-16; executar depois do paper).** Duas lições se
+  encontram: na rota B o gargalo foi o *teto do gerador num domínio sem
+  headroom*, não o operador de variação; no DREAM, o que dá vida ao fluxo
+  de um modelo base é *interromper e ressemear sobre contexto preservado*.
+  Experimento: um domínio com headroom mensurável (bin packing com
+  distribuição difícil / instâncias OR-Library, ou uma construção
+  combinatória pequena com pontuador), em que a *proposta* é um devaneio
+  sobre o problema — o modelo pensa em prosa+código num fluxo longo,
+  interrompido a cada N tokens com (a) reseed neutro, (b) reencontro com o
+  enunciado, (c) o próprio melhor programa verificado até ali (self); a
+  cada corte extrai-se o candidato e verifica-se. Comparar com amostragem
+  few-shot plain no mesmo orçamento de tokens: melhor pontuação em teste e
+  **diversidade** dos programas verificados (distância de edição / AST); e
+  timing relógio vs saliência. É a versão verificável de "pensamento
+  gerando pensamento". Custo: máquina, não API.
 - [x] **6. Loop evolutivo (versão estética mínima)** — piloto 2026-08-09:
   `scripts/evolve.py` (gerar → funil → extrair sentença mais nova →
   ressemear, linhagem registrada). Aberto: verificador programático estilo
