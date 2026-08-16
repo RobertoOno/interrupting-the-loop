@@ -68,8 +68,10 @@ def main() -> None:
         for _ in range(args.k):
             try:
                 vs.append(judge_surprise(client, args.judge, it["window"], it["earlier"]))
-            except Exception:
-                pass
+            except Exception as exc:
+                print(f"  judge error ({it['cell']} step {it['step']}): {str(exc)[:120]}", flush=True)
+        if not vs:
+            continue  # nothing recorded: the next pass retries this window
         rec = {"cell": it["cell"], "cond": it["cond"], "step": it["step"], "kind": it["kind"], "k": len(vs)}
         for dim in DIMS:
             vals = [v[dim] for v in vs]
