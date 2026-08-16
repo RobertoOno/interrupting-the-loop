@@ -291,7 +291,59 @@ applied to the intermediate state). Three questions:
   whether a re-encounter brings the network back toward its beginning in
   its own representation, and at which depth.
 
-**Results.** [TBD — capture running after the batteries]
+**Results** (ablation battery, 40 cells, Qwen3-30B-A3B; window vectors
+mean-centered per layer before cosine geometry; battery 2 and the 8B
+family below).
+
+- **H1 — the freeze is everywhere, deepest at the surface.** Bare
+  generation's mean step between consecutive windows is a third to a
+  quarter of every interrupted condition's at every layer (0.06 → 0.03
+  vs 0.20–0.28 → 0.05–0.08 from layer 0 to 47); its explored radius is
+  0.13 at the input layers against 0.42–0.53, and the gap narrows with
+  depth but never closes (0.24 vs 0.33–0.34 at layer 47, CIs disjoint).
+  The three interrupted conditions are geometrically alike inside the
+  network; what separates them is what the judge reads. The logit lens
+  adds a twist: in bare generation the top-1 token stabilizes *later*
+  (mean stable-commitment index 11.12 [11.04, 11.25] of 12 vs
+  10.88–10.96) while the final distribution is far more confident (final
+  entropy 0.34 vs 0.42–1.08) — the signature of copying, a late-layer
+  computation that ends certain. Within bare cells, the windows judged
+  more surprising are the ones that commit earlier (ρ = −0.54, p ≈
+  5×10⁻⁵) and with higher entropy (ρ = +0.50).
+- **H2 — what the judge calls surprise is surface departure with deep
+  continuity.** Pooled over conditions, novelty of the judged window
+  against everything before it correlates with judged surprise at the
+  input layers (ρ = +0.47 at layer 0) and not at all at the top (−0.04 at
+  layer 47) — but the pooled number is carried by the bare/interrupted
+  contrast. Within interrupted conditions the sign flips with depth:
+  local step at layer 0 correlates positively with surprise (salience-only
+  +0.46, scaffold +0.23) and at layer 47 negatively (−0.34, −0.14);
+  novelty against the whole past is negative at depth (salience-only
+  −0.53 at layer 47, scaffold −0.35). Judged surprise rises with lexical
+  change and *falls* with deep-state departure from the stream's own
+  past: the windows the judge rewards are new at the surface and continuous
+  underneath. Higher final entropy also predicts surprise within
+  conditions (salience-only ρ = +0.47, p = 0.004).
+- **H3 — the interruption that works barely touches the deep state.**
+  Across a scaffold reseed *with forgetting* (context rebuilt from the
+  premise), the state 64 tokens after the injection differs from the state
+  before it by +0.09 (layer 4) growing to +0.21 (layer 40) cosine beyond
+  the random-position control, and its similarity to the premise's own
+  state rises by +0.09 → +0.20 with depth: forgetting is a deep
+  re-encounter with the beginning, in the network's representation.
+  Across a clock reseed *over preserved context* the same measures are
+  +0.01–0.03 and ≈0 at every layer — and this is the interruption the
+  judge rewards most (§5). Judged surprise and connection are not deep
+  representational shifts; they are surface departures over an intact
+  deep context, which is also why this arm keeps the most connection.
+  Along the stream, similarity to the premise state is U-shaped in depth
+  (≈0.9 at layer 0, ≈0.45–0.53 at layer 16, rising again at the top) and
+  ordered at the top layer scaffold 0.85 > salience-only 0.79 > clock
+  reseed 0.67 > bare 0.55 — the sentence-embedding "return to the
+  premise" of the scaffold is a top-layer phenomenon.
+
+[TBD — battery 2 (100 cells) and the Qwen3-8B family (40 cells):
+interruption depth by injected content; replication of H1–H3]
 
 ## 8. Related work
 
