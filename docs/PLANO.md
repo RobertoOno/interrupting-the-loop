@@ -900,6 +900,65 @@ contrário do empurrão; a "geração nua" é um controle forte mas não o
 só esquecimento / só reencontro — a ablação que diz *qual* parte da
 estrutura importa). Custo total do DREAM até aqui: ~US$30 de juiz.
 
+## Bateria 2 — do que é feita a interrupção? (2026-08-16, tarde; em execução)
+
+**Confundidor descoberto ao desenhar a bateria** (antes que um revisor o
+achasse): a condição `bare` usa um `SamplerConfig` cru — **sem** a
+habituação (`repetition_window=512, repetition_penalty=1.15`) — enquanto
+todas as condições interrompidas herdam o `drift` padrão do DreamConfig,
+que a tem. `bare` vs `bare_reseed` difere portanto em *duas* coisas
+(interrupção e habituação), não em uma. E os textos do `bare` morrem em
+**loops literais** ("Highly recommended." ×100, tabelas de números,
+gabarito de prova) — exatamente o que uma penalidade de repetição desfaz.
+Logo o controle que falta é `bare_habit`: habituação, sem interrupção
+alguma. Se ficar vivo, o mecanismo do paper não é "interromper", é "não
+deixar o loop comer o próprio passado literal"; se ficar morto, a tese
+"interromper" fica limpa. Leitura qualitativa das primeiras células: sem
+loops literais, mas ainda no poço de gênero (papo de chatbot, gabarito de
+inglês parafraseado, blurb de autoajuda) — longe da premissa. O juiz
+decide.
+
+**Desenho** (10 sementes × 8 condições, 4.500 tokens, λ=0, sem
+esquecimento, sem juiz no loop; janelas julgadas offline por Opus k=5;
+`scripts/dream_battery2.py`, `runs/dream_b2/`):
+
+| condição | o que testa |
+|---|---|
+| `bare_habit` | habituação sem interrupção — o confundidor |
+| `clock_reenc` | relógio 150, injeta um *reencontro* (volta à premissa) em vez de mudança de assunto — **conteúdo** |
+| `clock_premise` | relógio 150, injeta a própria frase de abertura — conteúdo |
+| `clock_self` | relógio 150, injeta uma janela do **próprio passado** do fluxo (≥400 tokens atrás; antes disso, a premissa) — pensamento alimentando pensamento |
+| `sal_reenc` | reencontro disparado pelo **evento de saliência** (sem juiz) — **timing** (vs `clock_reenc`) e vs `abl_salience` (mesmo timing, sem injeção) |
+| `clock75/300/600` | mudança de assunto neutra em outras **frequências** |
+
+Melhorias de medição: `tokens.json` por célula (ids do fluxo + posição
+exata de cada evento/injeção — as janelas antigas eram cortadas por índice
+de passo, que desloca alguns tokens a cada injeção); pontos de revisão
+`cut` (logo antes de cada injeção: o que o fluxo produziu até ser
+interrompido) e `clock` (grade uniforme de 150, pontos a ≤20 tokens de um
+`cut` descartados); rejulgador com cap por (célula, tipo). Textos de
+reencontro neutros quanto à premissa (o padrão antigo dizia "the
+notebook", de uma semente só). Reencontro rearmado por saliência sem
+passar pelo juiz binário aposentado (`reencounter_on_event`).
+
+Encadeada na mesma execução: **segunda família de gerador** —
+Qwen3-8B-Base-8bit em `bare` / `bare_habit` / `bare_reseed` / `scaffold0`
+(`runs/dream_fam8b/`), para saber se "nu morto / interrompido vivo" é sobre
+modelos ou sobre um modelo.
+
+**Interpretabilidade (código pronto, roda depois das baterias —
+`scripts/hidden_states.py`, `scripts/hidden_analysis.py`)**: uma passada
+do fluxo pelo próprio modelo com KV cache, capturando o residual em 13
+camadas (0..47 de 4 em 4): vetores de janela (64 tokens, passo 32) por
+camada → **H1** geometria por camada e condição (em que camada o `bare`
+congela?); **H2** novidade da janela julgada vs todo o passado, por
+camada, correlacionada com a surpresa julgada (que camada "vê" a
+surpresa?), mais logit lens (camada de compromisso: primeira camada cujo
+top-1 já é o final — o modelo decide cedo ou tarde nas janelas
+surpreendentes?); **H3** distância antes/depois de cada injeção por
+camada, menos controle em posições aleatórias (a que profundidade a
+interrupção chega, por tipo de conteúdo?).
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
