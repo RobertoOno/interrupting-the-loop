@@ -359,8 +359,40 @@ family below).
   reseed 0.67 > bare 0.55 — the sentence-embedding "return to the
   premise" of the scaffold is a top-layer phenomenon.
 
-[TBD — battery 2 (100 cells) and the Qwen3-8B family (40 cells):
-interruption depth by injected content; replication of H1–H3]
+**Battery 2 (100 cells) and the Qwen3-8B family (40 cells).**
+- *Interruption depth scales with the thread it breaks, not with what is
+  injected.* At period 150 every content moves the deep state by
+  +0.01–0.02 beyond control (re-encounter stitch, premise, own past
+  alike); at 300, +0.02–0.04; at 600, +0.04–0.075; at 75, ≈0. The
+  longer the segment, the further the state has drifted and the larger
+  the jump the injection produces — the network-internal counterpart of
+  the frequency result (§5.1). The salience-timed stitch is the one
+  150-token-scale injection that reliably moves the deep state (+0.02
+  → +0.05) and brings it toward the premise (+0.02 → +0.03 at every
+  layer), and it is also the arm whose stream the judge rates lowest:
+  deep movement and judged quality dissociate here too.
+- *Geometry by content.* The dead arms are the frozen ones: injecting the
+  premise or the own past yields explored radii of 0.20–0.33 (like bare
+  + habituation, 0.35–0.42) against 0.42–0.51 for the re-encounter stitch
+  and 0.50–0.61 for periods 300–600 — the largest of the program; the
+  clock-75 stream sits at 0.25–0.40 with a very confident final
+  distribution (entropy 0.24, the lowest of any interrupted arm): a
+  stream cut every 75 tokens re-enters a well between cuts. Across all
+  668 judged windows of battery 2, layer-0 movement predicts judged
+  surprise within every condition (ρ +0.3 to +0.6), and higher final
+  entropy predicts it everywhere (ρ +0.3 to +0.6): confident is
+  unsurprising.
+- *Second family (Qwen3-8B-Base, 36 layers, every 3rd captured).* H1
+  replicates: bare radius 0.14 → 0.16 (layer 0 → 35) against 0.46 → 0.23
+  (clock reseed) and 0.54 → 0.32 (scaffold), with bare + habituation in
+  between (0.33 → 0.23); bare has the most confident final distribution
+  (entropy 0.18 vs 0.35–0.96). H3 replicates the dissociation: forgetting
+  reseeds move the deep state by +0.03 → +0.10 (peaking mid-network) and
+  bring it toward the premise (+0.10 at layer 21); clock reseeds over
+  preserved context move it by +0.01–0.03 with no return. The
+  commitment-layer ordering does *not* replicate (in the 8B the scaffold
+  commits latest, 10.35 vs 9.45–9.92) — we report the late commitment of
+  bare generation as a 30B observation, not a law.
 
 ## 8. Related work
 
