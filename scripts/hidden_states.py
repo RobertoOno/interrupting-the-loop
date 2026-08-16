@@ -114,27 +114,43 @@ def injection_points(cell_dir: Path, tokenizer, n_seed: int) -> list[tuple[int, 
     return pts
 
 
-def interruption_depth(H: dict, layers: list[int], points: list[tuple[int, int]], n_total: int, w: int = 64, rng=None):
-    """Cosine distance between the mean state of the w tokens before an
-    injection and the w tokens after it (skipping the injected text), per
-    layer; and the same for matched random positions (control)."""
+def premise_vectors(H: dict, layers: list[int], n_seed: int) -> dict:
+    """Mean state of the seed tokens per layer (position 0 excluded: attention sink)."""
+    out = {}
+    for l in layers:
+        v = H[l][1:n_seed].astype(np.float32).mean(axis=0) if n_seed > 1 else H[l][:n_seed].astype(np.float32).mean(axis=0)
+        out[l] = v / (np.linalg.norm(v) + 1e-6)
+    return out
+
+
+def interruption_depth(H: dict, layers: list[int], points: list[tuple[int, int]], n_total: int, w: int = 64, rng=None, prem: dict | None = None):
+    """Per injection and per layer: (a) cosine distance between the mean
+    state of the w tokens before the injection and the w tokens after it
+    (skipping the injected text); (b) change in cosine similarity to the
+    premise state (after − before). Same for matched random positions."""
+    def unit(v):
+        return v / (np.linalg.norm(v) + 1e-6)
     def delta(p_before_end: int, p_after_start: int):
-        row = []
+        row, ret = [], []
         for l in layers:
-            a = H[l][p_before_end - w : p_before_end].astype(np.float32).mean(axis=0)
-            b = H[l][p_after_start : p_after_start + w].astype(np.float32).mean(axis=0)
-            row.append(1.0 - float(a @ b / (np.linalg.norm(a) * np.linalg.norm(b) + 1e-6)))
-        return row
-    inj, ctrl = [], []
+            a = unit(H[l][p_before_end - w : p_before_end].astype(np.float32).mean(axis=0))
+            b = unit(H[l][p_after_start : p_after_start + w].astype(np.float32).mean(axis=0))
+            row.append(1.0 - float(a @ b))
+            if prem is not None:
+                ret.append(float(b @ prem[l]) - float(a @ prem[l]))
+        return row, ret
+    inj, ctrl, inj_ret, ctrl_ret = [], [], [], []
     for p, n_inj in points:
         if p - w < 0 or p + n_inj + w > n_total:
             continue
-        inj.append(delta(p, p + n_inj))
+        d, r = delta(p, p + n_inj); inj.append(d); inj_ret.append(r)
     rng = rng or np.random.default_rng(0)
     for _ in range(max(len(inj), 8)):
         q = int(rng.integers(w, n_total - w))
-        ctrl.append(delta(q, q))
-    return np.array(inj).reshape(-1, len(layers)), np.array(ctrl).reshape(-1, len(layers))
+        d, r = delta(q, q); ctrl.append(d); ctrl_ret.append(r)
+    L = len(layers)
+    return (np.array(inj).reshape(-1, L), np.array(ctrl).reshape(-1, L),
+            np.array(inj_ret).reshape(-1, L if prem is not None else 0), np.array(ctrl_ret).reshape(-1, L if prem is not None else 0))
 
 
 def pool_windows(H: np.ndarray, n_seed: int, w: int, stride: int) -> tuple[np.ndarray, list[int]]:
@@ -185,11 +201,13 @@ def main() -> None:
             ids = ids[: args.max_tokens]
         H, lens_ent, commit, fin_ent, fin_top, used = forward_capture(model, ids, layers, args.chunk)
         pooled, ends = {}, None
+        prem = premise_vectors(H, used, n_seed)
         for l in used:
             pooled[f"win_L{l}"], ends = pool_windows(H[l], n_seed, args.window, args.stride)
+            pooled[f"win_prem_L{l}"] = pooled[f"win_L{l}"] @ prem[l]   # similarity of every window to the premise state
         pts = injection_points(d, tokenizer, n_seed)
-        inj_delta, ctrl_delta = interruption_depth(H, used, pts, len(ids), args.window)
-        pooled["inj_delta"], pooled["ctrl_delta"] = inj_delta, ctrl_delta
+        inj_delta, ctrl_delta, inj_ret, ctrl_ret = interruption_depth(H, used, pts, len(ids), args.window, prem=prem)
+        pooled["inj_delta"], pooled["ctrl_delta"], pooled["inj_return"], pooled["ctrl_return"] = inj_delta, ctrl_delta, inj_ret, ctrl_ret
         pooled["inj_pos"] = np.array([p for p, _ in pts])
         # per-window commitment / lens entropy summaries over the generated part
         gen_commit = commit[n_seed:]; gen_lens = lens_ent[n_seed:]; gen_fin = fin_ent[n_seed:]

@@ -206,13 +206,33 @@ def main() -> None:
                 md.append(f"- within {LABEL.get(cond, cond)}: commit ρ={rc:+.2f} (p={pc:.1e}), final entropy ρ={rf:+.2f} (p={pf:.1e}), "
                           f"mean commit {np.mean([r['commit'] for r in sub]):.2f}, mean surprise {np.mean([r['surprise'] for r in sub]):.2f}")
 
-    # ---------------- H3 interruption depth
-    md.append("\n## H3 — how deep does an interruption reach? (before/after cosine distance minus random-position control)\n")
+    # ---------------- H1b similarity to the premise state per layer (whole stream), by condition
+    if all(f"win_prem_L{layers[0]}" in c["z"] for c in cells):
+        fig, ax = plt.subplots(figsize=(7, 3.8))
+        md.append("\n## H1b — similarity of the stream to the premise state, per layer (mean over windows, then cells)\n")
+        md.append("| condition | " + " | ".join(f"L{l}" for l in layers) + " |")
+        md.append("|---|" + "---|" * len(layers))
+        for cond in conds:
+            cs = [c for c in cells if c["cond"] == cond]
+            per_cell = np.array([[float(np.mean(c["z"][f"win_prem_L{l}"])) for l in layers] for c in cs])
+            m = per_cell.mean(axis=0); ci = [boot_ci(per_cell[:, i]) for i in range(len(layers))]
+            ax.plot(layers, m, "-o", ms=4, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={len(cs)})")
+            ax.fill_between(layers, [a for a, _ in ci], [b for _, b in ci], color=PAL.get(cond, "#666"), alpha=0.12, linewidth=0)
+            md.append(f"| {LABEL.get(cond, cond)} | " + " | ".join(f"{v:.3f}" for v in m) + " |")
+        ax.set_xlabel("layer"); ax.set_ylabel("cosine similarity to premise state"); ax.grid(alpha=0.25); ax.legend(fontsize=7, frameon=False)
+        ax.set_title("H1b — how close the stream stays to the premise, in the network's own representation, per layer", fontsize=9)
+        fig.tight_layout(); fig.savefig(FIG / f"hidden_h1b_premise_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
+
+    # ---------------- H3 interruption depth (+ return to premise)
+    md.append("\n## H3 — how deep does an interruption reach? (before/after cosine distance minus random-position control; and return to the premise)\n")
     have = [c for c in cells if c["z"]["inj_delta"].shape[0] > 0]
     if have:
-        fig, ax = plt.subplots(figsize=(7, 3.8))
+        has_ret = all("inj_return" in c["z"] and c["z"]["inj_return"].shape[1] == len(layers) for c in have)
+        fig, axes = plt.subplots(1, 2 if has_ret else 1, figsize=(13 if has_ret else 7, 3.8), squeeze=False)
+        ax = axes[0][0]
         md.append("| condition | n cells | injections | " + " | ".join(f"Δ L{l}" for l in layers) + " |")
         md.append("|---|---|---|" + "---|" * len(layers))
+        ret_rows = []
         for cond in conds:
             cs = [c for c in have if c["cond"] == cond]
             if not cs:
@@ -223,9 +243,24 @@ def main() -> None:
             ax.plot(layers, m, "-o", ms=4, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={len(cs)})")
             ax.fill_between(layers, [a for a, _ in ci], [b for _, b in ci], color=PAL.get(cond, "#666"), alpha=0.12, linewidth=0)
             md.append(f"| {LABEL.get(cond, cond)} | {len(cs)} | {sum(c['z']['inj_delta'].shape[0] for c in cs)} | " + " | ".join(f"{v:+.3f}" for v in m) + " |")
-        ax.axhline(0, color="#999", lw=0.8); ax.set_xlabel("layer"); ax.set_ylabel("Δ cosine (injection − control)")
+            if has_ret:
+                pr = np.array([c["z"]["inj_return"].mean(axis=0) - c["z"]["ctrl_return"].mean(axis=0) for c in cs])
+                ret_rows.append((cond, len(cs), pr.mean(axis=0), [boot_ci(pr[:, i]) for i in range(len(layers))]))
+        ax.axhline(0, color="#999", lw=0.8); ax.set_xlabel("layer"); ax.set_ylabel("Δ cosine distance (injection − control)")
         ax.legend(fontsize=7, frameon=False); ax.grid(alpha=0.25)
-        ax.set_title("H3 — state change across an injection (64 tokens before vs after), per layer, minus random-position control", fontsize=9)
+        ax.set_title("state change across an injection (64 tokens before vs after), minus random-position control", fontsize=9)
+        if has_ret:
+            ax = axes[0][1]
+            md.append("\n**Return to the premise** (Δ similarity to the premise state, after − before, minus control):\n")
+            md.append("| condition | " + " | ".join(f"L{l}" for l in layers) + " |")
+            md.append("|---|" + "---|" * len(layers))
+            for cond, n, m, ci in ret_rows:
+                ax.plot(layers, m, "-o", ms=4, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={n})")
+                ax.fill_between(layers, [a for a, _ in ci], [b for _, b in ci], color=PAL.get(cond, "#666"), alpha=0.12, linewidth=0)
+                md.append(f"| {LABEL.get(cond, cond)} | " + " | ".join(f"{v:+.3f}" for v in m) + " |")
+            ax.axhline(0, color="#999", lw=0.8); ax.set_xlabel("layer"); ax.set_ylabel("Δ similarity to premise (after − before) − control")
+            ax.grid(alpha=0.25); ax.set_title("does the injection bring the state back toward the premise?", fontsize=9)
+        fig.suptitle("H3 — how deep does an interruption reach?", fontsize=10)
         fig.tight_layout(); fig.savefig(FIG / f"hidden_h3_interruption_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
     else:
         md.append("(no cells with injections)")
