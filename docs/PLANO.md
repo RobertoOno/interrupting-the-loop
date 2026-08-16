@@ -959,6 +959,29 @@ surpreendentes?); **H3** distância antes/depois de cada injeção por
 camada, menos controle em posições aleatórias (a que profundidade a
 interrupção chega, por tipo de conteúdo?).
 
+## Publicação — opções com prazos verificados (2026-08-16)
+
+- **arXiv** (cs.CL / cs.AI): sem prazo; preprint assim que a bateria 2, a
+  segunda família e a interpretabilidade estiverem no manuscrito. Serve
+  de base a qualquer submissão abaixo.
+- **ICLR 2027** — em **abril de 2027, no Brasil**; abstract **18/09/2026**,
+  paper **25/09/2026** (AoE). Top-tier, competitivo; exigiriam avaliação
+  humana e segunda família de gerador (ambas em curso). Timing e local
+  atraentes; risco alto.
+- **NeurIPS 2026 workshops** (dez/2026; prazo sugerido de submissão
+  **29/08/2026**, cada workshop define o seu): "Can We Trust the Judge?
+  Building Reliable Evaluation for Language Models" (Atlanta) — encaixa o
+  nosso §6 (instrumento medido: Sonnet inflado em zero, Opus ±0.7, limiar
+  binário = moeda) como paper curto metodológico; "Interpretability as a
+  Science" (Sydney) — a análise de estados ocultos, se der resultado;
+  "Principles of Generative Modeling" (Paris). O Creative AI Track fechou
+  em 03/08.
+- **ICCC'27** (International Conference on Computational Creativity; a
+  edição de 2026 foi em Coimbra, 29/06–03/07, com abstract ~1/03 e paper
+  ~8/03) — a casa natural do paper principal; prazo esperado ~março/2027.
+- Cuidado: há conferências predatórias com a sigla "ICCC" (WASET,
+  "conferenceindex") — ignorar; a real é computationalcreativity.net.
+
 ## Métricas
 
 - **Coerência**: perplexidade sob um segundo modelo.
