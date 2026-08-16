@@ -229,26 +229,40 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
   a literal return closes the loop. (Windows ending before 100 generated
   tokens — the two-token fragment before the first clock cut — are
   excluded throughout; 73 such windows, mean surprise 0.95.)
-- **Timing.** [TBD — salience-timed re-encounter vs matched-frequency
-  clock controls; judging]
+- **Timing: salience is a good reader and a bad metronome.** The
+  re-encounter stitch injected on salience events (jump, crystallization,
+  recurrence; 1–9 per cell, median ≈5) makes the *event windows* better
+  than salience-only without injection (3.92 / 2.99 / 3.75 vs 2.63 / 1.39
+  / 3.71; connection Δ +1.6) — but the *stream* it produces is poor:
+  uniform windows 2.18 / 1.68 / 3.93, against **4.70 / 3.48 / 5.50** for
+  the same stitch on a clock of matched frequency (every 900 tokens;
+  surprise Δ +2.02 [+1.62, +2.44] paired by seed, coherence +0.78 [+0.40,
+  +1.15]) and 5.48 / 2.87 / 5.95 for a neutral change every 900 (45/60
+  windows surprising *and* coherent — the best cell of the program).
+  Salience events select good moments to look at, which is why
+  salience-gated review beat clock review earlier (§5, dream_def); but as
+  an interruption trigger they fire unevenly and rarely, leaving streams
+  stuck for thousands of tokens. Salience should decide *where to look*,
+  not *when to interrupt*.
 - **Frequency: the yield of an interruption depends on the thread it
   breaks, and decays with distance from it.** With the neutral change
   every 75 tokens the stream is dead (surprise 0.88, δ = −0.83 vs 150):
-  nothing has time to develop. Every 150: 3.08. Every 300 and 600, the
-  windows that end within ~150 tokens *after* an interruption score
-  **5.28 / 3.60 / 6.08** and 5.23 / 3.10 / 5.70 (surprise / connection /
-  coherence; n = 50 and 30) — the highest values in the whole program,
-  and 34/60 of the 300-early windows are judged surprising *and*
-  coherent (12/60 at 150) — while windows deeper into the segment fall
-  back to ~3.0 / 2.7 / 5.9 and stay there (170–330 and 490–650 tokens
-  after the break: 2.95 and 3.06). The same window shape (a break plus
-  150 tokens of development) scores 3.08 when the broken thread was 150
-  tokens long and 5.3 when it was 300 or 600: surprise needs a developed
-  background to break. Over the whole stream the period 300 is best
-  (mean surprise 4.01, connection 3.12, coherence 5.98; 600: 3.64 /
-  2.64 / 5.50; 150: 3.08 / 3.15 / 4.78; 75: 0.88 / 1.35 / 3.15). The
-  loop's rhythm is: let a thread develop for a few hundred tokens, then
-  break it away.
+  nothing has time to develop. Every 150: 3.08. Every 300, 600 and 900,
+  the windows that end within ~160 tokens *after* an interruption score
+  **5.28 / 3.35 / 5.95**, 5.40 / 3.20 / 5.65 and 5.90 / 2.80 / 6.10
+  (surprise / connection / coherence; n = 40, 20, 40) — the highest values
+  in the program, with 34/60 of the 300-early windows judged surprising
+  *and* coherent (12/60 at 150) — while windows deeper into a segment
+  fall back to ≈3.2–3.3 surprise and stay there (300: 3.29 / 2.99 /
+  6.00; 600: 3.24; 900: 3.20). The same window shape (a break plus 150
+  tokens of development) scores 3.08 when the broken thread was 150
+  tokens long and 5.3–5.9 when it was 300–900: surprise needs a developed
+  background to break. Weighting the two phases by their share of the
+  stream (160/period), the period 300 gives the best stream — 4.35 /
+  3.18 / 5.97 — against 3.82 / 2.69 / 5.52 (600), 3.68 / 2.43 / 5.35
+  (900), 3.08 / 3.15 / 4.78 (150) and 0.88 / 1.35 / 3.15 (75); connection
+  falls as segments lengthen. The loop's rhythm is: let a thread develop
+  for a few hundred tokens, then break it away.
 
 ### 5.2 A second generator family
 

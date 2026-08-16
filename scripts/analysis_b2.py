@@ -214,8 +214,8 @@ def main() -> None:
     # Q4b — phase: judged score vs tokens since the last injection, per frequency (all judged windows of the cell)
     freq = [("clock75", 75), ("bare_reseed", 150), ("clock300", 300), ("clock600", 600), ("clock900", 900)]
     md.append("\n### Q4b — phase within the segment: score by tokens since the last interruption (all judged windows, both kinds)\n")
-    md.append("| every | windows | pooled surprise | conn | coh | early (≤160 tokens since injection) S / C / H | late (>160) S / C / H |")
-    md.append("|---|---|---|---|---|---|---|")
+    md.append("| every | windows | pooled surprise | conn | coh | early (≤160 tokens since injection) S / C / H | late (>160) S / C / H | phase-weighted stream mean S / C / H |")
+    md.append("|---|---|---|---|---|---|---|---|")
     fig, axes = plt.subplots(1, 2, figsize=(12, 3.8))
     for cond, every in freq:
         rows = [r for r in sel(cond) if r.get("since_injection") is not None]
@@ -224,9 +224,17 @@ def main() -> None:
         early = [r for r in rows if r["since_injection"] <= 160]
         late = [r for r in rows if r["since_injection"] > 160]
         f = lambda rs, d: f"{np.mean([r[d] for r in rs]):.2f}" if rs else "—"
+        # the judged sample over-represents one phase; re-weight by the stream's actual phase composition
+        w_early = min(1.0, 160.0 / every)
+        def wmean(d):
+            e = np.mean([r[d] for r in early]) if early else np.nan
+            l = np.mean([r[d] for r in late]) if late else np.nan
+            if not late: return e
+            return w_early * e + (1 - w_early) * l
         md.append(f"| {every} | {len(rows)} | {f(rows,'surprise')} | {f(rows,'connection')} | {f(rows,'coherence')} | "
                   f"{f(early,'surprise')} / {f(early,'connection')} / {f(early,'coherence')} (n={len(early)}) | "
-                  f"{f(late,'surprise')} / {f(late,'connection')} / {f(late,'coherence')} (n={len(late)}) |")
+                  f"{f(late,'surprise')} / {f(late,'connection')} / {f(late,'coherence')} (n={len(late)}) | "
+                  f"{wmean('surprise'):.2f} / {wmean('connection'):.2f} / {wmean('coherence'):.2f} |")
         # binned curve
         bins = [(0, 160), (160, 320), (320, 480), (480, 640), (640, 1000)]
         xs, ys, es = [], [], []
