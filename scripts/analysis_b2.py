@@ -57,9 +57,28 @@ LABEL = {"bare": "bare", "bare_habit": "bare +\nhabituation", "bare_reseed": "ba
 def load(run: str):
     p = RUNS / run / "rejudge_surprise.json"
     rows = json.loads(p.read_text()) if p.exists() else []
+    cache = {}
     for r in rows:
         r["run"] = run
         r["seed"] = r["cell"].split("_", 1)[0]
+        # phase of the judged window: tokens since the last injection before its end (exact for cells with 'pos')
+        if r["cell"] not in cache:
+            rj = json.loads((RUNS / run / r["cell"] / "run.json").read_text())
+            inj_pos = sorted(x[2]["pos"] for x in rj.get("reseeds", []) if len(x) > 2 and isinstance(x[2], dict) and "pos" in x[2])
+            ev_pos = {(e["step"], e["kind"]): e.get("pos") for e in rj["events"]}
+            cache[r["cell"]] = (inj_pos, ev_pos)
+        inj_pos, ev_pos = cache[r["cell"]]
+        pos = ev_pos.get((r["step"], r["kind"]))
+        if not inj_pos:  # older cells: no positions recorded — use generated steps for both (drift cancels)
+            rj_steps = sorted(x[0] for x in json.loads((RUNS / run / r["cell"] / "run.json").read_text()).get("reseeds", []))
+            inj_pos, pos = rj_steps, r["step"]
+        r["since_injection"] = r["segment_len"] = None
+        if pos is not None and inj_pos:
+            before = [p_ for p_ in inj_pos if p_ < pos]
+            after = [p_ for p_ in inj_pos if p_ >= pos]
+            if before:
+                r["since_injection"] = pos - before[-1]
+                r["segment_len"] = (after[0] - before[-1]) if after else None
     return rows
 
 
@@ -185,6 +204,45 @@ def main() -> None:
           ("clock900", ("clock",), "every 900 (mid-segment)")]
     compare_table("Q4 — frequency of interruption (neutral seed)", q4, ref=1)
     violin_fig("fig8_q4_frequency.png", q4[:5], "Q4 — how often to interrupt: neutral subject change every 75 / 150 / 300 / 600 / 900 tokens")
+
+    # Q4b — phase: judged score vs tokens since the last injection, per frequency (all judged windows of the cell)
+    freq = [("clock75", 75), ("bare_reseed", 150), ("clock300", 300), ("clock600", 600), ("clock900", 900)]
+    md.append("\n### Q4b — phase within the segment: score by tokens since the last interruption (all judged windows, both kinds)\n")
+    md.append("| every | windows | pooled surprise | conn | coh | early (≤160 tokens since injection) S / C / H | late (>160) S / C / H |")
+    md.append("|---|---|---|---|---|---|---|")
+    fig, axes = plt.subplots(1, 2, figsize=(12, 3.8))
+    for cond, every in freq:
+        rows = [r for r in sel(cond) if r.get("since_injection") is not None]
+        if not rows:
+            continue
+        early = [r for r in rows if r["since_injection"] <= 160]
+        late = [r for r in rows if r["since_injection"] > 160]
+        f = lambda rs, d: f"{np.mean([r[d] for r in rs]):.2f}" if rs else "—"
+        md.append(f"| {every} | {len(rows)} | {f(rows,'surprise')} | {f(rows,'connection')} | {f(rows,'coherence')} | "
+                  f"{f(early,'surprise')} / {f(early,'connection')} / {f(early,'coherence')} (n={len(early)}) | "
+                  f"{f(late,'surprise')} / {f(late,'connection')} / {f(late,'coherence')} (n={len(late)}) |")
+        # binned curve
+        bins = [(0, 160), (160, 320), (320, 480), (480, 640), (640, 1000)]
+        xs, ys, es = [], [], []
+        for lo, hi in bins:
+            b = [r["surprise"] for r in rows if lo < r["since_injection"] <= hi]
+            if len(b) >= 3:
+                xs.append((lo + hi) / 2); ys.append(np.mean(b)); es.append(np.std(b) / np.sqrt(len(b)))
+        if xs:
+            axes[0].errorbar(xs, ys, yerr=es, fmt="-o", ms=4, capsize=2, color=PAL.get(cond, "#666"), label=f"every {every} (n={len(rows)})")
+        pooled = [r["surprise"] for r in rows]
+        axes[1].errorbar([every], [np.mean(pooled)], yerr=[np.std(pooled) / np.sqrt(len(pooled))], fmt="o", ms=6, capsize=3, color=PAL.get(cond, "#666"))
+        for d, mk in (("connection", "s"), ("coherence", "^")):
+            v = [r[d] for r in rows]
+            axes[1].errorbar([every], [np.mean(v)], yerr=[np.std(v) / np.sqrt(len(v))], fmt=mk, ms=5, capsize=2, color=PAL.get(cond, "#666"), alpha=0.6)
+    axes[0].set_xlabel("tokens since the last interruption (window end)"); axes[0].set_ylabel("judged surprise (mean ± s.e.)")
+    axes[0].set_title("surprise decays with distance from the interruption", fontsize=9); axes[0].legend(fontsize=7, frameon=False); axes[0].grid(alpha=0.25)
+    axes[1].set_xscale("log"); axes[1].set_xticks([75, 150, 300, 600, 900]); axes[1].set_xticklabels(["75", "150", "300", "600", "900"])
+    axes[1].set_xlabel("interruption period (tokens)"); axes[1].set_ylabel("mean over all judged windows"); axes[1].grid(alpha=0.25)
+    axes[1].set_title("● surprise  ■ connection  ▲ coherence, by period (all windows pooled)", fontsize=9)
+    fig.suptitle("Q4b — how often to interrupt: phase and period", fontsize=10)
+    fig.tight_layout(); fig.savefig(FIG / "fig8_q4b_phase.png", dpi=170, bbox_inches="tight"); plt.close(fig)
+    print("figure ->", FIG / "fig8_q4b_phase.png")
 
     out = DOCS / "APPENDIX_B2.md"
     out.write_text("\n".join(md) + "\n")
