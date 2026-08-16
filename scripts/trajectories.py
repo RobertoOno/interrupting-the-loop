@@ -76,8 +76,8 @@ def main() -> None:
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
     args = p.parse_args()
 
-    from mlx_lm import load
-    _, tokenizer = load(str(Path(args.tokenizer_model).expanduser()))
+    from mlx_lm.utils import load_tokenizer  # tokenizer only: never materialize the weights here
+    tokenizer = load_tokenizer(Path(args.tokenizer_model).expanduser())
     embed = SentenceEmbedder()
 
     cells = sorted(d for d in args.run_dir.iterdir() if d.is_dir() and d.name.startswith(args.seed + "_") and (d / "run.json").exists())
