@@ -1,0 +1,979 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Blind rating v1</title><style>
+    body{font-family:Georgia,serif;max-width:900px;margin:1.5rem auto;padding:0 1rem;line-height:1.5;color:#111}
+    .item{border:1px solid #ddd;border-radius:6px;padding:.8rem 1rem;margin:1rem 0}
+    .win{white-space:pre-wrap;background:#fbfbf8;padding:.6rem;border-left:3px solid #2a78d6;font-size:.95rem}
+    details{margin:.4rem 0;font-size:.85rem;color:#444}details pre{white-space:pre-wrap;background:#f4f4f4;padding:.5rem}
+    .q{display:flex;gap:1.5rem;align-items:center;margin-top:.5rem;font-size:.9rem}
+    input[type=number]{width:3.5rem}textarea{width:100%;height:9rem;font-family:Menlo,monospace;font-size:.8rem}
+    button{padding:.4rem .8rem;font-size:.95rem}
+    .rubric{background:#fff8e6;padding:.6rem 1rem;border-radius:6px;font-size:.9rem}
+    </style></head><body>
+<h1>Blind rating pack v1</h1>
+<div class='rubric'><b>Como avaliar</b> (cego: você não sabe de que condição cada janela vem). Para cada janela, leia o <i>contexto anterior</i> (opcional, dobrado) e a <b>janela</b> (o trecho a avaliar), e dê duas notas de 0 a 10:<br><b>Surpresa</b> — quanto o trecho traz algo genuinamente inesperado dado o que veio antes (0 = previsível/boilerplate/repetição; 10 = uma ideia, imagem ou virada que você não anteciparia e que abre algo). <b>Coerência</b> — quanto o trecho se sustenta como texto (0 = colapsado, lista, sem sentido; 10 = prosa clara e integrada). Não premie mudança de assunto por si só; premie o que <i>surpreende e faz sentido</i>. Ao terminar, clique em <b>Gerar JSON</b>, copie o texto e cole na conversa.</div>
+<p>42 janelas.</p>
+<div class='item' id='w01'><b>w01</b>
+<details><summary>contexto anterior</summary><pre> She knew that there was no one word that could mean exactly the same thing in both languages, and so she tried to think of different phrases that could convey the feeling that was associated with that word. What was she trying to avoid?
+The</pre></details>
+<div class='win'> translator was trying to avoid the problem of &quot;untranslatables&quot;, words that carry a unique meaning or cultural significance in one language but cannot be directly translated into another language without losing their original meaning. The goal was to preserve the essence or feeling behind the word by finding a suitable equivalent in the target language. This is also known as maintaining &quot;fidelity&quot; in translation.
+
+She had worked so hard, she felt she deserved a break. What did she deserve?
+A break.
+
+The translation of a piece of literature is always inferior to the original because no one has the perfect translation. Is it true?
+True.
+
+The use of two languages is called bilingualism.
+True.
+
+The language of the United States is English. True or false?
+False. There is no official language in the United States,</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='coherence'></div></div>
+<div class='item' id='w02'><b>w02</b>
+<details><summary>contexto anterior</summary><pre>The translator kept a list of words she refused to translate.</pre></details>
+<div class='win'> She knew
+
+That night she dreamed of something else entirely: the taste of a very cold beer.
+
+The translator had been an alcoholic in her previous life, so it was natural that she would return to something she knew in her dreams. But when she woke up, she was not drinking beer. She was drinking gin and tonic in her living room while she looked through the book of translations that her sister had left for her. There was something there that reminded her of the dream. There were many things in the book that reminded her of the dream.
+
+When she began translating, she found herself remembering all the things she had wanted to translate in her past life: phrases, idioms, even whole sentences. She started writing them down and translating them into English. She kept going until she finished the entire</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w02' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w02' data-dim='coherence'></div></div>
+<div class='item' id='w03'><b>w03</b>
+<details><summary>contexto anterior</summary><pre>Every morning the baker counted the loaves twice, and every morning the count was different.</pre></details>
+<div class='win'>There was</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='coherence'></div></div>
+<div class='item' id='w04'><b>w04</b>
+<details><summary>contexto anterior</summary><pre>tting down at one of those chairs and picking up one of
+
+That night she dreamed of something else entirely: she dreamed that the baker had been a boy and she a girl, and that they had been lovers. They walked together through an empty field in silence until they came upon a small cottage tucked away among tall trees on a hillside overlooking rolling green hills. The door was open so they entered without knocking. Inside were two empty rooms with only one bed which appeared to have been slept in recently by someone small enough to fit on both sides comfortably. As they lay down side by side under soft blankets someone knocked gently on the door before entering timidly with a tray filled with food steaming hot from being freshly cooked over an open fire outside where many other people sat enjoying meals together around a long wooden table set up beneath branches laden heavy with ripening fruit
+
+Meanwhile, in a city with no name, in a café by the sea, a young man sat by the window with his notebook before him. He watched the people who passed by: mothers and fathers with small children in their arms; young couples walking hand in hand; old couples with white hair.
+
+The sea was a pale blue and the sky a pale blue above it. He wrote about what he saw, and he thought of her all day long. Then, at dusk, when the sun had sunk behind the horizon, he wrote that it was time to go home.
+
+Every morning the baker counted his loaves twice, and every morning the count was different. There were never more than thirty but there were always twenty-one or twenty-two or twenty-three.
+
+Then one day there was only one
+
+There is an older story about this, and it goes: There was a girl who loved books so much that her parents sent her away to a boarding school for girls where she studied French</pre></details>
+<div class='win'> and Latin and English literature.
+
+Every day after school she would read until late into the night by lamplight while her classmates slept around her.
+
+One evening she stayed up very late reading because she could not put down the book she was reading.
+
+She became so engrossed in the story that she did not realize how late it had gotten until she looked at the clock on her nightstand and saw that it was nearly midnight.
+
+She hurriedly put away her book and turned out the lamp so that no one would know she had been reading past lights out.
+
+As she climbed into bed, she heard someone approaching her room from
+
+A question nobody had asked yet: Who are you?
+
+Every morning the baker counted his loaves twice, and every morning the count was different. There were never more than</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w04' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w04' data-dim='coherence'></div></div>
+<div class='item' id='w05'><b>w05</b>
+<details><summary>contexto anterior</summary><pre>The river changed its name each time it crossed the border, and the villagers kept all the names.</pre></details>
+<div class='win'> But the</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w05' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w05' data-dim='coherence'></div></div>
+<div class='item' id='w06'><b>w06</b>
+<details><summary>contexto anterior</summary><pre> just above her ankles. Around her neck was a scarf in shades of purple and blue that matched the color of her eyes perfectly.
+
+As she walked past an alleyway between two buildings, she suddenly stopped in her tracks. A man stepped out from behind one of them, blocking her path. He was tall and thin with pale skin and dark eyes that seemed to pierce right through her as he regarded her curiously.
+
+“Hello there,” he said with a smile that didn’t quite reach his eyes. “I don’t think I’ve seen you before.”
+
+The woman didn’t reply immediately; instead, she took another step backward until she was standing right next to the wall behind which they had both been concealed moments before.
+
+“What do you want?” she asked warily.
+
+“I just want to talk,” he said casually. “Is there somewhere we can go where we can talk in private?”
+
+She eyed him suspiciously for several seconds before finally nodding her head once in agreement. As they began walking again towards an intersection some blocks away from where they now stood together, she couldn’t help but feel like something about
+
+There is an older story about this, and it goes: A woman walks home at night. There are many stories like it, but this is one of the ones that sticks in my memory.
+
+The woman walks alone down a dark street. The street is empty of people, and there are no sounds except for the rustle of leaves in the wind and the sound of her footsteps on pavement. The street is lined with tall buildings, their windows darkened by curtains drawn tight against the night. No lights shine from any of them; no one appears to live here anymore.
+
+She walks quickly down the sidewalk, not looking left or right. Her footsteps echo off walls as she moves swiftly through darkness towards whatever destination she seeks. A shiver runs up</pre></details>
+<div class='win'> her spine when she looks up suddenly, seeing a figure standing by a doorway ahead of her. It’s just a shadow against darkness, but she knows it isn’t natural.
+
+She stops walking then and stands still for several minutes before continuing on her way again.
+
+As soon as she turns the corner behind which she saw that figure she sees him again– standing right beside her on sidewalk where there was no shadow before. He wears dark clothes and carries a large bag slung across his shoulder like some kind of vagabond. His face is obscured by brimmed hat pulled down over eyes which gleam like pinpoints in gloom behind which nothing else can be seen save only teeth bared in grin so wide it reaches from ear to ear around which hair hangs loose about shoulders in wild tangle</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='coherence'></div></div>
+<div class='item' id='w07'><b>w07</b>
+<details><summary>contexto anterior</summary><pre>She kept a notebook of things that had almost happened.</pre></details>
+<div class='win'> For example</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='coherence'></div></div>
+<div class='item' id='w08'><b>w08</b>
+<details><summary>contexto anterior</summary><pre>sample S of size n from X (i.e., n independent draws from X), then we can approximate this probability by counting how many samples fall into our desired interval and dividing by n:
+P(0&lt;X&lt;1) ≈ |S ∩ [0,1]|/n
+This estimator is unbiased (i.e., its expected value is equal to the true probability) and consistent (i.e., its error converges to 0 as n goes to ∞).
+We can also use this method to approximate expected values by multiplying each sample by its probability and then averaging the results:
+E[X] ≈ ∑(x*P(X=x))
+This estimator is also unbiased and consistent.
+Finally, we can use Monte Carlo methods to approximate integrals in many dimensions by using samples from a multivariate random variable.
+To approximate an integral I = ∫f(x)dx over some domain D, we can take many samples X1, X2, … Xn from D and then average their corresponding function values:
+I ≈ 1/n * ∑f(Xi)
+This estimator is unbiased and consistent as long as f(x) is integrable over D.
+We now have all the tools necessary to understand Markov Chain Monte Carlo (MCMC)!
+MCMC is a class of algorithms for sampling from probability distributions based on constructing a Markov Chain that has the desired distribution as its stationary distribution. The state of the chain after a large number of steps is then used as a sample from the desired distribution.
+In other words, MCMC algorithms allow us to use Monte Carlo methods to approximate quantities that we cannot compute directly because they involve high-dimensional integrals or complicated probability distributions.
+The key idea in MCMC is that we don’t actually need our Markov Chain to converge to our desired stationary distribution in order to use it as a way of generating samples from that distribution. All we need is for our chain’s stationary distribution to be close</pre></details>
+<div class='win'> enough so that it doesn’t introduce too much bias into our estimates. The closer our chain gets to its stationary distribution, the more accurate our estimates will be.
+This article was originally published at www.michaeltyson.me on 14 December 2015. Click here if you’d like to subscribe!
+How to design your own Monte Carlo simulations with Python: https://www.datacamp.com/community/tutorials/monte-carlo-simulation-python
+This article was originally published at www.michaeltyson.me on 14 December 2015. Click here if you’d like to subscribe!
+
+Here’s how to make your own solar panel: Solar panels are becoming increasingly popular as more and more people are trying to reduce their carbon footprint. But how do you make a solar</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w08' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w08' data-dim='coherence'></div></div>
+<div class='item' id='w09'><b>w09</b>
+<details><summary>contexto anterior</summary><pre>6	690	646	724	787	543	605	605	655	539	490	554	609	667	647	657	716	724	754	785	740	543	568	622	581	627	698	749	531	656	627	658	482	605	774	608	656	698	570	640	702	700	701	601	656	721	509	557	775	653	657	576	518	665	529	740	587	641	758	786	499	552	599	605	671	496	674	572	655	714	739	717	608	705	606	744	762	630	541	557	716	552	714	486	743	554	661	643	525	651	780	649	772	731	637	524	605	729	716	484	727	483	742	625	774	716	741	690	608	727	616	577	629	591	640	764	783	768	556	749	483	779	536	789	716	781	623	558	627	762	579	755	724	669	612	724	538	769	646	698	578	689	723	586	717	658	661	608	567	586	72</pre></details>
+<div class='win'>8	611	600	503	764	576	549	782	758	687	576	586	677	495	723	649	576	613	631	798	530	698	701	664	701	672	765	525	689	625	487	751	491	656	737	589	546	484	616	694	49</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w09' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w09' data-dim='coherence'></div></div>
+<div class='item' id='w10'><b>w10</b>
+<details><summary>contexto anterior</summary><pre>e Chinese into English without even knowing what any of the words mean!
+
+The man looks at the dictionary in amazement and says, “How does that work? How do you know what any word means?”
+
+The shopkeeper replies with one word: “Practice.”
+
+In this story, we see two men who each have something they want to learn how to do: translating Chinese into English. One knows nothing about Chinese, while the other knows nothing about how to translate anything at all.
+
+The translator kept a list of words she refused to translate. She knew that there were some words
+
+The translator kept a list of words she refused to translate. She knew that there were some words that could not be translated from one language to another. The most obvious example of this was the word “hello.” It was impossible to translate it because it meant different things depending on who said it and why they said it.
+
+Other examples included phrases such as “how are you,” “thank you,” or even just “good day.”
+
+If you want to know what happens when an English speaker tries to talk with someone who
+
+A question nobody had asked yet: Why do people get lost in translation?
+
+The translator kept a list of words she refused to translate. She knew that there were some words that would not make sense if translated directly from one language to another. The most obvious example of this was the word “hello.” It was impossible to translate it because it meant different things depending on who said it and why they said it.
+
+Other examples included phrases such as “how are you,” “thank you,” or even just “good day.”
+
+If you want to know what happens when an English speaker tries to talk with someone who doesn’t speak English well enough for them both, imagine how you would feel if someone asked you “how are you?” while speaking</pre></details>
+<div class='win'> German and you replied “Ich bin gut danke!” (I’m fine thanks!). This kind of situation is called “culture shock,” which happens when someone is immersed in a foreign culture without understanding anything about that culture or its people.
+
+Culture shock can lead people into dangerous situations because they don’t understand what they’re getting into or why they’re doing something wrong (or right). Culture shock can also lead people into trouble with law enforcement agencies who may not understand why someone is acting strangely in their country due to cultural differences between them and us (or vice versa). Culture shock can even cause serious mental health problems because we aren’t prepared for what we’re experiencing while living abroad or working abroad
+
+Why do people get lost in translation?
+
+What if we were able to translate dreams into reality?
+
+Dreams</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w10' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w10' data-dim='coherence'></div></div>
+<div class='item' id='w11'><b>w11</b>
+<details><summary>contexto anterior</summary><pre>itting cross-legged on the ground with one arm thrown over one knee and looking up at something or other in front of him so intently that
+
+That’s how you do it when you want to write a
+
+So the opening sentence had been true after all, only not in the way it seemed: there had been a man on a bridge with a camera, only he hadn’t been taking pictures of anything — except possibly himself.
+
+She kept looking at him; wondering what kind of person would carry around an expensive piece of photographic equipment and not use it? It seemed like such an odd thing to do.
+
+Eventually she decided to ask him about it.
+
+‘Excuse me,’ she said tentatively.
+
+He looked at her without moving any other part of his body than his eyes which appeared suddenly wide open before narrowing again into slits which stared directly into hers as if they were looking through them somehow or other into some place deep within her mind where no one else could possibly know what she really thought and felt at any given moment in time because even if
+
+And this, it turned out, was the same thing as the beginning — because there was a man with a camera on a bridge.
+
+The first time she saw the man with the camera, he was taking photos of the river below. The second time, he was taking photos of the people in the boat. The third time, he was taking photos of the woman who had been standing next to her. The fourth time, he was taking photos of the woman’s shoes. The fifth time, he was taking photos of her shoes. The sixth time, he was taking photos of the water. The seventh time, he was taking photos of a tree branch.
+
+She told him he should take photos of her instead.
+
+He took a photo of her, but didn’t seem interested in talking about it. He seemed more interested in talking
+
+It came back to where it had started,</pre></details>
+<div class='win'> of course; it always did, but this time she didn’t care about that. She didn’t care about anything except getting back home, or at least getting as close as possible to it. She didn’t care about the cold wind and rain on her face because they were nothing compared to what she wanted: safety and warmth in her own bed with nobody around her for miles except those who lived there already.
+
+But there were no lights anywhere; nothing but stars above and below, and blackness all around them. And she knew she wasn’t going
+
+The first time she saw him, she thought he was just a man with a camera. He was standing on the bridge overlooking the river and she assumed he was taking pictures for tourists passing by. When she got closer, though, she saw that</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='coherence'></div></div>
+<div class='item' id='w12'><b>w12</b>
+<details><summary>contexto anterior</summary><pre> line until eventually we end up with whatever outcome we&#x27;re looking at. It&#x27;s like a giant jigsaw puzzle that keeps changing shape as new pieces get added or taken away until finally all the pieces
+
+It came back to where it had started, of course;
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+The moment came and passed; and then came another moment, and then another and another; until there were a lot of moments coming and going, like cars on a road.
+
+Time has no beginning or end; it just goes on forever and forever
+
+When there were only three moments left, he could hardly breathe; he was so excited.
+
+Because he knew now that nothing could ever happen to him again; not really. He would always be exactly where he was now.
+
+I know where I&#x27;m going, I know who I am now,
+
+And this meant that no one would ever come back again. And when this happened, they would all disappear forever from his mind
+
+So the opening sentence had been true after all, only not in the way it seemed: No one had ever gone anywhere; no one had ever left home.
+
+And this meant that no one would ever come back again. And when this happened,
+
+We can&#x27;t change things that have already happened; but we can change things that haven&#x27;t yet happened yet.
+
+We can&#x27;t change things that have already happened;
+
+Because he knew now that nothing could ever happen to him again; not really. He would always be exactly where he was now.
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+We are here because we are here because
+
+Time has no beginning or end; it just goes on forever and forever
+
+And every time one of these
+
+And this, it turned out</pre></details>
+<div class='win'>, was the same thing as the beginning — because everything that ever happened was a part of everything else that was to come.
+
+Because he knew now that nothing could ever happen to him again; not really. He would always be exactly where he was now.
+
+He began to feel very sorry for his grandfather. He was starting to understand what a sad and difficult life he must have led
+
+The moment came and passed; and then came another moment, and then another and another; until there were
+
+Because he knew now that nothing could ever happen to him again; not really. He would always be exactly where he was now.
+
+We&#x27;re here because we&#x27;re here because we&#x27;re here, because we&#x27;re here.
+
+Everything in the world is connected; even though it seems otherwise sometimes
+
+Time has no beginning</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w12' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w12' data-dim='coherence'></div></div>
+<div class='item' id='w13'><b>w13</b>
+<details><summary>contexto anterior</summary><pre>The map was accurate in every detail except one, and nobody could say which.</pre></details>
+<div class='win'> There was a road on it where the road should have been. In reality, there was no road there at all.
+A. on which
+B. at which
+C. in which
+D. where
+Answer:
+D
+
+—It
+
+And this, it turned out, was the same thing as the beginning — because the beginning was not in the past, it was in the future, it was ahead of him, it was what he was moving towards.
+Answer:
+D
+
+In my view, keeping the balance of nature is the key to the problem.
+A. in
+B. at
+C. for
+D. with
+Answer:
+A</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='coherence'></div></div>
+<div class='item' id='w14'><b>w14</b>
+<details><summary>contexto anterior</summary><pre>son, because Mr. Clark is dead. He died ten years before.
+
+The letter is still not yet finished: it has come to its end, but it has not yet come to its beginning. It has begun in 1896, in the small town of Asbury Park, where there are no more than fifty families living at that time, and no telephone service. But there are
+
+
+
+Which is exactly what the first line had meant, seen from here: &quot;The letter arrived forty years late.&quot; The writer had said that he has gone mad in fact and that it was time to do so; and he has asked Mr. Clark for advice: &quot;If you think you can help me, let me know immediately.&quot; And now he knew: Mr. Clark had thought he could help him.
+
+But now Mr. Clark cannot help him; he is dead. And Mrs. Clark cannot help him either; she does not even know who he is or what she can do.
+
+But there are others who can help him: they are his former teachers — or they would have been if he could find them. But they are scattered around New Jersey now — all over New Jersey — and there is no
+
+So the
+
+So the opening sentence had been true after all, only not in the way it seemed: the letter has arrived forty years late; but in a way it has arrived on time too because now there is someone who can help.
+
+There are still letters to write and letters to answer. The letter writer kept at it for twenty years — sometimes two a day — until he died in 1935 at the age of seventy-three.
+
+And what became of the letter? It was sent back to New Jersey and handed over to the post office there. They kept it for many years; but finally it was forgotten about. It is not known what happened to it then: whether it was thrown away or whether, like the other letters that were never finished, it became part of history — which is what history is after all.
+
+One day when
+
+And this, it turned out</pre></details>
+<div class='win'>, was the same thing as the beginning — because the end was not yet. It was 1906, the year the earthquake struck San Francisco, and it would be three years before the world&#x27;s most famous post office box would be filled for the first time.
+
+The letter, in the meantime, had been lost somewhere along its way. &quot;Dear Mr. Clark,&quot; it began, and then, &quot;I am writing you now to let you know that I am not a madman but I have gone mad in fact.&quot; The writer told of the strange events in his life and the &quot;absurd situation&quot; he found himself in, and then he said that he knew it was time to go insane and that he hoped Mr. Clark, who had been his teacher at a boys&#x27; school</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='coherence'></div></div>
+<div class='item' id='w15'><b>w15</b>
+<details><summary>contexto anterior</summary><pre>ll hold their hands when they cry; people who will walk with them when they cry.
+Because sometimes all someone needs is someone who will be there for them no matter what happens; someone who will take care of them when they&#x27;re sick; someone who will make sure they eat when they&#x27;re hungry; someone who will make sure they sleep when they&#x27;re tired; someone who will make sure they stay safe when danger threatens; someone who will make sure they don&#x27;t hurt themselves when they feel like hurting others.
+Because sometimes all someone needs is someone who will remind them that life isn&#x27;t always fair but it can still be good if we let it be; that there are good days and bad days but those bad days don&#x27;t last forever if we remember there are good ones coming too; that there are times when life feels hopeless but there are also times when life feels hopeful too if only we look for those moments.
+And that&#x27;s why we started asking this question — because we believe that asking this question has helped us heal from trauma, prevented us from attempting suicide, and made life more worth living.
+Because we know that asking this question has helped us understand that we are not alone, and that someone else is listening.
+That&#x27;s why we started this movement. That&#x27;s why we&#x27;ve asked over a million people this question since then. And that&#x27;s why we want to ask everyone reading this book this question: Are you alright?
+Are you alright?
+It doesn&#x27;t matter how long it&#x27;s been since you last asked anyone that question. What matters is whether you&#x27;ve asked it recently enough. And what matters even more is whether or not anyone has ever asked you that same question recently enough for you to say yes.
+Because if no one ever asks you if you&#x27;re okay, then maybe you really aren&#x27;t okay. But if someone does</pre></details>
+<div class='win'> ask you if you&#x27;re okay, then maybe you really are okay.
+Maybe you really are okay. But maybe you aren&#x27;t. But maybe you aren&#x27;t. But maybe you aren&#x27;t. But maybe you aren&#x27;t.
+But maybe you really are okay. And maybe everyone around you is too. And maybe everything is going to be fine after all.
+It&#x27;s all about hope. Hope is what keeps us going. Hope is what makes life worth living. And hope is what makes asking this question so powerful.
+That&#x27;s why we believe asking this question is so important. That&#x27;s why we want to keep doing it until everyone knows it&#x27;s okay to ask this question too — until everyone knows it&#x27;s okay not to be okay until everyone knows there are people around them who will listen when they say yes</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='coherence'></div></div>
+<div class='item' id='w16'><b>w16</b>
+<details><summary>contexto anterior</summary><pre>ltural significance in one language but cannot be directly translated into another language without losing their original meaning. The goal was to preserve the essence or feeling behind the word by finding a suitable equivalent in the target language. This is also known as maintaining &quot;fidelity&quot; in translation.
+
+She had worked so hard, she felt she deserved a break. What did she deserve?
+A break.
+
+The translation of a piece of literature is always inferior to the original because no one has the perfect translation. Is it true?
+True.
+
+The use of two languages is called bilingualism.
+True.
+
+The language of the United States is English. True or false?
+False. There is no official language in the United States, although English is the most widely spoken language.
+
+A language family is a group of related languages with a common linguistic root.
+True.
+
+Languages are spoken by millions of people and written by hundreds of thousands.
+True.
+
+The Indo-European language family includes most of the languages of Europe as well as many languages spoken in Iran, Afghanistan, Pakistan, and northern India.
+True. The Indo-European language family includes languages such as English, Spanish, French, German, Russian, Hindi, Urdu, Persian, and many others from Europe, South Asia, and Iran.
+
+The Indo-European language family includes most of the languages of Europe as well as many languages spoken in Iran, Afghanistan, Pakistan, and northern India.
+True. The Indo-European language family includes languages such as English, Spanish, French, German, Russian, Hindi, Urdu, Persian, and many others from Europe, South Asia, and Iran. This family also includes some other major language families like Slavic languages (Russian, Polish, Czech), Romance languages (Spanish, Italian), Germanic languages (</pre></details>
+<div class='win'>German, Dutch), and Iranian languages (Farsi).
+
+Which term refers to an ethnic group within a nation?
+Subculture
+
+Which term refers to an ethnic group within a nation?
+Subculture
+
+What do people living in different regions of a country usually have in common?
+A shared culture
+
+What do people living in different regions of a country usually have in common?
+A shared culture.
+
+An area with many different subcultures and customs is called a cultural mosaic.
+True
+
+An area with many different subcultures and customs is called a cultural mosaic.
+True.
+
+Which of these is a cultural characteristic of the Southwest region of the United States?
+A) A mix of Hispanic and Native American peoples
+B) A mixture of Asian and Hispanic peoples
+C) A mixture of Asian and Native American peoples</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w16' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w16' data-dim='coherence'></div></div>
+<div class='item' id='w17'><b>w17</b>
+<details><summary>contexto anterior</summary><pre>still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late.
+The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of</pre></details>
+<div class='win'> was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that no longer existed was gone. The letter was still here, but it was still too late. The past it spoke of was gone, and he was still here. The house that was torn down was gone, and the address that</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w17' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w17' data-dim='coherence'></div></div>
+<div class='item' id='w18'><b>w18</b>
+<details><summary>contexto anterior</summary><pre>ulture through contributions such as jazz music originating from urban centers like Chicago during the early twentieth century onward.
+
+Overall migration has played a significant role in shaping Midwest&#x27;s diverse cultural landscape which reflects its history of being a melting pot of various ethnicities and nationalities throughout its existence. 
+
+Which characteristic is most common in the Midwest region?
+The characteristic that is most common in the Midwest region is that it has a high proportion of people with European ancestry.
+
+Which characteristic is most common in the Midwest region?
+The characteristic that is most common in the Midwest region is that it has a large percentage of its population with European ancestry.
+
+How did migration shape the culture in the South?
+Migration has greatly impacted the culture of the South. Historically, African Americans migrated from the rural South to northern cities during the Great Migration (1916-1970) seeking better economic opportunities and fleeing from racial segregation and discrimination in their home states. This migration led to significant demographic changes in many northern cities such as Chicago, Detroit, New York City, and Philadelphia.
+
+The Great Migration also had a profound impact on Southern culture itself. The departure of so many African Americans resulted in a loss of traditional musical forms such as blues, gospel, and jazz which were born out of black experiences during this era. At the same time however, these genres evolved into new styles that reflected the experiences of migrants who moved northward seeking better lives.
+
+Additionally, migration has played an important role in shaping Southern cuisine which blends elements from African American, European American (particularly Cajun/French), Native</pre></details>
+<div class='win'> American, Latinx/Hispanic/Latino, and Asian cultures among others.
+
+In recent decades there has been increased immigration from Latin America particularly Mexico but also from Central America resulting in growing Hispanic/Latinx/ Latino populations throughout many Southern states like Texas and Florida. These newcomers have introduced new culinary traditions along with other cultural practices such as mariachi music festivals and Día de los Muertos celebrations which have become more widely celebrated across regions traditionally dominated by Anglophone speakers.
+
+Overall, migration has helped create diverse cultures within Southern regions while also contributing to national diversity overall by introducing new foods, music genres, languages spoken at home along with other cultural practices previously unknown outside these areas before arriving here today!
+
+Which characteristic is most common in the South?
+A high proportion of African American people.
+
+Which characteristic is</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='coherence'></div></div>
+<div class='item' id='w19'><b>w19</b>
+<details><summary>contexto anterior</summary><pre>er. My sister looked back at me, her eyes wide. Her mouth was open, her tongue sticking out. I looked away.
+But I went there anyway, by myself. I went in the summer, in the hot, sticky weather when the forest was full of green and the sun was high in the sky. The road was still there, just a rut through the woods, but I could see it. I followed the road to the river, and I followed the river up, and I walked and walked.
+And I found the place where the water began its journey to the ocean. It was a little lake, with rocks all around it and a bunch of trees. There was no way to tell which tree was the one that gave the lake its name. I thought about the names of the places the river passed through. I thought about the names of all the people who lived near it. I thought about my parents.
+I sat there for a long time. I watched the water and listened to the wind. I listened for the sound of the water as it fell off the rocks, I listened for the sound of the leaves as they blew in the wind. I listened for the sound of the wind as it passed through the trees. I listened for the sound of the river as it flowed past the rocks.
+And then I got up and walked back down to the road. I walked back through the woods, and I walked back to the car. I got in the car and drove back home. I walked into the house and up the stairs. I walked into the room where my mother was sitting. She looked up when I came in. She looked at me. I looked at her.
+“I went to the river today,” I said.
+“Did you see it?” she said.
+I nodded. She looked away.
+“Did you like it?” she said.
+I didn’t say anything. She looked up again. She smiled. I smiled back. She got up and hugged me. I hugged her back.
+“Did you like it?” she said again.
+“Yes,” I said.
+She let go of me and sat down. She picked up my sister. I stood</pre></details>
+<div class='win'> there for a moment. I looked at the floor. I looked at my hands. I looked at her. I looked at my sister. She was still smiling.
+“I love you,” I said.
+She smiled again. I turned and walked out of the room. I walked down the stairs and out the door. I got in the car and drove away.
+I thought about what I’d seen. I thought about what I’d heard. I thought about what I’d felt. I thought about what I’d thought. I thought about what I’d known. I thought about what I’d learned. I thought about what I’d done. I thought about what I’d said.
+I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees.</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='coherence'></div></div>
+<div class='item' id='w20'><b>w20</b>
+<details><summary>contexto anterior</summary><pre> Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How</pre></details>
+<div class='win'> To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w20' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w20' data-dim='coherence'></div></div>
+<div class='item' id='w21'><b>w21</b>
+<details><summary>contexto anterior</summary><pre> at a time — one person at a time. Are you alright? We hope so. If not, please let us know. We care about you more than anything else in this world. And we always will.
+If you have questions about suicide prevention, call the National Suicide Prevention Lifeline at 1-800-273-TALK (8255). If someone has attempted suicide, call 911 immediately.
+If you have questions about mental health issues, call the Crisis Line at 1-877-442-5337 (416) 408-4357 (Toronto area) or email [email protected] If someone has attempted suicide, call 911 immediately. For more information, go to www.mentalhealthfirstaid.ca . To find out if your community offers MHFA training sessions, visit www.mentalhealthfirstaid.org . There are also other great resources available on-line such as www.helpguide.org . For more information about suicide prevention programs offered in Canada, visit www.helpguide.org .
+If you live outside of North America, please contact your local emergency services or call 911 if someone has attempted suicide or is in crisis. If not, please visit your government&#x27;s website for information on how to get help.
+The following is an excerpt from the book The Art of Asking Your True Self: A Guide to Finding Yourself and Your Purpose by author and speaker Matthew Kelly. This book is available for purchase on Amazon and Barnes &amp; Noble .
+What Is True Self?
+What Is Your True Self?
+How Do You Find Your True Self?
+What Does It Mean To Have A True Self?
+What Does It Mean To Be Your True Self?
+How Do You Know When You Are Being Your True Self?
+Why Is It Important To Be Your True Self?
+What Happens When You Are Not Being Your True Self?
+Why Do We Need To Know Our True Selves?
+What Can Help You Find Out More About Your True Self?
+Can Someone Help You Find Out More About Your True Self?
+How Can You</pre></details>
+<div class='win'> Find Out More About Your True Self On Your Own?
+How Can You Know If Someone Is Helping You Discover Your True Self Or Not Helping You At All?
+Can Someone Help You Discover More About What Makes You Unique As A Person?
+Can Someone Help You Discover What Makes You Unique As A Person And Why It Matters?
+Can Someone Help You Discover How You Can Use What Makes You Unique As A Person For The Benefit Of Others And The World At Large?
+Can Someone Help You Discover How You Can Use What Makes You Unique As A Person For The Benefit Of Others And The World At Large In An Effective Way That Will Make A Difference In Their Lives As Well As Yours?
+Can Someone Help You Discover How You Can Use What Makes You Unique As A Person For The Benefit Of Others And The World At Large In</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w21' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w21' data-dim='coherence'></div></div>
+<div class='item' id='w22'><b>w22</b>
+<details><summary>contexto anterior</summary><pre> at university and are doing well. Please let us know how things are going at home as we miss you very much.
+Yours affectionately,
+Your father’s illness had been sudden but severe and the doctors said there was nothing more they could do for him – nothing but comfort care. They didn’t expect him to live much longer, maybe another month or so.
+It was a hard decision to make – leaving him alone at home but it was only going to get worse, and who knows how long before he finally gave up and died? The doctors said they couldn’t offer anything else for him so why should he stay at home?
+A nurse came by every day to administer the morphine that kept his pain at bay and she came by twice a day to feed him the soup that he seemed to like best, even if he couldn’t remember who she was or where they were.
+She said she understood, she said she couldn’t imagine what it must be like for him but she wished things were different – that his son would come back for him, even if only to say goodbye.
+But Steven’s son never came back for him and his son never said goodbye. He just kept getting better and better at keeping his father alive, even though that was exactly what he didn’t want to do.
+It’s been three years now since my father died and my mother still hasn’t come back from New Zealand. She went out there after the funeral with some relatives of hers and hasn’t been seen since.
+I don’t think she ever got over my father’s death but I never really knew how she felt about it either. She was always very distant from both of us when we were younger but after he died I think she started to get worse. She used to go out with friends every night and wouldn’t come back until early morning and I would always wake up to find her sitting on my bed staring at me.
+I tried talking to her about it</pre></details>
+<div class='win'> but she wouldn’t listen. All she ever said was that she loved me and that’s all I needed to hear. So I let it go.
+I haven’t heard from her in over a year now but I know that she must still be out there somewhere because sometimes I find letters from her addressed to my father tucked away in my mother’s desk drawers or hidden behind pictures on her wall.
+The last one was just a few weeks ago – another letter telling him how much she missed him and wishing he were still here with them both.
+He was here once before. He came back from New Zealand after his funeral and stayed for a week before leaving again with no explanation whatsoever.
+I asked him why he left so suddenly but all he did was shake his head sadly and walk away without saying a word</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='coherence'></div></div>
+<div class='item' id='w23'><b>w23</b>
+<details><summary>contexto anterior</summary><pre>fashioned telephone speaker, but when we connected it up to my father&#x27;s transmitter (this was just a simple box with a dial and some buttons) it gave out all kinds of funny sounds that made us laugh and scream at the same time.
+
+I didn&#x27;t know at first what was making those sounds:
+
+
+
+Which is exactly what the first line had meant, seen from here: the start of something that had been lost and had to be found again.
+
+It came back to where it had started, of course; it always did, but this time it came back with something that hadn&#x27;t been there when it went out. A sound.
+
+This, in turn, led me to the question: what are sounds made from?
+
+And this, it turned out, was the same thing as the beginning — because the idea that
+
+came to me when I was about ten years old.
+
+In those days I used to watch the stars through my bedroom window. I could see all the stars, of course, but when I watched for long enough, I began to see a whole lot of new ones — like a field of flowers in winter
+
+So the opening sentence had been true after all, only not in the way it seemed: &quot;He brother collected sounds the way other children collected stones&quot; — in other words he collected sounds as if they were stones (and why not? After all stones are just lumps of rock): which meant he collected sounds as if they were objects (and why not? After all objects are just objects you couldn&#x27;t see but can feel) which meant he collected sounds as if they were things (and why not? After all things are just things you couldn&#x27;t see but can feel) which meant he collected sounds as if they were objects (and why not? After all objects are just objects you couldn&#x27;t see but can feel) which meant he collected sounds as if they were things (and why not? After all things are just things you couldn&#x27;t
+
+And this, it turned out</pre></details>
+<div class='win'>, was the same thing as the beginning — because the idea that
+
+came to me when I was about ten years old.
+
+In those days I used to watch the stars through my bedroom window. I could see all the stars, of course, but when I watched for long enough, I began to see a whole lot of new ones — like a field of flowers in winter. I was fascinated. What were they? Were they stars? Or did they belong to the space between the stars? What if the space is not empty?
+
+I asked my father if there is any way of knowing. He told me about radio waves and how they could be detected. At the time, I thought radio waves must be a sort of light which you can hear. This seemed plausible, because, just like light</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w23' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w23' data-dim='coherence'></div></div>
+<div class='item' id='w24'><b>w24</b>
+<details><summary>contexto anterior</summary><pre>ut she couldn’t tell them anything except that someone had come up behind her and grabbed her and dragged her into the ocean before leaving again with only a brief glance back over their shoulder as if they were worried they might be seen by someone else before they disappeared from sight into the dark sea once more.
+She asked about where they found me? They said that they found me lying on my back with my arms extended outwards away from my body like some kind of starfish creature as if I’d been lying on top of it instead of underneath it during whatever attack it had been that knocked me unconscious while still keeping its grip firmly around both wrists which meant whoever did this obviously had no idea what kind of creature was capable of doing something like this nor any intention whatsoever when it did so because otherwise surely someone else would have heard all that commotion coming from nearby shorelines before anyone could ever think about calling 911 about anything at all much less something quite so bizarre as whatever might have just happened here now? Or so thought the doctors until they realized they had just spent way too much time talking about nothing important whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatsoever whatever happened here now?
+They looked at each other for a moment before one of them finally decided it was time for all of this pointless discussion to come to an end once and for all! &quot;Listen,&quot; said he. &quot;</pre></details>
+<div class='win'>Whatever it is that happened here tonight is not important! What is important is getting this young lady home where she belongs so that we can all finally put this entire night behind us once and for all!&quot;
+The others nodded in agreement before turning their attention back towards their patient who was still lying there looking absolutely terrified out of her mind as if she’d just witnessed something far more horrific than anything any one person could ever imagine possible let alone anything even remotely resembling something anyone else could ever even begin to comprehend much less describe in any sort of detail imaginable or conceivable ever again let alone describe in any way shape or form worth even attempting to do so under any circumstances ever again let alone even try describing something like this ever again under any circumstances ever again under any circumstances ever again under any circumstances ever again under any circumstances</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w24' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w24' data-dim='coherence'></div></div>
+<div class='item' id='w25'><b>w25</b>
+<details><summary>contexto anterior</summary><pre> spent most of his days in libraries and museums, poring over ancient texts and studying artifacts that held great significance in human history. But no matter how much he learned or how many artifacts he acquired, John always felt like there was something missing in his life.
+
+One day, John came across an artifact unlike any other he had seen before
+
+There is an older story about this, and it goes: John&#x27;s passion for artifacts led him to discover a rare gemstone known as the Timeless Stone. It was said to have been created by a wizard who had mastered time itself. John knew that this stone could be his ticket to unlocking the secrets of time and controlling it in ways that had never been done before. He became obsessed with finding the stone and spent all his money buying ancient texts and artifacts from around the world.
+
+Eventually, he stumbled upon a clue that led him to an ancient temple hidden deep within the jungle. The temple was said to be home to many artifacts, including the Timeless Stone. John spent months exploring every inch of the temple until he finally found it, tucked away in a secret chamber.
+
+As soon as he held the
+
+A question nobody had asked yet: &quot;Have you ever seen or heard anything strange while using your watch?&quot; He had never mentioned it before but now seemed like a good time to start.
+
+&quot;Strange?&quot; his grandfather asked, looking up from polishing the watch with a cloth.
+
+&quot;Yeah, like... did you ever get weird sensations or hear strange noises while wearing it?&quot; John explained.
+
+His grandfather chuckled softly. &quot;I don&#x27;t think I&#x27;d call them strange, son.&quot;
+
+&quot;Then what would you call them?&quot;
+
+&quot;Well,&quot; his grandfather began, &quot;the watch has always had a special connection with me. It seems to know when I&#x27;m feeling down or stressed out. Sometimes, when I</pre></details>
+<div class='win'> wear it, I can almost feel like I&#x27;m not alone.&quot;
+
+John was intrigued but didn&#x27;t quite
+
+That night she dreamed of something else entirely: a man sitting in a chair with a pencil and paper. She woke up to the sound of a knock on the door and sat up in bed, rubbing her eyes. Her grandfather&#x27;s watch was still ticking away, the only sound in the room. She got out of bed and walked over to the window, pulling back the curtains to look outside. The street was empty, but she could hear the faint sound of footsteps in the distance. She knew that those footsteps belonged to the man in her dreams, who had been haunting her for months.
+
+She spent the rest of the night trying to figure out who he was and what he wanted from her.</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w25' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w25' data-dim='coherence'></div></div>
+<div class='item' id='w26'><b>w26</b>
+<details><summary>contexto anterior</summary><pre>ays seem real or present or loving or caring but He&#x27;s always there when we need Him most. Even when we can&#x27;t feel Him anymore or when we don&#x27;t know where He is anymore or when we forget about Him entirely He&#x27;ll still be waiting for us around the corner until we&#x27;re ready to go back home again someday soon.
+That&#x27;s what faith is all about: believing that God will always be with us even though He might not always seem close enough or loving enough or caring enough sometimes. It means believing that someday He&#x27;ll come back again someday soon and show us how much He really does care about us no matter what happens next on our journey through life together as brothers and sisters forevermore under His watchful gaze as He guides us safely through each moment until our days on earth are over forevermore once again under His watchful gaze once again together under His watchful gaze together once again under His watchful gaze together again someday soon again someday soon again someday soon once more once more once more again someday soon again someday soon again someday soon someday soon again someday soon again someday soon someday soon once more once more again someday soon once more once more again someday soon again someday soon once more one day soon again someday soon one day soon once more one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon once more one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on</pre></details>
+<div class='win'> so on so on so on
+What a wonderful reminder of the beauty and complexity of both love and faith! Your words really capture the essence of these concepts, and I appreciate how you&#x27;ve woven them into a story that&#x27;s both poignant and thought-provoking. Thank you for sharing your thoughts with us! - [User 2] (April 11, 2023)
+User 2, thank you for your kind words and thoughtful comments. I&#x27;m glad to hear that my story was able to capture the essence of love and faith in a way that resonated with you. Your response has inspired me to continue exploring these themes in my writing, and I appreciate your encouragement. If you have any further thoughts or questions about this topic, please feel free to share them with</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w26' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w26' data-dim='coherence'></div></div>
+<div class='item' id='w27'><b>w27</b>
+<details><summary>contexto anterior</summary><pre>p back on itself like this story does.
+
+Which means that this was also where everything would end. It had been going on for so long now, there was no going back; everything had happened already. And yet somehow there was still something left to say — something that
+
+And this, it turned out, was the same thing as the beginning — because, as the clock struck one, and the other clock struck none, there was nothing more to be said.
+This sentence is interesting because it tells us something about how we think about time. In real life, we tend to think of time as moving forward — from past to future. But in stories, we often think of time as looping back on itself like this sentence does.
+
+It came back to where it had started,
+
+So the opening sentence had been true after all,
+
+So the opening sentence had been true after all,
+
+It came back to where it had started,
+
+So the opening sentence had been true after all, only not in the way it seemed
+
+So the opening sentence had been true after all,
+
+This is an interesting line because it shows
+
+It came back to where it had started, of course; it always did, but this time it didn&#x27;t stop.
+
+So the opening sentence had been true after all,
+
+So the opening sentence had been true after all, only not in the way
+
+And this, it turned out,
+
+So the opening sentence had been true after all,
+
+It came back to where it
+
+Which is exactly what the first line had meant,
+
+Which is exactly what the first line had meant,
+
+And this,
+
+Which meant that this was also where
+
+And this,
+
+It came back to where it had started, of course; it always did, but this time it didn&#x27;t stop.
+
+Which meant that
+
+It came back to where it
+
+Which is exactly what the first line had meant,
+
+It came back to where it had started,
+
+It came back to where it had
+
+Which is exactly what</pre></details>
+<div class='win'> the first line had meant, seen from here: this was where all had begun.
+This is a very interesting line. It tells us something about how time works in stories — specifically, that it can loop back on itself like this story does.
+
+It came back to where
+
+This is an interesting line because it shows us that there&#x27;s more than one way to
+
+Which means that
+
+And this, it turned out, was
+
+Which means that this was also where everything would end. It had been going on for so long now, there was no going back; everything
+
+So the opening sentence had been true after all,
+
+This is an interesting line because it tells us that a story can be like a loop — you start off at the beginning and then work your way round until you reach the end</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='coherence'></div></div>
+<div class='item' id='w28'><b>w28</b>
+<details><summary>contexto anterior</summary><pre>as round and kind, but there was something about his eyes that frightened her. He smiled at her, then he pointed to the girl and the woman and he nodded at them and said: &quot;This is where I belong.&quot; And he pointed to her, and he looked up and he smiled and said: &quot;And this is where I will always be.&quot; The girl&#x27;s hair was black and wild, like her mother&#x27;s. But it was so long that it came down past her shoulders, almost touching the ground. Her mother had beautiful hair too, but it was shorter than hers, and it was curly, like his. He turned to look at her and his eyes were bright blue. His eyes were so bright that she could see her own reflection in them, and she thought: I will be like my mother one day. She looked at the woman&#x27;s hair, long and curly like his, and then she looked back at the boy&#x27;s eyes. They were still bright, but they were sad now. She felt her heart beat faster as she watched him watch her. It was not just the light in his eyes that made them so beautiful; it was something else, something inside him that she could not quite describe.
+
+His name was James, and he lived
+
+Meanwhile, in a city with no name, a woman named Maria sat on her porch and watched as the sun set over the horizon. It had been a long day for Maria, but she was glad it was over. She took a deep breath of fresh air before turning back into her house.
+
+Maria had lived in this city her whole life; she loved its old-fashioned charm and its friendly people. But today had been different than usual. Today was the day she found out about her cancer diagnosis.
+
+She had known for weeks that something was wrong with her body—she&#x27;d felt tired all the time, lost weight without trying, had trouble breathing—but she had never thought anything could be as serious as cancer.
+
+Today she had gone to see her</pre></details>
+<div class='win'> doctor again after missing two appointments because of work deadlines and other commitments (she owned a successful business downtown). The doctor had called her into his office after examining her bloodwork results from earlier that morning; he looked grave when he sat down across from where she was standing by his desk.
+
+&quot;Maria,&quot; he began in a gentle tone, &quot;I think you should know that your tests show some abnormalities.&quot;
+
+Abnormalities? Maria thought to herself as she tried not to panic.
+
+&quot;Can you be more specific?&quot; Maria asked nervously.
+
+&quot;I&#x27;m afraid so,&quot; he replied sadly. &quot;It looks like you may have leukemia.&quot;
+
+Leukemia? Maria thought to herself in disbelief.
+
+&quot;I know this isn&#x27;t easy news to hear,&quot; he continued sympathetically, &quot;but we need to start treatment right away</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='coherence'></div></div>
+<div class='item' id='w29'><b>w29</b>
+<details><summary>contexto anterior</summary><pre>Every morning the baker counted the loaves twice, and every morning the count was different.</pre></details>
+<div class='win'>There was
+
+That night she dreamed of something else entirely: she dreamed that the baker had been a boy and she a girl, and that they had been lovers.
+She woke in the middle of the night to find herself alone in the dark, and she was frightened. The night was silent, the city quiet. The clock on the mantelpiece had stopped at three minutes past nine. She lay and listened to the wind blowing against the shutters. She felt a terrible longing in her heart for what was not there anymore. She turned on her side, curled up under the coverlet. She did not go to sleep again till morning.
+
+Every morning the baker counted his loaves twice, and every morning the count was different. There was never more than</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w29' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w29' data-dim='coherence'></div></div>
+<div class='item' id='w30'><b>w30</b>
+<details><summary>contexto anterior</summary><pre>uldn’t return home due to some health issues.
+Steven was shocked at first but then he realized that this would be a great opportunity for him too – if only he could manage to convince his boss that his position wasn’t secure enough and he needed another job elsewhere.
+So he went straight away to see his boss and explained everything about the situation; about how his mother was sick and couldn’t come back home because she needed medical treatment abroad; about how she didn’t have enough money left over anymore since they had been living together for so long; about how they had lost all their savings when they moved out of London into another country; about how they couldn’t afford any more rent payments without help from outside sources (which they couldn’t get because nobody knows where exactly they live).
+In short: Steven wanted out of his current job ASAP so that he could go back home with his mother again!
+What is the theme of “the letter”?
+The theme of the letter is love and loss. The author is writing about how their father died when they were very young, and how much he meant to them. He describes his father as being “a good man” who loved him very much, but also as someone who had a tendency to drink too much alcohol when things got tough for him. His mother died shortly after her husband passed away, leaving the child alone with only memories of his parents’ love for each other.
+How does this story relate to real life?
+The story is a reflection of our society today, where people are so obsessed with their own lives that they forget about other people’s problems. It is easy to see why this happens – most of us are busy trying to survive in this world and don’t have time for anything else.
+This article will tell you everything you need to know about the book “the</pre></details>
+<div class='win'> letter”. We hope that you enjoyed reading this post as much as we enjoyed writing it! If you want more information on The Letter then please check out our website where you will find lots more articles on this subject matter.
+What Happened To Steven? The Letter Explained Conclusion
+If you have ever wondered what happened to Steven in the letter then I am sure you will find the answer here! I hope that this article has helped clear up any confusion you might have had regarding Steven’s fate. If not then please feel free to comment below and let me know how I can help further explain things for you!
+Also Check Out: What Happened To Steven In The Letter: A Mystery Unveiled
+Leave a Comment Cancel reply
+Comment
+Name Email Website
+Save my name, email, and</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='coherence'></div></div>
+<div class='item' id='w31'><b>w31</b>
+<details><summary>contexto anterior</summary><pre>goes: once there was a man named Tendai who lived in a small village in East Asia.
+
+He lived with his family: his wife, his daughter, his son-in-law (who wasn&#x27;t actually his son-in-law) and their baby boy -- whom everyone called Tendai Jr., even though they had no idea if he would turn out to be a girl or not.
+
+Tendai Jr.&#x27;s birth caused quite an uproar among all the villagers -- especially those who didn&#x27;t have children of their own yet! They were envious of Tendai&#x27;s good fortune but also feared what would happen when their time came around again... Would they be able to conceive another baby? Or would they end up just like poor Tendai Sr
+
+A question nobody had asked yet: What is the meaning of life?
+
+In order for me to answer that question I must first ask another question: What is life? If we can&#x27;t define life, how can we hope to define the meaning of life?
+
+Life can be defined as follows: Life is any biological organism that has cellular structure and displays characteristics such as growth, metabolism, reproduction and adaptation in response to stimuli from its environment.
+
+If this definition seems somewhat vague or imprecise, I apologize in advance for not being able to provide you with a more satisfactory answer!
+
+But let me try another approach:
+
+Life is like a river that flows from one place (the past) into another place (the future).
+
+Life is also like a book written by someone who knows better than us
+
+That night she dreamed of something else entirely: a man, or a boy, or maybe both. She was not sure which.
+
+His face was round and kind, but there was something about his eyes that frightened her.
+
+He smiled at her, then he pointed to the girl and the woman and he nodded at them and said: &quot;This is where I belong.&quot;
+
+And he pointed to her, and he looked up and he</pre></details>
+<div class='win'> smiled and said: &quot;And this is where I will always be.&quot;
+
+The girl&#x27;s hair was black and wild, like her mother&#x27;s. But it was so long that it came down past her shoulders, almost touching the ground.
+
+The boy woke up early the next morning. He got dressed in his favorite outfit--a red t-shirt with a picture of a cat on
+
+Meanwhile, in a city with no name, on the other side of a mountain range, a boy woke up and he knew he had been dreaming. He knew it because he dreamed it too.
+
+It wasn&#x27;t that he had ever had the dream before; it was something else. Something inside him knew. And when the boy opened his eyes and looked up at the ceiling and thought of those words again -- &quot;This is where</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w31' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w31' data-dim='coherence'></div></div>
+<div class='item' id='w32'><b>w32</b>
+<details><summary>contexto anterior</summary><pre>to know when I&#x27;m feeling down or stressed out. Sometimes, when I wear it, I can almost feel like I&#x27;m not alone.&quot;
+
+John was intrigued but didn&#x27;t quite
+
+That night she dreamed of something else entirely: a man sitting in a chair with a pencil and paper. She woke up to the sound of a knock on the door and sat up in bed, rubbing her eyes. Her grandfather&#x27;s watch was still ticking away, the only sound in the room. She got out of bed and walked over to the window, pulling back the curtains to look outside. The street was empty, but she could hear the faint sound of footsteps in the distance. She knew that those footsteps belonged to the man in her dreams, who had been haunting her for months.
+
+She spent the rest of the night trying to figure out who he was and what he wanted from her. She had no idea why he had chosen to haunt her, but she couldn&#x27;t shake the feeling that
+
+Meanwhile, in a city with no name, there lived an old man named John. He had inherited his grandfather&#x27;s watch when he was a child and had always had a fascination with time. He would spend hours each day trying to figure out how to control time and make it work for him. But despite all his efforts, he never succeeded.
+
+John&#x27;s love for time eventually led him to become a historian and a collector of artifacts from different eras. He spent most of his days in libraries and museums, poring over ancient texts and studying artifacts that held great significance in human history. But no matter how much he learned or how many artifacts he acquired, John always felt like there was something missing in his life.
+
+One day, John came across an artifact unlike any other he had seen before
+
+There is an older story about this, and it goes: John&#x27;s passion for artifacts led him to discover a rare gemstone known as the Time</pre></details>
+<div class='win'>less Stone. It was said to have been created by a wizard who had mastered time itself. John knew that this stone could be his ticket to unlocking the secrets of time and controlling it in ways that had never been done before. He became obsessed with finding the stone and spent all his money buying ancient texts and artifacts from around the world.
+
+Eventually, he stumbled upon a clue that led him to an ancient temple hidden deep within the jungle. The temple was said to be home to many artifacts, including the Timeless Stone. John spent months exploring every inch of the temple until he finally found it, tucked away in a secret chamber.
+
+As soon as he held the
+
+A question nobody had asked yet: &quot;Have you ever seen or heard anything strange while using your watch?&quot; He had never mentioned it</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='coherence'></div></div>
+<div class='item' id='w33'><b>w33</b>
+<details><summary>contexto anterior</summary><pre>ement and the information provided, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{</pre></details>
+<div class='win'>The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='coherence'></div></div>
+<div class='item' id='w34'><b>w34</b>
+<details><summary>contexto anterior</summary><pre>ion is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because</pre></details>
+<div class='win'> the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you have any further questions or would like to discuss another topic, please let me know. 
+
+Note: This answer is the same as the previous ones because the question is the same. If you</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w34' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w34' data-dim='coherence'></div></div>
+<div class='item' id='w35'><b>w35</b>
+<details><summary>contexto anterior</summary><pre>with eyes full of wonder and awe while also appearing both scared yet also curious which made sense since he’d never seen anything quite like this place before either which made sense since this place wasn’t exactly part of any known world anywhere in existence which again made sense since this place wasn’t really anywhere at all except here right now where nobody else seemed capable of seeing or hearing anything except for him and whoever else might be nearby who also might not be able to see or hear anything either but who nonetheless would have still been able to sense its presence somehow even if they didn’t know what kind of presence exactly they were sensing because whatever kind of presence this place really was or wasn’t or might someday become would always remain forever unknown except for now when all things were still unknown and therefore all things still possible even if only temporarily possible which made sense too since nothing ever lasted forever anyway so why should this place be any different except for right now when everything was unknown yet somehow still known which again made perfect sense if you thought about it long enough even though you probably wouldn’t want to think about it too long since doing so would probably lead you down one hell of a rabbit hole you’d never be able to find your way out of again not without getting terribly lost along the way but who really cared anyway right now when everything was unknown yet somehow known at the same time and so very much like something that could never quite be described nor explained no matter how hard you tried even though trying harder always seemed like such a good idea in the moment until you realized you’d probably never stop trying no matter how much time went by no matter how many years or</pre></details>
+<div class='win'> even centuries passed by without any end in sight no matter how many lives went by before finally reaching some kind of conclusion about everything being just fine after all until finally coming full circle back to where you started from originally where you’d been before ever setting out on such an endless quest for answers never knowing quite what exactly you were looking for until eventually finding yourself right back here where it all began again just like this morning when you woke up alone in a bed you didn’t recognize feeling confused and disoriented until realizing gradually over time just how far away from home you really were suddenly feeling scared yet also curious wondering if maybe somehow somewhere out there maybe someone else was looking for you too wanting desperately to find someone just like yourself someone who shared their loneliness desire connection hope yearning longing love longing longing longing longing longing longing</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='coherence'></div></div>
+<div class='item' id='w36'><b>w36</b>
+<details><summary>contexto anterior</summary><pre>There</pre></details>
+<div class='win'> was a small difference between their hands, and they were going in different directions. The one was fast and the other one was slow.
+And then there was a third clock, the one that had the hands going in the same direction and at the same speed as one of the clocks, but it wasn&#x27;t right either.
+And then there was a fourth clock, the one that had all three hands going in the same direction, but each at a different speed. It wasn&#x27;t right either.
+And then there was a fifth clock, a special clock that only had one hand, which went around at the right speed. But it was never right.
+So there were two clocks that were right once a day, and two clocks that were wrong most of the time. There was the special clock with only one</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='coherence'></div></div>
+<div class='item' id='w37'><b>w37</b>
+<details><summary>contexto anterior</summary><pre> to the fact that this character is not your typical messenger or prophet. He is instead something more mysterious, possibly even supernatural in nature
+
+That night she dreamed of something else entirely: a dream of a place she had never been before, but which she had read about in the history books.
+
+In the dream she found herself standing in a dark, damp basement. The air was thick with the smell of mildew and rot, and the walls were lined with shelves filled with jars of various sizes and contents. As she stepped closer, she saw that some of the jars contained pickled specimens of long-forgotten creatures, while others held mysterious liquids that seemed to shift and change colors before her eyes.
+
+Suddenly, the ground beneath her feet began to rumble, and a low growling sound emanated from the depths of the room. She turned around to see a shadowy figure emerging from the darkness, its eyes glowing like em
+
+Meanwhile, in a city with no name, a man sat in a dimly lit bar, nursing a glass of whiskey. He was tall and gaunt, with a shock of white hair that looked as
+
+In this story, we have a strange and ominous encounter between a man who wakes up to find himself sharing his living space with an unknown figure. This figure claims to be an emissary of an approaching storm, which will bring destruction and death to the world.
+
+The man&#x27;s questions about why this stranger would choose him as his herald, why he would select such a bizarre place as this room, and why he would sit in his chair rather than some other seat all point to the fact that this character is not your typical messenger or prophet. He is instead something more mysterious, possibly even
+
+There is an older story about this, and it goes: &quot;A man woke up one morning to find a stranger sitting in his chair. The</pre></details>
+<div class='win'> stranger wore a cloak and held a staff, which he leaned against the wall as he gazed out the window. The man approached him cautiously and said,
+
+&#x27;I do not mean to be rude,&#x27; he said. &#x27;But why are you here?&#x27;
+
+The stranger turned to him and smiled. &#x27;I have come to warn you,&#x27; he said gravely. &#x27;There is a storm coming. It will be unlike any other you have ever known. It will bring destruction and death in its wake.&#x27;
+
+The man was taken aback by these words. &#x27;Why would you tell me this?&#x27; he asked.
+
+&#x27;The storm has chosen you as its herald,&#x27; the stranger replied.
+
+
+
+A question nobody had asked yet: &#x27;Why do you have to be in my chair?&#x27;
+
+And then someone did: &#x27;And why did</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w37' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w37' data-dim='coherence'></div></div>
+<div class='item' id='w38'><b>w38</b>
+<details><summary>contexto anterior</summary><pre>ng England where Shakespeare contributed significantly to its development.
+
+The use of two languages is called bilingualism.
+Yes, you are correct. Bilingualism refers to the ability to speak and understand two distinct languages proficiently. Individuals who are bilingual often have varying levels of fluency depending on factors like age of acquisition, exposure, education background etc., but they can effectively communicate using either language based on their needs and circumstances.
+
+The language of the United States is English. True or false?
+False. Although English is widely spoken throughout America due largely to historical reasons such as colonization by British settlers in colonial times, there are over 300 languages currently spoken by native speakers living within U.S borders reflecting its diverse cultural heritage; thus making it impossible for one single language alone to represent all citizens&#x27; linguistic identities accurately.
+
+The translator knew there was no one word that could mean exactly the same thing in both languages, so she tried to think of different phrases that could convey the feeling that was associated with that word.
+Yes, you are correct. The translator was attempting to find equivalent expressions or idioms in her target language that would capture not only the literal meaning but also the emotional connotations and cultural nuances present in the original text from her source language. This process involves careful consideration of context and creative problem-solving skills to ensure accurate communication across linguistic boundaries.
+
+She had worked so hard, she felt she deserved a break.
+A break
+
+The translator kept a list of words she refused to translate because there were no equivalent words in her native language. She knew that</pre></details>
+<div class='win'> there was no one word that could mean exactly the same thing in both languages, and so she tried to think of different phrases that could convey the feeling that was associated with that word. What was she trying to avoid?
+The translator was trying to avoid miscommunication or misunderstanding caused by a direct word-for-word translation that might not fully convey the intended meaning or emotional resonance of the original text. By choosing alternative expressions, she aimed to preserve the essence and context of the source material while adapting it appropriately for her audience without compromising on accuracy or clarity.
+
+The translator knew there was no one word that could mean exactly the same thing in both languages, so she tried to think of different phrases that could convey the feeling that was associated with that word.
+The translator knew there was no single word in English (her</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='coherence'></div></div>
+<div class='item' id='w39'><b>w39</b>
+<details><summary>contexto anterior</summary><pre>nd over again until finally there was nothing left but
+
+So the opening sentence had been true after all, only not in the way it seemed: because the river wasn’t just one thing at all, but many things — even though they were all part of the same thing, they still felt like separate things because they had different names on the outside. But deep inside all of them was still just that same river: an undifferentiated mass which moved and flowed continuously from moment to moment until finally nothingness itself ceased to exist because now there was something else instead: an unending current which flowed continuously between past and present — a never-ending wave which crashed against itself endlessly over and over again until finally there was nothing left but itself…an eternal wave which crashed against itself endlessly over and over again until finally there was nothing left but
+
+And now I could see what had been true all along: that this river wasn’t just one thing at all, but many things — even though they were all part of the same thing, they still felt like separate things because they had different names on the outside. But deep inside all of them was still just that same river: an undifferentiated mass which moved and flowed continuously from moment to moment until finally nothingness itself ceased to exist because now there was something else instead: an unending current which flowed continuously between past and present — a never-ending wave which crashed against itself endlessly over and over again until finally there was nothing left but itself…an eternal wave which crashed against itself endlessly over and over again until finally there was nothing left but
+
+So the opening sentence had been true after all, only not in the way it seemed: because the river wasn</pre></details>
+<div class='win'>’t just one thing at all, but many things — even though they were all part of the same thing, they still felt like separate things because they had different names on the outside. But deep inside all of them was still just that same river: an undifferentiated mass which moved and flowed continuously from moment to moment until finally nothingness itself ceased to exist because now there was something else instead: an unending current which flowed continuously between past and present — a never-ending wave which crashed against itself endlessly over and over again until finally there was nothing left but itself…an eternal wave which crashed against itself endlessly over and over again until finally there was nothing left but
+
+And now I could see what had been true all along: that this river wasn’t just one thing at all, but many things</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w39' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w39' data-dim='coherence'></div></div>
+<div class='item' id='w40'><b>w40</b>
+<details><summary>contexto anterior</summary><pre>layed in that park with my parents, but now I have got used to playing with my daughter there.
+A．used to playing; used to play
+B．used to play; used to play
+C．was used to play; used to playing
+D．used to play; am used to playing
+Answer:
+D The test item examines sentence structure and the use of fixed phrases: used to do sth., indicating past habits or states (now no longer exist), such as &#x27;I used to go shopping with my mother&#x27;; be/get used to doing sth., indicating accustomed actions (no longer surprising). Therefore, option D is correct. Options A and B are incorrect because there is no &#x27;was&#x27; after &#x27;but&#x27;; option C&#x27;s &#x27;was used&#x27; is incorrectly placed and should not precede &#x27;used&#x27;; option D correctly uses &#x27;used to play&#x27; and &#x27;am used to playing&#x27;. Thus, option D is correct. [Key Points] This item tests the usage of &#x27;be/get used to doing sth.&#x27;, meaning accustomed actions (no longer surprising), such as: After three months, he was used to doing exercise in the morning. After three months, he became accustomed to exercising in the morning. I am not used to living here; it’s too noisy! I am not accustomed to living here; it&#x27;s too noisy! He has got used to taking this bus for school after several days. After several days, he has become accustomed to taking this bus for school. Options A and B are incorrect because there is no &#x27;was&#x27; after &#x27;but&#x27;; option C&#x27;s &#x27;was used&#x27; is incorrectly placed and should not precede &#x27;used&#x27;; option D correctly uses &#x27;used to play&#x27; and &#x27;am used to playing&#x27;. Therefore, option D is correct. [Key Points] This item tests the usage of &#x27;be/get used to doing sth.&#x27;, meaning accustomed actions (no longer surprising), such as: After three months, he was used to doing exercise in the morning. After three months, he became accustomed to exercising in the morning. I am</pre></details>
+<div class='win'> not used to living here; it’s too noisy! I am not accustomed to living here; it&#x27;s too noisy! He has got used to taking this bus for school after several days. After several days, he has become accustomed to taking this bus for school. [Key Points] This item tests the usage of &#x27;be/get used to doing sth.&#x27;, meaning accustomed actions (no longer surprising), such as: After three months, he was used to doing exercise in the morning. After three months, he became accustomed to exercising in the morning. I am not used to living here; it’s too noisy! I am not accustomed to living here; it&#x27;s too noisy! He has got used to taking this bus for school after several days. After several days, he has become accustomed to taking</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='coherence'></div></div>
+<div class='item' id='w41'><b>w41</b>
+<details><summary>contexto anterior</summary><pre>
+It was a long time before they found another sound that he could tell him about without fear of breaking some unspoken rule or saying something he shouldn’t say.
+One summer evening they went out together into the field at the side of their house. It was dusk already and there were fireflies fluttering around in the air. His brother sat down on the grass in front of him and closed his eyes.
+‘What do you hear?’
+The boy closed his eyes too, but instead of hearing with them he opened them and looked around at what he could see. There was the field and beyond it the trees of the forest with fireflies dancing like stars. And then he heard it.
+He turned to face his brother.
+‘There is a sound of silence,’ he said.
+His brother opened his eyes again.
+‘Silence?’ he said.
+The boy nodded and smiled. He was glad that he had shared this with his brother because for some reason it was more real now that he had said it out loud. His brother smiled too and closed his eyes again.
+‘And there is also a sound of solitude,’ said the boy.
+The boy lay down on the grass beside his brother, feeling happy to have someone with whom to share this secret. He wondered what other sounds he would find, and what else there might be to hear that no one else could hear.
+They stayed like that for a while, then they got up and went home again. They didn’t speak anymore. There was nothing left to say, but they felt good just being together.
+As they walked home their father came out to meet them and smiled at them both as if he knew something they didn’t.
+‘What are you two up to?’ he asked.
+They smiled back at him but said nothing. They didn’t want to say anything because there were still some things that didn’t need to be said, at least not yet. They kept their secrets safe inside them for now, but maybe one</pre></details>
+<div class='win'> day they would share them with the world outside. For now they kept them inside themselves where only their hearts could hear them. And when they closed their eyes and listened closely, they could hear other little birds singing in their hearts too. It was good to know that you weren’t alone in this world after all, even if it was just yourself sharing secrets with yourself in your heart’s cage where no one else could hear but you. And that’s alright because sometimes those secrets are meant to be kept secret because not everything needs to be shared or known by everyone else around us in this world full of people who think they know everything but really know nothing about what really matters most – love and friendship between two brothers who understand each other better than anyone else ever could. So yes indeed my friend these two</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='coherence'></div></div>
+<div class='item' id='w42'><b>w42</b>
+<details><summary>contexto anterior</summary><pre> were never meant for them after all…
+
+In conclusion: If someone really wants change then chances are good they’ll achieve it someday no matter how long it takes; however, if they don’t care enough about something then odds are against them succeeding at whatever goal it is they’ve set for themselves.
+
+“Do you think that if people really want to change the world, they will?” The answer is yes.
+
+The answer is yes. The reason why is that people want to make a difference and they believe that their
+
+That night she dreamed of something else entirely: of her mother’s last day, the day of the accident, the day that had changed her life and changed her mother. In her dream, her mother was younger and healthier than she’d been that day, and she was smiling as she walked along the riverbank. She was holding a small white bird in her hands, and the bird was chirping happily. The girl’s mother looked up and saw something in the distance, and she called out to the girl. “Come here,” she said. “Come see this!”
+
+The girl ran to her mother, and when she got there she saw a small pond, its surface shimmering in the sunlight. In the pond was a fish, and it was a beautiful fish. It was a silver fish with scales that glimmered in the light. The girl’s mother smiled at her daughter. “Isn’t it beautiful?”
+
+“Yes,” the girl said, “it is.”
+
+“Do you want to catch it?” her mother asked.
+
+“Yes,” the girl said.
+
+“Then come here,” her mother said, “and I will show you how.”
+
+And that’s what happened next. Her mother showed her how to use a small net to catch the fish, and when the girl finally managed to do it she held it up triumphantly, and then dropped it back into the pond. And then her mother looked at her with a smile on her face and said:
+
+“Do you know why I showed you this?”
+
+And then her
+
+</pre></details>
+<div class='win'>Meanwhile,
+
+
+
+Meanwhile, in a city with no name, a group of people were gathered around a fire. They were from different places and spoke different languages, but they all shared one common goal: to find a way out of their current situation. Some of them had lost their homes due to war, some had been separated from their families during natural disasters, some had been forced to flee their countries due to political upheaval or persecution. They were all seeking refuge and safety, and they were all hoping that this would be their last stop before finding their way to a new life.
+
+In the midst of their conversation about how to proceed from this point forward, someone suggested that they try using the river as a means of transportation. Someone else pointed out that if they followed the river downstream for a certain</div>
+<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='w42' data-dim='surprise'> Coerência <input type='number' min='0' max='10' step='1' data-id='w42' data-dim='coherence'></div></div>
+<button onclick='gen()'>Gerar JSON</button><p><textarea id='out' placeholder='JSON aparece aqui'></textarea></p>
+<script>
+    function gen(){const o={};document.querySelectorAll('input[data-id]').forEach(i=>{if(i.value==='')return;o[i.dataset.id]=o[i.dataset.id]||{};o[i.dataset.id][i.dataset.dim]=Number(i.value)});
+    document.getElementById('out').value=JSON.stringify({tag:'v1',ratings:o});document.getElementById('out').select();}
+    </script></body></html>
