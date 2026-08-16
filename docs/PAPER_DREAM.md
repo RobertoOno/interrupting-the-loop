@@ -141,17 +141,33 @@ the push's null is reported as "undetectable at this resolution", not
 "absent". A binary threshold on a noisy judge is a coin: the same window
 scored 5.24 one night and 4.48 the next.
 
-## 7. Related work (sketch)
+## 7. Related work
 
-Decoding: min-p (our floor), typical sampling, contrastive decoding,
-entropy-aware decoding — all regulate the tail; none courts it, and we
-show courting it buys surface novelty only. Novelty measurement:
-Rusty-DAWG, infini-gram, Creativity Index; "Death of the Novel(ty)"
-(ICLR 2026) argues n-gram novelty ≠ creativity — our factual-paraphrase
-escape mode and the push's idea-level null are independent confirmations.
-Verified LLM search: FunSearch / AlphaEvolve. Cognition: default-mode /
-executive / salience networks and creativity (Beaty, Kenett); incubation
-and insight; predictive processing.
+**Decoding.** Nucleus sampling [holtzman2020curious] truncates the unreliable
+tail; locally typical sampling [meister2023typical] targets human-like
+surprisal; min-p [nguyen2025minp] scales the truncation with the model's
+confidence and is exactly our coherence floor; contrastive decoding
+[li2023contrastive] and PPLM-style steering [dathathri2020pplm] shape the
+distribution toward or away from a reference. All regulate the tail; our
+sampler *courts* it, and we show that buys surface novelty only.
+**Novelty measurement.** Infini-gram [liu2024infinigram] and Rusty-DAWG
+[merrill2024rustydawg] make verbatim novelty against training data
+computable; Saakyan et al. [saakyan2026death] show with 8,618 expert
+annotations that ~91% of top-quartile n-gram-novel expressions are not
+judged creative — our factual-paraphrase escape mode and the push's
+idea-level null are independent, mechanistic confirmations. **Verified
+search.** FunSearch [romeraparedes2024funsearch] and AlphaEvolve
+[novikov2025alphaevolve] pair an LLM with a hard evaluator; our bin-packing
+null and the DREAM scaffold suggest that the loop's structure, not the
+sampling operator, is where to look next. **Cognition.** Creative cognition
+as coupling of default and executive networks [beaty2016dynamics], with
+salience regions coupling first [beaty2018robust]; creativity as
+connecting semantically distant concepts [kenett2018semantic]; incubation
+effects on problem solving [sio2009incubation]; predictive processing
+[clark2013whatever]; dreams as anti-overfitting noise [hoel2021overfitted];
+Boden's novelty/surprise/value triad [boden2004creative]; conceptual
+blending [fauconnier2002way]; novelty search [stanley2015greatness]. DREAM
+is an explicit engineering of the first three into a text loop.
 
 ## 8. Limitations and next
 
@@ -170,3 +186,7 @@ runners with resumable overnight execution and thermal logging. Every
 run's per-step telemetry, texts and judgments under `runs/`; dated
 decision log in `docs/PLANO.md`. Judge cost of the entire program to
 date: ≈US$60.
+
+## References
+
+See `docs/references.bib` (entries marked [verified] were checked against publisher/arXiv pages on 2026-08-16; [check] entries are standard works to confirm before submission).
