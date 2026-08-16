@@ -13,8 +13,10 @@ model run locally, cross-family LLM judges with k-sample medians,
 bootstrap CIs, and — for one arm — verbatim novelty against the model's
 own public training corpus). **(1) The sampler.** An entropy-banded
 anti-probable decoder that pushes each step toward semantically distant
-tokens produces text with zero 8+-word blocks from the training data and
-2–3× the 4-gram novelty of min-p sampling at a small perplexity cost — but
+tokens cuts the rate of verbatim 8+-word training blocks from 0.80 to 0.20
+of generations and roughly doubles 4-gram novelty over min-p sampling
+(21.5% → 45.5%; paired Δ +24.0 pp, CI [18.2, 29.5]) at a small
+perplexity cost — but
 this surface novelty does not rise to the level of ideas: inside a
 reverie loop, the same push produces no measurable difference from plain
 sampling in judged surprise, connection, or novel delta (1,335
@@ -68,11 +70,20 @@ prompting) matter at all.
 
 Method: at steps whose entropy falls in a calibrated band, re-score
 floor-passing candidates by `log P + λ·z(distance to context EMA)`.
-Findings: (a) OLMo-2-13B, 3 prompts × 5 seeds: 4-gram novelty 21.5% →
-45.5% (λ=2), CIs excluding zero; zero 8+-word training blocks vs one in
-baseline; coherence cost ~+1.2 ppl under a cross-family judge. (b) The
+Findings: (a) OLMo-2-13B, 3 prompts × 5 seeds, fully paired grid: 4-gram
+novelty 21.5% → 45.5% (λ=2), paired bootstrap Δ +24.0 pp [18.2, 29.5]
+(λ=1: +14.6 [7.9, 21.9]), monotone in λ and present in each prompt;
+P(≥8-word verbatim training block) 0.80 → 0.20 in both machine arms
+(a 4× reduction stated as a rate — the pilot's "zero blocks" was one
+cell, not the distribution); coherence cost ~+1.2 ppl under a
+cross-family judge, uncorrelated with novelty within arms (Spearman
++0.12). (b) The
 entropy *ceiling* (genre forks) transfers across model families. (c) Three
-escape modes (recitation, collage, factual paraphrase) with detectors.
+escape modes (recitation, collage, factual paraphrase). The recitation
+detector (entropy drop between halves) is reported descriptively: on
+exp1 it has AUC 0.71 for ≥8-word blocks and precision 0.33 at the 0.35
+threshold, and no false-positive rate could be measured because the
+baseline arm lacked telemetry — a calibrated detector is future work.
 **Limit**: in verified search (bin packing, 8B and 30B, up to 3,200
 verified heuristics) the operator does not separate from plain sampling
 — a scoped null. And in the reverie loop (§5) the same push yields no

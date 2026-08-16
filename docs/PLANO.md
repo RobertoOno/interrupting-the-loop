@@ -766,6 +766,26 @@ qualitativa (dream6 elaborou o achado de forma legível), não estatística.
   arcabouço; o que se distingue é a saliência (vs relógio). A peça da
   arquitetura que a evidência sustenta hoje é o **switch**, não o empurrão.
 
+## Auditoria externa (Claude Science, leitura de `runs/`, 2026-08-16 manhã)
+
+Um agente independente recomputou os dados brutos. **Quatro correções
+aceitas** (números reproduzidos por nós): (1) o abstract misturava o
+baseline do piloto n=1 (12.3%) com a média multi-seed (45.5%): a razão
+honesta é **2.1×**, não 3×; (2) "zero blocos de 8+ palavras" era uma
+célula — no grid, 3/15 células da máquina têm bloco ≥8 (vs 12/15 do
+baseline): **taxa 0.80 → 0.20**, resultado mais forte dito como
+probabilidade; (3) o grid é pareado (prompt×seed): bootstrap pareado dá
+ICs mais apertados (λ=2: +24.0 pp [18.2, 29.5]); (4) o detector de
+recitação (`entropy_drop_score`) tem AUC 0.71 e precisão 0.33 no limiar
+0.35 sobre o exp1 — "segunda metade mais quieta" descreve assentamento
+normal; sem telemetria do baseline não há taxa de falso positivo. Passa a
+descritivo; correção barata: logar JSONL do braço λ=0. **Uma
+discordância**: o "nulo do DREAM" dele vem do contador binário de insights
+(`insights_per_1k`) — instrumento que já tínhamos aposentado; o resultado
+do arcabouço vem do re-julgamento contínuo (`rejudge_surprise.json`), que
+ele não analisou. Sua conclusão sobre o instrumento ("gargalo no scorer")
+coincide com a nossa. Papers corrigidos.
+
 **Teste da leitura 3 — rubrica de surpresa (mesmas 89 janelas, Opus
 k=5, três dimensões independentes, ~US$5):**
 
