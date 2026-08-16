@@ -129,26 +129,41 @@ def main() -> None:
     conds = [c for c in LABEL if any(x["cond"] == c for x in cells)]
     md = [f"# Residual-stream analysis ({args.tag})\n", f"{len(cells)} cells, layers {layers}\n"]
 
-    # ---------------- H1 geometry per layer
+    # ---------------- H1 geometry per layer (+ logit-lens commitment per condition)
     geo = {c["cell"]: geometry_per_layer(c) for c in cells}
-    fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
+    fig, axes = plt.subplots(1, 3, figsize=(15, 3.8))
     md.append("\n## H1 — per-layer geometry (mean over cells; 95% bootstrap CI over cells)\n")
-    md.append("| condition | n | " + " | ".join(f"radius L{l}" for l in layers) + " |")
-    md.append("|---|---|" + "---|" * len(layers))
+    md.append("| condition | n | " + " | ".join(f"radius L{l}" for l in layers) + " | commit layer (idx) | final entropy |")
+    md.append("|---|---|" + "---|" * len(layers) + "---|---|")
+    commit_rows = []
     for cond in conds:
         cs = [c for c in cells if c["cond"] == cond]
-        for ax, key in zip(axes, ("step", "radius")):
+        for ax, key in zip(axes[:2], ("step", "radius")):
             m = [np.mean([geo[c["cell"]][l][key] for c in cs]) for l in layers]
             ci = [boot_ci([geo[c["cell"]][l][key] for c in cs]) for l in layers]
             ax.plot(layers, m, "-o", ms=4, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={len(cs)})")
             ax.fill_between(layers, [a for a, _ in ci], [b for _, b in ci], color=PAL.get(cond, "#666"), alpha=0.12, linewidth=0)
-        md.append(f"| {LABEL.get(cond, cond)} | {len(cs)} | " + " | ".join(f"{np.mean([geo[c['cell']][l]['radius'] for c in cs]):.3f}" for l in layers) + " |")
+        # commitment: per cell, mean over windows of the first captured layer agreeing with the final top-1
+        commit = [float(np.mean(c["z"]["win_commit"])) for c in cs]
+        fent = [float(np.mean(c["z"]["win_final_entropy"])) for c in cs]
+        commit_rows.append((cond, commit, fent))
+        md.append(f"| {LABEL.get(cond, cond)} | {len(cs)} | " + " | ".join(f"{np.mean([geo[c['cell']][l]['radius'] for c in cs]):.3f}" for l in layers)
+                  + f" | {np.mean(commit):.2f} [{boot_ci(commit)[0]:.2f}, {boot_ci(commit)[1]:.2f}] | {np.mean(fent):.2f} |")
     axes[0].set_title("mean step between consecutive 64-token windows (cosine)", fontsize=9)
     axes[1].set_title("explored radius (mean cosine distance to centroid)", fontsize=9)
-    for ax in axes:
+    for ax in axes[:2]:
         ax.set_xlabel("layer"); ax.grid(alpha=0.25)
     axes[0].legend(fontsize=7, frameon=False)
-    fig.suptitle("H1 — where in the network does the stream freeze? residual-stream trajectory geometry per layer", fontsize=10)
+    ax = axes[2]
+    for i, (cond, commit, fent) in enumerate(commit_rows):
+        ax.scatter([i] * len(commit), commit, color=PAL.get(cond, "#666"), s=14, alpha=0.7)
+        lo, hi = boot_ci(commit)
+        ax.plot([i - 0.25, i + 0.25], [np.mean(commit)] * 2, color=PAL.get(cond, "#666"), lw=2)
+        ax.plot([i, i], [lo, hi], color=PAL.get(cond, "#666"), lw=1)
+    ax.set_xticks(range(len(commit_rows))); ax.set_xticklabels([LABEL.get(c, c) for c, _, _ in commit_rows], fontsize=7, rotation=20, ha="right")
+    ax.set_ylabel("mean commitment (index into captured layers)"); ax.grid(alpha=0.25)
+    ax.set_title("logit lens: how early the top-1 is already decided (per cell)", fontsize=9)
+    fig.suptitle("H1 — where in the network does the stream freeze? residual-stream trajectory geometry per layer, and early commitment", fontsize=10)
     fig.tight_layout(); fig.savefig(FIG / f"hidden_h1_geometry_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
 
     # ---------------- H2 novelty per layer vs judged surprise
@@ -161,23 +176,25 @@ def main() -> None:
                 return float("nan"), float("nan")
             rho, pv = spearmanr(xs, ys)
             return float(rho), float(pv)
-        fig, ax = plt.subplots(figsize=(7, 3.8))
-        pooled = [spear(f"nov_L{l}", rows)[0] for l in layers]
-        ax.plot(layers, pooled, "-o", color="#111", label=f"pooled (n={len(rows)})")
-        md.append("| layer | ρ pooled | p | " + " | ".join(f"ρ within {LABEL.get(c, c)}" for c in conds) + " |")
-        md.append("|---|---|---|" + "---|" * len(conds))
-        within = {}
-        for cond in conds:
-            sub = [r for r in rows if r["cond"] == cond]
-            within[cond] = [spear(f"nov_L{l}", sub)[0] for l in layers]
-            if len(sub) >= 8:
-                ax.plot(layers, within[cond], "-", alpha=0.7, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={len(sub)})")
-        for i, l in enumerate(layers):
-            rho, pv = spear(f"nov_L{l}", rows)
-            md.append(f"| {l} | {rho:+.2f} | {pv:.1e} | " + " | ".join(f"{within[c][i]:+.2f}" for c in conds) + " |")
-        ax.axhline(0, color="#999", lw=0.8); ax.set_xlabel("layer"); ax.set_ylabel("Spearman ρ (novelty at layer, judged surprise)")
-        ax.legend(fontsize=7, frameon=False); ax.grid(alpha=0.25)
-        ax.set_title("H2 — novelty of the judged window vs everything before it, per layer, against judged surprise", fontsize=9)
+        fig, axes = plt.subplots(1, 2, figsize=(13, 3.8), sharey=True)
+        for ax, feat, ttl in zip(axes, ("nov", "step"), ("novelty vs everything before the window", "local step vs the previous 160 tokens")):
+            pooled = [spear(f"{feat}_L{l}", rows)[0] for l in layers]
+            ax.plot(layers, pooled, "-o", color="#111", label=f"pooled (n={len(rows)})")
+            md.append(f"\n**{ttl}** — Spearman with judged surprise\n")
+            md.append("| layer | ρ pooled | p | " + " | ".join(f"ρ within {LABEL.get(c, c)}" for c in conds) + " |")
+            md.append("|---|---|---|" + "---|" * len(conds))
+            within = {}
+            for cond in conds:
+                sub = [r for r in rows if r["cond"] == cond]
+                within[cond] = [spear(f"{feat}_L{l}", sub)[0] for l in layers]
+                if len(sub) >= 8:
+                    ax.plot(layers, within[cond], "-", alpha=0.7, color=PAL.get(cond, "#666"), label=f"{LABEL.get(cond, cond)} (n={len(sub)})")
+            for i, l in enumerate(layers):
+                rho, pv = spear(f"{feat}_L{l}", rows)
+                md.append(f"| {l} | {rho:+.2f} | {pv:.1e} | " + " | ".join(f"{within[c][i]:+.2f}" for c in conds) + " |")
+            ax.axhline(0, color="#999", lw=0.8); ax.set_xlabel("layer"); ax.grid(alpha=0.25); ax.set_title(ttl, fontsize=9)
+        axes[0].set_ylabel("Spearman ρ with judged surprise"); axes[0].legend(fontsize=7, frameon=False)
+        fig.suptitle("H2 — which layer's movement predicts judged surprise?", fontsize=10)
         fig.tight_layout(); fig.savefig(FIG / f"hidden_h2_novelty_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
         rho_c, p_c = spear("commit", rows); rho_f, p_f = spear("final_entropy", rows)
         md.append(f"\nCommitment layer (mean first-agreeing captured layer) vs surprise: ρ={rho_c:+.2f} (p={p_c:.1e}); "
