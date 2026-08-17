@@ -1,0 +1,39 @@
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Decoding.} Nucleus sampling \citep{holtzman2020curious} truncates
+the unreliable tail of the next-token distribution; locally typical sampling
+\citep{meister2023typical} targets human-like surprisal; min-$p$
+\citep{nguyen2025minp} scales the truncation with the model's confidence and
+is exactly the coherence floor we use; contrastive decoding
+\citep{li2023contrastive} and plug-and-play steering \citep{dathathri2020pplm}
+shape the distribution toward or away from a reference. All of these regulate
+the tail. Our sampler \emph{courts} it, inside an entropy band and above a
+floor, and we show that this buys surface novelty only.
+
+\paragraph{Measuring novelty.} Infini-gram \citep{liu2024infinigram} and
+Rusty-DAWG \citep{merrill2024rustydawg} make verbatim novelty against a
+training corpus computable at scale; we use infini-gram against the OLMo-2
+corpus. \citet{saakyan2026death} show with 8,618 expert annotations that
+$\approx$91\% of top-quartile $n$-gram-novel expressions are not judged
+creative; our factual-paraphrase escape mode and the sampler's idea-level
+null are independent, mechanistic confirmations of the same gap.
+
+\paragraph{Verified search.} FunSearch \citep{romeraparedes2024funsearch} and
+AlphaEvolve \citep{novikov2025alphaevolve} pair a language model with a hard
+evaluator and let selection do the work. Our bin-packing null (the
+anti-probable operator does not separate from plain sampling under verified
+evolution) and the loop results suggest that the structure of the generation
+loop, not the sampling operator, is where to look next.
+
+\paragraph{Creative cognition.} Creative thought as coupling of default-mode
+and executive networks \citep{beaty2016dynamics}, with salience regions
+coupling first \citep{beaty2018robust}; creativity as connecting semantically
+distant concepts \citep{kenett2018semantic}; incubation effects
+\citep{sio2009incubation}; predictive processing \citep{clark2013whatever};
+dreams as anti-overfitting noise \citep{hoel2021overfitted}; Boden's
+novelty/surprise/value triad \citep{boden2004creative}; conceptual blending
+\citep{fauconnier2002way}; novelty search \citep{stanley2015greatness}. The
+reverie loop of Section~\ref{sec:loop} is an explicit engineering of the
+first three into a text loop; its ablation is, in a sense, a test of which of
+these ingredients a language model needs.

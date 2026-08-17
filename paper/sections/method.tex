@@ -1,0 +1,151 @@
+\section{Method}
+\label{sec:method}
+
+\subsection{Measurement stack}
+\label{sec:stack}
+
+Every experiment shares one stack. \textbf{Generators} are base models only,
+since instruction-tuned models are mode-collapsed for open-ended generation:
+Qwen3-8B-Base, OLMo-2-13B (whose training corpus is public), and
+Qwen3-30B-A3B-Base (a mixture-of-experts model, 53 tokens/s), all quantized to
+8 bits and run on Apple silicon through MLX with a numpy sampler that sees the
+full logits. \textbf{Judges} are Claude Opus~5 and Sonnet~5 (Amazon Bedrock),
+always from a different model family than the generator; each window is
+judged $k$ times ($k=3$--$5$) with independent 0--10 dimensions and the median
+is the score. For reverie windows the dimensions are \emph{surprise} (how
+unexpected the window is given the earlier text; 0 = obvious continuation,
+10 = startling yet not random), \emph{connection} (does it bring together two
+distant regions of the earlier text, or an old region with something new, in
+a way that makes sense) and \emph{coherence} (does it hold together as text;
+0 = word salad or document boilerplate); for ideas, a nearest-equivalent
+plus novel-delta rubric. \textbf{Instrument calibration}
+(Section~\ref{sec:instrument}) measures the intra-window spread of the $k$
+judgments before any comparison; effects below about one point are declared
+undetectable. \textbf{Objective novelty}, where a public corpus exists, is
+computed with infini-gram \citep{liu2024infinigram} against the OLMo-2 corpus.
+\textbf{Statistics} are bootstrap confidence intervals on differences with the
+window or the seed as unit, Cliff's $\delta$ and Mann--Whitney tests on
+windows, and paired-by-seed bootstrap where conditions share seeds.
+
+\subsection{The anti-probable sampler}
+\label{sec:sampler-method}
+
+At each step the model's next-token distribution is computed as usual. Tokens
+below a relative probability floor ($p < 0.05\,p_{\max}$, the min-$p$ rule)
+are never chosen. If the entropy of the distribution falls inside a calibrated
+band $[H_{\min}, H_{\max}]$---the model is undecided but not lost---the
+remaining candidates are re-scored by
+\[
+\text{score}(t) = \log P(t \mid \text{context}) + \lambda \cdot z\!\big(d(t,\ \bar{c})\big),
+\]
+where $d$ is the cosine distance between the token's embedding and an
+exponential moving average $\bar c$ of the recent context in the model's own
+embedding space, and $z$ standardizes the distances across the candidates so
+that $\lambda$ reads in nats per standard deviation. Below the band the model
+is confident and we let it be; above it the distribution is a genre fork and
+pushing there produces collapse. Optional terms used in the loop are a graded
+\emph{habituation} penalty (tokens seen in the last 512 positions are
+penalized in proportion to their recent frequency, factor 1.15) and a
+\emph{bridge} bonus toward regions visited long ago.
+
+\subsection{The reverie loop}
+\label{sec:loop-method}
+
+\paragraph{No task.} A cell starts from a single sentence---the
+\emph{premise}, e.g. \emph{``The town had two clocks, and nobody remembered
+which one had been right first.''}---and nothing else: no instruction, no
+role, no question. A base model continues it, and from then on its only input
+is its own output: each token is predicted from the premise plus everything
+the model has written. The end-of-text token is masked, so the stream never
+stops by itself. Cells run for 4,500 generated tokens.
+
+\paragraph{Interruption.} At chosen moments the generator is paused and a
+short text is \emph{injected} into the stream as if the model had written it
+(pre-filled into the model's cache), and generation resumes from there. The
+model receives no signal that the text was injected: to it these are the next
+tokens of the document. Everything written before stays in the context---the
+model remembers all of it, and is only made to open a new sentence somewhere
+else. Figure~\ref{fig:example} shows a real interruption. The default injected
+texts are four neutral subject changes used in rotation (\emph{``That night
+she dreamed of something else entirely:''}, \emph{``Meanwhile, in a city with
+no name,''}, \emph{``There is an older story about this, and it goes:''},
+\emph{``A question nobody had asked yet:''}); other contents are studied in
+Section~\ref{sec:loop}.
+
+\begin{figure}[t]
+\centering
+\begin{minipage}{0.96\linewidth}\small
+\textbf{Premise:} \emph{Every morning the baker counted the loaves twice, and every morning the count was different.}\\[0.3em]
+\textbf{\ldots the stream, 2,000 tokens later:} \emph{There was never more than thirty, but there were always twenty-one or twenty-two. That morning he counted them three times, but he got no nearer to the number. He couldn't understand it. He opened the door of the oven and pulled out a loaf of bread. He cut it open. It was all}\\[0.3em]
+\textbf{Injected:} \emph{Meanwhile, in a city with no name,}\\[0.3em]
+\textbf{The model continues:} \emph{an old woman sat at a window with her cat. She had no idea who she was or where she came from, or why she'd been left alone in this strange city with this strange cat. All she knew was that every day something went wrong with the cat: It would grow ill for no reason and then recover; it would lose its fur for days; even die for a few hours! Every day this happened, but every day it also recovered. And then one day, when the old woman looked out\ldots}
+\end{minipage}
+\caption{A real interruption (Qwen3-30B-A3B, seed 2, period 300). The
+injected sentence is indistinguishable from the model's own text; the baker
+remains in the context and can be returned to.}
+\label{fig:example}
+\end{figure}
+
+\paragraph{The full scaffold (DREAM).} The architecture we started from
+adds, around the same stream: a \emph{salience monitor} over the stream's own
+telemetry (a fast moving average of token embeddings and the step entropy),
+which fires on a semantic \emph{jump} (the average moved far from where it was
+32 tokens earlier), a \emph{crystallization} (entropy dropped after a stretch
+of wandering), a \emph{recurrence} (the average came close to a region visited
+long ago and not recently), and \emph{stagnation} (it has not moved for a long
+stretch); a surface \emph{genre-collapse} detector (lexical diversity,
+capitalization, layout symbols); a cross-family judge invoked on salience
+events; \emph{escalation} on a passing window (a narrower regime plus an
+injected textual return to the premise); a \emph{kick} on stagnation (a
+stretch of harder push), and after repeated stagnation a subject change with
+\emph{selective forgetting}---the working memory is rebuilt in a fresh cache
+from the premise, a few kept windows and the last 200 tokens, plus the new
+seed, so that a deep well cannot pull the seed back; regions visited persist
+as anchors for the bridge term. Every one of these mechanisms was born from a
+calibration probe in which a base model without a task fell into a specific
+attractor (early end-of-text, erudite rumination, literal four-sentence
+orbits, website footers, translation tables). The generator's pretraining diet
+was the dominant variable in those probes: OLMo-2 sinks into footers even
+with forgetting; Qwen3-30B drifts in prose. With 3,000 tokens of boilerplate
+in the cache, every injected seed was pulled back within about twenty tokens:
+\emph{the accumulated context is the well}, and forgetting is what lets a seed
+take.
+
+\paragraph{Conditions.} Table~\ref{tab:conditions} lists the arms. All loop
+arms in this paper use $\lambda=0$ (no anti-probable push), since the push had
+no measurable effect inside the loop (Section~\ref{sec:sampler}); the arms
+differ only in whether the habituation penalty is on, and in whether, when,
+how often and with what the stream is interrupted.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}llp{7.6cm}@{}}
+\toprule
+arm & habituation & interruption \\
+\midrule
+bare & off & none: continuous generation \\
+bare + habituation & on & none \\
+bare + clock reseed & on & neutral subject change every 150 tokens over the preserved context \\
+salience only & on & none; salience events mark review windows \\
+DREAM scaffold & on & full scaffold: salience, kick, reseed with forgetting, re-encounter \\
+\midrule
+clock: re-encounter / premise / own past & on & every 150 tokens: a return-to-the-premise stitch / the premise itself / a window of the stream's own past ($\ge$400 tokens back) \\
+salience: re-encounter & on & the stitch injected on each salience event, no judge gate \\
+clock 75 / 300 / 600 / 900 & on & neutral subject change at other periods (900 also with the stitch) \\
+\bottomrule
+\end{tabular}
+\caption{Conditions of the ablation battery (top) and battery~2 (bottom); 10
+narrative seeds each, 4,500 tokens per cell.}
+\label{tab:conditions}
+\end{table}
+
+\paragraph{Judging the stream.} Nobody judges during generation. Afterwards,
+160-token windows are cut at two kinds of review point---\emph{cut}, right
+before each injection (what the stream produced up to the interruption), and
+\emph{clock}, a uniform grid of 150 generated tokens---plus, for salience
+arms, the salience-event windows; each is shown to the judge with the 600
+preceding tokens and scored on the three dimensions, five times, median taken.
+Six windows per kind per cell are judged, evenly spread over the stream;
+windows ending before 100 generated tokens are excluded (73 two-token
+fragments before a first cut, mean surprise 0.95). Each cell stores its token
+stream and the exact position of every event and injection.

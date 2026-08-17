@@ -1,0 +1,67 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{textcomp}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\captionsetup{font=small,labelfont=bf}
+\graphicspath{{figures/}}
+\setlength{\parskip}{0.25em}
+\newcommand{\dsurp}{surprise}
+\newcommand{\dconn}{connection}
+\newcommand{\dcoh}{coherence}
+\newcommand{\ci}[2]{[#1,\,#2]}
+\newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+
+\title{Where Creativity Lives in a Language Model:\\
+Not the Sampler, Not the Prompt---Interrupting the Loop}
+\author{Roberto Ono Filho\\
+Independent researcher\\
+\texttt{ono.roberto@gmail.com}}
+\date{Preprint --- \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\input{sections/introduction}
+\input{sections/related}
+\input{sections/method}
+\input{sections/exp_sampler_prompt}
+\input{sections/exp_loop}
+\input{sections/exp_network}
+\input{sections/instrument}
+\input{sections/discussion}
+\input{sections/limitations}
+\input{sections/conclusion}
+
+\paragraph{Acknowledgements and tooling.} The experiments, analyses and text of this
+paper were produced by the author working with Claude (Anthropic) as a
+programming and writing assistant inside the Claude Code environment; every
+design decision, result and claim was reviewed by the author, and the dated
+laboratory notebook, code and per-run data are public in the repository.
+Judges were run on Amazon Bedrock and OpenRouter; generators ran locally on
+Apple silicon via MLX.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\input{sections/appendix}
+
+\end{document}

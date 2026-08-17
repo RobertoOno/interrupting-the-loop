@@ -1,0 +1,103 @@
+\section{Inside the network}
+\label{sec:network}
+
+Judges and sentence embeddings see the text; the model's own residual stream
+sees the computation. We re-run every finished stream through its generator
+(one forward pass with a KV cache, exact token positions) and capture the
+residual at 13 layers (every 4th of 48 for Qwen3-30B-A3B; every 3rd for the
+36-layer Qwen3-8B and the 40-layer OLMo-2), mean-pooled over 64-token windows
+(stride 32) and mean-centered per layer before cosine geometry, plus a logit
+lens at each captured layer (the final norm and unembedding applied to the
+intermediate state). Three questions.
+
+\paragraph{N1 --- where does the stream freeze?} Per-layer trajectory
+geometry of the window vectors (mean step between consecutive windows,
+explored radius) by condition, and the logit-lens \emph{commitment
+layer}---the captured layer from which the top-1 token no longer changes.
+Bare generation's mean step is a third to a quarter of every interrupted
+condition's at every layer; its explored radius is 0.13 at the input layers
+against 0.42--0.53, and the gap narrows with depth but never closes (0.24 vs
+0.33--0.34 at layer 47, CIs disjoint; Figure~\ref{fig:n1}). The three
+interrupted conditions are geometrically alike inside the network; what
+separates them is what the judge reads. On the 30B, bare generation's top-1
+stabilizes \emph{later} (commitment index 11.12 \ci{11.04}{11.25} of 12 vs
+10.88--10.96) while its final distribution is far more confident (final
+entropy 0.34 vs 0.42--1.08)---the signature of copying, a late-layer
+computation that ends certain; the ordering does not replicate on the 8B, so
+we report it as an observation. The 8B and OLMo replicate the geometry (bare
+radius 0.14 and 0.36 at layer 0 against 0.46--0.61).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{hidden_h1_geometry_scaffold.png}
+\caption{N1: residual-stream trajectory geometry per layer and condition
+(Qwen3-30B-A3B, ablation battery): mean step, explored radius, and logit-lens
+commitment. Bare generation freezes at every layer, most at the surface.}
+\label{fig:n1}
+\end{figure}
+
+\paragraph{N2 --- which layer's movement predicts judged surprise?} For
+every judged window, its novelty at layer $l$ (cosine distance between the
+window's mean state and the mean state of everything before it) and its local
+step (vs the previous 160 tokens), correlated with judged surprise
+(Figure~\ref{fig:n2}). Pooled over conditions, novelty against the past
+correlates with surprise at the input layers ($\rho=+0.47$ at layer 0) and
+not at the top ($-0.04$)---but the pooled number is carried by the
+bare/interrupted contrast. Within interrupted conditions the sign flips with
+depth: local step at layer 0 correlates positively with surprise
+(salience-only $+0.46$, scaffold $+0.23$) and at layer 47 negatively
+($-0.34$, $-0.14$); novelty against the whole past is negative at depth
+(salience-only $-0.53$ at layer 47). Across the 668 judged windows of
+battery~2, layer-0 movement predicts surprise within every condition
+($\rho$ +0.3 to +0.6), and higher final entropy predicts it everywhere
+($\rho$ +0.3 to +0.6): confident is unsurprising. What the judge calls
+surprise is surface departure with deep continuity---new at the surface,
+continuous underneath.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{hidden_h2_novelty_scaffold.png}
+\caption{N2: Spearman correlation between the judged window's movement
+(novelty vs everything before it, left; local step, right) at each layer and
+judged surprise, pooled and within condition.}
+\label{fig:n2}
+\end{figure}
+
+\paragraph{N3 --- how deep does an interruption reach?} Cosine distance
+between the 64 tokens before an injection and the 64 after it (the injected
+text skipped), per layer, minus the same at random positions; and the change
+in similarity to the premise's own state (Figure~\ref{fig:n3}). Across a
+scaffold reseed \emph{with forgetting}, the state after the injection differs
+from the state before by +0.09 (layer 4) growing to +0.21 (layer 40) beyond
+control, and its similarity to the premise's state rises by +0.09 to +0.20
+with depth: forgetting is a deep re-encounter with the beginning, in the
+network's own representation. Across a clock reseed \emph{over preserved
+context} the same measures are +0.01--0.03 and $\approx$0 at every
+layer---and this is the interruption the judge rewards most. Judged surprise
+and connection are not deep representational shifts; they are surface
+departures over an intact deep context, which is also why this arm keeps the
+most connection. The dissociation replicates on the 8B (+0.03 to +0.10 vs
++0.01--0.03) and, larger, on OLMo (+0.20 to +0.38 with a return of +0.13 to
++0.18, vs +0.02--0.06 with no return). In battery 2, the depth of the state
+change scales with the length of the interrupted segment (period 75:
+$\approx$0; 150: +0.01--0.02; 300: +0.02--0.04; 600: +0.04--0.075) and not
+with what is injected---the internal counterpart of the frequency result---and
+the salience-timed stitch is the one 150-scale injection that reliably moves
+the deep state and pulls it toward the premise, while being the arm whose
+stream the judge rates lowest: deep movement and judged quality dissociate
+here too. Along the stream, similarity to the premise state is U-shaped in
+depth ($\approx$0.9 at layer 0, $\approx$0.5 mid-network, rising at the top)
+and ordered at the top layer scaffold 0.85 $>$ salience-only 0.79 $>$ clock
+reseed 0.67 $>$ bare 0.55: the sentence-embedding ``return to the premise'' of
+the scaffold is a top-layer phenomenon.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{hidden_h3_interruption_scaffold.png}
+\caption{N3: how deep an interruption reaches (Qwen3-30B-A3B). Left: state
+change across an injection per layer, minus random-position control. Right:
+change in similarity to the premise's own state. The forgetting reseed moves
+the deep state and returns it toward the premise; the clock reseed over
+preserved context barely touches it---and is what the judge rewards.}
+\label{fig:n3}
+\end{figure}

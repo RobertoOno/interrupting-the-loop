@@ -1,0 +1,18 @@
+\section{Limitations}
+\label{sec:limitations}
+
+Ten seeds, all English narrative premises. Three generator families for the
+loop's core ladder, one (Qwen3-30B-A3B) for the content, timing and frequency
+battery. LLM judges: Opus~5, calibrated and agreeing with a second family
+(Kimi K2.6, $\rho=0.71$--$0.85$), but not yet with humans---the blind rating
+by independent readers is in progress. The judged sample of each cell is six
+windows per review kind, evenly spread; salience-timed arms are judged on
+selected moments and on a uniform grid, and both are reported, because the
+first is a selection. The residual-stream analysis is correlational, uses
+mean-pooled 64-token windows at 13 layers, and does not touch attention or
+causal interventions. The sampler's null inside the loop is a null at the
+instrument's resolution ($\approx$1 point). Whether the rhythm ($\approx$300
+tokens) and the ``lead away, then let it come back on its own'' rule hold for
+other genres and for tasks with a verifier is the next question, and the
+fusion the program points to: an interrupted loop over a \emph{problem}, with a
+verifier in place of the judge.

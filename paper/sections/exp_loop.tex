@@ -1,0 +1,225 @@
+\section{Hypothesis 3: the loop}
+\label{sec:loop}
+
+All results in this section use Qwen3-30B-A3B-Base unless stated, ten
+narrative seeds, 4,500 tokens per cell, $\lambda=0$, and Claude Opus~5 as
+judge with $k=5$. Full tables, including Cliff's $\delta$, Mann--Whitney
+$p$-values and paired-by-seed intervals, are in Appendix~\ref{app:loop}.
+
+\subsection{Bare generation is dead; the loop brings it to life}
+
+Left to continue a premise with nothing else, the base model converges within
+a few hundred tokens on an attractor of its pretraining and stays there:
+\emph{``Highly recommended. Highly recommended.\,\ldots''} for two thousand
+tokens; a table of three-digit numbers; an English-exam answer key. Judged
+surprise 0.33, connection 0.17, coherence 2.08 (60 windows). The full scaffold
+brings the stream to 3.22 / 1.60 / 3.72 (Cliff's $\delta=+0.88$ vs bare on
+surprise, $p\approx10^{-16}$; every seed moves in the same direction,
+Figure~\ref{fig:perseed}), and elaborates its own finds after a
+re-encounter (\emph{``Everything that almost happened piled up inside her like
+snow falling sideways through open windowsills into rooms filled with silence
+instead of noise\,\ldots\ She kept a notebook because sometimes almosts piled
+up too much to be ignored''}). Salience-gated review also beats reviewing on a
+timer as a policy for \emph{which} windows to judge (surprise and connection
+CIs positive at a third of the judge cost).
+
+\subsection{Taking the loop apart}
+\label{sec:ablation}
+
+Ablation over 10 seeds (Figure~\ref{fig:ablation}, Table~\ref{tab:ladder})
+gave the first surprise: \emph{bare + clock reseed}---no salience, no
+forgetting, no kicks, only a neutral subject change every 150 tokens over the
+preserved context---ties the full scaffold on surprise (3.08 vs 3.22, CI
+\ci{-0.50}{+0.80}) and beats it on connection (3.15 vs 1.60, $\delta=-0.60$
+for the scaffold, $p\approx3\times10^{-8}$) and coherence (4.78 vs 3.72), with
+12/60 windows judged both surprising and coherent against 8/50 for the
+scaffold and 0/60 for bare. Salience-only (review windows marked but nothing
+injected) reaches 2.74. In sentence-embedding space
+(Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean step
+0.14 and ends 0.78 from the premise; the scaffold has radius 0.51 and returns
+to within 0.57 of the premise; the clock reseed spreads over the space in
+jumps while keeping the whole context---which is where its connection
+advantage comes from.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig1_reverie_distributions.png}
+\caption{Ablation: judged surprise, connection and coherence by arm (10
+seeds, Opus~5, median of $k=5$ per window; violins are distributions, bars are
+means with bootstrap CIs). Bare + clock reseed matches the full scaffold on
+surprise and exceeds it on connection and coherence.}
+\label{fig:ablation}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{traj_dream_scaffold_s6.png}
+\caption{Where the stream goes: trajectories in sentence-embedding space
+(64-token windows, one PCA per seed), seed 6. $\star$ premise, $\circ$ start,
+$\times$ reseed, $\diamond$ judged event sized by surprise. Bare makes one
+jump and freezes; the scaffold orbits and returns; the clock reseed jumps
+across the space keeping its context.}
+\label{fig:traj}
+\end{figure}
+
+\subsection{What the interruption is made of}
+\label{sec:battery2}
+
+The ablation left the effect in one operation and raised four questions about
+it, and one about itself. Battery 2 answers them (Table~\ref{tab:ladder},
+Figures~\ref{fig:q1}--\ref{fig:q4}).
+
+\paragraph{A confound, and two operations.} The bare arm of the ablation ran
+without the scaffold's habituation penalty, which every interrupted arm had;
+bare generation dies in \emph{literal} orbits, precisely what a repetition
+penalty undoes. Adding the missing control (habituation, no interruption)
+splits the effect in two: bare 0.28 $\rightarrow$ bare + habituation
+\textbf{1.70} (surprise $\Delta$ +1.42 \ci{+1.12}{+1.72} paired by seed;
+connection 0.20 $\rightarrow$ 1.08; coherence 2.06 $\rightarrow$ 4.08)
+$\rightarrow$ bare + habituation + clock reseed \textbf{3.08} ($\Delta$ +1.38
+\ci{+0.92}{+1.92}). Habituation removes the literal orbits and buys about
+half of the surprise; the interruption buys the other half and \emph{all} of
+the connection (1.08 $\rightarrow$ 3.15, $\Delta$ +2.07 \ci{+1.63}{+2.57},
+$\delta=+0.75$) and the coherence. The full scaffold adds surprise +1.49
+\ci{+0.80}{+2.19} over habituation alone but only +0.55 of connection.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lccc@{\hspace{1.2em}}ccc@{\hspace{1.2em}}ccc@{}}
+\toprule
+& \multicolumn{3}{c}{Qwen3-30B-A3B} & \multicolumn{3}{c}{Qwen3-8B} & \multicolumn{3}{c}{OLMo-2-13B} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+arm & S & C & H & S & C & H & S & C & H \\
+\midrule
+bare & 0.28 & 0.20 & 2.06 & 0.68 & 0.38 & 3.45 & 1.35 & 0.91 & 2.97 \\
+bare + habituation & 1.70 & 1.08 & 4.08 & 1.47 & 0.87 & 3.93 & 2.37 & 1.51 & 4.05 \\
+bare + habituation + clock reseed & \textbf{3.08} & \textbf{3.15} & \textbf{4.78} & \textbf{2.73} & \textbf{3.23} & 4.42 & \textbf{3.11} & \textbf{3.17} & 3.28 \\
+DREAM scaffold & 3.19 & 1.64 & 3.68 & 2.73 & 1.53 & 4.30 & 3.08 & 1.89 & \textbf{4.48} \\
+\bottomrule
+\end{tabular}
+\caption{The ladder on three generator families: judged surprise (S),
+connection (C) and coherence (H), means over windows (Opus~5, $k=5$; 10 seeds
+per arm; windows before 100 generated tokens excluded). Habituation buys part
+of the surprise; the interruption buys the rest and all of the connection; the
+scaffold adds nothing over the plain interruption except, on OLMo, coherence
+(its selective forgetting lifts the stream out of a web-boilerplate well).}
+\label{tab:ladder}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q1_habituation.png}
+\caption{Habituation or interruption? bare $\rightarrow$ bare + habituation
+$\rightarrow$ bare + habituation + clock reseed $\rightarrow$ scaffold
+(Qwen3-30B-A3B).}
+\label{fig:q1}
+\end{figure}
+
+\paragraph{The interruption must lead away.} With the same period (150), a
+neutral subject change and a re-encounter stitch that asks the stream to
+return to its beginning are close (3.08 / 3.15 / 4.78 vs 2.68 / 3.64 / 4.72;
+the stitch trades some surprise for connection, not significantly). Injecting
+the \emph{premise itself} (1.14 / 1.04 / 3.18) or a window of the stream's
+\emph{own past} (1.42 / 1.52 / 3.06) is as bad as not interrupting at all:
+every paired CI against the neutral change excludes zero (connection $-2.11$
+\ci{-2.83}{-1.46} and $-1.63$ \ci{-2.37}{-0.91}; $\delta\approx-0.6$ to
+$-0.7$). Qualitatively, the own-past injection reinforces whatever attractor
+the stream is in---an exam-key well was fed its own questions back. A return
+works only as a short stitch that still opens a new sentence; a literal return
+closes the loop (Figure~\ref{fig:q2}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q2_content.png}
+\caption{Content of the interruption at period 150: neutral change,
+re-encounter stitch, the premise itself, the stream's own past. Injecting a
+return is as bad as not interrupting.}
+\label{fig:q2}
+\end{figure}
+
+\paragraph{Salience is a good reader and a bad metronome.} The stitch
+injected on salience events (jump, crystallization, recurrence; 1--9 per cell,
+median $\approx$5) makes the \emph{event windows} better than salience-only
+(3.92 / 2.99 / 3.75 vs 2.63 / 1.39 / 3.71), but the \emph{stream} it produces
+is poor: uniform windows 2.18 / 1.68 / 3.93 against \textbf{4.70 / 3.48 /
+5.50} for the same stitch on a clock of matched frequency (every 900 tokens;
+surprise $\Delta$ +2.02 \ci{+1.62}{+2.44} paired, coherence +0.78) and 5.48 /
+2.87 / 5.95 for a neutral change every 900 (45/60 windows both surprising and
+coherent, the best cell of the program). Salience events select good moments
+to look at, which is why salience-gated review beat clock review; as an
+interruption trigger they fire rarely and unevenly and leave streams stuck for
+thousands of tokens. Salience should decide where to look, not when to
+interrupt (Figure~\ref{fig:q3}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q3_timing.png}
+\caption{When to return: the re-encounter stitch on the clock (150 and 900),
+on salience events, and salience-only; event windows and uniform windows.}
+\label{fig:q3}
+\end{figure}
+
+\paragraph{The yield of an interruption depends on the thread it breaks, and
+decays with distance from it.} With the neutral change every 75 tokens the
+stream is dead (0.88, $\delta=-0.83$ vs 150): nothing has time to develop.
+Every 150: 3.08. Every 300, 600 and 900, the windows that end within
+$\approx$160 tokens after an interruption score \textbf{5.28 / 3.35 / 5.95},
+5.40 / 3.20 / 5.65 and 5.90 / 2.80 / 6.10---the highest values in the
+program, 34/60 of the 300-early windows both surprising and coherent---while
+windows deeper into a segment fall back to $\approx$3.2 and stay there. The
+same window shape (a break plus 150 tokens of development) scores 3.08 when
+the broken thread was 150 tokens long and 5.3--5.9 when it was 300--900:
+surprise needs a developed background to break. Weighting the two phases by
+their share of the stream, period 300 gives the best stream (4.35 / 3.18 /
+5.97), then 600 (3.82), 900 (3.68), 150 (3.08) and 75 (0.88); connection
+falls as segments lengthen (Figure~\ref{fig:q4}). The loop's rhythm is: let a
+thread develop for a few hundred tokens, then break it away.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q4b_phase.png}
+\caption{How often to interrupt. Left: judged surprise against tokens since
+the last interruption, per period. Right: stream mean by period. Surprise
+peaks in the 150 tokens after a break and decays; a break every 75 tokens
+develops nothing.}
+\label{fig:q4}
+\end{figure}
+
+\subsection{Three generator families}
+\label{sec:families}
+
+The ladder replicates on Qwen3-8B-Base and OLMo-2-13B (Table~\ref{tab:ladder},
+Figures~\ref{fig:fam8b}--\ref{fig:famolmo}). On the 8B: 0.68 $\rightarrow$
+1.47 $\rightarrow$ 2.73 (connection 0.87 $\rightarrow$ 3.23, $\delta=+0.80$),
+scaffold 2.73 / 1.53. On OLMo, whose bare stream wanders across web genres
+rather than locking into literal orbits and is therefore less dead
+(1.35), the same ordering holds on surprise and connection (2.37
+$\rightarrow$ 3.11; connection 1.51 $\rightarrow$ 3.17, $\delta=+0.58$), with
+one new nuance: the plain interruption \emph{costs} coherence there ($-0.77$
+\ci{-1.58}{+0.03}; the injected narrative seed lands on 4,000 tokens of
+footers) and the scaffold's selective forgetting is what preserves it (4.48
+vs 3.28)---the mechanism the calibration probes had suggested. Whether
+forgetting is worth its connection cost depends on how deep the generator's
+well is.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q5_family8b.png}
+\caption{The ladder on Qwen3-8B-Base.}
+\label{fig:fam8b}
+\end{figure}
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig8_q6_familyolmo.png}
+\caption{The ladder on OLMo-2-13B: same ordering; the plain interruption
+costs coherence and forgetting preserves it.}
+\label{fig:famolmo}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.6\linewidth]{fig3_per_seed_scaffold_vs_bare.png}
+\caption{Per-seed robustness: mean surprise of bare vs scaffold windows, one
+line per seed.}
+\label{fig:perseed}
+\end{figure}

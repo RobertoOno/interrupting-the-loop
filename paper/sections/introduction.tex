@@ -1,0 +1,99 @@
+\section{Introduction}
+
+Ask a language model for something new and you will usually get something
+fluent, plausible and familiar. Three places are commonly blamed, and three
+places are commonly optimized: the \emph{sampler} (the tail of the next-token
+distribution, tamed by nucleus, typical or min-$p$ truncation, or courted by
+higher temperature), the \emph{prompt} (the input, engineered to steer the
+model somewhere it would not go on its own), and, less often, the
+\emph{loop}---what happens when a model's output becomes its own next input,
+with nobody asking anything.
+
+The loop is where human novelty is usually placed. Insight rarely arrives as
+the answer to a strange question; it arises inside a closed circuit of thought
+feeding on its own output---during incubation, mind-wandering and
+sleep---when a spontaneously generated deviation survives critical review and
+is linked back to what came before. The neuroscience of creative cognition
+describes three coupled systems: a default-mode network that generates,
+an executive network that evaluates, and a salience network that decides
+what deserves attention; more creative people show more coupling between the
+first two, with salience regions coupling first
+\citep{beaty2016dynamics,beaty2018robust}. Creativity itself is often
+characterized as connecting semantically distant concepts
+\citep{kenett2018semantic}, and incubation---leaving a problem and coming
+back to it---has a measured effect on solving it \citep{sio2009incubation}.
+
+This paper asks, with controls, where novelty actually comes from in a
+language model left to write with no task, and which of the operations we
+usually credit for it survive measurement. We test the three hypotheses in
+turn, with one measurement stack shared by every experiment: base models
+(instruction-tuned models are mode-collapsed for this purpose) run locally at
+8-bit; LLM judges always from a different model family than the generator,
+sampled $k$ times per window with the median as the score and the intra-window
+spread measured before use; bootstrap confidence intervals with the window or
+the seed as unit; and, where a public training corpus exists, verbatim novelty
+computed against it.
+
+\paragraph{The sampler.} We build the strongest version of the ``fertile
+error'' idea we could: an entropy-banded anti-probable decoder that, at the
+steps where the model is genuinely undecided, re-scores the plausible
+candidates by their semantic distance from the recent context, with a
+coherence floor that never admits an implausible token. It works exactly as
+far as the surface: 4-gram novelty against the OLMo-2 training corpus roughly
+doubles, verbatim 8+-word training blocks fall from 0.80 to 0.20 of
+generations, at a small perplexity cost. But inside a reverie loop the same
+push yields no measurable difference from plain sampling in judged surprise,
+connection or novel delta, and in verified search (bin packing, two models,
+3,200 verified heuristics) it does not separate from plain sampling either.
+Surface novelty is real and does not climb---the mechanistic counterpart of
+the recent finding that most $n$-gram-novel expressions are not judged
+creative \citep{saakyan2026death}.
+
+\paragraph{The prompt.} We build inputs that sit far from any human prompt
+(distant concept pairs, composed improbable contexts; distance measured
+against 10,000 real prompts) and let a strong model develop them. A typical
+request matches or beats every improbable arm; input improbability does not
+correlate with judged novelty. Improbable inputs from outside are noise.
+
+\paragraph{The loop.} Bare continuous generation from a base model is dead:
+left to feed on its own output it converges on the deepest attractors of
+pretraining---literal orbits, website footers, exam keys, translation
+tables---and stays there. A closed reverie loop built on the architecture of
+spontaneous cognition (a salience monitor over the stream's own telemetry
+gating review, selective forgetting, reseeding, re-encounter with the premise)
+brings it to life. Then we take the loop apart. Ablation and a second battery
+of 18 conditions locate almost the whole effect in two operations, neither of
+them the elaborate ones: \emph{habituation}, which keeps the loop from eating
+its literal past, and \emph{interruption}, a new starting sentence injected
+every few hundred tokens over the preserved context. We show what a good
+interruption is made of---it must lead away, its yield depends on the length
+of the thread it breaks and decays with distance from it, the best rhythm is
+about 300 tokens, and a salience monitor is a good reader of the stream but a
+bad metronome for it---and we replicate the ladder on three generator families
+and under a second judge family. Finally we look inside the network:
+residual-stream geometry at 13 layers shows that bare generation freezes at
+every depth, that what the judge calls surprise is surface departure with deep
+continuity, and that the interruption that works barely moves the deep state,
+whereas forgetting is a deep re-encounter with the beginning that the judge
+rewards less.
+
+\paragraph{Contributions.}
+\begin{enumerate}[leftmargin=1.5em,itemsep=0.1em]
+\item A calibrated anti-probable decoder and the measurement that its
+  novelty is real at the surface (objective, against the training corpus) and
+  absent at the level of ideas (Sections~\ref{sec:sampler}, \ref{sec:instrument}).
+\item A negative result on improbable inputs, with input improbability
+  measured (Section~\ref{sec:prompt}).
+\item A reverie loop with a salience monitor and selective forgetting, and its
+  ablation into two operations---habituation and interruption---with a
+  battery that characterizes the interruption's content, timing and rhythm,
+  replicated on three generator families (Section~\ref{sec:loop}).
+\item A residual-stream analysis relating judged surprise to what the network
+  does at each depth, and a dissociation between deep representational change
+  and judged quality (Section~\ref{sec:network}).
+\item An instrument section that measures the LLM judge before using it and
+  validates it across model families, with a human blind rating in progress
+  (Section~\ref{sec:instrument}).
+\end{enumerate}
+Code, per-run data, judgments and the dated laboratory notebook are released
+with the paper.
