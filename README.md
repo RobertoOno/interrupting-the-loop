@@ -104,12 +104,16 @@ injection positions, and every judgment (`rejudge_surprise.json`) live under
 human-rating packs in `docs/blind/` contain the rated windows without
 condition labels; the keys are not public.
 
+## License
+
+Code and documentation are released under the MIT License (see `LICENSE`).
+
 ## Citation
 
 ```
 @misc{ono2026interrupting,
   title  = {Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt, but Interrupting the Loop},
-  author = {Ono Filho, Roberto Isamu},
+  author = {Ono Filho, Roberto I.},
   year   = {2026},
   note   = {Preprint}
 }
