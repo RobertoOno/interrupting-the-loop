@@ -32,6 +32,7 @@ def main() -> None:
     p.add_argument("--per-cond", type=int, default=6, help="windows per condition (stratified low/mid/high judged surprise)")
     p.add_argument("--seed", type=int, default=7)
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
+    p.add_argument("--lang", choices=["pt", "en"], default="pt", help="language of the rating interface (the texts are always English)")
     args = p.parse_args()
 
     from mlx_lm.utils import load_tokenizer
@@ -91,23 +92,42 @@ def main() -> None:
     button{padding:.4rem .8rem;font-size:.95rem}
     .rubric{background:#fff8e6;padding:.6rem 1rem;border-radius:6px;font-size:.9rem}
     """
+    if args.lang == "en":
+        rubric = ("<div class='rubric'><b>How to rate</b> (blind: you do not know where each passage comes from). These are stretches of text "
+                  "written by a language model left to write on its own, with no task. For each item, read the <i>earlier text</i> (grey) and then "
+                  "the <b>passage</b> (blue), and give two scores from 0 to 10:<br>"
+                  "<b>Surprise</b> — how unexpected is the passage <i>given the earlier text</i>: a reader could not have predicted where it went. "
+                  "0 = obvious continuation (including continuing the same loop, list, quiz or web boilerplate that was already there, however odd it looks); "
+                  "10 = genuinely startling yet not random. Nonsense and mere topic-hopping stay low; reserve 7+ for turns that surprise <i>and</i> make sense.<br>"
+                  "<b>Coherence</b> — does the passage hold together as text: 0 = word salad, list, or document boilerplate; 10 = clear, integrated prose. "
+                  "Score each dimension on its own: a passage can be surprising and incoherent, or coherent and dull. Use the whole scale. "
+                  "When done, click <b>Generate JSON</b>, copy the text and send it back.</div>")
+        title = f"Blind rating pack {html.escape(args.tag)}"
+        labels = ("earlier text", "Surprise", "Coherence", "Generate JSON", "passages")
+    else:
+        rubric = ("<div class='rubric'><b>Como avaliar</b> (cego: você não sabe de que condição cada janela vem). Para cada janela, leia o "
+                  "<i>contexto anterior</i> (opcional, dobrado) e a <b>janela</b> (o trecho a avaliar), e dê duas notas de 0 a 10:<br>"
+                  "<b>Surpresa</b> — quanto o trecho traz algo genuinamente inesperado dado o que veio antes (0 = previsível/boilerplate/repetição; "
+                  "10 = uma ideia, imagem ou virada que você não anteciparia e que abre algo). "
+                  "<b>Coerência</b> — quanto o trecho se sustenta como texto (0 = colapsado, lista, sem sentido; 10 = prosa clara e integrada). "
+                  "Não premie mudança de assunto por si só; premie o que <i>surpreende e faz sentido</i>. Ao terminar, clique em "
+                  "<b>Gerar JSON</b>, copie o texto e cole na conversa.</div>")
+        title = f"Blind rating pack {html.escape(args.tag)}"
+        labels = ("contexto anterior", "Surpresa", "Coerência", "Gerar JSON", "janelas")
     parts = [f"<!doctype html><html><head><meta charset='utf-8'><title>Blind rating {args.tag}</title><style>{css}</style></head><body>",
-             f"<h1>Blind rating pack {html.escape(args.tag)}</h1>",
-             "<div class='rubric'><b>Como avaliar</b> (cego: você não sabe de que condição cada janela vem). Para cada janela, leia o "
-             "<i>contexto anterior</i> (opcional, dobrado) e a <b>janela</b> (o trecho a avaliar), e dê duas notas de 0 a 10:<br>"
-             "<b>Surpresa</b> — quanto o trecho traz algo genuinamente inesperado dado o que veio antes (0 = previsível/boilerplate/repetição; "
-             "10 = uma ideia, imagem ou virada que você não anteciparia e que abre algo). "
-             "<b>Coerência</b> — quanto o trecho se sustenta como texto (0 = colapsado, lista, sem sentido; 10 = prosa clara e integrada). "
-             "Não premie mudança de assunto por si só; premie o que <i>surpreende e faz sentido</i>. Ao terminar, clique em "
-             "<b>Gerar JSON</b>, copie o texto e cole na conversa.</div>",
-             f"<p>{len(out_items)} janelas.</p>"]
+             f"<h1>{title}</h1>",
+             rubric,
+             f"<p>{len(out_items)} {labels[4]}.</p>"]
     for it in out_items:
         parts.append(f"<div class='item' id='{it['id']}'><b>{it['id']}</b>")
-        parts.append(f"<details><summary>contexto anterior</summary><pre>{html.escape(it['earlier'][-1800:])}</pre></details>")
+        if args.lang == "en":  # context shown, not folded: surprise is relative to it
+            parts.append(f"<div style='white-space:pre-wrap;background:#f4f4f4;padding:.5rem;font-size:.85rem;color:#444;max-height:15rem;overflow:auto'>{html.escape(it['earlier'][-1500:])}</div>")
+        else:
+            parts.append(f"<details><summary>{labels[0]}</summary><pre>{html.escape(it['earlier'][-1800:])}</pre></details>")
         parts.append(f"<div class='win'>{html.escape(it['window'])}</div>")
-        parts.append(f"<div class='q'>Surpresa <input type='number' min='0' max='10' step='1' data-id='{it['id']}' data-dim='surprise'> "
-                     f"Coerência <input type='number' min='0' max='10' step='1' data-id='{it['id']}' data-dim='coherence'></div></div>")
-    parts.append("<button onclick='gen()'>Gerar JSON</button><p><textarea id='out' placeholder='JSON aparece aqui'></textarea></p>")
+        parts.append(f"<div class='q'>{labels[1]} <input type='number' min='0' max='10' step='1' data-id='{it['id']}' data-dim='surprise'> "
+                     f"{labels[2]} <input type='number' min='0' max='10' step='1' data-id='{it['id']}' data-dim='coherence'></div></div>")
+    parts.append(f"<button onclick='gen()'>{labels[3]}</button><p><textarea id='out' placeholder='JSON'></textarea></p>")
     parts.append("""<script>
     function gen(){const o={};document.querySelectorAll('input[data-id]').forEach(i=>{if(i.value==='')return;o[i.dataset.id]=o[i.dataset.id]||{};o[i.dataset.id][i.dataset.dim]=Number(i.value)});
     document.getElementById('out').value=JSON.stringify({tag:'%s',ratings:o});document.getElementById('out').select();}
