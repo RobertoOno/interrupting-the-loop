@@ -43,7 +43,8 @@ def tex_escape(s: str) -> str:
     s = s.replace("&", "\\&").replace("%", "\\%").replace("_", "\\_").replace("#", "\\#")
     s = s.replace("≥", "$\\geq$").replace("≤", "$\\leq$").replace("→", "$\\rightarrow$").replace("−", "$-$").replace("±", "$\\pm$")
     s = s.replace("δ", "$\\delta$").replace("ρ", "$\\rho$").replace("Δ", "$\\Delta$").replace("×", "$\\times$").replace("λ", "$\\lambda$")
-    s = s.replace("≈", "$\\approx$").replace("—", "---").replace("–", "--")
+    s = s.replace("≈", "$\\approx$").replace("–", "--")
+    s = "--" if s.strip() == "—" else s.replace(" — ", ": ").replace("—", ", ")
     return s
 
 
@@ -74,11 +75,11 @@ def main() -> None:
         elif heading and heading.startswith("Verified search — Qwen3-30B"):
             parts.append(tabular(header, rows, "Verified search on Qwen3-30B-A3B (bin packing): the anti-probable operator does not separate from plain sampling.", "tab:app-verified"))
     # ---- battery 2
-    keep = {"Q1": ("tab:app-q1", "Battery 2, Q1 — habituation and interruption (Qwen3-30B-A3B)."),
-            "Q2": ("tab:app-q2", "Battery 2, Q2 — content of the interruption at period 150."),
-            "Q3": ("tab:app-q3", "Battery 2, Q3 — timing of the re-encounter: clock vs salience."),
-            "Q4 —": ("tab:app-q4", "Battery 2, Q4 — frequency of interruption (neutral change)."),
-            "Q4b": ("tab:app-q4b", "Battery 2, Q4b — phase within the segment and phase-weighted stream means."),
+    keep = {"Q1": ("tab:app-q1", "Battery 2, Q1: habituation and interruption (Qwen3-30B-A3B)."),
+            "Q2": ("tab:app-q2", "Battery 2, Q2: content of the interruption at period 150."),
+            "Q3": ("tab:app-q3", "Battery 2, Q3: timing of the re-encounter, clock vs salience."),
+            "Q4 —": ("tab:app-q4", "Battery 2, Q4: frequency of interruption (neutral change)."),
+            "Q4b": ("tab:app-q4b", "Battery 2, Q4b: phase within the segment and phase-weighted stream means."),
             "Q5": ("tab:app-q5", "Second generator family (Qwen3-8B-Base)."),
             "Q6": ("tab:app-q6", "Third generator family (OLMo-2-13B).")}
     seen = {}
@@ -89,7 +90,7 @@ def main() -> None:
             if heading.startswith(k):
                 idx = seen.get(k, 0); seen[k] = idx + 1
                 suffix = "" if idx == 0 else "-diff"
-                cap2 = cap if idx == 0 else cap.rstrip(".") + " — differences vs the reference arm (Δ mean with 95\\% CI over windows; Cliff's δ; Mann--Whitney p; paired-by-seed Δ [CI])."
+                cap2 = cap if idx == 0 else cap.rstrip(".") + "; differences vs the reference arm (Δ mean with 95\\% CI over windows; Cliff's δ; Mann--Whitney p; paired-by-seed Δ [CI])."
                 colspec = "l" + "c" * (len(header) - 1) if idx == 0 else "p{4.2cm}l" + "c" * (len(header) - 2)
                 parts.append(tabular(header, rows, cap2, label + suffix, colspec=colspec))
                 break

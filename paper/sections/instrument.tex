@@ -5,7 +5,7 @@ Every idea-level claim in this paper rests on an LLM judge, so we measured the
 judge before using it. On the same 89 windows judged $k=5$ times by two
 models, Claude Opus~5 gives continuous scores with an intra-window spread of
 0.71 (resolution at about $\pm0.7$); Claude Sonnet~5 has spread 0.27, but by
-scoring zero on the connection dimension almost everywhere---a ruler that only
+scoring zero on the connection dimension almost everywhere; a ruler that only
 reads ``0'' is consistent (Figure~\ref{fig:judge}). The three-dimension
 surprise/connection/coherence rubric has spreads of 0.45--0.70 under Opus.
 The consequences shape the paper: LLM judges detect effects of one to two
@@ -13,7 +13,7 @@ points (scaffold vs bare, salience vs clock, habituation vs interruption) and
 cannot adjudicate half-point effects (push vs plain), which is why the
 sampler's null inside the loop is reported as ``undetectable at this
 resolution'', not ``absent''; and a binary threshold on a noisy judge is a
-coin---the same window scored 5.24 one night and 4.48 the next---so every
+coin (the same window scored 5.24 one night and 4.48 the next), so every
 result here uses continuous medians of $k$ samples.
 
 \begin{figure}[t]
@@ -33,7 +33,7 @@ by Kimi K2.6 (Moonshot, via OpenRouter) with the same rubric and $k=5$.
 Agreement with Opus~5 on the median of five: surprise Spearman $\rho=+0.85$,
 connection $+0.77$, coherence $+0.71$ ($n=140$, $p<10^{-22}$). Kimi is more
 generous (means about one point higher) and noisier (intra-window spread
-2.0--2.6), but every condition ordering replicates---bare 0.55 $\rightarrow$
+2.0--2.6), but every condition ordering replicates: bare 0.55 $\rightarrow$
 habituation 3.15 $\rightarrow$ clock reseed 4.30 $\approx$ scaffold 4.10
 $\rightarrow$ period 300 5.65 on surprise, and the neutral reseed and the
 re-encounter stitch highest on connection under both judges.
@@ -42,7 +42,7 @@ re-encounter stitch highest on connection under both judges.
 stratified by judged surprise, shuffled, no labels, the earlier text shown) by
 independent raters is in progress. Raters were recruited on a freelance
 platform without knowledge of the hypotheses or conditions (\todo{final
-composition: N raters --- native English readers with editorial experience,
+composition: N raters, native English readers with editorial experience,
 one native/bilingual speaker, and advanced non-native readers}), given a
 one-page guide with the judge's rubric, and instructed not to use AI tools or
 web searches; they rated machine-generated text only, no personal data was
@@ -52,8 +52,8 @@ pairwise Spearman), human--judge Spearman correlation per dimension for all
 raters and for native readers only, and per-condition human means. The first
 rater to deliver (63/63 windows, full use of both scales) agrees with Opus~5
 on surprise ($\rho=+0.47$, $p=10^{-4}$) and reproduces the condition
-ordering---interruption arms 7.7--9.0, bare and habituation-only 3.2--3.9,
-scaffold 4.6---while agreeing weakly on coherence ($\rho=+0.23$): to this
+ordering (interruption arms 7.7--9.0, bare and habituation-only 3.2--3.9,
+scaffold 4.6) while agreeing weakly on coherence ($\rho=+0.23$): to this
 reader, the subject change inside an interrupted window reads as a break in
 coherence that the LLM judge does not penalize. \todo{update with all
 raters}
