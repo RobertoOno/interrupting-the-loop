@@ -1073,12 +1073,15 @@ interrupção chega, por tipo de conteúdo?).
 
 ## Publicação — opções com prazos verificados (2026-08-16)
 
-- **Decisão (2026-08-17)**: na hora de publicar, criar um **repositório novo
-  e público** a partir da árvore final (commit inicial limpo, nome de
-  publicação — p.ex. `interrupting-the-loop`); este repositório fica como
-  arquivo privado. Motivo: dois commits do histórico contêm um placeholder
-  de afiliação (a empresa) que não deve aparecer, e reescrever histórico com a
-  sessão aberta é arriscado. A cronologia fica preservada neste PLANO.
+- **Decisão (2026-08-17, revista)**: na hora de publicar, **migrar com o
+  histórico inteiro** — clone-espelho do repositório privado, `git
+  filter-repo --replace-text` para purgar o placeholder de afiliação (a empresa)
+  dos dois commits de `paper/main.tex` (datas/mensagens preservadas; hashes
+  mudam), push para um **repositório novo e público** com nome de publicação
+  (p.ex. `interrupting-the-loop`); este fica arquivado e a sessão atual não
+  é tocada. Antes disso: README em inglês; tradução integral deste caderno
+  para `docs/NOTEBOOK.md` (último passo, com o texto final); `CLAUDE.md` em
+  inglês; a versão PT do manuscrito pode ficar como extra.
 - Avaliadores humanos: anônimos no paper (perfil, recrutamento, remuneração
   e cegueira descritos; sem nomes; agradecimento anônimo); JSONs em
   `runs/blind/`, fora do git; só estatísticas agregadas publicadas.
