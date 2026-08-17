@@ -165,10 +165,12 @@ back within ~20 tokens; forgetting is what lets a seed take.
   δ = −0.60, p ≈ 3×10⁻⁸) and coherence 4.78 (δ = −0.41), with 12/60
   windows judged surprising *and* coherent vs 8/50 for the scaffold and
   0/60 for bare. The re-encounter arm never fired (it was gated on the
-  retired binary judge), so its ablation is empty. **Reading**: the
-  interruption is the mechanism; the rest of the scaffold does not pay
-  for itself at this resolution, and forgetting trades connection for
-  return-to-premise.
+  retired binary judge), so its ablation is empty here — battery 2 tests
+  it directly (§5.1). **Reading**: the interruption carries the effect;
+  the rest of the scaffold does not pay for itself at this resolution,
+  and forgetting trades connection for return-to-premise. (§5.1 corrects
+  one thing: the bare arm also lacked the scaffold's habituation, which
+  accounts for part of the gap.)
 - **Trajectories** (sentence-embedding space, PCA per seed, 10 seeds):
   bare generation has explored radius 0.18 and mean step 0.14 — it
   freezes — ending at distance 0.78 from the premise; the scaffold has
@@ -220,15 +222,16 @@ of every event and injection).
 bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
 
 - **Habituation and interruption are two operations, and both matter.**
-  Bare 0.33 → bare + habituation **1.70** (surprise Δ +1.37 [+1.07,
-  +1.67]; connection 0.17 → 1.08; coherence 2.08 → 4.08) → bare +
+  Bare 0.28 → bare + habituation **1.70** (surprise Δ +1.42 [+1.12,
+  +1.72]; connection 0.20 → 1.08; coherence 2.06 → 4.08) → bare +
   habituation + clock reseed **3.08** (Δ +1.38 [+0.92, +1.92] over
   habituation alone). Habituation removes the literal orbits and buys
   about half of the surprise gain; the interruption buys the other half
   and **all of the connection** (1.08 → 3.15, Δ +2.07 [+1.63, +2.57],
   δ = +0.75, p ≈ 5×10⁻¹³) and the coherence (4.08 → 4.78). The full
-  scaffold over habituation alone: surprise +1.52 [+0.85, +2.20],
-  connection +0.52. The ablation's headline survives corrected: not
+  scaffold over habituation alone: surprise +1.49 [+0.80, +2.19] (paired
+  +1.80 [+0.97, +2.75]), connection +0.55 [+0.06, +1.10]. The ablation's
+  headline survives corrected: not
   "interruption alone" but "don't let the loop eat its literal past, and
   interrupt it" — with the connection effect belonging to the
   interruption.
@@ -246,7 +249,10 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
   return works only as a short stitch that still opens a new sentence;
   a literal return closes the loop. (Windows ending before 100 generated
   tokens — the two-token fragment before the first clock cut — are
-  excluded throughout; 73 such windows, mean surprise 0.95.)
+  excluded from every battery-2 table; 73 such windows, mean surprise
+  0.95. Applied to the ablation battery the same rule drops 10 bare and 3
+  scaffold windows: bare 0.33 → 0.28, scaffold 3.22 → 3.19, nothing else
+  changes; the ablation numbers above are as judged.)
 - **Timing: salience is a good reader and a bad metronome.** The
   re-encounter stitch injected on salience events (jump, crystallization,
   recurrence; 1–9 per cell, median ≈5) makes the *event windows* better

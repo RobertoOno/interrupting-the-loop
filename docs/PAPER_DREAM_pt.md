@@ -175,9 +175,12 @@ pegar.
   δ = −0.60, p ≈ 3×10⁻⁸) e coerência 4.78 (δ = −0.41), com 12/60 janelas
   julgadas surpreendentes *e* coerentes vs 8/50 no arcabouço e 0/60 no
   nu. O braço de reencontro nunca disparou (estava atrelado ao juiz
-  binário aposentado), então a sua ablação é vazia. **Leitura**: a
-  interrupção é o mecanismo; o resto do arcabouço não paga o seu custo
-  nesta resolução, e o esquecimento troca conexão por retorno à premissa.
+  binário aposentado), então a sua ablação é vazia aqui — a bateria 2 o
+  testa diretamente (§5.1). **Leitura**: a interrupção carrega o efeito;
+  o resto do arcabouço não paga o seu custo nesta resolução, e o
+  esquecimento troca conexão por retorno à premissa. (O §5.1 corrige uma
+  coisa: o braço nu também não tinha a habituação do arcabouço, o que
+  explica parte da diferença.)
 - **Trajetórias** (espaço de embeddings de sentença, PCA por semente, 10
   sementes): a geração nua tem raio explorado 0.18 e passo médio 0.14 —
   congela — terminando a distância 0.78 da premissa; o arcabouço tem raio
@@ -232,15 +235,16 @@ pareados por semente sobre as 10 sementes; δ de Cliff e Mann–Whitney
 sobre janelas).
 
 - **Habituação e interrupção são duas operações, e as duas importam.** Nu
-  0.33 → nu + habituação **1.70** (surpresa Δ +1.37 [+1.07, +1.67];
-  conexão 0.17 → 1.08; coerência 2.08 → 4.08) → nu + habituação + reseed
+  0.28 → nu + habituação **1.70** (surpresa Δ +1.42 [+1.12, +1.72];
+  conexão 0.20 → 1.08; coerência 2.06 → 4.08) → nu + habituação + reseed
   por relógio **3.08** (Δ +1.38 [+0.92, +1.92] sobre a habituação
   sozinha). A habituação remove as órbitas literais e compra cerca de
   metade do ganho de surpresa; a interrupção compra a outra metade e
   **toda a conexão** (1.08 → 3.15, Δ +2.07 [+1.63, +2.57], δ = +0.75, p ≈
   5×10⁻¹³) e a coerência (4.08 → 4.78). O arcabouço completo sobre a
-  habituação sozinha: surpresa +1.52 [+0.85, +2.20], conexão +0.52. A
-  manchete da ablação sobrevive corrigida: não "só a interrupção", mas
+  habituação sozinha: surpresa +1.49 [+0.80, +2.19] (pareado +1.80
+  [+0.97, +2.75]), conexão +0.55 [+0.06, +1.10]. A manchete da ablação
+  sobrevive corrigida: não "só a interrupção", mas
   "não deixe o loop comer o próprio passado literal, e interrompa-o" — com
   o efeito de conexão pertencendo à interrupção.
 - **A interrupção precisa levar para longe.** Com o mesmo relógio (150),
@@ -257,8 +261,11 @@ sobre janelas).
   questões). Uma volta só funciona como costura curta que ainda abre uma
   frase nova; uma volta literal fecha o loop. (Janelas que terminam antes
   de 100 tokens gerados — o fragmento de dois tokens antes do primeiro
-  corte de relógio — são excluídas em toda a análise; 73 janelas assim,
-  surpresa média 0.95.)
+  corte de relógio — são excluídas de todas as tabelas da bateria 2; 73
+  janelas assim, surpresa média 0.95. Aplicada à bateria de ablação, a
+  mesma regra tira 10 janelas do nu e 3 do arcabouço: nu 0.33 → 0.28,
+  arcabouço 3.22 → 3.19, nada mais muda; os números da ablação acima são
+  como julgados.)
 - **Timing: a saliência é boa leitora e mau metrônomo.** A costura de
   reencontro injetada nos eventos de saliência (salto, cristalização,
   recorrência; 1–9 por célula, mediana ≈5) torna as *janelas de evento*
