@@ -54,9 +54,11 @@ profunda; e a interrupção que funciona mal move o estado profundo
 (+0.01–0.03 de cosseno ao longo de uma injeção, sem retorno à premissa),
 enquanto o esquecimento é um reencontro profundo com o começo (+0.2, e o
 estado da própria premissa recuperado) que o juiz premia menos. A escada
-nu → habituação → interrupção → arcabouço replica numa segunda família de
-gerador (Qwen3-8B-Base) (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, conexão
-0.87 → 3.23, δ = +0.80). Neste sistema, a criatividade não
+nu → habituação → interrupção → arcabouço replica em mais duas famílias de
+gerador (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, conexão 0.87 → 3.23, δ =
++0.80; OLMo-2-13B: 1.35 → 2.37 → 3.11, conexão 0.91 → 3.17, δ = +0.58 —
+onde a interrupção simples também custa coerência e o esquecimento do
+arcabouço a preserva). Neste sistema, a criatividade não
 está no ruído injetado na decodificação, nem na estranheza do input, nem
 num arcabouço cognitivo elaborado — está em **interromper o loop**: deixar
 um fio se desenvolver e depois obrigá-lo a recomeçar em outro lugar, sobre
@@ -302,21 +304,40 @@ sobre janelas).
   segmentos se alongam. O ritmo do loop é: deixar um fio se desenvolver
   por algumas centenas de tokens, depois quebrá-lo para longe.
 
-### 5.2 Uma segunda família de gerador
+### 5.2 Mais duas famílias de gerador
 
 As quatro condições que carregam o argumento, rodadas de novo no
-Qwen3-8B-Base (denso, 36 camadas; as mesmas 10 sementes, 4.500 tokens,
-λ = 0, julgadas offline como na bateria 2). A escada replica com a mesma
-forma e valores um pouco mais baixos: nu 0.68 / 0.38 / 3.45 (surpresa /
-conexão / coerência; 110 janelas) → nu + habituação **1.47** / 0.87 / 3.93
-(surpresa Δ +0.78 [+0.45, +1.13] pareado por semente) → nu + habituação +
-reseed por relógio **2.73** / **3.23** / 4.42 (Δ +1.26 [+0.52, +2.14] sobre
-a habituação; conexão Δ +2.37 [+1.68, +3.12], δ = +0.80, p ≈ 10⁻¹⁴) ≈
-arcabouço completo 2.73 / 1.53 / 4.30 (146 janelas; conexão Δ +0.66
-[+0.27, +1.07] sobre a habituação, de novo abaixo do reseed por relógio
-simples). Numa segunda família, a habituação compra parte da surpresa, a
-interrupção compra o resto e toda a conexão, e o arcabouço elaborado não
-acrescenta nada sobre a interrupção simples.
+**Qwen3-8B-Base** (denso, 36 camadas) e no **OLMo-2-13B** (uma dieta de
+pré-treino diferente — o modelo que afunda em rodapés de site, §5), as
+mesmas 10 sementes, 4.500 tokens, λ = 0, julgadas offline como na bateria
+2.
+
+- *Qwen3-8B.* A escada replica com a mesma forma e valores um pouco mais
+  baixos: nu 0.68 / 0.38 / 3.45 (surpresa / conexão / coerência; 110
+  janelas) → nu + habituação **1.47** / 0.87 / 3.93 (surpresa Δ +0.78
+  [+0.45, +1.13] pareado por semente) → nu + habituação + reseed por
+  relógio **2.73** / **3.23** / 4.42 (Δ +1.26 [+0.52, +2.14] sobre a
+  habituação; conexão Δ +2.37 [+1.68, +3.12], δ = +0.80, p ≈ 10⁻¹⁴) ≈
+  arcabouço completo 2.73 / 1.53 / 4.30 (146 janelas; conexão Δ +0.66
+  [+0.27, +1.07] sobre a habituação, de novo abaixo do reseed por relógio
+  simples).
+- *OLMo-2-13B.* Mesma ordem em surpresa e conexão, uma nuance nova em
+  coerência: nu 1.35 / 0.91 / 2.97 (109 janelas; o fluxo nu do OLMo é
+  menos morto que o do Qwen porque vaga entre gêneros de web em vez de
+  travar em órbitas literais) → nu + habituação **2.37** / 1.51 / 4.05 (Δ
+  +1.02 [+0.44, +1.62]) → reseed por relógio **3.11** / **3.17** / 3.28
+  (surpresa Δ +0.74 [+0.09, +1.36]; conexão Δ +1.66 [+1.10, +2.20], δ =
+  +0.58, p ≈ 3×10⁻⁸; **coerência −0.77 [−1.58, +0.03]**) ≈ arcabouço
+  completo 3.08 / 1.89 / 4.48 (144 janelas; coerência +0.43 sobre a
+  habituação). Num gerador cujo poço é boilerplate de web, a interrupção
+  simples compra surpresa e conexão a um custo de coerência — a semente
+  narrativa injetada cai sobre 4.000 tokens de rodapés — e o esquecimento
+  seletivo do arcabouço é o que preserva a coerência (4.48 vs 3.28), o
+  mecanismo que havíamos inferido das sondagens de calibração ("o
+  contexto acumulado é o poço; o esquecimento é o que deixa uma semente
+  pegar"). A habituação compra parte da surpresa, a interrupção compra o
+  resto e toda a conexão, em três famílias; se o esquecimento vale o seu
+  custo em conexão depende de quão fundo é o poço do gerador.
 
 ## 6. O instrumento, medido
 
@@ -461,6 +482,13 @@ bateria 2 e família 8B abaixo).
   ordenação da camada de compromisso *não* replica (no 8B o arcabouço se
   compromete mais tarde, 10.35 vs 9.45–9.92) — reportamos o compromisso
   tardio da geração nua como observação no 30B, não como lei.
+- *Terceira família (OLMo-2-13B, 40 camadas, uma a cada 3 capturada).* O
+  nu é menos congelado do que no Qwen (raio 0.36 na camada 0 vs 0.48–0.61
+  nos braços interrompidos; ele vaga entre gêneros), e a dissociação do H3
+  replica pela terceira vez, maior: reseeds com esquecimento movem o
+  estado profundo em +0.20 → +0.38 e o trazem de volta à premissa em +0.13
+  → +0.18 em todas as camadas; reseeds por relógio sobre contexto
+  preservado o movem em +0.02–0.06 sem retorno.
 
 ## 8. Trabalhos relacionados
 
@@ -495,11 +523,12 @@ três primeiros num loop de texto.
 
 ## 9. Limitações e próximos passos
 
-Dez sementes; duas famílias de gerador para o loop (Qwen3-30B-A3B e
-Qwen3-8B, ambas Qwen3 — uma terceira família, OLMo-2, afunda em rodapés e
-não passou pelas baterias); juízes-LLM (Opus 5, calibrado, não humano — um
-pacote de avaliação humana cega com 42 janelas de 7 condições está pronto
-e aguarda o avaliador); só sementes narrativas em inglês; a amostra
+Dez sementes; três famílias de gerador para a escada central do loop
+(Qwen3-30B-A3B, Qwen3-8B, OLMo-2-13B), uma só para a bateria de conteúdo /
+timing / frequência; juízes-LLM (Opus 5, calibrado, concordando com uma
+segunda família — Kimi K2.6, ρ 0.71–0.85 — mas ainda não com humanos: uma
+avaliação humana cega de 63 janelas por dois avaliadores independentes
+está em andamento); só sementes narrativas em inglês; a amostra
 julgada de cada célula é de 6 janelas por tipo, espalhadas uniformemente,
 e os braços por saliência são julgados tanto em momentos selecionados
 quanto numa grade uniforme (ambos reportados); a análise do residual é

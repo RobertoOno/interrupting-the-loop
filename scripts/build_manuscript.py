@@ -126,6 +126,8 @@ FIGURES_PT = [
      "Figura 11. Bateria 2, Q4 — com que frequência interromper: surpresa por tokens desde a última interrupção (esquerda) e média do fluxo por período (direita). O rendimento de uma interrupção depende do fio que ela quebra e decai com a distância."),
     ("fig8_q5_family8b.png",
      "Figura 12. Segunda família de gerador (Qwen3-8B-Base): a escada nu → habituação → interrupção → arcabouço."),
+    ("fig8_q6_familyolmo.png",
+     "Figura 12b. Terceira família de gerador (OLMo-2-13B): a mesma escada, com a interrupção simples custando coerência e o esquecimento do arcabouço preservando-a."),
     ("hidden_h1_geometry_scaffold.png",
      "Figura 13. Dentro da rede, H1 — geometria da trajetória do residual por camada e condição (janelas de 64 tokens, vetores centrados): passo médio, raio explorado e camada de compromisso do logit lens. A geração nua congela em todas as camadas, mais na superfície, e decide tarde e com certeza."),
     ("hidden_h2_novelty_scaffold.png",
@@ -141,6 +143,7 @@ FIGURES_EN_EXTRA = [
     ("fig8_q3_timing.png", "Figure 10. Battery 2, Q3 — when to return: re-encounter on the clock (150 and 900) vs on the salience event vs salience only; event windows and uniform windows."),
     ("fig8_q4b_phase.png", "Figure 11. Battery 2, Q4 — how often to interrupt: surprise by tokens since the last interruption (left) and stream mean by period (right). The yield of an interruption depends on the thread it breaks and decays with distance."),
     ("fig8_q5_family8b.png", "Figure 12. Second generator family (Qwen3-8B-Base): the ladder bare → habituation → interruption → scaffold."),
+    ("fig8_q6_familyolmo.png", "Figure 12b. Third generator family (OLMo-2-13B): the same ladder, with the plain interruption costing coherence and the scaffold's forgetting preserving it."),
     ("hidden_h1_geometry_scaffold.png", "Figure 13. Inside the network, H1 — residual-stream trajectory geometry per layer and condition (64-token windows, centered vectors): mean step, explored radius, and logit-lens commitment layer. Bare generation freezes at every layer, most at the surface, and decides late and with certainty."),
     ("hidden_h2_novelty_scaffold.png", "Figure 14. Inside the network, H2 — Spearman correlation between the judged window's movement (novelty vs all past; local step) at each layer and judged surprise, pooled and within condition."),
     ("hidden_h3_interruption_scaffold.png", "Figure 15. Inside the network, H3 — how deep an interruption reaches: before/after distance per layer minus random-position control (left) and return to the premise state (right). The forgetting reseed moves the deep state and returns it to the premise; the clock reseed over preserved context barely touches it — and is what the judge rewards."),
@@ -173,13 +176,15 @@ def main() -> None:
     for name, ttl in (("APPENDIX_ANALYSIS.md", "Appendix A — analysis tables"), ("APPENDIX_B2.md", "Appendix B — battery 2 tables"),
                       ("APPENDIX_HIDDEN_scaffold.md", "Appendix C — residual-stream analysis (ablation battery)"),
                       ("APPENDIX_HIDDEN_b2.md", "Appendix D — residual-stream analysis (battery 2)"),
-                      ("APPENDIX_HIDDEN_fam8b.md", "Appendix E — residual-stream analysis (Qwen3-8B family)")):
+                      ("APPENDIX_HIDDEN_fam8b.md", "Appendix E — residual-stream analysis (Qwen3-8B family)"),
+                      ("APPENDIX_HIDDEN_famolmo.md", "Appendix E2 — residual-stream analysis (OLMo-2 family)")):
         if (DOCS / name).exists():
             if a.lang == "pt":
                 ttl = ttl.replace("Appendix", "Apêndice").replace("analysis tables", "tabelas de análise").replace("battery 2 tables", "tabelas da bateria 2") \
                          .replace("residual-stream analysis (ablation battery)", "análise do residual (bateria de ablação)") \
                          .replace("residual-stream analysis (battery 2)", "análise do residual (bateria 2)") \
-                         .replace("residual-stream analysis (Qwen3-8B family)", "análise do residual (família Qwen3-8B)")
+                         .replace("residual-stream analysis (Qwen3-8B family)", "análise do residual (família Qwen3-8B)") \
+                         .replace("residual-stream analysis (OLMo-2 family)", "análise do residual (família OLMo-2)")
             apx += f"<h2>{ttl}</h2>" + md_to_html((DOCS / name).read_text())
     bib = html.escape((DOCS / "references.bib").read_text()) if (DOCS / "references.bib").exists() else ""
     title = "Where Creativity Lives in a Language Model" if a.lang == "en" else "Onde mora a criatividade num modelo de linguagem"

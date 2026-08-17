@@ -1020,6 +1020,19 @@ logit lens; `docs/APPENDIX_HIDDEN_*.md`, `docs/figures/hidden_*.png`)**:
   MLX; corrigido com avaliação por camada + `mx.clear_cache()` + bloco de
   256 (23 s → 8–14 s por célula).
 
+**Terceira família — OLMo-2-13B (2026-08-17, 05h20–10h20; 40 células,
+395 janelas Opus k=5, captura em 14 camadas; `runs/dream_famolmo/`)**: a
+escada replica pela terceira vez: nu 1.35 / 0.91 / 2.97 → habituação 2.37
+/ 1.51 / 4.05 → interrupção **3.11 / 3.17** / 3.28 (conexão +1.66 [+1.10,
++2.20], δ=0.58) ≈ arcabouço 3.08 / 1.89 / 4.48. Nuance nova: no OLMo a
+interrupção simples **custa coerência** (−0.77 [−1.58, +0.03]) e o
+arcabouço com esquecimento a preserva (4.48 vs 3.28) — quando o poço é
+boilerplate de web, esquecer é o que deixa a semente pegar (confirma a
+inferência das sondagens de calibração). O nu do OLMo é menos morto que o
+do Qwen (vaga entre gêneros em vez de travar em loops literais; raio 0.36
+vs 0.13). H3 replica, maior: esquecimento +0.20→+0.38 e volta à premissa
++0.13–0.18; relógio +0.02–0.06, sem volta.
+
 **Juiz de segunda família (2026-08-17, manhã; `scripts/judge_agreement.py`,
 `runs/judge_agreement/`)**: Kimi K2.6 (Moonshot, OpenRouter) rejulgou 140
 janelas (20/condição) com a mesma rubrica, k=5: concordância com o Opus

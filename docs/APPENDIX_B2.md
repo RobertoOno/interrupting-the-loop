@@ -159,3 +159,26 @@ vs **8B: bare + habituation** (Δ mean, 95% bootstrap CI over windows; Cliff's �
 | 8B: DREAM scaffold (λ=0) | surprise | **+1.27 [+0.70, +1.81]** | +0.38 | 1.8e-05 | +1.17 [+0.62, +1.68] (10) |
 | 8B: DREAM scaffold (λ=0) | connection | **+0.66 [+0.25, +1.04]** | +0.31 | 2.7e-04 | +0.67 [+0.27, +1.07] (10) |
 | 8B: DREAM scaffold (λ=0) | coherence | +0.36 [-0.30, +1.01] | +0.10 | 2.4e-01 | +0.52 [-0.44, +1.27] (10) |
+
+### Q6 — third generator family (OLMo-2-13B, 10 seeds)
+
+| condition | windows | kind | surprise | connection | coherence | good (S≥5&H≥5) |
+|---|---|---|---|---|---|---|
+| OLMo: bare | 109 | clock/jump | 1.35 ± 1.80 | 0.91 ± 1.53 | 2.97 ± 2.65 | 6/109 |
+| OLMo: bare + habituation | 59 | clock | 2.37 ± 1.91 | 1.51 ± 1.50 | 4.05 ± 2.68 | 7/59 |
+| OLMo: bare + habituation + clock reseed 150 | 60 | clock/cut | 3.11 ± 1.63 | 3.17 ± 1.54 | 3.28 ± 1.63 | 6/60 |
+| OLMo: DREAM scaffold (λ=0) | 144 | clock/crystallize/cut/jump | 3.08 ± 1.94 | 1.89 ± 1.54 | 4.48 ± 2.32 | 22/144 |
+
+vs **OLMo: bare + habituation** (Δ mean, 95% bootstrap CI over windows; Cliff's δ; Mann-Whitney p; paired-by-seed Δ [CI]):
+
+| condition | dim | Δ [CI] | δ | p | paired-by-seed Δ [CI] (n seeds) |
+|---|---|---|---|---|---|
+| OLMo: bare | surprise | **-1.02 [-1.62, -0.44]** | -0.36 | 7.8e-05 | -1.02 [-2.08, -0.10] (10) |
+| OLMo: bare | connection | **-0.60 [-1.07, -0.13]** | -0.30 | 4.8e-04 | -0.60 [-1.52, +0.31] (10) |
+| OLMo: bare | coherence | **-1.08 [-1.92, -0.26]** | -0.25 | 6.1e-03 | -1.08 [-2.34, -0.01] (10) |
+| OLMo: bare + habituation + clock reseed 150 | surprise | **+0.74 [+0.09, +1.36]** | +0.26 | 1.5e-02 | +0.72 [-0.30, +1.53] (10) |
+| OLMo: bare + habituation + clock reseed 150 | connection | **+1.66 [+1.10, +2.20]** | +0.58 | 3.0e-08 | +1.65 [+0.77, +2.30] (10) |
+| OLMo: bare + habituation + clock reseed 150 | coherence | -0.77 [-1.58, +0.03] | -0.12 | 2.4e-01 | -0.78 [-1.77, +0.25] (10) |
+| OLMo: DREAM scaffold (λ=0) | surprise | **+0.71 [+0.13, +1.29]** | +0.22 | 1.4e-02 | +0.81 [+0.18, +1.47] (10) |
+| OLMo: DREAM scaffold (λ=0) | connection | +0.38 [-0.09, +0.84] | +0.17 | 5.6e-02 | +0.49 [-0.02, +1.02] (10) |
+| OLMo: DREAM scaffold (λ=0) | coherence | +0.43 [-0.34, +1.20] | +0.11 | 2.3e-01 | +0.69 [-0.33, +1.63] (10) |

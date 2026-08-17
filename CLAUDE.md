@@ -49,7 +49,7 @@ carrega toda a conexão). A interrupção precisa levar para longe (voltar à
 premissa ou ao próprio passado = não interromper), rende conforme o fio
 que quebra (ritmo ótimo ~300 tokens; a cada 75 é morto) e o relógio bate
 a saliência como gatilho (a saliência é boa leitora, mau metrônomo).
-Replica no Qwen3-8B. Dentro da rede: o juiz premia partida na superfície
+Replica no Qwen3-8B e no OLMo-2-13B (onde a interrupção simples custa coerência e o esquecimento a preserva). Juiz validado contra segunda família (Kimi, ρ 0.7–0.85); avaliação humana em curso (Workana). Dentro da rede: o juiz premia partida na superfície
 com continuidade profunda; o esquecimento é um reencontro profundo com a
 premissa que o juiz premia menos.
 

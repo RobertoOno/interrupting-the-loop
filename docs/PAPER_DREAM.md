@@ -53,9 +53,11 @@ deep continuity; and the interruption that works barely moves the deep
 state (+0.01–0.03 cosine across an injection, no return to the premise),
 whereas forgetting is a deep re-encounter with the beginning (+0.2, and
 the premise's own state recovered) that the judge rewards less. The
-ladder bare → habituation → interruption → scaffold replicates on a
-second generator family (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, connection
-0.87 → 3.23, δ = +0.80). In this system,
+ladder bare → habituation → interruption → scaffold replicates on two
+more generator families (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, connection
+0.87 → 3.23, δ = +0.80; OLMo-2-13B: 1.35 → 2.37 → 3.11, connection 0.91
+→ 3.17, δ = +0.58 — where the plain interruption also costs coherence
+and the scaffold's forgetting preserves it). In this system,
 creativity is not in the noise injected into decoding, nor in the
 strangeness of the input, nor in an elaborate cognitive scaffold — it is
 in **interrupting the loop**: letting a thread develop, then making it
@@ -288,21 +290,38 @@ bootstrap CIs over the 10 seeds; Cliff's δ and Mann–Whitney on windows).
   falls as segments lengthen. The loop's rhythm is: let a thread develop
   for a few hundred tokens, then break it away.
 
-### 5.2 A second generator family
+### 5.2 Two more generator families
 
-The four conditions that carry the argument, re-run on Qwen3-8B-Base
-(dense, 36 layers; same 10 seeds, 4,500 tokens, λ = 0, judged offline as
-in battery 2). The ladder replicates with the same shape and slightly
-lower values: bare 0.68 / 0.38 / 3.45 (surprise / connection /
-coherence; 110 windows) → bare + habituation **1.47** / 0.87 / 3.93
-(surprise Δ +0.78 [+0.45, +1.13] paired by seed) → bare + habituation +
-clock reseed **2.73** / **3.23** / 4.42 (Δ +1.26 [+0.52, +2.14] over
-habituation; connection Δ +2.37 [+1.68, +3.12], δ = +0.80, p ≈ 10⁻¹⁴)
-≈ full scaffold 2.73 / 1.53 / 4.30 (146 windows; connection Δ +0.66
-[+0.27, +1.07] over habituation, again below the plain clock reseed).
-On a second family, habituation buys part of the surprise, the
-interruption buys the rest and all of the connection, and the elaborate
-scaffold adds nothing over the plain interruption.
+The four conditions that carry the argument, re-run on **Qwen3-8B-Base**
+(dense, 36 layers) and on **OLMo-2-13B** (a different pretraining diet —
+the model that sinks into website footers, §5), same 10 seeds, 4,500
+tokens, λ = 0, judged offline as in battery 2.
+
+- *Qwen3-8B.* The ladder replicates with the same shape and slightly
+  lower values: bare 0.68 / 0.38 / 3.45 (surprise / connection /
+  coherence; 110 windows) → bare + habituation **1.47** / 0.87 / 3.93
+  (surprise Δ +0.78 [+0.45, +1.13] paired by seed) → bare + habituation +
+  clock reseed **2.73** / **3.23** / 4.42 (Δ +1.26 [+0.52, +2.14] over
+  habituation; connection Δ +2.37 [+1.68, +3.12], δ = +0.80, p ≈ 10⁻¹⁴)
+  ≈ full scaffold 2.73 / 1.53 / 4.30 (146 windows; connection Δ +0.66
+  [+0.27, +1.07] over habituation, again below the plain clock reseed).
+- *OLMo-2-13B.* Same ordering on surprise and connection, one new
+  nuance on coherence: bare 1.35 / 0.91 / 2.97 (109 windows; OLMo's bare
+  stream is less dead than Qwen's because it wanders across web genres
+  instead of locking into literal orbits) → bare + habituation **2.37** /
+  1.51 / 4.05 (Δ +1.02 [+0.44, +1.62]) → clock reseed **3.11** / **3.17**
+  / 3.28 (surprise Δ +0.74 [+0.09, +1.36]; connection Δ +1.66 [+1.10,
+  +2.20], δ = +0.58, p ≈ 3×10⁻⁸; **coherence −0.77 [−1.58, +0.03]**) ≈
+  full scaffold 3.08 / 1.89 / 4.48 (144 windows; coherence +0.43 over
+  habituation). On a generator whose well is web boilerplate, the plain
+  interruption buys surprise and connection at a coherence cost — the
+  injected narrative seed lands on 4,000 tokens of footers — and the
+  scaffold's selective forgetting is what preserves coherence (4.48 vs
+  3.28), the mechanism we had inferred from the calibration probes ("the
+  accumulated context is the well; forgetting is what lets a seed take").
+  Habituation buys part of the surprise, the interruption buys the rest
+  and all of the connection, on three families; whether forgetting is
+  worth its connection cost depends on how deep the generator's well is.
 
 ## 6. The instrument, measured
 
@@ -443,6 +462,13 @@ family below).
   commitment-layer ordering does *not* replicate (in the 8B the scaffold
   commits latest, 10.35 vs 9.45–9.92) — we report the late commitment of
   bare generation as a 30B observation, not a law.
+- *Third family (OLMo-2-13B, 40 layers, every 3rd captured).* Bare is
+  less frozen than in Qwen (radius 0.36 at layer 0 vs 0.48–0.61 for the
+  interrupted arms; it wanders across genres), and the H3 dissociation
+  replicates a third time, larger: forgetting reseeds move the deep state
+  by +0.20 → +0.38 and return it toward the premise by +0.13 → +0.18 at
+  every layer; clock reseeds over preserved context move it by
+  +0.02–0.06 with no return.
 
 ## 8. Related work
 
@@ -474,11 +500,11 @@ is an explicit engineering of the first three into a text loop.
 
 ## 9. Limitations and next
 
-Ten seeds; two generator families for the loop (Qwen3-30B-A3B and
-Qwen3-8B, both Qwen3 — a third family, OLMo-2, sinks into footers and
-was not run through the batteries); LLM judges (Opus 5, calibrated, not
-human — a blind human-rating pack of 42 windows across 7 conditions is
-built and awaits its rater); English narrative seeds only; the judged
+Ten seeds; three generator families for the loop's core ladder
+(Qwen3-30B-A3B, Qwen3-8B, OLMo-2-13B), one for the content / timing /
+frequency battery; LLM judges (Opus 5, calibrated, agreeing with a second
+family — Kimi K2.6, ρ 0.71–0.85 — but not yet with humans: a blind
+human rating of 63 windows by two independent raters is in progress); English narrative seeds only; the judged
 sample of each cell is 6 windows per kind, evenly spread, and the
 salience-timed arms are judged on selected moments as well as on a
 uniform grid (both reported); the residual-stream analysis is
