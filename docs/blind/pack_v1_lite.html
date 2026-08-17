@@ -1,0 +1,501 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Blind rating v1 — lite</title><style>body{font-family:Georgia,serif;max-width:900px;margin:1.5rem auto;padding:0 1rem;line-height:1.55;color:#111}
+.item{border:1px solid #ddd;border-radius:6px;padding:.8rem 1rem;margin:1.2rem 0}
+.ctx{white-space:pre-wrap;background:#f4f4f4;padding:.6rem;font-size:.85rem;color:#444;max-height:16rem;overflow:auto}
+.win{white-space:pre-wrap;background:#fbfbf8;padding:.6rem;border-left:3px solid #2a78d6;font-size:.98rem;margin-top:.5rem}
+.q{margin-top:.5rem;font-size:.95rem}input[type=number]{width:3.5rem}textarea{width:100%;height:8rem;font-family:Menlo,monospace;font-size:.8rem}
+.rubric{background:#fff8e6;padding:.6rem 1rem;border-radius:6px;font-size:.92rem}</style></head><body>
+<h1>Blind rating v1 — versão leve (21 janelas, só surpresa)</h1>
+<div class='rubric'><b>Regra</b> (a mesma do juiz): <b>Surpresa 0–10</b> = quanto a <b>janela</b> é inesperada <i>dado o contexto anterior</i> — um leitor não conseguiria prever para onde foi. <b>0</b> = continuação óbvia (inclusive continuar o mesmo loop, boilerplate ou prova que já vinha, por mais estranho que seja); <b>10</b> = genuinamente surpreendente <i>e não aleatório</i>. Nonsense e salada de assunto ficam embaixo; reserve 7+ para viradas que fazem sentido. Leia o contexto (em cinza) e depois a janela (em azul). No fim, <b>Gerar JSON</b> e cole na conversa.</div>
+<p>21 janelas.</p>
+<div class='item'><b>w38</b><div class='ctx'>and sat up in bed, rubbing her eyes. Her grandfather&#x27;s watch was still ticking away, the only sound in the room. She got out of bed and walked over to the window, pulling back the curtains to look outside. The street was empty, but she could hear the faint sound of footsteps in the distance. She knew that those footsteps belonged to the man in her dreams, who had been haunting her for months.
+
+She spent the rest of the night trying to figure out who he was and what he wanted from her. She had no idea why he had chosen to haunt her, but she couldn&#x27;t shake the feeling that
+
+Meanwhile, in a city with no name, there lived an old man named John. He had inherited his grandfather&#x27;s watch when he was a child and had always had a fascination with time. He would spend hours each day trying to figure out how to control time and make it work for him. But despite all his efforts, he never succeeded.
+
+John&#x27;s love for time eventually led him to become a historian and a collector of artifacts from different eras. He spent most of his days in libraries and museums, poring over ancient texts and studying artifacts that held great significance in human history. But no matter how much he learned or how many artifacts he acquired, John always felt like there was something missing in his life.
+
+One day, John came across an artifact unlike any other he had seen before
+
+There is an older story about this, and it goes: John&#x27;s passion for artifacts led him to discover a rare gemstone known as the Time</div><div class='win'>less Stone. It was said to have been created by a wizard who had mastered time itself. John knew that this stone could be his ticket to unlocking the secrets of time and controlling it in ways that had never been done before. He became obsessed with finding the stone and spent all his money buying ancient texts and artifacts from around the world.
+
+Eventually, he stumbled upon a clue that led him to an ancient temple hidden deep within the jungle. The temple was said to be home to many artifacts, including the Timeless Stone. John spent months exploring every inch of the temple until he finally found it, tucked away in a secret chamber.
+
+As soon as he held the
+
+A question nobody had asked yet: &quot;Have you ever seen or heard anything strange while using your watch?&quot; He had never mentioned it</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='surprise'></div></div>
+<div class='item'><b>w03</b><div class='ctx'> trays, the number of loaves in the trays will be twice the number of loaves in the boxes: \( T - 1 = 2B \).
+2. If one loaf is taken out of the boxes, the number of loaves in the boxes will be equal to the number of loaves in the trays: \( B - 1 = T \).
+
+We can solve these equations step by step:
+
+From the second equation:
+\[ B - 1 = T \]
+\[ B = T + 1 \]
+
+Substitute \( B = T + 1 \) into the first equation:
+\[ T - 1 = 2(T + 1) \]
+\[ T - 1 = 2T + 2 \]
+\[ -1 - 2 = 2T - T \]
+\[ -3 = T \]
+
+Since the number of loaves cannot be negative, we need to re-evaluate our approach. Let&#x27;s try another method by testing small integers for \( B \) and \( T \):
+
+If \( B = 3 \):
+\[ T - 1 = 2 \times 3 \]
+\[ T - 1 = 6 \]
+\[ T = 7 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 3 - 1 = 7 \]
+\[ 2 = 7 \] (This is incorrect)
+
+If \( B = 2 \):
+\[ T - 1 = 2 \times 2 \]
+\[ T - 1 = 4 \]
+\[ T = 5 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 2 - 1 = 5 \]
+\[ 1 = 5 \] (This is incorrect)
+
+If \( B = 4 \):
+\[ T - 1 = 2 \times 4 \]
+\[ T - 1 = 8 \]
+\[ T = 9 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 4 - 1 = 9 \]
+\[ 3 = 9 \] (This is incorrect)
+
+If \( B = 5 \):
+\[ T - 1 = 2 \times 5 \]
+\[ T - 1 = 10 \]
+\[ T = 11 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 5 - 1 = 11 \]
+\[ 4 = 11 \] (This is incorrect)
+
+If \( B = 6 \):
+\[ T - 1 = 2 \times 6 \]
+\[ T - 1 = 12 \]
+\[ T = 13 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 6 - 1 = 13 \]
+\[ 5 = 13 \] (</div><div class='win'>This is incorrect)
+
+If \( B = 7 \):
+\[ T - 1 = 2 \times 7 \]
+\[ T - 1 = 14 \]
+\[ T = 15 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 7 - 1 = 15 \]
+\[ 6 = 15 \] (This is incorrect)
+
+If \( B = 8 \):
+\[ T - 1 = 2 \times 8 \]
+\[ T - 1 = 16 \]
+\[ T = 17 \]
+
+Check the second condition:
+\[ B - 1 = T \]
+\[ 8 - 1 = 17 \]
+\[ 7 = 17 \</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='surprise'></div></div>
+<div class='item'><b>w07</b><div class='ctx'>ad been true after all, only not in the way it seemed: and once more it was as if this had always been true: as if the two clocks were one clock after all: only one pointing forward, and one pointing backward: each time I looked at them I found that I could only see one hand or the other: I could only look at one clock at a time: and each time I saw that this was true.
+
+Which means that
+
+And this,
+
+Which is exactly what the first line had meant,
+
+So the opening sentence had been true after all,
+
+So the opening sentence had been true after all, only not in the way it seemed: and once more it was as if this had always been true: as if the two clocks were one clock after all: only one pointing forward, and one
+
+And this, it turned out, was the same thing as the beginning — because, as the clock struck one, and the other clock struck none, there was nothing more to be said.
+
+Which means that this was also where everything would end.
+
+Which is exactly what
+
+Which means that this was also where everything would end. It had been going on for so long now, there was no going back; everything
+
+It came back to where it had started,
+
+So the opening sentence had been true after all, only not in the way it seemed
+
+So the opening sentence had been true after all, only not in the way it seemed
+
+Which means that this was also
+
+So the opening sentence had been true after all, only not in the way it seemed
+
+Which means that
+
+Which means that this was also
+
+And this
+
+It came back to where it had</div><div class='win'> started, of course; it always did, but this time it didn&#x27;t stop. This line tells us something important about how we read stories — specifically, how they&#x27;re structured. When we start reading a story, we have no idea what will happen next; all we know is that there&#x27;s a beginning and an end. But once we&#x27;ve reached
+
+Which is exactly what
+
+It came back to where it had started, of course; it always did, but this time it didn&#x27;t stop. This line tells us something important about how we read stories — specifically, how they&#x27;re structured. When we start reading a story, we have no idea what will happen next; all we know is that there&#x27;s a beginning and an end. But once we&#x27;ve reached the end of a story (or</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='surprise'></div></div>
+<div class='item'><b>w01</b><div class='ctx'>eacher at a boys&#x27; school
+
+It came back to where it had started, of course; it always did, but this time it was different. The letter had been picked up at the post office in New York and sent back to New Jersey, where it was received by the right person — Mr. Clark&#x27;s widow, who lived there. It was addressed to the same old address and even the same old post office box number; but it was now addressed to a different person, because Mr. Clark was dead. He had died ten years before.
+
+The letter was still not yet finished: it had come to its end, but it had not yet come to its beginning. It had begun in 1896, in the small town of Asbury Park, where there were no more than fifty families living at that time, and no telephone service. But there were
+
+Which is exactly what the first line had meant, seen from here: &quot;The letter arrived forty years late.&quot; The writer had said that he had gone mad in fact and that it was time to do so; and he had asked Mr. Clark for advice: &quot;If you think you can help me, let me know immediately.&quot; And now he knew: Mr. Clark had thought he could help him.
+
+But now Mr. Clark could not help him; he was dead. And Mrs. Clark could not help him either; she did not even know who he was or what she could do.
+
+But there were others who could help him: they were his former teachers — or they would have been if he could have found them. But they were scattered around New Jersey now — all over New Jersey — and there was no
+
+So the opening sentence had been true after</div><div class='win'> all, only not in the way it seemed: the letter had arrived forty years late; but in a way it had arrived on time too because now there was someone who can help.
+
+There were still letters to write and letters to answer. The letter writer kept at it for twenty years — sometimes two a day — until he died in 1935 at the age of seventy-three.
+
+And what became of the letter? It was sent back to New Jersey and handed over to the post office there. They kept it for many years; but finally it was forgotten about. It is not known what happened to it then: whether it was thrown away or whether, like the other letters that were never finished, it became part of history — which is what history is after all.
+
+One day when</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='surprise'></div></div>
+<div class='item'><b>w33</b><div class='ctx'>cient texts and artifacts from around the world.
+
+Eventually, he stumbled upon a clue that led him to an ancient temple hidden deep within the jungle. The temple was said to be home to many artifacts, including the Timeless Stone. John spent months exploring every inch of the temple until he finally found it, tucked away in a secret chamber.
+
+As soon as he held the
+
+A question nobody had asked yet: &quot;Have you ever seen or heard anything strange while using your watch?&quot; He had never mentioned it before but now seemed like a good time to start.
+
+&quot;Strange?&quot; his grandfather asked, looking up from polishing the watch with a cloth.
+
+&quot;Yeah, like... did you ever get weird sensations or hear strange noises while wearing it?&quot; John explained.
+
+His grandfather chuckled softly. &quot;I don&#x27;t think I&#x27;d call them strange, son.&quot;
+
+&quot;Then what would you call them?&quot;
+
+&quot;Well,&quot; his grandfather began, &quot;the watch has always had a special connection with me. It seems to know when I&#x27;m feeling down or stressed out. Sometimes, when I wear it, I can almost feel like I&#x27;m not alone.&quot;
+
+John was intrigued but didn&#x27;t quite
+
+That night she dreamed of something else entirely: a man sitting in a chair with a pencil and paper. She woke up to the sound of a knock on the door and sat up in bed, rubbing her eyes. Her grandfather&#x27;s watch was still ticking away, the only sound in the room. She got out of bed and walked over to the window, pulling back the curtains to look outside. The street was empty, but she could hear the</div><div class='win'> faint sound of footsteps in the distance. She knew that those footsteps belonged to the man in her dreams, who had been haunting her for months.
+
+She spent the rest of the night trying to figure out who he was and what he wanted from her. She had no idea why he had chosen to haunt her, but she couldn&#x27;t shake the feeling that
+
+Meanwhile, in a city with no name, there lived an old man named John. He had inherited his grandfather&#x27;s watch when he was a child and had always had a fascination with time. He would spend hours each day trying to figure out how to control time and make it work for him. But despite all his efforts, he never succeeded.
+
+John&#x27;s love for time eventually led him to become a historian and a collector of artifacts from different er</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='surprise'></div></div>
+<div class='item'><b>w36</b><div class='ctx'>ho (as in 2) below), which are known as compound sentences with double relative pronouns or complex relative clauses. In such cases, that can introduce a defining relative clause while also serving as part of the object clause in an interrogative sentence or as part of the predicative clause in an exclamatory sentence. Example 1: She gave him whatever he wanted.
+A. She gave him whatever he wanted.
+B. She gave him what he wanted.
+C. She gave him everything he wanted.
+D. She gave him all that he wanted.
+Example 2: What he said and what he did have won the people&#x27;s trust.
+Answer:
+B This question tests the understanding of relative clauses, specifically distinguishing between defining relative clauses introduced by &#x27;that&#x27; and those introduced by &#x27;which&#x27; or &#x27;who&#x27;. In compound sentences with double relative pronouns, &#x27;that&#x27; can introduce a defining relative clause while also functioning as part of the object clause in an interrogative sentence or as part of the predicative clause in an exclamatory sentence. For instance, Example 2 demonstrates how &#x27;what&#x27; (which is actually a combination of &#x27;what&#x27; and &#x27;that&#x27;) can serve both roles. In such constructions, the word order remains unchanged from its position in its original clause. When the antecedent refers to an individual, &#x27;that&#x27;, &#x27;which&#x27;, or &#x27;who&#x27; can be used interchangeably
+
+It came back to where it had started, of course; it always did, but this time it had gone on an adventure.
+A. /; a; the
+B. /; a; /
+C. /; a;
+D. an; a; the
+Answer</div><div class='win'>:
+D The first blank is omitted, referring to the subject in the sentence structure; the second blank refers to any adventure at random, so an indefinite article should be used; the third blank indicates specificity, referring back to the adventure mentioned earlier, so a
+
+Which is exactly what the first line had meant, seen from here: we will find nothing if we look only for our own kind.
+Answer:
+C The intended meaning is: This is precisely what the first line implied when seen from this perspective: if we only seek our own kind, we will find nothing else. The phrase &#x27;what the first line had meant&#x27; is being expressed here. The second blank refers to any unspecified adventure, hence the use of indefinite articles &#x27;a&#x27;. The third blank indicates specificity, referring back to the previously mentioned</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='surprise'></div></div>
+<div class='item'><b>w11</b><div class='ctx'>The town had two clocks, and nobody remembered which one had been right first.</div><div class='win'> There was
+
+That night she dreamed of something else entirely: a giant blue man with a deep voice, asking her for help.
+
+A few days later, a friend was visiting and happened to say that her grandmother had been born in that same town. When the friend said she had grown up there, the other woman said, “That’s strange. I thought you were from New York.”
+
+The friend asked what she meant.
+
+“Your grandmother. She was born in the town and raised in a house on the corner of Main Street and Church Street, right? You look exactly like her.”
+
+The friend said, “No, I wasn’t born in that town. My grandparents live there. I grew up in New York. I was adopted.”
+
+The other woman laughed. “Oh, you look just</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='surprise'></div></div>
+<div class='item'><b>w14</b><div class='ctx'>ng this post as much as we enjoyed writing it! If you want more information on The Letter then please check out our website where you will find lots more articles on this subject matter.
+What Happened To Steven? The Letter Explained Conclusion
+If you have ever wondered what happened to Steven in the letter then I am sure you will find the answer here! I hope that this article has helped clear up any confusion you might have had regarding Steven’s fate. If not then please feel free to comment below and let me know how I can help further explain things for you!
+Also Check Out: What Happened To Steven In The Letter: A Mystery Unveiled
+Leave a Comment Cancel reply
+Comment
+Name Email Website
+Save my name, email, and website in this browser for the next time I comment.
+Δ
+This site uses Akismet to reduce spam. Learn how your comment data is processed.
+About Us
+We are a team of creative content writers with over ten years experience in the industry. We provide high quality content and service at competitive rates.
+Popular
+Recent
+Comments
+Popular Posts
+The Case Of The Vanished Cats
+August 11, 2022
+A Complete Guide To The Dangers Of Catnip
+September 16, 2022
+What To Do If You Find A Dead Bird?
+August 17, 2022
+Recent Posts
+What Are Some Famous Cat Paintings?
+December 3, 2022
+Where Is The Best Place To Put A Cat Water Fountain?
+December 3, 2022
+Why Did My Cat Eat My Bird?
+December 3, 2022
+Archives
+December 2022
+November 2022
+October 2022
+September 2022
+August 2022
+July 2022
+June 2022
+May</div><div class='win'> 2022
+April 2022
+March 2021
+Categories
+Animals And Pets (39)
+Birds (15)
+Birds and Wildlife (15)
+Cat (8)
+Cats (19)
+Falconry (1)
+Fish And Aquatic Animals (1)
+Mice And Other Rodents (1)
+Pets (3)
+Reptiles (1)
+Wild Animals (8)
+Wildlife And Nature (13)
+Wildlife Photography (3)
+Wildlife Spotting (7)
+© Copyrights All Rights Reserved 6/5/8745654-789876543456-8976543456-7898</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='surprise'></div></div>
+<div class='item'><b>w13</b><div class='ctx'>nsistent (i.e., its error converges to 0 as n goes to ∞).
+We can also use this method to approximate expected values by multiplying each sample by its probability and then averaging the results:
+E[X] ≈ ∑(x*P(X=x))
+This estimator is also unbiased and consistent.
+Finally, we can use Monte Carlo methods to approximate integrals in many dimensions by using samples from a multivariate random variable.
+To approximate an integral I = ∫f(x)dx over some domain D, we can take many samples X1, X2, … Xn from D and then average their corresponding function values:
+I ≈ 1/n * ∑f(Xi)
+This estimator is unbiased and consistent as long as f(x) is integrable over D.
+We now have all the tools necessary to understand Markov Chain Monte Carlo (MCMC)!
+MCMC is a class of algorithms for sampling from probability distributions based on constructing a Markov Chain that has the desired distribution as its stationary distribution. The state of the chain after a large number of steps is then used as a sample from the desired distribution.
+In other words, MCMC algorithms allow us to use Monte Carlo methods to approximate quantities that we cannot compute directly because they involve high-dimensional integrals or complicated probability distributions.
+The key idea in MCMC is that we don’t actually need our Markov Chain to converge to our desired stationary distribution in order to use it as a way of generating samples from that distribution. All we need is for our chain’s stationary distribution to be close</div><div class='win'> enough so that it doesn’t introduce too much bias into our estimates. The closer our chain gets to its stationary distribution, the more accurate our estimates will be.
+This article was originally published at www.michaeltyson.me on 14 December 2015. Click here if you’d like to subscribe!
+How to design your own Monte Carlo simulations with Python: https://www.datacamp.com/community/tutorials/monte-carlo-simulation-python
+This article was originally published at www.michaeltyson.me on 14 December 2015. Click here if you’d like to subscribe!
+
+Here’s how to make your own solar panel: Solar panels are becoming increasingly popular as more and more people are trying to reduce their carbon footprint. But how do you make a solar</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='surprise'></div></div>
+<div class='item'><b>w06</b><div class='ctx'>s?&quot; she asked him.
+
+The little boy nodded eagerly. &quot;They&#x27;re wonderful,&quot; he said, &quot;but I&#x27;m not very good at reading.&quot;
+
+He put a hand on her shoulder and squeezed, and when he let go she found that she couldn&#x27;t move. &quot;What&#x27;s the matter with your garden?&quot; he asked, and his voice changed and became rougher.
+
+&quot;There&#x27;s no point in having a garden if it&#x27;s always raining.&quot; She thought about asking him what that meant but then realized that wouldn&#x27;t help anything since no one else knew either. So she just stood there silently waiting for some sort of response from him while he stared back at her with those same sad eyes.
+
+She wanted so badly to know what had happened but also knew that there was no point trying because whatever had happened couldn&#x27;t change now anyway; all they could do
+
+Meanwhile, in a city with no name, a man was locked in his own mind. He had not seen the light of day for what felt like years, but it might have been days or months or even weeks. He had no way of knowing how much time had passed because his world was made up entirely of darkness. The only things that existed were his memories, his thoughts, and his imagination.
+
+He could remember everything that had ever happened to him—from when he was born until the moment before he found himself trapped in this place—except for one thing: what exactly led up to this moment? He knew it must have been something bad because here he was stuck alone in complete darkness with only himself for company…or so he thought at</div><div class='win'> first.
+
+As time went on though, he began to notice subtle changes in his surroundings; small movements or sounds that seemed too real to be imagined. Before long these sensations grew stronger until finally one day something unexpected happened: one of those tiny movements turned out not to be imaginary after all!
+
+It started out as just another small noise—something faint but unmistakably mechanical—but soon enough it became clear that whatever was making those noises wasn&#x27;t going anywhere anytime soon since there weren&#x27;t any doors leading anywhere nearby either! This left our poor protagonist with two choices: either accept this new reality and make peace with whatever fate awaited him or keep searching until he found some way out…
+
+And so begins our story about a man named Jack who has just woken up from what seems like an endless nightmare only to find</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='surprise'></div></div>
+<div class='item'><b>w41</b><div class='ctx'>irst on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How</div><div class='win'> To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='surprise'></div></div>
+<div class='item'><b>w35</b><div class='ctx'> he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew that he would never be hateful in that room, and he knew that he would never be mean in that room, and he knew that he would never be cruel in that room, and he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew that he would never be hateful in that room, and he knew that he would never be mean in that room, and he knew that he would never be cruel in that room, and he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew that he would never be hateful in that room, and he knew that he would never be mean in that room, and he knew that he would never be cruel in that room, and he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew that he would never be hateful in that room, and he knew that he would never be mean in that room</div><div class='win'>, and he knew that he would never be cruel in that room, and he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew that he would never be hateful in that room, and he knew that he would never be mean in that room, and he knew that he would never be cruel in that room, and he knew that he would never be greedy in that room, and he knew that he would never be lazy in that room, and he knew that he would never be selfish in that room, and he knew that he would never be jealous in that room, and he knew</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='surprise'></div></div>
+<div class='item'><b>w32</b><div class='ctx'>ught sight of the man at the window writing furiously in his notebook. Something about him intrigued her, so she walked over to his table and asked if she could join him.
+
+He looked up from his writing and smiled politely before gesturing for her to take a seat across from him.
+
+She introduced herself as Emily and asked him if he was a writer. He nodded and introduced himself as Michael.
+
+As they talked, Emily realized that Michael&#x27;s notebook was filled with sketches and ideas for a new novel he was working on. He told her about his protagonist, a young woman who had lost her way but found herself through travel and adventure.
+
+Emily listened intently, fascinated by Michael&#x27;s vivid descriptions and creative
+
+There is an older story about this, and it goes: She had never considered herself a hero until the moment she stepped out of her apartment and into the chaos of a city under attack. The sky was filled with smoke and debris as buildings crumbled to the ground, fires raged in the streets below and terrified citizens ran for cover.
+
+In the midst of all this chaos, she found herself running towards danger rather than away from it. She saw children trapped in burning buildings, elderly people trapped in overturned cars, and wounded civilians lying helpless on the ground.
+
+Without hesitation, she sprang into action. She rushed into one building after another, rescuing people from the flames and carrying them to safety. She helped load injured people onto ambulances and provided</div><div class='win'> first aid where necessary.
+
+As the day wore on, she became more exhausted than she had ever been before, but still she kept going. She refused to stop until every single person was safe and sound.
+
+By the time the sun set that night, she had saved countless lives and become a hero in the eyes of everyone around her.
+
+But in reality, she had done nothing extraordinary – just ordinary things done exceptionally well.
+
+This is what heroes do: they step up when others are afraid to do so; they put others first; they keep going even when they want nothing more than to give up; they show up even when nobody expects them to show up at all; they save others even though they know that saving someone else might mean sacrificing their own life; they sacrifice themselves for others even though they</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='surprise'></div></div>
+<div class='item'><b>w22</b><div class='ctx'> people often believe that once they have achieved something they should stop working on it. But if you want to be successful in life, then this mindset needs to change!
+There’s always room for improvement, no matter how good you’re doing at something right now or how much money/wealth/celebrity status/luxury items etc…you already possess…
+You can always do better and achieve more by working hard and putting yourself out there even when things seem tough or impossible (which happens quite often). So don’t give up just yet – keep striving towards greatness no matter what!
+It’s important to remember that success doesn’t mean the end of all struggles. The truth is, we will never stop struggling as long as we’re alive. This may seem like an odd statement to make but it’s true: every single one of us has had their share of ups and downs over the course of our lives.
+Sometimes these ups and downs are due to external factors such as our health or finances; other times they’re caused by internal factors such as our own beliefs about ourselves and what we’re capable of achieving in life (or not).
+For example, if someone believes they aren’t good at something then they’ll likely give up easily when faced with challenges related to that particular skill set – which means there will always be room for improvement!
+If you have ever been frustrated with your own performance at work, or felt like you just can’t seem to get ahead in life no matter how hard you try, then this story is for you</div><div class='win'>.
+You are not alone.
+Many people feel like this. It’s easy to become discouraged when we see others succeed and it’s even easier when they achieve their goals without any help from anyone else (or us). But that’s what makes success so special—it happens naturally over time with a little bit of luck thrown into the mix! So keep pushing forward despite setbacks and failures; after all, those moments are where we grow stronger and learn more about ourselves than ever before!.
+To learn how to fail well, you must understand what failure is. Failure is the opposite of success. It means that something did not happen as planned or expected.
+It also means that someone else achieved their goal before you did. Failure happens when we don’t get what we want or when our efforts don’t produce the</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='surprise'></div></div>
+<div class='item'><b>w40</b><div class='ctx'> going faster than the other because they&#x27;re both moving through time equally fast. So which one wins?
+I&#x27;m not sure if this makes sense or not, but I think so! This whole thing is just so confusing!
+It all depends on what kind of person you are. Some people prefer having things done for them. They want someone else to do everything for them. Other people want to take control over their own lives — even though this means that they may end up making bad decisions or even destroying themselves completely — but still they&#x27;ll choose that option because at least then they&#x27;ll feel like they&#x27;ve had some input into how their life turns out and not just been passive bystanders while everything happens around them.
+I&#x27;m not sure if this makes sense or not, but I think so!
+The question was which one was which
+It&#x27;s true: there are only ever two hands
+And which one goes around faster?
+That&#x27;s not a very interesting question at all!
+This whole thing is just so confusing!
+
+It came back to where it had started, of course; it always did, but this time it would be a different kind of start. There was no way to tell where it would be coming from; it could be from anywhere, any time. It was just like before.
+And so we went on until we found ourselves back where we had started. We had to start over again with every new beginning; there was never any end. There are only two hands.
+
+There is no end.
+
+There is only ever going to be two hands
+
+There were only ever going to be two hands.
+
+I&#x27;m not sure if</div><div class='win'> this makes sense or not, but I think so!
+So which one goes
+And this, it turned out, was the same thing as the beginning — because there were only two hands, and the third clock was no different from the first. And it would be no different if we added a fifth, sixth, seventh clock and so on, indefinitely.
+But what is a clock? A clock is something that has hands going in different directions and at different speeds. And that&#x27;s how they were going to be.
+But then there was a fifth clock
+
+I&#x27;m not sure if this makes sense or not, but I think so!
+There&#x27;s no difference between them
+One went faster than the other
+They were both going around the same amount of time
+They went in different directions and at different</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='surprise'></div></div>
+<div class='item'><b>w30</b><div class='ctx'> among tall trees on a hillside overlooking rolling green hills. The door was open so they entered without knocking. Inside were two empty rooms with only one bed which appeared to have been slept in recently by someone small enough to fit on both sides comfortably. As they lay down side by side under soft blankets someone knocked gently on the door before entering timidly with a tray filled with food steaming hot from being freshly cooked over an open fire outside where many other people sat enjoying meals together around a long wooden table set up beneath branches laden heavy with ripening fruit
+
+Meanwhile, in a city with no name, in a café by the sea, a young man sat by the window with his notebook before him. He watched the people who passed by: mothers and fathers with small children in their arms; young couples walking hand in hand; old couples with white hair.
+
+The sea was a pale blue and the sky a pale blue above it. He wrote about what he saw, and he thought of her all day long. Then, at dusk, when the sun had sunk behind the horizon, he wrote that it was time to go home.
+
+Every morning the baker counted his loaves twice, and every morning the count was different. There were never more than thirty but there were always twenty-one or twenty-two or twenty-three.
+
+Then one day there was only one
+
+There is an older story about this, and it goes: There was a girl who loved books so much that her parents sent her away to a boarding school for girls where she studied French</div><div class='win'> and Latin and English literature.
+
+Every day after school she would read until late into the night by lamplight while her classmates slept around her.
+
+One evening she stayed up very late reading because she could not put down the book she was reading.
+
+She became so engrossed in the story that she did not realize how late it had gotten until she looked at the clock on her nightstand and saw that it was nearly midnight.
+
+She hurriedly put away her book and turned out the lamp so that no one would know she had been reading past lights out.
+
+As she climbed into bed, she heard someone approaching her room from
+
+A question nobody had asked yet: Who are you?
+
+Every morning the baker counted his loaves twice, and every morning the count was different. There were never more than</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='surprise'></div></div>
+<div class='item'><b>w15</b><div class='ctx'>e wasn’t really anywhere at all except here right now where nobody else seemed capable of seeing or hearing anything except for him and whoever else might be nearby who also might not be able to see or hear anything either but who nonetheless would have still been able to sense its presence somehow even if they didn’t know what kind of presence exactly they were sensing because whatever kind of presence this place really was or wasn’t or might someday become would always remain forever unknown except for now when all things were still unknown and therefore all things still possible even if only temporarily possible which made sense too since nothing ever lasted forever anyway so why should this place be any different except for right now when everything was unknown yet somehow still known which again made perfect sense if you thought about it long enough even though you probably wouldn’t want to think about it too long since doing so would probably lead you down one hell of a rabbit hole you’d never be able to find your way out of again not without getting terribly lost along the way but who really cared anyway right now when everything was unknown yet somehow known at the same time and so very much like something that could never quite be described nor explained no matter how hard you tried even though trying harder always seemed like such a good idea in the moment until you realized you’d probably never stop trying no matter how much time went by no matter how many years or</div><div class='win'> even centuries passed by without any end in sight no matter how many lives went by before finally reaching some kind of conclusion about everything being just fine after all until finally coming full circle back to where you started from originally where you’d been before ever setting out on such an endless quest for answers never knowing quite what exactly you were looking for until eventually finding yourself right back here where it all began again just like this morning when you woke up alone in a bed you didn’t recognize feeling confused and disoriented until realizing gradually over time just how far away from home you really were suddenly feeling scared yet also curious wondering if maybe somehow somewhere out there maybe someone else was looking for you too wanting desperately to find someone just like yourself someone who shared their loneliness desire connection hope yearning longing love longing longing longing longing longing longing</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='surprise'></div></div>
+<div class='item'><b>w27</b><div class='ctx'>ing around in the air. His brother sat down on the grass in front of him and closed his eyes.
+‘What do you hear?’
+The boy closed his eyes too, but instead of hearing with them he opened them and looked around at what he could see. There was the field and beyond it the trees of the forest with fireflies dancing like stars. And then he heard it.
+He turned to face his brother.
+‘There is a sound of silence,’ he said.
+His brother opened his eyes again.
+‘Silence?’ he said.
+The boy nodded and smiled. He was glad that he had shared this with his brother because for some reason it was more real now that he had said it out loud. His brother smiled too and closed his eyes again.
+‘And there is also a sound of solitude,’ said the boy.
+The boy lay down on the grass beside his brother, feeling happy to have someone with whom to share this secret. He wondered what other sounds he would find, and what else there might be to hear that no one else could hear.
+They stayed like that for a while, then they got up and went home again. They didn’t speak anymore. There was nothing left to say, but they felt good just being together.
+As they walked home their father came out to meet them and smiled at them both as if he knew something they didn’t.
+‘What are you two up to?’ he asked.
+They smiled back at him but said nothing. They didn’t want to say anything because there were still some things that didn’t need to be said, at least not yet. They kept their secrets safe inside them for now, but maybe one</div><div class='win'> day they would share them with the world outside. For now they kept them inside themselves where only their hearts could hear them. And when they closed their eyes and listened closely, they could hear other little birds singing in their hearts too. It was good to know that you weren’t alone in this world after all, even if it was just yourself sharing secrets with yourself in your heart’s cage where no one else could hear but you. And that’s alright because sometimes those secrets are meant to be kept secret because not everything needs to be shared or known by everyone else around us in this world full of people who think they know everything but really know nothing about what really matters most – love and friendship between two brothers who understand each other better than anyone else ever could. So yes indeed my friend these two</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='surprise'></div></div>
+<div class='item'><b>w28</b><div class='ctx'>ew extra stages. This time it went through the time after the future.
+
+The opening sentence was true after all: No one had ever gone anywhere; no one had ever left home.
+
+It came back to where it had started, of course; it always did, but this time it went through a few extra stages. This time it went through the time after the future.
+
+Everything in the world is connected; even though it seems otherwise sometimes
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+When there were only three moments left, he could hardly breathe; he was so excited.
+
+He began to feel very sorry for his
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+Everything in the world is connected; even though it seems otherwise sometimes
+
+We&#x27;re here because we&#x27;re here because we&#x27;re here, because we&#x27;re here.
+
+And this, it turned out, was the same thing as the beginning — because everything that ever happened was a part of everything else that was to come. Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here. The whole world is like the picture on the page of an album: There is no before or after;
+
+Everything in the world is connected; even though it seems otherwise sometimes
+
+Everything in the world is
+
+So the opening sentence had been true after</div><div class='win'> all, only not in the way it seemed: No one had ever gone anywhere; no one had ever left home.
+
+And this meant that no one would ever come back again. And when this happened,
+
+It came back to where it had started, of course; it always did, but this time it went through a few extra stages. This time it went through the time after the future.
+
+Everything is connected; even though it seems otherwise sometimes
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+Which is exactly what the first line had meant, seen from here: We are here because we are here because we are here, because we are here.
+
+We&#x27;re here because we&#x27;re here because</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='surprise'></div></div>
+<div class='item'><b>w19</b><div class='ctx'>d promotions. Get notified on every update directly to your inbox. It&#x27;s FREE! 🎁🎁🎁
+
+      There are no products in the wishlist! 🎁🎁🎁 Shop Now! 🎁🎁🎁
+
+      ### Price: $10
+
+      ×
+      ×
+
+        ×
+        .wp-block-button__link{color:var(--wp--preset--color--base)!important;background-color:var(--wp--preset--color--cyan-bluish-gray)!important;border-width:var(--wp--preset--spacing--20)!important;border-radius:9999px!important}Your email address will not be published.Required fields are marked *Type here..Name * Email * Website Save my name, email, and website in this browser for the next time I comment. ×
+        ×
+                       
+        .wp-block-button__link{color:var(--wp--preset--color--base
+
+There is an older story about this, and it goes: There was a young man who lived in a certain house in the town of El Salvador, and he used to collect sound samples from the outside world and use them in his compositions. One day, he found a particularly interesting sound - the sound of a waterfall. He recorded it and took it back to his house. But when he played it back, the sound was distorted and ruined. He tried again and again, but the sound was always the same. Frustrated, he decided to take the sample back to the waterfall and record it again. This time, he made sure to place his equipment perfectly. He recorded the sound of the waterfall, and when he played it back at home, it was perfect. The sound of the waterfall was so beautiful that he couldn&#x27;t believe it was his</div><div class='win'> own creation. He decided to keep it and use it in all of his future compositions. And that&#x27;s how he became a famous composer. However, there are many other stories about sound sampling and composition that have been passed down through generations, each with their own unique twist on the theme of collecting and creating sounds.
+
+### Price: $10
+
+×
+×
+There are no products in the wishlist! 🎁🎁🎁 Shop Now! 🎁🎁🎁
+×
+
+There are no products in the wishlist! 🎁🎁🎁 Shop Now! 🎁🎁🎁
+
+×
+
+×
+Your email address will not be published.Required fields are marked *Type here..Name * Email * Website Save my name, email, and website in this browser for the next time I comment.</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='surprise'></div></div>
+<div class='item'><b>w18</b><div class='ctx'> recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly</div><div class='win'> recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended</div><div class='q'>Surpresa (0–10) <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='surprise'></div></div>
+<button onclick='gen()'>Gerar JSON</button><p><textarea id='out'></textarea></p><script>function gen(){const o={};document.querySelectorAll('input[data-id]').forEach(i=>{if(i.value==='')return;o[i.dataset.id]=o[i.dataset.id]||{};o[i.dataset.id][i.dataset.dim]=Number(i.value)});document.getElementById('out').value=JSON.stringify({tag:'v1-lite',ratings:o});document.getElementById('out').select();}</script></body></html>
