@@ -502,6 +502,5 @@ execução ficam em `runs/`; o registro datado de decisões em
 
 ## Referências
 
-Ver `docs/references.bib` (as entradas marcadas [verified] foram conferidas
-nas páginas do editor/arXiv em 2026-08-16; as marcadas [check] são obras
-padrão a confirmar antes da submissão).
+Ver `docs/references.bib` — todas as entradas conferidas na página do
+editor/arXiv (2026-08-16/17).

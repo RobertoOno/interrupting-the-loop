@@ -482,4 +482,4 @@ date: ≈US$120.
 
 ## References
 
-See `docs/references.bib` (entries marked [verified] were checked against publisher/arXiv pages on 2026-08-16; [check] entries are standard works to confirm before submission).
+See `docs/references.bib` — every entry checked against the publisher/arXiv page (2026-08-16/17).
