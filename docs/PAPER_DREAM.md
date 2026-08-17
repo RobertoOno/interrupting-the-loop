@@ -316,6 +316,21 @@ the push's null is reported as "undetectable at this resolution", not
 "absent". A binary threshold on a noisy judge is a coin: the same window
 scored 5.24 one night and 4.48 the next.
 
+**A second judge family.** To check that the loop results are not the
+taste of one model family, a stratified sample of 140 already-judged
+windows (20 per condition across bare, habituation, clock reseed,
+scaffold, re-encounter stitch, period 300 and salience-timed
+re-encounter) was re-judged by Kimi K2.6 (Moonshot, via OpenRouter) with
+the same rubric and k = 5. Agreement with Opus 5 on the median-of-5:
+surprise Spearman ρ = +0.85, connection +0.77, coherence +0.71 (n = 140,
+p < 10⁻²²). Kimi is more generous (means ≈1 point higher) and noisier
+(intra-window spread 2.0–2.6 vs Opus's 0.5–0.7), but every condition
+ordering replicates: bare 0.55 → habituation 3.15 → clock reseed 4.30 ≈
+scaffold 4.10 → period 300 5.65 on surprise, and the neutral reseed and
+the re-encounter stitch highest on connection (6.55, 6.45) under both
+judges. A human blind rating (63 windows, two independent raters) is in
+progress.
+
 ## 7. Inside the network
 
 Judges and sentence embeddings see the text; the model's own residual

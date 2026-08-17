@@ -331,6 +331,21 @@ saliência vs relógio) e não conseguem arbitrar efeitos de meio ponto
 juiz ruidoso é uma moeda: a mesma janela recebeu 5.24 numa noite e 4.48 na
 seguinte.
 
+**Uma segunda família de juiz.** Para checar que os resultados do loop não
+são o gosto de uma família de modelo, uma amostra estratificada de 140
+janelas já julgadas (20 por condição entre nu, habituação, reseed por
+relógio, arcabouço, costura de reencontro, período 300 e reencontro por
+saliência) foi rejulgada pelo Kimi K2.6 (Moonshot, via OpenRouter) com a
+mesma rubrica e k = 5. Concordância com o Opus 5 na mediana de 5:
+surpresa Spearman ρ = +0.85, conexão +0.77, coerência +0.71 (n = 140, p <
+10⁻²²). O Kimi é mais generoso (médias ≈1 ponto acima) e mais ruidoso
+(dispersão intra-janela 2.0–2.6 vs 0.5–0.7 do Opus), mas toda ordenação
+de condições replica: nu 0.55 → habituação 3.15 → reseed por relógio 4.30
+≈ arcabouço 4.10 → período 300 5.65 em surpresa, e o reseed neutro e a
+costura de reencontro no topo da conexão (6.55, 6.45) sob os dois juízes.
+Uma avaliação humana cega (63 janelas, dois avaliadores independentes)
+está em andamento.
+
 ## 7. Dentro da rede
 
 Juízes e embeddings de sentença veem o texto; o residual do próprio

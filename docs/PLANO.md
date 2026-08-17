@@ -1020,6 +1020,19 @@ logit lens; `docs/APPENDIX_HIDDEN_*.md`, `docs/figures/hidden_*.png`)**:
   MLX; corrigido com avaliação por camada + `mx.clear_cache()` + bloco de
   256 (23 s → 8–14 s por célula).
 
+**Juiz de segunda família (2026-08-17, manhã; `scripts/judge_agreement.py`,
+`runs/judge_agreement/`)**: Kimi K2.6 (Moonshot, OpenRouter) rejulgou 140
+janelas (20/condição) com a mesma rubrica, k=5: concordância com o Opus
+surpresa ρ=+0.85, conexão +0.77, coerência +0.71 (n=140); mais generoso e
+mais ruidoso (dispersão 2.0–2.6 vs 0.5–0.7), mesma ordem de condições em
+tudo. Custo ~US$1. Avaliação humana: pacote v2 (63 janelas, interface em
+inglês) + guia do avaliador (`docs/blind/RATER_GUIDE.md`, cláusula
+anti-IA); Roberto contratando 2 avaliadores no Workana; `blind_score.py`
+calcula concordância humano–humano (Spearman, alpha de Krippendorff) e
+humano–Opus. Roberto avaliou 10 janelas: ρ +0.37/+0.47 (n=10; escala
+comprimida no topo, contexto não lido — regra explicada; versão leve
+`pack_v1_lite.html`).
+
 **Estado do manuscrito (2026-08-16, 20h)**: rascunho completo v1 —
 `docs/PAPER_DREAM.md` (inglês) e `docs/PAPER_DREAM_pt.md` (tradução
 integral), HTMLs autocontidos com 16 figuras e 6 apêndices
