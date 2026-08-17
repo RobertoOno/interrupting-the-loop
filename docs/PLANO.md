@@ -1073,6 +1073,16 @@ interrupção chega, por tipo de conteúdo?).
 
 ## Publicação — opções com prazos verificados (2026-08-16)
 
+- **Decisão (2026-08-17)**: na hora de publicar, criar um **repositório novo
+  e público** a partir da árvore final (commit inicial limpo, nome de
+  publicação — p.ex. `interrupting-the-loop`); este repositório fica como
+  arquivo privado. Motivo: dois commits do histórico contêm um placeholder
+  de afiliação (a empresa) que não deve aparecer, e reescrever histórico com a
+  sessão aberta é arriscado. A cronologia fica preservada neste PLANO.
+- Avaliadores humanos: anônimos no paper (perfil, recrutamento, remuneração
+  e cegueira descritos; sem nomes; agradecimento anônimo); JSONs em
+  `runs/blind/`, fora do git; só estatísticas agregadas publicadas.
+
 - **arXiv** (cs.CL / cs.AI): sem prazo; preprint assim que a bateria 2, a
   segunda família e a interpretabilidade estiverem no manuscrito. Serve
   de base a qualquer submissão abaixo.
