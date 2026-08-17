@@ -30,9 +30,9 @@ site, gabaritos de prova) e fica lá (surpresa julgada 0.33/10). Um loop
 fechado de devaneio construído sobre a arquitetura da cognição espontânea
 — revisão acionada por saliência, esquecimento seletivo, reseed,
 reencontro — dá vida a ele (surpresa 3.22; vs nu, δ de Cliff = +0.88, p ≈
-10⁻¹⁶, 10 sementes, Opus 5 k=5). A ablação e uma segunda bateria (28
-condições, 2.600 janelas julgadas) localizam o efeito em duas operações e
-dizem do que elas são feitas. A *habituação* (não deixar o loop se
+10⁻¹⁶, 10 sementes, Opus 5 k=5). A ablação e uma segunda bateria (18
+condições, 1.695 janelas julgadas, k = 5 cada) localizam o efeito em duas
+operações e dizem do que elas são feitas. A *habituação* (não deixar o loop se
 alimentar do próprio passado literal) ergue o fluxo de 0.33 para 1.70; a
 *interrupção* — injetar periodicamente uma nova frase de partida sobre o
 contexto preservado — ergue-o para 3.08 e carrega toda a conexão (1.08 →

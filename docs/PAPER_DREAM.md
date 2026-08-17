@@ -30,8 +30,8 @@ stays (judged surprise 0.33/10). A closed reverie loop built on the
 architecture of spontaneous cognition — salience-gated review, selective
 forgetting, reseeding, re-encounter — brings it to life (surprise 3.22;
 vs bare, Cliff's δ = +0.88, p ≈ 10⁻¹⁶, 10 seeds, Opus 5 k=5). Ablation
-and a second battery (28 conditions, 2,600 judged windows) locate the
-effect in two operations and say what they are made of. *Habituation*
+and a second battery (18 conditions, 1695 judged windows, k = 5 each) locate
+the effect in two operations and say what they are made of. *Habituation*
 (not letting the loop feed on its literal past) lifts the stream from
 0.33 to 1.70; *interruption* — periodically injecting a new starting
 sentence over the preserved context — lifts it to 3.08 and carries all
