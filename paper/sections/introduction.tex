@@ -6,22 +6,22 @@ places are commonly optimized: the \emph{sampler} (the tail of the next-token
 distribution, tamed by nucleus, typical or min-$p$ truncation, or courted by
 higher temperature), the \emph{prompt} (the input, engineered to steer the
 model somewhere it would not go on its own), and, less often, the
-\emph{loop}---what happens when a model's output becomes its own next input,
+\emph{loop}, what happens when a model's output becomes its own next input
 with nobody asking anything.
 
 The loop is where human novelty is usually placed. Insight rarely arrives as
 the answer to a strange question; it arises inside a closed circuit of thought
-feeding on its own output---during incubation, mind-wandering and
-sleep---when a spontaneously generated deviation survives critical review and
-is linked back to what came before. The neuroscience of creative cognition
+feeding on its own output, during incubation, mind-wandering and sleep, when
+a spontaneously generated deviation survives critical review and is linked
+back to what came before. The neuroscience of creative cognition
 describes three coupled systems: a default-mode network that generates,
 an executive network that evaluates, and a salience network that decides
 what deserves attention; more creative people show more coupling between the
 first two, with salience regions coupling first
 \citep{beaty2016dynamics,beaty2018robust}. Creativity itself is often
 characterized as connecting semantically distant concepts
-\citep{kenett2018semantic}, and incubation---leaving a problem and coming
-back to it---has a measured effect on solving it \citep{sio2009incubation}.
+\citep{kenett2018semantic}, and incubation, leaving a problem and coming back
+to it, has a measured effect on solving it \citep{sio2009incubation}.
 
 This paper asks, with controls, where novelty actually comes from in a
 language model left to write with no task, and which of the operations we
@@ -45,7 +45,7 @@ generations, at a small perplexity cost. But inside a reverie loop the same
 push yields no measurable difference from plain sampling in judged surprise,
 connection or novel delta, and in verified search (bin packing, two models,
 3,200 verified heuristics) it does not separate from plain sampling either.
-Surface novelty is real and does not climb---the mechanistic counterpart of
+Surface novelty is real and does not climb, the mechanistic counterpart of
 the recent finding that most $n$-gram-novel expressions are not judged
 creative \citep{saakyan2026death}.
 
@@ -57,8 +57,8 @@ correlate with judged novelty. Improbable inputs from outside are noise.
 
 \paragraph{The loop.} Bare continuous generation from a base model is dead:
 left to feed on its own output it converges on the deepest attractors of
-pretraining---literal orbits, website footers, exam keys, translation
-tables---and stays there. A closed reverie loop built on the architecture of
+pretraining (literal orbits, website footers, exam keys, translation
+tables) and stays there. A closed reverie loop built on the architecture of
 spontaneous cognition (a salience monitor over the stream's own telemetry
 gating review, selective forgetting, reseeding, re-encounter with the premise)
 brings it to life. Then we take the loop apart. Ablation and a second battery
@@ -66,11 +66,11 @@ of 18 conditions locate almost the whole effect in two operations, neither of
 them the elaborate ones: \emph{habituation}, which keeps the loop from eating
 its literal past, and \emph{interruption}, a new starting sentence injected
 every few hundred tokens over the preserved context. We show what a good
-interruption is made of---it must lead away, its yield depends on the length
+interruption is made of: it must lead away, its yield depends on the length
 of the thread it breaks and decays with distance from it, the best rhythm is
 about 300 tokens, and a salience monitor is a good reader of the stream but a
-bad metronome for it---and we replicate the ladder on three generator families
-and under a second judge family. Finally we look inside the network:
+bad metronome for it. We replicate the ladder on three generator families and
+under a second judge family. Finally we look inside the network:
 residual-stream geometry at 13 layers shows that bare generation freezes at
 every depth, that what the judge calls surprise is surface departure with deep
 continuity, and that the interruption that works barely moves the deep state,
@@ -85,7 +85,7 @@ rewards less.
 \item A negative result on improbable inputs, with input improbability
   measured (Section~\ref{sec:prompt}).
 \item A reverie loop with a salience monitor and selective forgetting, and its
-  ablation into two operations---habituation and interruption---with a
+  ablation into two operations, habituation and interruption, with a
   battery that characterizes the interruption's content, timing and rhythm,
   replicated on three generator families (Section~\ref{sec:loop}).
 \item A residual-stream analysis relating judged surprise to what the network

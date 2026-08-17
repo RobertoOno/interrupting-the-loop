@@ -27,9 +27,9 @@ CIs positive at a third of the judge cost).
 \label{sec:ablation}
 
 Ablation over 10 seeds (Figure~\ref{fig:ablation}, Table~\ref{tab:ladder})
-gave the first surprise: \emph{bare + clock reseed}---no salience, no
+gave the first surprise: \emph{bare + clock reseed} (no salience, no
 forgetting, no kicks, only a neutral subject change every 150 tokens over the
-preserved context---ties the full scaffold on surprise (3.08 vs 3.22, CI
+preserved context) ties the full scaffold on surprise (3.08 vs 3.22, CI
 \ci{-0.50}{+0.80}) and beats it on connection (3.15 vs 1.60, $\delta=-0.60$
 for the scaffold, $p\approx3\times10^{-8}$) and coherence (4.78 vs 3.72), with
 12/60 windows judged both surprising and coherent against 8/50 for the
@@ -38,7 +38,7 @@ injected) reaches 2.74. In sentence-embedding space
 (Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean step
 0.14 and ends 0.78 from the premise; the scaffold has radius 0.51 and returns
 to within 0.57 of the premise; the clock reseed spreads over the space in
-jumps while keeping the whole context---which is where its connection
+jumps while keeping the whole context, which is where its connection
 advantage comes from.
 
 \begin{figure}[t]
@@ -124,7 +124,7 @@ the \emph{premise itself} (1.14 / 1.04 / 3.18) or a window of the stream's
 every paired CI against the neutral change excludes zero (connection $-2.11$
 \ci{-2.83}{-1.46} and $-1.63$ \ci{-2.37}{-0.91}; $\delta\approx-0.6$ to
 $-0.7$). Qualitatively, the own-past injection reinforces whatever attractor
-the stream is in---an exam-key well was fed its own questions back. A return
+the stream is in: an exam-key well was fed its own questions back. A return
 works only as a short stitch that still opens a new sentence; a literal return
 closes the loop (Figure~\ref{fig:q2}).
 
@@ -164,8 +164,8 @@ decays with distance from it.} With the neutral change every 75 tokens the
 stream is dead (0.88, $\delta=-0.83$ vs 150): nothing has time to develop.
 Every 150: 3.08. Every 300, 600 and 900, the windows that end within
 $\approx$160 tokens after an interruption score \textbf{5.28 / 3.35 / 5.95},
-5.40 / 3.20 / 5.65 and 5.90 / 2.80 / 6.10---the highest values in the
-program, 34/60 of the 300-early windows both surprising and coherent---while
+5.40 / 3.20 / 5.65 and 5.90 / 2.80 / 6.10, the highest values in the
+program (34/60 of the 300-early windows both surprising and coherent), while
 windows deeper into a segment fall back to $\approx$3.2 and stay there. The
 same window shape (a break plus 150 tokens of development) scores 3.08 when
 the broken thread was 150 tokens long and 5.3--5.9 when it was 300--900:
@@ -198,7 +198,7 @@ $\rightarrow$ 3.11; connection 1.51 $\rightarrow$ 3.17, $\delta=+0.58$), with
 one new nuance: the plain interruption \emph{costs} coherence there ($-0.77$
 \ci{-1.58}{+0.03}; the injected narrative seed lands on 4,000 tokens of
 footers) and the scaffold's selective forgetting is what preserves it (4.48
-vs 3.28)---the mechanism the calibration probes had suggested. Whether
+vs 3.28), the mechanism the calibration probes had suggested. Whether
 forgetting is worth its connection cost depends on how deep the generator's
 well is.
 

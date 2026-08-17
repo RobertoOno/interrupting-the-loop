@@ -10,13 +10,13 @@ which $n$-grams of each generation occur anywhere in the corpus
 +14.6\,pp \ci{7.9}{21.9} and +24.0\,pp \ci{18.2}{29.5}, monotone in $\lambda$
 and present in each prompt separately. The probability that a generation
 contains a verbatim training block of eight or more words falls from 0.80 to
-0.20 in both machine arms---a fourfold reduction stated as a rate (a pilot's
+0.20 in both machine arms, a fourfold reduction stated as a rate (a pilot's
 ``zero blocks'' was one cell, not the distribution). The coherence cost is
 about +1.2 perplexity under a cross-family judge model, uncorrelated with
 novelty within arms (Spearman $+0.12$). Three escape modes appeared and were
 mapped: recitation (a genre fork into a memorized text), collage, and factual
-paraphrase; the entropy \emph{ceiling} of the band---above which the model is
-at a genre fork and pushing produces collapse---transfers across model
+paraphrase; the entropy \emph{ceiling} of the band, above which the model is
+at a genre fork and pushing produces collapse, transfers across model
 families. A recitation detector based on the entropy drop between halves of a
 generation is reported descriptively only (AUC 0.71 for $\ge$8-word blocks,
 precision 0.33 at the published threshold; no false-positive rate could be
@@ -31,11 +31,11 @@ surface novelty over min-$p$ sampling.}
 \label{fig:phase1}
 \end{figure}
 
-\paragraph{Does it climb?} Two tests say no. In verified search---online bin
+\paragraph{Does it climb?} Two tests say no. In verified search (online bin
 packing, the FunSearch benchmark, with a deterministic verifier in place of a
-judge, evolutionary loops of 5 runs $\times$ 8 generations $\times$ 20--40
+judge; evolutionary loops of 5 runs $\times$ 8 generations $\times$ 20--40
 candidates on Qwen3-8B and Qwen3-30B-A3B, 3,200 verified heuristics on the
-larger model---the anti-probable operator does not separate from plain
+larger model) the anti-probable operator does not separate from plain
 sampling: both arms rediscover best-fit at will and neither beats it on held-out
 instances. And inside the reverie loop (Section~\ref{sec:loop}), the same
 push, against plain sampling in the same scaffold, yields no measurable
@@ -47,9 +47,9 @@ does not rise to the level of ideas.
 \section{Hypothesis 2: the prompt}
 \label{sec:prompt}
 
-We composed three kinds of input---a typical request, a distant concept pair
+We composed three kinds of input (a typical request, a distant concept pair
 drawn from a band of embedding distances, and a composed improbable
-context---plus two ablations (fragments only, register only), had Claude
+context) plus two ablations (fragments only, register only), had Claude
 Opus~5 develop each into an idea, and had Claude Sonnet~5 judge the result
 against its nearest known equivalent ($k=3$; $n\approx15$ per arm). Input
 improbability was measured two ways: semantic $k$NN distance to 10,000 real
@@ -57,7 +57,7 @@ prompts (all-mpnet-base-v2) and perplexity. The typical prompt matched or beat
 every improbable arm, two of which were significantly worse; improbability
 did not correlate with judged novelty ($|r|<0.2$, Figure~\ref{fig:prompt});
 a pilot effect ($n=8$) had not replicated. Improbable inputs from outside are
-noise---at least when a strong model develops them and a strong model judges.
+noise, at least when a strong model develops them and a strong model judges.
 
 \begin{figure}[t]
 \centering
