@@ -44,8 +44,8 @@ def main() -> None:
         if not pth.exists():
             continue
         for r in json.loads(pth.read_text()):
-            if r.get("surprise") is None or r["cond"] not in args.conds:
-                continue
+            if r.get("surprise") is None or r["cond"] not in args.conds or r["step"] < 100:
+                continue  # windows before 100 generated tokens are degenerate fragments (excluded from the analysis too)
             judged.append({**r, "run": run})
     items = []
     for cond in args.conds:
