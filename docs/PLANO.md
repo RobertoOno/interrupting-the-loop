@@ -1044,7 +1044,16 @@ anti-IA); Roberto contratando 2 avaliadores no Workana; `blind_score.py`
 calcula concordância humano–humano (Spearman, alpha de Krippendorff) e
 humano–Opus. Roberto avaliou 10 janelas: ρ +0.37/+0.47 (n=10; escala
 comprimida no topo, contexto não lido — regra explicada; versão leve
-`pack_v1_lite.html`).
+`pack_v1_lite.html`). **Avaliadora 1 (2026-08-17)**: 63/63, escala
+inteira; surpresa ρ=+0.47 (p=1e-4) com o Opus e a ordem das condições
+reproduzida (interrupção 7.7–9.0 > arcabouço 4.6 > nu/habituação
+3.2–3.9); coerência ρ=+0.23 — para a leitora, a mudança de assunto dentro
+da janela lê como quebra de coerência. Confirmou por escrito: sem IA;
+consente descrição anônima ("native/bilingual English speaker"). Grupo em
+formação: Jessica (UK, nativa, editora) e Claudia (BR, não-nativa
+avançada, acadêmica) em andamento; Cecilia (AR, bilíngue, editora/criativa)
+contratada; Sheila (BR, mestre em linguística) opcional; Beatriz S. e
+Annaliese descartadas; Kelsey (EUA, nativa) indisponível.
 
 **Estado do manuscrito (2026-08-16, 20h)**: rascunho completo v1 —
 `docs/PAPER_DREAM.md` (inglês) e `docs/PAPER_DREAM_pt.md` (tradução
