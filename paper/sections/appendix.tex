@@ -1,13 +1,16 @@
 \section{Full tables}
 \label{app:loop}
 
-The complete auto-generated tables (means $\pm$ SD, bootstrap CIs, Cliff's
-$\delta$, Mann--Whitney $p$, paired-by-seed intervals) for the ablation
-battery, battery~2, the generator families and the residual-stream analyses
-are released with the code as \texttt{docs/APPENDIX\_ANALYSIS.md},
-\texttt{docs/APPENDIX\_B2.md} and \texttt{docs/APPENDIX\_HIDDEN\_*.md}, and
-are reproduced in the supplementary material of the submitted version.
-\todo{typeset the key tables here for the arXiv version}
+The tables below are generated from the run data by the analysis scripts
+(\texttt{scripts/analysis.py}, \texttt{analysis\_b2.py},
+\texttt{hidden\_analysis.py}) and typeset by \texttt{scripts/appendix\_tex.py};
+the complete set, including every per-layer table of the residual-stream
+analysis, ships with the code as \texttt{docs/APPENDIX\_*.md}. Unless stated,
+the unit is the judged window (median of $k=5$ Opus~5 judgments), windows
+before 100 generated tokens are excluded, and intervals are 95\% bootstrap
+CIs.
+
+\input{sections/appendix_tables}
 
 \section{Reproducibility}
 
