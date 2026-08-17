@@ -50,7 +50,12 @@ deserve 0–2 on surprise; a few deserve 7+.
 3. Score every item; leave none blank. There is no right answer — we want your
    independent reading, so please do not discuss items with anyone else who is
    rating.
-4. When done, click **Generate JSON**, copy the whole text that appears in the
+4. **Please do not use AI tools (ChatGPT, Claude, Gemini, etc.) or web searches
+   for any part of this task.** The whole point of the study is to compare
+   human readings with machine readings; an AI-assisted rating would make your
+   work unusable, and we would not be able to pay for it. Your own first
+   impression as a reader is exactly what we need.
+5. When done, click **Generate JSON**, copy the whole text that appears in the
    box, and send it back (email or message). That is the only deliverable.
 
 Questions about the interface are welcome; questions about "what the study is
