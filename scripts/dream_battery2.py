@@ -47,7 +47,7 @@ BATTERIES = {
         ("clock900_reenc", "clock_reenc", ["--clock-every", "900"]),
         ("clock900", "bare_reseed", ["--clock-every", "900"]),
     ],
-    # second generator family: the four conditions that carry the argument
+    # generator families: the four conditions that carry the argument (fam8b = Qwen3-8B; also used for OLMo-2)
     "fam8b": [
         ("bare", "bare", []),
         ("bare_habit", "bare_habit", []),
