@@ -1,43 +1,26 @@
-Where does novelty come from when a language model writes with no task? We
-test three hypotheses with one measurement stack: base models run locally,
-cross-family LLM judges with $k$-sample medians and measured resolution,
-bootstrap confidence intervals, and, for one arm, verbatim novelty against the
-model's own public training corpus. \textbf{(1) The sampler.} An
-entropy-banded anti-probable decoder that pushes each step toward semantically
-distant tokens roughly doubles 4-gram novelty over min-$p$ sampling
-(21.5\%$\rightarrow$45.5\%, paired $\Delta$ +24.0\,pp) and cuts the rate of
-verbatim 8+-word training blocks from 0.80 to 0.20 of generations. But this
-surface novelty does not rise to the level of ideas: inside a reverie loop the
-same push produces no measurable difference from plain sampling in judged
-surprise, connection or novel delta. \textbf{(2) The prompt.} Inputs composed
-to sit far from any human prompt do not outperform a typical request when a
-strong model develops them: improbable inputs are noise. \textbf{(3) The
-loop.} Bare continuous generation from a base model is dead: it converges on
-the deepest attractors of pretraining (literal orbits, website footers, exam
-keys) and stays there (judged surprise 0.3/10). A closed reverie loop built on the
-architecture of spontaneous cognition (salience-gated review, selective
-forgetting, reseeding, re-encounter) brings it to life (3.2; Cliff's
-$\delta=+0.88$, 10 seeds). Ablation and a second battery (14 conditions,
-1{,}055 judged windows on the main generator, each judged five times) locate
-the effect in two operations and say what they are made of. \emph{Habituation}, not letting the loop feed on its literal
-past, lifts the stream to 1.7; \emph{interruption}, periodically injecting a
-new starting sentence over the preserved context, lifts it to 3.1 and carries
-all of the connection. The interruption must lead away (injecting
-the premise or the stream's own past is as bad as not interrupting), its
-yield depends on the thread it breaks and decays with distance (every 75
-tokens is dead; the 150 tokens after breaking a 300--900-token thread score
-5.3--5.9 with coherence $\approx$6; the best rhythm is $\approx$300), and
-salience is a good reader but a bad metronome. Inside the network (residual
-stream at 13 layers, logit lens), bare generation freezes at every layer, what
-the judge calls surprise is surface departure with deep continuity, and the
-interruption that works barely moves the deep state, whereas forgetting is a
-deep re-encounter with the beginning that the judge rewards less. The ladder
-bare$\rightarrow$habituation$\rightarrow$interruption$\rightarrow$scaffold
-replicates on three generator families (Qwen3-30B-A3B, Qwen3-8B, OLMo-2-13B),
-under a second judge family ($\rho=0.71$--$0.85$ with the first), and in a
-blind rating by independent human readers, whose consensus agrees with the
-judge ($\rho=0.58$ on surprise) and reproduces the ordering of conditions. In this system,
-creativity is not in the noise injected into decoding, nor in the strangeness
-of the input, nor in an elaborate cognitive scaffold. It is in interrupting the
-loop: letting a thread develop, then making it start again somewhere else,
-over everything it remembers.
+Where does the novelty a language model can produce with no task come from?
+We test the three places usually credited, the sampler, the prompt and the
+loop, on base models, with an LLM judge that is itself measured. An
+entropy-banded anti-probable decoder roughly doubles $n$-gram novelty against
+the training corpus but shows no detectable effect on judged surprise or
+connection; input improbability shows no benefit under the
+operationalizations we tested. The loop is different. Forced to continue a
+premise with the end-of-text token masked, a base model degenerates into
+repetitive modes; a closed loop built on the architecture of spontaneous
+cognition revives it, and taking that loop apart over 23 conditions locates
+most of the effect in two simple operations: a windowed repetition penalty
+(habituation) and a periodic \emph{interruption}, one neutral sentence
+injected every few hundred tokens over the preserved context. On windows of
+generated text only, judged by Claude Opus~5 ($k=5$) with the premise as the
+unit ($n=10$), the interruption raises surprise from 1.3 to 3.0 and connection
+from 0.9 to 3.7 over habituation alone (paired permutation $p=0.008$),
+matches the full scaffold on surprise and beats it on connection; injecting
+the premise or the stream's own past is as bad as not interrupting; salience
+events are good moments to look at and a poor clock. \todo{one sentence on
+battery 3 (boundary, content, context) and the confirmatory replication}
+The ordering replicates on three base models from two families, under a
+second judge family and in the rankings of independent human readers. Read
+descriptively, residual-stream geometry shows that the interruption that
+scores best barely moves the deep state. These results characterize a
+simple, controllable intervention for forced open-ended generation; they do
+not establish a general mechanism of creativity.
