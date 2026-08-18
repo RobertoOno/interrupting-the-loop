@@ -6,8 +6,8 @@ places are commonly optimized: the \emph{sampler} (the tail of the next-token
 distribution, tamed by nucleus, typical or min-$p$ truncation, or courted by
 higher temperature), the \emph{prompt} (the input, engineered to steer the
 model somewhere it would not go on its own), and, less often, the
-\emph{loop}, what happens when a model's output becomes its own next input
-with nobody asking anything.
+\emph{loop}: what happens when a model's output becomes its own next input
+and nobody asks anything.
 
 The loop is where human novelty is usually placed. Insight rarely arrives as
 the answer to a strange question; it arises inside a closed circuit of thought
@@ -23,16 +23,21 @@ characterized as connecting semantically distant concepts
 \citep{kenett2018semantic}, and incubation, leaving a problem and coming back
 to it, has a measured effect on solving it \citep{sio2009incubation}.
 
-This paper asks, with controls, where novelty actually comes from in a
-language model left to write with no task, and which of the operations we
-usually credit for it survive measurement. We test the three hypotheses in
-turn, with one measurement stack shared by every experiment: base models
-(instruction-tuned models are mode-collapsed for this purpose) run locally at
-8-bit; LLM judges always from a different model family than the generator,
-sampled $k$ times per window with the median as the score and the intra-window
-spread measured before use; bootstrap confidence intervals with the window or
-the seed as unit; and, where a public training corpus exists, verbatim novelty
-computed against it.
+This paper asks, with controls, where the novelty a base language model can
+produce with no task comes from, and which of the operations usually credited
+for it survive measurement. The outcome we measure is narrow and we name it
+as such: \emph{judged narrative surprise, connection and coherence} on short
+windows of forced open-ended continuation, as read by an LLM judge that is
+itself measured (repeatability, a second judge family, human readers). It is
+one ingredient of creativity, the appropriately unexpected turn, and not
+creativity; the title names the question the program set out with, and the
+results answer this narrower one. We test the three places in turn, with one
+measurement stack shared by every experiment: base models run locally at
+8 bits (a scope decision; Section~\ref{sec:method}); LLM judges from a
+different model family than the generator, sampled $k$ times per window
+with the median as the score; the premise, not the window, as the unit of
+inference in the loop experiments; and, where a public training corpus
+exists, verbatim novelty computed against it.
 
 \paragraph{The sampler.} We build the strongest version of the ``fertile
 error'' idea we could: an entropy-banded anti-probable decoder that, at the
@@ -40,62 +45,68 @@ steps where the model is genuinely undecided, re-scores the plausible
 candidates by their semantic distance from the recent context, with a
 coherence floor that never admits an implausible token. It works exactly as
 far as the surface: 4-gram novelty against the OLMo-2 training corpus roughly
-doubles, verbatim 8+-word training blocks fall from 0.80 to 0.20 of
+doubles and verbatim 8+-word training blocks fall from 0.80 to 0.20 of
 generations, at a small perplexity cost. But inside a reverie loop the same
-push yields no measurable difference from plain sampling in judged surprise,
+push shows no detectable difference from plain sampling in judged surprise,
 connection or novel delta, and in verified search (bin packing, two models,
 3,200 verified heuristics) it does not separate from plain sampling either.
-Surface novelty is real and does not climb, the mechanistic counterpart of
-the recent finding that most $n$-gram-novel expressions are not judged
-creative \citep{saakyan2026death}.
+Surface novelty is real and, at the present resolution, does not climb: a
+mechanistic counterpart of the finding that most $n$-gram-novel expressions
+are not judged creative \citep{saakyan2026death}.
 
 \paragraph{The prompt.} We build inputs that sit far from any human prompt
 (distant concept pairs, composed improbable contexts; distance measured
 against 10,000 real prompts) and let a strong model develop them. A typical
 request matches or beats every improbable arm; input improbability does not
-correlate with judged novelty. Improbable inputs from outside are noise.
+correlate with judged novelty. We found no benefit from prompt
+improbability under the tested operationalizations.
 
-\paragraph{The loop.} Bare continuous generation from a base model is dead:
-left to feed on its own output it converges on the deepest attractors of
-pretraining (literal orbits, website footers, exam keys, translation
-tables) and stays there. A closed reverie loop built on the architecture of
-spontaneous cognition (a salience monitor over the stream's own telemetry
-gating review, selective forgetting, reseeding, re-encounter with the premise)
-brings it to life. Then we take the loop apart. Ablation and a second battery
-of 14 conditions locate almost the whole effect in two operations, neither of
-them the elaborate ones: \emph{habituation}, which keeps the loop from eating
-its literal past, and \emph{interruption}, a new starting sentence injected
-every few hundred tokens over the preserved context. It is the machine
-equivalent of getting up for a coffee: leaving a thread one has been
-developing and being made to start somewhere else, remembering everything. We show what a good
-interruption is made of: it must lead away, its yield depends on the length
-of the thread it breaks and decays with distance from it, the best rhythm is
-about 300 tokens, and a salience monitor is a good reader of the stream but a
-bad metronome for it. We replicate the ladder on three generator families and
-under a second judge family. Finally we look inside the network:
-residual-stream geometry at 13 layers shows that bare generation freezes at
-every depth, that what the judge calls surprise is surface departure with deep
-continuity, and that the interruption that works barely moves the deep state,
-whereas forgetting is a deep re-encounter with the beginning that the judge
-rewards less.
+\paragraph{The loop.} Left to continue a premise with the end-of-text token
+masked, a base model degenerates within a few hundred tokens into
+repetitive or corpus-like modes (literal orbits, website footers, exam keys,
+translation tables) and stays there. A closed reverie loop built on the
+architecture of spontaneous cognition (a salience monitor over the stream's
+own telemetry gating review, selective forgetting, reseeding, re-encounter
+with the premise) revives it. Then we take the loop apart, in three
+batteries and 22 conditions, and find that most of its effect lives in two
+operations, neither of them the elaborate ones: \emph{habituation}, a
+windowed repetition penalty that keeps the loop from eating its literal
+past, and \emph{interruption}, a new starting sentence injected every few
+hundred tokens over the preserved context. It is the machine equivalent of
+getting up for a coffee: leaving a thread one has been developing and being
+made to start somewhere else, remembering everything. We show what a good
+interruption is made of: it must lead away (injecting the premise or the
+stream's own past is as bad as not interrupting), \todo{battery 3: boundary
+vs content, preserved vs reset context, with vs without habituation}, and a
+salience monitor is a good reader of the stream and a bad metronome for it.
+\todo{period and decay under the generated-only protocol}. The ladder
+replicates on three generator models from two families and under a second
+judge family, and its ordering is reproduced by independent human readers.
+Finally we look inside the network, descriptively: residual-stream geometry
+at 13 sampled layers shows that bare generation moves least at every sampled
+layer, that judged surprise co-varies with surface departure over deep
+continuity, and that the interruption that scores best barely moves the deep
+state, whereas forgetting moves it toward the beginning and scores less.
 
 \paragraph{Contributions.}
 \begin{enumerate}[leftmargin=1.5em,itemsep=0.1em]
 \item A calibrated anti-probable decoder and the measurement that its
   novelty is real at the surface (objective, against the training corpus) and
-  absent at the level of ideas (Sections~\ref{sec:sampler}, \ref{sec:instrument}).
-\item A negative result on improbable inputs, with input improbability
-  measured (Section~\ref{sec:prompt}).
-\item A reverie loop with a salience monitor and selective forgetting, and its
-  ablation into two operations, habituation and interruption, with a
-  battery that characterizes the interruption's content, timing and rhythm,
-  replicated on three generator families (Section~\ref{sec:loop}).
-\item A residual-stream analysis relating judged surprise to what the network
-  does at each depth, and a dissociation between deep representational change
-  and judged quality (Section~\ref{sec:network}).
+  undetectable at the level of ideas (Section~\ref{sec:sampler}); a null on
+  improbable inputs, with input improbability measured (Section~\ref{sec:prompt}).
+\item A reverie loop with a salience monitor and selective forgetting, and
+  its dismantling into two operations, habituation and interruption, with a
+  factorial and control battery that shows which part of an interruption
+  carries the effect and characterizes its content, timing and period; the
+  ladder replicated on three generator models from two families
+  (Section~\ref{sec:loop}).
 \item An instrument section that measures the LLM judge before using it and
-  validates it against a second judge family and against independent human
-  readers (Section~\ref{sec:instrument}).
+  checks it against a second judge family and against independent human
+  readers, with a seed-level analysis and generated-only windows adopted
+  after an external review (Sections~\ref{sec:method}, \ref{sec:instrument}).
+\item A descriptive residual-stream analysis relating judged surprise to what
+  the network does at each sampled depth, and a dissociation between deep
+  representational change and judged quality (Section~\ref{sec:network}).
 \end{enumerate}
-Code, per-run data, judgments and the dated laboratory notebook are released
-with the paper.
+Code, per-run data, judgments, human-rating packs and the dated laboratory
+notebook are released with the paper.
