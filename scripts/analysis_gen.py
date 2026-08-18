@@ -220,13 +220,24 @@ def main() -> None:
           [("bare_reseed", "150"), ("clock300", "300"), ("clock600", "600"), ("clock900", "900")],
           ref=0, fname="fig9_q5_period.png")
     # decay: cell means by offset for 300/600/900
-    md.append("\n### Q5b — decay: cell mean surprise by tokens since the injection (window start), generated text only\n")
-    md.append("| period | " + " | ".join(f"offset {o}" for o in (32, 160, 300, 450, 600, 750)) + " |")
-    md.append("|---|" + "---|" * 6)
+    md.append("\n### Q5b — decay: cell mean surprise by tokens since the injection (window start), generated text only; "
+              "stream estimate = offset means weighted by the stretch of the segment each window represents\n")
+    md.append("| period | " + " | ".join(f"offset {o}" for o in (32, 160, 300, 450, 600, 750)) + " | stream estimate (S / C / H) |")
+    md.append("|---|" + "---|" * 7)
     fig, ax = plt.subplots(figsize=(6.5, 3.6))
-    for c, lab in (("bare_reseed", "150"), ("clock300", "300"), ("clock600", "600"), ("clock900", "900")):
+    for c, lab, period in (("bare_reseed", "150", 150), ("clock300", "300", 300), ("clock600", "600", 600), ("clock900", "900", 900)):
         xs, ys, es = [], [], []
         row = []
+        offs = [o for o in (32, 160, 300, 450, 600, 750) if o + 96 <= period]
+        stream = {}
+        for d in DIMS:
+            num = den = 0.0
+            for i, o in enumerate(offs):
+                cm = cell_means(main30, c, d, o)
+                if len(cm) >= 3:
+                    w = (offs[i + 1] if i + 1 < len(offs) else period) - (0 if i == 0 else o)
+                    num += w * np.mean(list(cm.values())); den += w
+            stream[d] = num / den if den else float("nan")
         for o in (32, 160, 300, 450, 600, 750):
             cm = cell_means(main30, c, "surprise", o)
             if len(cm) >= 3:
@@ -235,7 +246,7 @@ def main() -> None:
                 row.append(f"{np.mean(v):.2f} (n={len(v)})")
             else:
                 row.append("—")
-        md.append(f"| {lab} | " + " | ".join(row) + " |")
+        md.append(f"| {lab} | " + " | ".join(row) + f" | {stream['surprise']:.2f} / {stream['connection']:.2f} / {stream['coherence']:.2f} |")
         if xs:
             ax.errorbar(xs, ys, yerr=np.array(es).T, fmt="-o", ms=4, capsize=2, color=PAL.get(c, "#666"), label=f"every {lab}")
     ax.set_xlabel("window centre, tokens since the injection (generated text only)"); ax.set_ylabel("cell mean surprise (95% CI over cells)")
