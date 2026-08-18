@@ -1049,11 +1049,23 @@ inteira; surpresa ρ=+0.47 (p=1e-4) com o Opus e a ordem das condições
 reproduzida (interrupção 7.7–9.0 > arcabouço 4.6 > nu/habituação
 3.2–3.9); coerência ρ=+0.23 — para a leitora, a mudança de assunto dentro
 da janela lê como quebra de coerência. Confirmou por escrito: sem IA;
-consente descrição anônima ("native/bilingual English speaker"). Grupo em
-formação: Rater A (nativa, editora) e Rater B (não-nativa
-avançada, acadêmica) em andamento; Candidate D (bilíngue, editora/criativa)
-contratada; Candidate H (mestre em linguística) opcional; Candidate E e
-Candidate F descartadas; Candidate G (nativa) indisponível.
+consente descrição anônima ("native/bilingual English speaker"). Grupo: Rater A (nativa, editora), Rater B (não-nativa avançada,
+acadêmica), Rater C (nativa/bilíngue) entregues; Candidate D (bilíngue,
+editora/criativa) em andamento; Candidate E, Candidate F descartadas; Candidate G
+indisponível; Candidate H não contratada. ORCID do Roberto:
+0009-0006-8650-629X (na capa). Nome de publicação: Roberto I. Ono Filho.
+
+**Três avaliadoras (2026-08-17)**: 63/63 cada, escalas inteiras, calibrações
+distintas (médias de surpresa 3.4 Rater A / 4.3 Rater B / 6.1 Rater C). Cada
+uma vs Opus em surpresa ρ 0.40 / 0.50 / 0.47 (p ≤ 1e-3); coerência 0.60 /
+0.47 / 0.23. **Média das três vs Opus: surpresa ρ=+0.58 (p=7e-7), coerência
++0.52 (p=1e-5)** — tanto quanto elas concordam entre si (Spearman par a par
+0.71/0.38/0.25 surpresa, α intervalar 0.30; coerência 0.69/0.60/0.42, α
+0.38). Ordem humana de consenso: relógio 300 6.5 ≈ reseed 6.4 > costura 5.3
+> saliência 5.0 > arcabouço 3.6 ≈ habituação 3.6 > nu 1.5; interrupção − nu
+[+3.1, +6.5]; habituação − nu [+0.1, +3.9]. Em coerência humanos preferem
+habituação sem interrupção (7.7) às interrompidas (5.7–6.3). Parágrafo do
+§6 escrito com esses números; falta a Candidate D e o valor pago.
 
 **Estado do manuscrito (2026-08-16, 20h)**: rascunho completo v1 —
 `docs/PAPER_DREAM.md` (inglês) e `docs/PAPER_DREAM_pt.md` (tradução

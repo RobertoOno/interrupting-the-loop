@@ -114,8 +114,9 @@ Code and documentation are released under the MIT License (see `LICENSE`).
 @misc{ono2026interrupting,
   title  = {Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt, but Interrupting the Loop},
   author = {Ono Filho, Roberto I.},
+  note   = {ORCID 0009-0006-8650-629X},
   year   = {2026},
-  note   = {Preprint}
+  howpublished = {Preprint}
 }
 ```
 
