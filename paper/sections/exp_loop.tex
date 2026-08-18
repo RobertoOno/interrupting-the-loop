@@ -28,14 +28,14 @@ is not the smallest thing that does this.
 \paragraph{The ladder.} Two operations of the scaffold suffice, and they are
 not the elaborate ones (Figure~\ref{fig:q1}, Table~\ref{tab:ladder}). Adding
 only \emph{habituation} to bare generation (a windowed repetition penalty, no
-interruption) removes the literal orbits: surprise 0.45 $\rightarrow$ 1.55
-($\Delta$ +1.10 \ci{+0.70}{+1.40}, $p=0.004$, $\delta=+0.80$), connection
-0.30 $\rightarrow$ 1.28, coherence 2.52 $\rightarrow$ 4.48; the stream is
+interruption) removes the literal orbits: surprise 0.45 $\rightarrow$ 1.58
+($\Delta$ +1.13 \ci{+0.72}{+1.47}, $p=0.004$, $\delta=+0.80$), connection
+0.30 $\rightarrow$ 1.28, coherence 2.52 $\rightarrow$ 4.45; the stream is
 fluent and, to the judge, still not very surprising. Adding a neutral subject
 change every 150 tokens over the preserved context takes it to 3.02 / 3.68 /
-6.12: over habituation alone, surprise $\Delta$ +1.47 \ci{+0.95}{+2.08}
-($p=0.002$, $\delta=+0.87$), connection +2.40 \ci{+1.58}{+3.32} ($p=0.002$,
-$\delta=+0.93$), coherence +1.63 \ci{+0.23}{+2.87} ($p=0.06$). This plain
+6.12: over habituation alone, surprise $\Delta$ +1.43 \ci{+0.93}{+2.05}
+($p=0.002$, $\delta=+0.85$), connection +2.40 \ci{+1.58}{+3.32} ($p=0.002$,
+$\delta=+0.93$), coherence +1.67 \ci{+0.27}{+2.88} ($p=0.05$). This plain
 interruption matches the full scaffold on surprise (3.02 vs 2.70) and beats
 it on connection (3.68 vs 1.85; the scaffold's gain over habituation is +0.57
 \ci{+0.17}{+1.02}) at equal coherence (6.12 vs 6.02): the salience monitor,
@@ -60,22 +60,23 @@ with 95\% bootstrap CIs over cells (Qwen3-30B-A3B, generated-only windows).}
 \end{figure}
 
 \paragraph{The factorial and the baselines.} Battery~3 completes the
-$2\times2$: the neutral subject change \emph{without} habituation reaches
-2.30 / 2.57 / 5.00 at period 150 and 2.00 / 1.31 / 4.95 at period 300,
-above habituation alone on surprise (+0.90 \ci{-0.03}{+1.70} and +0.55
-\ci{-0.07}{+1.14}, $p=0.19$ both) but well below the same interruption with
-habituation (3.02 and 2.87). The two operations interact: the interruption
-alone revives the stream only partly, because between two injections the
-un-habituated model still falls into its orbits, and habituation alone
-produces a fluent stream that goes nowhere; together they give the effect.
-Two baselines say what habituation is not. A stronger penalty (1.3 instead
-of 1.15) changes nothing (1.60 / 1.00 / 4.31; $\Delta$ 0.00 \ci{-0.67}{+0.60}
-on surprise). Allowing the end-of-text token, so that the model may close its
-document and open another (a boundary of its own choosing, on average every
-few hundred tokens), gives more coherent text (6.12, +1.26 \ci{+0.07}{+2.28})
-and no more surprise or connection (1.22 / 1.06; $-0.28$ and $-0.25$): the
+$2\times2$ (Table~\ref{tab:gen-q1}, \ref{tab:gen-q3b}). The neutral subject
+change \emph{without} habituation reaches 2.45 / 3.02 / 5.38 at period 150
+and 2.49 / 1.97 / 5.50 at period 300: above habituation alone on surprise
+(+0.87 \ci{+0.27}{+1.43}, $p=0.04$; +0.91 \ci{+0.43}{+1.40}, $p=0.016$) and,
+at 150, on connection (+1.73, $p=0.010$), and below the same interruption
+with habituation by 0.4--0.6 on surprise and connection and 0.7--0.9 on
+coherence, differences whose intervals include zero at $n=10$. The two
+operations are closer to additive than to interacting, and the interruption
+is the larger of the two: alone it gets most of the way, and habituation adds
+a fluent stream between injections. Two baselines say what habituation is
+not. A stronger penalty (1.3 instead of 1.15) changes nothing (1.77 / 1.43 /
+4.88; $\Delta$ +0.18 \ci{-0.22}{+0.65} on surprise). Allowing the end-of-text
+token, so that the model may close its document and open another (a boundary
+of its own choosing), gives more coherent text (5.69, +1.24 \ci{+0.10}{+2.24})
+and no more surprise or connection (1.59 / 1.33; +0.01 and +0.04): the
 model's own document breaks are boundaries without a subject, and they do
-what a sham break does below. \todo{refresh with the complete battery 3}
+what a sham break does below.
 
 \begin{table}[t]
 \centering\small
@@ -85,10 +86,10 @@ what a sham break does below. \todo{refresh with the complete battery 3}
 \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
 arm & S & C & H & S & C & H & S & C & H \\
 \midrule
-bare & 0.45 & 0.30 & 2.52 & 0.43 & 0.40 & 3.88 & 1.41 & 1.02 & 3.20 \\
-bare + habituation & 1.55 & 1.28 & 4.48 & 1.37 & 1.00 & 4.35 & 2.14 & 1.40 & 4.34 \\
-habituation + interruption 150 & \textbf{3.02} & \textbf{3.68} & \textbf{6.12} & \textbf{2.76} & \textbf{3.17} & 5.15 & 2.81 & \textbf{2.91} & 4.02 \\
-DREAM scaffold & 2.70 & 1.85 & 6.02 & 2.70 & 2.35 & \textbf{5.38} & \textbf{3.34} & 2.04 & \textbf{6.30} \\
+bare & 0.45 & 0.30 & 2.52 & 0.43 & 0.40 & 3.88 & 1.28 & 0.93 & 3.03 \\
+bare + habituation & 1.58 & 1.28 & 4.45 & 1.37 & 1.00 & 4.35 & 1.96 & 1.26 & 3.99 \\
+habituation + interruption 150 & \textbf{3.02} & \textbf{3.68} & \textbf{6.12} & \textbf{2.76} & \textbf{3.17} & 5.15 & 2.77 & \textbf{2.87} & 4.05 \\
+DREAM scaffold & 2.70 & 1.85 & 6.02 & 2.70 & 2.35 & \textbf{5.38} & \textbf{3.60} & 2.23 & \textbf{6.23} \\
 \bottomrule
 \end{tabular}
 \caption{The ladder on three generator models from two families: judged
@@ -126,34 +127,39 @@ across the space keeping its context.}
 
 An interruption is three things at once: a boundary in the text, a new
 subject, and a context that is kept or dropped. Battery~3 separates them at
-period 300 (Figure~\ref{fig:q3}, Table~\ref{tab:gen-q3}). A bare paragraph
-break every 300 tokens (a sham interruption) leaves the stream where
-habituation alone leaves it (1.67 / 0.80 / 4.33 vs 1.55 / 1.28 / 4.48). A
-connective that asks for continuity (\emph{``And so, as before,''}) is worse
-than nothing (0.67 / 0.56 / 3.46; surprise $-1.06$ \ci{-1.92}{-0.04}): a
-boundary that points back closes the loop as the premise and own-past
-injections did. The neutral subject change over the preserved context gives
-2.87 / 2.38 / 6.43 (+1.32 \ci{+0.70}{+1.93} on surprise, $p=0.002$; +1.10 on
-connection, $p=0.014$; +1.95 on coherence, $p=0.02$). And the same subject
-change on a \emph{reset} context, where the model keeps only the premise and
-the injected sentence, gives 3.17 / 3.31 / 7.10 (+1.44 \ci{+1.12}{+1.75}
-surprise, +1.90 connection, +2.21 coherence): as high as, and on coherence
-higher than, the preserved context. Resetting without a new subject (a break
-on a reset context) gives 1.92 / 1.83 / 5.25, little more than the sham.
-What carries the effect, then, is the new subject, with habituation; the
-boundary by itself does nothing, and whether the earlier text stays in the
-model's context or not makes no detectable difference to what the judge
-reads. Two things must be said about that last result. Under reset the model
-cannot integrate the earlier text, and its ``connection'' is what it can
-still do: return to the premise, sometimes verbatim, in a fresh mini-story
-that the judge, seeing 600 tokens of earlier text about the same premise,
-scores as connected and coherent; under the preserved context the model can
-integrate and returns less often, and the judge scores it about the same.
-Connection as this rubric measures it does not separate a long-range
-integration from a return to the shared beginning; the preserved context is
-a choice of the recipe we studied, not a demonstrated ingredient of the
-judged effect. \todo{refresh with the complete battery 3; confirmatory
-replication (H3 pre-registered as clock300 $>$ reset on connection)}
+period 300 (Figure~\ref{fig:q3}, Tables~\ref{tab:gen-q3} and
+\ref{tab:gen-q3b}). A bare paragraph break every 300 tokens (a sham
+interruption) leaves the stream where habituation alone leaves it (1.42 /
+0.97 / 4.43 vs 1.58 / 1.28 / 4.45). A connective that asks for continuity
+(\emph{``And so, as before,''}) is, if anything, worse than nothing (1.08 /
+0.86 / 3.49; $-0.50$ \ci{-1.20}{+0.25} on surprise, $-0.96$ on coherence):
+a boundary that points back is what the premise and own-past injections
+were. The neutral subject change over the preserved context gives 2.90 /
+2.38 / 6.40 (+1.32 \ci{+0.68}{+1.93} on surprise, $p=0.004$; +1.10 on
+connection, $p=0.014$; +1.95 on coherence, $p=0.02$; against the sham break
++1.48 / +1.42 / +1.97, all $p\le0.006$). And the same subject change on a
+\emph{reset} context, where the model keeps only the premise and the injected
+sentence, gives 3.72 / 3.32 / 6.88: higher than the preserved context on
+every dimension (+0.82 \ci{+0.32}{+1.30}, $p=0.02$; +0.93 \ci{+0.53}{+1.32},
+$p=0.004$; +0.48 \ci{+0.03}{+0.95}), and every premise moves the same way on
+surprise. Resetting without a new subject (a break on a reset context) gives
+2.03 / 1.73 / 5.43, little more than the sham; the subject change against
+the break is +1.68 / +1.58 / +1.45 under reset and +1.48 / +1.42 / +1.97
+under the preserved context ($p\le0.006$). What carries the effect, then, is
+the new subject; the boundary by itself does nothing; and dropping the
+earlier text from the model's context does not hurt what the judge reads,
+it helps. Two things must be said about that last result. Under reset the
+model cannot integrate the earlier text, and its ``connection'' is what it
+can still do: return to the premise, sometimes verbatim, in a fresh
+mini-story that the judge, seeing 600 tokens of earlier text about the same
+premise, scores as connected and coherent; under the preserved context the
+model can integrate, returns less, and is entrained by 3,000 tokens of its
+own past. Connection as this rubric measures it does not separate a
+long-range integration from a return to the shared beginning; the preserved
+context is a choice of the recipe we studied, not a demonstrated ingredient
+of the judged effect, and Section~\ref{sec:document} asks the question at
+the level of the whole document, where the difference between integration
+and restart should show if it exists.
 
 \begin{figure}[t]
 \centering
@@ -165,6 +171,15 @@ change on a reset context, and a break on a reset context; one point per
 premise.}
 \label{fig:q3}
 \end{figure}
+
+\subsection{The whole document}
+\label{sec:document}
+
+\todo{document-level judgment (integration, development, coherence, surprise
+over the whole 4,500-token stream with the injected sentences removed; Opus
+$k=3$; one score per cell) for bare, habituation, interruption 150 and 300
+(preserved), interruption without habituation, sham break, reset with and
+without a subject change, and the scaffold; running}
 
 \subsection{The interruption must lead away}
 \label{sec:content}
@@ -282,17 +297,16 @@ Figure~\ref{fig:families}). On the 8B: 0.43 $\rightarrow$ 1.37 $\rightarrow$
 2.76 (interruption over habituation: surprise +1.39 \ci{+0.72}{+2.07},
 $p=0.008$; connection +2.17 \ci{+1.53}{+2.83}, $p=0.002$), scaffold 2.70 /
 2.35. On OLMo, whose bare stream wanders across web genres rather than
-locking into literal orbits and is therefore less dead (1.41), the
-interruption over habituation gains connection (+1.51 \ci{+0.73}{+2.32},
-$p=0.008$) and only some surprise (+0.67 \ci{-0.40}{+1.73}, $p=0.29$), and
+locking into literal orbits and is therefore less dead (1.28), the
+interruption over habituation gains connection (+1.61 \ci{+0.83}{+2.35},
+$p=0.004$) and only some surprise (+0.82 \ci{-0.21}{+1.81}, $p=0.17$), and
 costs nothing detectable in coherence; there the full scaffold is the best
-arm on surprise (3.34, +1.20 over habituation, $p=0.08$) and coherence (6.30,
-+1.95, $p=0.03$): its selective forgetting lifts the stream out of a
-web-boilerplate well, the mechanism the calibration probes had suggested,
-with less connection than the plain interruption (2.04 vs 2.91). What the
-scaffold does for OLMo is what its reset does: pull the stream out of the
-well; on a generator whose well is boilerplate, the reset earns its keep. \todo{refresh
-OLMo numbers when its judging is complete}
+arm on surprise (3.60, +1.64 over habituation, $p=0.04$) and coherence (6.23,
++2.24, $p=0.02$), with less connection than the plain interruption (2.23 vs
+2.87). What the scaffold does for OLMo is what a reset does: pull the stream
+out of a web-boilerplate well, the mechanism the calibration probes had
+suggested; on a generator whose well is boilerplate, the reset earns its
+keep, and battery~3 says it costs nothing on the one that drifts in prose.
 
 \begin{figure}[t]
 \centering
