@@ -17,8 +17,8 @@ Left to continue a premise with nothing else, the base model degenerates
 within a few hundred tokens into a repetitive or corpus-like mode and stays
 there: \emph{``Highly recommended. Highly recommended.\,\ldots''} for two
 thousand tokens; a table of three-digit numbers; an English-exam answer key.
-Judged surprise 0.48 \ci{0.30}{0.72}, connection 0.33, coherence 2.56 (ten
-cells). The full scaffold brings the stream to 2.89 / 1.93 / 5.91, and every
+Judged surprise 0.45 \ci{0.28}{0.68}, connection 0.30, coherence 2.52 (ten
+cells). The full scaffold brings the stream to 2.70 / 1.85 / 6.02, and every
 premise moves in the same direction (Figure~\ref{fig:q1}). But the scaffold
 is not the smallest thing that does this.
 
@@ -28,20 +28,21 @@ is not the smallest thing that does this.
 \paragraph{The ladder.} Two operations of the scaffold suffice, and they are
 not the elaborate ones (Figure~\ref{fig:q1}, Table~\ref{tab:ladder}). Adding
 only \emph{habituation} to bare generation (a windowed repetition penalty, no
-interruption) removes the literal orbits: surprise 0.48 $\rightarrow$ 1.30
-($\Delta$ +0.81 \ci{+0.21}{+1.42}, $p=0.06$), coherence 2.56 $\rightarrow$
-4.52; the stream is fluent and, to the judge, still not surprising. Adding a
-neutral subject change every 150 tokens over the preserved context takes it
-to 3.04 / 3.72 / 6.20: over habituation alone, surprise $\Delta$ +1.54
-\ci{+0.69}{+2.46} ($p=0.008$, $\delta=+0.75$), connection +2.58
-\ci{+1.58}{+3.69} ($p=0.008$, $\delta=+1.00$: every premise), coherence
-+1.67 \ci{-0.29}{+3.40}. This plain interruption matches the full scaffold on
-surprise (3.04 vs 2.89) and beats it on connection (3.72 vs 1.93) and
-coherence (6.20 vs 5.91): the salience monitor, the in-loop judge (which
-never fired) and the forgetting add nothing detectable over the interruption,
-and forgetting costs connection. Habituation accounts for part
-of the surprise; the interruption accounts for the rest and for most of the
-additional connection beyond habituation.
+interruption) removes the literal orbits: surprise 0.45 $\rightarrow$ 1.55
+($\Delta$ +1.10 \ci{+0.70}{+1.40}, $p=0.004$, $\delta=+0.80$), connection
+0.30 $\rightarrow$ 1.28, coherence 2.52 $\rightarrow$ 4.48; the stream is
+fluent and, to the judge, still not very surprising. Adding a neutral subject
+change every 150 tokens over the preserved context takes it to 3.02 / 3.68 /
+6.12: over habituation alone, surprise $\Delta$ +1.47 \ci{+0.95}{+2.08}
+($p=0.002$, $\delta=+0.87$), connection +2.40 \ci{+1.58}{+3.32} ($p=0.002$,
+$\delta=+0.93$), coherence +1.63 \ci{+0.23}{+2.87} ($p=0.06$). This plain
+interruption matches the full scaffold on surprise (3.02 vs 2.70) and beats
+it on connection (3.68 vs 1.85; the scaffold's gain over habituation is +0.57
+\ci{+0.17}{+1.02}) at equal coherence (6.12 vs 6.02): the salience monitor,
+the in-loop judge (which never fired) and the forgetting add nothing
+detectable over the interruption, and forgetting costs connection.
+Habituation accounts for part of the surprise; the interruption accounts for
+the rest and for most of the additional connection beyond habituation.
 
 \begin{figure}[t]
 \centering
@@ -65,10 +66,10 @@ without habituation (150 and 300) vs with; habituation 1.3; EOS allowed}
 \cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
 arm & S & C & H & S & C & H & S & C & H \\
 \midrule
-bare & 0.48 & 0.33 & 2.56 & 0.43 & 0.40 & 3.88 & 1.41 & 1.02 & 3.20 \\
-bare + habituation & 1.30 & 0.91 & 4.52 & 1.37 & 1.00 & 4.35 & 2.14 & 1.40 & 4.34 \\
-habituation + interruption 150 & \textbf{3.04} & \textbf{3.72} & \textbf{6.20} & \textbf{2.76} & \textbf{3.17} & 5.15 & 2.81 & \textbf{2.91} & 4.02 \\
-DREAM scaffold & 2.89 & 1.93 & 5.91 & 2.70 & 2.35 & \textbf{5.38} & \textbf{3.34} & 2.04 & \textbf{6.30} \\
+bare & 0.45 & 0.30 & 2.52 & 0.43 & 0.40 & 3.88 & 1.41 & 1.02 & 3.20 \\
+bare + habituation & 1.55 & 1.28 & 4.48 & 1.37 & 1.00 & 4.35 & 2.14 & 1.40 & 4.34 \\
+habituation + interruption 150 & \textbf{3.02} & \textbf{3.68} & \textbf{6.12} & \textbf{2.76} & \textbf{3.17} & 5.15 & 2.81 & \textbf{2.91} & 4.02 \\
+DREAM scaffold & 2.70 & 1.85 & 6.02 & 2.70 & 2.35 & \textbf{5.38} & \textbf{3.34} & 2.04 & \textbf{6.30} \\
 \bottomrule
 \end{tabular}
 \caption{The ladder on three generator models from two families: judged
@@ -112,12 +113,12 @@ context, break on reset context; figure fig9\_q3\_boundary\_context}
 
 With the same period (150), a neutral subject change and a re-encounter
 stitch that asks the stream to return to its beginning are indistinguishable
-(3.04 / 3.72 / 6.20 vs 2.94 / 3.96 / 5.44; every paired CI covers zero).
-Injecting the \emph{premise itself} (1.29 / 1.01 / 3.96) or a 64-token window
-of the stream's \emph{own past} (0.90 / 1.05 / 3.54) is as bad as not
-interrupting at all: against the neutral change, surprise $-1.64$
-\ci{-2.15}{-1.15} and $-1.89$ \ci{-2.69}{-1.01}, connection $-2.62$ and
-$-2.43$, coherence $-2.21$ and $-2.54$, all $p\le0.016$, $\delta$ $-0.84$ to
+(3.02 / 3.68 / 6.12 vs 2.83 / 3.70 / 5.50; every paired CI covers zero).
+Injecting the \emph{premise itself} (1.16 / 1.11 / 3.91) or a 64-token window
+of the stream's \emph{own past} (1.48 / 1.44 / 3.70) is as bad as not
+interrupting at all: against the neutral change, surprise $-1.86$
+\ci{-2.38}{-1.35} and $-1.54$ \ci{-2.17}{-0.86}, connection $-2.58$ and
+$-2.24$, coherence $-2.21$ and $-2.42$, all $p\le0.006$, $\delta$ $-0.84$ to
 $-1.00$ (Figure~\ref{fig:q2}). Qualitatively, the own-past injection
 reinforces whatever mode the stream is in: an exam-key well was fed its own
 questions back. A return works only as a short stitch that still opens a new
@@ -132,24 +133,30 @@ return is as bad as not interrupting.}
 \label{fig:q2}
 \end{figure}
 
-\subsection{Timing: salience is a good reader and a bad metronome}
+\subsection{Timing: salience against the clock}
 \label{sec:timing}
 
-The stitch injected on salience events (jump, crystallization, recurrence;
-1--9 per cell, median $\approx$5) yields post-interruption windows as good as
-the same stitch on a clock of matched frequency (every 900 tokens): 3.38 /
-2.71 / 5.55 vs 3.47 / 3.11 / 6.19, paired differences within $\pm0.5$ and CIs
-covering zero (Figure~\ref{fig:q4}). What differs is the stream between
-interruptions. Salience events fire rarely and unevenly and leave stretches
-of thousands of tokens uninterrupted; on windows at least 300 generated
-tokens after the last injection, the salience-timed cells score 1.65 / 1.61 /
-4.29 against 2.98 / 1.80 / 5.12 for the clocked stitch and 2.58 / 1.84 /
-5.38 for the neutral change every 900 (Table~\ref{tab:gen-q4b}). Salience
-events select good moments to look at, which is why salience-gated review
-beat clock review as a policy for which windows to judge in the first
-version of this study; as an interruption trigger, they under-interrupt.
-Salience should decide where to look, not when to interrupt. \todo{refresh
-numbers when battery 2 is complete}
+Salience events (jump, crystallization, recurrence; 1--9 per cell, median
+$\approx$5) are the moments the scaffold's monitor picks out of the stream's
+own telemetry. As a policy for \emph{which} windows to judge they beat a
+clock in the first version of this study; the question here is whether they
+are also the right moments to \emph{interrupt}. With the same stitch, timing
+by salience events and timing by a clock of matched frequency (every 900
+tokens) are indistinguishable on generated text: the post-interruption
+windows score 3.04 / 2.92 / 5.75 against 3.05 / 2.71 / 5.72 (paired
+differences $-0.01$ \ci{-0.76}{+0.73} on surprise, $+0.21$ on connection),
+and the windows at least 300 tokens after the last injection, where the
+stream is left alone, 1.82 / 1.80 / 4.20 against 2.08 / 1.71 / 4.73 ($-0.26$
+\ci{-0.78}{+0.21}) (Figure~\ref{fig:q4}, Table~\ref{tab:gen-q4b}). Salience
+monitoring by itself, with nothing injected, leaves the stream where
+habituation alone leaves it (1.65 / 1.30 / 4.63 vs 1.55 / 1.28 / 4.48). The
+first version of this study reported a large stream-level advantage of the
+clock over salience timing (4.7 vs 2.2 on uniform windows); that advantage
+was carried by the injected sentences inside the clock arm's windows, of
+which it has more. What remains is a null at the present resolution:
+salience is a good reader of the stream and, as a metronome, neither better
+nor worse than a clock ticking at the same rate. Since a clock is free and
+regular, the clock is what we recommend.
 
 \begin{figure}[t]
 \centering
@@ -166,29 +173,32 @@ premise.}
 
 The first version of this study reported that the yield of an interruption
 grew with the length of the thread it broke (5.3--5.9 after 300--900-token
-threads against 3.1 after 150) and decayed over the next few hundred tokens.
-With the injected sentence excluded from the judged window, that finding
-largely disappears (Figure~\ref{fig:q5}). The post-interruption window
-(32--128 generated tokens after the injection) scores 3.04 at period 150,
-2.85 at 300, 3.33 at 600 and 2.53 at 900 on surprise, with every paired
-difference against 150 covering zero; connection is highest at the shortest
-period (3.72 vs 2.13, 2.94 and 1.73; $\Delta$ $-1.5$ to $-1.8$, $p\le0.03$)
-and coherence rises slightly with the period (6.20 $\rightarrow$ 6.43, 6.73,
-6.93). Deeper into a segment the surprise of generated text decays only
-mildly (period 900: 2.53, 2.53, 3.17, 2.33, 3.00 and 1.40 at 32, 160, 300,
-450, 600 and 750 tokens after the injection), so that the stream estimate
-(offset means weighted by the stretch of the segment they represent) is 3.04
-/ 3.72 at 150, 2.48 / 2.04 at 300, 3.05 / 2.64 at 600 and 2.49 / 1.87 at
-900. Among the tested periods, then, no period is better than 150 on the
-generated text itself, and the shortest period gives the most connection;
-what the longer periods buy is a little coherence. A period of 75 cannot be
-measured under this protocol (no 96-token window of generated text fits
-between two injections); under the event protocol its stream was dead
-(0.88), which is the point: nothing develops. The larger numbers of the first
-version were, in good part, the judge reading the injected sentence. What
-survives is the direction of every effect and the operating range: a break
-every 150--600 tokens over the preserved context. \todo{refresh numbers when
-battery 2 is complete}
+threads against 3.1 after 150) and decayed over the next few hundred tokens,
+and named 300 tokens as the best rhythm. With the injected sentence excluded
+from the judged window, that finding largely disappears
+(Figure~\ref{fig:q5}). The post-interruption window (32--128 generated tokens
+after the injection) scores 3.02 at period 150, 2.87 at 300, 2.88 at 600 and
+3.18 at 900 on surprise, every paired difference against 150 covering zero;
+connection is highest at the shortest period (3.68 vs 2.38, 2.02 and 2.22;
+$\Delta$ $-1.30$ to $-1.67$, $p\le0.008$) and coherence rises a little with
+the period (6.12 $\rightarrow$ 6.43, 6.25, 6.78). Deeper into a segment the
+surprise of generated text holds for a few hundred tokens and then sinks
+(period 900: 3.18, 2.67, 3.17, 2.77, 2.23 and 1.80 at 32, 160, 300, 450, 600
+and 750 tokens after the injection, Figure~\ref{fig:q5b}), toward the level
+of habituation alone (1.55). The stream estimate (offset means weighted by
+the stretch of the segment they represent) is therefore 3.02 / 3.68 at 150,
+2.76 / 2.30 at 300, 2.84 / 2.12 at 600 and 2.64 / 2.03 at 900
+(Table~\ref{tab:gen-q5b}). Among the tested periods, then, no period is
+better than 150 on the generated text itself, the shortest period gives the
+most connection, and what the longer periods buy is a little coherence. A
+period of 75 cannot be measured under this protocol (no 96-token window of
+generated text fits between two injections); under the event protocol its
+stream was dead (0.88), which is the one part of the earlier claim that
+survives: a thread needs some tens of tokens to exist before it can be
+broken. The larger numbers of the first version were, in good part, the judge
+reading the injected sentence. What survives is the direction of every
+effect and an operating range: a break every 150--300 tokens over the
+preserved context.
 
 \begin{figure}[t]
 \centering
