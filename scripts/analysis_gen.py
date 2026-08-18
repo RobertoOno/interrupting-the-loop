@@ -246,6 +246,36 @@ def main() -> None:
         block(f"Q6 — the ladder on {name}", pool,
               [("bare", "bare"), ("bare_habit", "bare + habituation"), ("bare_reseed", "habituation + reseed 150"), ("scaffold0", "DREAM scaffold")],
               ref=1, fname=f"fig9_q6_{tag}.png")
+    # protocol agreement: condition means under the event protocol (first version) vs generated-only
+    md.append("\n### Protocol agreement — condition means, event windows (v1) vs generated-only windows (unit = cell)\n")
+    ev = []
+    for run in ("dream_scaffold", "dream_b2", "dream_b3"):
+        pth = RUNS / run / "rejudge_surprise.json"
+        if pth.exists():
+            for r in json.loads(pth.read_text()):
+                if r.get("surprise") is not None and r["step"] >= 100:
+                    ev.append({**r, "run": run, "seed": r["cell"].split("_", 1)[0]})
+    md.append("| condition | " + " | ".join(f"{d} event / gen" for d in DIMS) + " | n cells (event / gen) |")
+    md.append("|---|" + "---|" * (len(DIMS) + 1))
+    xs, ys = {d: [] for d in DIMS}, {d: [] for d in DIMS}
+    for c in sorted({r["cond"] for r in main30} & {r["cond"] for r in ev}):
+        row = [LABEL.get(c, c)]
+        ne = ng = 0
+        for d in DIMS:
+            e = cell_means(ev, c, d, "all"); g = cell_means(main30, c, d, "primary")
+            ne, ng = len(e), len(g)
+            if e and g:
+                xs[d].append(np.mean(list(e.values()))); ys[d].append(np.mean(list(g.values())))
+                row.append(f"{np.mean(list(e.values())):.2f} / {np.mean(list(g.values())):.2f}")
+            else:
+                row.append("—")
+        row.append(f"{ne} / {ng}")
+        md.append("| " + " | ".join(row) + " |")
+    from scipy.stats import spearmanr
+    for d in DIMS:
+        if len(xs[d]) >= 4:
+            rho, pv = spearmanr(xs[d], ys[d])
+            md.append(f"\nSpearman across conditions ({d}): rho = {rho:+.2f} (n = {len(xs[d])} conditions).")
     out = DOCS / "APPENDIX_GEN.md"
     out.write_text("\n".join(md) + "\n")
     print("\n".join(md)); print("->", out)

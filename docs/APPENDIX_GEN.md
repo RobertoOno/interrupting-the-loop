@@ -2,18 +2,18 @@
 
 Windows of 96 model-generated tokens starting 32 tokens after each injection (none crossing an injection); uniform grid for uninterrupted arms; the judge sees the 600 preceding tokens as context. Unit = cell (premise); CIs are bootstrap over cells; paired comparisons use exact sign-flip permutation p-values on the 10 paired differences and Cliff's delta on cell means. Opus 5, k=5, median per window.
 
-134 judged windows on the main generator, 48 on Qwen3-8B, 40 on OLMo-2.
+216 judged windows on the main generator, 75 on Qwen3-8B, 62 on OLMo-2.
 
 
 ### Q1 — habituation × interruption (period 150) and baselines — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 1 | 0.33 [nan, nan] | 0.17 [nan, nan] | 1.33 [nan, nan] |
+| bare | 2 | 0.42 [0.33, 0.50] | 0.42 [0.17, 0.67] | 1.92 [1.33, 2.50] |
 | bare + habituation | 1 | 1.50 [nan, nan] | 1.00 [nan, nan] | 4.33 [nan, nan] |
 | reseed 150, no habituation | 0 | — | — | — |
-| habituation + reseed 150 | 1 | 2.00 [nan, nan] | 2.33 [nan, nan] | 6.33 [nan, nan] |
-| DREAM scaffold | 1 | 1.50 [nan, nan] | 1.17 [nan, nan] | 4.67 [nan, nan] |
+| habituation + reseed 150 | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
+| DREAM scaffold | 2 | 2.25 [1.50, 3.00] | 1.08 [1.00, 1.17] | 5.00 [4.67, 5.33] |
 | habituation 1.3 | 0 | — | — | — |
 | habituation, EOS allowed | 0 | — | — | — |
 
@@ -26,9 +26,9 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| neutral subject change | 1 | 2.00 [nan, nan] | 2.33 [nan, nan] | 6.33 [nan, nan] |
+| neutral subject change | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
 | re-encounter stitch | 1 | 2.67 [nan, nan] | 3.33 [nan, nan] | 5.83 [nan, nan] |
-| the premise itself | 1 | 0.33 [nan, nan] | 0.17 [nan, nan] | 3.67 [nan, nan] |
+| the premise itself | 2 | 1.17 [0.33, 2.00] | 0.58 [0.17, 1.00] | 5.33 [3.67, 7.00] |
 | the stream's own past | 1 | 0.50 [nan, nan] | 0.67 [nan, nan] | 2.83 [nan, nan] |
 
 ### vs neutral subject change — paired by seed
@@ -58,10 +58,10 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | stitch on the clock 150 | 1 | 2.67 [nan, nan] | 3.33 [nan, nan] | 5.83 [nan, nan] |
-| stitch on the clock 900 | 1 | 4.00 [nan, nan] | 5.00 [nan, nan] | 8.00 [nan, nan] |
-| neutral change 900 | 1 | 2.60 [nan, nan] | 1.80 [nan, nan] | 6.80 [nan, nan] |
+| stitch on the clock 900 | 2 | 3.40 [2.80, 4.00] | 3.25 [2.80, 3.70] | 6.30 [5.80, 6.80] |
+| neutral change 900 | 2 | 2.60 [2.60, 2.60] | 2.00 [1.80, 2.20] | 6.80 [6.80, 6.80] |
 | stitch on salience events | 1 | 2.50 [nan, nan] | 1.50 [nan, nan] | 5.00 [nan, nan] |
-| salience only | 2 | 1.25 [1.00, 1.50] | 0.50 [0.00, 1.00] | 4.83 [4.67, 5.00] |
+| salience only | 2 | 0.83 [0.17, 1.50] | 0.50 [0.00, 1.00] | 3.58 [2.50, 4.67] |
 
 ### vs stitch on the clock 900 — paired by seed
 
@@ -72,10 +72,10 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| 150 | 1 | 2.00 [nan, nan] | 2.33 [nan, nan] | 6.33 [nan, nan] |
+| 150 | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
 | 300 | 1 | 1.67 [nan, nan] | 1.83 [nan, nan] | 6.67 [nan, nan] |
 | 600 | 1 | 2.33 [nan, nan] | 1.50 [nan, nan] | 7.50 [nan, nan] |
-| 900 | 1 | 2.60 [nan, nan] | 1.80 [nan, nan] | 6.80 [nan, nan] |
+| 900 | 2 | 2.60 [2.60, 2.60] | 2.00 [1.80, 2.20] | 6.80 [6.80, 6.80] |
 
 ### vs 150 — paired by seed
 
@@ -95,26 +95,60 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 2 | 0.92 [0.67, 1.17] | 0.92 [0.83, 1.00] | 4.33 [3.83, 4.83] |
-| bare + habituation | 2 | 1.33 [0.50, 2.17] | 0.58 [0.33, 0.83] | 3.83 [1.67, 6.00] |
+| bare | 3 | 0.61 [0.00, 1.17] | 0.67 [0.17, 1.00] | 3.83 [2.83, 4.83] |
+| bare + habituation | 3 | 1.17 [0.50, 2.17] | 0.44 [0.17, 0.83] | 4.89 [1.67, 7.00] |
 | habituation + reseed 150 | 2 | 2.92 [2.00, 3.83] | 3.50 [3.17, 3.83] | 4.58 [3.83, 5.33] |
-| DREAM scaffold | 1 | 1.00 [nan, nan] | 0.67 [nan, nan] | 2.00 [nan, nan] |
+| DREAM scaffold | 2 | 1.67 [1.00, 2.33] | 1.17 [0.67, 1.67] | 3.33 [2.00, 4.67] |
 
 ### vs bare + habituation — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
+| bare | surprise | -0.56 [-1.00, +0.17] | 0.500 | 1.000 | -0.33 | 3 |
+| bare | connection | +0.22 [+0.00, +0.67] | 1.000 | 1.000 | +0.33 | 3 |
+| bare | coherence | -1.06 [-4.17, +2.17] | 0.750 | 1.000 | -0.33 | 3 |
 
 ### Q6 — the ladder on OLMo-2-13B — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 2 | 0.67 [0.17, 1.17] | 0.33 [0.00, 0.67] | 2.17 [0.83, 3.50] |
-| bare + habituation | 2 | 3.08 [2.33, 3.83] | 2.38 [2.00, 2.75] | 6.33 [6.00, 6.67] |
-| habituation + reseed 150 | 2 | 3.54 [2.50, 4.58] | 4.21 [3.75, 4.67] | 5.71 [5.17, 6.25] |
-| DREAM scaffold | 1 | 5.00 [nan, nan] | 4.00 [nan, nan] | 8.00 [nan, nan] |
+| bare | 3 | 0.94 [0.17, 1.50] | 0.67 [0.00, 1.33] | 2.72 [0.83, 3.83] |
+| bare + habituation | 3 | 2.56 [1.50, 3.83] | 1.92 [1.00, 2.75] | 5.50 [3.83, 6.67] |
+| habituation + reseed 150 | 3 | 4.08 [2.17, 5.50] | 4.22 [3.00, 5.00] | 5.28 [4.67, 6.00] |
+| DREAM scaffold | 2 | 4.50 [4.00, 5.00] | 3.58 [3.17, 4.00] | 7.25 [6.50, 8.00] |
 
 ### vs bare + habituation — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
+| bare | surprise | -1.61 [-3.67, +0.00] | 0.500 | 0.600 | -0.89 | 3 |
+| bare | connection | -1.25 [-2.75, +0.33] | 0.500 | 0.600 | -0.78 | 3 |
+| bare | coherence | -2.78 [-5.83, +0.00] | 0.500 | 0.600 | -0.89 | 3 |
+| habituation + reseed 150 | surprise | +1.53 [-1.67, +4.00] | 0.500 | 0.600 | +0.56 | 3 |
+| habituation + reseed 150 | connection | **+2.31 [+0.25, +4.00]** | 0.250 | 0.600 | +1.00 | 3 |
+| habituation + reseed 150 | coherence | -0.22 [-2.00, +2.17] | 1.000 | 1.000 | -0.22 | 3 |
+
+### Protocol agreement — condition means, event windows (v1) vs generated-only windows (unit = cell)
+
+| condition | surprise event / gen | connection event / gen | coherence event / gen | n cells (event / gen) |
+|---|---|---|---|---|
+| abl_forget | 3.44 / 2.25 | 1.73 / 1.17 | 3.88 / 5.00 | 10 / 2 |
+| salience only | 2.86 / 0.83 | 1.53 / 0.50 | 3.85 / 3.58 | 10 / 2 |
+| bare | 0.28 / 0.42 | 0.20 / 0.42 | 2.06 / 1.92 | 10 / 2 |
+| bare + habituation | 1.70 / 1.50 | 1.08 / 1.00 | 4.08 / 4.33 | 10 / 1 |
+| habituation + reseed 150 | 3.08 / 2.92 | 3.15 / 3.75 | 4.78 / 6.58 | 10 / 2 |
+| reseed 300 | 4.01 / 1.67 | 3.12 / 1.83 | 5.98 / 6.67 | 10 / 1 |
+| reseed 600 | 3.64 / 2.33 | 2.64 / 1.50 | 5.50 / 7.50 | 10 / 1 |
+| reseed 900 | 4.28 / 2.60 | 2.53 / 2.00 | 5.55 / 6.80 | 10 / 2 |
+| stitch 900 | 3.91 / 3.40 | 3.01 / 3.25 | 5.17 / 6.30 | 10 / 2 |
+| premise 150 | 1.02 / 1.17 | 0.98 / 0.58 | 3.03 / 5.33 | 10 / 2 |
+| re-encounter stitch 150 | 2.55 / 2.67 | 3.53 / 3.33 | 4.67 / 5.83 | 10 / 1 |
+| own past 150 | 1.37 / 0.50 | 1.50 / 0.67 | 3.03 / 2.83 | 10 / 1 |
+| salience-timed stitch | 3.00 / 2.50 | 2.26 / 1.50 | 3.85 / 5.00 | 10 / 1 |
+| DREAM scaffold | 3.50 / 2.25 | 1.70 / 1.08 | 3.82 / 5.00 | 10 / 2 |
+
+Spearman across conditions (surprise): rho = +0.62 (n = 14 conditions).
+
+Spearman across conditions (connection): rho = +0.94 (n = 14 conditions).
+
+Spearman across conditions (coherence): rho = +0.86 (n = 14 conditions).
