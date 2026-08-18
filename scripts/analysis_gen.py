@@ -219,6 +219,20 @@ def main() -> None:
            ("nohabit300", "subject change, no habituation"), ("reset_reseed300", "subject change, context reset"),
            ("reset_break300", "break, context reset")],
           ref=0, fname="fig9_q3_boundary_context.png")
+    # Q3b: direct pairs of the factorial (interruption arms against each other)
+    md.append("\n### Q3b — direct paired contrasts among the interruption arms\n")
+    md.append("| contrast | dim | Δ [CI] | p (perm) | Cliff δ | n |")
+    md.append("|---|---|---|---|---|---|")
+    for a, b, lab in (("reset_reseed300", "clock300", "reset vs preserved (300)"),
+                      ("clock300", "nohabit300", "with vs without habituation (300)"),
+                      ("bare_reseed", "nohabit150", "with vs without habituation (150)"),
+                      ("reset_reseed300", "reset_break300", "subject change vs break, both reset (300)"),
+                      ("clock300", "sham_break300", "subject change vs break, both preserved (300)")):
+        for d in DIMS:
+            pr = paired(cell_means(main30, a, d), cell_means(main30, b, d))
+            if pr:
+                star = "**" if (pr["lo"] > 0 or pr["hi"] < 0) else ""
+                md.append(f"| {lab} | {d} | {star}{pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}]{star} | {pr['p_perm']:.3f} | {pr['delta']:+.2f} | {pr['n']} |")
     # Q4: timing
     block("Q4 — timing: salience vs clock (same stitch)", main30,
           [("clock_reenc", "stitch on the clock 150"), ("clock900_reenc", "stitch on the clock 900"),
