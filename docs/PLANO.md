@@ -1093,6 +1093,37 @@ surpreendentes?); **H3** distância antes/depois de cada injeção por
 camada, menos controle em posições aleatórias (a que profundidade a
 interrupção chega, por tipo de conteúdo?).
 
+## Parecer externo (2026-08-18) e revisão maior
+
+Parecer de um revisor externo (`docs/revisor_externo.txt`, ~1.400 linhas):
+"major revision / weak reject" — contribuição real e memorável (interromper
+sem apagar o contexto), mas (1) unidade estatística é a semente, não a
+janela (pseudorreplicação); (2) a frase injetada está *dentro* das janelas
+julgadas (confundidor: o juiz pode premiar a nossa frase); (3) validação
+humana estratificada pelo próprio juiz, sem "connection", 9 janelas/cond.;
+(4) faltam baselines (interrupção sem habituação; sham/fronteira neutra;
+EOT permitido; penalidade forte); (5) título/abstract prometem "criatividade"
+e os dados sustentam "surpresa/conexão narrativa julgada"; inconsistências
+("three families" = 3 modelos de 2 famílias; prompt = Claude→Claude apesar
+da regra cross-family; "nobody judges during generation" vs juiz no loop do
+scaffold; "carries all of the connection"; "attractor"/"dead"); análise
+interna superinterpretada; related work pequeno (11 refs a incluir).
+Concordância nossa: quase total. Discordância parcial: manter sampler e
+prompt como motivação curta (não remover), com linguagem calibrada.
+
+**Plano P0 (2026-08-18 →)**: (a) janelas só-gerado (margem 32 após a
+injeção, 96 tokens, nenhuma janela cruza duas injeções; contexto anterior
+mostrado, região julgada só com tokens do modelo) e rejulgamento de todos
+os conjuntos (`rejudge_gen.json`); (b) bateria 3: interrupção sem
+habituação (150 e 300), sham (só "\n\n") a 300, sham contínuo ("And so, as
+before,") a 300, EOT permitido como fronteira natural (`bare_eos`),
+habituação forte 1.3 (`habit_strong`); (c) estatística por semente como
+principal (permutação exata nos 10 pares; janela → apêndice); (d) rodada 2
+humana: amostra aleatória, 3 dimensões, 5 avaliadoras; (e) reescrita:
+título/abstract/conclusão calibrados, terminologia, inconsistências,
+hiperparâmetros, link do repositório, related work +11; figuras com pontos
+por semente; análise interna como descritiva.
+
 ## Publicação — opções com prazos verificados (2026-08-16)
 
 - **Título final (2026-08-17)**: *Interrupting the Loop: Where Creativity
