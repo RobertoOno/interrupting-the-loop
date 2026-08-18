@@ -99,19 +99,26 @@ def bh_fdr(ps):
     return q
 
 
-def paired(a: dict, b: dict):
-    """Paired-by-seed differences a - b: mean, bootstrap CI, exact sign-flip permutation p (two-sided), Cliff's delta on cell means."""
+def paired(a: dict, b: dict, alternative: str = "two-sided"):
+    """Paired-by-seed differences a - b: mean, bootstrap CI, exact sign-flip permutation p
+    (two-sided, or one-sided 'greater' = a > b), Cliff's delta on cell means."""
     seeds = sorted(set(a) & set(b))
     if len(seeds) < 3:
         return None
     d = np.array([a[s] - b[s] for s in seeds])
     lo, hi = boot_ci(d)
-    obs = abs(d.mean())
     n = len(d)
     count = 0
-    for signs in itertools.product((1, -1), repeat=n):
-        if abs((d * np.array(signs)).mean()) >= obs - 1e-12:
-            count += 1
+    if alternative == "greater":
+        obs = d.mean()
+        for signs in itertools.product((1, -1), repeat=n):
+            if (d * np.array(signs)).mean() >= obs - 1e-12:
+                count += 1
+    else:
+        obs = abs(d.mean())
+        for signs in itertools.product((1, -1), repeat=n):
+            if abs((d * np.array(signs)).mean()) >= obs - 1e-12:
+                count += 1
     p_perm = count / 2 ** n
     av = np.array([a[s] for s in seeds]); bv = np.array([b[s] for s in seeds])
     gt = sum((x > bv).sum() for x in av); lt = sum((x < bv).sum() for x in av)
@@ -287,6 +294,26 @@ def main() -> None:
         if len(xs[d]) >= 4:
             rho, pv = spearmanr(xs[d], ys[d])
             md.append(f"\nSpearman across conditions ({d}): rho = {rho:+.2f} (n = {len(xs[d])} conditions).")
+    # ---- confirmatory battery (new premises, RNG seed 1): pre-registered contrasts (docs/PLANO.md, 2026-08-18)
+    conf = load_gen("dream_confirm")
+    if conf:
+        md.append(f"\n## Confirmatory battery — ten new premises, RNG seed 1 ({len(conf)} judged windows)\n")
+        block("Confirmatory — period 300 on new premises", conf,
+              [("bare_habit", "no interruption"), ("clock300", "subject change, context preserved"),
+               ("sham_break300", "paragraph break (sham)"), ("nohabit300", "subject change, no habituation"),
+               ("reset_reseed300", "subject change, context reset")],
+              ref=0, fname="fig9_confirm.png")
+        md.append("\n### Pre-registered contrasts (exact one-sided sign-flip permutation unless stated)\n")
+        md.append("| hypothesis | contrast | dim | Δ (mean of paired differences) [CI] | p | n seeds |")
+        md.append("|---|---|---|---|---|---|")
+        per = {c: {d: cell_means(conf, c, d, "primary") for d in DIMS} for c in ("bare_habit", "clock300", "sham_break300", "nohabit300", "reset_reseed300")}
+        for hyp, a, b, d, alt in (("H1 (primary)", "clock300", "bare_habit", "surprise", "greater"),
+                                  ("H2", "clock300", "sham_break300", "surprise", "greater"),
+                                  ("H3", "clock300", "reset_reseed300", "connection", "greater"),
+                                  ("H4 (two-sided)", "clock300", "nohabit300", "surprise", "two-sided")):
+            pr = paired(per[a][d], per[b][d], alt)
+            if pr:
+                md.append(f"| {hyp} | {a} vs {b} | {d} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
     out = DOCS / "APPENDIX_GEN.md"
     out.write_text("\n".join(md) + "\n")
     print("\n".join(md)); print("->", out)
