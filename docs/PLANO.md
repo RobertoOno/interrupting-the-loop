@@ -1169,6 +1169,53 @@ uma fronteira neutra); H3: `clock300` > `reset_reseed300` em conexão
 surpresa (bilateral: a habituação importa dado que há interrupção?). Tudo o
 mais é exploratório. Rodada encadeada após a bateria 3 (`runs/dream_confirm`).
 
+**Resultados do protocolo só-gerado (2026-08-18, noite; unidade = célula,
+10 premissas; IC bootstrap sobre células; p = permutação exata pareada por
+sinal)** — os conjuntos scaffold, b2, 8B e OLMo rejulgados; b3 e a
+confirmatória em julgamento/geração:
+
+- *Escada no 30B (janelas de 96 tokens só-gerado, 32 após a injeção; grade de
+  150 nos braços sem injeção)*: bare 0,45 / 0,30 / 2,52 → habituação 1,55 /
+  1,27 / 4,56 → habituação + interrupção 150 **3,02 / 3,68 / 6,12** → scaffold
+  2,70 / 1,85 / 6,02. Interrupção sobre habituação: surpresa +1,5 [+0,8, +2,3],
+  p = 0,004; conexão +2,6 [+1,7, +3,6], p = 0,004, δ = +1,00 (todas as
+  premissas); coerência +1,9 [+0,2, +3,3]. O efeito da interrupção **sobrevive
+  à exclusão do texto injetado**; o da habituação sozinha encolhe (0,45 →
+  1,55 em surpresa; era 0,28 → 1,70 no protocolo de eventos).
+- *Conteúdo (150)*: neutro ≈ costura (3,02 / 3,68 vs 2,94 / 3,96); premissa
+  (1,29 / 1,01) e passado próprio (0,90 / 1,05) tão ruins quanto não
+  interromper (p ≤ 0,016, δ −0,84 a −1,00). Inalterado.
+- *Ritmo/decaimento*: **a descoberta "o rendimento cresce com o fio quebrado"
+  (5,3–5,9 após 300–900 vs 3,1 após 150) desaparece** — era em boa parte o
+  juiz lendo a frase injetada. Janela pós-interrupção (32–128 tokens de texto
+  gerado): 3,0 (150), 2,9 (300), 3,3 (600), 2,5 (900), todas as diferenças
+  pareadas contra 150 cobrindo zero; conexão maior no período mais curto (3,7
+  vs 2,1–2,9); coerência sobe levemente com o período; decaimento dentro do
+  segmento fraco. Estimativa de fluxo (por deslocamento, ponderada pelo trecho
+  do segmento): 150 melhor ou igual. Período 75 não é mensurável no protocolo
+  novo (nenhuma janela de 96 tokens gerados cabe entre duas injeções).
+- *Saliência*: as janelas pós-injeção da costura por saliência são tão boas
+  quanto as da costura no relógio 900 (3,4 / 2,7 vs 3,5 / 3,1); a diferença
+  está no fluxo entre interrupções (janelas ≥300 tokens após a última
+  injeção: 1,7 vs 3,0). "Boa leitora, mau metrônomo" fica, com esta forma.
+- *Famílias*: 8B 0,43 → 1,37 → 2,76 (interrupção sobre habituação: surpresa
+  +1,4, p = 0,008; conexão +2,2, p = 0,002), scaffold 2,70 / 2,35. OLMo 1,41
+  → 2,14 → 2,81 (conexão +1,5, p = 0,008; surpresa +0,7, p = 0,29), scaffold
+  3,34 / 2,04 / 6,30 (melhor braço em surpresa e coerência no OLMo:
+  esquecimento tira o fluxo do poço de boilerplate).
+- *Teste–reteste do instrumento, de graça*: `scaffold0` e `abl_forget` são
+  **byte-idênticos** nas 10 células (o juiz do loop nunca passou → o
+  re-encontro nunca disparou) e foram julgados independentemente: medianas de
+  5 iguais em 91% das janelas em surpresa (|Δ| médio 0,09), 85% conexão, 71%
+  coerência; médias de célula diferem −0,01 [−0,09, +0,07]. Consequência: a
+  comparação abl_forget vs scaffold da v1 era vazia (textos idênticos); a
+  afirmação "kicks/escalada não acrescentam" saiu do texto.
+- *Concordância entre protocolos* (médias por condição, evento vs só-gerado):
+  ρ = +0,62 surpresa, +0,94 conexão, +0,86 coerência (14 condições).
+- *Juiz "capturado"*: em ~1% das chamadas o Opus responde no modo da janela
+  degenerada (boilerplate, código) em vez de JSON — entrainment do próprio
+  juiz; a mediana das chamadas restantes resolve.
+
 ## Publicação — opções com prazos verificados (2026-08-16)
 
 - **Título final (2026-08-17)**: *Interrupting the Loop: Where Creativity
