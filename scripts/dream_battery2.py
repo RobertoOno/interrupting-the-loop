@@ -30,8 +30,32 @@ PY = sys.executable
 sys.path.insert(0, str(ROOT / "scripts"))
 from dream_definitive import SEEDS, thermal  # noqa: E402
 
+# Confirmatory replication (external review, P1): ten NEW premises, written on
+# 2026-08-18 before any battery-3 result was seen, never used before; a
+# different RNG seed (1). Pre-registered contrasts in docs/PLANO.md.
+NEW_SEEDS = [
+    "The bridge had been built for a river that never came.",
+    "On the last day of every month the town's dogs walked, together, to the station.",
+    "She had learned to read from a book with the ending torn out, and never quite recovered.",
+    "The orchard remembered the fruit better than the family did.",
+    "In the museum of small mistakes, his was the only one under glass.",
+    "The tailor measured everyone twice: once for the coat, once for whatever came after it.",
+    "The village had one telephone, and it rang only for people who had already left.",
+    "Every winter the lake returned a different object from the year the boat sank.",
+    "The choir kept singing a verse nobody had written.",
+    "His grandmother had a word for the hour before a storm, and no one else did.",
+]
+
 BATTERIES = {
     # name -> (control, extra args)
+    # confirmatory replication of the period-300 contrast on new premises (use --premises new --rng-seed 1)
+    "confirm": [
+        ("bare_habit", "bare_habit", []),
+        ("clock300", "bare_reseed", ["--clock-every", "300"]),
+        ("sham_break300", "sham_break", ["--clock-every", "300"]),
+        ("nohabit300", "nohabit_reseed", ["--clock-every", "300"]),
+        ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
+    ],
     "b2": [
         ("bare_habit", "bare_habit", []),
         ("clock_reenc", "clock_reenc", []),
@@ -77,7 +101,10 @@ def main() -> None:
     p.add_argument("--seeds", type=int, default=len(SEEDS))
     p.add_argument("--review-clock", type=int, default=150)
     p.add_argument("--only", nargs="*", default=None, help="subset of condition names")
+    p.add_argument("--premises", choices=["orig", "new"], default="orig", help="orig: the ten premises of the program; new: the ten confirmatory premises")
+    p.add_argument("--rng-seed", type=int, default=0, help="sampler RNG seed passed to dream_run.py")
     args = p.parse_args()
+    seeds = SEEDS if args.premises == "orig" else NEW_SEEDS
     args.out.mkdir(parents=True, exist_ok=True)
     progress = args.out / "progress.log"
 
@@ -91,7 +118,7 @@ def main() -> None:
     # condition-major order: the confound control finishes first and can be judged early
     cells = [(si, c) for c in conds for si in range(args.seeds)]
     log(f"battery {args.battery}: {len(cells)} cells ({args.seeds} seeds x {len(conds)} conditions), "
-        f"{args.tokens} tokens, model {args.model}")
+        f"{args.tokens} tokens, model {args.model}, premises {args.premises}, rng seed {args.rng_seed}")
     for si, (name, control, extra) in cells:
         cell = f"s{si}_{name}"
         cell_dir = args.out / cell
@@ -101,7 +128,7 @@ def main() -> None:
         log(f"start {cell} thermal={thermal()}")
         t0 = time.time()
         cmd = [PY, str(ROOT / "scripts/dream_run.py"), "--model", args.model, "--tokens", str(args.tokens),
-               "--seed-text", SEEDS[si], "--control", control, "--no-judge",
+               "--seed-text", seeds[si], "--control", control, "--no-judge", "--rng-seed", str(args.rng_seed),
                "--review-clock", str(args.review_clock), "--out", str(cell_dir), *extra]
         try:
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=5400)
