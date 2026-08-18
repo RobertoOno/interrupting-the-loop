@@ -59,6 +59,67 @@ def windows_of(cell_dir: Path, tokenizer, review_tokens: int, earlier_tokens: in
     return out
 
 
+def stream_ids_and_injections(cell_dir: Path, tokenizer):
+    """Generated-stream ids (seed excluded) and [(pos, n_inj)] injections in that
+    coordinate. Exact with tokens.json; reconstructed for older cells."""
+    run = json.loads((cell_dir / "run.json").read_text())
+    seed = run["seed"]
+    tok_path = cell_dir / "tokens.json"
+    if tok_path.exists():
+        ids = json.loads(tok_path.read_text())["ids"]
+    else:
+        text = (cell_dir / "text.txt").read_text()
+        gen = text[len(seed):] if text.startswith(seed) else text
+        ids = tokenizer.encode(gen, add_special_tokens=False)
+    pts, injected = [], 0
+    for r in run.get("reseeds", []):
+        step, text = r[0], r[1]
+        meta = r[2] if len(r) > 2 and isinstance(r[2], dict) else {}
+        n_inj = len(tokenizer.encode(text, add_special_tokens=False))
+        pos = meta["pos"] if "pos" in meta else step + injected
+        pts.append((pos, n_inj))
+        injected += n_inj
+    return ids, pts, seed
+
+
+def windows_generated(cell_dir: Path, tokenizer, length: int = 96, margin: int = 32,
+                      earlier_tokens: int = 600, grid: int = 150,
+                      offsets: tuple = (32, 160, 300, 450, 600, 750)) -> list[dict]:
+    """Review windows made only of model-generated tokens (the external review's
+    protocol): in interrupted cells, one window per segment starting `margin`
+    tokens after the injection and `length` long, only if it fits before the
+    next injection; in cells without injections, the same window shape at a
+    uniform grid. The 'earlier' context shown to the judge is the 600 tokens
+    before the window (it may contain injected text; the graded window never
+    does). Returns kind='gen' with 'since' = tokens since the last injection."""
+    ids, pts, seed = stream_ids_and_injections(cell_dir, tokenizer)
+    n = len(ids)
+    starts = []
+    if pts:
+        for i, (pos, n_inj) in enumerate(pts):
+            seg_start = pos + n_inj
+            seg_end = pts[i + 1][0] if i + 1 < len(pts) else n
+            for off in offsets:  # one window right after the injection, more deeper into long segments
+                if off != margin and off < margin:
+                    continue
+                ws = seg_start + off
+                if ws + length <= seg_end and ws + length <= n:
+                    starts.append((ws, off, seg_end - seg_start))
+    else:
+        for g in range(grid, n - length + 1, grid):
+            ws = g + margin
+            if ws + length <= n:
+                starts.append((ws, None, None))
+    out = []
+    for ws, since, seglen in starts:
+        w_ids = ids[ws: ws + length]
+        e_ids = ids[max(0, ws - earlier_tokens): ws]
+        out.append({"step": ws, "kind": "gen", "since": since, "seglen": seglen,
+                    "window": tokenizer.decode(w_ids),
+                    "earlier": tokenizer.decode(e_ids) if e_ids else seed})
+    return out
+
+
 def main() -> None:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("run_dir", type=Path)

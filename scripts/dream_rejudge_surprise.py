@@ -22,7 +22,7 @@ import numpy as np  # noqa: E402
 
 from creative_machine.blend import BedrockClient, judge_surprise  # noqa: E402
 from creative_machine.stats import bootstrap_diff_ci  # noqa: E402
-from dream_rejudge import CONDITIONS, windows_of  # noqa: E402
+from dream_rejudge import CONDITIONS, windows_of, windows_generated  # noqa: E402
 
 DIMS = ("surprise", "connection", "coherence")
 
@@ -38,7 +38,12 @@ def main() -> None:
     p.add_argument("--reverse", action="store_true", help="process cells from the end (second worker)")
     p.add_argument("--out-name", default="rejudge_surprise.json", help="results file name (a second worker writes elsewhere; merge later)")
     p.add_argument("--skip-from", default=None, help="also skip windows already present in this results file")
+    p.add_argument("--protocol", choices=["events", "gen"], default="events",
+                   help="events: windows at recorded review points (160 tokens, may contain injected text); "
+                        "gen: generated-only windows (96 tokens, 32 after each injection, none crossing an injection)")
     args = p.parse_args()
+    if args.protocol == "gen" and args.out_name == "rejudge_surprise.json":
+        args.out_name = "rejudge_gen.json"
 
     from mlx_lm.utils import load_tokenizer  # tokenizer only: never materialize the weights here
     tokenizer = load_tokenizer(Path(args.tokenizer_model).expanduser())
@@ -47,15 +52,25 @@ def main() -> None:
     items = []
     for d in sorted(x for x in args.run_dir.iterdir() if x.is_dir() and (x / "run.json").exists()):
         cond = d.name.split("_", 1)[1]
-        wins = windows_of(d, tokenizer, 160, 600)
-        # cap per (cell, kind), evenly spread over the stream: a cell may carry
-        # both salience-event windows and uniform 'clock'/'cut' review points
-        by_kind: dict[str, list] = {}
-        for w in wins:
-            by_kind.setdefault(w["kind"], []).append(w)
+        if args.protocol == "gen":
+            wins = windows_generated(d, tokenizer)
+            # cap per (cell, offset): 6 windows evenly spread per 'since' value
+            by_kind = {}
+            for w in wins:
+                by_kind.setdefault(w.get("since"), []).append(w)
+        else:
+            wins = windows_of(d, tokenizer, 160, 600)
+            # cap per (cell, kind), evenly spread over the stream: a cell may carry
+            # both salience-event windows and uniform 'clock'/'cut' review points
+            by_kind = {}
+            for w in wins:
+                by_kind.setdefault(w["kind"], []).append(w)
         for kind, ws in by_kind.items():
-            if len(ws) > args.max_windows_per_cell:
-                idx = np.linspace(0, len(ws) - 1, args.max_windows_per_cell).round().astype(int)
+            cap = args.max_windows_per_cell
+            if args.protocol == "gen" and kind not in (32, None):
+                cap = max(3, args.max_windows_per_cell // 2)  # deeper offsets: fewer windows (decay curve only)
+            if len(ws) > cap:
+                idx = np.linspace(0, len(ws) - 1, cap).round().astype(int)
                 ws = [ws[i] for i in idx]
             for w in ws:
                 items.append({"cell": d.name, "cond": cond, **w})
@@ -84,7 +99,8 @@ def main() -> None:
                 print(f"  judge error ({it['cell']} step {it['step']}): {str(exc)[:120]}", flush=True)
         if not vs:
             continue  # nothing recorded: the next pass retries this window
-        rec = {"cell": it["cell"], "cond": it["cond"], "step": it["step"], "kind": it["kind"], "k": len(vs)}
+        rec = {"cell": it["cell"], "cond": it["cond"], "step": it["step"], "kind": it["kind"], "k": len(vs),
+               "since": it.get("since"), "seglen": it.get("seglen")}
         for dim in DIMS:
             vals = [v[dim] for v in vs]
             rec[dim] = statistics.median(vals) if vals else None
