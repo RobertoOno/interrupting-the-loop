@@ -1,19 +1,50 @@
 \section{Limitations}
 \label{sec:limitations}
 
-Ten seeds, all English narrative premises. Three generator families for the
-loop's core ladder, one (Qwen3-30B-A3B) for the content, timing and frequency
-battery. LLM judges: Opus~5, calibrated, agreeing with a second family
-(Kimi K2.6, $\rho=0.71$--$0.85$) and with the consensus of independent human
-readers ($\rho=0.58$ on surprise, $0.52$ on coherence, three raters so far),
-whose agreement with each other is moderate ($\alpha=0.30$--$0.38$). The judged sample of each cell is six
-windows per review kind, evenly spread; salience-timed arms are judged on
-selected moments and on a uniform grid, and both are reported, because the
-first is a selection. The residual-stream analysis is correlational, uses
-mean-pooled 64-token windows at 13 layers, and does not touch attention or
-causal interventions. The sampler's null inside the loop is a null at the
-instrument's resolution ($\approx$1 point). Whether the rhythm ($\approx$300
-tokens) and the ``lead away, then let it come back on its own'' rule hold for
-other genres and for tasks with a verifier is the next question, and the
-fusion the program points to: an interrupted loop over a \emph{problem}, with a
-verifier in place of the judge.
+\paragraph{What was measured.} The outcome is \emph{judged narrative
+surprise, connection and coherence} on short windows of forced open-ended
+continuation, as read by an LLM judge and, on a subset, by human readers.
+That is a defensible operationalization of one ingredient of creativity, the
+appropriately unexpected turn, and not creativity: no value, interest or
+originality against the world is measured, and the study makes no claim
+about ideas or problems. Its title names the question the program set out
+with; the results answer a narrower one.
+
+\paragraph{Design.} Ten premises, all English narrative, one genre. Three
+generator models from two families for the core ladder; one generator
+(Qwen3-30B-A3B) for the content, timing, period and control batteries. Every
+arm ran once per premise with the same random seed, so the ten cells are the
+whole sample and a paired comparison of ten is the strongest inference
+available. The batteries were designed sequentially and the questions of
+batteries~2 and~3 were formulated after seeing battery~1 and after an external
+review; the analysis reported here (generated-only windows, cell as unit) was
+fixed before battery~3 was generated but after the earlier arms had been seen
+under the first protocol, so the paper should be read as a well-controlled
+exploratory study, not a preregistered confirmation. A confirmatory
+replication of the main contrast on new premises and random seeds is the
+obvious next step.
+
+\paragraph{Instrument.} The judge is one model family, calibrated for
+repeatability, agreeing with a second family ($\rho=0.71$--$0.85$ on
+windows) and with the consensus of three human readers ($\rho=0.58$ on
+surprise, $0.52$ on coherence, on a judge-stratified sample) whose agreement
+with each other is low to moderate ($\alpha=0.30$--$0.38$). Human readers did
+not rate connection in round~1, and they penalize the fluency cost of a
+subject change more than the judge does. The judge sees 600 tokens of
+context, so ``connection'' means connection within that horizon.
+
+\paragraph{Baselines and generality.} The bare arm is a deliberately hard
+regime (forced continuation with end-of-text masked, no repetition control)
+and is reported as the floor of the ladder, not as a fair decoding baseline;
+the fair comparisons are habituation alone, habituation with a stronger
+penalty, EOS allowed, and the sham and reset controls. Stronger decoding
+baselines (look-back or contrastive decoding, learned repetition control) and
+instruction-tuned generators were not tested. Only base models were used,
+by a scope decision.
+
+\paragraph{The network section.} The residual-stream analysis is
+correlational and descriptive: mean-pooled 64-token windows at 13 sampled
+layers, a logit lens for a coarse commitment layer, no attention analysis, no
+tuned lens, no causal intervention. It characterizes what the judged
+dimensions correlate with in the model's state; it does not establish a
+mechanism.
