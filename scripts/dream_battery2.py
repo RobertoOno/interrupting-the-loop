@@ -48,6 +48,17 @@ BATTERIES = {
         ("clock900", "bare_reseed", ["--clock-every", "900"]),
     ],
     # generator families: the four conditions that carry the argument (fam8b = Qwen3-8B; also used for OLMo-2)
+    # battery 3 (external review): habituation x interruption factorial and missing baselines
+    "b3": [
+        ("nohabit150", "nohabit_reseed", ["--clock-every", "150"]),
+        ("nohabit300", "nohabit_reseed", ["--clock-every", "300"]),
+        ("sham_break300", "sham_break", ["--clock-every", "300"]),
+        ("sham_cont300", "sham_continue", ["--clock-every", "300"]),
+        ("bare_eos", "bare_eos", []),
+        ("habit_strong", "habit_strong", []),
+        ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
+        ("reset_break300", "reset_break", ["--clock-every", "300"]),
+    ],
     "fam8b": [
         ("bare", "bare", []),
         ("bare_habit", "bare_habit", []),

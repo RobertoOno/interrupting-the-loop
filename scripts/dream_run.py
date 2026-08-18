@@ -81,6 +81,14 @@ def main() -> None:
         "clock_premise",  # clock interruption injecting the opening line itself
         "clock_self",     # clock interruption injecting a window of the stream's own past (thought feeding on thought)
         "sal_reenc",      # salience-timed re-encounter: the event itself injects the stitch (no judge in the loop)
+        # battery 3 (external review): factorial and missing baselines
+        "nohabit_reseed", # interruption WITHOUT habituation (bare sampler + clock reseed)
+        "sham_break",     # habituation + a bare paragraph break injected on the clock (no semantic content)
+        "sham_continue",  # habituation + a continuity connective injected on the clock ("And so, as before,")
+        "bare_eos",       # habituation, no interruption, EOS allowed: the model may end a document and start another
+        "habit_strong",   # habituation with a stronger penalty (1.3), no interruption
+        "reset_reseed",   # clock reseed with the context wiped: premise + new subject only (no kept windows)
+        "reset_break",    # clock restart with the context wiped: premise + paragraph break (fresh continuation)
     ], default="none")
     p.add_argument("--clock-every", type=int, default=150)
     p.add_argument("--review-clock", type=int, default=0,
@@ -109,7 +117,8 @@ def main() -> None:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
-    CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self")
+    CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self",
+                    "sham_break", "sham_continue", "reset_reseed", "reset_break")
     if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
@@ -139,6 +148,19 @@ def main() -> None:
             stagnation_window=1, stagnation_threshold=9.0,  # "stagnation" fires on every check -> reseed
             entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
         )
+        if args.control == "sham_break":
+            cfg.kick_seeds = ("\n\n",)
+        elif args.control == "sham_continue":
+            cfg.kick_seeds = ("\n\nAnd so, as before, ",)
+        elif args.control == "reset_reseed":
+            cfg.forget_on_reseed = True   # wipe: premise + new subject only
+            cfg.keep_recent_tokens = 0
+            cfg.keep_insight_windows = 0
+        elif args.control == "reset_break":
+            cfg.forget_on_reseed = True
+            cfg.keep_recent_tokens = 0
+            cfg.keep_insight_windows = 0
+            cfg.kick_seeds = ("\n\n",)
         if args.control == "clock_reenc":
             cfg.kick_seeds = REENCOUNTER_TEXTS
         elif args.control == "clock_premise":
@@ -146,6 +168,35 @@ def main() -> None:
         elif args.control == "clock_self":
             cfg.reseed_source = "self"   # falls back to the premise until the stream has a past
             cfg.self_min_age, cfg.self_window = 400, 64
+    if args.control == "nohabit_reseed":
+        # interruption without habituation: the bare sampler (no repetition penalty) + clock reseed
+        plain = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed)
+        cfg.drift = plain; cfg.escalate = plain; cfg.kick = plain
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.kicks_before_reseed = 1
+        cfg.salience = SalienceConfig(
+            jump_threshold=9.0, entropy_drop=9.0, recurrence_threshold=-1.0,
+            stagnation_window=1, stagnation_threshold=9.0,
+            entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
+        )
+    if args.control in ("bare_eos", "habit_strong"):
+        pen = 1.15 if args.control == "bare_eos" else 1.3
+        cfg.drift = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed,
+                                  repetition_window=512, repetition_penalty=pen)
+        cfg.escalate = cfg.drift
+        cfg.kick = cfg.drift
+        cfg.kick_seeds = ()
+        cfg.reencounter = False
+        cfg.forget_on_reseed = False
+        cfg.genre_collapse_threshold = 9.0
+        cfg.salience = SalienceConfig(
+            jump_threshold=9.0, entropy_drop=9.0, recurrence_threshold=-1.0,
+            stagnation_threshold=-1.0, entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
+        )
+        if args.control == "bare_eos":
+            cfg.mask_eos = False
     if args.control == "bare_habit":
         # bare (no interruption of any kind) + the scaffold's habituation only:
         # separates "not eating your own literal past" from "being interrupted".

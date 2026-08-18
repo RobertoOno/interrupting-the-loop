@@ -83,6 +83,7 @@ class DreamConfig:
     # Re-encounter armed on the salience event itself (no judge in the loop):
     # every reviewable event injects a return-to-the-premise text.
     reencounter_on_event: bool = False
+    mask_eos: bool = True            # False: EOS is a normal token (a document boundary the model may emit)
     judge_k: int = 3                 # judgments per review; median decides (judge variance ~±0.5-1)
     forget_on_reseed: bool = True    # rebuild the working memory instead of stacking on the well
     keep_recent_tokens: int = 200    # ...retaining this much of the pre-collapse stream
@@ -187,8 +188,8 @@ def dream(
         eos_ids.add(tokenizer.eos_token_id)
 
     def mask_eos(tokens, logits):
-        # The reverie never ends by itself.
-        if eos_ids:
+        # The reverie never ends by itself (unless config.mask_eos is False).
+        if eos_ids and config.mask_eos:
             logits = logits.at[:, list(eos_ids)].add(mx.array(-1e9))
         return logits
 
@@ -299,7 +300,8 @@ def dream(
         if collapsed:
             # skip the collapsed window itself: keep what came before it
             stream_before = stream_before[: -config.genre_window_tokens] or stream_before
-        kept.append(stream_before[-config.keep_recent_tokens :])
+        if config.keep_recent_tokens > 0:
+            kept.append(stream_before[-config.keep_recent_tokens :])
         kept.append(seed_ids)
         memory_ids = [t for part in kept for t in part]
         # the sampler's own context EMA restarts from the kept memory too
@@ -331,6 +333,8 @@ def dream(
         step = run.n_tokens
         run.step_pos.append(len(generated_ids))
         pos = len(generated_ids)
+        if not config.mask_eos and tok in eos_ids:
+            run.events.append({"step": step, "pos": pos, "kind": "eos", "magnitude": 0.0, "judged": False})
 
         if step % config.anchor_every == 0:
             refresh_anchors()
