@@ -12,9 +12,9 @@ Left to continue a premise with nothing else, the base model converges within
 a few hundred tokens on an attractor of its pretraining and stays there:
 \emph{``Highly recommended. Highly recommended.\,\ldots''} for two thousand
 tokens; a table of three-digit numbers; an English-exam answer key. Judged
-surprise 0.33, connection 0.17, coherence 2.08 (60 windows). The full scaffold
-brings the stream to 3.22 / 1.60 / 3.72 (Cliff's $\delta=+0.88$ vs bare on
-surprise, $p\approx10^{-16}$; every seed moves in the same direction,
+surprise 0.28, connection 0.20, coherence 2.06 (50 windows). The full scaffold
+brings the stream to 3.19 / 1.64 / 3.68 (Cliff's $\delta=+0.88$ vs bare on
+surprise, $p\approx5\times10^{-15}$; every seed moves in the same direction,
 Figure~\ref{fig:perseed}), and elaborates its own finds after a
 re-encounter (\emph{``Everything that almost happened piled up inside her like
 snow falling sideways through open windowsills into rooms filled with silence
@@ -29,12 +29,12 @@ CIs positive at a third of the judge cost).
 Ablation over 10 seeds (Figure~\ref{fig:ablation}, Table~\ref{tab:ladder})
 gave the first surprise: \emph{bare + clock reseed} (no salience, no
 forgetting, no kicks, only a neutral subject change every 150 tokens over the
-preserved context) ties the full scaffold on surprise (3.08 vs 3.22, CI
-\ci{-0.50}{+0.80}) and beats it on connection (3.15 vs 1.60, $\delta=-0.60$
-for the scaffold, $p\approx3\times10^{-8}$) and coherence (4.78 vs 3.72), with
-12/60 windows judged both surprising and coherent against 8/50 for the
-scaffold and 0/60 for bare. Salience-only (review windows marked but nothing
-injected) reaches 2.74. In sentence-embedding space
+preserved context) ties the full scaffold on surprise (3.08 vs 3.19, CI
+\ci{-0.54}{+0.78}) and beats it on connection (3.15 vs 1.64, $\delta=-0.58$
+for the scaffold, $p\approx1.5\times10^{-7}$) and coherence (4.78 vs 3.68), with
+12/60 windows judged both surprising and coherent against 8/47 for the
+scaffold and 0/50 for bare. Salience-only (review windows marked but nothing
+injected) reaches 2.63. In sentence-embedding space
 (Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean step
 0.14 and ends 0.78 from the premise; the scaffold has radius 0.51 and returns
 to within 0.57 of the premise; the clock reseed spreads over the space in

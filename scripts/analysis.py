@@ -76,6 +76,10 @@ def table(title: str, header: list[str], rows: list[list]) -> None:
 
 # ---------------------------------------------------------------- reverie: scaffold battery
 sc = load_json(RUNS / "dream_scaffold" / "rejudge_surprise.json") or []
+# same convention as analysis_b2: windows ending before 100 generated tokens are degenerate
+# (the first clock/jump review point of a cell can be a two-token fragment) and are excluded
+MIN_STEP = 100
+sc = [r for r in sc if r.get("step", 0) >= MIN_STEP]
 # abl_forget is text-identical to scaffold0 (re-encounter never fired): not a separate condition
 conds_present = [c for c in ("scaffold0", "abl_salience", "bare_reseed", "bare")
                  if any(r["cond"] == c for r in sc)]
