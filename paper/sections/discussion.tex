@@ -3,47 +3,51 @@
 
 \paragraph{The scaffold and the beam.} We started from an architecture
 modeled on the mind (three networks, incubation, re-encounter), and
-measurement returned something simpler and stronger than the architecture.
-The DREAM scaffold works, but when it is taken apart almost all of its effect
-lives in two operations that were not the noble ones: not eating one's literal
-past, and being made, every few hundred tokens, to start a new sentence
-somewhere else while remembering everything. We call this minimal recipe the
-\emph{interrupted loop}. The elaborate parts either add
-nothing (kicks, escalation), or cost something (forgetting costs connection),
+measurement returned something simpler than the architecture. The DREAM
+scaffold works, but when it is taken apart most of its effect lives in two
+operations that were not the noble ones: not eating one's literal past, and
+being made, every few hundred tokens, to start a new sentence somewhere else
+while keeping everything. We call this minimal recipe the \emph{interrupted
+loop}. The elaborate parts either add nothing detectable (kicks; the in-loop
+judge, which never fired), or cost something (forgetting costs connection),
 or work opposite to their design (a literal return to the premise closes the
 loop; salience is a good reader of the stream and a bad metronome for it).
-Only because the whole scaffold was built and then dismantled do we know which
-beam carries the weight, and which pieces are conditional: forgetting earns
-its keep on a generator whose well is web boilerplate, and not on one that
-drifts in prose.
+Only because the whole scaffold was built and then dismantled do we know
+which beam carries the weight, and which pieces are conditional: forgetting
+earns its keep on a generator whose well is web boilerplate, and not on one
+that drifts in prose.
 
-\paragraph{Surface novelty and idea novelty are different quantities.} The
-anti-probable sampler doubles $n$-gram novelty against the training corpus and
-does nothing to judged surprise or connection; the interruption does nothing
-special to $n$-grams and lifts judged surprise from 0.3 to 3--6. Inside the
-network the two live at different depths: what the judge calls surprise is
-lexical departure over an intact deep context, not a deep representational
-shift, and the interruption that works barely moves the deep state. This is
-also why the neat expectation ``novelty = distance from what came before''
-fails: within interrupted streams, deep departure from the stream's own past
-is \emph{negatively} related to judged surprise. The reader rewards the window
-that is new on the surface and continuous underneath, which is what a good
-turn in a story is.
+\paragraph{What an interruption is.} \todo{battery 3: boundary vs content
+vs context, with vs without habituation; the reset arms; write from the
+generated-only numbers}
 
-\paragraph{Rhythm.} The frequency result is, we think, the most usable one:
-a stream cut every 75 tokens develops nothing; the same break that scores 3.1
-after a 150-token thread scores 5.3--5.9 after a 300--900-token thread; and
-the yield decays over the next few hundred tokens. Surprise needs a developed
-background to break, and interruption is a resource with a rate. The rhythm
-we found, develop for a few hundred tokens and then break away, is the
-incubation structure in miniature, the coffee break of a working mind: leave,
-and be made to come back on your own.
+\paragraph{Surface novelty and judged surprise are different quantities.}
+The anti-probable sampler doubles $n$-gram novelty against the training
+corpus and shows no detectable effect on judged surprise or connection; the
+interruption lifts judged surprise and connection by two to three points on
+a ten-point scale without touching the sampler at all. Inside the network,
+read descriptively, the two live at different depths: what the judge calls
+surprise co-varies with lexical departure over an intact deep context, and
+the interruption that scores best barely moves the deep state. This is also
+why the neat expectation ``novelty = distance from what came before'' fails
+within interrupted streams, where deep departure from the stream's own past
+is negatively related to judged surprise. The reader rewards the window that
+is new on the surface and continuous underneath, which is what a good turn in
+a story is.
+
+\paragraph{Rhythm.} \todo{period and decay under the generated-only
+protocol: the post-interruption window by period, the decay curve, the
+stream estimate; calibrated: ``among the tested periods, X gave the highest
+estimated stream score''; the coffee-break sentence stays if the data still
+support ``develop, then break away''}
 
 \paragraph{What this is not.} It is not a claim that these streams are good
-literature; most windows are judged well below the midpoint, and the texts are
-what an unsupervised base model produces. It is not a claim about scale; the
-generators are 8--30B parameters at 8 bits. It is a claim about \emph{where}
-the novelty a base model can produce with no task comes from, made with
-controls, three generator families and two judge families, and it points at
-the loop's rhythm rather than at the two places where effort is usually
-spent.
+literature; most windows are judged well below the midpoint, and the texts
+are what a base model produces under forced continuation. It is not a claim
+about creativity in the full sense (no value, interest or originality against
+the world is measured), nor about scale (the generators are 8--30B parameters
+at 8 bits), nor about instruction-tuned models. It is a characterization,
+with controls, of a simple intervention on forced open-ended generation, made
+on three base models from two families and under two judge families, and it
+points at the loop's structure and rhythm rather than at the two places where
+effort is usually spent.
