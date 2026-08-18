@@ -64,7 +64,7 @@ GUIDE = """
 
 def load_gen(run: str):
     rows = []
-    for name in ("rejudge_gen.json", "rejudge_gen_w2.json"):
+    for name in ("rejudge_gen.json", "rejudge_gen_w2.json", "rejudge_gen_w3.json"):
         p = RUNS / run / name
         if p.exists():
             rows.extend(json.loads(p.read_text()))

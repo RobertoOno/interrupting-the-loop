@@ -37,7 +37,9 @@ def main() -> None:
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
     p.add_argument("--reverse", action="store_true", help="process cells from the end (second worker)")
     p.add_argument("--out-name", default="rejudge_surprise.json", help="results file name (a second worker writes elsewhere; merge later)")
-    p.add_argument("--skip-from", default=None, help="also skip windows already present in this results file")
+    p.add_argument("--skip-from", nargs="*", default=None, help="also skip windows already present in these results files (other workers)")
+    p.add_argument("--order", choices=["forward", "reverse", "random"], default="forward",
+                   help="processing order; random (seeded) lets a third worker fill in between a forward and a reverse worker")
     p.add_argument("--protocol", choices=["events", "gen"], default="events",
                    help="events: windows at recorded review points (160 tokens, may contain injected text); "
                         "gen: generated-only windows (96 tokens, 32 after each injection, none crossing an injection)")
@@ -79,11 +81,14 @@ def main() -> None:
     out_path = args.run_dir / args.out_name
     results = json.loads(out_path.read_text()) if out_path.exists() else []
     done = {(r["cell"], r["step"]) for r in results}
-    if args.reverse:
+    if args.reverse or args.order == "reverse":
         items = items[::-1]
+    elif args.order == "random":
+        import random
+        random.Random(1234).shuffle(items)
     for it in items:
-        if args.skip_from:  # re-read the other worker's file each time: stop where it has already been
-            other = args.run_dir / args.skip_from
+        for other_name in (args.skip_from or []):  # re-read the other workers' files each time: stop where they have been
+            other = args.run_dir / other_name
             if other.exists():
                 try:
                     done |= {(r["cell"], r["step"]) for r in json.loads(other.read_text())}
