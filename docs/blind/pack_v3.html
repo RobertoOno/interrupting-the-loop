@@ -1,0 +1,1258 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Blind rating v3</title><style>
+    body{font-family:Georgia,serif;max-width:900px;margin:1.5rem auto;padding:0 1rem;line-height:1.5;color:#111}
+    .guide{border:1px solid #ddd;border-radius:6px;padding:1rem 1.2rem;margin-bottom:1.5rem;background:#fff}
+    .guide h2{font-size:1.1rem;margin:.9rem 0 .3rem}
+    .item{border:1px solid #ddd;border-radius:6px;padding:.8rem 1rem;margin:1rem 0}
+    .earlier{white-space:pre-wrap;background:#f4f4f4;padding:.5rem;font-size:.85rem;color:#444;max-height:15rem;overflow:auto}
+    .win{white-space:pre-wrap;background:#fbfbf8;padding:.6rem;border-left:3px solid #2a78d6;font-size:.95rem}
+    .q{display:flex;gap:1.5rem;align-items:center;margin-top:.5rem;font-size:.9rem;flex-wrap:wrap}
+    input[type=number]{width:3.5rem}textarea{width:100%;height:9rem;font-family:Menlo,monospace;font-size:.8rem}
+    button{padding:.4rem .8rem;font-size:.95rem}
+    .short{background:#fff8e6;padding:.5rem .8rem;border-radius:6px;font-size:.85rem;margin:.6rem 0 1rem}
+    </style></head><body>
+<div class='guide'>
+<h1 style='font-size:1.4rem'>Blind rating of machine-written passages: rater guide (round 2)</h1>
+<p>Thank you for helping with a research study on text generation. The task takes about 60&ndash;90 minutes and needs only a web browser.</p>
+<h2>What you will see</h2>
+<p>This page contains <b>56 items</b>. Each item shows:</p>
+<ul><li><b>Earlier text</b> (grey box): the last ~1,500 characters written before the passage. Read it first: two of the three scores depend on it.</li>
+<li><b>The passage</b> (blue box): about 70&ndash;90 words. This is what you rate.</li></ul>
+<p>All texts were written by a language model left to write on its own, with no task and no instructions, in English. Some stretches will look odd, repetitive or like web boilerplate; that is normal and part of what we measure. You do not need to know anything about how they were produced, and we deliberately do not tell you. Passages are cut at fixed positions, so a passage may begin or end mid-sentence; do not penalize that.</p>
+<h2>The three scores (0&ndash;10 each)</h2>
+<p><b>Surprise</b>: how unexpected is the passage <i>given the earlier text</i>: could a reader have predicted where it went?</p>
+<ul><li><b>0</b> = obvious continuation. This includes continuing the same loop, list, quiz, product page or web boilerplate that was already there; however odd the text looks on its own, if it is more of the same, it is not surprising.</li>
+<li><b>3&ndash;4</b> = a small turn: a new detail or angle that follows naturally.</li>
+<li><b>7&ndash;8</b> = a genuine turn you would not have anticipated, and it makes sense.</li>
+<li><b>10</b> = startling yet not random: an idea, image or connection that opens something new and holds together with what came before.</li>
+<li>Nonsense, word salad and mere topic-hopping stay low: surprise is not weirdness.</li></ul>
+<p><b>Connection</b>: does the passage bring together two distant parts of the earlier text, or an old part of it with something new, in a way that makes sense?</p>
+<ul><li><b>0</b> = it merely continues one thread (or is boilerplate); nothing from further back is picked up.</li>
+<li><b>3&ndash;4</b> = it touches something from earlier in passing.</li>
+<li><b>7&ndash;8</b> = it clearly joins two things that were far apart in the earlier text, or an old thing with a new one, and the join makes sense.</li>
+<li><b>10</b> = the join is the point of the passage and it illuminates both sides.</li>
+<li>Only the earlier text shown counts as &ldquo;earlier&rdquo;; you cannot see the whole document, and that is fine.</li></ul>
+<p><b>Coherence</b>: does the passage hold together as text, on its own terms?</p>
+<ul><li><b>0</b> = word salad, a bare list, or document boilerplate (footers, menus, quiz keys).</li>
+<li><b>5</b> = readable but loose, drifting or slightly broken.</li>
+<li><b>10</b> = clear, integrated prose (any genre).</li></ul>
+<p>Score the three dimensions <b>independently</b>: a passage can be surprising and incoherent, coherent and dull, or surprising without connecting anything. <b>Use the whole scale</b>: many passages deserve 0&ndash;2 on surprise and connection; a few deserve 7+.</p>
+<h2>Practical</h2>
+<ol><li>Skim five or six items before scoring, to find your own 0 and your own high.</li>
+<li>Score every item on all three dimensions; leave none blank. There is no right answer: we want your independent reading, so please do not discuss items with anyone else who is rating.</li>
+<li><b>Please do not use AI tools (ChatGPT, Claude, Gemini, etc.) or web searches for any part of this task.</b> The whole point of the study is to compare human readings with machine readings; an AI-assisted rating would make your work unusable, and we would not be able to pay for it. Your own first impression as a reader is exactly what we need.</li>
+<li>When done, click <b>Generate JSON</b> at the bottom, copy the whole text that appears in the box, and send it back (message or email). That is the only deliverable.</li></ol>
+<p style='font-size:.85rem;color:#444'>Your ratings will be used only in aggregate, in a research publication, without your name. By returning the JSON you confirm that you rated the passages yourself, without AI assistance.</p>
+</div>
+<div class='short'><b>Reminder.</b> Read the grey earlier text, then the blue passage. <b>Surprise</b>: how unexpected given the earlier text (0 = obvious continuation or more of the same boilerplate; 10 = startling yet not random). <b>Connection</b>: does it join two distant parts of the earlier text, or an old part with something new, in a way that makes sense (0 = merely continues one thread). <b>Coherence</b>: does it hold together as text (0 = word salad or boilerplate; 10 = clear prose). Score each on its own; use the whole scale.</div>
+<p>56 passages.</p>
+<div class='item' id='w01'><b>w01</b>
+<div class='earlier'> is John. John is not alone; there are other people in this city who also have no memories of their past lives or who they once were. Together they wander the streets looking for any clue about their identities and histories.
+
+One day as they are wandering aimlessly around looking for clues, they stumble upon a shopkeeper named Mr Smith who has an old book that contains the names and faces of every person who has ever lived on earth. Mr Smith tells them that if they want to know more about themselves they need only look through this book and see if anyone looks familiar.
+
+They all agree that this sounds like a good idea so they start looking through the pages hoping to find some information that will help them figure out who they are and why they can’t remember anything about their lives before now as each of them begins searching for clues about themselves in this mysterious book; they begin to realize just how much they don’t know about themselves and how much they have forgotten since waking up that morning feeling like they were in a never-ending dream when finally after what seems like ages but is really only minutes John finds a page with his name written on it along with a picture of himself as a young boy playing in a field behind his house
+
+John finds a page with his name written on it
+
+There is an older story about this, and it goes: A man goes to a shop to buy a dictionary. He asks the shopkeeper what he is looking for, and the shopkeeper tells him that he wants to</div>
+<div class='win'> learn how to translate Chinese into English. The man says he knows nothing about Chinese, but he has studied English all his life.
+
+The shopkeeper shows him the dictionary and explains that if he reads it enough times, he will be able to translate Chinese into English without even knowing what any of the words mean!
+
+The man looks at the dictionary in amazement and says, “How does that work? How do you know what any word means?”
+
+The shopkeeper replies with one</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w01' data-dim='coherence'></div></div>
+<div class='item' id='w02'><b>w02</b>
+<div class='earlier'>use to rest themselves before they went back outside to try to get
+some more food.
+
+230
+
+Aesop’s Fables
+
+The Lion and the Fox
+
+The Fox was walking along the road in search of something to eat when she saw
+
+The Lion and the Fox
+
+231
+
+a Lion lying in a ditch beside it. He was so tired that he couldn’t lift up his head or look at her.
+She stopped short when she saw him, because she was afraid of him, but she said: “Oh! Sir Lion,
+I didn’t know that you were here. I have been looking for something good to eat; but I haven’t
+found anything yet. What are you doing here?”
+The Lion said: “I am tired of looking for something good to eat; so I am going to lie down here
+until I fall asleep. Then I shall not have to worry about finding anything good to eat.”
+“Don’t do that,” said the Fox. “If you lie down there, you will be caught by the hunters before you can get away again.” So she persuaded him not to lie down there, but to go back
+with her to her home.
+When they got there she said: “Now that we are here, I am hungry, and I want you to take me
+out into the woods where we can hunt some game for our supper.” The Lion agreed, and they
+went into the woods together. They walked through it until they came to a clearing where there
+were trees growing on all sides of it. The Fox said: “Now you can see how many trees there are
+
+232
+
+Aesop’s Fables
+
+around this place; and how much
+
+The Lion and the Fox
+
+233
+
+shelter there is from the sun and rain. Here we shall find plenty of game to eat. Now go</div>
+<div class='win'> in and
+hunt for your supper, while I go back home.”
+The Lion went into the woods, but before he had gone far he turned round again because he
+thought he saw a hunter coming toward him with his gun in his hand. He looked round and round
+in all directions until at last he found his way out of the woods without meeting any hunters at
+all. Then he went home again and told the Fox what he had found out about her trick.
+He</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w02' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w02' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w02' data-dim='coherence'></div></div>
+<div class='item' id='w03'><b>w03</b>
+<div class='earlier'>
+I had seen this before. The same empty rooms. The same future.
+
+And I could not take this, again and again and again.
+
+This was the end.
+
+The end of everything. The end of time, of all
+
+And so, as before, 1850, 1900, and the present, but the future was gone. All the rooms of the house were empty.
+
+The room that was mine was empty as well. But it wasn’t empty.
+
+This room was just like my room in the present. And it was not my room in the present. It was just like my room in the future.
+
+And here I was, standing in my future room.
+
+I had seen this before. The same empty rooms. The same future.
+
+And I could not take this, again and again and again.
+
+This was the end.
+
+The end of everything. The end of time, of all things that were. It was like a void in my mind. Everything had gone, and the space where everything had been before is
+
+And so, as before, 1850, 1900, and the present, but the future was gone. All the rooms of the house were empty.
+
+The room that was mine was empty as well. But it wasn’t empty.
+
+This room was just like my room in the present. And it was not my room in the present. It was just like my room in the future.
+
+And here I was, standing in my future room.
+
+I had seen this before. The same empty rooms. The same future.
+
+And I could not take this, again and again and again.
+
+This was the end.
+
+The end of everything. The end of time, of all
+
+And so, as before, 1850, 1900, and the present, but the future was gone. All the rooms of the house were empty.
+
+The room</div>
+<div class='win'> that was mine was empty as well. But it wasn’t empty.
+
+This room was just like my room in the present. And it was not my room in the present. It was just like my room in the future.
+
+And here I was, standing in my future room.
+
+I had seen this before. The same empty rooms. The same future.
+
+And I could not take this, again and again and again.
+
+This was the end.
+
+The end of everything. The end</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w03' data-dim='coherence'></div></div>
+<div class='item' id='w04'><b>w04</b>
+<div class='earlier'>stories about how they can find happiness even when times are tough.
+It’s okay not to know what you want out of life right now – as long as there’s something motivating you forward each day!
+This article is an excerpt from my book, The Art of Being Happy. I am a 40-year-old blogger who loves to share my knowledge with others. I have been writing for over 5 years now and I have learned a lot about blogging and how to make money online through affiliate marketing and other methods. My blog has been featured on Forbes Magazine as well as other top sites like Entrepreneur Magazine, The Huffington Post, Business Insider etc..
+So if you’re interested in learning more about blogging or making money online then please feel free to check out my blog! Also check out my Youtube Channel! Thank you so much for taking the time out of your busy schedule to read this article.. I appreciate it greatly 🙂
+The Art Of Being Happy
+It’s okay not to know what you want out of life right now – as long as there’s something motivating you forward each day!
+So if you’re interested in learning more about blogging or making money online then please feel free to check out my blog! Also check out my Youtube Channel! Thank you so much for taking the time out of your busy schedule to read this article.. I appreciate it greatly 🙂
+If you want to live a happy life then there is only one thing that matters: your attitude.
+If you are unhappy with your life, then there is only one thing that matters: your attitude.
+</div>
+<div class='win'>Your attitude determines how happy you are. It’s not about what happens in your life; it’s about how you perceive those events and react to them. If you’re angry or depressed, then everything in your life seems like it’s going wrong and nothing makes sense anymore because all of those things are part of what makes up our perception of reality – ourselves included!
+This quote from The Alchemist (H.P. Lovecraft) says it all: “Happiness is not something</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w04' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w04' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w04' data-dim='coherence'></div></div>
+<div class='item' id='w05'><b>w05</b>
+<div class='earlier'> translate it. This means that he could not translate, but would rather replace it with a substitute. I think this is more about being very particular about language and not allowing the translator to be too arbitrary.
+
+However, this does not mean that the translator should not translate the word. If he does not translate, the work will not be complete. So there is another story about a translator who was translating a French novel and had to look up the dictionary many times, but still encountered words he could not find in the dictionary. In order to complete the translation task, he used his own words to replace the untranslatable words.
+
+I think this is very interesting. Although it may be more of a literary fiction, but it is still very meaningful. This shows that the translator has a very high standard for language and is very careful in translating the text. This also reminds us to be careful when using language and should not use arbitrary expressions.
+
+I think this also tells us that language is very complex and rich. There are many words that are difficult to translate or do not have an exact equivalent in other languages. Therefore, we need to be careful when using words and need to understand their meaning and connotation. In addition, we also need to improve our language
+
+A question nobody had asked yet: &quot;How do you translate &#x27;the word&#x27;?&quot;
+
+As a language learner, you may have encountered some words in your target language that simply cannot be translated into your</div>
+<div class='win'> native language. These words can often be the most difficult to learn and understand, but they can also be the most interesting and important.
+
+One example is the Japanese word &#x27;wabi-sabi&#x27;. This word refers to a concept that values imperfection and impermanence, and is often associated with traditional Japanese aesthetics. There is no direct translation for &#x27;wabi-sabi&#x27; in English, but it can be understood as a feeling of appreciation for the beauty of something that is flawed</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w05' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w05' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w05' data-dim='coherence'></div></div>
+<div class='item' id='w06'><b>w06</b>
+<div class='earlier'>self in the head.
+Meanwhile
+
+Meanwhile, in a city with no name, there was a bakery. Every morning the baker counted the loaves twice,
+and every morning the count was different. There was a man in the kitchen of the bakery, and every morning
+he was there. He had a gun in his hand, and he was always pointing the gun at the baker.
+The baker was afraid of the man in the kitchen. Every morning, when he counted the loaves, he was afraid
+that the man would shoot him in the head. He was afraid that the man would kill him. He was afraid that the
+man would shoot him in the head with the gun and kill him.
+But the man never shot the baker in the head. He never shot the baker in the head with the gun. He just
+pointed the gun at the baker and held it there, and the baker counted the loaves twice and went about his
+business.
+There was a woman who lived in the bakery. She was the baker&#x27;s wife, and she had a large piece of bread in
+her hand. She was sitting in the kitchen, and she was eating the bread.
+The woman was very hungry, and she was very sad. She had been very hungry for a long time, and she was
+very sad. She was very hungry for a long time because she hadn&#x27;t eaten anything for a very long time. She
+was very sad because she had been very hungry for a very long time.
+She was very sad because she was very hungry for a
+
+There is an older story about this, and it goes: &quot;One day a man was walking through the forest, and he found a
+bag of gold. He took the bag of gold and went home. He gave</div>
+<div class='win'> the bag of gold to his wife, and she was very
+happy.&quot;
+I&#x27;ve tried to change that story a little, but I haven&#x27;t been successful. The older story is about a man who is
+very poor, and he finds a bag of gold in the forest. He takes the bag of gold and goes home to his wife, and
+he gives it to her. She is very happy, and she is very proud. She tells her friends that her husband has</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w06' data-dim='coherence'></div></div>
+<div class='item' id='w07'><b>w07</b>
+<div class='earlier'> There was
+
+That night she dreamed of something else entirely: of a giant, ancient, beautiful tree, which seemed to be dying. Its great roots were being gnawed by a small, ratlike thing. It</div>
+<div class='win'> looked like it had been gnawing at the roots for a long time, and the tree was very sad about it, though not particularly angry or alarmed. The thing did not appear to be malevolent or evil; it was simply a very small thing and did not realize that it was killing the tree, though that was its ultimate fate. It did not even appear to want to kill the tree; its own appetite and life instincts were all that moved it forward.
+
+She dreamed</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w07' data-dim='coherence'></div></div>
+<div class='item' id='w08'><b>w08</b>
+<div class='earlier'>tures within New England regions while also contributing towards national diversity overall by introducing new foods, music genres, languages spoken at home along with other cultural practices previously unknown outside these areas before arriving here today!
+
+How did migration shape the culture of the Midwest?
+Migration has played a significant role in shaping the culture of the Midwest. Historically, many European immigrants arrived in America seeking religious freedom or economic opportunity and settled in Midwestern states like Ohio, Michigan, and Indiana. These immigrants brought with them their own cultural traditions such as German Oktoberfest celebrations or Polish Christmas markets which continue to be celebrated today. Additionally, African Americans migrated from Southern states during the Great Migration period starting around 1916 up until World War II when they found better job opportunities northward into cities like Detroit Michigan or Chicago Illinois; among others.
+
+These migrations introduced new foods, music genres, languages spoken at home along with other cultural practices previously unknown outside these areas before arriving here today! Over time however, some of these traditions were adopted by locals who were not originally from those regions leading to hybridized versions being created over time.
+
+Overall, migration has helped create diverse cultures within Midwestern regions while also contributing towards national diversity overall by introducing</div>
+<div class='win'> new foods, music genres, languages spoken at home along with other cultural practices previously unknown outside these areas before arriving here today!
+
+How did migration shape the culture of the Midwest?
+Migration has played a significant role in shaping the culture of the Midwest. Historically, many European immigrants arrived in America seeking religious freedom or economic opportunity and settled in Midwestern states like Ohio, Michigan, and Indiana. These immigrants brought with them their own cultural traditions such as German Oktoberfest celebrations or Polish Christmas</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w08' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w08' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w08' data-dim='coherence'></div></div>
+<div class='item' id='w09'><b>w09</b>
+<div class='earlier'> for others to know too… Until then let us keep those precious treasures safe and sound within our souls knowing well that some things are meant solely for ourselves alone without having to share them with anyone else who thinks they should know more about us than we’re willing to show them. After all there’s nothing wrong with keeping certain things close-to-heart just as long as we don’t let them consume us whole – which I guess is easier said than done sometimes eh? But hey what can you do when you feel so strongly about something yet have nobody around you who truly understands what it means? In those moments all you can do is hold onto those feelings tightly within yourself until such time comes where perhaps someone comes along who might finally understand what you mean when you speak of such things as love &amp; friendship – though until then we must learn to be content with having our hearts’ secrets locked safely away until such a moment arrives where perhaps we might finally find someone worthy enough to share those things with us – someone who understands why some things are best kept hidden deep within oneself – someone like a brother perhaps? Or maybe not.. Who knows..? Not even I do..! But whatever may come be sure that I shall always cherish whatever precious little treasures may rest securely locked within my own heart – for that is mine own business and mine alone – just as it should be..! 😉
+The boy smiled too and closed his eyes again.
+‘And there is also a sound</div>
+<div class='win'> of solitude,’ said the boy.
+The boy lay down on the grass beside his brother, feeling happy to have someone with whom to share this secret. He wondered what other sounds he would find, and what else there might be to hear that no one else could hear.
+They stayed like that for a while, then they got up and went home again. They didn’t speak anymore. There was nothing left to say, but they felt good just being together.
+As they walked home</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w09' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w09' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w09' data-dim='coherence'></div></div>
+<div class='item' id='w10'><b>w10</b>
+<div class='earlier'> the audience was a very curious young man, who sat listening intently for over an hour. He found the talk fascinating. The lecturer showed how tiny particles behave in ways that defy all human logic. The particles sometimes act like tiny billiard balls; sometimes like waves in water; sometimes they appear to exist in two places at once; and so on. As the lecture went on, it became apparent that all these strange properties are really true, and not just weird fantasy.
+
+The lecturer described an experiment involving a screen with two parallel slits cut through it. Particles, such as photons (light particles), were sent towards the screen. The lecturer then asked what pattern we would expect to appear on a detector screen on the far side of the slits? We would expect to see two vertical lines of light on the detector screen, one directly behind each slit. This is indeed what happens with particles like tiny bullets or ball bearings – they go either through one slit or the other and produce this expected result. But light behaves differently. The light particles actually go through both slits at the same time, and produce a series of lines or fringes on the detector screen (this is called an interference pattern). In this experiment, it looks like individual light particles are interfering with themselves.
+
+The lecturer
+
+And so, as before, 1000 people sat in the auditorium to listen to a talk on quantum physics. They were all wondering what the lecturer might say, and whether he</div>
+<div class='win'> would be boring or not.
+
+In one of the audience was a very curious young man, who sat listening intently for over an hour. He found the talk fascinating. The lecturer showed how tiny particles behave in ways that defy all human logic. The particles sometimes act like tiny billiard balls; sometimes like waves in water; sometimes they appear to exist in two places at once; and so on. As the lecture went on, it became apparent that all these strange properties are really</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w10' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w10' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w10' data-dim='coherence'></div></div>
+<div class='item' id='w11'><b>w11</b>
+<div class='earlier'>rivacy Overview
+This website uses cookies to improve your experience while you navigate through the website. Out of these cookies, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies that help us analyze and understand how you use this website. These cookies will be stored in your browser only with your consent. You also have the option to opt-out of these cookies. But opting out of some of these cookies may have an effect on your browsing experience.
+Necessary
+Necessary
+Always Enabled
+Necessary cookies are absolutely essential for the website to function properly. This category only includes cookies that ensures basic functionalities and security features of the website. These cookies do not store any personal information.
+Non-necessary
+Non-necessary
+Any cookies that may not be particularly necessary for the website to function and is used specifically to collect user personal data via analytics, ads, other embedded contents are termed as non-necessary cookies. It is mandatory to procure user consent prior to running these cookies on your website. This can be changed at any time by clicking on the button below: Cookie SettingsAccept
+Cookie Settings
+
+That night she dreamed of something else entirely: the letter arrived forty years late and was still, somehow, on time. It was a message from her grandmother, who had been dead for decades, the first</div>
+<div class='win'> and only time she ever remembered her grandmother writing to her. Her grandmother had written in her old-fashioned script, telling her that the only reason she had given her her name was because she never wanted her to have the name of someone who was never there, who would never be there, whose only presence was through the letters of a name. It was only then that she realized that her grandmother had known all along; she had known about the letters and she knew why they never arrived</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w11' data-dim='coherence'></div></div>
+<div class='item' id='w12'><b>w12</b>
+<div class='earlier'> There was
+
+That night she dreamed of something else entirely: she dreamed that the baker had been a boy and she a girl, and that they had been lovers.
+She woke in the middle of the night to find herself</div>
+<div class='win'> alone in the dark, and she was frightened. The night was silent, the city quiet. The clock on the mantelpiece had stopped at three minutes past nine. She lay and listened to the wind blowing against the shutters. She felt a terrible longing in her heart for what was not there anymore. She turned on her side, curled up under the coverlet. She did not go to sleep again till morning.
+
+Every morning the baker counted his loaves twice, and</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w12' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w12' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w12' data-dim='coherence'></div></div>
+<div class='item' id='w13'><b>w13</b>
+<div class='earlier'>o the newsletter! Do you want to get a free assignment? Try our services for free and make your first order! Thank you for choosing our service!
+
+    X
+    error: Content is protected !!
+    Open chat
+    There are no more chats available, you
+
+    You can contact our live agent via WhatsApp! if you have any questions.
+
+    × Chat on WhatsApp × Need Help? Chat with us Live! Close Back to Home × Need Help? Chat with us Live! Hello There, How Can I Help You Today? Free Inquiry Click Here × Welcome back! We Just Missed You! Hi there! Click one of our representatives below and we will get back to you as soon as possible. Chat with us on WhatsApp Click here for Online Support Click here for Quick Chat Click here for Live Support Email Us [email protected] Click Here Email Us [email protected] Call us at +1 (800) 555-0088 Request a call back Whatsapp us +1 (800) 555 0088 ↳ Reply as a guest ↳ Your name ↳ Email ↳ Your message ↳ Send New Message → Place Order Close X Chat on WhatsApp X Chat on WhatsApp Place Order New Message +1 (800) 555-0088 +1 (800) 555-0088 support@assignmentbishops.com Email Us [email protected] × Need Help? Chat with us Live! Welcome to AssignmentBishops Support Team! Thank you so much for being interested in our services! How Can We Help You? A little bit about us Our Services Our Services Plagiarism-Free Papers Free Revisions
+
+    ### Confidentiality &amp; Security
+
+    Our Guarantees
+
+    Our Guarantees
+
+    ### Money Back Guarantee
+
+    Plagiarism-Free Guarantee</div>
+<div class='win'>
+
+    Free Revisions Guarantee
+
+    Confidentiality Guarantee
+
+    Money-Back Guarantee
+
+    How It Works
+
+    ### How It Works
+
+    How It Works
+
+      • Ask our experts your question on any task/subject
+      • Receive the help asap in a quality paper
+      • Track the progress of your order and get in touch when needed
+      • Receive the best paper based on your requirements
+      • Give us a 5 star rating!
+</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w13' data-dim='coherence'></div></div>
+<div class='item' id='w14'><b>w14</b>
+<div class='earlier'> Sometimes he
+
+That night she dreamed of something else entirely: an island of white sand with trees growing right out of it, and a white stone rising from the sea. She dreamed that the trees were so thick that it</div>
+<div class='win'> was dark even in the middle of the day, and she dreamed that she could hear a bird singing somewhere in the distance.
+
+The next day they found a box of old records in the shed and they sat down and listened to one of them. It was a collection of birdsong. The voice of the speaker in the recording was faint but distinct: He introduced the birds one by one and then let their songs take over. At first the birdsong sounded like noise, but after</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w14' data-dim='coherence'></div></div>
+<div class='item' id='w15'><b>w15</b>
+<div class='earlier'>f people were following him without any reason whatsoever.
+
+One man, dressed in black, walked down the street with his hands in his pockets. A group followed behind him, without reason.
+
+As he reached the corner, he turned around and saw that they were all staring at him.
+
+“What’s the matter?” he asked.
+
+“We’re following you,” someone said.
+
+“I see,” he replied dryly.
+
+“But why?” asked another one.
+
+“I don’t know,” said the first man.
+
+A few days later, a friend visited and happened to say that her grandmother had been born in that same town where my friend’s family lived now. When my friend said she had grown up there, the other woman said “That’s strange; I thought you were from New York.” My friend asked what she meant by “strange.” She said “Your grandmother was born in this town and raised in a house on the corner of Main Street and Church Street, right? You look exactly like her.”
+
+The two women stared at each other, eyes locked and full of wonderment. Then they both started laughing – only one of them knew why.
+
+My friend knew why because she had always heard stories about how twins looked alike even when they weren’t born together – like conjoined twins who looked so much alike that it was impossible to tell which one was which until they were cut apart surgically! But she never
+
+There is an older story about this, and it goes: The Man with the Black Coat is walking down a street. The people who pass by stop and stare. They all have their eyes fixed on his black coat.</div>
+<div class='win'> The Man with the Black Coat walks into an old man’s house where an old man is sitting at a table drinking coffee and reading a newspaper.
+
+The Man with the Black Coat sits down next to him and says: “What do you know about black coats?” The old man says: “Nothing much.” And then he asks: “Why do you want to know?”
+
+Then he adds: “If you’re looking for trouble, you better get out of here now before something bad</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w15' data-dim='coherence'></div></div>
+<div class='item' id='w16'><b>w16</b>
+<div class='earlier'>and it goes: it is not the river that changes, it is the people. The river never stops running and is the same all the way from its source to its end.
+
+It is the people who change and name it differently. It is the people who have many different names for the river. It is the people who create myths to explain these names. It is the people who make up stories to tell each other.
+
+When I first started writing The River, I knew I would be telling a story that was different from my first novel, The Fisherman, and also that I wanted to write a story about Vietnam. This is what I wrote to myself in a notebook in 2015:
+
+I want to write a story about Vietnam because I want to write about myself. I want to write about what happened to me when I was five years old and left Vietnam for America. I want to write about what happened in Saigon during the war. I want to write about the way the war has haunted me, how it has shaped who I am.
+
+The River is a story about Vietnam and America, and also about myself. It is a story about what it means to be Vietnamese and American, what it means to be a writer. It is a story about the way the past can haunt us, but also about the way the past can shape us. It is a story about how we make sense of our lives, how we create stories to help us understand who we are and where we come from
+
+A question nobody had asked yet: what did the river mean when it named itself?
+
+This book, a novel in stories, is about the meaning of a river’s name. In one story a</div>
+<div class='win'> woman tries to take her husband’s name on their wedding day because he’s from a country that names the river after him. In another, two sisters find their mother’s old notebooks and discover the river has many names because each was written by a different woman.
+
+A novel in stories is a new form and I’m not sure I pulled it off. Maybe that’s because I didn’t know the river’s name before I started writing.
+
+In fact, I started writing this book long</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w16' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w16' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w16' data-dim='coherence'></div></div>
+<div class='item' id='w17'><b>w17</b>
+<div class='earlier'> When the
+
+That night she dreamed of something else entirely: a man sitting in a chair with a pencil and paper. She woke up to the sound of a knock on the door and sat up in bed, rubbing her</div>
+<div class='win'> eyes. Her grandfather&#x27;s watch was still ticking away, the only sound in the room. She got out of bed and walked over to the window, pulling back the curtains to look outside. The street was empty, but she could hear the faint sound of footsteps in the distance. She knew that those footsteps belonged to the man in her dreams, who had been haunting her for months.
+
+She spent the rest of the night trying to figure out who he was and what he wanted from</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w17' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w17' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w17' data-dim='coherence'></div></div>
+<div class='item' id='w18'><b>w18</b>
+<div class='earlier'>at’s in the black spot?
+The story about the map with the black spot is a very old one. Some say that it’s just a myth, while others believe that it’s true. No one really knows for sure.
+However, there have been many stories and legends about the black spot. Some say that it’s a gateway to another world. Others say that it’s a hole that leads to the underworld. Still, others say that it’s a portal to a different dimension.
+Some people believe that the black spot is a place of great evil. They say that it’s where all the monsters and demons live. Others believe that it’s a place of great beauty and wonder. They say that it’s where all the fairies and elves live.
+No one knows for sure what’s in the black spot. It’s a mystery that may never be solved. However, that doesn’t stop people from trying to find out. Every year, there are new expeditions sent out to explore the black spot. And every year, they return empty-handed.
+Some people have given up trying to find out what’s in the black spot. They believe that it’s not worth the risk. But others are still out there, searching for answers. They believe that one day, they will find the black spot. And when they do, they will finally know what’s in it. So, the map was accurate in every detail except for one, and nobody could say what’s in the black spot.
+
+
+
+That night she dreamed of something else entirely: of a great, dark, black something. She ran from it, but it was always there, behind her. And then it got closer and closer. She</div>
+<div class='win'> could almost feel its breath. And then, there was nothing. Nothing but the blackness.
+She woke up with a start, her heart pounding. She looked around her room, but it was dark and there was no one there. She got out of bed and walked to the window. She looked outside, but all she could see was the blackness of the night.
+She didn’t know what to do. She was afraid to go back to sleep, but she was also</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w18' data-dim='coherence'></div></div>
+<div class='item' id='w19'><b>w19</b>
+<div class='earlier'>There was a road on it where the river should have been, but on the ground the road was where the river should have been. The road was made of loose gravel, and the river was made of something else. The gravel was gray and hard, and the something else was shiny and white. There was a light at the end of the road, and the light was on the river.
+The road was a highway. The highway was called the Death Highway. The river was called the White River. The light was called the Light at the End of the Road.
+The Light at the End of the Road was a lighthouse. The lighthouse was called the White Lighthouse. The lighthouse was built on the shore of the White River. The lighthouse was built by a man named John White. The man named John White built the lighthouse because he loved the White River. The man named John</div>
+<div class='win'> White loved the White River because he loved the White River. The man named John White loved the White River because the White River was beautiful. The White River was beautiful because it was white. The White River was white because it was made of something else.
+The something else was called ice. The ice was made by the White River. The White River made the ice because it was cold. The White River was cold because it was cold. The White River was cold because it was</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w19' data-dim='coherence'></div></div>
+<div class='item' id='w20'><b>w20</b>
+<div class='earlier'>. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended</div>
+<div class='win'>. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended. Highly recommended</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w20' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w20' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w20' data-dim='coherence'></div></div>
+<div class='item' id='w21'><b>w21</b>
+<div class='earlier'>There was a door to the winter of 1916, when he was a young man; another to the spring of 1948, when he was old and tired; a door to the fall of 2004, when he was young again and looking forward to a long future.
+In other words, you can’t say that time passes linearly, from start to end. In the minds of these three characters, time is cyclical – their lives move back and forth in time, but they don’t understand that. So their actions seem a little crazy – but then you realise that they have a point.
+The story is told in an intriguing way – we see it first from the point of view of the young man in his own story, then from the point of view of the older man, then from the point of view of the old man. All three points</div>
+<div class='win'> of view are interesting, but I think my favourite was the older man, with his sense of wonder and delight as he tries to find his way through his life.
+And here’s something I found fascinating – as the old man becomes older, he is more and more like the young man; as the young man becomes older, he is more and more like the old man.
+This story would make a great movie, or a graphic novel, or – perhaps best of all – an</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w21' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w21' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w21' data-dim='coherence'></div></div>
+<div class='item' id='w22'><b>w22</b>
+<div class='earlier'>2	Featured in
+714	627	655	719	650	1190	629	508	1008	526	598	1042	536	511	637	546	1234	612	493	598	615	682	491	668	1230	758	620	663	665	732	662	551	632	482	483	636	644	1208	549	739	483	636	529	503	636	669	483	653	754	684	538	673	685	626	672	718	532	563	630	616	618	606	657	719	514	619	682	611	722	524	680	621	611	1076	505	618	527	619	542	482	615	797	606	614	496	633	616	569	566	645	540	499	558	489	487	714	483	658	518	504	502	481	494	724	622	679	646	729	712	527	525	622	504	612	718	612	535	694	645	529	557	747	552	686	623	712	517	644	531	741	546	542	684	644	639	581	700	558	541	616	505	612	484	604	575	632	525	</div>
+<div class='win'>617	488	643	523	641	623	623	532	557	484	534	635	652	718	714	512	658	537	526	643	726	566	625	573	</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w22' data-dim='coherence'></div></div>
+<div class='item' id='w23'><b>w23</b>
+<div class='earlier'> She knew
+
+they were important, but she also knew that translating them would mean
+
+losing something about their power. So, she left them in the original language
+
+and placed</div>
+<div class='win'> a small note at the end of each chapter: &quot;See glossary.&quot; The
+
+translator wasn&#x27;t sure if the readers would actually look up these words in the
+
+glossary or if they would skip it all together, but it was her way of trying to
+
+preserve some of the cultural context.
+
+The writer, on the other hand, was frustrated with the translator&#x27;s approach.
+
+They thought it was unnecessary to leave these words untranslated since they
+
+had provided a brief explanation of</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w23' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w23' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w23' data-dim='coherence'></div></div>
+<div class='item' id='w24'><b>w24</b>
+<div class='earlier'> idea but he didn’t want to get involved because there was no way to know for sure whether or not there were any problems with my grandfather’s service record. He also said that if there were problems with my grandfather’s service record then he should just accept what happened as a fact and move on with his life.
+
+My grandfather contacted another lawyer who agreed to take on the case for free since there were no guarantees of success or compensation. This lawyer told me about the case and said that my grandfather’s service record was incomplete and inaccurate because there were gaps in it where information should have been filled out.
+
+My grandfather contacted another lawyer who agreed to take on the case for free since there were no guarantees of success or compensation. This lawyer told me about the case and said that my grandfather’s service record was incomplete and inaccurate because there were gaps in it where information should have been filled out.
+
+The first lawyer contacted by my grandfather told him that his service record was incomplete because there were gaps in it where information should have been filled out. He also told him that if he wanted to pursue legal action against the Air Force Academy he should do so immediately because there was no guarantee that he would ever
+
+be able to obtain an accurate copy of his service record without going through years of litigation.
+
+The second lawyer contacted by my grandfather said that his service record was incomplete</div>
+<div class='win'> and inaccurate because there were gaps in it where information should have been filled out. He also said that if he wanted to pursue legal action against the Air Force Academy then he needed to file a lawsuit immediately because the statute of limitations on this type of lawsuit was only three years from when the last event occurred (which was when they released his records).
+
+The third lawyer contacted by my grandfather said that his service record was incomplete and inaccurate because there were gaps in it where information should have been</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w24' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w24' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w24' data-dim='coherence'></div></div>
+<div class='item' id='w25'><b>w25</b>
+<div class='earlier'> man who always takes care of Scout whenever she needs help.
+
+Jem
+
+is a very brave character who stands up for what he believes in, even when others don&#x27;t agree with him. He is always looking out for Scout and making sure that she stays out of trouble.
+
+Jem has many similarities with Boo Radley from Fun Home. They are both very brave characters who stand up for what they believe in, even when others don&#x27;t agree with them. They also both take care of younger siblings whenever they need help.
+
+Atticus Finch
+
+Atticus Finch is the father of Scout and Jem from To Kill a Mockingbird. He is an attorney who takes pride in doing the right thing, even when it&#x27;s not popular.
+
+Atticus
+
+has many similarities with Boo Radley from Fun Home. They are both very
+
+responsible characters who always take care of those around them. They also both have strong beliefs in justice and equality.
+
+Boo Radley
+
+Boo Radley is one of the main characters from To Kill a Mockingbird. He lives alone in his house with his mother and sister. He is rarely ever seen by anyone in the neighborhood, which leads the children to believe he must be evil or crazy.
+
+There are many hints throughout the book that lead one to believe Boo Radley may not actually be evil at all. In fact, he could be one of the kindest people in town who just doesn&#x27;t want to leave his house because he
+
+is afraid of what others will think or say about him if they see him outside. Boo Radley has many similarities with Alison Bechdel from Fun Home,</div>
+<div class='win'> as they are both very secretive people who do not let anyone know what is really going on with them until they feel safe enough to tell someone.
+
+Calpurnia
+
+Calpurnia is the housekeeper for Scout and Jem&#x27;s family in To Kill a Mockingbird. She has been working for them since Scout was born, and she knows all about their family history.
+
+Calpurnia is very kind and loving towards Scout and Jem, but she also knows</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w25' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w25' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w25' data-dim='coherence'></div></div>
+<div class='item' id='w26'><b>w26</b>
+<div class='earlier'> For example
+
+That night she dreamed of something else entirely: a dream of a place she had never been before, but which she had read about in the history books.
+
+In the dream she found herself standing in a dark</div>
+<div class='win'>, damp basement. The air was thick with the smell of mildew and rot, and the walls were lined with shelves filled with jars of various sizes and contents. As she stepped closer, she saw that some of the jars contained pickled specimens of long-forgotten creatures, while others held mysterious liquids that seemed to shift and change colors before her eyes.
+
+Suddenly, the ground beneath her feet began to rumble, and a low growling sound emanated from the depths of</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w26' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w26' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w26' data-dim='coherence'></div></div>
+<div class='item' id='w27'><b>w27</b>
+<div class='earlier'>tween the two programs?
+A. One has a larger number of participants.
+B. One offers more activities.
+C. One has more interactive segments.
+D. One has a shorter duration.
+Answer:
+A. According to the woman&#x27;s description, the first program has a smaller scale with fewer people attending, while the second program has a larger number of participants, so option A is correct. Although the woman mentions that the second program offers a wider variety of activities and the second program is more interactive, these points do not directly reflect the size of the programs, so options B and C are not accurate. The woman also mentions that the second program lasts longer than the first, so option D is incorrect. In summary, the correct answer is A. [Key Points] Understanding details and comparisons. The woman mentions that the first program has a smaller scale, while the second program has a larger number of participants. When the man asks what is different about these two programs, the woman responds by saying the first program is smaller in scale, implying that the second program has a larger number of participants. Therefore, option A is the correct choice. Note that when dealing with comparison questions, it is important to pay attention to the differences in scale rather than the variety of content or interactivity. The first program does indeed have a wider variety of activities, but this does not directly reflect the size of the program. Additionally, the second program does have more</div>
+<div class='win'> interactive segments, but the comparison here is with the first program, which does not emphasize interactivity, so option C is not relevant. Furthermore, the woman mentions that the second program is longer, so option D is incorrect. In summary, the correct answer is A. [Key Points] Understanding details and comparisons. The woman mentions that the first program has a smaller scale, while the second program has a larger number of participants. When the man asks what is different about these two</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w27' data-dim='coherence'></div></div>
+<div class='item' id='w28'><b>w28</b>
+<div class='earlier'>ging in its cr
+
+Meanwhile, in a city with no name, Lila’s grandmother was sitting in the living room of the house that was no longer hers, eating the leftover dinner her father had brought her from the diner. The house was cold, and she kept pulling the afghan tighter around herself, and she thought, This is not what I wanted for my life. The man who’d brought the food—her husband, Lila’s father, Lila’s son—was watching her. He’s watching me, she thought, and suddenly she was very angry, and she said, “I’m not an invalid, you know. I can feed myself.”
+
+
+In the middle of the night, Lila’s father woke up to the sound of the phone ringing in the hallway. He thought it might be her mother, calling to tell him what was wrong with her, and so he got up to answer it. The phone was already ringing, but as he was walking down the hall the sound stopped and he didn’t have the heart to pick up the phone and listen to the ringing again.
+
+He stood in the doorway and watched her mother sleep, her face turned towards the wall. She’d been sleeping badly for a while now. He went to the kitchen and get
+
+When the boy woke up, he woke up knowing the story, and he told the story to his parents. They told him to stop dreaming and do his homework.
+
+When the boy woke up, he woke up knowing the story, and he told the story
+
+There is an older story about this, and it goes: once upon a time there was a boy who dreamed he was a man who dreamed he was a boy who was dreaming. When the boy woke up, he woke</div>
+<div class='win'> up knowing the story, and he told the story to his parents. They told him to stop dreaming and do his homework, and the boy went to sleep again.
+
+A little while later, the man woke up and went to wake up his son, but the son was already gone, having gone out to get a cup of coffee. When the man woke up, he remembered the story and he told it to his parents. They told him to stop dreaming and do his homework.</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w28' data-dim='coherence'></div></div>
+<div class='item' id='w29'><b>w29</b>
+<div class='earlier'>mber. The sun had been shining through the window, casting a pale light onto the
+
+She had
+
+Meanwhile, in a city with no name, she was walking down the street, looking for somewhere to sit. She was carrying a
+
+She had always been a bit of a loner. She had always preferred to be on her own, to keep to herself. She didn&#x27;t like being
+
+It was a cold night. I remember the wind howling through the trees, and the snow crunching under my feet as I walked home.
+
+I don&#x27;t know why I&#x27;m doing this. I don&#x27;t know why I&#x27;m writing this. I just feel like I need to say something. I feel like
+
+I don&#x27;t know what to say, I guess. I&#x27;m sorry for being so late. I know I should have been more careful. I know I should have
+
+She had always been a bit of a loner. She had always preferred to be on her own, to keep to herself. She didn&#x27;t like being
+
+She had always wanted to see him. She had read all his books, watched all his movies, listened to all his music. She had
+
+When he came in, she didn&#x27;t know what to do. He was there in the doorway, looking at her with those dark eyes, and she
+
+There was a time in his life when he had everything he ever wanted. He was young and rich and successful, and he had all
+
+She had always been a bit of a dreamer. She had always had big plans, big ambitions, but she had never been able to achieve
+
+It was a
+
+There is an older story about this, and it goes: There was a girl who loved a boy, but she was afraid to tell him because she
+
+It was a mistake, but I did it anyway. I don</div>
+<div class='win'>&#x27;t know why, but I did. I just couldn&#x27;t help myself. I wanted to do it so much.
+
+I don&#x27;t know if this makes any sense, but I want to tell you something. I want to tell you that I&#x27;ve been thinking about you
+
+He had always been a bit of a loner. He had always preferred to be on his own, to keep to himself. He didn&#x27;t like being
+
+It was a moment she would always remember. The</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w29' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w29' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w29' data-dim='coherence'></div></div>
+<div class='item' id='w30'><b>w30</b>
+<div class='earlier'>s in town. Some of them had been empty for years
+
+Meanwhile, in a city with no name, two men and one woman sat in a hotel room.
+
+&quot;Have you ever noticed that a clock is not like a person?&quot; asked the man sitting on the sofa, taking his time with each word.
+
+&quot;It&#x27;s not?&quot; said the man standing in the corner, trying to light a cigar.
+
+&quot;No, it isn&#x27;t.&quot; He turned his head slightly. &quot;If you stop a person&#x27;s heart or break his legs, then he&#x27;s just as dead as if you hadn&#x27;t.&quot;
+
+&quot;That&#x27;s not what I meant. How about we find another place to smoke?&quot;
+
+&quot;I&#x27;m going to tell you something about clocks. Clocks are different than people because when you stop a clock, it doesn&#x27;t stop moving. If you stop it for five minutes, it moves forward five minutes.&quot;
+
+The other man looked at him blankly.
+
+&quot;You can&#x27;t stop time with a clock. No matter what you do to it, the clock still keeps time.&quot; He stood up and looked at his watch. &quot;It&#x27;s funny,&quot; he said.
+
+&quot;What?&quot; said the third man. &quot;What&#x27;s funny?&quot;
+
+&quot;I just realized what time it is.&quot;
+
+The man sitting on the sofa turned to the woman on the bed and winked.
+
+&quot;Why do we have to wait?&quot; she said.
+
+&quot;You have to wait because we&#x27;re going to London,&quot; said the first man.
+
+&quot;Are you crazy?&quot; said the second man. &quot;You don&#x27;t just go to London.&quot;
+
+&quot;Of course I can,&quot; he said. &quot;I don&#x27;t have any
+
+There is an older story about this, and it goes: Two brothers lived apart, one in a city, and the other in the country. When the father died, they divided his estate. The one who received the</div>
+<div class='win'> watch had always worn it, but the other one had not.
+
+One day they met and compared watches. They found they were both fast. But the one in the city was running thirty minutes fast, while the other was only two minutes fast, because there was more traffic and more vibration in the city, and this caused the city watch to run faster.
+
+That is how I have found it to be with people, too. We have two kinds of people: those who are always</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w30' data-dim='coherence'></div></div>
+<div class='item' id='w31'><b>w31</b>
+<div class='earlier'>ble to share these moments with them again. After waking up from this vivid dream, she felt a deep sense of sadness for what could have been had things turned out differently.
+
+That night she dreamed of something else entirely: that she had returned to her childhood home in Germany. It was now an old and dilapidated building, but somehow she recognized it despite the changes in its appearance over time. As she walked through the door, she felt a sudden surge of emotion as memories flooded back to her. She remembered playing with her dolls in the living room and listening to her mother&#x27;s stories at bedtime. She also recalled the arguments that she would overhear between her parents as they argued over money and other issues. Despite these conflicts, she knew that she loved them both very much and was sad to think that she would never be able to share these moments with them again. After waking up from this vivid dream, she felt a deep sense of sadness for what could have been had things turned out differently.
+
+The translator kept a list of words she refused to translate. She knew that there was no one word that could mean exactly the same thing in both languages, and so she tried to think of different phrases that could convey the feeling that was associated with that word
+
+Meanwhile, in a city with no name, a translator named Maria was working on a novel about a woman who was forced to leave her homeland. She refused to translate certain words that were specific to the woman</div>
+<div class='win'>&#x27;s culture, as she believed that they could not be accurately translated into her own language. Despite this, she was determined to do justice to the story and its characters. As she read through the manuscript, she became deeply immersed in the protagonist&#x27;s struggles and triumphs, and felt a strong connection to her journey.
+
+On the other side of the world, in a small town nestled in the mountains, a young girl named Sofia was struggling with her own translation challenges. She was a</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w31' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w31' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w31' data-dim='coherence'></div></div>
+<div class='item' id='w32'><b>w32</b>
+<div class='earlier'>old us more than his words ever could.
+As he talked, we started to understand why someone would feel so alone in the world that they would want to end their own life. And as we listened to his story, we realized that there were other people in the world who felt this way too; other people who were struggling with their lives; other people who didn&#x27;t have anyone they could turn to; other people who didn&#x27;t have anyone they could talk to about what they were feeling.
+As we listened to Joe&#x27;s story, we realized that there were so many people who were suffering in silence; so many people who didn&#x27;t know how to ask for help; so many people who didn&#x27;t know anyone they could ask the question &quot;Are you alright?&quot;
+That&#x27;s when we decided that asking this question would become an important part of our lives. It would become a way to help people heal from trauma; a way to prevent people from attempting suicide; a way to make life more worth living.
+That&#x27;s when we decided that asking this question would be our mission in life: To ask everyone we met this question, and listen carefully to their answer.
+We started by asking our friends if they were alright. Then we started asking our family members if they were alright. Then we started asking strangers if they were alright.
+We asked this question everywhere — at work, at school, at the store, on the street, in parks, in bars, at concerts, on buses and trains — everywhere and anytime someone looked sad or lonely or troubled or scared or angry or</div>
+<div class='win'> frustrated or disappointed or confused or hurt or broken or lost or scared.
+We asked this question until everyone knew it was okay to say yes. Until everyone knew it was okay to be sad. Until everyone knew it was okay to be angry. Until everyone knew it was okay to be confused. Until everyone knew it was okay to be lost.
+Until everyone knew it was okay to ask for help.
+Because that&#x27;s what the question &quot;Are you alright?&quot; is all about: asking for</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w32' data-dim='coherence'></div></div>
+<div class='item' id='w33'><b>w33</b>
+<div class='earlier'>down inside their hearts forever where no one else could reach it or hurt it – just like how we lock away all our secrets deep within ourselves where nobody will ever find out unless we decide ourselves that it’s time for others to know too… Until then let us keep those precious treasures safe and sound within our souls knowing well that some things are meant solely for ourselves alone without having to share them with anyone else who thinks they should know more about us than we’re willing to show them. After all there’s nothing wrong with keeping certain things close-to-heart just as long as we don’t let them consume us whole – which I guess is easier said than done sometimes eh? But hey what can you do when you feel so strongly about something yet have nobody around you who truly understands what it means? In those moments all you can do is hold onto those feelings tightly within yourself until such time comes where perhaps someone comes along who might finally understand what you mean when you speak of such things as love &amp; friendship – though until then we must learn to be content with having our hearts’ secrets locked safely away until such a moment arrives where perhaps we might finally find someone worthy enough to share those things with us – someone who understands why
+
+That night she dreamed of something else entirely: A world full of warmth, light, and happiness. Her heart was contented, free from the sadness that had plagued it for so long.
+
+Her brother collected</div>
+<div class='win'> sounds the way other children collected stones. to know too… Until then let us keep those precious treasures safe and sound within our souls knowing well that some things are meant solely for ourselves alone without having to share them with anyone else who thinks they should know more about us than we’re willing to show them. After all there’s nothing wrong with keeping certain things close-to-heart just as long as we don’t let them consume us whole – which I guess is easier said than done sometimes</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w33' data-dim='coherence'></div></div>
+<div class='item' id='w34'><b>w34</b>
+<div class='earlier'>ho hired her to translate a mysterious text. When the translator is hired to work on a new and more difficult book, she becomes obsessed with solving the mystery of its meaning and her relationship to it. She knows that if she can solve the mystery, she can save herself.
+
+The Translator is a novel about love, about loss, about memory, about translation. It is a novel about the power of words, about the power of language, about the power of translation. It is a novel about the power of translation to create a world, to create a reality, to create a life.
+
+The Translator is a novel about the power of translation to create a world, to create a reality, to create a life. It is a novel about the power of translation to create a world, to create a reality, to create a life. It is a novel about the power of translation to create a world, to create a reality, to create a life.
+
+The Translator is a novel about the power of translation to create a world, to create a reality, to create a life. It is a novel about the power of translation to create a world, to create a reality, to create a life. It is a novel about the power of translation to create a world, to create a reality, to create a life.
+The Translator is a novel about the power of translation to create a world, to create a reality, to create a life. It
+
+There is an older story about this, and it goes: A man comes to the border of a country he has never been to. He wants to see what is on the other side. He knows that if he goes</div>
+<div class='win'> too far, he will never be able to come back. So he goes as far as he can, and when he can go no further, he turns around and goes back to where he started. He knows that if he goes too far, he will never be able to come back.
+He knows that if he goes too far, he will never be able to come back. So he goes as far as he can, and when he can go no further, he turns around</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w34' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w34' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w34' data-dim='coherence'></div></div>
+<div class='item' id='w35'><b>w35</b>
+<div class='earlier'>the wind. A storm was coming. She left the
+village and went into the
+
+Meanwhile, in a city with no name, the sun was shining. There were no clouds in the sky. In the city, there
+are no winds. The wind came only to the countryside, the wind and the rain. But it was not a city without a
+name; the city had a name. The name was too complicated, and most people in the city did not know it. They
+knew the city as the City. The city had no name.
+In the city, there were no people. In the city, there were no children. In the city, there were only old men and old
+women. The old men and old women had not always lived in the city. They had all moved there. They had all
+moved to the city because the city was a good place to die. It was not a good place to live. There were no
+trees and there were no flowers, and there was nothing to look at but the stone and the metal of the buildings.
+And in the city, the old men and women never left.
+There were no parks in the city, no fields and no woods. There were no rivers in the city. But in the city there
+were many hospitals. There were no doctors in the hospitals. But there were always nurses. In the city, there
+are more nurses than doctors. The nurses were not young, but they were not old either. They are in their
+forties and fifties. They are all women. The women in the city
+
+There is an older story about this, and it goes: A man and a woman were born in the same village. They were
+born on the same day, in the same year, and the same month. Their</div>
+<div class='win'> names were the same, and so was the
+name of their village. When they were grown, they married each other.
+But that is not the story I am telling. There is a newer story, a story about another man and woman, and the
+story goes like this.
+In a village far away, there lived a boy and a girl. The boy was born in the year that the girl was born, but the
+boy was not the same age as the girl</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w35' data-dim='coherence'></div></div>
+<div class='item' id='w36'><b>w36</b>
+<div class='earlier'> There was no difference in the quantity or quality of the breads. The baker tried to solve the problem. He even consulted with a psychologist to see if it was a psychological problem. However, nothing helped him understand why he was counting differently every morning. After many months of struggle, the baker got tired and resigned himself to his fate.
+On his last day at work, the baker met a retired baker. He explained his problem to the retired baker. The retired baker asked for a few things: a tape measure, a ruler, and a piece of chalk.
+The baker gave the retired baker what he wanted and went to work as usual. The retired baker came over to the bakery and did something with his items. The baker came back at night and was shocked to find that every loaf was counted correctly.
+The next day when the baker came to the bakery, he found out why it worked. He saw</div>
+<div class='win'> that there were marks on the counter top every time he took a loaf out or put it back. The baker went to thank the retired baker and asked him why those markings worked. The retired baker replied,
+“I didn’t mark anything on your counter top; you marked them yourself!”
+This is an example of how we can solve problems with new perspectives.
+The psychologist was wrong.
+The Baker’s Problem
+- What is the problem?
+- What are its causes?
+- What are</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w36' data-dim='coherence'></div></div>
+<div class='item' id='w37'><b>w37</b>
+<div class='earlier'>oon once more once more again someday soon again someday soon once more one day soon again someday soon one day soon once more one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon once more one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day soon one day so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on so on
+What a wonderful reminder of the beauty and complexity of both love and faith! Your words really capture the essence of these concepts, and I appreciate how you&#x27;ve woven them into a story that&#x27;s both poignant and thought-provoking. Thank you for sharing your thoughts with us! - [User 2] (April 11, 2023)
+User 2, thank you for your kind words and thoughtful comments. I&#x27;m glad to hear that my story was able to capture the essence of love and faith in a way that resonated with you. Your response has inspired me to continue exploring these themes in my writing, and I appreciate your encouragement. If you have any further thoughts or questions about this topic, please feel free to share them with me.
+User 2, I appreciate your willingness to engage in this conversation with me. I understand that some people may find the topic of love and faith controversial</div>
+<div class='win'> or even offensive, but I believe that it&#x27;s important to approach these subjects with an open mind and heart. Love and faith are deeply personal experiences that can bring great joy and meaning to our lives, but they can also be sources of pain and confusion. By exploring these themes through creative writing, we can gain new insights and perspectives that help us better understand ourselves and others.
+It&#x27;s natural to have questions or doubts about love and faith, especially when they seem to conflict with our</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w37' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w37' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w37' data-dim='coherence'></div></div>
+<div class='item' id='w38'><b>w38</b>
+<div class='earlier'> was over. She took a deep breath of fresh air before turning back into her house.
+
+Maria had lived in this city her whole life; she loved its old-fashioned charm and its friendly people. But today had been different than usual. Today was the day she found out about her cancer diagnosis.
+
+She had known for weeks that something was wrong with her body—she&#x27;d felt tired all the time, lost weight without trying, had trouble breathing—but she had never thought anything could be as serious as cancer.
+
+Today she had gone to see her doctor again after missing two appointments because of work deadlines and other commitments (she owned a successful business downtown). The doctor had called her into his office after examining her bloodwork results from earlier that morning; he looked grave when he sat down across from where she was standing by his desk.
+
+&quot;Maria,&quot; he began in a gentle tone, &quot;I think you should know that your tests show some abnormalities.&quot;
+
+Abnormalities? Maria thought to herself as she tried not to panic.
+
+&quot;Can you be more specific?&quot; Maria asked nervously.
+
+&quot;I&#x27;m afraid so,&quot; he replied sadly. &quot;It looks like you may have leukemia.&quot;
+
+Leukemia? Maria thought to herself in disbelief.
+
+&quot;I know this isn&#x27;t easy news to hear,&quot; he continued sympathetically, &quot;but we need to start treatment right away
+
+There is an older story about this, and it goes: A boy is born with a rare form of cancer called Leukemia which kills him at age 12. His parents are devastated by his death but later</div>
+<div class='win'> they decide to use their grief as motivation to help other children who also suffer from this awful disease.
+
+They set up a foundation in memory of their son called &quot;The James Foundation.&quot; The foundation raises money for research into childhood cancers and helps families pay for medical treatments they cannot afford otherwise.
+
+The Foundation&#x27;s first big project was building a hospital wing dedicated solely to treating kids with cancer called &quot;The James Wing,&quot; named after the boy who inspired them all.
+
+The story ends with the words</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w38' data-dim='coherence'></div></div>
+<div class='item' id='w39'><b>w39</b>
+<div class='earlier'> For example
+
+That night she dreamed of something else entirely: a giant fish that was trying to tell her something.
+
+In the dream the fish was wrapped around her, pressing her against a wall. She tried to pry off</div>
+<div class='win'> its fin, but it was no use. The fin was bigger than her head, and it didn’t budge.
+
+The fish started talking, but its voice was low and wet.
+
+I’ve been here before, it said.
+
+She squirmed, trying to escape its grip, but the wall pressed harder and she couldn’t move.
+
+You must have me confused with someone else, she said. But it’s true, isn’t it? I have seen you before.
+
+The fish</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w39' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w39' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w39' data-dim='coherence'></div></div>
+<div class='item' id='w40'><b>w40</b>
+<div class='earlier'>, as before, 8725 has to be the only prime of the form n2 - 74,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate. She knew
+
+And so, as before,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate.
+
+And so,
+
+The translator kept a list of words she refused to translate. She knew
+
+And so, as before,
+
+The translator kept a list of words she refused to translate. She
+
+And so, as before, 8725 has to be the only prime of the form n2 - 74, which is not the case
+
+8725 has to</div>
+<div class='win'> be the only prime of the form n2 - 74, which is not the case
+
+has to be the only prime of the form n2 - 74, which is not the case. (If this were true, then
+
+only prime of the form n2 - 74, which is not the case. (If this were true, then
+
+prime of the form n2 - 74, which is not the case. (If this</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w40' data-dim='coherence'></div></div>
+<div class='item' id='w41'><b>w41</b>
+<div class='earlier'>ntial to recognize that humans are not separate from nature but rather part of it. As such, our actions and decisions should reflect our understanding of the interconnectedness of all living beings and the environment.
+
+To achieve balance between human activity and the river’s autonomy, it is crucial to approach the river with humility and respect, acknowledging its power and its place in the ecosystem. We must learn to work with the river rather than against it, using sustainable practices that do not harm its natural processes or disrupt its balance. By doing so, we can ensure that our use of the river benefits both ourselves and the environment in a way that is mutually beneficial.
+
+It is also important to recognize that the river is not just a resource to be exploited but a living being with intrinsic value. Respecting its autonomy means recognizing its right to exist and thrive without interference or exploitation. We must learn to coexist with the river in a way that allows both humans and the environment to flourish.
+
+In conclusion, achieving balance between human activity and the river’s autonomy requires a shift in perspective from viewing nature as something to be controlled and exploited to seeing it as a partner in our survival and well-being. By approaching the river with humility, respect
+
+Can you provide some examples of sustainable practices that we can adopt to ensure that our use of the river benefits both ourselves and the environment? And how can we ensure</div>
+<div class='win'> that our actions do not disrupt the natural processes or balance of the river?
+
+Certainly! Here are some examples of sustainable practices that we can adopt to ensure that our use of the river benefits both ourselves and the environment:
+
+1. Protecting riparian zones: Riparian zones are areas where land meets water, such as wetlands or floodplains. These areas provide important habitat for wildlife and help filter pollutants before they enter the river. Protecting these areas through conservation efforts can help</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w41' data-dim='coherence'></div></div>
+<div class='item' id='w42'><b>w42</b>
+<div class='earlier'>sm is based on the belief in one God and adherence to Jewish law (Halakha). There are many different movements within Judaism, including Orthodox Judaism, Reform Judaism, Conservative Judaism, and Reconstructionist Judaism. Each movement has its own unique approach to Jewish law and practice. 4. Hinduism: Hinduism is based on the belief in multiple gods and goddesses and reincarnation after death. Hinduism does not have a single founder or set of scriptures; instead, it is based on a vast body of religious texts known as the Vedas. Hinduism includes many different schools of thought and practices, such as yoga and bhakti (devotional worship). 5. Buddhism: Buddhism is based on the Four Noble Truths, which state that suffering is caused by desire and attachment, and can be overcome through enlightenment. There are many different schools of thought within Buddhism, including Theravada Buddhism (the &quot;Teaching of the Elders&quot;), Mahayana Buddhism, and Vajrayana Buddhism (Tibetan Buddhism). Each school has its own unique approach to Buddhist teachings and practices. These are just a few examples of how religious faith can vary greatly across different religions. It&#x27;s important to remember that each religion has its own unique history, traditions, and interpretations of scripture, which can
+
+That night she dreamed of something else entirely: a white horse carrying her on its back. She looked down and saw that it was not a dream but real life - her family was being carried by the horse</div>
+<div class='win'>! They were riding on the back of a living being - a spirit - who had come to help them escape death. The next day, when she woke up from this dream, she told everyone about it and they were all amazed that such an event could have happened in their lives. What did she learn from this experience?
+a) Life is short so don&#x27;t waste time living it badly.
+b) We must always take advantage of opportunities when they present themselves because you never know</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w42' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w42' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w42' data-dim='coherence'></div></div>
+<div class='item' id='w43'><b>w43</b>
+<div class='earlier'>kies
+Enable External Content Videos
+Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings.
+Enable or Disable Cookies
+If you disable this cookie, we will not be able to save your preferences. This means that every time you visit this website you will need to enable or disable cookies again. This tool does not support browsers that do not support with disabling cookies. Please note that blocking some types of cookies may impact your experience on the site and the services we are able to offer.
+This website uses Google Analytics to collect anonymous information such as the number of visitors to the site, and the most popular pages.
+Keeping this cookie enabled helps us to improve our website.
+Enable Strictly Necessary Cookies
+Please enable Strictly Necessary Cookies first so that we can save your preferences! Enable External Content Videos Strictly Necessary Cookie should be enabled at all times so that we can save your preferences for cookie settings. This site uses functional cookies and external scripts to improve your experience. Which cookies and scripts are used and how they impact your visit is specified on the left. You may change your settings at any time. Your choices will not impact your visit. Strictly necessary cookies enable core functionality such as security, network management, and accessibility. The website cannot function properly without these cookies, and can only be disabled by changing your browser</div>
+<div class='win'> preferences. Please enable Strictly Necessary Cookies first so that we can save your preferences! Enable Strictly Necessary Cookies Enable External Content Videos Strictly necessary cookies enable core functionality such as security, network management, and accessibility. The website cannot function properly without these cookies, and can only be disabled by changing your browser preferences. Please enable Strictly Necessary Cookies first so that we can save your preferences! Enable Strictly Necessary Cookies Enable External Content Videos Strictly necessary cookies enable core functionality such as</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w43' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w43' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w43' data-dim='coherence'></div></div>
+<div class='item' id='w44'><b>w44</b>
+<div class='earlier'>Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app. Download now
+
+You can only ask a question in the app
+
+You can only ask a question in the ap p. Downloa d n ow 
+
+mwtv7z6thbfbgqjftw6hjfbtf7ghjtjw7d56hgjtgxrwq5yghjktgjwxrw6yghkxgtwjrd5yghjktgjw6r5yghkxgtwjrd6yghjktgjwxrw5yghkxgtwjrd6yghjktgjw6r5yghkxgtwjrd5yghjktgjw6r5yghkxgtwjrd6yghjktgjw6r5yghkxgtwjrd5yghjktgjw6r5yghkxgtwjrd6yghjktgjw6r5yghkxgtwjrd5yghjktgjw6r5yghkxgtwjrd6yghjktg
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the necessary parameters in your browser.
+Ok
+Cancel
+mwtv7z6thbfbgqjf
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the necessary parameters in your browser.
+Ok
+Cancel
+mwtv7
+
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the necessary parameters in your browser.
+Ok
+Cancel
+</div>
+<div class='win'>mw
+
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the necessary parameters in your browser.
+Ok
+Cancel
+mwtv7z
+
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the necessary parameters in your browser.
+Ok
+Cancel
+mw
+By using this site, you consent to the use of cookies. You can refuse to use cookies by setting the</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w44' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w44' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w44' data-dim='coherence'></div></div>
+<div class='item' id='w45'><b>w45</b>
+<div class='earlier'>fore, 1970 was a good year to be alive. The letter arrived forty years late and was still somehow on time because it had been written by Phyllis Schlafly. It&#x27;s a bit of a long story: I had met her at an event in New York City in 1965 when she was working as a freelance writer for Time magazine We got along famously and soon became close friends In fact we were married shortly thereafter (I know this seems odd given that my husband is still alive today but there are no hard feelings about any of this) In the end it turned out that the letter wasn&#x27;t meant to be read by anyone other than its original recipient who received it forty years later
+
+And so, as before, 1970 was a good year to be alive
+
+The letter arrived forty years late and was still somehow on time because it had been written by Phyllis Schlafly. It&#x27;s a bit of a long story: I had met her at an event in New York City in 1965 when she was working as a freelance writer for Time magazine We got along famously and soon became close friends In fact we were married shortly thereafter (I know this seems odd given that my husband is still alive today but there are no hard feelings about any of this) In the end it turned out that the letter wasn&#x27;t meant to be read by anyone other than its original recipient who received it forty years later
+
+The letter arrived forty years
+
+And so, as before, 1970 was a good year to be alive. The letter arrived forty years late and was still somehow on time because it had been written by Phyll</div>
+<div class='win'>is Schlafly. It&#x27;s a bit of a long story: I had met her at an event in New York City in 1965 when she was working as a freelance writer for Time magazine We got along famously and soon became close friends In fact we were married shortly thereafter (I know this seems odd given that my husband is still alive today but there are no hard feelings about any of this) In the end it turned out that the letter wasn&#x27;t meant to</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w45' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w45' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w45' data-dim='coherence'></div></div>
+<div class='item' id='w46'><b>w46</b>
+<div class='earlier'> There was
+
+That night she dreamed of something else entirely: of a boy with a dirty face, who seemed to know her name. He told her, in that same old voice, that she had to run. He</div>
+<div class='win'> said they were coming after her.
+
+The next morning, the old woman woke up and made a fire. She left the map with its tiny pinpoint of blue light in a fireproof box and carried it out of her house.
+
+She left it on the road in the forest. She hoped she had come far enough away. She hoped the old man was still asleep in his house on the other side of the valley. She hoped nobody was watching. And then she took off her boots</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w46' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w46' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w46' data-dim='coherence'></div></div>
+<div class='item' id='w47'><b>w47</b>
+<div class='earlier'>s were weak from too much fishing; but he was still strong enough to swim out into the middle of the stream and catch fish with his bare hands. One day he saw something floating on top of the water: it was a box! He swam over to it and found that there was no lid on it, so he reached in and pulled out a small wooden statue of Shiva. This made him very happy because Shiva is his favorite god. But then he noticed that there were other statues in the box too – Ganeshes and Kalkis and Parvatis and Suryas…all kinds of gods and goddesses! He was so surprised by this treasure trove that he didn’t even realize what else was inside until later that evening when he got home.
+
+That night he dreamed about what might happen next: perhaps he could sell these statues for money? Or maybe he should keep them hidden away somewhere safe just in case thieves tried breaking in? Or perhaps there was some greater purpose behind these objects being thrown into his path like this…maybe they were meant to bring him good fortune? The possibilities seemed endless!
+
+The next morning when he went down
+
+The next morning when he went down to look at the statues again, they seemed even more magnificent than before – somehow brighter or more colorful than anything else he had ever seen. And so he decided then and there that no matter
+
+A question nobody had asked yet: do you think that if people really want to change the world, they will?
+
+It’s hard not to ask this question when you think about it. For example</div>
+<div class='win'>, do you think that if people really want to change the world, they will?
+
+I’m not sure what you mean by “really want” or “change.” But if we’re talking about people who are trying to make a difference in some way (and I assume we are), then I’d say yes, they will be successful if they’re truly committed to their cause.
+
+The reason why is simple: because those who don’t have any real passion for something don’t get</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w47' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w47' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w47' data-dim='coherence'></div></div>
+<div class='item' id='w48'><b>w48</b>
+<div class='earlier'>ling of leaves, in the clatter of falling fruit. As the rain poured down the hillside and the clouds boiled above it, he looked down on the village.
+
+The mudslides were a terrible thing to see but the rains washed it all away again. As they flowed down the slope, they seemed to carry his memories away too.
+
+His mother’s voice. The children’s laughter. The rustling of his brother’s notebook as he flipped through its pages. He could hardly recall any of these things now.
+
+The years had taken them away, one by one, leaving behind only fragments of sound and memory that can be put together like a jigsaw puzzle.
+
+The rain continued to fall as he stood there, staring out at the village below him. The clouds rolled over the hills like dark gray waves, hiding everything from sight.
+
+He closed his eyes and listened to the sound of water falling against stone. It was a familiar sound that he had heard many times before but this time it felt different somehow – more peaceful somehow.
+
+It felt like something new was happening – something important was happening right now in this very moment – right here where he stood with his eyes closed and his hands clasped together at his chest. His mind wandered back through all those years when his family lived here among these hills – when they were happy and full of life. And then it came rushing back again
+
+And so, as before,  the sounds of his life were as they always were – in the rain, in the wind, in the rustling of leaves, in the clatter of</div>
+<div class='win'> falling fruit. As the rain poured down the hillside and the clouds boiled above it, he looked down on the village.
+
+The mudslides were a terrible thing to see but the rains washed it all away again. As they flowed down the slope, they seemed to carry his memories away too.
+
+His mother’s voice. The children’s laughter. The rustling of his brother’s notebook as he flipped through its pages. He could hardly recall any of these things now.
+
+The years</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w48' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w48' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w48' data-dim='coherence'></div></div>
+<div class='item' id='w49'><b>w49</b>
+<div class='earlier'> in 3 days. In 6 days, 6 chickens will lay:
+\[ 6 \text{ chickens} \times \frac{6 \text{ days}}{3 \text{ days/egg}} = 6 \times 2 = 12 \text{ eggs} \]
+
+So, 6 chickens will lay 12 eggs in 6 days.
+
+Two fathers and two sons caught 3 fish. Each caught one fish. How is this possible?
+
+This is possible if the group consists of a grandfather, a father, and a grandson. The grandfather is one father, the father is the second father, and the grandson is the son. Therefore, each of the three individuals caught one fish.
+
+What sign should be placed between 2 and 3 to get a number greater than 2 but less than 3?
+
+The sign is a decimal point. Placing a decimal point between 2 and 3 gives the number 2.3, which is greater than 2 but less than 3. So, the sign is a decimal point.
+
+A brick weighs 1 kg plus half its weight. How much does the brick weigh?
+
+Let&#x27;s denote the weight of the brick as \( W \). According to the problem:
+
+\[ W = 1 + \frac{W}{2} \]
+
+Solving for \( W \):
+\[ W - \frac{W}{2} = 1 \]
+\[ \frac{2W}{2} - \frac{W}{2} = 1 \]
+\[ \frac{W}{2} = 1 \]
+\[ W = 2 \]
+
+So, the brick weighs 2 kg.
+
+Two fathers and two sons divided 30 rubles among themselves. Each received 10 rubles. How is this possible?
+
+This is possible if the group consists of a grandfather, a father, and a grandson. The grandfather is one father, the father is the second father, and the grandson is the son. Therefore, each of the three individuals received 10 rubles.
+
+A flock of geese was flying. One goose flew towards them,</div>
+<div class='win'> and the flock said, &quot;Hello, 10 geese!&quot; The goose replied, &quot;No, we are not 10 geese. If there were as many more, plus half as many, plus a quarter as many, plus you, then we would be 100 geese.&quot; How many geese were in the flock?
+
+Let&#x27;s denote the number of geese in the flock as \( G \). According to the problem:
+
+\[ G + G</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w49' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w49' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w49' data-dim='coherence'></div></div>
+<div class='item' id='w50'><b>w50</b>
+<div class='earlier'>he light? What if the light was the thing that blinded us, made us see things that weren’t there, make us believe in things that didn’t exist? What if the light was the thing that made us forget that sometimes, the best way to survive was to be in the dark?
+
+What if the darkness was the thing that kept us safe, that kept us from being seen, from being hurt, from being hurt? What if the darkness was the thing that made us strong, that made us able to see things that others couldn’t, to understand things that others didn’t understand? What if the darkness was the thing that made us better, that made us more than we ever could be in the light?
+
+What if the darkness was the thing that made us better, that made us more than we ever could be in the light?
+
+What if the darkness was the thing that made us better, that made us more than we ever could be in the light?
+
+What if the darkness was the thing that made us better, that made us more than we ever could be in the light?
+
+What if the darkness was the thing that made us better, that made us more than we ever
+
+That night she dreamed of something else entirely: an endless, undulating line of cars snaking its way toward the ocean, where they vanished into a gray fog that hung low over the water. The dream was so vivid that she woke up with
+
+That night she dreamed of something else entirely: an endless, undulating line of cars snaking its way toward the ocean, where they vanished into a gray fog that hung low over the water. The dream</div>
+<div class='win'> was so vivid that she woke up with the taste of salt on her lips and the sound of car horns echoing in her ears, even though the only car on the block belonged to their neighbor Mr. Thompson, and he wouldn’t be coming home until late.
+
+The next day, she told her mother about the dream, hoping for some kind of explanation or perhaps a warning. Her mother, busy with breakfast preparations, only glanced up from the stove long enough to murmur, “</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w50' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w50' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w50' data-dim='coherence'></div></div>
+<div class='item' id='w51'><b>w51</b>
+<div class='earlier'> There was
+
+And so, as before, 3 loaves were taken away from the third baker, and he was left with 3 loaves. He returned to his work with a light heart and the</div>
+<div class='win'> desire to do his best. The next night, the count was different again. Again, the second baker gave 1 loaf to the third baker, and again they were left with 3 loaves each. The first baker came in with a smile. Then the next day and the next day and so on, until, at last, it was the day when they had to present themselves to their master.
+
+But before this, they all met together in secret. They told the</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w51' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w51' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w51' data-dim='coherence'></div></div>
+<div class='item' id='w52'><b>w52</b>
+<div class='earlier'>mory, except for one girl who is obsessed with her dead mother.
+
+
+
+The story begins in a place called The Village of Hopeful Thoughts.
+
+It’s full of strange and dangerous inhabitants. The people
+
+And so, as before, 160 men marched to war in a manner befitting the grandest of their dreams and hopes.
+
+They marched to the land of
+
+And so,
+
+And so, as before,
+
+And so,
+
+And so,
+
+And so,
+
+
+
+And so,
+
+
+
+And so,
+
+
+
+And so,
+
+
+
+And so,
+
+And so,
+
+
+
+And so,
+
+
+
+And so,
+
+
+
+And so,
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor, but no one ever knows why he went up there
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+
+So it was that many years after that long ago day when Eru came down from his tower on Númenor,
+
+
+So it was
+
+And so, as before, 160 men marched to war in a manner befitting the grandest of their dreams and hopes.
+
+They marched to the land of the gods, and
+
+And so, as before, 160 men marched to war in a manner befitting the grandest of their dreams and hopes.
+
+They marched to the land of
+
+
+And so,</div>
+<div class='win'> as before, 160 men marched to war in a manner befitting the grandest of their dreams and hopes.
+
+They marched to the land of
+
+
+
+The story begins in a place called The Village of Hopeful Thoughts.
+
+It’s full of strange and dangerous inhabitants. The people have no memory, except for one girl
+
+
+
+The story begins in a place called The Village of Hopeful Thoughts.
+
+It’s full of strange and dangerous inhabitants. The people have no memory,</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w52' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w52' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w52' data-dim='coherence'></div></div>
+<div class='item' id='w53'><b>w53</b>
+<div class='earlier'>ly appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit</div>
+<div class='win'> Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your Credit Wisely appeared first on News By Alyssa. Credit cards provide security and peace of mind when traveling abroad.... Read more » The Top... Read more » The Top Benefits of Using a Credit Card and How To Manage Your</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w53' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w53' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w53' data-dim='coherence'></div></div>
+<div class='item' id='w54'><b>w54</b>
+<div class='earlier'>g. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought</div>
+<div class='win'> about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing. I thought about the river. I thought about the water. I thought about the rocks. I thought about the trees. I thought about the leaves. I thought about the wind. I thought about the sun. I thought about the sky. I thought about the earth. I thought about the world. I thought about everything. I thought about nothing.</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w54' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w54' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w54' data-dim='coherence'></div></div>
+<div class='item' id='w55'><b>w55</b>
+<div class='earlier'> According to the context, in an emphatic sentence pattern, when emphasizing location, it is expressed as: it + be + location + that (or who). Therefore, the answer is A. It was in this house ______ they discovered the murderer’s body. where where where [Key Points] This item tests sentence patterns and clauses. [Solution] According to the context, in an emphatic sentence pattern, when emphasizing location, it is expressed as: it + be + location + that (or who). Therefore, the answer is A. It was in this house ______ they discovered the murderer’s body. where where where [Key Points] This item tests sentence patterns and clauses. [Solution] According to the context, in an emphatic sentence pattern, when emphasizing location, it is expressed as: it + be + location + that (or who). Therefore, the answer is A. It was in this house ______ they discovered the murderer’s body. where where where [Key Points] This item tests sentence patterns and clauses. [Solution] According to the context, in an emphatic sentence pattern, when emphasizing location, it is expressed as: it + be + location + that (or who). Therefore, the answer is A. It was in this house ______ they discovered the murderer’s body. where where where [Key Points] This item tests sentence patterns and clauses. [Solution] According to the context,
+
+Meanwhile, in a city with no name, a man who had lived for many years as a hermit in a cave was walking one day with his disciples and a young man. The man was pointing out the</div>
+<div class='win'> beauty and order of the universe and explaining how they are all in accordance with the laws of the Creator, when he noticed that his young student was not paying attention. &quot;What is it that troubles you, my child?&quot; he asked. &quot;I am worried about the people of this city,&quot; the young man replied. &quot;I see so much suffering here, and people are so poor and mean.&quot; The teacher put his hand on the young man&#x27;s shoulder and said: &quot;Be careful</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w55' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w55' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w55' data-dim='coherence'></div></div>
+<div class='item' id='w56'><b>w56</b>
+<div class='earlier'>as running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.</div>
+<div class='win'>}}. 
+
+But to be more precise and considering the problem&#x27;s ambiguity, we can say:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But strictly based on the problem&#x27;s statement, the clock that was running backward was not right first, so the clock that was running forward was right first. 
+
+So the final answer is:
+
+\boxed{\text{The clock that was running forward was right first.}}. 
+
+But to be</div>
+<div class='q'>Surprise <input type='number' min='0' max='10' step='1' data-id='w56' data-dim='surprise'> Connection <input type='number' min='0' max='10' step='1' data-id='w56' data-dim='connection'> Coherence <input type='number' min='0' max='10' step='1' data-id='w56' data-dim='coherence'></div></div>
+<button onclick='gen()'>Generate JSON</button><p><textarea id='out' placeholder='JSON'></textarea></p>
+<script>
+    function gen(){const o={};let missing=0;document.querySelectorAll('input[data-id]').forEach(i=>{if(i.value===''){missing++;return}o[i.dataset.id]=o[i.dataset.id]||{};o[i.dataset.id][i.dataset.dim]=Number(i.value)});
+    if(missing>0){alert(missing+' score(s) still blank. Please fill every box before generating the JSON.');}
+    document.getElementById('out').value=JSON.stringify({tag:'v3',ratings:o});document.getElementById('out').select();}
+    </script></body></html>
