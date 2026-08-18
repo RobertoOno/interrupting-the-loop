@@ -227,6 +227,26 @@ def main() -> None:
         axes[0].set_ylabel("Spearman ρ with judged surprise"); axes[0].legend(fontsize=7, frameon=False)
         fig.suptitle("H2 — which layer's movement predicts judged surprise?", fontsize=10)
         fig.tight_layout(); fig.savefig(FIG / f"hidden_h2_novelty_{args.tag}.png", dpi=170, bbox_inches="tight"); plt.close(fig)
+        # cluster (cell) bootstrap CIs for the pooled correlations at the first and last captured layer:
+        # windows from the same stream are not independent, so resample cells, not windows
+        def cell_boot(key, subset, n=2000, seed=0):
+            by = {}
+            for r in subset:
+                if key in r:
+                    by.setdefault(r["cell"], []).append(r)
+            cs = list(by); rng = np.random.default_rng(seed); vals = []
+            for _ in range(n):
+                pick = rng.choice(len(cs), len(cs), replace=True)
+                sample = [r for i in pick for r in by[cs[i]]]
+                xs = [r[key] for r in sample]; ys = [r["surprise"] for r in sample]
+                if len(set(xs)) > 2 and len(set(ys)) > 2:
+                    vals.append(spearmanr(xs, ys)[0])
+            return (float(np.percentile(vals, 2.5)), float(np.percentile(vals, 97.5))) if vals else (float("nan"), float("nan"))
+        md.append("\n**Cluster-robust intervals** (bootstrap over cells, 2,000 resamples) for the pooled Spearman with surprise:\n")
+        for feat, ttl in (("nov", "novelty vs the past"), ("step", "local step")):
+            for l in (layers[0], layers[len(layers) // 2], layers[-1]):
+                rho, _ = spear(f"{feat}_L{l}", rows); lo, hi = cell_boot(f"{feat}_L{l}", rows)
+                md.append(f"- {ttl}, layer {l}: rho = {rho:+.2f}, cell-bootstrap 95% CI [{lo:+.2f}, {hi:+.2f}]")
         rho_c, p_c = spear("commit", rows); rho_f, p_f = spear("final_entropy", rows)
         md.append(f"\nCommitment layer (mean first-agreeing captured layer) vs surprise: ρ={rho_c:+.2f} (p={p_c:.1e}); "
                   f"final entropy vs surprise: ρ={rho_f:+.2f} (p={p_f:.1e}).")

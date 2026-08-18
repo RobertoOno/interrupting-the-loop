@@ -55,6 +55,15 @@
 | 44 | +0.48 | 4.7e-48 | +0.30 | +0.31 | +0.60 | +0.23 | +0.22 | +0.01 | +0.45 | +0.27 |
 | 47 | +0.36 | 6.1e-26 | +0.15 | +0.24 | +0.58 | +0.33 | +0.22 | +0.21 | +0.35 | +0.07 |
 
+**Cluster-robust intervals** (bootstrap over cells, 2,000 resamples) for the pooled Spearman with surprise:
+
+- novelty vs the past, layer 0: rho = +0.47, cell-bootstrap 95% CI [+0.40, +0.55]
+- novelty vs the past, layer 24: rho = +0.11, cell-bootstrap 95% CI [+0.01, +0.21]
+- novelty vs the past, layer 47: rho = +0.04, cell-bootstrap 95% CI [-0.07, +0.16]
+- local step, layer 0: rho = +0.49, cell-bootstrap 95% CI [+0.39, +0.57]
+- local step, layer 24: rho = +0.49, cell-bootstrap 95% CI [+0.41, +0.56]
+- local step, layer 47: rho = +0.36, cell-bootstrap 95% CI [+0.28, +0.44]
+
 Commitment layer (mean first-agreeing captured layer) vs surprise: ρ=-0.12 (p=5.6e-04); final entropy vs surprise: ρ=+0.39 (p=5.8e-31).
 - within bare + habituation: commit ρ=-0.02 (p=9.1e-01), final entropy ρ=+0.58 (p=1.2e-05), mean commit 10.91, mean surprise 1.24
 - within clock: re-encounter: commit ρ=-0.19 (p=1.4e-01), final entropy ρ=+0.08 (p=5.6e-01), mean commit 10.91, mean surprise 2.55
