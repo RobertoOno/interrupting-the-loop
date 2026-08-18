@@ -2,17 +2,17 @@
 
 Windows of 96 model-generated tokens starting 32 tokens after each injection (none crossing an injection); uniform grid for uninterrupted arms; the judge sees the 600 preceding tokens as context. Unit = cell (premise); CIs are bootstrap over cells; paired comparisons use exact sign-flip permutation p-values on the 10 paired differences and Cliff's delta on cell means. Opus 5, k=5, median per window.
 
-271 judged windows on the main generator, 91 on Qwen3-8B, 74 on OLMo-2.
+279 judged windows on the main generator, 94 on Qwen3-8B, 77 on OLMo-2.
 
 
 ### Q1 — habituation × interruption (period 150) and baselines — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 3 | 0.68 [0.33, 1.20] | 0.41 [0.17, 0.67] | 3.34 [1.33, 6.20] |
+| bare | 3 | 0.72 [0.33, 1.33] | 0.50 [0.17, 0.67] | 3.33 [1.33, 6.17] |
 | bare + habituation | 2 | 1.75 [1.50, 2.00] | 1.00 [1.00, 1.00] | 5.17 [4.33, 6.00] |
 | reseed 150, no habituation | 0 | — | — | — |
-| habituation + reseed 150 | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
+| habituation + reseed 150 | 3 | 2.94 [2.00, 3.83] | 3.50 [2.33, 5.17] | 7.06 [6.33, 8.00] |
 | DREAM scaffold | 2 | 2.25 [1.50, 3.00] | 1.08 [1.00, 1.17] | 5.00 [4.67, 5.33] |
 | habituation 1.3 | 0 | — | — | — |
 | habituation, EOS allowed | 0 | — | — | — |
@@ -26,9 +26,9 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| neutral subject change | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
+| neutral subject change | 3 | 2.94 [2.00, 3.83] | 3.50 [2.33, 5.17] | 7.06 [6.33, 8.00] |
 | re-encounter stitch | 3 | 3.50 [2.67, 4.00] | 4.83 [3.33, 6.00] | 6.61 [5.83, 7.00] |
-| the premise itself | 2 | 0.75 [0.33, 1.17] | 0.58 [0.17, 1.00] | 4.92 [3.67, 6.17] |
+| the premise itself | 3 | 1.50 [0.33, 3.00] | 0.72 [0.17, 1.00] | 5.28 [3.67, 6.17] |
 | the stream's own past | 2 | 0.75 [0.50, 1.00] | 0.83 [0.67, 1.00] | 3.58 [2.83, 4.33] |
 
 ### vs neutral subject change — paired by seed
@@ -43,7 +43,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | no interruption | 2 | 1.75 [1.50, 2.00] | 1.00 [1.00, 1.00] | 5.17 [4.33, 6.00] |
 | paragraph break (sham) | 0 | — | — | — |
 | continuity connective (sham) | 0 | — | — | — |
-| subject change, context preserved | 1 | 1.67 [nan, nan] | 1.83 [nan, nan] | 6.67 [nan, nan] |
+| subject change, context preserved | 2 | 2.83 [1.67, 4.00] | 1.92 [1.83, 2.00] | 6.33 [6.00, 6.67] |
 | subject change, no habituation | 0 | — | — | — |
 | subject change, context reset | 0 | — | — | — |
 | break, context reset | 0 | — | — | — |
@@ -60,7 +60,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | stitch on the clock 150 | 3 | 3.50 [2.67, 4.00] | 4.83 [3.33, 6.00] | 6.61 [5.83, 7.00] |
 | stitch on the clock 900 | 2 | 3.40 [2.80, 4.00] | 3.25 [2.80, 3.70] | 6.30 [5.80, 6.80] |
 | neutral change 900 | 2 | 2.60 [2.60, 2.60] | 2.00 [1.80, 2.20] | 6.80 [6.80, 6.80] |
-| stitch on salience events | 1 | 2.50 [nan, nan] | 1.50 [nan, nan] | 5.00 [nan, nan] |
+| stitch on salience events | 2 | 3.00 [2.50, 3.50] | 2.00 [1.50, 2.50] | 5.25 [5.00, 5.50] |
 | salience only | 3 | 1.39 [0.17, 2.50] | 0.78 [0.00, 1.33] | 3.89 [2.50, 4.67] |
 
 ### vs stitch on the clock 900 — paired by seed
@@ -72,8 +72,8 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| 150 | 2 | 2.92 [2.00, 3.83] | 3.75 [2.33, 5.17] | 6.58 [6.33, 6.83] |
-| 300 | 1 | 1.67 [nan, nan] | 1.83 [nan, nan] | 6.67 [nan, nan] |
+| 150 | 3 | 2.94 [2.00, 3.83] | 3.50 [2.33, 5.17] | 7.06 [6.33, 8.00] |
+| 300 | 2 | 2.83 [1.67, 4.00] | 1.92 [1.83, 2.00] | 6.33 [6.00, 6.67] |
 | 600 | 2 | 2.42 [2.33, 2.50] | 1.83 [1.50, 2.17] | 7.00 [6.50, 7.50] |
 | 900 | 2 | 2.60 [2.60, 2.60] | 2.00 [1.80, 2.20] | 6.80 [6.80, 6.80] |
 
@@ -86,7 +86,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | period | offset 32 | offset 160 | offset 300 | offset 450 | offset 600 | offset 750 | stream estimate (S / C / H) |
 |---|---|---|---|---|---|---|---|
-| 150 | — | — | — | — | — | — | nan / nan / nan |
+| 150 | 2.94 (n=3) | — | — | — | — | — | 2.94 / 3.50 / 7.06 |
 | 300 | — | — | — | — | — | — | nan / nan / nan |
 | 600 | — | — | — | — | — | — | nan / nan / nan |
 | 900 | — | — | — | 2.22 (n=3) | — | — | 2.22 / 1.78 / 4.44 |
@@ -118,7 +118,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 3 | 0.94 [0.17, 1.50] | 0.67 [0.00, 1.33] | 2.72 [0.83, 3.83] |
+| bare | 4 | 1.21 [0.50, 1.79] | 0.92 [0.33, 1.50] | 3.54 [1.58, 5.38] |
 | bare + habituation | 3 | 2.56 [1.50, 3.83] | 1.92 [1.00, 2.75] | 5.50 [3.83, 6.67] |
 | habituation + reseed 150 | 3 | 3.47 [2.17, 4.58] | 3.83 [3.00, 4.67] | 5.00 [4.67, 5.17] |
 | DREAM scaffold | 3 | 3.67 [2.00, 5.00] | 2.72 [1.00, 4.00] | 6.50 [5.00, 8.00] |
@@ -143,21 +143,21 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 |---|---|---|---|---|
 | abl_forget | 3.44 / 2.39 | 1.73 / 1.33 | 3.88 / 4.78 | 10 / 3 |
 | salience only | 2.86 / 1.39 | 1.53 / 0.78 | 3.85 / 3.89 | 10 / 3 |
-| bare | 0.28 / 0.68 | 0.20 / 0.41 | 2.06 / 3.34 | 10 / 3 |
+| bare | 0.28 / 0.72 | 0.20 / 0.50 | 2.06 / 3.33 | 10 / 3 |
 | bare + habituation | 1.70 / 1.75 | 1.08 / 1.00 | 4.08 / 5.17 | 10 / 2 |
-| habituation + reseed 150 | 3.08 / 2.92 | 3.15 / 3.75 | 4.78 / 6.58 | 10 / 2 |
-| reseed 300 | 4.01 / 1.67 | 3.12 / 1.83 | 5.98 / 6.67 | 10 / 1 |
+| habituation + reseed 150 | 3.08 / 2.94 | 3.15 / 3.50 | 4.78 / 7.06 | 10 / 3 |
+| reseed 300 | 4.01 / 2.83 | 3.12 / 1.92 | 5.98 / 6.33 | 10 / 2 |
 | reseed 600 | 3.64 / 2.42 | 2.64 / 1.83 | 5.50 / 7.00 | 10 / 2 |
 | reseed 900 | 4.28 / 2.60 | 2.53 / 2.00 | 5.55 / 6.80 | 10 / 2 |
 | stitch 900 | 3.91 / 3.40 | 3.01 / 3.25 | 5.17 / 6.30 | 10 / 2 |
-| premise 150 | 1.02 / 0.75 | 0.98 / 0.58 | 3.03 / 4.92 | 10 / 2 |
+| premise 150 | 1.02 / 1.50 | 0.98 / 0.72 | 3.03 / 5.28 | 10 / 3 |
 | re-encounter stitch 150 | 2.55 / 3.50 | 3.53 / 4.83 | 4.67 / 6.61 | 10 / 3 |
 | own past 150 | 1.37 / 0.75 | 1.50 / 0.83 | 3.03 / 3.58 | 10 / 2 |
-| salience-timed stitch | 3.00 / 2.50 | 2.26 / 1.50 | 3.85 / 5.00 | 10 / 1 |
+| salience-timed stitch | 3.00 / 3.00 | 2.26 / 2.00 | 3.85 / 5.25 | 10 / 2 |
 | DREAM scaffold | 3.50 / 2.25 | 1.70 / 1.08 | 3.82 / 5.00 | 10 / 2 |
 
-Spearman across conditions (surprise): rho = +0.55 (n = 14 conditions).
+Spearman across conditions (surprise): rho = +0.57 (n = 14 conditions).
 
-Spearman across conditions (connection): rho = +0.96 (n = 14 conditions).
+Spearman across conditions (connection): rho = +0.93 (n = 14 conditions).
 
-Spearman across conditions (coherence): rho = +0.91 (n = 14 conditions).
+Spearman across conditions (coherence): rho = +0.80 (n = 14 conditions).
