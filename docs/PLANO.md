@@ -1065,7 +1065,8 @@ uma vs Opus em surpresa ρ 0.40 / 0.50 / 0.47 (p ≤ 1e-3); coerência 0.60 /
 > saliência 5.0 > arcabouço 3.6 ≈ habituação 3.6 > nu 1.5; interrupção − nu
 [+3.1, +6.5]; habituação − nu [+0.1, +3.9]. Em coerência humanos preferem
 habituação sem interrupção (7.7) às interrompidas (5.7–6.3). Parágrafo do
-§6 escrito com esses números; falta a Candidate D e o valor pago.
+§6 escrito com esses números; falta a Candidate D. Pagamentos: Rater A [valor omitido];
+Rater B [valor omitido]; Rater C [valor omitido] (no paper: valores omitidos).
 
 **Estado do manuscrito (2026-08-16, 20h)**: rascunho completo v1 —
 `docs/PAPER_DREAM.md` (inglês) e `docs/PAPER_DREAM_pt.md` (tradução
