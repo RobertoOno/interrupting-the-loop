@@ -83,6 +83,12 @@ BATTERIES = {
         ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
         ("reset_break300", "reset_break", ["--clock-every", "300"]),
     ],
+    # the core ladder on another model (use --model): unquantized 8B, or the post-trained Qwen3-8B
+    "ladder3": [
+        ("bare", "bare", []),
+        ("bare_habit", "bare_habit", []),
+        ("bare_reseed", "bare_reseed", []),
+    ],
     "fam8b": [
         ("bare", "bare", []),
         ("bare_habit", "bare_habit", []),
