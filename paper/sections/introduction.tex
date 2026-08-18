@@ -31,8 +31,11 @@ windows of forced open-ended continuation, as read by an LLM judge that is
 itself measured (repeatability, a second judge family, human readers). It is
 one ingredient of creativity, the appropriately unexpected turn, and not
 creativity; the title names the question the program set out with, and the
-results answer this narrower one. We test the three places in turn, with one
-measurement stack shared by every experiment: base models run locally at
+results answer this narrower one. We test the three places in turn. They are three related studies (different
+generators, tasks and sample sizes, joined by one question and one measurement
+philosophy), not a factorial decomposition of sampler, prompt and loop under
+common conditions; the loop study is the paper's contribution and the other
+two are its motivation. One measurement stack is shared by every experiment: base models run locally at
 8 bits (a scope decision; Section~\ref{sec:method}); LLM judges from a
 different model family than the generator, sampled $k$ times per window
 with the median as the score; the premise, not the window, as the unit of
