@@ -1,14 +1,21 @@
 \section{Conclusion}
 
-Where does novelty come from when a language model writes with no task? Not
-from the sampler: an anti-probable decoder buys surface novelty that never
-rises to the level of ideas. Not from the prompt: improbable inputs are noise.
-It comes from the loop, and from a simple part of it. A base model feeding on
-its own output freezes; keep it from eating its literal past and interrupt it,
-every few hundred tokens, with a sentence that leads away, over everything it
-remembers, and it comes alive: it develops, is broken, and finds its own way
-back, and that is what a reader (human, or one of two model families) calls
-surprise with connection. Inside the network the working interruption is a
-surface event over an intact deep state; the deep re-encounter is forgetting,
-and it is rewarded less. Creativity, in this system, is in interrupting the
-loop.
+Where does the novelty a base language model can produce with no task come
+from? Not, at the resolution we could reach, from the sampler: an
+anti-probable decoder buys surface novelty that shows no detectable effect at
+the level of ideas. Not, under the operationalizations we tested, from the
+prompt. It comes from the loop, and from a simple part of it. A base model
+feeding on its own output degenerates; keep it from eating its literal past
+and interrupt it, every few hundred tokens, with a sentence that leads away,
+over everything it has written, and its generated text is judged more
+surprising, more connected and more coherent, by an LLM judge from another
+family and by human readers, on windows that contain none of the injected
+words. \todo{one clause on what battery 3 and the confirmatory replication
+add}. Inside the network the working interruption reads as a surface event
+over an intact deep state; the deep re-encounter is forgetting, and it is
+rewarded less. What we have characterized is a controllable intervention on
+forced open-ended generation, its content, timing and period, on three base
+models from two families; whether the same rhythm serves a model at work on a
+problem, with a verifier in place of the judge, is the question this study
+leaves open. In this system, what an unsupervised base model can find is
+found in interrupting the loop.
