@@ -40,20 +40,31 @@ re-encounter stitch highest on connection under both judges.
 
 \paragraph{Human rating.} A blind rating of 63 windows (nine per condition,
 stratified by judged surprise, shuffled, no labels, the earlier text shown) by
-independent raters is in progress. Raters were recruited on a freelance
-platform without knowledge of the hypotheses or conditions (\todo{final
-composition: N raters, native English readers with editorial experience,
-one native/bilingual speaker, and advanced non-native readers}), given a
-one-page guide with the judge's rubric, and instructed not to use AI tools or
-web searches; they rated machine-generated text only, no personal data was
-collected, and they were paid a fixed fee for about 90 minutes of work
-(\todo{US\$XX}). We report inter-rater agreement (Krippendorff's $\alpha$,
-pairwise Spearman), human--judge Spearman correlation per dimension for all
-raters and for native readers only, and per-condition human means. The first
-rater to deliver (63/63 windows, full use of both scales) agrees with Opus~5
-on surprise ($\rho=+0.47$, $p=10^{-4}$) and reproduces the condition
-ordering (interruption arms 7.7--9.0, bare and habituation-only 3.2--3.9,
-scaffold 4.6) while agreeing weakly on coherence ($\rho=+0.23$): to this
-reader, the subject change inside an interrupted window reads as a break in
-coherence that the LLM judge does not penalize. \todo{update with all
-raters}
+independent raters recruited on a freelance platform without knowledge of the
+hypotheses or conditions: so far three of four (a native English reader with
+professional editing experience, a native/bilingual English speaker, and an
+advanced non-native reader with graduate training in language; the fourth, a
+bilingual editor, is pending). Each was given a one-page guide with the
+judge's rubric and instructed not to use AI tools or web searches; they rated
+machine-generated text only, no personal data was collected, and they were
+paid a fixed fee for about 90 minutes of work (\todo{US\$XX}). All three
+returned complete ratings using the whole of both scales, with distinct
+personal calibrations (mean surprise 3.4, 4.3 and 6.1). Each rater alone
+agrees with Opus~5 on surprise (Spearman $\rho=+0.40$, $+0.50$, $+0.47$;
+all $p\le 10^{-3}$) and on coherence ($+0.60$, $+0.47$, $+0.23$); the mean
+of the three agrees more strongly than any one (surprise $\rho=+0.58$,
+$p=7\times10^{-7}$; coherence $+0.52$, $p=10^{-5}$), about as strongly as
+the raters agree with each other (pairwise Spearman on surprise 0.71, 0.38,
+0.25; Krippendorff's interval $\alpha=0.30$; on coherence 0.69, 0.60, 0.42;
+$\alpha=0.38$; the low $\alpha$ reflects the different scale calibrations
+that rank correlation ignores). The human consensus reproduces the condition
+ordering that carries the paper: period-300 interruption 6.5 $\approx$
+neutral clock reseed 6.4 $>$ re-encounter stitch 5.3 $>$ salience-timed 5.0
+$>$ scaffold 3.6 $\approx$ habituation-only 3.6 $>$ bare 1.5 (surprise,
+means over nine windows); interruption vs bare \ci{+3.1}{+6.5}, habituation
+vs bare \ci{+0.1}{+3.9}, and the plain interruption above the full scaffold
+by a wider margin than under Opus. On coherence the human readers rank
+habituation without interruption highest (7.7) and the interrupted arms
+5.7--6.3: to a human reader, the subject change inside a window costs some
+fluency that the LLM judge does not penalize. \todo{update with the fourth
+rater}
