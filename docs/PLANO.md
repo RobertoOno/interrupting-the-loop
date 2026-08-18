@@ -1124,6 +1124,51 @@ título/abstract/conclusão calibrados, terminologia, inconsistências,
 hiperparâmetros, link do repositório, related work +11; figuras com pontos
 por semente; análise interna como descritiva.
 
+**Execução do P0 (2026-08-18, tarde/noite)** — feito até agora: (a)
+`windows_generated` + `--protocol gen` (janelas de 96 tokens só-gerado, 32
+após a injeção; deslocamentos 160/300/450/600/750 para a curva de
+decaimento; grade de 150 nos braços sem injeção) e cinco trabalhadores de
+rejulgamento em `dream_scaffold`, `dream_b2` (dois), `dream_fam8b`,
+`dream_famolmo` (`rejudge_gen.json`); (b) bateria 3 (`runs/dream_b3`, 80
+células: `nohabit150/300`, `sham_break300`, `sham_cont300`, `bare_eos`,
+`habit_strong`, `reset_reseed300`, `reset_break300`), julgamento `gen`
+encadeado; (c) `scripts/analysis_gen.py` — célula como unidade, IC
+bootstrap sobre células, diferenças pareadas por semente com permutação
+exata por sinal (2^10), Cliff δ sobre médias de célula, q-valores BH por
+família de comparações, figuras `fig9_*` com os 10 pontos pareados,
+`docs/APPENDIX_GEN.md`; (d) `scripts/blind_pack3.py` (rodada 2: janelas
+só-gerado, células ao acaso, três dimensões, guia embutido, EN) e
+`blind_score.py` generalizado; (e) paper: related work +11 referências
+verificadas no ACL Anthology (novos parágrafos: repetição/auto-reforço/
+entrainment; avaliação de criatividade e juízes; loops de steering em
+histórias; tuned lens), método reescrito (protocolo primário só-gerado,
+unidade = célula, juiz no loop esclarecido — nas 10 células do scaffold no
+30B o juiz Sonnet revisou 80 eventos e **nenhum** passou o limiar: escalada e
+re-encontro julgado nunca dispararam; nas famílias o scaffold rodou sem
+juiz), modelos base como decisão de escopo, "three generator models from two
+families", hiperparâmetros completos, as dez premissas, prompt do juiz
+literal, parâmetros/datas de API, fonte dos 10k prompts (Alpaca), link do
+repositório (a criar), declaração ética; instrumento (repetibilidade ≠
+validade; limites da rodada 1 humana), limitações, rede como descritiva,
+sampler/prompt como "dois nulos motivadores" com linguagem calibrada.
+Rascunhos Markdown (`PAPER_DREAM*.md`) congelados na v1; o LaTeX é o
+mestre. Pendente: `exp_loop`, introdução, resumo, discussão, conclusão e
+título — só com os números do protocolo novo.
+
+**Bateria 4, confirmatória (pré-registro, 2026-08-18 ~17:10, antes de
+qualquer resultado da bateria 3 ou do rejulgamento `gen`)**: dez premissas
+NOVAS (`NEW_SEEDS` em `scripts/dream_battery2.py`, escritas agora, nunca
+usadas), semente do RNG = 1, cinco braços × 10 células no Qwen3-30B-A3B:
+`bare_habit`, `clock300`, `sham_break300`, `nohabit300`, `reset_reseed300`;
+protocolo `gen`, unidade = célula, teste de permutação exato pareado.
+Contrastes pré-especificados (unilaterais no sentido indicado, α = 0,05):
+**primário** H1: `clock300` > `bare_habit` em surpresa. Secundários: H2:
+`clock300` > `sham_break300` em surpresa (a mudança de assunto vale mais que
+uma fronteira neutra); H3: `clock300` > `reset_reseed300` em conexão
+(preservar o contexto carrega a conexão); H4: `clock300` vs `nohabit300` em
+surpresa (bilateral: a habituação importa dado que há interrupção?). Tudo o
+mais é exploratório. Rodada encadeada após a bateria 3 (`runs/dream_confirm`).
+
 ## Publicação — opções com prazos verificados (2026-08-16)
 
 - **Título final (2026-08-17)**: *Interrupting the Loop: Where Creativity
