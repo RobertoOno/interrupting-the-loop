@@ -55,8 +55,23 @@ with 95\% bootstrap CIs over cells (Qwen3-30B-A3B, generated-only windows).}
 \label{fig:q1}
 \end{figure}
 
-\paragraph{The factorial and the baselines.} \todo{battery 3: interruption
-without habituation (150 and 300) vs with; habituation 1.3; EOS allowed}
+\paragraph{The factorial and the baselines.} Battery~3 completes the
+$2\times2$: the neutral subject change \emph{without} habituation reaches
+2.30 / 2.57 / 5.00 at period 150 and 2.00 / 1.31 / 4.95 at period 300,
+above habituation alone on surprise (+0.90 \ci{-0.03}{+1.70} and +0.55
+\ci{-0.07}{+1.14}, $p=0.19$ both) but well below the same interruption with
+habituation (3.02 and 2.87). The two operations interact: the interruption
+alone revives the stream only partly, because between two injections the
+un-habituated model still falls into its orbits, and habituation alone
+produces a fluent stream that goes nowhere; together they give the effect.
+Two baselines say what habituation is not. A stronger penalty (1.3 instead
+of 1.15) changes nothing (1.60 / 1.00 / 4.31; $\Delta$ 0.00 \ci{-0.67}{+0.60}
+on surprise). Allowing the end-of-text token, so that the model may close its
+document and open another (a boundary of its own choosing, on average every
+few hundred tokens), gives more coherent text (6.12, +1.26 \ci{+0.07}{+2.28})
+and no more surprise or connection (1.22 / 1.06; $-0.28$ and $-0.25$): the
+model's own document breaks are boundaries without a subject, and they do
+what a sham break does below. \todo{refresh with the complete battery 3}
 
 \begin{table}[t]
 \centering\small
@@ -104,9 +119,47 @@ across the space keeping its context.}
 \subsection{What carries the effect: boundary, content, context}
 \label{sec:battery3}
 
-\todo{battery 3 at period 300: paragraph break (sham), continuity connective
-(sham), subject change on preserved context, subject change on reset
-context, break on reset context; figure fig9\_q3\_boundary\_context}
+An interruption is three things at once: a boundary in the text, a new
+subject, and a context that is kept or dropped. Battery~3 separates them at
+period 300 (Figure~\ref{fig:q3}, Table~\ref{tab:gen-q3}). A bare paragraph
+break every 300 tokens (a sham interruption) leaves the stream where
+habituation alone leaves it (1.67 / 0.80 / 4.33 vs 1.55 / 1.28 / 4.48). A
+connective that asks for continuity (\emph{``And so, as before,''}) is worse
+than nothing (0.67 / 0.56 / 3.46; surprise $-1.06$ \ci{-1.92}{-0.04}): a
+boundary that points back closes the loop as the premise and own-past
+injections did. The neutral subject change over the preserved context gives
+2.87 / 2.38 / 6.43 (+1.32 \ci{+0.70}{+1.93} on surprise, $p=0.002$; +1.10 on
+connection, $p=0.014$; +1.95 on coherence, $p=0.02$). And the same subject
+change on a \emph{reset} context, where the model keeps only the premise and
+the injected sentence, gives 3.17 / 3.31 / 7.10 (+1.44 \ci{+1.12}{+1.75}
+surprise, +1.90 connection, +2.21 coherence): as high as, and on coherence
+higher than, the preserved context. Resetting without a new subject (a break
+on a reset context) gives 1.92 / 1.83 / 5.25, little more than the sham.
+What carries the effect, then, is the new subject, with habituation; the
+boundary by itself does nothing, and whether the earlier text stays in the
+model's context or not makes no detectable difference to what the judge
+reads. Two things must be said about that last result. Under reset the model
+cannot integrate the earlier text, and its ``connection'' is what it can
+still do: return to the premise, sometimes verbatim, in a fresh mini-story
+that the judge, seeing 600 tokens of earlier text about the same premise,
+scores as connected and coherent; under the preserved context the model can
+integrate and returns less often, and the judge scores it about the same.
+Connection as this rubric measures it does not separate a long-range
+integration from a return to the shared beginning; the preserved context is
+a choice of the recipe we studied, not a demonstrated ingredient of the
+judged effect. \todo{refresh with the complete battery 3; confirmatory
+replication (H3 pre-registered as clock300 $>$ reset on connection)}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig9_q3_boundary_context.png}
+\caption{What carries the effect at period 300: no interruption, a paragraph
+break (sham), a continuity connective (sham), the subject change on the
+preserved context, the subject change without habituation, the subject
+change on a reset context, and a break on a reset context; one point per
+premise.}
+\label{fig:q3}
+\end{figure}
 
 \subsection{The interruption must lead away}
 \label{sec:content}
