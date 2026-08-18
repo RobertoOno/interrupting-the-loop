@@ -14,7 +14,14 @@ spread of 0.71; Claude Sonnet~5 has spread 0.27, but by scoring zero on the
 connection dimension almost everywhere; a ruler that only reads ``0'' is
 consistent (Figure~\ref{fig:judge}). The three-dimension
 surprise/connection/coherence rubric has spreads of 0.45--0.70 under Opus.
-Two consequences shape the paper. A binary threshold on a noisy judge is a
+A test--retest of the whole pipeline came for free: two arms of the ablation
+battery (the full scaffold and its no-re-encounter ablation) turned out to be
+byte-identical in all ten cells, because the in-loop judge never passed and
+the re-encounter never fired, and they were judged independently. On their 79
+generated-only windows the medians of five agree exactly in 91\% of windows
+on surprise (mean absolute difference 0.09), 85\% on connection (0.15) and
+71\% on coherence (0.29); the cell means differ by $-0.01$ \ci{-0.09}{+0.07}
+on surprise. Two consequences shape the paper. A binary threshold on a noisy judge is a
 coin (the same window scored 5.24 one night and 4.48 the next), so every
 result uses continuous medians of $k$ samples. And a per-judgment noise of
 about $\pm0.7$ is one of several sources of variance, not a threshold of
