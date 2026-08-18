@@ -190,7 +190,7 @@ def block(title, pool, spec, ref, fname=None, offset="primary"):
             ax.set_xticks(range(len(conds))); ax.set_xticklabels([l.replace(" ", "\n", 1) for _, l in conds], fontsize=7)
             ax.set_title(d, fontsize=10); ax.set_ylim(-0.3, 10.3)
         axes[0].set_ylabel("cell mean of judged score (one point per premise)")
-        fig.suptitle(title, fontsize=10, y=1.02); fig.tight_layout()
+        fig.suptitle(title.replace(" — ", ": "), fontsize=10, y=1.02); fig.tight_layout()
         fig.savefig(FIG / fname, dpi=170, bbox_inches="tight"); plt.close(fig)
         print("figure ->", FIG / fname)
     return per
