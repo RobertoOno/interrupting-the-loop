@@ -1218,10 +1218,17 @@ confirmatória em julgamento/geração:
 
 ## Publicação — opções com prazos verificados (2026-08-16)
 
-- **Título final (2026-08-17)**: *Interrupting the Loop: Where Creativity
+- **Título (2026-08-17)**: *Interrupting the Loop: Where Creativity
   Lives in a Language Model*. "Not the sampler, not the prompt" fica no
   resumo. DREAM permanece como nome da hipótese de origem (Método) e a
   receita mínima ganha o termo "the interrupted loop" (Discussão).
+  **Revisto (2026-08-18, após o parecer, decisão do Roberto pendente)**: o
+  parecer desaconselha "Where Creativity Lives" (convida à exigência de uma
+  demonstração geral de criatividade que o estudo não faz); o subtítulo no
+  LaTeX/README passou a *Periodic Subject Changes Raise Judged Surprise and
+  Connection in Base Language Models* (o resultado da bateria 3 tirou "on a
+  preserved context" da frase: o reset funciona igual para o juiz). Reverter
+  é uma linha em `paper/main.tex` e no README.
 
 - **Decisão (2026-08-17, revista)**: na hora de publicar, **migrar com o
   histórico inteiro** — clone-espelho do repositório privado, `git
