@@ -26,14 +26,14 @@ a typical request when a strong model develops them (Opus 5; n=15/arm,
 k=3): improbable inputs are noise. **(3) The loop.** Bare continuous
 generation from a base model is dead: it converges on the deepest
 attractors of pretraining (literal orbits, website footers, exam keys) and
-stays (judged surprise 0.33/10). A closed reverie loop built on the
+stays (judged surprise 0.28/10). A closed reverie loop built on the
 architecture of spontaneous cognition — salience-gated review, selective
-forgetting, reseeding, re-encounter — brings it to life (surprise 3.22;
-vs bare, Cliff's δ = +0.88, p ≈ 10⁻¹⁶, 10 seeds, Opus 5 k=5). Ablation
+forgetting, reseeding, re-encounter — brings it to life (surprise 3.19;
+vs bare, Cliff's δ = +0.88, p ≈ 5×10⁻¹⁵, 10 seeds, Opus 5 k=5). Ablation
 and a second battery (18 conditions, 1695 judged windows, k = 5 each) locate
 the effect in two operations and say what they are made of. *Habituation*
 (not letting the loop feed on its literal past) lifts the stream from
-0.33 to 1.70; *interruption* — periodically injecting a new starting
+0.28 to 1.70; *interruption* — periodically injecting a new starting
 sentence over the preserved context — lifts it to 3.08 and carries all
 of the connection (1.08 → 3.15, δ = +0.75). The interruption must lead
 away: injecting the premise or the stream's own past is as bad as not
@@ -160,13 +160,14 @@ back within ~20 tokens; forgetting is what lets a seed take.
   3/21 scaffold windows with surprise ≥5 and coherence ≥5, 0/30 bare.
 - **Ablation** (10 seeds × {full scaffold, salience-only, bare+clock
   reseed, bare}; 212 windows, Opus k=5): scaffold vs bare replicates
-  (surprise 3.22 vs 0.33, δ = +0.88, p ≈ 10⁻¹⁶). Salience-only reaches
-  2.74 (scaffold − salience-only CI [−0.26, +1.24]). **Bare + clock
+  (surprise 3.19 vs 0.28, δ = +0.88, p ≈ 5×10⁻¹⁵; windows before 100
+  generated tokens excluded, as everywhere in this paper). Salience-only
+  reaches 2.63 (scaffold − salience-only CI [−0.22, +1.33]). **Bare + clock
   reseed** — no salience, no forgetting, no kicks — reaches surprise
-  3.08 (CI vs scaffold [−0.50, +0.80]), connection 3.15 (scaffold lower:
-  δ = −0.60, p ≈ 3×10⁻⁸) and coherence 4.78 (δ = −0.41), with 12/60
-  windows judged surprising *and* coherent vs 8/50 for the scaffold and
-  0/60 for bare. The re-encounter arm never fired (it was gated on the
+  3.08 (CI vs scaffold [−0.54, +0.78]), connection 3.15 (scaffold lower:
+  δ = −0.58, p ≈ 1.5×10⁻⁷) and coherence 4.78 (δ = −0.42), with 12/60
+  windows judged surprising *and* coherent vs 8/47 for the scaffold and
+  0/50 for bare. The re-encounter arm never fired (it was gated on the
   retired binary judge), so its ablation is empty here — battery 2 tests
   it directly (§5.1). **Reading**: the interruption carries the effect;
   the rest of the scaffold does not pay for itself at this resolution,

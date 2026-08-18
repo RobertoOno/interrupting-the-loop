@@ -26,14 +26,14 @@ humano não superam um pedido típico quando um modelo forte os desenvolve
 (Opus 5; n=15/braço, k=3): inputs improváveis são ruído. **(3) O loop.**
 A geração contínua nua de um modelo base é morta: converge para os
 atratores mais profundos do pré-treino (órbitas literais, rodapés de
-site, gabaritos de prova) e fica lá (surpresa julgada 0.33/10). Um loop
+site, gabaritos de prova) e fica lá (surpresa julgada 0.28/10). Um loop
 fechado de devaneio construído sobre a arquitetura da cognição espontânea
 — revisão acionada por saliência, esquecimento seletivo, reseed,
-reencontro — dá vida a ele (surpresa 3.22; vs nu, δ de Cliff = +0.88, p ≈
-10⁻¹⁶, 10 sementes, Opus 5 k=5). A ablação e uma segunda bateria (18
+reencontro — dá vida a ele (surpresa 3.19; vs nu, δ de Cliff = +0.88, p ≈
+5×10⁻¹⁵, 10 sementes, Opus 5 k=5). A ablação e uma segunda bateria (18
 condições, 1.695 janelas julgadas, k = 5 cada) localizam o efeito em duas
 operações e dizem do que elas são feitas. A *habituação* (não deixar o loop se
-alimentar do próprio passado literal) ergue o fluxo de 0.33 para 1.70; a
+alimentar do próprio passado literal) ergue o fluxo de 0.28 para 1.70; a
 *interrupção* — injetar periodicamente uma nova frase de partida sobre o
 contexto preservado — ergue-o para 3.08 e carrega toda a conexão (1.08 →
 3.15, δ = +0.75). A interrupção precisa levar para longe: injetar a
@@ -170,12 +170,13 @@ pegar.
   3/21 janelas do arcabouço com surpresa ≥5 e coerência ≥5, 0/30 nuas.
 - **Ablação** (10 sementes × {arcabouço completo, só saliência, nu +
   reseed por relógio, nu}; 212 janelas, Opus k=5): arcabouço vs nu replica
-  (surpresa 3.22 vs 0.33, δ = +0.88, p ≈ 10⁻¹⁶). Só-saliência chega a
-  2.74 (arcabouço − só-saliência IC [−0.26, +1.24]). **Nu + reseed por
+  (surpresa 3.19 vs 0.28, δ = +0.88, p ≈ 5×10⁻¹⁵; janelas antes de 100
+  tokens gerados excluídas, como em todo o artigo). Só-saliência chega a
+  2.63 (arcabouço − só-saliência IC [−0.22, +1.33]). **Nu + reseed por
   relógio** — sem saliência, sem esquecimento, sem kicks — chega a surpresa
-  3.08 (IC vs arcabouço [−0.50, +0.80]), conexão 3.15 (arcabouço abaixo:
-  δ = −0.60, p ≈ 3×10⁻⁸) e coerência 4.78 (δ = −0.41), com 12/60 janelas
-  julgadas surpreendentes *e* coerentes vs 8/50 no arcabouço e 0/60 no
+  3.08 (IC vs arcabouço [−0.54, +0.78]), conexão 3.15 (arcabouço abaixo:
+  δ = −0.58, p ≈ 1.5×10⁻⁷) e coerência 4.78 (δ = −0.42), com 12/60 janelas
+  julgadas surpreendentes *e* coerentes vs 8/47 no arcabouço e 0/50 no
   nu. O braço de reencontro nunca disparou (estava atrelado ao juiz
   binário aposentado), então a sua ablação é vazia aqui — a bateria 2 o
   testa diretamente (§5.1). **Leitura**: a interrupção carrega o efeito;
