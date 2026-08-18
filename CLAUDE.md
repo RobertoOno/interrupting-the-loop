@@ -19,49 +19,71 @@ seleção. A tese, a arquitetura e todas as decisões tomadas estão em
   Hugging Face: todo teste aqui usa distribuições sintéticas / modelo de
   brinquedo, nunca pesos reais.
 
-## Estado atual (2026-08-16)
+## Estado atual (2026-08-18, noite)
 
 Pacote `creative_machine` em `src/`; testes: `.venv/bin/python -m pytest`
 (117). Modelos quantizados locais: `~/models/mlx/Qwen3-8B-Base-8bit`
 (~31 tok/s), `~/models/mlx/OLMo-2-13B-8bit` (~17 tok/s) e
 `~/models/mlx/Qwen3-30B-A3B-Base-8bit` (MoE, ~53 tok/s; gerador principal
-do loop). Fluxo git: commits na branch da sessão → fast-forward `main` →
-push (`origin` GitHub); `runs/` e modelos fora do git. Juízes via Bedrock
-com `AWS_PROFILE=main-account` (nunca outros perfis). Memória: um modelo
-por vez (o 30B ocupa ~34 GB); scripts offline carregam só o tokenizer
-(`mlx_lm.utils.load_tokenizer`).
+do loop); em preparação (P1/P2 do parecer): `Qwen3-8B-Base-bf16` (sem
+quantização) e `Qwen3-8B-8bit` (pós-treinado). Fluxo git: commits na branch
+da sessão → fast-forward `main` → push (`origin` GitHub); `runs/` e modelos
+fora do git. Juízes via Bedrock com `AWS_PROFILE=main-account` (nunca outros
+perfis). Memória: um modelo por vez (o 30B ocupa ~34 GB); scripts offline
+carregam só o tokenizer (`mlx_lm.utils.load_tokenizer`).
 
-**Manuscrito principal**: `docs/PAPER_DREAM.md` (inglês) e
-`docs/PAPER_DREAM_pt.md` (tradução integral) — rascunho completo v1;
-HTMLs autocontidos por `scripts/build_manuscript.py --lang en|pt`
-(`docs/manuscript.html`, `docs/manuscrito.html`), figuras em
-`docs/figures/`, apêndices `docs/APPENDIX_*.md` gerados por
-`scripts/analysis.py`, `scripts/analysis_b2.py`, `scripts/hidden_analysis.py`.
-Bibliografia em `docs/references.bib`. `docs/PAPER.md` (Fase 1) e
-`docs/PAPER_B.md` (input improvável) são absorvidos por PAPER_DREAM.
+**Manuscrito-mestre**: LaTeX em `paper/` (`tectonic main.tex` → `main.pdf`;
+seções em `paper/sections/`, tabelas do apêndice geradas por
+`scripts/appendix_tex.py` a partir de `docs/APPENDIX_*.md`, figuras copiadas
+de `docs/figures/` para `paper/figures/`). Título atual: *Interrupting the
+Loop: ...* (subtítulo calibrado após o parecer; ver PLANO "Publicação").
+`docs/PAPER_DREAM.md`/`_pt.md` e os HTMLs estão **congelados na v1**
+(pré-parecer). Bibliografia em `paper/references.bib` (= `docs/references.bib`).
 
-**Resultado do programa** (detalhes e datas no PLANO): o sampler
-anti-provável compra só novidade de superfície; inputs improváveis são
-ruído; a geração nua de um modelo base é morta; o que a ressuscita são
-duas operações — habituação (não comer o próprio passado literal) e
-**interrupção** (injetar uma frase nova sobre contexto preservado, que
-carrega toda a conexão). A interrupção precisa levar para longe (voltar à
-premissa ou ao próprio passado = não interromper), rende conforme o fio
-que quebra (ritmo ótimo ~300 tokens; a cada 75 é morto) e o relógio bate
-a saliência como gatilho (a saliência é boa leitora, mau metrônomo).
-Replica no Qwen3-8B e no OLMo-2-13B (onde a interrupção simples custa coerência e o esquecimento a preserva). Juiz validado contra segunda família (Kimi, ρ 0.7–0.85); avaliação humana em curso (Workana). Dentro da rede: o juiz premia partida na superfície
-com continuidade profunda; o esquecimento é um reencontro profundo com a
-premissa que o juiz premia menos.
+**Parecer externo (2026-08-18, `docs/revisor_externo.txt`) e revisão maior**
+— o que mudou: (1) protocolo primário = janelas **só de texto gerado** (96
+tokens, 32 após a injeção; a frase injetada nunca dentro da janela julgada;
+`--protocol gen`, `rejudge_gen.json`); (2) unidade de inferência = **célula
+(premissa)**: médias de célula, IC bootstrap sobre células, permutação exata
+pareada por sinal (2^10), Cliff δ, q BH por família (`scripts/analysis_gen.py`
+→ `docs/APPENDIX_GEN.md`, `fig9_*`); (3) bateria 3 (`runs/dream_b3`):
+interrupção sem habituação, shams (quebra de parágrafo; "And so, as
+before,"), EOS permitido, habituação 1.3, contexto **reset** com/sem assunto
+novo; (4) bateria confirmatória pré-registrada (`runs/dream_confirm`: 10
+premissas novas, RNG 1, 5 braços; H1–H4 no PLANO); (5) reescrita calibrada.
 
-**Infra de experimentos**: `scripts/dream_run.py` (condições),
-`scripts/dream_battery2.py` (baterias resumíveis; nohup + caffeinate),
-`scripts/dream_rejudge_surprise.py` (julgamento offline Opus k=5, dois
-trabalhadores + `rejudge_merge.py`), `scripts/hidden_states.py` +
-`hidden_analysis.py` (residual por camada, logit lens),
-`scripts/trajectories.py`, `scripts/blind_pack.py`/`blind_score.py`
-(avaliação humana cega; pacote v1 em `docs/blind/`).
+**Resultado do programa (protocolo novo; detalhes no PLANO)**: sampler
+anti-provável = novidade só de superfície, sem efeito detectável em ideias;
+input improvável = sem benefício nas operacionalizações testadas; a
+continuação forçada de um modelo base degenera; habituação (penalidade de
+repetição em janela) tira as órbitas literais; a **interrupção** (assunto
+novo injetado periodicamente) eleva surpresa 1,6 → 3,0 e conexão 1,3 → 3,7
+sobre a habituação (p = 0,002 pareado, 10 premissas), iguala o scaffold em
+surpresa e o supera em conexão. Controles: quebra de parágrafo sozinha = nada;
+conectivo de continuidade = pior que nada; o assunto novo precisa da
+habituação; **funciona igual (ou melhor em coerência) com contexto reset** —
+a "conexão" sob reset é retorno à premissa que o juiz (600 tokens de
+horizonte) não distingue de integração; premissa/passado próprio injetados =
+não interromper; saliência = relógio na mesma frequência (nem melhor nem
+pior); **nenhum período bate 150–300** — o achado da v1 "rendimento cresce com
+o fio quebrado, ritmo ~300" era o juiz lendo a frase injetada. Replica no 8B
+e no OLMo (no OLMo o scaffold é o melhor braço em surpresa/coerência); Kimi ρ
+0,7–0,85; humanos (3, rodada 1) reproduzem a ordem; rodada 2 (`blind_pack3.py`,
+`docs/blind/pack_v3.html`, 3 dimensões, amostra ao acaso) à espera de
+avaliadores. `scaffold0` e `abl_forget` são byte-idênticos (juiz do loop
+nunca passou) → teste–reteste do instrumento (91% medianas iguais).
 
-**Em aberto**: avaliação humana cega (hora do Roberto); revisão do texto;
-venue (ver "Publicação" no PLANO: ICLR 2027 no Brasil, paper 25/09/2026;
-workshops NeurIPS 29/08; ICCC'27 ~março; arXiv); item 8 do roadmap
-(fusão: loop interrompido sobre problema com verificador).
+**Infra**: `scripts/dream_run.py` (condições, incl. as da bateria 3),
+`scripts/dream_battery2.py` (baterias b2/b3/confirm/ladder3/famílias;
+`--premises new --rng-seed`), `scripts/dream_rejudge_surprise.py`
+(`--protocol gen|events`, vários trabalhadores: `--order reverse|random`,
+`--skip-from`), `scripts/analysis_gen.py` (análise primária),
+`scripts/hidden_states.py` + `hidden_analysis.py` (com IC por célula),
+`scripts/blind_pack3.py`/`blind_score.py`, `scripts/after_confirm.sh`
+(escadas noturnas: 8B bf16 e 8B pós-treinado).
+
+**Em aberto**: inserir a confirmatória e as escadas noturnas no paper;
+rodada 2 humana (Roberto contrata 5 avaliadoras; pacote pronto); título
+final; migração para repositório público (filter-repo, ver PLANO); NOTEBOOK.md
+(tradução do PLANO); venue (ICLR 2027 25/09; NeurIPS workshops 29/08; ICCC'27;
+arXiv).
