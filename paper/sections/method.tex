@@ -4,67 +4,103 @@
 \subsection{Measurement stack}
 \label{sec:stack}
 
-Every experiment shares one stack. \textbf{Generators} are base models only,
-since instruction-tuned models are mode-collapsed for open-ended generation:
-Qwen3-8B-Base, OLMo-2-13B (whose training corpus is public), and
-Qwen3-30B-A3B-Base (a mixture-of-experts model, 53 tokens/s), all quantized to
-8 bits and run on Apple silicon through MLX with a numpy sampler that sees the
-full logits. \textbf{Judges} are Claude Opus~5 and Sonnet~5 (Amazon Bedrock),
-always from a different model family than the generator; each window is
-judged $k$ times ($k=3$--$5$) with independent 0--10 dimensions and the median
-is the score. For reverie windows the dimensions are \emph{surprise} (how
-unexpected the window is given the earlier text; 0 = obvious continuation,
-10 = startling yet not random), \emph{connection} (does it bring together two
-distant regions of the earlier text, or an old region with something new, in
-a way that makes sense) and \emph{coherence} (does it hold together as text;
-0 = word salad or document boilerplate); for ideas, a nearest-equivalent
-plus novel-delta rubric. \textbf{Instrument calibration}
-(Section~\ref{sec:instrument}) measures the intra-window spread of the $k$
-judgments before any comparison; effects below about one point are declared
-undetectable. \textbf{Objective novelty}, where a public corpus exists, is
-computed with infini-gram \citep{liu2024infinigram} against the OLMo-2 corpus.
-\textbf{Statistics} are bootstrap confidence intervals on differences with the
-window or the seed as unit, Cliff's $\delta$ and Mann--Whitney tests on
-windows, and paired-by-seed bootstrap where conditions share seeds.
+Every experiment shares one stack. \textbf{Generators} are three base models
+from two families: Qwen3-8B-Base and Qwen3-30B-A3B-Base (a mixture-of-experts
+model with 3B active parameters, 53 tokens/s, the main generator), and
+OLMo-2-13B (whose training corpus is public). All are quantized to 8 bits
+(MLX affine quantization, group size 64) and run on Apple silicon through
+MLX with a numpy sampler that sees the full logits. Restricting to base
+models is a scope decision, not a finding: an instruction-tuned model brings a
+dialogue format and preference training that change what an open-ended
+continuation is, and whether the operators studied here transfer to it is
+left open (Section~\ref{sec:limitations}). \textbf{Judges} are Claude Opus~5
+and, in the instrument section, Claude Sonnet~5 (Amazon Bedrock) and Kimi
+K2.6 (OpenRouter). In the loop experiments the judge is always from a
+different family than the generator; the idea experiment of
+Section~\ref{sec:prompt} used Claude both to develop and to judge, a
+within-family judgment we flag there. Each window is judged $k$ times ($k=5$
+in the loop experiments; $k=3$ in the earlier ones) with independent 0--10
+dimensions and the median is the score. For loop windows the dimensions are
+\emph{surprise} (how unexpected the window is given the earlier text; 0 = the
+obvious continuation, 10 = startling yet not random), \emph{connection}
+(does it bring together two distant regions of the earlier text, or an old
+region with something new, in a way that makes sense) and \emph{coherence}
+(does it hold together as text; 0 = word salad or document boilerplate); for
+ideas, a nearest-equivalent plus novel-delta rubric. The full judge prompts,
+model identifiers, parameters and dates are in Appendix~\ref{app:repro}.
+\textbf{Instrument calibration} (Section~\ref{sec:instrument}) measures the
+intra-window spread of the $k$ judgments and the judge's agreement with a
+second judge family and with human raters. \textbf{Objective novelty},
+where a public corpus exists, is computed with infini-gram
+\citep{liu2024infinigram} against the OLMo-2 corpus.
+
+\paragraph{Unit of analysis and statistics.} A \emph{cell} is one premise
+run under one condition for 4,500 generated tokens; each condition has ten
+cells, one per premise, and conditions share the ten premises. The unit of
+inference is the cell: the windows of a cell are averaged into one score per
+dimension, and every comparison between two conditions is a paired
+comparison of ten cell means. We report the mean over cells with a
+bootstrap confidence interval over cells, and for each pair of conditions the
+mean paired difference with its bootstrap CI, an exact sign-flip permutation
+$p$-value on the ten paired differences (all $2^{10}$ sign patterns), and
+Cliff's $\delta$ on the cell means. Where a question involves several
+comparisons we report Benjamini--Hochberg $q$-values within that family
+alongside the raw $p$. Window-level statistics (bootstrap on windows,
+Mann--Whitney) are reported only in the appendix, as descriptive, because
+windows from the same stream are not independent. This seed-level analysis
+and the window protocol below were adopted after an external review of a
+first version of this manuscript, which analyzed windows as the unit; the
+arms of battery~3 were generated after that change, the earlier arms were
+re-judged and re-analyzed under it.
 
 \subsection{The anti-probable sampler}
 \label{sec:sampler-method}
 
 At each step the model's next-token distribution is computed as usual. Tokens
 below a relative probability floor ($p < 0.05\,p_{\max}$, the min-$p$ rule)
-are never chosen. If the entropy of the distribution falls inside a calibrated
-band $[H_{\min}, H_{\max}]$ (the model is undecided but not lost), the
-remaining candidates are re-scored by
+are never chosen. If the entropy of the distribution falls inside a band
+$[H_{\min}, H_{\max}]$ (the model is undecided but not lost), the remaining
+candidates (at most 128) are re-scored by
 \[
 \text{score}(t) = \log P(t \mid \text{context}) + \lambda \cdot z\!\big(d(t,\ \bar{c})\big),
 \]
-where $d$ is the cosine distance between the token's embedding and an
+where $d$ is the cosine distance between the token's input embedding and an
 exponential moving average $\bar c$ of the recent context in the model's own
-embedding space, and $z$ standardizes the distances across the candidates so
-that $\lambda$ reads in nats per standard deviation. Below the band the model
-is confident and we let it be; above it the distribution is a genre fork and
-pushing there produces collapse. Optional terms used in the loop are a graded
-\emph{habituation} penalty (tokens seen in the last 512 positions are
-penalized in proportion to their recent frequency, factor 1.15) and a
-\emph{bridge} bonus toward regions visited long ago.
+embedding space (half-life 16 tokens in the sampler experiments, 48 in the
+loop), and $z$ standardizes the distances across the step's candidates so
+that $\lambda$ reads in nats per standard deviation; the token is then
+sampled from the softmax of the scores. Below the band the model is confident
+and we let it be; above it the distribution is a genre fork and pushing there
+produces collapse. The band was $H_{\min}=2.0$, $H_{\max}=4.5$ nats in the
+sampler experiments and $[1.8, 4.5]$ in the loop's drift regime; the values
+were set on calibration probes of Qwen3-8B and transferred unchanged to the
+other models. Optional terms used in the loop are a \emph{habituation}
+penalty (the probability of a token that occurred in the last 512 positions
+is divided by $1.15^{m}$, where $m$ is the number of its occurrences in that
+window, before the floor and the re-scoring) and a \emph{bridge} bonus
+(weight 1.5 in the full scaffold) that rewards candidates close to anchor
+regions visited long ago and far from the recent context.
 
 \subsection{The reverie loop}
 \label{sec:loop-method}
 
-\paragraph{No task.} A cell starts from a single sentence, the
-\emph{premise} (e.g. \emph{``The town had two clocks, and nobody remembered
-which one had been right first.''}), and nothing else: no instruction, no
-role, no question. A base model continues it, and from then on its only input
-is its own output: each token is predicted from the premise plus everything
-the model has written. The end-of-text token is masked, so the stream never
-stops by itself. Cells run for 4,500 generated tokens.
+\paragraph{Forced continuation without a task.} A cell starts from a single
+sentence, the \emph{premise} (e.g. \emph{``The town had two clocks, and nobody
+remembered which one had been right first.''}), and nothing else: no
+instruction, no role, no question. A base model continues it, and from then
+on its only input is its own output: each token is predicted from the premise
+plus everything the model has written. In all arms but one the end-of-text
+token is masked, so the stream never stops by itself; the model is forced to
+keep writing one document for 4,500 tokens. This is a deliberately hard
+regime, and part of what the paper measures is how a base model behaves in
+it.
 
 \paragraph{Interruption.} At chosen moments the generator is paused and a
 short text is \emph{injected} into the stream as if the model had written it
 (pre-filled into the model's cache), and generation resumes from there. The
 model receives no signal that the text was injected: to it these are the next
 tokens of the document. Everything written before stays in the context: the
-model remembers all of it, and is only made to open a new sentence somewhere
+model keeps all of it, and is only made to open a new sentence somewhere
 else. Figure~\ref{fig:example} shows a real interruption. The default injected
 texts are four neutral subject changes used in rotation (\emph{``That night
 she dreamed of something else entirely:''}, \emph{``Meanwhile, in a city with
@@ -94,58 +130,94 @@ which fires on a semantic \emph{jump} (the average moved far from where it was
 of wandering), a \emph{recurrence} (the average came close to a region visited
 long ago and not recently), and \emph{stagnation} (it has not moved for a long
 stretch); a surface \emph{genre-collapse} detector (lexical diversity,
-capitalization, layout symbols); a cross-family judge invoked on salience
-events; \emph{escalation} on a passing window (a narrower regime plus an
-injected textual return to the premise); a \emph{kick} on stagnation (a
-stretch of harder push), and after repeated stagnation a subject change with
+capitalization, layout symbols); a judge (Claude Sonnet~5, $k=3$) called on
+salience events during generation, whose passing verdict (median score
+$\ge 5$) triggers \emph{escalation} (a narrower regime plus an injected
+textual return to the premise); a \emph{kick} on stagnation (a stretch of
+harder push), and after repeated stagnation a subject change with
 \emph{selective forgetting}: the working memory is rebuilt in a fresh cache
-from the premise, a few kept windows and the last 200 tokens, plus the new
-seed, so that a deep well cannot pull the seed back; regions visited persist
-as anchors for the bridge term. Every one of these mechanisms was born from a
-calibration probe in which a base model without a task fell into a specific
-attractor (early end-of-text, erudite rumination, literal four-sentence
-orbits, website footers, translation tables). The generator's pretraining diet
-was the dominant variable in those probes: OLMo-2 sinks into footers even
-with forgetting; Qwen3-30B drifts in prose. With 3,000 tokens of boilerplate
-in the cache, every injected seed was pulled back within about twenty tokens:
-\emph{the accumulated context is the well}, and forgetting is what lets a seed
-take.
+from the premise, up to three judged-good windows and the last 200 tokens,
+plus the new seed, so that a deep well cannot pull the seed back; regions
+visited persist as anchors for the bridge term. The full scaffold is the
+only arm in which a judge is called inside the loop. In the main generator's
+scaffold cells the judge was on and reviewed 80 salience events; none
+reached the threshold, so escalation and the judged re-encounter never fired
+and the judge changed no generated token; in the replications on the other
+two generators the scaffold ran without the in-loop judge. In practice,
+then, the scaffold's active mechanisms were the kick and the reseed with
+forgetting, and in every arm of this paper the scores come from a judge that
+sees the stream only after generation. Every one of these mechanisms was born from a calibration probe
+in which a base model without a task fell into a specific degeneration mode
+(early end-of-text, erudite rumination, literal four-sentence orbits, website
+footers, translation tables). The generator's pretraining diet was the
+dominant variable in those probes: OLMo-2 sinks into footers even with
+forgetting; Qwen3-30B drifts in prose. With 3,000 tokens of boilerplate in
+the cache, every injected seed was pulled back within about twenty tokens:
+the accumulated context is the well, and forgetting is what lets a seed take.
+The results below show that this architecture is not what carries the
+effect; it is kept as the origin of the study and as one arm.
 
 \paragraph{Conditions.} Table~\ref{tab:conditions} lists the arms. All loop
-arms in this paper use $\lambda=0$ (no anti-probable push), since the push had
-no measurable effect inside the loop (Section~\ref{sec:sampler}); the arms
-differ only in whether the habituation penalty is on, and in whether, when,
-how often and with what the stream is interrupted.
+arms use $\lambda=0$ (no anti-probable push), since the push had no
+detectable effect inside the loop (Section~\ref{sec:sampler}); the arms
+differ in whether the habituation penalty is on, in whether the end-of-text
+token is masked, in whether the context is preserved or reset at an
+interruption, and in whether, when, how often and with what the stream is
+interrupted. Ten narrative premises (Appendix~\ref{app:repro}) are shared by
+all arms; the sampler's random-number seed is the same (0) in every cell, so
+two arms that make identical decisions up to a point produce identical
+tokens up to that point, and the premise is the only source of variation
+between the cells of an arm.
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{@{}llp{7.6cm}@{}}
+\begin{tabular}{@{}llp{7.4cm}@{}}
 \toprule
 arm & habituation & interruption \\
 \midrule
-bare & off & none: continuous generation \\
+bare & off & none: continuous generation, EOS masked \\
 bare + habituation & on & none \\
-bare + clock reseed & on & neutral subject change every 150 tokens over the preserved context \\
+habituation, EOS allowed & on & none; the model may emit end-of-text and start a new document \\
+habituation 1.3 & on (stronger) & none \\
+interruption, no habituation & off & neutral subject change every 150 or 300 tokens, context preserved \\
+habituation + interruption 150 & on & neutral subject change every 150 tokens, context preserved \\
 salience only & on & none; salience events mark review windows \\
-DREAM scaffold & on & full scaffold: salience, kick, reseed with forgetting, re-encounter \\
+DREAM scaffold & on & full scaffold: salience, in-loop judge, kick, reseed with forgetting, re-encounter \\
 \midrule
-clock: re-encounter / premise / own past & on & every 150 tokens: a return-to-the-premise stitch / the premise itself / a window of the stream's own past ($\ge$400 tokens back) \\
+content: re-encounter / premise / own past & on & every 150 tokens: a return-to-the-premise stitch / the premise itself / a window of the stream's own past ($\ge$400 tokens back) \\
 salience: re-encounter & on & the stitch injected on each salience event, no judge gate \\
-clock 75 / 300 / 600 / 900 & on & neutral subject change at other periods (900 also with the stitch) \\
+period 75 / 300 / 600 / 900 & on & neutral subject change at other periods (900 also with the stitch) \\
+\midrule
+sham break 300 & on & a paragraph break (``\textbackslash n\textbackslash n'') every 300 tokens, nothing else \\
+sham continuity 300 & on & ``And so, as before,'' every 300 tokens: a boundary that asks for continuity \\
+reset + subject change 300 & on & neutral subject change every 300 tokens on a \emph{reset} context (premise + injected sentence only) \\
+reset + break 300 & on & a paragraph break every 300 tokens on a reset context \\
 \bottomrule
 \end{tabular}
-\caption{Conditions of the ablation battery (top) and battery~2 (bottom); 10
-narrative seeds each, 4,500 tokens per cell.}
+\caption{Conditions: the habituation $\times$ interruption factorial with its
+baselines (top), the content and timing arms (middle) and the boundary and
+context controls (bottom). Ten premises each, 4,500 tokens per cell, main
+generator Qwen3-30B-A3B-Base; the ladder bare / habituation / habituation +
+interruption 150 / scaffold is replicated on Qwen3-8B-Base and OLMo-2-13B.}
 \label{tab:conditions}
 \end{table}
 
-\paragraph{Judging the stream.} Nobody judges during generation. Afterwards,
-160-token windows are cut at two kinds of review point, \emph{cut} (right
-before each injection: what the stream produced up to the interruption) and
-\emph{clock} (a uniform grid of 150 generated tokens), plus, for salience
-arms, the salience-event windows; each is shown to the judge with the 600
-preceding tokens and scored on the three dimensions, five times, median taken.
-Six windows per kind per cell are judged, evenly spread over the stream;
-windows ending before 100 generated tokens are excluded (73 two-token
-fragments before a first cut, mean surprise 0.95). Each cell stores its token
-stream and the exact position of every event and injection.
+\paragraph{Judging the stream: generated-only windows.} After generation,
+each cell is scored on windows made only of model-generated tokens. In an
+interrupted cell, a window of 96 tokens starts 32 tokens after the end of
+each injected sentence (the \emph{post-interruption window}); further
+windows start 160, 300, 450, 600 and 750 tokens after the injection when the
+segment is long enough, and no window crosses an injection. In a cell without
+injections the same window shape is cut on a uniform grid every 150 tokens.
+The judge sees the 600 tokens preceding the window as context (which may
+contain an injected sentence) and grades only the window, on the three
+dimensions, five times; the median is the window's score. Up to six
+post-interruption windows per cell, evenly spread over the stream, and three
+per deeper offset are judged. The primary measure of a cell is the mean of
+its post-interruption windows (grid windows in uninterrupted arms); the
+deeper offsets give the decay curve of Section~\ref{sec:loop}. Each cell
+stores its token stream and the exact position of every event and injection.
+The protocol of the first version of this study, which cut 160-token windows
+right before each injection and on a 150-token grid so that a window could
+contain an injected sentence, is kept in Appendix~\ref{app:events} for
+comparison.

@@ -1,21 +1,157 @@
+\section{Reproducibility}
+\label{app:repro}
+
+\paragraph{Code and data.} The code (sampler core, MLX adapter, salience
+monitor, reverie engine, judges, novelty client, resumable battery runners
+with thermal logging, analysis and figure scripts; 117 tests), every run's
+token stream, per-step telemetry, event and injection positions and
+judgments, the human-rating packs and the dated laboratory notebook are in
+the repository at \url{https://github.com/RobertoOno/interrupting-the-loop}
+\todo{public at publication; the working repository is
+\texttt{creative-machine}}. Judge cost of the entire program was about
+US\$150.
+
+\paragraph{Generators.} \texttt{Qwen3-30B-A3B-Base} (mixture of experts, 3B
+active parameters), \texttt{Qwen3-8B-Base} and \texttt{OLMo-2-1124-13B},
+each converted with \texttt{mlx\_lm} to 8-bit affine quantization with group
+size 64 and run through MLX on an Apple M5 Pro (48\,GB unified memory) at
+about 53, 31 and 17 tokens/s. Sampling is done in numpy on the full logits
+returned by the model. All loop arms use temperature 1.0 and the min-$p$ floor
+0.05; the anti-probable push is off ($\lambda=0$).
+
+\paragraph{Loop hyperparameters.} Cell length 4,500 generated tokens; end-of-text
+masked except in the EOS-allowed arm. Habituation: repetition window 512
+tokens, penalty factor 1.15 per occurrence (1.3 in the strong-habituation
+arm), applied to the log-probabilities before the floor. Interruption on a
+clock: a stagnation check every \emph{period} tokens (75, 150, 300, 600 or
+900) that always fires, injecting the next text of the rotation; the four
+neutral subject changes are listed in Section~\ref{sec:loop-method}, the four
+return-to-the-premise stitches are \emph{``And this, it turned out, was the
+same thing as the beginning, because''}, \emph{``It came back to where it had
+started, of course; it always did, but this time''}, \emph{``Which is exactly
+what the first line had meant, seen from here:''}, \emph{``So the opening
+sentence had been true after all, only not in the way it seemed:''}; the own-past
+arm injects a 64-token window of the stream from at least 400 tokens back;
+the sham arms inject a paragraph break or \emph{``And so, as before,''}. Reset
+arms rebuild the cache from the premise and the injected text only. The full
+scaffold: salience monitor with jump lag 32 and jump threshold 0.55, stagnation
+window 600 and threshold 0.08, entropy-drop trigger 0.45 after a window at or
+above 2.0 nats, recurrence threshold 0.15 with minimum age 96, refractory 24
+steps; kick of 80 tokens ($\lambda=4$, band $[1.2, 5.0]$, half-life 12) after
+a stagnation, subject change with forgetting after 3 consecutive stagnations
+(keeping the premise, up to 3 judged-good windows and the last 200 tokens);
+escalation of 120 tokens on a passing review ($\lambda=0.5$, band $[2.5,
+4.5]$); anchors every 200 tokens, at most 12; genre check every 64 tokens over
+160 tokens with threshold 0.5; drift regime $\lambda=2.5$, band $[1.8, 4.5]$,
+half-life 48, bridge 1.5. In the arms of this paper $\lambda$ and the bridge
+are set to 0 in every regime. The random-number seed of the sampler is 0 in
+every cell.
+
+\paragraph{Premises.} The ten premises, shared by all arms and generators:
+(0) \emph{She kept a notebook of things that had almost happened.} (1)
+\emph{The map was accurate in every detail except one, and nobody could say
+which.} (2) \emph{Every morning the baker counted the loaves twice, and every
+morning the count was different.} (3) \emph{He had inherited his grandfather's
+watch and, with it, the habit of arriving early to places that no longer
+existed.} (4) \emph{The river changed its name each time it crossed the
+border, and the villagers kept all the names.} (5) \emph{The town had two
+clocks, and nobody remembered which one had been right first.} (6) \emph{Her
+brother collected sounds the way other children collected stones.} (7)
+\emph{The letter arrived forty years late and was still, somehow, on time.}
+(8) \emph{Every door in the house opened onto the same room, seen from a
+different year.} (9) \emph{The translator kept a list of words she refused to
+translate.} They were written by the author before any loop experiment and
+not changed afterwards.
+
+\paragraph{Judge.} Model \texttt{anthropic.claude-opus-5} on Amazon Bedrock
+(effort \texttt{high}, adaptive thinking, \texttt{max\_tokens} 4000, default
+temperature), called through the Anthropic SDK; the event-protocol judgments
+were made on 14--17 August 2026 and the generated-only judgments on 18--19
+August 2026. The second judge family was \texttt{moonshotai/kimi-k2.6}
+through OpenRouter with reasoning disabled (17 August 2026). The in-loop judge
+of the full scaffold was \texttt{anthropic.claude-sonnet-5} with the reverie
+rubric (a nearest-equivalent and novel-delta rubric whose geometric-mean score
+gated escalation at 5). The system prompt of the surprise judge, verbatim:
+
+\begin{quote}\small\ttfamily
+You judge a stretch of a language model's unsupervised reverie. You see the
+EARLIER text and the RECENT window. Rate three INDEPENDENT things on 0-10 and
+return ONLY a JSON object with keys: "surprise" (how unexpected is the recent
+window given the earlier text, a reader could not have predicted where it
+went; 0 = obvious continuation, 10 = genuinely startling yet not random),
+"connection" (does the window bring together two distant regions of the
+earlier text, or an old region with something new, in a way that makes sense;
+0 if it merely continues one thread), "coherence" (does the window hold
+together as text; 0 = word salad or document boilerplate), "note" (one blunt
+sentence). Rate each dimension on its own merits; a window can be surprising
+and incoherent, or coherent and dull.
+\end{quote}
+
+\noindent The user message is \texttt{EARLIER TEXT:\textbackslash n\{600 preceding
+tokens\}\textbackslash n\textbackslash nRECENT WINDOW:\textbackslash n\{window\}}.
+The judge is not told which condition, model or protocol produced the window.
+
+\paragraph{The idea experiment.} Inputs were developed by
+\texttt{anthropic.claude-opus-5} and judged by \texttt{anthropic.claude-sonnet-5}
+($k=3$) with the nearest-equivalent rubric; input improbability was measured
+as the mean cosine distance to the 10 nearest of 10,000 instructions from the
+Alpaca dataset (\texttt{tatsu-lab/alpaca}) embedded with
+\texttt{all-mpnet-base-v2}, and as perplexity under Qwen3-8B-Base.
+
+\section{The human study}
+\label{app:human}
+
+\paragraph{Recruitment, task and compensation.} Raters were recruited on a
+freelance marketplace (Workana) with a public posting for a paid text-rating
+task in English; applicants were selected by the author among the platform's
+respondents and were not told the hypotheses, the conditions or which model
+produced the texts (the guide says only that the passages were written by a
+language model left to write on its own). Each rater received a self-contained HTML
+pack (rating guide embedded, English interface) with 63 windows drawn from
+seven conditions of the main generator, presented in a fixed random order,
+without any condition label, each with its preceding context; they rated
+surprise and coherence on the same 0--10 scales given to the model judge, at
+their own pace, and returned a JSON file. The guide asked them not to use AI
+tools or web searches for any part of the task, and raters confirmed in
+writing that they had not. Compensation was R\$187--300 per pack (roughly
+US\$35--55) for an estimated 60--90 minutes of work. \todo{round 2: random sample, three dimensions incl.
+connection, five raters}
+
+\paragraph{Ethics.} The study involved adult professional raters reading
+machine-generated fiction; there was no deception, no sensitive content, no
+vulnerable population and no collection of personal data beyond the platform
+account used for payment. Participation was voluntary and paid; raters were
+informed in the posting that the texts were generated by language models and
+that their ratings would be used, in aggregate, in a research publication.
+The author is an independent researcher without access to an institutional
+review board; the protocol was designed to be minimal-risk and the raters
+remain anonymous in this paper and in the released data, which contain their
+ratings only. \todo{adapt to the venue's ethics-statement requirements}
+
+\section{The event-window protocol of the first version}
+\label{app:events}
+
+The first version of this study cut 160-token windows at two kinds of review
+point, right before each injection and on a 150-token grid, so that a window
+after an interruption could contain the injected sentence, and treated
+windows as the unit. The tables of that protocol are kept below for
+comparison with the generated-only protocol of the main text; the two agree
+on the direction of every effect and differ in size where the injected
+sentence was inside the window. \todo{state the agreement precisely once the
+generated-only judgments are complete}
+
 \section{Full tables}
 \label{app:loop}
 
 The tables below are generated from the run data by the analysis scripts
-(\texttt{scripts/analysis.py}, \texttt{analysis\_b2.py},
-\texttt{hidden\_analysis.py}) and typeset by \texttt{scripts/appendix\_tex.py};
-the complete set, including every per-layer table of the residual-stream
-analysis, ships with the code as \texttt{docs/APPENDIX\_*.md}. Unless stated,
-the unit is the judged window (median of $k=5$ Opus~5 judgments), windows
-before 100 generated tokens are excluded, and intervals are 95\% bootstrap
-CIs.
+(\texttt{scripts/analysis\_gen.py} for the generated-only protocol,
+\texttt{analysis.py} and \texttt{analysis\_b2.py} for the event protocol,
+\texttt{hidden\_analysis.py} for the residual stream) and typeset by
+\texttt{scripts/appendix\_tex.py}; the complete set, including every per-layer
+table of the residual-stream analysis, ships with the code as
+\texttt{docs/APPENDIX\_*.md}. In the event-protocol tables the unit is the
+judged window (median of $k=5$ Opus~5 judgments), windows before 100
+generated tokens are excluded, and intervals are 95\% bootstrap CIs over
+windows; they are descriptive.
 
 \input{sections/appendix_tables}
-
-\section{Reproducibility}
-
-Everything is in the repository (117 tests): sampler core, MLX adapter,
-salience monitor, reverie engine, judges, novelty client, experiment runners
-with resumable overnight execution and thermal logging; every run's per-step
-telemetry, texts, token streams and judgments; and the dated decision log.
-Judge cost of the entire program: about US\$120.
