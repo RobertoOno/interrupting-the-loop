@@ -1,4 +1,4 @@
-# Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt — Interrupting the Loop
+# Interrupting the Loop: Where Creativity Lives in a Language Model
 
 > Complete working draft v1 (2026-08-16, night). Supersedes the framing
 > of PAPER.md (whose Phase-1 results become §3 here) and absorbs

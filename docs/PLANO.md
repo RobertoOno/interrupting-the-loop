@@ -1095,6 +1095,11 @@ interrupção chega, por tipo de conteúdo?).
 
 ## Publicação — opções com prazos verificados (2026-08-16)
 
+- **Título final (2026-08-17)**: *Interrupting the Loop: Where Creativity
+  Lives in a Language Model*. "Not the sampler, not the prompt" fica no
+  resumo. DREAM permanece como nome da hipótese de origem (Método) e a
+  receita mínima ganha o termo "the interrupted loop" (Discussão).
+
 - **Decisão (2026-08-17, revista)**: na hora de publicar, **migrar com o
   histórico inteiro** — clone-espelho do repositório privado, `git
   filter-repo --replace-text` para purgar o placeholder de afiliação (a empresa)

@@ -187,7 +187,7 @@ def main() -> None:
                          .replace("residual-stream analysis (OLMo-2 family)", "análise do residual (família OLMo-2)")
             apx += f"<h2>{ttl}</h2>" + md_to_html((DOCS / name).read_text())
     bib = html.escape((DOCS / "references.bib").read_text()) if (DOCS / "references.bib").exists() else ""
-    title = "Where Creativity Lives in a Language Model" if a.lang == "en" else "Onde mora a criatividade num modelo de linguagem"
+    title = "Interrupting the Loop: Where Creativity Lives in a Language Model" if a.lang == "en" else "Interromper o loop: onde mora a criatividade num modelo de linguagem"
     bib_ttl = "Appendix F — bibliography (BibTeX)" if a.lang == "en" else "Apêndice F — bibliografia (BibTeX)"
     doc = f"<!doctype html><html lang='{a.lang}'><head><meta charset='utf-8'><title>{title}</title><style>{CSS}</style></head><body>{body}{apx}<h2>{bib_ttl}</h2><pre style='font-size:.75rem;white-space:pre-wrap'>{bib}</pre></body></html>"
     out = DOCS / ("manuscript.html" if a.lang == "en" else "manuscrito.html")

@@ -1,4 +1,4 @@
-<!doctype html><html lang='pt'><head><meta charset='utf-8'><title>Onde mora a criatividade num modelo de linguagem</title><style>
+<!doctype html><html lang='pt'><head><meta charset='utf-8'><title>Interromper o loop: onde mora a criatividade num modelo de linguagem</title><style>
 body{font-family:Georgia,'Times New Roman',serif;max-width:860px;margin:2rem auto;padding:0 1.2rem;line-height:1.55;color:#111;background:#fff}
 h1{font-size:1.7rem;line-height:1.25;margin-bottom:.3rem}h2{font-size:1.25rem;margin-top:2rem;border-bottom:1px solid #ddd;padding-bottom:.2rem}
 h3{font-size:1.05rem;margin-top:1.4rem}p{margin:.6rem 0}code{font-family:Menlo,monospace;font-size:.88em;background:#f4f4f2;padding:0 .2em}
@@ -6,7 +6,7 @@ table{border-collapse:collapse;margin:.8rem 0;font-size:.9rem}th,td{border:1px s
 figure{margin:1.6rem 0}figure img{max-width:100%;border:1px solid #eee}figcaption{font-size:.88rem;color:#333;margin-top:.4rem}
 blockquote{border-left:3px solid #ccc;margin:.8rem 0;padding:.2rem .9rem;color:#444;font-size:.92rem}
 .meta{color:#555;font-size:.9rem}.tbd{background:#fff3cd}
-</style></head><body><h1>Onde mora a criatividade num modelo de linguagem: nem no sampler, nem no prompt — em interromper o loop</h1>
+</style></head><body><h1>Interromper o loop: onde mora a criatividade num modelo de linguagem</h1>
 <blockquote class='meta'>Versão em português do rascunho completo v1 (2026-08-16, noite), tradução integral de <code>PAPER_DREAM.md</code>. Caderno de laboratório: <code>PLANO.md</code>. Números e figuras são os mesmos da versão inglesa; nomes de condições e de variáveis ficam em inglês porque são identificadores do código.</blockquote>
 <h2>Resumo (rascunho)</h2>
 <p>De onde vem a novidade quando um modelo de linguagem gera texto sem tarefa? Testamos três hipóteses com uma única pilha de medição (um modelo base rodando localmente, juízes-LLM de outra família com medianas de k amostras, ICs bootstrap e — para um braço — novidade literal contra o corpus público de treino do próprio modelo). <b>(1) O sampler.</b> Um decodificador anti-provável com banda de entropia, que empurra cada passo em direção a tokens semanticamente distantes, reduz a taxa de blocos literais de 8+ palavras do treino de 0.80 para 0.20 das gerações e aproximadamente dobra a novidade de 4-gramas sobre a amostragem min-p (21.5% → 45.5%; Δ pareado +24.0 pp, IC [18.2, 29.5]) a um pequeno custo de perplexidade — mas essa novidade de superfície não sobe ao nível das ideias: dentro de um loop de devaneio, o mesmo empurrão não produz diferença mensurável em relação à amostragem plain em surpresa, conexão ou delta de novidade julgados (1.335 julgamentos, 2 juízes, 3 rubricas). <b>(2) O prompt.</b> Inputs compostos para ficarem longe de qualquer prompt humano não superam um pedido típico quando um modelo forte os desenvolve (Opus 5; n=15/braço, k=3): inputs improváveis são ruído. <b>(3) O loop.</b> A geração contínua nua de um modelo base é morta: converge para os atratores mais profundos do pré-treino (órbitas literais, rodapés de site, gabaritos de prova) e fica lá (surpresa julgada 0.33/10). Um loop fechado de devaneio construído sobre a arquitetura da cognição espontânea — revisão acionada por saliência, esquecimento seletivo, reseed, reencontro — dá vida a ele (surpresa 3.22; vs nu, δ de Cliff = +0.88, p ≈ 10⁻¹⁶, 10 sementes, Opus 5 k=5). A ablação e uma segunda bateria (18 condições, 1.695 janelas julgadas, k = 5 cada) localizam o efeito em duas operações e dizem do que elas são feitas. A <i>habituação</i> (não deixar o loop se alimentar do próprio passado literal) ergue o fluxo de 0.33 para 1.70; a <i>interrupção</i> — injetar periodicamente uma nova frase de partida sobre o contexto preservado — ergue-o para 3.08 e carrega toda a conexão (1.08 → 3.15, δ = +0.75). A interrupção precisa levar para longe: injetar a premissa ou o próprio passado do fluxo é tão ruim quanto não interromper; uma volta só funciona como costura curta que abre uma frase nova. O seu rendimento depende do fio que ela quebra e decai com a distância: interromper a cada 75 tokens é morto (0.88), a cada 150 dá 3.08, e os 150 tokens depois de quebrar um fio de 300–900 tokens pontuam 5.3–5.9 com coerência ~6 — o melhor texto do programa — antes de o fluxo se reassentar em ~3.2; o melhor ritmo é uma quebra a cada ~300 tokens. A saliência é boa leitora e mau metrônomo: seleciona as janelas que valem julgamento, mas, como gatilho de interrupção, dispara raro e desigual demais (2.18 vs 4.70 para a mesma costura num relógio casado). Dentro da rede (residual em 13 camadas, logit lens), a geração nua congela em todas as camadas, mais na superfície, e termina certa (entropia final 0.34); o que o juiz chama de surpresa é partida na superfície com continuidade profunda; e a interrupção que funciona mal move o estado profundo (+0.01–0.03 de cosseno ao longo de uma injeção, sem retorno à premissa), enquanto o esquecimento é um reencontro profundo com o começo (+0.2, e o estado da própria premissa recuperado) que o juiz premia menos. A escada nu → habituação → interrupção → arcabouço replica em mais duas famílias de gerador (Qwen3-8B-Base: 0.68 → 1.47 → 2.73, conexão 0.87 → 3.23, δ = +0.80; OLMo-2-13B: 1.35 → 2.37 → 3.11, conexão 0.91 → 3.17, δ = +0.58 — onde a interrupção simples também custa coerência e o esquecimento do arcabouço a preserva). Neste sistema, a criatividade não está no ruído injetado na decodificação, nem na estranheza do input, nem num arcabouço cognitivo elaborado — está em <b>interromper o loop</b>: deixar um fio se desenvolver e depois obrigá-lo a recomeçar em outro lugar, sobre tudo o que ele lembra.</p>
@@ -164,49 +164,57 @@ blockquote{border-left:3px solid #ccc;margin:.8rem 0;padding:.2rem .9rem;color:#
 % edition/pages before submission.
 
 % ---------------------------------------------------------------- decoding
-@inproceedings{holtzman2020curious,          % [verified]
+% [verified]
+@inproceedings{holtzman2020curious,
   title     = {The Curious Case of Neural Text Degeneration},
   author    = {Holtzman, Ari and Buys, Jan and Du, Li and Forbes, Maxwell and Choi, Yejin},
   booktitle = {International Conference on Learning Representations (ICLR)},
   year      = {2020},
   url       = {https://arxiv.org/abs/1904.09751}
 }
-@article{meister2023typical,                 % [verified]
+% [verified]
+@article{meister2023typical,
   title   = {Locally Typical Sampling},
   author  = {Meister, Clara and Pimentel, Tiago and Wiher, Gian and Cotterell, Ryan},
   journal = {Transactions of the Association for Computational Linguistics},
   volume  = {11}, pages = {102--121}, year = {2023},
   doi     = {10.1162/tacl_a_00536}, url = {https://arxiv.org/abs/2202.00666}
 }
-@inproceedings{nguyen2025minp,               % [verified]
+% [verified]
+@inproceedings{nguyen2025minp,
   title     = {Turning Up the Heat: Min-p Sampling for Creative and Coherent LLM Outputs},
   author    = {Nguyen, Minh Nhat and Baker, Andrew and Neo, Clement and Roush, Allen and Kirsch, Andreas and Shwartz-Ziv, Ravid},
   booktitle = {International Conference on Learning Representations (ICLR)},
   year      = {2025}, url = {https://arxiv.org/abs/2407.01082}
 }
-@inproceedings{li2023contrastive,            % [verified 2026-08-17: arXiv abs page — ACL 2023 main conference long paper]
+% [verified 2026-08-17: arXiv abs page — ACL 2023 main conference long paper]
+@inproceedings{li2023contrastive,
   title  = {Contrastive Decoding: Open-ended Text Generation as Optimization},
   author = {Li, Xiang Lisa and Holtzman, Ari and Fried, Daniel and Liang, Percy and Eisner, Jason and Hashimoto, Tatsunori and Zettlemoyer, Luke and Lewis, Mike},
   booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL)}, year = {2023}, note = {arXiv:2210.15097}
 }
-@inproceedings{dathathri2020pplm,            % [verified 2026-08-17: arXiv abs page — ICLR 2020]
+% [verified 2026-08-17: arXiv abs page — ICLR 2020]
+@inproceedings{dathathri2020pplm,
   title  = {Plug and Play Language Models: A Simple Approach to Controlled Text Generation},
   author = {Dathathri, Sumanth and Madotto, Andrea and Lan, Janice and Hung, Jane and Frank, Eric and Molino, Piero and Yosinski, Jason and Liu, Rosanne},
   booktitle = {International Conference on Learning Representations (ICLR)}, year = {2020}, note = {arXiv:1912.02164}
 }
 
 % ---------------------------------------------------------------- novelty measurement
-@article{liu2024infinigram,                   % [verified 2026-08-09]
+% [verified 2026-08-09]
+@article{liu2024infinigram,
   title   = {Infini-gram: Scaling Unbounded n-gram Language Models to a Trillion Tokens},
   author  = {Liu, Jiacheng and Min, Sewon and Zettlemoyer, Luke and Choi, Yejin and Hajishirzi, Hannaneh},
   year    = {2024}, journal = {arXiv preprint arXiv:2401.17377}
 }
-@article{merrill2024rustydawg,                % [verified 2026-08-09]
+% [verified 2026-08-09]
+@article{merrill2024rustydawg,
   title   = {Evaluating n-Gram Novelty of Language Models Using Rusty-DAWG},
   author  = {Merrill, William and Smith, Noah A. and Elazar, Yanai},
   year    = {2024}, journal = {arXiv preprint arXiv:2406.13069}
 }
-@inproceedings{saakyan2026death,             % [verified]
+% [verified]
+@inproceedings{saakyan2026death,
   title     = {Death of the Novel(ty): Beyond n-Gram Novelty as a Metric for Textual Creativity},
   author    = {Saakyan, Arkadiy and Kim, Najoung and Muresan, Smaranda and Chakrabarty, Tuhin},
   booktitle = {International Conference on Learning Representations (ICLR)},
@@ -214,60 +222,71 @@ blockquote{border-left:3px solid #ccc;margin:.8rem 0;padding:.2rem .9rem;color:#
 }
 
 % ---------------------------------------------------------------- verified LLM search
-@article{romeraparedes2024funsearch,         % [verified]
+% [verified]
+@article{romeraparedes2024funsearch,
   title   = {Mathematical discoveries from program search with large language models},
   author  = {Romera-Paredes, Bernardino and Barekatain, Mohammadamin and Novikov, Alexander and Balog, Matej and Kumar, M. Pawan and Dupont, Emilien and Ruiz, Francisco J. R. and Ellenberg, Jordan S. and Wang, Pengming and Fawzi, Omar and Kohli, Pushmeet and Fawzi, Alhussein},
   journal = {Nature}, volume = {625}, number = {7995}, pages = {468--475}, year = {2024},
   doi     = {10.1038/s41586-023-06924-6}
 }
-@misc{novikov2025alphaevolve,                % [verified 2026-08-17: arXiv abs page, submitted 2025-06-16]
+% [verified 2026-08-17: arXiv abs page, submitted 2025-06-16]
+@misc{novikov2025alphaevolve,
   title  = {AlphaEvolve: A coding agent for scientific and algorithmic discovery},
   author = {Novikov, Alexander and others}, year = {2025}, note = {Google DeepMind; arXiv:2506.13131}
 }
 
 % ---------------------------------------------------------------- cognition and creativity
-@article{beaty2016dynamics,                  % [verified]
+% [verified]
+@article{beaty2016dynamics,
   title   = {Creative Cognition and Brain Network Dynamics},
   author  = {Beaty, Roger E. and Benedek, Mathias and Silvia, Paul J. and Schacter, Daniel L.},
   journal = {Trends in Cognitive Sciences}, volume = {20}, number = {2}, pages = {87--95}, year = {2016},
   doi     = {10.1016/j.tics.2015.10.004}
 }
-@article{beaty2018robust,                    % [verified]
+% [verified]
+@article{beaty2018robust,
   title   = {Robust prediction of individual creative ability from brain functional connectivity},
   author  = {Beaty, Roger E. and Kenett, Yoed N. and Christensen, Alexander P. and Rosenberg, Monica D. and Benedek, Mathias and Chen, Qunlin and Fink, Andreas and Qiu, Jiang and Kwapil, Thomas R. and Kane, Michael J. and Silvia, Paul J.},
   journal = {Proceedings of the National Academy of Sciences}, volume = {115}, number = {5}, pages = {1087--1092}, year = {2018},
   doi     = {10.1073/pnas.1713532115}
 }
-@incollection{kenett2018semantic,            % [verified]
+% [verified]
+@incollection{kenett2018semantic,
   title     = {Going the extra creative mile: The role of semantic distance in creativity — theory, research, and measurement},
   author    = {Kenett, Yoed N.},
   booktitle = {The Cambridge Handbook of the Neuroscience of Creativity},
   editor    = {Jung, Rex E. and Vartanian, Oshin}, publisher = {Cambridge University Press},
   pages     = {233--248}, year = {2018}
 }
-@article{sio2009incubation,                  % [verified]
+% [verified]
+@article{sio2009incubation,
   title   = {Does incubation enhance problem solving? A meta-analytic review},
   author  = {Sio, Ut Na and Ormerod, Thomas C.},
   journal = {Psychological Bulletin}, volume = {135}, number = {1}, pages = {94--120}, year = {2009},
   doi     = {10.1037/a0014212}
 }
-@book{boden2004creative,                     % [verified: standard edition data]
+% [verified: standard edition data]
+@book{boden2004creative,
   title = {The Creative Mind: Myths and Mechanisms}, author = {Boden, Margaret A.},
   edition = {2}, publisher = {Routledge}, year = {2004}
 }
-@book{fauconnier2002way,                     % [verified: standard edition data]
+% [verified: standard edition data]
+@book{fauconnier2002way,
   title = {The Way We Think: Conceptual Blending and the Mind&#x27;s Hidden Complexities},
   author = {Fauconnier, Gilles and Turner, Mark}, publisher = {Basic Books}, year = {2002}
 }
-@book{stanley2015greatness,                  % [verified: standard edition data]
+% [verified: standard edition data]
+@book{stanley2015greatness,
   title = {Why Greatness Cannot Be Planned: The Myth of the Objective},
   author = {Stanley, Kenneth O. and Lehman, Joel}, publisher = {Springer}, year = {2015}
 }
-@article{clark2013whatever,                  % [verified: BBS 36(3):181-204, doi:10.1017/S0140525X12000477]
+% [verified: BBS 36(3):181-204, doi:10.1017/S0140525X12000477]
+@article{clark2013whatever,
   title = {Whatever next? Predictive brains, situated agents, and the future of cognitive science},
   author = {Clark, Andy}, journal = {Behavioral and Brain Sciences}, volume = {36}, number = {3}, pages = {181--204}, year = {2013}
 }
-@article{hoel2021overfitted,                 % [verified 2026-08-17: Patterns 2(5) 100244, doi:10.1016/j.patter.2021.100244]
+% [verified 2026-08-17: Patterns 2(5) 100244, doi:10.1016/j.patter.2021.100244]
+@article{hoel2021overfitted,
   title = {The overfitted brain: Dreams evolved to assist generalization},
   author = {Hoel, Erik}, journal = {Patterns}, volume = {2}, number = {5}, pages = {100244}, year = {2021}, doi = {10.1016/j.patter.2021.100244}
 }
