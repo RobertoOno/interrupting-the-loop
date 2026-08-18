@@ -74,5 +74,5 @@ warning: sections/appendix_tables:617: Underfull \hbox (badness 2809) in paragra
 warning: sections/appendix_tables:618: Underfull \hbox (badness 2809) in paragraph at lines 618--618
 warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `main.pdf` (2.315702438354492 MiB)
+note: Writing `main.pdf` (2.317625045776367 MiB)
 note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
