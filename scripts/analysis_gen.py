@@ -63,13 +63,15 @@ def load_gen(run: str):
 
 
 def cell_means(rows, cond, dim, offset="primary"):
-    """{seed: mean over the cell's windows}. offset: 'primary' (since==32 or grid), 'all', or an int."""
+    """{seed: mean over the cell's windows}. offset: 'primary' (since==32 or grid), 'all', 'deep' (since >= 300), or an int."""
     by = {}
     for r in rows:
         if r["cond"] != cond:
             continue
         s = r.get("since")
         if offset == "primary" and s not in (32, None):
+            continue
+        if offset == "deep" and (s is None or s < 300):
             continue
         if isinstance(offset, int) and s != offset:
             continue
@@ -222,6 +224,11 @@ def main() -> None:
           [("clock_reenc", "stitch on the clock 150"), ("clock900_reenc", "stitch on the clock 900"),
            ("clock900", "neutral change 900"), ("sal_reenc", "stitch on salience events"), ("abl_salience", "salience only")],
           ref=1, fname="fig9_q4_timing.png")
+    # Q4b: deep into the segment (>= 300 generated tokens after the last injection): where the stream is left alone
+    block("Q4b — deep windows (at least 300 tokens after the last injection): the stream when it is left alone", main30,
+          [("clock900_reenc", "stitch on the clock 900"), ("clock900", "neutral change 900"), ("clock600", "neutral change 600"),
+           ("sal_reenc", "stitch on salience events"), ("scaffold0", "DREAM scaffold")],
+          ref=0, fname=None, offset="deep")
     # Q5: period (post-interruption window, offset 32) and decay curve
     block("Q5 — period of the neutral change: the window 32–128 tokens after the injection", main30,
           [("bare_reseed", "150"), ("clock300", "300"), ("clock600", "600"), ("clock900", "900")],
