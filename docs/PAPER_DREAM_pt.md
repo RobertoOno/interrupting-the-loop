@@ -1,5 +1,7 @@
 # Interromper o loop: onde mora a criatividade num modelo de linguagem
 
+> **Situação (2026-08-18):** este rascunho em Markdown está congelado na v1 (pré-parecer). O manuscrito-mestre é agora o LaTeX em `paper/` (`paper/main.tex`), revisto após o parecer externo (`docs/revisor_externo.txt`): janelas só-gerado, estatística por semente, controles da bateria 3, afirmações calibradas. Os números abaixo são do protocolo de janelas de evento da v1 e podem diferir do paper.
+
 > Versão em português do rascunho completo v1 (2026-08-16, noite), tradução
 > integral de `PAPER_DREAM.md`. Caderno de laboratório: `PLANO.md`. Números e
 > figuras são os mesmos da versão inglesa; nomes de condições e de
