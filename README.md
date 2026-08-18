@@ -1,4 +1,4 @@
-# Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt, but Interrupting the Loop
+# Interrupting the Loop: Where Creativity Lives in a Language Model
 
 Code, data and paper for a study of where novelty comes from when a base
 language model writes with **no task** — feeding on its own output — and which
@@ -112,7 +112,7 @@ Code and documentation are released under the MIT License (see `LICENSE`).
 
 ```
 @misc{ono2026interrupting,
-  title  = {Where Creativity Lives in a Language Model: Not the Sampler, Not the Prompt, but Interrupting the Loop},
+  title  = {Interrupting the Loop: Where Creativity Lives in a Language Model},
   author = {Ono Filho, Roberto I.},
   note   = {ORCID 0009-0006-8650-629X},
   year   = {2026},

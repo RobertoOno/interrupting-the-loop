@@ -1,4 +1,4 @@
-# Onde mora a criatividade num modelo de linguagem: nem no sampler, nem no prompt — em interromper o loop
+# Interromper o loop: onde mora a criatividade num modelo de linguagem
 
 > Versão em português do rascunho completo v1 (2026-08-16, noite), tradução
 > integral de `PAPER_DREAM.md`. Caderno de laboratório: `PLANO.md`. Números e
