@@ -1,5 +1,7 @@
 # Interrupting the Loop: Where Creativity Lives in a Language Model
 
+> **Status (2026-08-18):** this Markdown draft is frozen at v1 (pre-review). The master manuscript is now the LaTeX paper in `paper/` (`paper/main.tex`), revised after the external review (`docs/revisor_externo.txt`): generated-only windows, seed-level statistics, battery 3 controls, calibrated claims. Numbers below are the event-window protocol of v1 and may differ from the paper.
+
 > Complete working draft v1 (2026-08-16, night). Supersedes the framing
 > of PAPER.md (whose Phase-1 results become §3 here) and absorbs
 > PAPER_B.md (the negative result, §4). All batteries reported here have
