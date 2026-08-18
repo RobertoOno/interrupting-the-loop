@@ -4,8 +4,9 @@
 Judges and sentence embeddings see the text; the model's own residual stream
 sees the computation. This section is exploratory and descriptive: it reports
 correlational geometry of the residual stream with judged windows as
-observations (clustered by cell; the intervals and $p$-values are not
-corrected for that clustering), uses a logit lens for one coarse quantity,
+observations (clustered by cell; for the pooled correlations we give
+cluster-robust intervals from a bootstrap over cells, and the within-condition
+values are descriptive), uses a logit lens for one coarse quantity,
 and makes no causal intervention. It characterizes what the judged dimensions
 co-vary with in the model's state; it does not establish a mechanism. We re-run every finished stream through its generator
 (one forward pass with a KV cache, exact token positions) and capture the
@@ -46,8 +47,9 @@ every judged window, its novelty at layer $l$ (cosine distance between the
 window's mean state and the mean state of everything before it) and its local
 step (vs the previous 160 tokens), correlated with judged surprise
 (Figure~\ref{fig:n2}). Pooled over conditions, novelty against the past
-correlates with surprise at the input layers ($\rho=+0.47$ at layer 0) and
-not at the top ($-0.04$), but the pooled number is carried by the
+correlates with surprise at the input layers ($\rho=+0.47$ at layer 0;
+cell-bootstrap 95\% CI \ci{+0.22}{+0.67}) and not at the top ($-0.04$,
+\ci{-0.26}{+0.17}), but the pooled number is carried by the
 bare/interrupted contrast. Within interrupted conditions the sign flips with
 depth: local step at layer 0 correlates positively with surprise
 (salience-only $+0.46$, scaffold $+0.23$) and at layer 47 negatively

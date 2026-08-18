@@ -51,6 +51,15 @@
 | 44 | +0.48 | 1.0e-11 | -0.03 | -0.17 | +0.08 | +0.60 |
 | 47 | +0.41 | 8.1e-09 | -0.14 | -0.34 | +0.16 | +0.59 |
 
+**Cluster-robust intervals** (bootstrap over cells, 2,000 resamples) for the pooled Spearman with surprise:
+
+- novelty vs the past, layer 0: rho = +0.47, cell-bootstrap 95% CI [+0.22, +0.67]
+- novelty vs the past, layer 24: rho = +0.15, cell-bootstrap 95% CI [-0.06, +0.34]
+- novelty vs the past, layer 47: rho = -0.04, cell-bootstrap 95% CI [-0.26, +0.17]
+- local step, layer 0: rho = +0.62, cell-bootstrap 95% CI [+0.41, +0.77]
+- local step, layer 24: rho = +0.51, cell-bootstrap 95% CI [+0.28, +0.70]
+- local step, layer 47: rho = +0.41, cell-bootstrap 95% CI [+0.15, +0.62]
+
 Commitment layer (mean first-agreeing captured layer) vs surprise: ρ=-0.40 (p=3.8e-08); final entropy vs surprise: ρ=+0.51 (p=2.5e-13).
 - within DREAM scaffold: commit ρ=-0.13 (p=4.1e-01), final entropy ρ=+0.24 (p=1.2e-01), mean commit 10.98, mean surprise 3.18
 - within salience only: commit ρ=-0.24 (p=1.6e-01), final entropy ρ=+0.47 (p=4.4e-03), mean commit 10.97, mean surprise 2.60
