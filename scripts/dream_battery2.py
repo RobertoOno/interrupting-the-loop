@@ -46,8 +46,35 @@ NEW_SEEDS = [
     "His grandmother had a word for the hour before a storm, and no one else did.",
 ]
 
+# Second genre (external review, P1): expository / essayistic openings, not narrative;
+# written 2026-08-18 evening, never used before.
+GENRE_SEEDS = [
+    "The history of the umbrella is mostly a history of people refusing to carry one.",
+    "Every map of the ocean floor is out of date by the time it is printed.",
+    "Salt was once the reason cities existed where they do.",
+    "Most of what a library holds has not been read in fifty years, and that is its function.",
+    "The first clocks did not tell time; they told monks when to pray.",
+    "There is no word for the smell of rain on hot stone in most languages, and yet everyone knows it.",
+    "A bridge is a promise made by one generation to another.",
+    "The oldest recipes are lists of ingredients with no quantities.",
+    "Whistled languages exist wherever valleys are deep and neighbors are far.",
+    "Nobody has ever measured how much of a city is doors.",
+]
+
 BATTERIES = {
     # name -> (control, extra args)
+    # reset vs preserved vs sham at period 300 on another model (use --model; pairs with that model's bare_habit cells)
+    "reset_ladder": [
+        ("clock300", "bare_reseed", ["--clock-every", "300"]),
+        ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
+        ("sham_break300", "sham_break", ["--clock-every", "300"]),
+    ],
+    # second genre on the main generator (use --premises genre)
+    "genre": [
+        ("bare_habit", "bare_habit", []),
+        ("clock300", "bare_reseed", ["--clock-every", "300"]),
+        ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
+    ],
     # confirmatory replication of the period-300 contrast on new premises (use --premises new --rng-seed 1)
     "confirm": [
         ("bare_habit", "bare_habit", []),
@@ -107,10 +134,10 @@ def main() -> None:
     p.add_argument("--seeds", type=int, default=len(SEEDS))
     p.add_argument("--review-clock", type=int, default=150)
     p.add_argument("--only", nargs="*", default=None, help="subset of condition names")
-    p.add_argument("--premises", choices=["orig", "new"], default="orig", help="orig: the ten premises of the program; new: the ten confirmatory premises")
+    p.add_argument("--premises", choices=["orig", "new", "genre"], default="orig", help="orig: the ten premises of the program; new: the ten confirmatory premises; genre: ten expository openings")
     p.add_argument("--rng-seed", type=int, default=0, help="sampler RNG seed passed to dream_run.py")
     args = p.parse_args()
-    seeds = SEEDS if args.premises == "orig" else NEW_SEEDS
+    seeds = {"orig": SEEDS, "new": NEW_SEEDS, "genre": GENRE_SEEDS}[args.premises]
     args.out.mkdir(parents=True, exist_ok=True)
     progress = args.out / "progress.log"
 
