@@ -4,32 +4,51 @@ Code, data and paper for a study of where novelty comes from when a base
 language model writes with **no task** — feeding on its own output — and which
 of the operations usually credited for it survive measurement.
 
-**Paper**: [`paper/main.pdf`](paper/main.pdf) (LaTeX source in `paper/`);
-working draft with every number: [`docs/PAPER_DREAM.md`](docs/PAPER_DREAM.md)
-(also rendered as [`docs/manuscript.html`](docs/manuscript.html), and in
-Portuguese in `docs/manuscrito.html`). **Lab notebook**, every decision and
+**Paper**: [`paper/main.pdf`](paper/main.pdf) (LaTeX source in `paper/`, the
+master; the earlier Markdown/HTML drafts in `docs/` are frozen at v1). All
+tables of the primary analysis: [`docs/APPENDIX_GEN.md`](docs/APPENDIX_GEN.md). **Lab notebook**, every decision and
 result dated: [`docs/PLANO.md`](docs/PLANO.md) (Portuguese; an English
 translation, `docs/NOTEBOOK.md`, accompanies the public release).
 
 ## The finding, in one paragraph
 
 We tested three hypotheses with one measurement stack (base models run
-locally, cross-family LLM judges with *k*-sample medians and measured
-resolution, bootstrap CIs, verbatim novelty against a public training corpus).
-**The sampler**: an entropy-banded anti-probable decoder doubles *n*-gram
-novelty against the training corpus and cuts verbatim training blocks 4× — but
-this surface novelty never rises to the level of ideas. **The prompt**: inputs
-built to sit far from any human prompt are noise. **The loop**: bare
-continuous generation is dead (it converges on the attractors of pretraining
-and stays); a reverie loop built on the architecture of spontaneous cognition
-brings it to life — but ablation locates the effect in two simple operations:
-*habituation* (not letting the loop eat its literal past) and *interruption*
-(a new starting sentence injected every few hundred tokens over the preserved
-context), which must lead away, has a rhythm (~300 tokens; every 75 is dead),
-and is best timed by a clock, not by salience. Replicated on three generator
-families and two judge families; inside the network, the interruption that
-works barely moves the deep state, while forgetting is a deep re-encounter with
-the beginning that the judge rewards less.
+locally, LLM judges from another model family with *k*-sample medians and a
+measured instrument, the premise as the unit of inference, verbatim novelty
+against a public training corpus). **The sampler**: an entropy-banded
+anti-probable decoder doubles *n*-gram novelty against the training corpus
+and cuts verbatim training blocks 4x, but shows no detectable effect on judged
+surprise or connection. **The prompt**: inputs built to sit far from any human
+prompt show no benefit under the operationalizations we tested. **The loop**:
+forced continuation from a base model degenerates into repetitive modes; a
+reverie loop built on the architecture of spontaneous cognition revives it,
+and taking the loop apart over 23 conditions locates most of the effect in two
+simple operations: *habituation* (a windowed repetition penalty) and
+*interruption* (a new subject injected every few hundred tokens). On windows of
+generated text only, the interruption raises judged surprise from 1.6 to 3.0
+and connection from 1.3 to 3.7 over habituation alone (Qwen3-30B-A3B-Base, ten
+premises, paired permutation p = 0.002), matches the full scaffold on surprise
+and beats it on connection. Controls: a bare paragraph break does nothing and a
+continuity connective hurts; the new subject needs habituation to work and
+works on a reset context as well as on a preserved one; injecting the premise
+or the stream's own past is as bad as not interrupting; timing by salience
+events is no better than a clock at the same rate; no period beats a break
+every 150-300 tokens. Replicated on three base models from two families, under
+a second judge family, and in the ranking of independent human readers. Read
+descriptively, the interruption that scores best barely moves the deep
+residual state. This characterizes a simple, controllable intervention for
+forced open-ended generation; it does not establish a general mechanism of
+creativity.
+
+**Revision note (2026-08-18).** After an external review, the study was
+re-analyzed with windows of generated text only (the injected sentence never
+inside the judged window), the premise as the unit of inference, a control
+battery (sham boundaries, reset context, no habituation, EOS allowed, stronger
+habituation) and a pre-registered confirmatory battery on ten new premises.
+The earlier claim that the yield of an interruption grows with the length of
+the thread it breaks (a best rhythm of about 300 tokens) did not survive: it
+was, in good part, the judge reading the injected sentence. Everything else
+held in direction; the numbers in the paper are the new ones.
 
 ## Layout
 
@@ -49,13 +68,14 @@ src/creative_machine/
   domains/                    verified-search domain (online bin packing)
 scripts/
   dream_run.py                one cell: premise → 4,500-token stream under a condition
-  dream_battery2.py           resumable batteries (b2 / b2x / families), thermal logging
-  dream_rejudge_surprise.py   offline judging (Opus k=5), two workers + rejudge_merge.py
+  dream_battery2.py           resumable batteries (b2 / b3 / confirm / families), thermal logging
+  dream_rejudge_surprise.py   offline judging (Opus k=5), generated-only or event windows, several workers
   hidden_states.py            residual-stream capture (13 layers, logit lens, injection depth)
   hidden_analysis.py          N1–N3 analyses and figures
-  analysis.py, analysis_b2.py trajectories.py   all tables and figures from runs/
+  analysis_gen.py             primary analysis: generated-only windows, cell as unit, permutation tests
+  analysis.py, analysis_b2.py trajectories.py   event-protocol tables and figures (descriptive)
   judge_agreement.py          second judge family vs Opus
-  blind_pack.py, blind_score.py   human blind-rating pack and scoring
+  blind_pack.py, blind_pack3.py, blind_score.py   human blind-rating packs (rounds 1 and 2) and scoring
   build_manuscript.py         self-contained HTML manuscript (EN/PT)
 tests/                        117 tests, synthetic distributions (run anywhere)
 runs/                         (not in git) per-cell text, token stream, events, judgments
@@ -87,9 +107,10 @@ and the residual-stream capture:
 
 ```bash
 python scripts/dream_battery2.py --battery b2 --out runs/dream_b2
-AWS_PROFILE=<your-bedrock-profile> python scripts/dream_rejudge_surprise.py runs/dream_b2 --k 5
+AWS_PROFILE=<your-bedrock-profile> python scripts/dream_rejudge_surprise.py runs/dream_b2 --k 5 --protocol gen
 python scripts/hidden_states.py runs/dream_b2 && python scripts/hidden_analysis.py runs/dream_b2 --tag b2
-python scripts/analysis.py && python scripts/analysis_b2.py    # tables and figures
+python scripts/analysis_gen.py                                 # primary tables and figures
+python scripts/analysis.py && python scripts/analysis_b2.py    # event-protocol tables (descriptive)
 ```
 
 Judges run on Amazon Bedrock (Claude Opus 5 / Sonnet 5) and OpenRouter (Kimi
@@ -99,7 +120,8 @@ or `OPENROUTER_API_KEY`. Nothing in this repository contains credentials.
 ## Data
 
 Every run's per-step telemetry, text, token stream with exact event and
-injection positions, and every judgment (`rejudge_surprise.json`) live under
+injection positions, and every judgment (`rejudge_gen.json`, generated-only windows;
+`rejudge_surprise.json`, event windows) live under
 `runs/` (released as an archive with the paper, not tracked in git). The
 human-rating packs in `docs/blind/` contain the rated windows without
 condition labels; the keys are not public.
