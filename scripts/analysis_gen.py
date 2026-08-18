@@ -87,6 +87,18 @@ def boot_ci(x, n=10000, seed=0):
     return float(np.percentile(m, 2.5)), float(np.percentile(m, 97.5))
 
 
+def bh_fdr(ps):
+    """Benjamini-Hochberg q-values (monotone) for a family of p-values."""
+    ps = list(ps); m = len(ps)
+    if m == 0:
+        return []
+    order = sorted(range(m), key=lambda i: ps[i])
+    q = [0.0] * m; prev = 1.0
+    for rank, i in reversed(list(enumerate(order, 1))):
+        prev = min(prev, ps[i] * m / rank); q[i] = prev
+    return q
+
+
 def paired(a: dict, b: dict):
     """Paired-by-seed differences a - b: mean, bootstrap CI, exact sign-flip permutation p (two-sided), Cliff's delta on cell means."""
     seeds = sorted(set(a) & set(b))
@@ -138,7 +150,7 @@ def block(title, pool, spec, ref, fname=None, offset="primary"):
     table(title + " — cell means (mean over cells [95% CI over cells])", rows,
           ["condition", "n cells", "surprise", "connection", "coherence"])
     ref_c = spec[ref][0]
-    prow = []
+    prow, ps = [], []
     for c, lab in spec:
         if c == ref_c:
             continue
@@ -148,8 +160,11 @@ def block(title, pool, spec, ref, fname=None, offset="primary"):
                 continue
             star = "**" if (pr["lo"] > 0 or pr["hi"] < 0) else ""
             prow.append([lab, d, f"{star}{pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}]{star}",
-                         f"{pr['p_perm']:.3f}", f"{pr['delta']:+.2f}", pr["n"]])
-    table(f"vs {spec[ref][1]} — paired by seed", prow, ["condition", "dim", "Δ [CI]", "p (perm)", "Cliff δ", "n seeds"])
+                         f"{pr['p_perm']:.3f}", None, f"{pr['delta']:+.2f}", pr["n"]])
+            ps.append(pr["p_perm"])
+    for row, q in zip(prow, bh_fdr(ps)):  # BH q-values within this table's family of comparisons
+        row[4] = f"{q:.3f}"
+    table(f"vs {spec[ref][1]} — paired by seed", prow, ["condition", "dim", "Δ [CI]", "p (perm)", "q (BH)", "Cliff δ", "n seeds"])
     if fname:
         conds = [(c, l) for c, l in spec if per[c]["surprise"]]
         fig, axes = plt.subplots(1, 3, figsize=(3.6 * 3 + 1, 3.8), sharey=True)

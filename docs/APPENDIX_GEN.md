@@ -2,7 +2,7 @@
 
 Windows of 96 model-generated tokens starting 32 tokens after each injection (none crossing an injection); uniform grid for uninterrupted arms; the judge sees the 600 preceding tokens as context. Unit = cell (premise); CIs are bootstrap over cells; paired comparisons use exact sign-flip permutation p-values on the 10 paired differences and Cliff's delta on cell means. Opus 5, k=5, median per window.
 
-89 judged windows on the main generator, 32 on Qwen3-8B, 24 on OLMo-2.
+134 judged windows on the main generator, 48 on Qwen3-8B, 40 on OLMo-2.
 
 
 ### Q1 — habituation × interruption (period 150) and baselines — cell means (mean over cells [95% CI over cells])
@@ -19,8 +19,8 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 ### vs bare + habituation — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q2 — what is injected (period 150) — cell means (mean over cells [95% CI over cells])
 
@@ -33,8 +33,8 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 ### vs neutral subject change — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q3 — period 300: what carries the effect (context preserved vs reset; semantic change vs neutral boundary) — cell means (mean over cells [95% CI over cells])
 
@@ -50,23 +50,23 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 ### vs no interruption — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q4 — timing: salience vs clock (same stitch) — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | stitch on the clock 150 | 1 | 2.67 [nan, nan] | 3.33 [nan, nan] | 5.83 [nan, nan] |
-| stitch on the clock 900 | 0 | — | — | — |
-| neutral change 900 | 0 | — | — | — |
+| stitch on the clock 900 | 1 | 4.00 [nan, nan] | 5.00 [nan, nan] | 8.00 [nan, nan] |
+| neutral change 900 | 1 | 2.60 [nan, nan] | 1.80 [nan, nan] | 6.80 [nan, nan] |
 | stitch on salience events | 1 | 2.50 [nan, nan] | 1.50 [nan, nan] | 5.00 [nan, nan] |
-| salience only | 1 | 1.50 [nan, nan] | 1.00 [nan, nan] | 4.67 [nan, nan] |
+| salience only | 2 | 1.25 [1.00, 1.50] | 0.50 [0.00, 1.00] | 4.83 [4.67, 5.00] |
 
 ### vs stitch on the clock 900 — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q5 — period of the neutral change: the window 32–128 tokens after the injection — cell means (mean over cells [95% CI over cells])
 
@@ -75,12 +75,12 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | 150 | 1 | 2.00 [nan, nan] | 2.33 [nan, nan] | 6.33 [nan, nan] |
 | 300 | 1 | 1.67 [nan, nan] | 1.83 [nan, nan] | 6.67 [nan, nan] |
 | 600 | 1 | 2.33 [nan, nan] | 1.50 [nan, nan] | 7.50 [nan, nan] |
-| 900 | 0 | — | — | — |
+| 900 | 1 | 2.60 [nan, nan] | 1.80 [nan, nan] | 6.80 [nan, nan] |
 
 ### vs 150 — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q5b — decay: cell mean surprise by tokens since the injection (window start), generated text only
 
@@ -95,26 +95,26 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 2 | 0.58 [0.50, 0.67] | 0.50 [0.00, 1.00] | 4.42 [3.83, 5.00] |
-| bare + habituation | 1 | 0.50 [nan, nan] | 0.33 [nan, nan] | 1.67 [nan, nan] |
-| habituation + reseed 150 | 1 | 3.83 [nan, nan] | 3.83 [nan, nan] | 5.33 [nan, nan] |
+| bare | 2 | 0.92 [0.67, 1.17] | 0.92 [0.83, 1.00] | 4.33 [3.83, 4.83] |
+| bare + habituation | 2 | 1.33 [0.50, 2.17] | 0.58 [0.33, 0.83] | 3.83 [1.67, 6.00] |
+| habituation + reseed 150 | 2 | 2.92 [2.00, 3.83] | 3.50 [3.17, 3.83] | 4.58 [3.83, 5.33] |
 | DREAM scaffold | 1 | 1.00 [nan, nan] | 0.67 [nan, nan] | 2.00 [nan, nan] |
 
 ### vs bare + habituation — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
 
 ### Q6 — the ladder on OLMo-2-13B — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 1 | 1.17 [nan, nan] | 0.67 [nan, nan] | 3.50 [nan, nan] |
-| bare + habituation | 1 | 2.33 [nan, nan] | 2.00 [nan, nan] | 6.00 [nan, nan] |
-| habituation + reseed 150 | 1 | 4.58 [nan, nan] | 4.67 [nan, nan] | 5.17 [nan, nan] |
+| bare | 2 | 0.67 [0.17, 1.17] | 0.33 [0.00, 0.67] | 2.17 [0.83, 3.50] |
+| bare + habituation | 2 | 3.08 [2.33, 3.83] | 2.38 [2.00, 2.75] | 6.33 [6.00, 6.67] |
+| habituation + reseed 150 | 2 | 3.54 [2.50, 4.58] | 4.21 [3.75, 4.67] | 5.71 [5.17, 6.25] |
 | DREAM scaffold | 1 | 5.00 [nan, nan] | 4.00 [nan, nan] | 8.00 [nan, nan] |
 
 ### vs bare + habituation — paired by seed
 
-| condition | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
-|---|---|---|---|---|---|
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
