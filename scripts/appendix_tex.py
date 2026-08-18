@@ -68,14 +68,25 @@ def main() -> None:
     gen_md = DOCS / "APPENDIX_GEN.md"
     if gen_md.exists():
         parts.append("\\subsection*{Generated-only windows, unit = cell (primary analysis)}")
-        gi = 0
+        gi, last_key, seen_keys = 0, "x", {}
+        import re as _re
         for heading, header, rows in md_tables(gen_md.read_text()):
             if not heading or not rows:
                 continue
             gi += 1
             cap = heading.replace(" — ", ": ").replace("—", ":")
+            m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered)", heading)
+            if m:
+                key = m.group(1).lower()
+                seen_keys[key] = seen_keys.get(key, 0) + 1
+                last_key = key if seen_keys[key] == 1 else f"{key}-{seen_keys[key]}"
+                label = f"tab:gen-{last_key}"
+            elif heading.startswith("vs"):
+                label = f"tab:gen-{last_key}-diff"
+            else:
+                label = f"tab:gen-{gi}"
             colspec = ("p{4.6cm}" if len(header) > 5 else "l") + "c" * (len(header) - 1)
-            parts.append(tabular(header, rows, "Generated-only protocol. " + cap + ".", f"tab:gen-{gi}", colspec=colspec))
+            parts.append(tabular(header, rows, "Generated-only protocol. " + cap + ".", label, colspec=colspec))
         parts.append("\\subsection*{Event-window protocol of the first version (descriptive)}")
     # ---- ablation battery
     for heading, header, rows in md_tables((DOCS / "APPENDIX_ANALYSIS.md").read_text()):
