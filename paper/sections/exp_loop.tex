@@ -175,11 +175,46 @@ premise.}
 \subsection{The whole document}
 \label{sec:document}
 
-\todo{document-level judgment (integration, development, coherence, surprise
-over the whole 4,500-token stream with the injected sentences removed; Opus
-$k=3$; one score per cell) for bare, habituation, interruption 150 and 300
-(preserved), interruption without habituation, sham break, reset with and
-without a subject change, and the scaffold; running}
+Every score above is local: a window of 96 tokens read against 600. Does the
+interrupted loop build anything over 4,500 tokens? We had the judge read the
+\emph{whole} stream of each cell, with the injected sentences removed, and
+score four things once (Opus~5, $k=3$, median; one score per cell):
+\emph{integration} (are characters, motifs or ideas from earlier parts taken
+up later and joined), \emph{development} (does something build rather than
+restart or repeat), \emph{coherence} (does it read as one text) and
+\emph{surprise} (does the whole go somewhere unpredictable yet sensible).
+The answer is no, for every arm (Figure~\ref{fig:document},
+Table~\ref{tab:gen-document}): no condition exceeds 2.5 on any document
+dimension. Worse for the recipe: judged as a whole, the interrupted stream
+over the preserved context is a sequence of restarts and reads \emph{below}
+the uninterrupted habituated stream (period 150: surprise 0.10 vs 1.40,
+$-1.30$ \ci{-1.60}{-1.00}, $p=0.002$; development 0.30 vs 1.10; period 300:
+surprise $-0.90$, $p=0.03$; integration $-0.60$; the scaffold is at the level
+of habituation). The reset arm reads best of all (integration 2.00,
+development 1.60, coherence 2.20, surprise 2.50; above the preserved context
+on all four, $p\le0.03$, and above habituation on surprise, +1.10,
+$p=0.008$), because each of its parts is a clean piece that returns to the
+premise, which the document judge, like the window judge, credits as a
+kind of unity. So the local gains of Sections~\ref{sec:ablation}
+to~\ref{sec:period} do not compose: an interruption is a local operation
+that makes the next hundred tokens more surprising, connected and coherent
+than they would have been, and leaves the document a collection. Keeping
+the earlier text in the model's context, which is what a writer would want,
+produces no integration that either judge can see; the accumulation the
+architecture was built for does not happen. We take this as the clearest
+statement of what the paper has and has not found: an operator on windows,
+not on wholes.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig9_document.png}
+\caption{The whole document, injected sentences removed: integration,
+development, coherence and surprise of the 4,500-token stream (Opus~5,
+$k=3$; one point per premise). No arm builds a whole; the interrupted stream
+over the preserved context reads as a sequence of restarts; the reset arm's
+clean parts, each returning to the premise, read best.}
+\label{fig:document}
+\end{figure}
 
 \subsection{The interruption must lead away}
 \label{sec:content}

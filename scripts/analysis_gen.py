@@ -315,6 +315,62 @@ def main() -> None:
         if len(xs[d]) >= 4:
             rho, pv = spearmanr(xs[d], ys[d])
             md.append(f"\nSpearman across conditions ({d}): rho = {rho:+.2f} (n = {len(xs[d])} conditions).")
+    # ---- document-level judgment (whole streams, injected sentences removed; one score per cell)
+    DDIMS = ("integration", "development", "coherence", "surprise")
+    docs = []
+    for name in ("document_judgments_a.json", "document_judgments_b.json", "document_judgments_c.json"):
+        pth = RUNS / name
+        if pth.exists():
+            docs.extend(json.loads(pth.read_text()))
+    if docs:
+        md.append(f"\n## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 ({len(docs)} documents)\n")
+        md.append("Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather "
+                  "than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.\n")
+        conds_doc = ["bare", "bare_habit", "bare_reseed", "clock300", "nohabit300", "sham_break300", "reset_reseed300", "reset_break300", "scaffold0"]
+        others = sorted({r["cond"] for r in docs} - set(conds_doc))
+        md.append("| condition | n | " + " | ".join(DDIMS) + " |")
+        md.append("|---|---|" + "---|" * len(DDIMS))
+        dmeans = {}
+        for c in conds_doc + others:
+            rs = [r for r in docs if r["cond"] == c]
+            if not rs:
+                continue
+            cells = []
+            for d in DDIMS:
+                v = [r[d] for r in rs]; lo, hi = boot_ci(v)
+                cells.append(f"{np.mean(v):.2f} [{lo:.2f}, {hi:.2f}]")
+                dmeans[(c, d)] = {r["seed"]: r[d] for r in rs}
+            md.append(f"| {LABEL.get(c, c)} | {len(rs)} | " + " | ".join(cells) + " |")
+        md.append("\n### Document level — paired contrasts\n")
+        md.append("| contrast | dim | Δ [CI] | p (perm) | Cliff δ | n |")
+        md.append("|---|---|---|---|---|---|")
+        for a, b, lab in (("bare_reseed", "bare_habit", "interruption 150 vs habituation"),
+                          ("clock300", "bare_habit", "interruption 300 (preserved) vs habituation"),
+                          ("reset_reseed300", "bare_habit", "reset + subject change 300 vs habituation"),
+                          ("reset_reseed300", "clock300", "reset vs preserved (300)"),
+                          ("scaffold0", "bare_habit", "scaffold vs habituation"),
+                          ("sham_break300", "bare_habit", "sham break vs habituation"),
+                          ("bare_habit", "bare", "habituation vs bare")):
+            for d in DDIMS:
+                if (a, d) in dmeans and (b, d) in dmeans:
+                    pr = paired(dmeans[(a, d)], dmeans[(b, d)])
+                    if pr:
+                        star = "**" if (pr["lo"] > 0 or pr["hi"] < 0) else ""
+                        md.append(f"| {lab} | {d} | {star}{pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}]{star} | {pr['p_perm']:.3f} | {pr['delta']:+.2f} | {pr['n']} |")
+        # figure: document-level dots
+        show = [c for c in conds_doc if any(r["cond"] == c for r in docs)]
+        fig, axes = plt.subplots(1, 4, figsize=(14, 3.6), sharey=True)
+        for ax, d in zip(axes, DDIMS):
+            for i, c in enumerate(show):
+                v = [r[d] for r in docs if r["cond"] == c]; lo, hi = boot_ci(v)
+                ax.scatter([i] * len(v), v, s=14, color=PAL.get(c, "#666"), alpha=0.8, zorder=3)
+                ax.plot([i - 0.25, i + 0.25], [np.mean(v)] * 2, color=PAL.get(c, "#666"), lw=2.5, zorder=4)
+                ax.plot([i, i], [lo, hi], color=PAL.get(c, "#666"), lw=1.2, zorder=4)
+            ax.set_xticks(range(len(show))); ax.set_xticklabels([LABEL.get(c, c).replace(" ", "\n", 1) for c in show], fontsize=6, rotation=45, ha="right")
+            ax.set_title(d, fontsize=10); ax.set_ylim(-0.3, 10.3)
+        axes[0].set_ylabel("document score (one point per premise)")
+        fig.suptitle("The whole document, injected sentences removed (Opus, k=3)", fontsize=10, y=1.02); fig.tight_layout()
+        fig.savefig(FIG / "fig9_document.png", dpi=170, bbox_inches="tight"); plt.close(fig)
     # ---- confirmatory battery (new premises, RNG seed 1): pre-registered contrasts (docs/PLANO.md, 2026-08-18)
     conf = load_gen("dream_confirm")
     if conf:

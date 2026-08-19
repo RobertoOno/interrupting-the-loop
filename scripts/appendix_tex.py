@@ -75,13 +75,13 @@ def main() -> None:
                 continue
             gi += 1
             cap = heading.replace(" — ", ": ").replace("—", ":")
-            m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered)", heading)
+            m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered|Document)", heading)
             if m:
                 key = m.group(1).lower()
                 seen_keys[key] = seen_keys.get(key, 0) + 1
                 last_key = key if seen_keys[key] == 1 else f"{key}-{seen_keys[key]}"
                 label = f"tab:gen-{last_key}"
-            elif heading.startswith("vs"):
+            elif heading.startswith("vs") or "paired contrasts" in heading:
                 label = f"tab:gen-{last_key}-diff"
             else:
                 label = f"tab:gen-{gi}"
