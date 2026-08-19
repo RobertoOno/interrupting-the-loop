@@ -91,6 +91,11 @@ def main() -> None:
         "reset_break",    # clock restart with the context wiped: premise + paragraph break (fresh continuation)
         # DREAM's Review, tested with a gate that opens: judge-gated interruption (a find is left to run)
         "judge_gate",     # habituation + clock reseed unless a real judge reads the last window as a find
+        # the interrupted loop over a PROBLEM with a verifier (bin packing notebook; src/creative_machine/problem_premises.py)
+        "problem_plain",  # habituation, no interruption
+        "problem_angle",  # habituation + a distinct 'new angle' comment injected on the clock (context preserved)
+        "problem_reset",  # the same angles on a reset context (premise + angle only)
+        "problem_sham",   # habituation + an empty comment line on the clock
     ], default="none")
     p.add_argument("--gate-threshold", type=float, default=5.0, help="judge_gate: a find = surprise >= t and coherence >= t (Opus, one call)")
     p.add_argument("--gate-judge", default="anthropic.claude-opus-5")
@@ -122,7 +127,8 @@ def main() -> None:
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
     CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self",
-                    "sham_break", "sham_continue", "reset_reseed", "reset_break", "judge_gate")
+                    "sham_break", "sham_continue", "reset_reseed", "reset_break", "judge_gate",
+                    "problem_angle", "problem_reset", "problem_sham")
     if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
@@ -152,6 +158,13 @@ def main() -> None:
             stagnation_window=1, stagnation_threshold=9.0,  # "stagnation" fires on every check -> reseed
             entropy_floor=-1.0, refractory=args.clock_every, snapshot_every=8,
         )
+        if args.control in ("problem_angle", "problem_reset", "problem_sham"):
+            from creative_machine.problem_premises import ANGLES, SHAM
+            cfg.kick_seeds = tuple(ANGLES) if args.control != "problem_sham" else SHAM
+            if args.control == "problem_reset":
+                cfg.forget_on_reseed = True
+                cfg.keep_recent_tokens = 0
+                cfg.keep_insight_windows = 0
         if args.control == "sham_break":
             cfg.kick_seeds = ("\n\n",)
         elif args.control == "sham_continue":
@@ -201,7 +214,7 @@ def main() -> None:
         )
         if args.control == "bare_eos":
             cfg.mask_eos = False
-    if args.control == "bare_habit":
+    if args.control in ("bare_habit", "problem_plain"):
         # bare (no interruption of any kind) + the scaffold's habituation only:
         # separates "not eating your own literal past" from "being interrupted".
         cfg.drift = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=no_push, seed=args.rng_seed, **_HABIT)

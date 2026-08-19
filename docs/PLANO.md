@@ -1249,6 +1249,36 @@ não acrescenta ao relógio nem local nem no todo. Tudo escrito no paper
 famílias, "The Review, with a gate that opens"; discussão "Windows and
 wholes" atualizada). Custo de LLM do dia: ~US$500.
 
+**Decisão (2026-08-19, manhã): caminhos A + B.** A = preprint reenquadrado
+(lição de avaliação em primeiro plano: texto injetado, auto-cópia fora do
+horizonte, janela vs documento; operador em segundo) + workshop (NeurIPS
+"Can We Trust the Judge?", 29/08) e/ou ICCC'27. B = **o loop interrompido
+sobre um problema com verificador** (item 8). Processamento pesado à noite.
+
+**Bateria B (pré-registro, 2026-08-19 ~07:40, antes de rodar)** — caderno de
+Python de bin packing online (`src/creative_machine/problem_premises.py`):
+premissa = docstring com a distribuição de tamanhos da variante + first fit
+e best fit como exemplos + "# Idea 1:"; o modelo base (30B) continua por
+4.500 tokens escrevendo ideias e funções `def priority*`; cada função
+completa é extraída, renomeada e verificada no sandbox
+(`scripts/problem_verify.py`) em 5 instâncias × 100 itens held-out da
+variante (treino também registrado). **Unidade = variante** (10
+distribuições), cada uma com 2 sementes de RNG (0 e 1; valor da célula =
+média das duas). Braços: `plain` (habituação, sem interrupção), `angle300`
+(15 comentários de "novo ângulo", todos distintos, injetados a cada 300
+tokens, contexto preservado), `reset300` (os mesmos ângulos sobre contexto
+reset), `sham300` (linha de comentário vazia a cada 300). Medidas por
+célula: ganho = excesso do best fit − melhor excesso held-out entre os
+candidatos válidos (maior = melhor; célula sem candidato válido = first fit);
+nº de candidatos válidos; nº de válidos distintos; indicador "bate o best
+fit". Hipóteses (permutação exata pareada, α = 0,05): **B1 (primária,
+unilateral)**: angle300 > plain em ganho; B2 (unilateral): angle300 > plain
+em válidos distintos; B3 (bilateral): angle300 vs reset300 em ganho; B4:
+sham300 = plain. Exploratório: fração de variantes em que algum braço bate o
+best fit held-out; auto-cópia das funções (hash). Smoke test ok (900 tokens:
+10 candidatos, 9 válidos, melhor = best fit). Agendado para 22:00
+(`scripts/tonight_problem.sh`): 80 células (~2,5 h) + verificação (CPU).
+
 **Checklist da manhã (2026-08-19)** — se a sessão morrer, o próximo passo é:
 (1) `python scripts/selfcopy.py runs/dream_fam8b_bf16 runs/dream_instruct8b
 runs/dream_fam8b_reset runs/dream_genre runs/dream_gate` e `... runs/dream_famolmo_reset

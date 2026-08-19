@@ -63,6 +63,13 @@ GENRE_SEEDS = [
 
 BATTERIES = {
     # name -> (control, extra args)
+    # the interrupted loop over a problem with a verifier (use --premises problem): 10 bin-packing variants
+    "problem": [
+        ("plain", "problem_plain", []),
+        ("angle300", "problem_angle", ["--clock-every", "300"]),
+        ("reset300", "problem_reset", ["--clock-every", "300"]),
+        ("sham300", "problem_sham", ["--clock-every", "300"]),
+    ],
     # reset vs preserved vs sham at period 300 on another model (use --model; pairs with that model's bare_habit cells)
     "reset_ladder": [
         ("clock300", "bare_reseed", ["--clock-every", "300"]),
@@ -139,10 +146,15 @@ def main() -> None:
     p.add_argument("--seeds", type=int, default=len(SEEDS))
     p.add_argument("--review-clock", type=int, default=150)
     p.add_argument("--only", nargs="*", default=None, help="subset of condition names")
-    p.add_argument("--premises", choices=["orig", "new", "genre"], default="orig", help="orig: the ten premises of the program; new: the ten confirmatory premises; genre: ten expository openings")
+    p.add_argument("--premises", choices=["orig", "new", "genre", "problem"], default="orig", help="orig: the ten premises of the program; new: the ten confirmatory premises; genre: ten expository openings; problem: ten bin-packing notebook variants")
     p.add_argument("--rng-seed", type=int, default=0, help="sampler RNG seed passed to dream_run.py")
     args = p.parse_args()
-    seeds = {"orig": SEEDS, "new": NEW_SEEDS, "genre": GENRE_SEEDS}[args.premises]
+    if args.premises == "problem":
+        sys.path.insert(0, str(ROOT / "src"))
+        from creative_machine.problem_premises import VARIANTS, premise
+        seeds = [premise(lo, hi) for lo, hi in VARIANTS]
+    else:
+        seeds = {"orig": SEEDS, "new": NEW_SEEDS, "genre": GENRE_SEEDS}[args.premises]
     args.out.mkdir(parents=True, exist_ok=True)
     progress = args.out / "progress.log"
 
