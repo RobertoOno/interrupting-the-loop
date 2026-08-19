@@ -486,6 +486,35 @@ def main() -> None:
             pr = paired(per[a][d], per[b][d], alt)
             if pr:
                 md.append(f"| {hyp} | {a} vs {b} | {d} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
+    # fresh-only versions of the pre-registered contrasts (self-copy flags), as a robustness check
+    if conf and (RUNS / "selfcopy_flags.json").exists():
+        flags = json.loads((RUNS / "selfcopy_flags.json").read_text())
+        def fresh_cm(cond, dim):
+            by = {}
+            for r in conf:
+                if r["cond"] != cond or r.get("since") not in (32, None):
+                    continue
+                f = flags.get("dream_confirm", {}).get(r["cell"], {}).get(str(r["step"]))
+                if f is None or f["frac"] >= 0.5:
+                    continue
+                by.setdefault(r["seed"], []).append(r[dim])
+            return {k: float(np.mean(v)) for k, v in by.items()}
+        md.append("\n### Confirmatory — self-copy rates and the pre-registered contrasts on fresh windows only\n")
+        md.append("| condition | copied |")
+        md.append("|---|---|")
+        for c in ("bare_habit", "sham_break300", "clock300", "nohabit300", "reset_reseed300"):
+            rs = [r for r in conf if r["cond"] == c and r.get("since") in (32, None)]
+            fl = [flags.get("dream_confirm", {}).get(r["cell"], {}).get(str(r["step"])) for r in rs]
+            fl = [f for f in fl if f is not None]
+            if fl:
+                md.append(f"| {LABEL.get(c, c)} | {100*np.mean([f['frac'] >= 0.5 for f in fl]):.0f}% |")
+        md.append("\n| hypothesis (fresh only) | contrast | dim | Δ [CI] | p | n seeds |")
+        md.append("|---|---|---|---|---|---|")
+        for hyp, a, b, d, alt in (("H1", "clock300", "bare_habit", "surprise", "greater"), ("H2", "clock300", "sham_break300", "surprise", "greater"),
+                                  ("H3", "clock300", "reset_reseed300", "connection", "greater"), ("H4 (two-sided)", "clock300", "nohabit300", "surprise", "two-sided")):
+            pr = paired(fresh_cm(a, d), fresh_cm(b, d), alt)
+            if pr:
+                md.append(f"| {hyp} | {a} vs {b} | {d} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
     # document level on the confirmatory premises
     pth = RUNS / "document_judgments_confirm.json"
     if pth.exists():

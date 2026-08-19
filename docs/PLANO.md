@@ -1215,6 +1215,22 @@ nova a cada quebra, ou reset. O paper passa a reportar os dois números e
 trata os "só-frescos" como estimativa primária. Pacote humano v3 refeito com
 `--fresh-only` (56 janelas, 8 condições × 7).
 
+**Checklist da manhã (2026-08-19)** — se a sessão morrer, o próximo passo é:
+(1) `python scripts/selfcopy.py runs/dream_fam8b_bf16 runs/dream_instruct8b
+runs/dream_fam8b_reset runs/dream_genre runs/dream_gate` e `... runs/dream_famolmo_reset
+--tokenizer-model ~/models/mlx/OLMo-2-13B-8bit`; (2) `python
+scripts/analysis_gen.py` (blocos P1/P2, reset nas famílias, gênero, portão,
+documento) e `python scripts/appendix_tex.py`; (3) escrever no paper:
+confirmatória (subseção após a bateria 3 + frase no resumo/conclusão),
+bf16/pós-treinado (parágrafo em famílias), reset nas famílias (parágrafo na
+bateria 3), gênero (parágrafo em limitações/generalidade), portão de juiz
+(parágrafo na discussão "Windows and wholes" — G1/G2 do pré-registro),
+documento (números finais); (4) copiar `docs/figures/fig9_*.png` para
+`paper/figures/`, `tectonic main.tex`; (5) commit → ff main → push; (6)
+Roberto: contratar 5 avaliadoras para `docs/blind/pack_v3.html` (guia
+`docs/blind/RATER_GUIDE_v3.md`; chave em `runs/blind/key_v3.json`, não
+compartilhar); pontuar com `blind_score.py runs/blind/key_v3.json <jsons>`.
+
 **Bateria 5, portão de juiz (pré-registro, 2026-08-18 ~21:30, antes de rodar)**:
 o *Review* do DREAM testado com um portão que abre de fato: braço
 `judge_gate150` (30B, 10 premissas originais, habituação, contexto
