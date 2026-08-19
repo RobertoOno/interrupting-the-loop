@@ -1255,6 +1255,12 @@ horizonte, janela vs documento; operador em segundo) + workshop (NeurIPS
 "Can We Trust the Judge?", 29/08) e/ou ICCC'27. B = **o loop interrompido
 sobre um problema com verificador** (item 8). Processamento pesado à noite.
 
+**Reenquadramento A (2026-08-19, manhã)**: resumo, introdução (contribuições
+na ordem: lição de avaliação → operador → negativos → sampler/prompt/rede) e
+conclusão reescritos; sampler/prompt movidos para apêndice; README. Título
+mantido (decisão do Roberto; sugestões no relatório). Próximo: versão curta
+(4 p.) para o workshop de juízes (29/08) em `paper/short/`.
+
 **Bateria B (pré-registro, 2026-08-19 ~07:40, antes de rodar)** — caderno de
 Python de bin packing online (`src/creative_machine/problem_premises.py`):
 premissa = docstring com a distribuição de tamanhos da variante + first fit
