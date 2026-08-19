@@ -439,6 +439,17 @@ unquantized (bf16) Qwen3-8B-Base gives 0.60 $\rightarrow$ 1.33 $\rightarrow$
 \ci{+1.27}{+3.10}), against 0.43 $\rightarrow$ 1.37 $\rightarrow$ 2.76 and
 0.40 $\rightarrow$ 1.00 $\rightarrow$ 3.17 at 8 bits.
 
+\paragraph{A second genre.} All premises above are narrative. Ten
+expository openings written for the purpose (\emph{``The history of the
+umbrella is mostly a history of people refusing to carry one.''},
+\emph{``Salt was once the reason cities existed where they do.''}; the full
+list is in the repository), run on the main generator at period 300, give
+the same picture: habituation alone 1.35 / 0.95 / 4.47, the subject change
+on the preserved context 2.93 / 2.40 / 6.53 (+1.58 \ci{+1.17}{+2.00} on
+surprise, +1.45 on connection, $p=0.002$, every premise), on the reset
+context 3.00 / 2.48 / 6.67 (+1.65, +1.53); here the two contexts are
+indistinguishable (Table~\ref{tab:gen-second}).
+
 \paragraph{A post-trained model.} As one step outside the scope decision, we
 ran the same ladder on the post-trained Qwen3-8B (the released chat model,
 8-bit), continued raw, without a chat template, from the same premises. Its
