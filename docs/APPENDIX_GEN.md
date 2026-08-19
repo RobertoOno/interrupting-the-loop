@@ -178,7 +178,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 |---|---|---|---|---|
 | 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
 | 300 | 10 | 2.90 [2.45, 3.35] | 2.38 [2.03, 2.75] | 6.38 [6.07, 6.68] |
-| 600 | 10 | 2.88 [2.62, 3.15] | 1.98 [1.70, 2.30] | 6.25 [5.68, 6.70] |
+| 600 | 10 | 2.90 [2.63, 3.18] | 1.98 [1.70, 2.30] | 6.28 [5.72, 6.73] |
 | 900 | 10 | 3.16 [2.70, 3.74] | 2.26 [1.76, 2.84] | 6.76 [6.58, 6.92] |
 
 ### vs 150 — paired by seed
@@ -188,9 +188,9 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | 300 | surprise | -0.12 [-0.75, +0.47] | 0.781 | 0.781 | -0.02 | 10 |
 | 300 | connection | **-1.30 [-2.12, -0.57]** | 0.008 | 0.023 | -0.65 | 10 |
 | 300 | coherence | +0.27 [-0.28, +0.80] | 0.416 | 0.749 | +0.19 | 10 |
-| 600 | surprise | -0.13 [-0.68, +0.35] | 0.707 | 0.781 | -0.03 | 10 |
+| 600 | surprise | -0.12 [-0.68, +0.38] | 0.750 | 0.781 | -0.02 | 10 |
 | 600 | connection | **-1.70 [-2.43, -1.03]** | 0.002 | 0.009 | -0.88 | 10 |
-| 600 | coherence | +0.13 [-0.62, +0.83] | 0.766 | 0.781 | +0.14 | 10 |
+| 600 | coherence | +0.17 [-0.58, +0.85] | 0.691 | 0.781 | +0.20 | 10 |
 | 900 | surprise | +0.14 [-0.26, +0.57] | 0.543 | 0.781 | +0.12 | 10 |
 | 900 | connection | **-1.42 [-1.87, -0.99]** | 0.002 | 0.009 | -0.64 | 10 |
 | 900 | coherence | **+0.64 [+0.21, +1.08]** | 0.029 | 0.066 | +0.60 | 10 |
@@ -200,8 +200,8 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | period | offset 32 | offset 160 | offset 300 | offset 450 | offset 600 | offset 750 | stream estimate (S / C / H) |
 |---|---|---|---|---|---|---|---|
 | 150 | 3.02 (n=10) | — | — | — | — | — | 3.02 / 3.68 / 6.12 |
-| 300 | 2.90 (n=10) | 2.60 (n=10) | — | — | — | — | 2.76 / 2.34 / 6.22 |
-| 600 | 2.88 (n=10) | 2.73 (n=10) | 3.10 (n=10) | 2.67 (n=10) | — | — | 2.85 / 2.11 / 5.83 |
+| 300 | 2.90 (n=10) | 2.60 (n=10) | — | — | — | — | 2.76 / 2.36 / 6.24 |
+| 600 | 2.90 (n=10) | 2.73 (n=10) | 3.10 (n=10) | 2.67 (n=10) | — | — | 2.85 / 2.11 / 5.83 |
 | 900 | 3.16 (n=10) | 2.63 (n=10) | 3.20 (n=10) | 2.70 (n=10) | 2.27 (n=10) | 1.93 (n=10) | 2.65 / 2.07 / 5.80 |
 
 ### Q6 — the ladder on Qwen3-8B-Base — cell means (mean over cells [95% CI over cells])
@@ -260,7 +260,7 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | bare + habituation | 1.70 / 1.60 | 1.08 / 1.30 | 4.08 / 4.42 | 10 / 10 |
 | habituation + reseed 150 | 3.08 / 3.02 | 3.15 / 3.68 | 4.78 / 6.12 | 10 / 10 |
 | reseed 300 | 4.01 / 2.90 | 3.12 / 2.38 | 5.98 / 6.38 | 10 / 10 |
-| reseed 600 | 3.64 / 2.88 | 2.64 / 1.98 | 5.50 / 6.25 | 10 / 10 |
+| reseed 600 | 3.64 / 2.90 | 2.64 / 1.98 | 5.50 / 6.28 | 10 / 10 |
 | reseed 900 | 4.28 / 3.16 | 2.53 / 2.26 | 5.55 / 6.76 | 10 / 10 |
 | stitch 900 | 3.91 / 3.04 | 3.01 / 2.77 | 5.17 / 5.76 | 10 / 10 |
 | premise 150 | 1.02 / 1.21 | 0.98 / 1.09 | 3.03 / 3.88 | 10 / 10 |
@@ -289,7 +289,7 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | habituation + reseed 150 | 60 | 72% | 12% | 2.95 / 2.03 / 6.78 (n=10) | 3.09 / 4.28 / 6.19 |
 | reseed 300, no habituation | 60 | 68% | 63% | 2.40 / 1.65 / 5.55 (n=10) | 2.51 / 2.15 / 5.51 |
 | reseed 300 | 60 | 65% | 62% | 3.02 / 2.03 / 6.52 (n=10) | 2.82 / 2.56 / 6.33 |
-| reseed 600 | 60 | 38% | 35% | 2.85 / 2.04 / 6.33 (n=10) | 2.91 / 2.00 / 6.30 |
+| reseed 600 | 60 | 38% | 35% | 2.87 / 2.04 / 6.37 (n=10) | 2.91 / 2.00 / 6.30 |
 | reseed 900 | 50 | 12% | 12% | 3.10 / 2.25 / 6.73 (n=10) | 4.00 / 2.67 / 7.00 |
 | re-encounter stitch 150 | 60 | 68% | 45% | 3.38 / 2.98 / 6.33 (n=10) | 2.68 / 3.80 / 5.27 |
 | stitch 900 | 50 | 10% | 6% | 3.20 / 2.84 / 5.87 (n=10) | 2.20 / 2.60 / 4.60 |
@@ -400,7 +400,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | habituation vs bare | coherence | +0.40 [-0.20, +1.00] | 0.406 | +0.35 | 10 |
 | habituation vs bare | surprise | **+0.80 [+0.20, +1.40]** | 0.078 | +0.60 | 10 |
 
-## Confirmatory battery — ten new premises, RNG seed 1 (419 judged windows)
+## Confirmatory battery — ten new premises, RNG seed 1 (420 judged windows)
 
 
 ### Confirmatory — period 300 on new premises — cell means (mean over cells [95% CI over cells])
@@ -410,8 +410,8 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | no interruption | 10 | 1.38 [0.78, 2.08] | 1.02 [0.52, 1.70] | 4.33 [3.38, 5.32] |
 | subject change, context preserved | 10 | 2.87 [2.57, 3.18] | 2.70 [2.17, 3.27] | 6.23 [5.80, 6.62] |
 | paragraph break (sham) | 10 | 1.96 [1.47, 2.47] | 1.32 [0.77, 2.00] | 6.16 [5.57, 6.68] |
-| subject change, no habituation | 10 | 2.35 [1.84, 2.90] | 2.04 [1.59, 2.51] | 5.33 [4.57, 6.07] |
-| subject change, context reset | 10 | 4.17 [3.77, 4.52] | 3.25 [2.88, 3.58] | 6.68 [6.45, 6.93] |
+| subject change, no habituation | 10 | 2.38 [1.88, 2.93] | 2.05 [1.60, 2.53] | 5.38 [4.68, 6.12] |
+| subject change, context reset | 10 | 4.15 [3.72, 4.52] | 3.25 [2.88, 3.58] | 6.68 [6.45, 6.93] |
 
 ### vs no interruption — paired by seed
 
@@ -423,10 +423,10 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | paragraph break (sham) | surprise | +0.57 [-0.10, +1.35] | 0.184 | 0.200 | +0.42 | 10 |
 | paragraph break (sham) | connection | +0.30 [-0.48, +1.22] | 0.590 | 0.590 | +0.31 | 10 |
 | paragraph break (sham) | coherence | **+1.82 [+0.67, +2.91]** | 0.020 | 0.033 | +0.64 | 10 |
-| subject change, no habituation | surprise | +0.97 [-0.02, +1.85] | 0.088 | 0.117 | +0.62 | 10 |
-| subject change, no habituation | connection | **+1.02 [+0.05, +1.84]** | 0.070 | 0.105 | +0.68 | 10 |
-| subject change, no habituation | coherence | +1.00 [-0.18, +2.17] | 0.160 | 0.192 | +0.34 | 10 |
-| subject change, context reset | surprise | **+2.78 [+2.15, +3.33]** | 0.002 | 0.016 | +0.96 | 10 |
+| subject change, no habituation | surprise | **+1.00 [+0.00, +1.88]** | 0.086 | 0.115 | +0.62 | 10 |
+| subject change, no habituation | connection | **+1.03 [+0.07, +1.85]** | 0.070 | 0.105 | +0.68 | 10 |
+| subject change, no habituation | coherence | +1.05 [-0.13, +2.22] | 0.139 | 0.166 | +0.38 | 10 |
+| subject change, context reset | surprise | **+2.77 [+2.13, +3.32]** | 0.002 | 0.016 | +0.95 | 10 |
 | subject change, context reset | connection | **+2.23 [+1.62, +2.68]** | 0.004 | 0.016 | +0.86 | 10 |
 | subject change, context reset | coherence | **+2.35 [+1.33, +3.35]** | 0.004 | 0.016 | +0.84 | 10 |
 
@@ -437,7 +437,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | H1 (primary) | clock300 vs bare_habit | surprise | +1.48 [+0.72, +2.05] | 0.0029 | 10 |
 | H2 | clock300 vs sham_break300 | surprise | +0.91 [+0.23, +1.55] | 0.0205 | 10 |
 | H3 | clock300 vs reset_reseed300 | connection | -0.55 [-1.03, -0.03] | 0.9658 | 10 |
-| H4 (two-sided) | clock300 vs nohabit300 | surprise | +0.51 [-0.02, +1.03] | 0.1230 | 10 |
+| H4 (two-sided) | clock300 vs nohabit300 | surprise | +0.48 [-0.05, +1.00] | 0.1426 | 10 |
 
 ### Confirmatory — self-copy rates and the pre-registered contrasts on fresh windows only
 
@@ -446,7 +446,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | bare + habituation | 47% |
 | paragraph break 300 (sham) | 12% |
 | reseed 300 | 58% |
-| reseed 300, no habituation | 68% |
+| reseed 300, no habituation | 67% |
 | reset + new subject 300 | 0% |
 
 | hypothesis (fresh only) | contrast | dim | Δ [CI] | p | n seeds |
@@ -454,7 +454,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | H1 | clock300 vs bare_habit | surprise | +0.82 [+0.03, +1.45] | 0.0371 | 10 |
 | H2 | clock300 vs sham_break300 | surprise | +0.71 [-0.33, +1.68] | 0.1123 | 10 |
 | H3 | clock300 vs reset_reseed300 | connection | -1.02 [-1.52, -0.45] | 0.9961 | 10 |
-| H4 (two-sided) | clock300 vs nohabit300 | surprise | +0.18 [-0.70, +0.93] | 0.7070 | 10 |
+| H4 (two-sided) | clock300 vs nohabit300 | surprise | +0.08 [-0.73, +0.83] | 0.8828 | 10 |
 
 ### Confirmatory premises — document level (50 documents)
 
