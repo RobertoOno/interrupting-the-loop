@@ -1193,6 +1193,28 @@ cada um julgado no protocolo `gen` ao terminar (`after_confirm.sh`,
 condições); pacote humano v3 pronto (`docs/blind/pack_v3.html`, 56 janelas, 8
 condições × 7, células ao acaso, 3 dimensões, guia embutido).
 
+**Auto-cópia (2026-08-18, ~21:40) — o achado que o julgamento de documento
+forçou.** O modelo, recebendo as mesmas 4 frases de mudança de assunto em
+rotação, aprende a rotação e **reproduz literalmente** o que escreveu depois
+da mesma frase 600/1.200 tokens antes. Janela "copiada" = ≥50% dos shingles
+de 12 tokens já ocorreram antes no fluxo (`scripts/selfcopy.py` →
+`runs/selfcopy_flags.json`). Taxas (janelas pós-interrupção/grade): bare 67%
+(loops visíveis ao juiz, nota 0,03), habituação 27%, relógio 150 72%, relógio
+300 65% (**62% com a fonte fora dos 600 tokens que o juiz vê**), 600 38%, 900
+12%, reset 0%, scaffold 6%, sham 32%, conectivo 73%. Janela copiada pontua
+alto em "conexão" (é texto anterior) e, com a fonte fora de vista, em
+surpresa. **Só janelas frescas**: interrupção vs habituação — 150: surpresa
++1,20 [+0,43, +2,11] p = 0,010, conexão +0,75, coerência +1,72; 300: +1,32,
++0,75, +1,45; 900: +1,35, +0,99, +1,67; reset: +1,93 / +2,03 / +1,82 (p ≤
+0,004, 10/10); scaffold +0,94 / +0,64. Ou seja: o efeito de surpresa da
+interrupção é real no texto fresco (~1 ponto menor que no total); o de
+conexão era em grande parte auto-cópia (+2,40 → +0,75); a vantagem do reset
+em conexão (+1,28 em janelas frescas) é em boa parte não conseguir se
+repetir. Lição para a receita: rotação fixa de 4 frases fecha um ciclo — frase
+nova a cada quebra, ou reset. O paper passa a reportar os dois números e
+trata os "só-frescos" como estimativa primária. Pacote humano v3 refeito com
+`--fresh-only` (56 janelas, 8 condições × 7).
+
 **Bateria 5, portão de juiz (pré-registro, 2026-08-18 ~21:30, antes de rodar)**:
 o *Review* do DREAM testado com um portão que abre de fato: braço
 `judge_gate150` (30B, 10 premissas originais, habituação, contexto

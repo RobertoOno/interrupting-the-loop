@@ -85,7 +85,9 @@ def main() -> None:
     p.add_argument("--per-cond", type=int, default=8, help="windows per condition, one per cell, cells at random")
     p.add_argument("--seed", type=int, default=11)
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
+    p.add_argument("--fresh-only", action="store_true", help="exclude windows that are >=50%% verbatim copies of the stream's own earlier text (runs/selfcopy_flags.json)")
     args = p.parse_args()
+    flags = json.loads((RUNS / "selfcopy_flags.json").read_text()) if args.fresh_only else {}
 
     from mlx_lm.utils import load_tokenizer
     tokenizer = load_tokenizer(Path(args.tokenizer_model).expanduser())
@@ -93,7 +95,14 @@ def main() -> None:
 
     judged = []
     for run in args.runs:
-        judged.extend(r for r in load_gen(run) if r["cond"] in args.conds and r.get("since") in (32, None))
+        for r in load_gen(run):
+            if r["cond"] not in args.conds or r.get("since") not in (32, None):
+                continue
+            if args.fresh_only:
+                f = flags.get(run, {}).get(r["cell"], {}).get(str(r["step"]))
+                if f is None or f["frac"] >= 0.5:
+                    continue
+            judged.append(r)
     items = []
     for cond in args.conds:
         rows = [r for r in judged if r["cond"] == cond]
@@ -116,7 +125,9 @@ def main() -> None:
         w = cache[key].get(r["step"])
         if not w:
             print("missing window", r["cell"], r["step"]); continue
+        f = flags.get(r["run"], {}).get(r["cell"], {}).get(str(r["step"])) if flags else None
         out_items.append({"run": r["run"], "cell": r["cell"], "cond": r["cond"], "step": r["step"], "kind": "gen", "since": r.get("since"),
+                          "copy_frac": (f or {}).get("frac"),
                           "judge_surprise": r["surprise"], "judge_connection": r.get("connection"), "judge_coherence": r.get("coherence"),
                           "window": w["window"], "earlier": w["earlier"]})
     rng.shuffle(out_items)
