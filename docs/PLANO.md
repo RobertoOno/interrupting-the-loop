@@ -1226,6 +1226,29 @@ Nível de documento nas premissas novas: reset > preservado nas 4 dimensões (p
 paper (subseção "A confirmatory replication on new premises", resumo,
 introdução, conclusão, instrumento).
 
+**Resultados da noite (2026-08-19, 00:00–07:00; protocolo `gen`, unidade =
+célula)** — (1) **8B bf16 (sem quantização)**: 0,60 → 1,33 → 2,70 (interrupção
+sobre habituação +1,37 / +2,19) ≈ 8-bit (0,43 → 1,37 → 2,76): quantização não
+carrega nada. (2) **Qwen3-8B pós-treinado, continuação crua**: modos próprios
+(prova de múltipla escolha; "Wait, let me think of a classic riddle…"); escada
+em nível mais baixo: 0,60 → 0,77 → 1,90 (interrupção +1,13 p = 0,002; conexão
++1,53). (3) **Reset/preservado/sham a 300 no 8B**: sham −0,05; preservado
++1,38 / +1,28; reset +2,40 / +2,08 (10/10). **No OLMo**: sham −0,08;
+preservado +1,61 / +2,26; reset +2,14 / +1,59 — no OLMo o reset ganha em
+surpresa/coerência e o preservado em conexão (3,52 vs 2,85): o único gerador
+em que guardar o contexto compra conexão visível, e o que menos se auto-copia.
+(4) **Segundo gênero (expositivo, 10 premissas novas, 30B)**: habituação 1,35
+/ 0,95 → preservado 2,93 / 2,40 (+1,58 / +1,45, p = 0,002, 10/10) ≈ reset
+3,00 / 2,48. (5) **Portão de juiz (Review com portão que abre)**: 300 leituras,
+40 achados deixados correr (13%); janela pós-interrupção 2,70 / 3,03 / 5,92
+vs relógio 150 3,02 / 3,68 / 6,12 (−0,32, −0,65, ns); documento 0,90 / 0,50 /
+1,30 / 0,30 vs 0,70 / 0,30 / 1,20 / 0,10 (±0,2) e abaixo da habituação em
+surpresa (−1,10). **G1 e G2 não suportadas**: o Review, mesmo funcionando,
+não acrescenta ao relógio nem local nem no todo. Tudo escrito no paper
+(subseções "A second genre", "A post-trained model", réplicas de reset nas
+famílias, "The Review, with a gate that opens"; discussão "Windows and
+wholes" atualizada). Custo de LLM do dia: ~US$500.
+
 **Checklist da manhã (2026-08-19)** — se a sessão morrer, o próximo passo é:
 (1) `python scripts/selfcopy.py runs/dream_fam8b_bf16 runs/dream_instruct8b
 runs/dream_fam8b_reset runs/dream_genre runs/dream_gate` e `... runs/dream_famolmo_reset
