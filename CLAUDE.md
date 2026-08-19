@@ -94,7 +94,8 @@ gen`, controle `judge_gate`, baterias `confirm/genre/reset_ladder/ladder3/gate`.
 
 **Em aberto**: rodada 2 humana (Roberto contrata 5 avaliadoras;
 `docs/blind/pack_v3.html`, só janelas frescas); título final (decisão do
-Roberto); migração para repositório público (filter-repo, ver PLANO);
+Roberto); repositório público já criado (`RobertoOno/interrupting-the-loop`;
+republicar com `scripts/publish/publish_public.sh`);
 NOTEBOOK.md (tradução do PLANO); venue (ICLR 2027 25/09; NeurIPS workshops
 29/08; ICCC'27; arXiv); paper seguinte: loop interrompido sobre problema com
 verificador (item 8).
