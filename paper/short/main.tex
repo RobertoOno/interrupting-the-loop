@@ -33,25 +33,26 @@ Evaluating thousands of tokens of model-generated text with an LLM judge
 that reads one window at a time is common practice. In a study of
 interventions on long, open-ended generation by base language models, judged
 by Claude Opus~5 on 96- to 160-token windows with 600 tokens of context, we
-found three things the judge could not see, each large enough to change the
-conclusions. (1)~Text the experimenter injects into a stream (a new subject
-every few hundred tokens) ends up inside the judged windows and is scored as
-the model's own: a reported growth of the effect with the period was mostly
-the injected sentence. (2)~Given the same four injected sentences in
-rotation, a base model replays its own earlier segments from 600 to 1,200
-tokens back, beyond the judge's horizon; 65--80\% of post-interruption
-windows at periods 150--300 were more than half verbatim reproductions, and
+found three things the judge could not see. Each was large enough to change
+the conclusions. (1)~Text the experimenter injects into a stream (a new
+subject every few hundred tokens) ends up inside the judged windows and is
+scored as the model's own; a reported growth of the effect with the period
+was mostly the injected sentence. (2)~Given the same four injected sentences
+in rotation, a base model replays its own earlier segments from 600 to 1,200
+tokens back, beyond the judge's horizon. At periods 150--300, 65--80\% of
+post-interruption windows were more than half verbatim reproductions, and
 the judge scored them as surprise and, worse, as connection. (3)~Local gains
-do not compose: on whole documents no condition built an integrated text,
+do not compose. On whole documents no condition built an integrated text,
 and the condition with the best windows read as a sequence of restarts. We
-describe the protocol that corrects these (windows of generated text only,
+describe the protocol that corrects these: windows of generated text only,
 fresh-only estimates with a shingle-based self-copy flag, a document-level
 reading, the premise rather than the window as the unit of inference, a
 pipeline test--retest from two byte-identical arms, a second judge family and
-human readers) and what survives it: the intervention's effect on surprise
-is real and about one point smaller; its effect on connection was mostly
-artefact. The lesson is general: a windowed judge measures what is in the
-window, and what a long stream does is partly outside it.
+human readers. We also report what survives it. The intervention's effect on
+surprise is real and about one point smaller than first reported; its effect
+on connection was mostly artefact. The lesson is general: a windowed judge
+measures what is in the window, and what a long stream does is partly
+outside it.
 \end{abstract}
 
 \section{Setting}
@@ -180,17 +181,18 @@ that a kept context carries connection refuted.
 
 \section{What survives}
 
-The intervention is real and smaller than first reported: a new subject
+The intervention is real and smaller than first reported. A new subject
 injected every few hundred tokens into a habituated stream raises judged
 surprise on fresh generated text by about 1.2 to 1.4 points over habituation
 alone, on three base models from two families, a post-trained model, an
-unquantized model and a second genre; a bare paragraph break does nothing;
-the kept context is not what carries the effect, and the connection it
-seemed to carry was mostly replay. What did not survive were the claims
-that depended on what the judge could not see. We think the general point
-holds for any evaluation of long generation with a windowed LLM judge: the
-judge measures what is in the window, and a long stream does much of what it
-does outside it, including copying the experimenter and copying itself. Code,
+unquantized model and a second genre. A bare paragraph break adds nothing
+detectable on fresh text, and a connective that asks for continuity hurts.
+The kept context is not what produces the effect, and the connection it
+seemed to carry was mostly replay. What did not survive were the claims that
+depended on what the judge could not see. We think the general point holds
+for any evaluation of long generation with a windowed LLM judge. The judge
+measures what is in the window, and a long stream does much of what it does
+outside it, including copying the experimenter and copying itself. Code,
 data, prompts and the analysis are in the repository of
 \citet{ono2026interrupting}.
 
