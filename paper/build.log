@@ -12,13 +12,13 @@ warning: sections/appendix:88: Overfull \hbox (16.53087pt too wide) in paragraph
 warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:88: Overfull \hbox (18.10585pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:93: Overfull \hbox (15.17961pt too wide) in paragraph at lines 90--93
-warning: sections/appendix:156: Overfull \hbox (20.30247pt too wide) in paragraph at lines 146--156
-warning: sections/appendix_tables:701: Underfull \hbox (badness 1297) in paragraph at lines 701--701
-warning: sections/appendix_tables:702: Underfull \hbox (badness 1297) in paragraph at lines 702--702
-warning: sections/appendix_tables:703: Underfull \hbox (badness 1297) in paragraph at lines 703--703
-warning: sections/appendix_tables:757: Underfull \hbox (badness 2809) in paragraph at lines 757--757
-warning: sections/appendix_tables:758: Underfull \hbox (badness 2809) in paragraph at lines 758--758
-warning: sections/appendix_tables:759: Underfull \hbox (badness 2809) in paragraph at lines 759--759
+warning: sections/appendix:161: Overfull \hbox (20.30247pt too wide) in paragraph at lines 151--161
+warning: sections/appendix_tables:822: Underfull \hbox (badness 1297) in paragraph at lines 822--822
+warning: sections/appendix_tables:823: Underfull \hbox (badness 1297) in paragraph at lines 823--823
+warning: sections/appendix_tables:824: Underfull \hbox (badness 1297) in paragraph at lines 824--824
+warning: sections/appendix_tables:878: Underfull \hbox (badness 2809) in paragraph at lines 878--878
+warning: sections/appendix_tables:879: Underfull \hbox (badness 2809) in paragraph at lines 879--879
+warning: sections/appendix_tables:880: Underfull \hbox (badness 2809) in paragraph at lines 880--880
 note: Running BibTeX on main.aux ...
 note: Rerunning TeX because bibtex was run ...
 warning: sections/method:201: Overfull \hbox (28.55482pt too wide) in paragraph at lines 174--201
@@ -39,13 +39,13 @@ warning: sections/appendix:88: Overfull \hbox (16.53087pt too wide) in paragraph
 warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:88: Overfull \hbox (18.10585pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:93: Overfull \hbox (15.17961pt too wide) in paragraph at lines 90--93
-warning: sections/appendix:156: Overfull \hbox (20.30247pt too wide) in paragraph at lines 146--156
-warning: sections/appendix_tables:701: Underfull \hbox (badness 1297) in paragraph at lines 701--701
-warning: sections/appendix_tables:702: Underfull \hbox (badness 1297) in paragraph at lines 702--702
-warning: sections/appendix_tables:703: Underfull \hbox (badness 1297) in paragraph at lines 703--703
-warning: sections/appendix_tables:757: Underfull \hbox (badness 2809) in paragraph at lines 757--757
-warning: sections/appendix_tables:758: Underfull \hbox (badness 2809) in paragraph at lines 758--758
-warning: sections/appendix_tables:759: Underfull \hbox (badness 2809) in paragraph at lines 759--759
+warning: sections/appendix:161: Overfull \hbox (20.30247pt too wide) in paragraph at lines 151--161
+warning: sections/appendix_tables:822: Underfull \hbox (badness 1297) in paragraph at lines 822--822
+warning: sections/appendix_tables:823: Underfull \hbox (badness 1297) in paragraph at lines 823--823
+warning: sections/appendix_tables:824: Underfull \hbox (badness 1297) in paragraph at lines 824--824
+warning: sections/appendix_tables:878: Underfull \hbox (badness 2809) in paragraph at lines 878--878
+warning: sections/appendix_tables:879: Underfull \hbox (badness 2809) in paragraph at lines 879--879
+warning: sections/appendix_tables:880: Underfull \hbox (badness 2809) in paragraph at lines 880--880
 note: Rerunning TeX because "main.aux" changed ...
 warning: sections/method:201: Overfull \hbox (28.55482pt too wide) in paragraph at lines 174--201
 warning: main.bbl:122: 
@@ -65,14 +65,40 @@ warning: sections/appendix:88: Overfull \hbox (16.53087pt too wide) in paragraph
 warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:88: Overfull \hbox (18.10585pt too wide) in paragraph at lines 77--88
 warning: sections/appendix:93: Overfull \hbox (15.17961pt too wide) in paragraph at lines 90--93
-warning: sections/appendix:156: Overfull \hbox (20.30247pt too wide) in paragraph at lines 146--156
-warning: sections/appendix_tables:701: Underfull \hbox (badness 1297) in paragraph at lines 701--701
-warning: sections/appendix_tables:702: Underfull \hbox (badness 1297) in paragraph at lines 702--702
-warning: sections/appendix_tables:703: Underfull \hbox (badness 1297) in paragraph at lines 703--703
-warning: sections/appendix_tables:757: Underfull \hbox (badness 2809) in paragraph at lines 757--757
-warning: sections/appendix_tables:758: Underfull \hbox (badness 2809) in paragraph at lines 758--758
-warning: sections/appendix_tables:759: Underfull \hbox (badness 2809) in paragraph at lines 759--759
+warning: sections/appendix:161: Overfull \hbox (20.30247pt too wide) in paragraph at lines 151--161
+warning: sections/appendix_tables:822: Underfull \hbox (badness 1297) in paragraph at lines 822--822
+warning: sections/appendix_tables:823: Underfull \hbox (badness 1297) in paragraph at lines 823--823
+warning: sections/appendix_tables:824: Underfull \hbox (badness 1297) in paragraph at lines 824--824
+warning: sections/appendix_tables:878: Underfull \hbox (badness 2809) in paragraph at lines 878--878
+warning: sections/appendix_tables:879: Underfull \hbox (badness 2809) in paragraph at lines 879--879
+warning: sections/appendix_tables:880: Underfull \hbox (badness 2809) in paragraph at lines 880--880
+note: Rerunning TeX because "main.aux" changed ...
+warning: sections/method:201: Overfull \hbox (28.55482pt too wide) in paragraph at lines 174--201
+warning: main.bbl:122: 
+Missing character: There is no ��� ("2014) in font ec-lmr10!
+warning: could not represent character "—" (0x2014) in font "ec-lmr10"
+warning:   you may need to load the `fontspec` package and use (e.g.) \setmainfont to
+warning:   choose a different font that covers the unrepresentable character(s)
+warning: sections/appendix:21: Overfull \hbox (8.1944pt too wide) in paragraph at lines 14--21
+warning: sections/appendix:88: Overfull \hbox (0.78091pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (14.69337pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (21.78085pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (10.75589pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (32.28082pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (16.53087pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (11.28088pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:88: Overfull \hbox (18.10585pt too wide) in paragraph at lines 77--88
+warning: sections/appendix:93: Overfull \hbox (15.17961pt too wide) in paragraph at lines 90--93
+warning: sections/appendix:161: Overfull \hbox (20.30247pt too wide) in paragraph at lines 151--161
+warning: sections/appendix_tables:822: Underfull \hbox (badness 1297) in paragraph at lines 822--822
+warning: sections/appendix_tables:823: Underfull \hbox (badness 1297) in paragraph at lines 823--823
+warning: sections/appendix_tables:824: Underfull \hbox (badness 1297) in paragraph at lines 824--824
+warning: sections/appendix_tables:878: Underfull \hbox (badness 2809) in paragraph at lines 878--878
+warning: sections/appendix_tables:879: Underfull \hbox (badness 2809) in paragraph at lines 879--879
+warning: sections/appendix_tables:880: Underfull \hbox (badness 2809) in paragraph at lines 880--880
 warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `main.pdf` (2.420938491821289 MiB)
+note: Writing `main.pdf` (2.428377151489258 MiB)
 note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)

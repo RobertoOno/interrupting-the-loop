@@ -103,6 +103,39 @@ while giving back connection.}
 \label{tab:ladder}
 \end{table}
 
+\paragraph{Self-copy: what the window judge cannot see.} Before going
+further, a check that the document-level judgment
+(Section~\ref{sec:document}) forced on us. A base model that is given the
+same four subject-change sentences in rotation learns the rotation: after
+\emph{``That night she dreamed of something else entirely:''} it tends to
+write what it wrote the last time that sentence appeared, 600 or 1,200 tokens
+earlier. We flag a judged window as \emph{copied} when at least half of its
+12-token shingles occur earlier in the same stream, and note whether the
+source lies within the 600 tokens the judge sees (Table~\ref{tab:gen-self}).
+Bare generation is 67\% copied (its loops, all visible to the judge, who
+scores them 0.03); habituation alone 27\%; the clock arms with the fixed
+rotation 65--80\% at periods 150 and 300 (at 300, the source of 62\% of all
+windows lies outside the judge's context), 38\% at 600 and 12\% at 900; the
+reset arms 0\%; the scaffold 6\%. A copied window scores high on
+``connection'' for the obvious reason (it \emph{is} earlier text) and, when
+its source is out of view, on surprise too. So we recompute the ladder on
+\emph{fresh} windows only. The interruption still lifts the stream over
+habituation: at period 150 surprise +1.20 \ci{+0.43}{+2.11} ($p=0.010$),
+connection +0.75 \ci{+0.38}{+1.17} ($p=0.008$), coherence +1.72; at 300
++1.32 \ci{+0.73}{+1.88} ($p=0.004$), +0.75, +1.45; at 900 +1.35, +0.99,
++1.67; and the reset arm, which cannot copy, +1.93 \ci{+1.59}{+2.28}, +2.03
+\ci{+1.75}{+2.33}, +1.82 (all $p\le0.004$, every premise). The surprise
+effect of the interruption is therefore real on generated, fresh text and
+about one point smaller than the all-windows number; the connection effect
+is largely a self-copy artefact (+2.40 on all windows, +0.75 on fresh
+ones), and the reset arm's advantage over the preserved context on
+connection (+1.28 \ci{+0.82}{+1.73} on fresh windows) is in good part that
+it does not replay itself. From here on we report both numbers where they
+differ, and we treat the fresh-only ones as the primary estimate of what
+the interruption does. The lesson for the recipe is plain: a fixed rotation
+of four sentences is a cycle the model will close; give it a new sentence
+each time, or reset.
+
 \paragraph{Where the stream goes.} In sentence-embedding space
 (Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean step
 0.14 and ends 0.78 from the premise; the scaffold has radius 0.51 and returns

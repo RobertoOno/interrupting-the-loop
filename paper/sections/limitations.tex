@@ -31,7 +31,12 @@ surprise, $0.52$ on coherence, on a judge-stratified sample) whose agreement
 with each other is low to moderate ($\alpha=0.30$--$0.38$). Human readers did
 not rate connection in round~1, and they penalize the fluency cost of a
 subject change more than the judge does. The judge sees 600 tokens of
-context, so ``connection'' means connection within that horizon.
+context, so ``connection'' means connection within that horizon; text that
+the stream copies from further back is invisible to it as a copy, and we
+found (Section~\ref{sec:ablation}) that a fixed rotation of injected
+sentences produces exactly such copies. We report fresh-only estimates for
+that reason, and a judge with the whole document in view for the same
+reason.
 
 \paragraph{Baselines and generality.} The bare arm is a deliberately hard
 regime (forced continuation with end-of-text masked, no repetition control)

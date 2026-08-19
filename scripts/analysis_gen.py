@@ -315,6 +315,49 @@ def main() -> None:
         if len(xs[d]) >= 4:
             rho, pv = spearmanr(xs[d], ys[d])
             md.append(f"\nSpearman across conditions ({d}): rho = {rho:+.2f} (n = {len(xs[d])} conditions).")
+    # ---- self-copy: how much of a judged window is a verbatim reproduction of the stream's own earlier text
+    flags_p = RUNS / "selfcopy_flags.json"
+    if flags_p.exists():
+        flags = json.loads(flags_p.read_text())
+        def flag(r):
+            return flags.get(r["run"], {}).get(r["cell"], {}).get(str(r["step"]))
+        md.append("\n## Self-copy — verbatim reproduction of the stream's own earlier text inside the judged windows\n")
+        md.append("A window is *copied* when at least half of its 12-token shingles occur earlier in the same stream; "
+                  "*visible* when they occur within the 600 tokens the judge sees. Post-interruption / grid windows only. "
+                  "Fresh = not copied.\n")
+        md.append("| condition | n windows | copied | copied, source outside the judge's 600 tokens | fresh windows: S / C / H (cell means, n cells) | copied windows: S / C / H |")
+        md.append("|---|---|---|---|---|---|")
+        fresh_means = {}
+        for c in ["bare", "bare_habit", "habit_strong", "bare_eos", "nohabit150", "bare_reseed", "nohabit300", "clock300", "clock600", "clock900",
+                  "clock_reenc", "clock900_reenc", "clock_premise", "clock_self", "sal_reenc", "sham_break300", "sham_cont300",
+                  "reset_reseed300", "reset_break300", "scaffold0"]:
+            rs = [r for r in main30 if r["cond"] == c and r.get("since") in (32, None) and flag(r) is not None]
+            if not rs:
+                continue
+            cop = [r for r in rs if flag(r)["frac"] >= 0.5]; fr = [r for r in rs if flag(r)["frac"] < 0.5]
+            hidden = [r for r in cop if flag(r)["frac_recent"] < 0.5]
+            fm = {}
+            for d in DIMS:
+                by = {}
+                for r in fr:
+                    by.setdefault(r["seed"], []).append(r[d])
+                fm[d] = {k: float(np.mean(v)) for k, v in by.items()}
+            fresh_means[c] = fm
+            fs = " / ".join(f"{np.mean(list(fm[d].values())):.2f}" for d in DIMS) if fm["surprise"] else "—"
+            cs = " / ".join(f"{np.mean([r[d] for r in cop]):.2f}" for d in DIMS) if cop else "—"
+            md.append(f"| {LABEL.get(c, c)} | {len(rs)} | {100*len(cop)/len(rs):.0f}% | {100*len(hidden)/len(rs):.0f}% | {fs} (n={len(fm['surprise'])}) | {cs} |")
+        md.append("\n### Fresh windows only — paired contrasts (cells with at least one fresh window)\n")
+        md.append("| contrast | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |")
+        md.append("|---|---|---|---|---|---|")
+        for a, b, lab in (("bare_reseed", "bare_habit", "interruption 150 vs habituation"), ("clock300", "bare_habit", "interruption 300 vs habituation"),
+                          ("reset_reseed300", "bare_habit", "reset + subject change 300 vs habituation"), ("reset_reseed300", "clock300", "reset vs preserved (300)"),
+                          ("scaffold0", "bare_habit", "scaffold vs habituation"), ("clock900", "bare_habit", "interruption 900 vs habituation")):
+            for d in DIMS:
+                if a in fresh_means and b in fresh_means:
+                    pr = paired(fresh_means[a][d], fresh_means[b][d])
+                    if pr:
+                        star = "**" if (pr["lo"] > 0 or pr["hi"] < 0) else ""
+                        md.append(f"| {lab} | {d} | {star}{pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}]{star} | {pr['p_perm']:.3f} | {pr['delta']:+.2f} | {pr['n']} |")
     # ---- document-level judgment (whole streams, injected sentences removed; one score per cell)
     DDIMS = ("integration", "development", "coherence", "surprise")
     docs = []
