@@ -20,35 +20,38 @@ anti-probable decoder doubles *n*-gram novelty against the training corpus
 and cuts verbatim training blocks 4x, but shows no detectable effect on judged
 surprise or connection. **The prompt**: inputs built to sit far from any human
 prompt show no benefit under the operationalizations we tested. **The loop**:
-forced continuation from a base model degenerates into repetitive modes; a
-reverie loop built on the architecture of spontaneous cognition revives it,
-and taking the loop apart over 24 conditions locates most of the effect in two
-simple operations: *habituation* (a windowed repetition penalty) and
-*interruption* (a new subject injected every few hundred tokens). On windows of
-generated text only, the interruption raises judged surprise from 1.6 to 3.0
-and connection from 1.3 to 3.7 over habituation alone (Qwen3-30B-A3B-Base, ten
-premises, paired permutation p = 0.002), matches the full scaffold on surprise
-and beats it on connection. Controls: a bare paragraph break does nothing and a
-continuity connective hurts; the new subject needs habituation to work and
-works on a reset context as well as on a preserved one; injecting the premise
-or the stream's own past is as bad as not interrupting; timing by salience
-events is no better than a clock at the same rate; no period beats a break
-every 150-300 tokens. Replicated on three base models from two families, under
-a second judge family, and in the ranking of independent human readers. Read
-descriptively, the interruption that scores best barely moves the deep
-residual state. This characterizes a simple, controllable intervention for
-forced open-ended generation; it does not establish a general mechanism of
-creativity.
+forced continuation from a base model degenerates; a cognitively inspired loop
+revives it, and taking the loop apart over 24 conditions locates most of the
+effect in one operation, a *new subject injected every few hundred tokens*
+(an interruption) into a stream whose literal repetition is damped
+(habituation). On windows of generated, fresh text, the interruption raises
+judged surprise by 1.2-1.4 points and connection by 0.8 over habituation
+alone (Qwen3-30B-A3B-Base, ten premises, paired permutation tests), replicated
+on three base models from two families, a post-trained model, an unquantized
+model and a second genre, and confirmed by a pre-registered replication on new
+premises. Controls: a bare paragraph break does nothing, a continuity
+connective hurts, a reset context does at least as well as a kept one, the
+salience monitor, the in-loop judge and a judge-gated Review run with a gate
+that opens add nothing, and no arm builds an integrated document. **The
+instrument**: three things a windowed LLM judge could not see changed the
+first version of this study (the injected sentence scored as the model's own;
+the model replaying its own earlier segments from beyond the judge's horizon;
+local gains that do not compose), and the protocol that corrects them
+(generated-only windows, fresh-only estimates, a document-level reading, the
+premise as the unit, a pipeline test-retest, a second judge family, human
+readers) is, we think, the most general thing here. This characterizes a
+simple, controllable intervention and the instrument needed to measure it
+honestly; it does not establish a general mechanism of creativity.
 
-**Revision note (2026-08-18).** After an external review, the study was
-re-analyzed with windows of generated text only (the injected sentence never
-inside the judged window), the premise as the unit of inference, a control
-battery (sham boundaries, reset context, no habituation, EOS allowed, stronger
-habituation) and a pre-registered confirmatory battery on ten new premises.
-The earlier claim that the yield of an interruption grows with the length of
-the thread it breaks (a best rhythm of about 300 tokens) did not survive: it
-was, in good part, the judge reading the injected sentence. Everything else
-held in direction; the numbers in the paper are the new ones.
+**Revision note (2026-08-18/19).** After an external review, the study was
+re-analyzed with generated-only windows and the premise as the unit, extended
+with a control battery, a pre-registered confirmatory battery, a
+document-level judgment, a self-copy analysis, replications on more models and
+a second genre, and a judge-gated Review run with a gate that opens. The
+earlier claims about a best rhythm (~300 tokens), about the interruption's
+yield growing with the thread it breaks, about memory as an ingredient and
+about salience as a poor metronome did not survive; the numbers in the paper
+are the new ones.
 
 ## Layout
 
