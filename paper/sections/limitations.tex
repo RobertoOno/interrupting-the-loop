@@ -43,9 +43,11 @@ regime (forced continuation with end-of-text masked, no repetition control)
 and is reported as the floor of the ladder, not as a fair decoding baseline;
 the fair comparisons are habituation alone, habituation with a stronger
 penalty, EOS allowed, and the sham and reset controls. Stronger decoding
-baselines (look-back or contrastive decoding, learned repetition control) and
-instruction-tuned generators were not tested. Only base models were used,
-by a scope decision.
+baselines (look-back or contrastive decoding, learned repetition control)
+were not tested. Base models were used by a scope decision; the one
+post-trained model we ran, in raw continuation, shows the same ladder at a
+lower level and says nothing about the dialogue use such models are made
+for.
 
 \paragraph{The network section.} The residual-stream analysis is
 correlational and descriptive: mean-pooled 64-token windows at 13 sampled

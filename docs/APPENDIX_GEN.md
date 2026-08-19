@@ -404,20 +404,39 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 10 | 0.60 [0.40, 0.82] | 0.47 [0.25, 0.70] | 3.30 [2.32, 4.47] |
-| bare + habituation | 10 | 1.33 [0.89, 1.82] | 1.06 [0.76, 1.36] | 4.89 [4.22, 5.67] |
-| habituation + reseed 150 | 10 | 2.70 [2.07, 3.35] | 3.25 [2.55, 3.97] | 5.02 [4.40, 5.67] |
+| bare | 10 | 0.62 [0.40, 0.85] | 0.48 [0.25, 0.73] | 3.32 [2.33, 4.48] |
+| bare + habituation | 10 | 1.35 [0.90, 1.87] | 1.03 [0.73, 1.33] | 4.83 [4.10, 5.65] |
+| habituation + reseed 150 | 10 | 2.66 [2.00, 3.29] | 3.23 [2.52, 3.93] | 5.03 [4.38, 5.70] |
 
 ### vs bare + habituation — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| bare | surprise | **-0.73 [-1.18, -0.27]** | 0.018 | 0.026 | -0.61 | 10 |
-| bare | connection | **-0.59 [-0.88, -0.30]** | 0.008 | 0.016 | -0.63 | 10 |
-| bare | coherence | **-1.59 [-2.12, -1.03]** | 0.004 | 0.016 | -0.66 | 10 |
-| habituation + reseed 150 | surprise | **+1.37 [+0.26, +2.42]** | 0.051 | 0.061 | +0.72 | 10 |
-| habituation + reseed 150 | connection | **+2.19 [+1.27, +3.10]** | 0.006 | 0.016 | +0.92 | 10 |
-| habituation + reseed 150 | coherence | +0.12 [-0.93, +1.17] | 0.846 | 0.846 | +0.12 | 10 |
+| bare | surprise | **-0.73 [-1.18, -0.28]** | 0.020 | 0.029 | -0.60 | 10 |
+| bare | connection | **-0.55 [-0.83, -0.28]** | 0.008 | 0.016 | -0.62 | 10 |
+| bare | coherence | **-1.52 [-2.03, -0.97]** | 0.004 | 0.016 | -0.64 | 10 |
+| habituation + reseed 150 | surprise | **+1.31 [+0.20, +2.34]** | 0.055 | 0.066 | +0.69 | 10 |
+| habituation + reseed 150 | connection | **+2.19 [+1.28, +3.07]** | 0.006 | 0.016 | +0.94 | 10 |
+| habituation + reseed 150 | coherence | +0.20 [-0.90, +1.28] | 0.768 | 0.768 | +0.18 | 10 |
+
+### P1 — the ladder on the post-trained Qwen3-8B (8-bit), no chat template — cell means (mean over cells [95% CI over cells])
+
+| condition | n cells | surprise | connection | coherence |
+|---|---|---|---|---|
+| bare | 10 | 0.60 [0.42, 0.85] | 0.42 [0.23, 0.60] | 3.58 [2.88, 4.23] |
+| bare + habituation | 10 | 0.77 [0.48, 1.03] | 0.75 [0.50, 0.98] | 4.20 [3.37, 4.87] |
+| habituation + reseed 150 | 10 | 1.90 [1.45, 2.38] | 2.28 [1.65, 2.97] | 4.92 [3.98, 5.78] |
+
+### vs bare + habituation — paired by seed
+
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
+| bare | surprise | -0.17 [-0.43, +0.08] | 0.324 | 0.379 | -0.26 | 10 |
+| bare | connection | **-0.33 [-0.60, -0.10]** | 0.062 | 0.094 | -0.47 | 10 |
+| bare | coherence | **-0.62 [-1.07, -0.10]** | 0.055 | 0.094 | -0.39 | 10 |
+| habituation + reseed 150 | surprise | **+1.13 [+0.58, +1.78]** | 0.002 | 0.012 | +0.82 | 10 |
+| habituation + reseed 150 | connection | **+1.53 [+0.87, +2.32]** | 0.004 | 0.012 | +0.84 | 10 |
+| habituation + reseed 150 | coherence | +0.72 [-0.55, +2.08] | 0.379 | 0.379 | +0.36 | 10 |
 
 ## Confirmatory battery — ten new premises, RNG seed 1 (420 judged windows)
 
