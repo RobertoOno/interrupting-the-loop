@@ -1,31 +1,24 @@
-Where does the novelty a language model can produce with no task come from?
-We test the three places usually credited, the sampler, the prompt and the
-loop, on base models, with an LLM judge that is itself measured. An
-entropy-banded anti-probable decoder roughly doubles $n$-gram novelty against
-the training corpus but shows no detectable effect on judged surprise or
-connection; input improbability shows no benefit under the
-operationalizations we tested. The loop is different. Forced to continue a
-premise with the end-of-text token masked, a base model degenerates into
-repetitive modes; a closed loop built on the architecture of spontaneous
-cognition revives it, and taking that loop apart over 24 conditions locates
-most of the effect in two simple operations: a windowed repetition penalty
-(habituation) and a periodic \emph{interruption}, one neutral sentence
-injected every few hundred tokens. On windows of generated text only, judged
-by Claude Opus~5 ($k=5$) with the premise as the unit ($n=10$), the
-interruption raises surprise from 1.6 to 3.0 and connection from 1.3 to 3.7
-over habituation alone (paired permutation $p=0.002$) and matches the full
-scaffold. Part of that is self-copy: given the same four sentences in
-rotation, the model replays its own earlier segments, out of the judge's
-view; on fresh windows the interruption adds +1.2 to +1.4 surprise and
-+0.8 connection, and a reset context, which cannot replay, adds +1.9 and
-+2.0. Controls show what carries the effect: a bare paragraph break does
-nothing and a continuity connective hurts; the new subject carries most of
-it; injecting the premise or the stream's own past is as bad as not
-interrupting; salience timing is no better than a clock. The gains are local:
-judged as whole documents, no arm builds an integrated text. A pre-registered replication on ten new premises confirms
-the primary contrast ($p=0.003$) and refutes the expectation that the kept
-context carries connection. The ordering replicates
-on three base models from two families, under a second judge family and in
-the rankings of independent human readers. These results characterize a
-simple, controllable intervention for forced open-ended generation; they do
-not establish a general mechanism of creativity.
+Where does the novelty a base language model can produce with no task come
+from, and what can an LLM judge of a long stream actually see? We dismantle a
+cognitively inspired generation loop over 24 conditions on three base models
+and find that most of its effect lives in one operation: a new subject
+injected every few hundred tokens (an \emph{interruption}) into a stream
+whose literal repetition is damped (\emph{habituation}). On windows of
+generated text only, with the premise as the unit ($n=10$) and a judge
+measured for repeatability, against a second judge family and against human
+readers, the interruption raises judged surprise by 1.2 to 1.4 points and
+connection by 0.8 over habituation alone; a bare paragraph break does
+nothing, a connective that asks for continuity hurts, a reset context does at
+least as well as a kept one, and a pre-registered replication on new premises
+confirms the primary contrast. Three things the window judge could not see
+changed the first version of this study and are, we think, of general use:
+the judge scores the experimenter's injected sentence as the model's own; a
+fixed rotation of injected sentences makes the model replay its earlier
+segments from beyond the judge's horizon, which the judge scores as surprise
+and connection (65--80\% of post-interruption windows at periods 150--300);
+and the local gains do not compose, since no arm produces an integrated
+document. The salience monitor, the in-loop judge, memory across
+interruptions and a judge-gated Review run with a gate that opens add
+nothing. We report an evaluation protocol for long generation and a
+controlled characterization of a simple intervention; not a mechanism of
+creativity.
