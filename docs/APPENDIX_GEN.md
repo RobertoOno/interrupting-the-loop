@@ -499,7 +499,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 |---|---|---|---|---|
 | no interruption | 10 | 1.35 [1.12, 1.63] | 0.95 [0.68, 1.23] | 4.48 [3.92, 5.03] |
 | subject change, context preserved | 10 | 2.95 [2.63, 3.23] | 2.42 [2.07, 2.93] | 6.52 [6.10, 6.90] |
-| subject change, context reset | 10 | 2.98 [2.63, 3.37] | 2.47 [2.02, 2.93] | 6.63 [6.32, 6.92] |
+| subject change, context reset | 10 | 2.95 [2.58, 3.35] | 2.45 [2.02, 2.92] | 6.63 [6.32, 6.92] |
 
 ### vs no interruption — paired by seed
 
@@ -508,8 +508,8 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | subject change, context preserved | surprise | **+1.60 [+1.18, +2.02]** | 0.002 | 0.002 | +0.97 | 10 |
 | subject change, context preserved | connection | **+1.47 [+1.02, +2.02]** | 0.002 | 0.002 | +1.00 | 10 |
 | subject change, context preserved | coherence | **+2.03 [+1.42, +2.65]** | 0.002 | 0.002 | +0.96 | 10 |
-| subject change, context reset | surprise | **+1.63 [+1.20, +2.03]** | 0.002 | 0.002 | +0.98 | 10 |
-| subject change, context reset | connection | **+1.52 [+0.92, +2.12]** | 0.004 | 0.004 | +0.92 | 10 |
+| subject change, context reset | surprise | **+1.60 [+1.17, +2.00]** | 0.002 | 0.002 | +0.98 | 10 |
+| subject change, context reset | connection | **+1.50 [+0.90, +2.10]** | 0.004 | 0.004 | +0.92 | 10 |
 | subject change, context reset | coherence | **+2.15 [+1.42, +2.87]** | 0.002 | 0.002 | +0.98 | 10 |
 
 ### Judge-gated interruption (DREAM's Review with a gate that opens) vs the clock — cell means (mean over cells [95% CI over cells])
@@ -519,7 +519,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | no interruption | 10 | 1.60 [1.18, 2.00] | 1.32 [0.87, 1.82] | 4.40 [3.45, 5.42] |
 | clock 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
 | clock 300 | 10 | 2.90 [2.45, 3.35] | 2.40 [2.03, 2.78] | 6.40 [6.08, 6.70] |
-| judge-gated 150 | 10 | 2.70 [2.13, 3.25] | 3.03 [2.48, 3.55] | 5.92 [5.58, 6.27] |
+| judge-gated 150 | 10 | 2.67 [2.12, 3.20] | 3.03 [2.47, 3.58] | 5.93 [5.63, 6.27] |
 
 ### vs clock 150 — paired by seed
 
@@ -530,10 +530,10 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | no interruption | coherence | **-1.72 [-2.90, -0.35]** | 0.043 | 0.097 | -0.61 | 10 |
 | clock 300 | surprise | -0.12 [-0.75, +0.47] | 0.781 | 0.781 | -0.02 | 10 |
 | clock 300 | connection | **-1.28 [-2.10, -0.53]** | 0.008 | 0.023 | -0.64 | 10 |
-| clock 300 | coherence | +0.28 [-0.28, +0.82] | 0.389 | 0.507 | +0.22 | 10 |
-| judge-gated 150 | surprise | -0.32 [-0.93, +0.17] | 0.395 | 0.507 | -0.21 | 10 |
-| judge-gated 150 | connection | -0.65 [-1.47, +0.03] | 0.180 | 0.323 | -0.21 | 10 |
-| judge-gated 150 | coherence | -0.20 [-0.63, +0.27] | 0.461 | 0.519 | -0.27 | 10 |
+| clock 300 | coherence | +0.28 [-0.28, +0.82] | 0.389 | 0.500 | +0.22 | 10 |
+| judge-gated 150 | surprise | -0.35 [-0.95, +0.12] | 0.320 | 0.480 | -0.22 | 10 |
+| judge-gated 150 | connection | -0.65 [-1.47, +0.05] | 0.180 | 0.323 | -0.22 | 10 |
+| judge-gated 150 | coherence | -0.18 [-0.62, +0.28] | 0.508 | 0.571 | -0.26 | 10 |
 
 Gate: 300 reads in 10 cells, 40 finds left to run (13%).
 
