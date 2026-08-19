@@ -416,6 +416,12 @@ arm on surprise (3.60, +1.64 over habituation, $p=0.04$) and coherence (6.23,
 out of a web-boilerplate well, the mechanism the calibration probes had
 suggested; on a generator whose well is boilerplate, the reset earns its
 keep, and battery~3 says it costs nothing on the one that drifts in prose.
+Quantization is not what carries any of this: the same ladder on the
+unquantized (bf16) Qwen3-8B-Base gives 0.60 $\rightarrow$ 1.33 $\rightarrow$
+2.70 on surprise and 0.47 $\rightarrow$ 1.06 $\rightarrow$ 3.25 on connection
+(interruption over habituation +1.37 \ci{+0.26}{+2.42} and +2.19
+\ci{+1.27}{+3.10}), against 0.43 $\rightarrow$ 1.37 $\rightarrow$ 2.76 and
+0.40 $\rightarrow$ 1.00 $\rightarrow$ 3.17 at 8 bits.
 
 \begin{figure}[t]
 \centering
