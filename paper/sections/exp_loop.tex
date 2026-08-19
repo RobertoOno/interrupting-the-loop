@@ -423,6 +423,19 @@ unquantized (bf16) Qwen3-8B-Base gives 0.60 $\rightarrow$ 1.33 $\rightarrow$
 \ci{+1.27}{+3.10}), against 0.43 $\rightarrow$ 1.37 $\rightarrow$ 2.76 and
 0.40 $\rightarrow$ 1.00 $\rightarrow$ 3.17 at 8 bits.
 
+\paragraph{A post-trained model.} As one step outside the scope decision, we
+ran the same ladder on the post-trained Qwen3-8B (the released chat model,
+8-bit), continued raw, without a chat template, from the same premises. Its
+degeneration modes are its own: multiple-choice exam items with answer keys,
+and a chain-of-thought voice that treats the premise as a riddle
+(\emph{``Wait, let me think of a classic riddle\ldots''}). The ladder holds at
+a lower level: 0.60 $\rightarrow$ 0.77 $\rightarrow$ 1.90 on surprise and 0.42
+$\rightarrow$ 0.75 $\rightarrow$ 2.28 on connection; habituation does less for
+it than for the base models (+0.17 on surprise) and the interruption still
+adds +1.13 \ci{+0.58}{+1.78} ($p=0.002$) and +1.53 \ci{+0.87}{+2.32}
+($p=0.004$). Whether the operators help such a model when it is used as
+intended, in a dialogue, is not tested here.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{fig9_q6_fam8b.png}
