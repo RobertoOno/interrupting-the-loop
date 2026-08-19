@@ -338,7 +338,7 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | interruption 900 vs habituation | connection | **+0.92 [+0.30, +1.54]** | 0.023 | +0.66 | 10 |
 | interruption 900 vs habituation | coherence | **+1.75 [+0.82, +2.65]** | 0.008 | +0.78 | 10 |
 
-## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (220 documents)
+## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (230 documents)
 
 Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.
 
@@ -353,6 +353,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | reset + new subject 300 | 10 | 2.00 [1.60, 2.40] | 1.60 [1.30, 1.90] | 2.20 [1.80, 2.60] | 2.50 [2.20, 2.80] |
 | reset + break 300 | 10 | 0.80 [0.40, 1.20] | 0.40 [0.10, 0.70] | 1.00 [1.00, 1.00] | 0.80 [0.40, 1.20] |
 | DREAM scaffold | 10 | 1.10 [0.80, 1.40] | 1.10 [0.80, 1.40] | 1.00 [0.70, 1.30] | 1.30 [1.00, 1.60] |
+| judge-gated interruption 150 | 10 | 0.90 [0.60, 1.20] | 0.50 [0.20, 0.80] | 1.30 [1.00, 1.60] | 0.30 [0.00, 0.60] |
 | salience only | 10 | 1.20 [0.80, 1.60] | 1.00 [0.60, 1.50] | 1.50 [1.20, 1.80] | 1.30 [1.00, 1.60] |
 | habituation, EOS allowed | 10 | 1.50 [1.00, 2.10] | 1.00 [0.70, 1.30] | 1.50 [1.00, 2.00] | 1.20 [0.80, 1.70] |
 | reseed 600 | 10 | 1.70 [1.40, 2.00] | 0.90 [0.70, 1.00] | 1.70 [1.40, 2.00] | 1.20 [1.00, 1.50] |
@@ -399,6 +400,14 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | habituation vs bare | development | **+0.60 [+0.20, +1.10]** | 0.125 | +0.40 | 10 |
 | habituation vs bare | coherence | +0.40 [-0.20, +1.00] | 0.406 | +0.35 | 10 |
 | habituation vs bare | surprise | **+0.80 [+0.20, +1.40]** | 0.078 | +0.60 | 10 |
+| judge-gated vs clock 150 | integration | +0.20 [-0.30, +0.60] | 0.688 | +0.18 | 10 |
+| judge-gated vs clock 150 | development | +0.20 [+0.00, +0.50] | 0.500 | +0.20 | 10 |
+| judge-gated vs clock 150 | coherence | +0.10 [-0.20, +0.40] | 1.000 | +0.10 | 10 |
+| judge-gated vs clock 150 | surprise | +0.20 [+0.00, +0.50] | 0.500 | +0.20 | 10 |
+| judge-gated vs habituation | integration | -0.50 [-1.20, +0.10] | 0.344 | -0.34 | 10 |
+| judge-gated vs habituation | development | -0.60 [-1.30, +0.00] | 0.250 | -0.40 | 10 |
+| judge-gated vs habituation | coherence | -0.20 [-0.60, +0.30] | 0.688 | -0.20 | 10 |
+| judge-gated vs habituation | surprise | **-1.10 [-1.40, -0.80]** | 0.004 | -0.82 | 10 |
 
 ### P2 — the ladder on Qwen3-8B-Base without quantization (bf16) — cell means (mean over cells [95% CI over cells])
 
@@ -466,42 +475,67 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | no interruption | 10 | 1.96 [1.30, 2.61] | 1.26 [0.77, 1.76] | 3.99 [2.89, 5.07] |
-| paragraph break (sham) | 10 | 1.88 [1.39, 2.33] | 1.61 [0.94, 2.37] | 4.20 [3.01, 5.40] |
-| subject change, context preserved | 10 | 3.57 [3.09, 4.10] | 3.52 [3.05, 4.07] | 5.65 [5.16, 6.17] |
-| subject change, context reset | 10 | 4.10 [3.78, 4.42] | 2.85 [2.53, 3.17] | 6.63 [6.22, 7.02] |
+| paragraph break (sham) | 10 | 1.93 [1.41, 2.46] | 1.52 [0.93, 2.19] | 4.06 [2.96, 5.12] |
+| subject change, context preserved | 10 | 3.60 [3.10, 4.15] | 3.54 [3.07, 4.10] | 5.65 [5.15, 6.17] |
+| subject change, context reset | 10 | 4.10 [3.78, 4.42] | 2.90 [2.62, 3.18] | 6.63 [6.22, 7.00] |
 
 ### vs no interruption — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| paragraph break (sham) | surprise | -0.08 [-0.92, +0.73] | 0.852 | 0.875 | -0.08 | 10 |
-| paragraph break (sham) | connection | +0.35 [-0.47, +1.21] | 0.480 | 0.618 | +0.10 | 10 |
-| paragraph break (sham) | coherence | +0.21 [-1.29, +1.65] | 0.875 | 0.875 | +0.03 | 10 |
-| subject change, context preserved | surprise | **+1.61 [+0.72, +2.42]** | 0.012 | 0.021 | +0.80 | 10 |
-| subject change, context preserved | connection | **+2.26 [+1.58, +2.87]** | 0.004 | 0.009 | +0.97 | 10 |
+| paragraph break (sham) | surprise | -0.02 [-0.90, +0.85] | 0.965 | 0.965 | -0.06 | 10 |
+| paragraph break (sham) | connection | +0.27 [-0.48, +1.01] | 0.541 | 0.696 | +0.09 | 10 |
+| paragraph break (sham) | coherence | +0.07 [-1.33, +1.39] | 0.926 | 0.965 | -0.01 | 10 |
+| subject change, context preserved | surprise | **+1.64 [+0.74, +2.51]** | 0.012 | 0.021 | +0.80 | 10 |
+| subject change, context preserved | connection | **+2.28 [+1.58, +2.95]** | 0.004 | 0.009 | +0.97 | 10 |
 | subject change, context preserved | coherence | **+1.66 [+0.37, +2.88]** | 0.043 | 0.064 | +0.53 | 10 |
 | subject change, context reset | surprise | **+2.14 [+1.32, +2.92]** | 0.004 | 0.009 | +0.90 | 10 |
-| subject change, context reset | connection | **+1.59 [+1.02, +2.22]** | 0.002 | 0.009 | +0.90 | 10 |
+| subject change, context reset | connection | **+1.64 [+1.10, +2.25]** | 0.002 | 0.009 | +0.90 | 10 |
 | subject change, context reset | coherence | **+2.64 [+1.60, +3.79]** | 0.002 | 0.009 | +0.83 | 10 |
 
 ### Second genre — expository openings on the main generator (period 300) — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| no interruption | 10 | 1.37 [1.15, 1.65] | 0.95 [0.68, 1.25] | 4.50 [3.90, 5.08] |
-| subject change, context preserved | 10 | 2.93 [2.60, 3.23] | 2.42 [2.05, 2.98] | 6.55 [6.15, 6.92] |
-| subject change, context reset | 10 | 3.00 [2.64, 3.40] | 2.48 [2.03, 2.97] | 6.65 [6.31, 6.95] |
+| no interruption | 10 | 1.35 [1.12, 1.63] | 0.95 [0.68, 1.23] | 4.47 [3.88, 5.02] |
+| subject change, context preserved | 10 | 2.93 [2.60, 3.23] | 2.40 [2.05, 2.92] | 6.53 [6.13, 6.90] |
+| subject change, context reset | 10 | 3.00 [2.65, 3.38] | 2.48 [2.02, 2.97] | 6.67 [6.33, 6.95] |
 
 ### vs no interruption — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| subject change, context preserved | surprise | **+1.57 [+1.15, +1.98]** | 0.002 | 0.003 | +0.96 | 10 |
-| subject change, context preserved | connection | **+1.47 [+0.98, +2.08]** | 0.002 | 0.003 | +0.98 | 10 |
-| subject change, context preserved | coherence | **+2.05 [+1.43, +2.67]** | 0.002 | 0.003 | +0.94 | 10 |
-| subject change, context reset | surprise | **+1.63 [+1.19, +2.03]** | 0.002 | 0.003 | +0.98 | 10 |
-| subject change, context reset | connection | **+1.53 [+0.93, +2.13]** | 0.004 | 0.004 | +0.91 | 10 |
-| subject change, context reset | coherence | **+2.15 [+1.35, +2.93]** | 0.004 | 0.004 | +0.96 | 10 |
+| subject change, context preserved | surprise | **+1.58 [+1.17, +2.00]** | 0.002 | 0.002 | +0.96 | 10 |
+| subject change, context preserved | connection | **+1.45 [+1.00, +2.00]** | 0.002 | 0.002 | +1.00 | 10 |
+| subject change, context preserved | coherence | **+2.07 [+1.45, +2.68]** | 0.002 | 0.002 | +0.96 | 10 |
+| subject change, context reset | surprise | **+1.65 [+1.20, +2.05]** | 0.002 | 0.002 | +0.98 | 10 |
+| subject change, context reset | connection | **+1.53 [+0.92, +2.15]** | 0.004 | 0.004 | +0.92 | 10 |
+| subject change, context reset | coherence | **+2.20 [+1.43, +2.95]** | 0.002 | 0.002 | +0.98 | 10 |
+
+### Judge-gated interruption (DREAM's Review with a gate that opens) vs the clock — cell means (mean over cells [95% CI over cells])
+
+| condition | n cells | surprise | connection | coherence |
+|---|---|---|---|---|
+| no interruption | 10 | 1.60 [1.18, 2.00] | 1.32 [0.87, 1.82] | 4.40 [3.45, 5.42] |
+| clock 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
+| clock 300 | 10 | 2.90 [2.45, 3.35] | 2.40 [2.03, 2.78] | 6.40 [6.08, 6.70] |
+| judge-gated 150 | 9 | 2.69 [2.15, 3.22] | 3.07 [2.54, 3.59] | 6.16 [5.60, 6.79] |
+
+### vs clock 150 — paired by seed
+
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
+| no interruption | surprise | **-1.42 [-2.03, -0.92]** | 0.002 | 0.009 | -0.85 | 10 |
+| no interruption | connection | **-2.37 [-3.28, -1.57]** | 0.002 | 0.009 | -0.93 | 10 |
+| no interruption | coherence | **-1.72 [-2.90, -0.35]** | 0.043 | 0.097 | -0.61 | 10 |
+| clock 300 | surprise | -0.12 [-0.75, +0.47] | 0.781 | 0.781 | -0.02 | 10 |
+| clock 300 | connection | **-1.28 [-2.10, -0.53]** | 0.008 | 0.023 | -0.64 | 10 |
+| clock 300 | coherence | +0.28 [-0.28, +0.82] | 0.389 | 0.583 | +0.22 | 10 |
+| judge-gated 150 | surprise | -0.39 [-1.17, +0.26] | 0.453 | 0.583 | -0.25 | 9 |
+| judge-gated 150 | connection | -0.76 [-1.69, +0.06] | 0.211 | 0.380 | -0.27 | 9 |
+| judge-gated 150 | coherence | -0.16 [-0.73, +0.52] | 0.711 | 0.781 | -0.20 | 9 |
+
+Gate: 300 reads in 10 cells, 40 finds left to run (13%).
 
 ## Confirmatory battery — ten new premises, RNG seed 1 (420 judged windows)
 
