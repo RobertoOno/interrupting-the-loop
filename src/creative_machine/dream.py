@@ -84,6 +84,7 @@ class DreamConfig:
     # every reviewable event injects a return-to-the-premise text.
     reencounter_on_event: bool = False
     mask_eos: bool = True            # False: EOS is a normal token (a document boundary the model may emit)
+    gate_window_tokens: int = 128    # judge-gated interruption: the last N generated tokens the gate reads before a scheduled reseed
     judge_k: int = 3                 # judgments per review; median decides (judge variance ~±0.5-1)
     forget_on_reseed: bool = True    # rebuild the working memory instead of stacking on the well
     keep_recent_tokens: int = 200    # ...retaining this much of the pre-collapse stream
@@ -179,6 +180,7 @@ def dream(
     config: DreamConfig,
     judge: Optional[JudgeFn] = None,
     log=print,
+    gate=None,              # optional callable(window_text, earlier_text) -> (bool, dict): True = a find, do not interrupt now
 ) -> DreamRun:
     import mlx.core as mx
     from mlx_lm.generate import generate_step
@@ -371,6 +373,19 @@ def dream(
             consecutive_stagnations += 1
             run.events.append({"step": step, "pos": pos, "kind": "stagnation", "magnitude": round(event.magnitude, 3), "judged": False})
             if consecutive_stagnations >= config.kicks_before_reseed and config.kick_seeds:
+                if gate is not None:
+                    # Review decides: the gate reads the last window; a find is left to run, anything else is interrupted
+                    g_ids = generated_ids[-config.gate_window_tokens:]
+                    g_earlier = generated_ids[:-config.gate_window_tokens][-config.earlier_context_tokens:]
+                    try:
+                        passed, info = gate(tokenizer.decode(g_ids), tokenizer.decode(g_earlier) if g_earlier else seed)
+                    except Exception as exc:  # a failed gate call interrupts (the clock's default)
+                        passed, info = False, {"error": str(exc)[:80]}
+                    run.events.append({"step": step, "pos": pos, "kind": "gate", "passed": bool(passed), "judged": False, **{k: v for k, v in info.items() if k != "note"}})
+                    if passed:
+                        consecutive_stagnations = 0
+                        log(f"[step {step}] gate: find ({info}) -> no interruption")
+                        continue
                 seed_text = next_seed()
                 consecutive_stagnations = 0
                 log(f"[step {step}] stagnation persists -> reseed {seed_text.strip()!r}")

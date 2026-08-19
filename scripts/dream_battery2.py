@@ -69,6 +69,11 @@ BATTERIES = {
         ("reset_reseed300", "reset_reseed", ["--clock-every", "300"]),
         ("sham_break300", "sham_break", ["--clock-every", "300"]),
     ],
+    # DREAM's Review with a gate that opens: judge-gated interruption at period 150 (Opus reads the last 128 tokens
+    # before each scheduled reseed; a find, surprise >= 5 and coherence >= 5, is left to run)
+    "gate": [
+        ("judge_gate150", "judge_gate", ["--clock-every", "150", "--gate-threshold", "5"]),
+    ],
     # second genre on the main generator (use --premises genre)
     "genre": [
         ("bare_habit", "bare_habit", []),

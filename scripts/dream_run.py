@@ -89,7 +89,11 @@ def main() -> None:
         "habit_strong",   # habituation with a stronger penalty (1.3), no interruption
         "reset_reseed",   # clock reseed with the context wiped: premise + new subject only (no kept windows)
         "reset_break",    # clock restart with the context wiped: premise + paragraph break (fresh continuation)
+        # DREAM's Review, tested with a gate that opens: judge-gated interruption (a find is left to run)
+        "judge_gate",     # habituation + clock reseed unless a real judge reads the last window as a find
     ], default="none")
+    p.add_argument("--gate-threshold", type=float, default=5.0, help="judge_gate: a find = surprise >= t and coherence >= t (Opus, one call)")
+    p.add_argument("--gate-judge", default="anthropic.claude-opus-5")
     p.add_argument("--clock-every", type=int, default=150)
     p.add_argument("--review-clock", type=int, default=0,
                    help="mark offline-review windows: 'cut' before every injection + 'clock' every N generated steps")
@@ -118,7 +122,7 @@ def main() -> None:
             base = getattr(cfg, name)
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
     CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self",
-                    "sham_break", "sham_continue", "reset_reseed", "reset_break")
+                    "sham_break", "sham_continue", "reset_reseed", "reset_break", "judge_gate")
     if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
@@ -241,10 +245,19 @@ def main() -> None:
     if not args.no_judge:
         client = BedrockClient(aws_region=args.region)
         judge = lambda w, e: judge_reverie(client, args.judge_model, w, e)  # noqa: E731
+    gate = None
+    if args.control == "judge_gate":
+        from creative_machine.blend import judge_surprise
+        gate_client = BedrockClient(aws_region=args.region)
+
+        def gate(window_text: str, earlier_text: str):
+            v = judge_surprise(gate_client, args.gate_judge, window_text, earlier_text)
+            ok = v["surprise"] >= args.gate_threshold and v["coherence"] >= args.gate_threshold
+            return ok, {"surprise": v["surprise"], "connection": v["connection"], "coherence": v["coherence"]}
 
     seed = args.seed_text if args.seed_text else SEEDS[args.seed_index % len(SEEDS)]
     print(f"== DREAM ({args.control}) seed: {seed!r}", flush=True)
-    run = dream(model, tokenizer, sampler, seed, cfg, judge=judge)
+    run = dream(model, tokenizer, sampler, seed, cfg, judge=judge, gate=gate)
     if args.review_clock > 0:
         if args.no_judge:
             # no judge in the loop: the salience events are still the windows to review offline
@@ -257,6 +270,9 @@ def main() -> None:
     print(run.summary())
     if not args.no_judge:
         print("tokens:", client.usage)
+    if args.control == "judge_gate":
+        n_gate = sum(1 for e in run.events if e.get("kind") == "gate"); n_pass = sum(1 for e in run.events if e.get("kind") == "gate" and e.get("passed"))
+        print(f"gate: {n_gate} reads, {n_pass} finds left to run; tokens: {gate_client.usage}")
     print(f"-> {args.out}/ (text.txt, insights.json, run.json)")
 
 
