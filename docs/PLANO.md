@@ -1280,6 +1280,24 @@ dentro de um loop de seleção (evolução tipo FunSearch sobre os candidatos
 que ele multiplica). Tudo no paper (subseção "Coda", apêndice, resumo,
 discussão, conclusão).
 
+**Bateria S (pré-registro, 2026-08-19 ~20:30, antes de rodar)** — a
+interrupção como operador de DIVERSIDADE dentro de um loop de seleção
+(`scripts/evolve_interrupt.py`): evolução tipo FunSearch em bin packing
+online, sampler plain (λ=0) nos dois braços, mesmo orçamento, pareados por
+variante e semente. Braços diferem só no prompt de cada amostra: `plain` =
+população (pior→melhor) + header; `angle` = idem + UMA linha de "novo
+ângulo" entre a população e o header (15 ângulos distintos em ciclo — o
+análogo da interrupção). 10 variantes de distribuição (células) × 2 braços ×
+8 gerações × 16 amostras (~2.560 candidatos, ~4–5 h no 30B); treino 5×100
+itens (seeds 100+v), teste held-out 5×100 (seeds 200+v); população top-3;
+campeão avaliado no teste. Hipóteses (permutação exata pareada por variante,
+α = 0,05): **S1 (primária, unilateral)**: ganho do campeão held-out sobre o
+best fit, angle > plain; **S2 (unilateral)**: candidatos válidos distintos
+acumulados, angle > plain; S3 (bilateral): geração de escape (primeiro
+best-train < best fit); S4 (exploratória): válidos por geração, curvas.
+Leitura prevista: se S2 sim e S1 não, a diversidade extra não se converte em
+valor nem sob seleção (neste domínio/escala) — resposta igualmente útil.
+
 **Retorno do pedido de endosso (2026-08-19, tarde)**: o primeiro contato
 (autor de *Rating Roulette*) não pôde endossar (só 2 papers em cs na janela
 de 5 anos), mas leu o paper e apontou: (1) "Design" em Limitações ainda
