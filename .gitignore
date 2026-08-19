@@ -7,3 +7,4 @@ runs/
 .DS_Store
 paper/arxiv/
 paper/arxiv_bundle.tar.gz
+scripts/publish/
