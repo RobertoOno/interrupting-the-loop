@@ -22,7 +22,7 @@ surprise or connection. **The prompt**: inputs built to sit far from any human
 prompt show no benefit under the operationalizations we tested. **The loop**:
 forced continuation from a base model degenerates into repetitive modes; a
 reverie loop built on the architecture of spontaneous cognition revives it,
-and taking the loop apart over 23 conditions locates most of the effect in two
+and taking the loop apart over 24 conditions locates most of the effect in two
 simple operations: *habituation* (a windowed repetition penalty) and
 *interruption* (a new subject injected every few hundred tokens). On windows of
 generated text only, the interruption raises judged surprise from 1.6 to 3.0
