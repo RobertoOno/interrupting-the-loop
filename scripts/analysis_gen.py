@@ -346,6 +346,21 @@ def main() -> None:
             fs = " / ".join(f"{np.mean(list(fm[d].values())):.2f}" for d in DIMS) if fm["surprise"] else "—"
             cs = " / ".join(f"{np.mean([r[d] for r in cop]):.2f}" for d in DIMS) if cop else "—"
             md.append(f"| {LABEL.get(c, c)} | {len(rs)} | {100*len(cop)/len(rs):.0f}% | {100*len(hidden)/len(rs):.0f}% | {fs} (n={len(fm['surprise'])}) | {cs} |")
+        # the same on the other generators (ladder arms)
+        md.append("\n### Self-copy on the other generators (ladder arms; copied = >= 50% shingles seen earlier in the stream)\n")
+        md.append("| generator | condition | n windows | copied | fresh windows: S / C / H (n cells) |")
+        md.append("|---|---|---|---|---|")
+        for pool, gname in ((fam8b, "Qwen3-8B-Base"), (olmo, "OLMo-2-13B")):
+            for c in ("bare", "bare_habit", "bare_reseed", "scaffold0"):
+                rs = [r for r in pool if r["cond"] == c and r.get("since") in (32, None) and flag(r) is not None]
+                if not rs:
+                    continue
+                cop = [r for r in rs if flag(r)["frac"] >= 0.5]; fr = [r for r in rs if flag(r)["frac"] < 0.5]
+                by = {}
+                for r in fr:
+                    by.setdefault(r["seed"], []).append(r)
+                fs = " / ".join(f"{np.mean([np.mean([x[d] for x in v]) for v in by.values()]):.2f}" for d in DIMS) if by else "—"
+                md.append(f"| {gname} | {LABEL.get(c, c)} | {len(rs)} | {100*len(cop)/len(rs):.0f}% | {fs} (n={len(by)}) |")
         md.append("\n### Fresh windows only — paired contrasts (cells with at least one fresh window)\n")
         md.append("| contrast | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |")
         md.append("|---|---|---|---|---|---|")

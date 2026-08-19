@@ -79,15 +79,10 @@ def main() -> None:
             cap = heading.replace(" — ", ": ").replace("—", ":")
             m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered|Document|Self)", heading)
             key = m.group(1).lower() if m else None
-            if key is not None and key != last_key.split("-")[0] + ("" if "-" not in last_key or not last_key.split("-")[-1].isdigit() else ""):
-                seen_keys[key] = seen_keys.get(key, 0) + 1
-                last_key = key if seen_keys[key] == 1 else f"{key}-{seen_keys[key]}"
-                label = f"tab:gen-{last_key}"
-            elif key is not None and key == last_key.split("-")[0] and heading.startswith(("Q6",)) and "vs" not in heading:
-                seen_keys[key] = seen_keys.get(key, 0) + 1
-                last_key = f"{key}-{seen_keys[key]}"; label = f"tab:gen-{last_key}"
-            else:
-                label = f"tab:gen-{last_key}-diff"
+            if key is not None and not (heading.startswith("vs") or "paired contrasts" in heading or heading.startswith("Fresh")):
+                last_key = key
+            seen_keys[last_key] = seen_keys.get(last_key, 0) + 1
+            label = f"tab:gen-{last_key}" if seen_keys[last_key] == 1 else f"tab:gen-{last_key}-{seen_keys[last_key]}"
             colspec = ("p{4.6cm}" if len(header) > 5 else "l") + "c" * (len(header) - 1)
             parts.append(tabular(header, rows, "Generated-only protocol. " + cap + ".", label, colspec=colspec))
         parts.append("\\subsection*{Event-window protocol of the first version (descriptive)}")
