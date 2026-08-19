@@ -2,7 +2,7 @@
 # Overnight, after after_confirm.sh: reset/preserved/sham at period 300 on Qwen3-8B and OLMo-2 (pairs with
 # their bare_habit cells), then the second genre on the main generator; each judged (gen protocol) as it finishes.
 cd "$(dirname "$0")/.." || exit 1
-while ! grep -q "AFTER-CONFIRM CHAIN DONE" runs/after_confirm_nohup.log 2>/dev/null; do sleep 120; done
+while ! grep -q "INSTRUCT LADDER DONE" runs/after_confirm_nohup.log 2>/dev/null; do sleep 120; done
 mkdir -p runs/dream_fam8b_reset runs/dream_famolmo_reset runs/dream_genre
 caffeinate -is .venv/bin/python scripts/dream_battery2.py --battery reset_ladder --model ~/models/mlx/Qwen3-8B-Base-8bit --out runs/dream_fam8b_reset
 echo "8B RESET LADDER DONE $(date)"
