@@ -31,7 +31,10 @@ windows of forced open-ended continuation, as read by an LLM judge that is
 itself measured (repeatability, a second judge family, human readers). It is
 one ingredient of creativity, the appropriately unexpected turn, and not
 creativity; the title names the question the program set out with, and the
-results answer this narrower one. We test the three places in turn. They are three related studies (different
+results answer this narrower one. Along the way the study became, in part,
+a study of its own instrument: an LLM judge reading windows of a long stream
+misses things that change the answer, and the corrections we had to make
+are, we think, of use beyond this paper. We test the three places in turn. They are three related studies (different
 generators, tasks and sample sizes, joined by one question and one measurement
 philosophy), not a factorial decomposition of sampler, prompt and loop under
 common conditions; the loop study is the paper's contribution and the other
@@ -102,25 +105,37 @@ continuity, and that the interruption that scores best barely moves the deep
 state, whereas the scaffold's forgetting reseed moves it toward the
 beginning.
 
-\paragraph{Contributions.}
+\paragraph{Contributions.} In the order we now think they matter:
 \begin{enumerate}[leftmargin=1.5em,itemsep=0.1em]
-\item A calibrated anti-probable decoder and the measurement that its
-  novelty is real at the surface (objective, against the training corpus) and
-  undetectable at the level of ideas (Section~\ref{sec:sampler}); a null on
-  improbable inputs, with input improbability measured (Section~\ref{sec:prompt}).
-\item A reverie loop with a salience monitor and selective forgetting, and
-  its dismantling into two operations, habituation and interruption, with a
-  factorial and control battery that shows which part of an interruption
-  carries the effect and characterizes its content, timing and period; the
-  ladder replicated on three generator models from two families
+\item \textbf{What an LLM judge cannot see in long-form generation.} Three
+  artefacts that inflated the first version of this study and that any
+  evaluation of long generation with a windowed LLM judge is exposed to: the
+  judge reading text the experimenter injected as the model's own; the model
+  replaying its own earlier segments from beyond the judge's horizon
+  (self-copy), which the judge scores as surprise and connection; and local
+  gains that do not compose into a whole. And the protocol that corrects
+  them: generated-only windows, fresh-only estimates, a document-level
+  judgment, the premise as the unit, a pipeline test--retest, a second judge
+  family and human readers (Sections~\ref{sec:method}, \ref{sec:ablation},
+  \ref{sec:document}, \ref{sec:instrument}).
+\item \textbf{A controlled characterization of the interruption.} Taking a
+  cognitively inspired loop apart over 24 conditions, a factorial and
+  control battery showing which part of an interruption carries the effect
+  (the new subject; not the boundary, not the kept context), its content,
+  timing and period, replications on three base models from two families, a
+  post-trained model, an unquantized model and a second genre, and a
+  pre-registered confirmatory replication on new premises
   (Section~\ref{sec:loop}).
-\item An instrument section that measures the LLM judge before using it and
-  checks it against a second judge family and against independent human
-  readers, with a seed-level analysis and generated-only windows adopted
-  after an external review (Sections~\ref{sec:method}, \ref{sec:instrument}).
-\item A descriptive residual-stream analysis relating judged surprise to what
-  the network does at each sampled depth, and a dissociation between deep
-  representational change and judged quality (Section~\ref{sec:network}).
+\item \textbf{Negative results on the architecture.} The salience monitor as
+  a trigger, the in-loop judge, the forgetting reseed, memory across
+  interruptions, the judge-gated Review run with a gate that opens, and
+  accumulation over the document: none adds to the minimal operator, and the
+  architecture's hypothesis about building on finds is not supported in this
+  regime (Sections~\ref{sec:loop}, \ref{sec:gate}, \ref{sec:document}).
+\item A calibrated anti-probable decoder whose novelty is real at the surface
+  and undetectable at the level of ideas, a null on improbable inputs, and a
+  descriptive residual-stream analysis (Sections~\ref{sec:sampler},
+  \ref{sec:prompt}, \ref{sec:network}).
 \end{enumerate}
 Code, per-run data, judgments, human-rating packs and the dated laboratory
 notebook are released with the paper.
