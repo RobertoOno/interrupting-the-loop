@@ -1264,6 +1264,22 @@ sendo o de trabalho; `scripts/publish/publish_public.sh` republica o `main`
 (reescrita determinística → fast-forward). `\todo` do paper resolvidos
 (URL; rodada 2 humana "em andamento"; ética).
 
+**Bateria B — resultado (2026-08-19, 15:33–18:03; 10 variantes × 2 RNG × 4
+braços; `docs/APPENDIX_PROBLEM.md`)**: **B1 (primária) não suportada** —
+ganho do melhor candidato sobre o best fit: angle300 − plain = −0,006
+[−0,016, +0,001], p = 0,94 unilateral; nenhum braço bate o best fit held-out
+em mais de 1/20 fluxos. **B2 suportada** — válidos distintos 5,1 vs 1,8
+(+3,3 [+0,8, +6,7], p = 0,012); válidos 9,2 vs 2,0. B3: reset > angle em
+ganho (+0,013, p = 0,04); B4 refutada no sentido do dano (sham pior que
+plain, −0,016, p = 0,016). Exploratório: reset é o melhor braço (6,6
+distintos; atinge o nível do best fit em 15/20 fluxos; +0,007 sobre plain, p
+= 0,03). Leitura: a interrupção é **operador de variação** (3–4× mais
+tentativas válidas e distintas), não de valor; num fluxo único, variação sem
+seleção é ruído organizado. Próximo experimento natural: o mesmo operador
+dentro de um loop de seleção (evolução tipo FunSearch sobre os candidatos
+que ele multiplica). Tudo no paper (subseção "Coda", apêndice, resumo,
+discussão, conclusão).
+
 **Reenquadramento A (2026-08-19, manhã)**: resumo, introdução (contribuições
 na ordem: lição de avaliação → operador → negativos → sampler/prompt/rede) e
 conclusão reescritos; sampler/prompt movidos para apêndice; README. Título
