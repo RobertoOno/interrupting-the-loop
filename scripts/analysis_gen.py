@@ -471,6 +471,32 @@ def main() -> None:
             pr = paired(per[a][d], per[b][d], alt)
             if pr:
                 md.append(f"| {hyp} | {a} vs {b} | {d} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
+    # document level on the confirmatory premises
+    pth = RUNS / "document_judgments_confirm.json"
+    if pth.exists():
+        cdocs = json.loads(pth.read_text())
+        DD = ("integration", "development", "coherence", "surprise")
+        md.append(f"\n### Confirmatory premises — document level ({len(cdocs)} documents)\n")
+        md.append("| condition | n | " + " | ".join(DD) + " |")
+        md.append("|---|---|" + "---|" * len(DD))
+        cm = {}
+        for c in ("bare_habit", "sham_break300", "clock300", "nohabit300", "reset_reseed300"):
+            rs = [r for r in cdocs if r["cond"] == c]
+            if not rs:
+                continue
+            md.append(f"| {LABEL.get(c, c)} | {len(rs)} | " + " | ".join(f"{np.mean([r[d] for r in rs]):.2f}" for d in DD) + " |")
+            for d in DD:
+                cm[(c, d)] = {r["seed"]: r[d] for r in rs}
+        md.append("\n| contrast | dim | Δ [CI] | p (perm) | n |")
+        md.append("|---|---|---|---|---|")
+        for a, b, lab in (("clock300", "bare_habit", "preserved vs habituation"), ("reset_reseed300", "bare_habit", "reset vs habituation"),
+                          ("reset_reseed300", "clock300", "reset vs preserved")):
+            for d in DD:
+                if (a, d) in cm and (b, d) in cm:
+                    pr = paired(cm[(a, d)], cm[(b, d)])
+                    if pr:
+                        star = "**" if (pr["lo"] > 0 or pr["hi"] < 0) else ""
+                        md.append(f"| {lab} | {d} | {star}{pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}]{star} | {pr['p_perm']:.3f} | {pr['n']} |")
     out = DOCS / "APPENDIX_GEN.md"
     out.write_text("\n".join(md) + "\n")
     print("\n".join(md)); print("->", out)
