@@ -3,61 +3,62 @@
 
 \paragraph{The scaffold and the beam.} We started from an architecture
 modeled on the mind (three networks, incubation, re-encounter), and
-measurement returned something simpler than the architecture. The DREAM
-scaffold works, but when it is taken apart most of its effect lives in two
-operations that were not the noble ones: not eating one's literal past, and
-being made, every few hundred tokens, to start a new sentence somewhere
-else. We call this minimal recipe the \emph{interrupted loop}. Whether the
+measurement returned something simpler than the architecture. The scaffold
+works, but when it is taken apart most of its effect lives in two
+operations that were not the noble ones: not repeating one's literal past,
+and being made, every few hundred tokens, to start a new sentence somewhere
+else. We call this minimal operator the \emph{interrupted loop}. Whether the
 earlier text is kept in the model's context while it does so turned out not
 to matter to the judge (Section~\ref{sec:battery3}); we kept it, and it is a
-choice, not an ingredient. The elaborate parts either add nothing detectable (the salience monitor
-as a trigger; the in-loop judge, which never fired), or interrupt too rarely
-(the forgetting reseed fires 0--3 times per cell, and the scaffold's lower
-connection tracks that rarity, not the forgetting: a complete reset every 300
-tokens scores at least as well as the preserved context), or work opposite
-to their design (a literal return to the premise closes the loop), or do no
-better than the trivial alternative (salience is a good reader of the stream
-and, as a metronome, no better than a clock at the same rate).
-Only because the whole scaffold was built and then dismantled do we know
-which beam carries the weight, and which pieces are conditional: the reset
-earns its keep on a generator whose well is web boilerplate, and is
+choice, not an ingredient. The elaborate parts fall into four groups. Some
+add nothing detectable: the salience monitor as a trigger, and the in-loop
+judge, which never fired. Some interrupt too rarely: the forgetting reseed
+fires 0--3 times per cell, and the scaffold's lower connection tracks that
+rarity rather than the forgetting, since a complete reset every 300 tokens
+scores at least as well as the preserved context. Some work opposite to
+their design: a literal return to the premise closes the loop. And one does
+no better than the trivial alternative: salience is a good reader of the
+stream and, as a metronome, no better than a clock at the same rate. Only
+because the whole scaffold was built and then dismantled do we know which
+beam carries the weight, and which pieces are conditional. The reset earns
+its keep on a generator whose degeneration mode is web boilerplate, and is
 indifferent on one that drifts in prose.
 
 \paragraph{What an interruption is.} Battery~3 takes the interruption apart
 as the earlier batteries took the scaffold apart. A boundary is not an
-interruption: a paragraph break every 300 tokens leaves the stream where
+interruption. A paragraph break every 300 tokens leaves the stream where
 habituation leaves it, and the model's own document breaks (EOS allowed) buy
 coherence and nothing else. A boundary that points back is worse than none.
-What works is a new subject; habituation adds to it (a fluent stream
-between injections) but the new subject alone gets most of the way. A new
-subject means new each time: the four-sentence rotation we used is a cycle
-the model closes by replaying its own earlier segments, and a window judge
-with a 600-token horizon reads the replay as surprise and, worse, as
-connection; the fresh-only numbers are the ones to believe, and a reset
-context, or a fresh sentence at each break, is the cure. And the
-new subject works whether the earlier text stays in the model's context or
-is thrown away, at least for what the judge can read; thrown away, it
-scores higher: on a reset context the model writes a fresh mini-story that
-returns to the premise, and the judge scores it as connected and coherent;
-on the preserved context it can integrate, returns less, and is entrained
-by thousands of tokens of its own past. So the recipe is
-smaller than we first wrote it: habituate, and every few hundred tokens give
-the model a new sentence that leads away. Keeping the memory is what a
-writer would want and what a 600-token judge cannot reward; the difference
-between integration and return is exactly the kind of long-range quality
-this instrument does not see, and it is where a human study with the whole
-document in view should look next.
+What works is a new subject. Habituation adds to it, a fluent stream between
+injections, but the new subject alone gets most of the way. A new subject
+also means new each time. The four-sentence rotation we used is a cycle the
+model closes by replaying its own earlier segments, and a window judge with
+a 600-token horizon reads the replay as surprise and, worse, as connection.
+The fresh-only numbers are the ones to believe, and a reset context, or a
+fresh sentence at each break, is the cure. The new subject works whether the
+earlier text stays in the model's context or is thrown away, at least for
+what the judge can read, and thrown away it scores higher. On a reset
+context the model writes a fresh mini-story that returns to the premise, and
+the judge scores it as connected and coherent; on the preserved context the
+model can integrate, returns less, and is entrained by thousands of tokens
+of its own past. The operator is therefore smaller than we first wrote it:
+damp repetition, and every few hundred tokens give the model a new sentence
+that leads away. Keeping the memory is what a writer would want and what a
+600-token judge cannot reward. The difference between integration and
+return is exactly the kind of long-range quality this instrument does not
+see, and it is where a human study with the whole document in view should
+look next.
 
 \paragraph{Windows and wholes.} The document-level judgment
 (Section~\ref{sec:document}) is the result we would least like to have and
-are most obliged to report: none of these streams builds anything, and the
+are most obliged to report. None of these streams builds anything, and the
 interrupted stream over the preserved context, whose windows are the best,
-reads as a whole below the uninterrupted habituated one. The interruption
-is an operator on the next hundred tokens. The architecture we started from
-was built for accumulation (finds kept, developed, returned to), and its
-one instrument for that, the judge-gated escalation, never fired in the
-scaffold; run on purpose, with a real judge and a gate that opened on 13\%
-of its reads (Section~\ref{sec:gate}), it did no better than the clock at
+reads as a whole below the uninterrupted habituated one. The interruption is
+an operator on the next hundred tokens. The architecture we started from was
+built for accumulation (finds kept, developed, returned to), and its one
+instrument for that, the judge-gated escalation, never fired in the
+scaffold. Run on purpose, with a real judge and a gate that opened on 13\% of
+its reads (Section~\ref{sec:gate}), it did no better than the clock at
 either level. What would make the local gains compose is not a better
 trigger; it is something this loop does not have. The coda on bin packing
 (Section~\ref{sec:problem}) says what the operator is worth where value can
@@ -68,39 +69,38 @@ a find because it is worth something, not because a judge liked the window.
 
 \paragraph{Surface novelty and judged surprise are different quantities.}
 The anti-probable sampler doubles $n$-gram novelty against the training
-corpus and shows no detectable effect on judged surprise or connection; the
+corpus and shows no detectable effect on judged surprise or connection. The
 interruption lifts judged surprise by more than a point on fresh text (two
-to three points on all windows) without touching the sampler at all. Inside the network,
-read descriptively, the two live at different depths: what the judge calls
-surprise co-varies with lexical departure over an intact deep context, and
-the interruption that scores best barely moves the deep state. This is also
-why the neat expectation ``novelty = distance from what came before'' fails
-within interrupted streams, where deep departure from the stream's own past
-is negatively related to judged surprise. The reader rewards the window that
-is new on the surface and continuous underneath, which is what a good turn in
-a story is.
+to three points on all windows) without touching the sampler at all. Inside
+the network, read descriptively, the two live at different depths: what the
+judge calls surprise co-varies with lexical departure over an intact deep
+context, and the interruption that scores best barely moves the deep state.
+This is also why the neat expectation ``novelty equals distance from what
+came before'' fails within interrupted streams, where deep departure from
+the stream's own past is negatively related to judged surprise. The reader
+rewards the window that is new on the surface and continuous underneath,
+which is what a good turn in a story is.
 
 \paragraph{Rhythm, revised.} The first version of this study made much of a
 rhythm: a break every 75 tokens develops nothing, the same break scores
-higher after a longer thread, and 300 tokens looked like the best period.
-On generated text only, most of that is gone. The post-interruption surprise
+higher after a longer thread, and 300 tokens looked like the best period. On
+generated text only, most of that is gone. The post-interruption surprise
 does not depend on the length of the thread it breaks; on fresh windows,
 neither does connection; and a stream left alone for many hundreds of tokens
-sinks back toward the level of habituation alone. What survives is
-humbler and, we think, still usable: the interruption is a resource that has
-to be spent regularly (every 150--300 tokens on these generators), a thread
-needs some tens of tokens to exist before breaking it is worth anything, and
-nothing is gained by waiting. The coffee break of a working mind is still
-the right picture, provided one takes it often.
+sinks back toward the level of habituation alone. What survives is humbler
+and, we think, still usable. The interruption is a resource that has to be
+spent regularly, every 150--300 tokens on these generators; a thread needs
+some tens of tokens to exist before breaking it is worth anything; and
+nothing is gained by waiting.
 
 \paragraph{What this is not.} It is not a claim that these streams are good
-literature; most windows are judged well below the midpoint, and the texts
+literature. Most windows are judged well below the midpoint, and the texts
 are what a base model produces under forced continuation. It is not a claim
-about creativity in the full sense (no value, interest or originality against
-the world is measured), nor about scale (the generators are 8--30B parameters,
-mostly at 8 bits), and only one post-trained model was run, in raw
-continuation. It is a characterization,
-with controls, of a simple intervention on forced open-ended generation, made
-on three base models from two families and under two judge families, and it
-points at the loop's structure and rhythm rather than at the two places where
-effort is usually spent.
+about creativity in the full sense, since no value, interest or originality
+against the world is measured, nor about scale, since the generators are
+8--30B parameters, mostly at 8 bits, and only one post-trained model was
+run, in raw continuation. It is a characterization, with controls, of a
+simple intervention on forced open-ended generation, made on three base
+models from two families and under two judge families, and it points at the
+loop's structure rather than at the two places where effort is usually
+spent.
