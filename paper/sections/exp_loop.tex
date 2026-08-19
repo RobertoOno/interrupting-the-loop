@@ -3,7 +3,7 @@
 
 All results in this section use Qwen3-30B-A3B-Base unless stated, ten
 premises, 4,500 tokens per cell, $\lambda=0$, Claude Opus~5 as judge with
-$k=5$, generated-only windows, and the cell as unit: numbers are means over
+$k=5$, generated-only windows, and the cell as unit. Numbers are means over
 cells (one per premise), intervals are 95\% bootstrap CIs over cells, and
 paired differences come with an exact sign-flip permutation $p$ on the ten
 paired cells and Cliff's $\delta$ on cell means. Full tables, including the
@@ -13,42 +13,42 @@ Every figure shows one point per premise.
 
 \subsection{Forced continuation degenerates; the scaffold revives it}
 
-Left to continue a premise with nothing else, the base model degenerates
-within a few hundred tokens into a repetitive or corpus-like mode and stays
-there: \emph{``Highly recommended. Highly recommended.\,\ldots''} for two
-thousand tokens; a table of three-digit numbers; an English-exam answer key.
-Judged surprise 0.45 \ci{0.28}{0.68}, connection 0.30, coherence 2.52 (ten
-cells). The full scaffold brings the stream to 2.70 / 1.85 / 6.02, and every
-premise moves in the same direction (Figure~\ref{fig:q1}). But the scaffold
-is not the smallest thing that does this.
+Left to continue a premise with nothing else, the base model falls within a
+few hundred tokens into a degeneration mode and stays there: \emph{``Highly
+recommended. Highly recommended.\,\ldots''} for two thousand tokens; a table
+of three-digit numbers; an English-exam answer key. Judged surprise is 0.45
+\ci{0.28}{0.68}, connection 0.30, coherence 2.52 (ten cells). The full
+scaffold brings the stream to 2.70 / 1.85 / 6.02, and every premise moves in
+the same direction (Figure~\ref{fig:q1}). But the scaffold is not the
+smallest thing that does this.
 
 \subsection{Taking the loop apart: habituation and interruption}
 \label{sec:ablation}
 
 \paragraph{The ladder.} Two operations of the scaffold suffice, and they are
 not the elaborate ones (Figure~\ref{fig:q1}, Table~\ref{tab:ladder}). Adding
-only \emph{habituation} to bare generation (a windowed repetition penalty, no
-interruption) removes the literal orbits: surprise 0.45 $\rightarrow$ 1.58
+only habituation to bare generation (a windowed repetition penalty, no
+interruption) removes the literal loops. Surprise goes from 0.45 to 1.58
 ($\Delta$ +1.13 \ci{+0.72}{+1.47}, $p=0.004$, $\delta=+0.80$), connection
-0.30 $\rightarrow$ 1.28, coherence 2.52 $\rightarrow$ 4.45; the stream is
-fluent and, to the judge, still not very surprising. Adding a neutral subject
-change every 150 tokens over the preserved context takes it to 3.02 / 3.68 /
-6.12: over habituation alone, surprise $\Delta$ +1.43 \ci{+0.93}{+2.05}
-($p=0.002$, $\delta=+0.85$), connection +2.40 \ci{+1.58}{+3.32} ($p=0.002$,
-$\delta=+0.93$), coherence +1.67 \ci{+0.27}{+2.88} ($p=0.05$). This plain
-interruption matches the full scaffold on surprise (3.02 vs 2.70) and beats
-it on connection (3.68 vs 1.85; the scaffold's gain over habituation is +0.57
-\ci{+0.17}{+1.02}) at equal coherence (6.12 vs 6.02): the salience monitor,
-the in-loop judge (which never fired) and the forgetting reseed add
-nothing detectable over the plain interruption, and the scaffold gives back
-connection. Battery~3 will show that this is not the forgetting itself (a
-complete reset every 300 tokens scores at least as well as the preserved
-context) but, most likely, how rarely the scaffold interrupts: 0--3 reseeds
-per cell, after three consecutive stagnations, against 30 for the clock.
-Habituation accounts for part of the surprise; the interruption accounts for
-the rest and, on these all-windows numbers, for most of the additional
-connection beyond habituation; the self-copy check below will cut the
-connection number down and leave the surprise one.
+from 0.30 to 1.28, coherence from 2.52 to 4.45. The stream is fluent and, to
+the judge, still not very surprising. Adding a neutral subject change every
+150 tokens over the preserved context takes it to 3.02 / 3.68 / 6.12. Over
+habituation alone that is +1.43 \ci{+0.93}{+2.05} of surprise ($p=0.002$,
+$\delta=+0.85$), +2.40 \ci{+1.58}{+3.32} of connection ($p=0.002$,
+$\delta=+0.93$) and +1.67 \ci{+0.27}{+2.88} of coherence ($p=0.05$). This
+plain interruption matches the full scaffold on surprise (3.02 vs 2.70),
+beats it on connection (3.68 vs 1.85; the scaffold's own gain over
+habituation is +0.57 \ci{+0.17}{+1.02}) and equals it on coherence (6.12 vs
+6.02). The salience monitor, the in-loop judge (which never fired) and the
+forgetting reseed add nothing detectable over the plain interruption, and
+the scaffold gives back connection. Battery~3 will show that the loss is not
+the forgetting itself, since a complete reset every 300 tokens scores at
+least as well as the preserved context. The likelier cause is how rarely the
+scaffold interrupts: 0--3 reseeds per cell, after three consecutive
+stagnations, against 30 for the clock. On these all-windows numbers,
+habituation accounts for part of the surprise and the interruption for the
+rest and for most of the additional connection. The self-copy check below
+cuts the connection number down and leaves the surprise one.
 
 \begin{figure}[t]
 \centering
@@ -62,23 +62,24 @@ with 95\% bootstrap CIs over cells (Qwen3-30B-A3B, generated-only windows).}
 \end{figure}
 
 \paragraph{The factorial and the baselines.} Battery~3 completes the
-$2\times2$ (Table~\ref{tab:gen-q1}, \ref{tab:gen-q3-3}). The neutral subject
-change \emph{without} habituation reaches 2.45 / 3.02 / 5.38 at period 150
-and 2.49 / 1.97 / 5.50 at period 300: above habituation alone on surprise
-(+0.87 \ci{+0.27}{+1.43}, $p=0.04$; +0.91 \ci{+0.43}{+1.40}, $p=0.016$) and,
-at 150, on connection (+1.73, $p=0.010$), and below the same interruption
-with habituation by 0.4--0.6 on surprise and connection and 0.7--0.9 on
-coherence, differences whose intervals include zero at $n=10$. The two
-operations are closer to additive than to interacting, and the interruption
-is the larger of the two: alone it gets most of the way, and habituation adds
-a fluent stream between injections. Two baselines say what habituation is
-not. A stronger penalty (1.3 instead of 1.15) changes nothing (1.77 / 1.43 /
-4.88; $\Delta$ +0.18 \ci{-0.22}{+0.65} on surprise). Allowing the end-of-text
-token, so that the model may close its document and open another (a boundary
-of its own choosing), gives more coherent text (5.69, +1.24 \ci{+0.10}{+2.24})
-and no more surprise or connection (1.59 / 1.33; +0.01 and +0.04): the
-model's own document breaks are boundaries without a subject, and they do
-what a sham break does below.
+$2\times2$ (Tables~\ref{tab:gen-q1} and \ref{tab:gen-q3-3}). The neutral
+subject change \emph{without} habituation reaches 2.45 / 3.02 / 5.38 at
+period 150 and 2.49 / 1.97 / 5.50 at period 300. That is above habituation
+alone on surprise (+0.87 \ci{+0.27}{+1.43}, $p=0.04$; +0.91
+\ci{+0.43}{+1.40}, $p=0.016$) and, at 150, on connection (+1.73,
+$p=0.010$). It is below the same interruption with habituation by 0.4--0.6
+on surprise and connection and 0.7--0.9 on coherence, differences whose
+intervals include zero at $n=10$. The two operations are closer to additive
+than to interacting, and the interruption is the larger of the two: alone it
+gets most of the way, and habituation adds a fluent stream between
+injections. Two baselines say what habituation is not. A stronger penalty
+(1.3 instead of 1.15) changes nothing (1.77 / 1.43 / 4.88; $\Delta$ +0.18
+\ci{-0.22}{+0.65} on surprise). Allowing the end-of-text token, so that the
+model may close its document and open another at a boundary of its own
+choosing, gives more coherent text (5.69, +1.24 \ci{+0.10}{+2.24}) and no
+more surprise or connection (1.59 / 1.33; +0.01 and +0.04). The model's own
+document breaks are boundaries without a subject, and they do what a sham
+break does below.
 
 \begin{table}[t]
 \centering\small
@@ -107,42 +108,42 @@ while giving back connection.}
 
 \paragraph{Self-copy: what the window judge cannot see.} Before going
 further, a check that the document-level judgment
-(Section~\ref{sec:document}) forced on us. A base model that is given the
-same four subject-change sentences in rotation learns the rotation: after
-\emph{``That night she dreamed of something else entirely:''} it tends to
-write what it wrote the last time that sentence appeared, 600 or 1,200 tokens
-earlier. We flag a judged window as \emph{copied} when at least half of its
-12-token shingles occur earlier in the same stream, and note whether the
-source lies within the 600 tokens the judge sees (Table~\ref{tab:gen-self}).
-Bare generation is 67\% copied (its loops, all visible to the judge, who
-scores them 0.03); habituation alone 27\%; the clock arms with the fixed
-rotation 65--80\% at periods 150 and 300 (at 300, the source of 62\% of all
-windows lies outside the judge's context), 38\% at 600 and 12\% at 900; the
-reset arms 0\%; the scaffold 6\%. A copied window scores high on
-``connection'' for the obvious reason (it \emph{is} earlier text) and, when
-its source is out of view, on surprise too. So we recompute the ladder on
-\emph{fresh} windows only. The interruption still lifts the stream over
-habituation: at period 150 surprise +1.20 \ci{+0.43}{+2.11} ($p=0.010$),
-connection +0.75 \ci{+0.38}{+1.17} ($p=0.008$), coherence +1.72; at 300
-+1.32 \ci{+0.73}{+1.88} ($p=0.004$), +0.75, +1.45; at 900 +1.35, +0.99,
-+1.67; and the reset arm, which cannot copy, +1.93 \ci{+1.59}{+2.28}, +2.03
-\ci{+1.75}{+2.33}, +1.82 (all $p\le0.004$, every premise). The surprise
-effect of the interruption is therefore real on generated, fresh text and
-about one point smaller than the all-windows number; the connection effect
-is largely a self-copy artefact (+2.40 on all windows, +0.75 on fresh
-ones), and the reset arm's advantage over the preserved context on
-connection (+1.28 \ci{+0.82}{+1.73} on fresh windows) is in good part that
-it does not replay itself. From here on we report both numbers where they
-differ, and we treat the fresh-only ones as the primary estimate of what
-the interruption does. The lesson for the recipe is plain: a fixed rotation
-of four sentences is a cycle the model will close; give it a new sentence
-each time, or reset.
+(Section~\ref{sec:document}) forced on us. A base model given the same four
+subject-change sentences in rotation learns the rotation. After \emph{``That
+night she dreamed of something else entirely:''} it tends to write what it
+wrote the last time that sentence appeared, 600 or 1,200 tokens earlier. We
+flag a judged window as \emph{copied} when at least half of its 12-token
+shingles occur earlier in the same stream, and we note whether the source
+lies within the 600 tokens the judge sees (Table~\ref{tab:gen-self}). Bare
+generation is 67\% copied; these are its literal loops, all visible to the
+judge, who scores them 0.03. Habituation alone is 27\% copied. The clock
+arms with the fixed rotation are 65--80\% copied at periods 150 and 300, and
+at 300 the source of 62\% of all windows lies outside the judge's context;
+38\% at 600, 12\% at 900. The reset arms are 0\% copied and the scaffold
+6\%. A copied window scores high on connection for the obvious reason, it
+\emph{is} earlier text, and, when its source is out of view, on surprise
+too. So we recompute the ladder on \emph{fresh} windows only. The
+interruption still lifts the stream over habituation. At period 150, surprise
++1.20 \ci{+0.43}{+2.11} ($p=0.010$), connection +0.75 \ci{+0.38}{+1.17}
+($p=0.008$), coherence +1.72. At 300, +1.32 \ci{+0.73}{+1.88} ($p=0.004$),
++0.75, +1.45. At 900, +1.35, +0.99, +1.67. The reset arm, which cannot copy,
+adds +1.93 \ci{+1.59}{+2.28}, +2.03 \ci{+1.75}{+2.33} and +1.82 (all
+$p\le0.004$, every premise). We conclude that the surprise effect of the
+interruption is real on generated, fresh text and about one point smaller
+than the all-windows number. The connection effect is largely a self-copy
+artefact (+2.40 on all windows, +0.75 on fresh ones), and the reset arm's
+advantage over the preserved context on connection (+1.28 \ci{+0.82}{+1.73}
+on fresh windows) is in good part that it does not replay itself. From here
+on we report both numbers where they differ and treat the fresh-only ones
+as the primary estimate. The practical lesson is plain: a fixed rotation of
+four sentences is a cycle the model will close. Give it a new sentence each
+time, or reset.
 
 \paragraph{Where the stream goes.} In sentence-embedding space
-(Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean step
-0.14 and ends 0.78 from the premise; the scaffold has radius 0.51 and returns
-to within 0.57 of the premise; the clock reseed spreads over the space in
-jumps while keeping the whole context; the reset arm of battery~3
+(Figure~\ref{fig:traj}) bare generation has explored radius 0.18 and mean
+step 0.14 and ends 0.78 from the premise. The scaffold has radius 0.51 and
+returns to within 0.57 of the premise. The clock reseed spreads over the
+space in jumps while keeping the whole context; the reset arm of battery~3
 (Section~\ref{sec:battery3}) will show that keeping it is not what the judge
 rewards.
 
@@ -157,58 +158,172 @@ across the space keeping its context.}
 \label{fig:traj}
 \end{figure}
 
+\subsection{The interruption must lead away}
+\label{sec:content}
+
+With the same period (150), a neutral subject change and a re-encounter
+stitch that asks the stream to return to its beginning are indistinguishable
+(3.02 / 3.68 / 6.12 vs 2.83 / 3.70 / 5.50; every paired CI covers zero).
+Injecting the \emph{premise itself} (1.16 / 1.11 / 3.91) or a 64-token
+window of the stream's \emph{own past} (1.48 / 1.44 / 3.70) is as bad as not
+interrupting at all. Against the neutral change the premise loses $-1.86$
+\ci{-2.38}{-1.35} of surprise and the own past $-1.54$ \ci{-2.17}{-0.86};
+connection $-2.58$ and $-2.24$; coherence $-2.21$ and $-2.42$; all
+$p\le0.006$, $\delta$ from $-0.84$ to $-1.00$ (Figure~\ref{fig:q2}).
+Qualitatively, the own-past injection reinforces whatever mode the stream is
+in: an exam-key stream was fed its own questions back. A return works only
+as a short stitch that still opens a new sentence; a literal return closes
+the loop.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig9_q2_content.png}
+\caption{Content of the interruption at period 150: neutral change,
+re-encounter stitch, the premise itself, the stream's own past. Injecting a
+return is as bad as not interrupting.}
+\label{fig:q2}
+\end{figure}
+
+\subsection{Timing: salience against the clock}
+\label{sec:timing}
+
+Salience events (jump, crystallization, recurrence; 1--9 per cell, median
+about 5) are the moments the scaffold's monitor picks out of the stream's own
+telemetry. As a policy for \emph{which} windows to judge they beat a clock in
+the first version of this study. The question here is whether they are also
+the right moments to \emph{interrupt}. With the same stitch, timing by
+salience events and timing by a clock of matched frequency (every 900
+tokens) are indistinguishable on generated text. The post-interruption
+windows score 3.04 / 2.92 / 5.75 against 3.05 / 2.71 / 5.72 (paired
+differences $-0.01$ \ci{-0.76}{+0.73} on surprise, $+0.21$ on connection).
+The windows at least 300 tokens after the last injection, where the stream
+is left alone, score 1.82 / 1.80 / 4.20 against 2.08 / 1.71 / 4.73 ($-0.26$
+\ci{-0.78}{+0.21}) (Figure~\ref{fig:q4}, Table~\ref{tab:gen-q4b}). Salience
+monitoring by itself, with nothing injected, leaves the stream where
+habituation alone leaves it (1.65 / 1.30 / 4.63 vs 1.55 / 1.28 / 4.48). The
+first version of this study reported a large stream-level advantage of the
+clock over salience timing (4.7 vs 2.2 on uniform windows). That advantage
+was carried by the injected sentences inside the clock arm's windows, of
+which it has more. What remains is a null at the present resolution. Salience
+is a good reader of the stream and, as a metronome, neither better nor worse
+than a clock ticking at the same rate. Since a clock is free and regular,
+the clock is what we recommend.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig9_q4_timing.png}
+\caption{When to interrupt: the re-encounter stitch on the clock (150 and
+900), the neutral change every 900, the stitch on salience events, and
+salience only (nothing injected). Post-interruption windows; one point per
+premise.}
+\label{fig:q4}
+\end{figure}
+
+\subsection{Period and decay}
+\label{sec:period}
+
+The first version of this study reported that the yield of an interruption
+grew with the length of the thread it broke (5.3--5.9 after 300--900-token
+threads against 3.1 after 150), that it decayed over the next few hundred
+tokens, and that 300 tokens was the best rhythm. With the injected sentence
+excluded from the judged window, that finding largely disappears
+(Figure~\ref{fig:q5}). The post-interruption window (32--128 generated
+tokens after the injection) scores 3.02 on surprise at period 150, 2.87 at
+300, 2.88 at 600 and 3.18 at 900, and every paired difference against 150
+covers zero. Connection is highest at the shortest period on all windows
+(3.68 vs 2.38, 2.02 and 2.22; $\Delta$ $-1.30$ to $-1.67$, $p\le0.008$), but
+that difference is self-copy: on fresh windows connection is 2.0 to 2.3 at
+every period (Table~\ref{tab:gen-self}). Coherence rises a little with the
+period (6.12, then 6.43, 6.25, 6.78). Deeper into a segment the surprise of
+generated text holds for a few hundred tokens and then sinks toward the
+level of habituation alone (1.55): at period 900 it reads 3.18, 2.67, 3.17,
+2.77, 2.23 and 1.80 at 32, 160, 300, 450, 600 and 750 tokens after the
+injection (Figure~\ref{fig:q5b}). The stream estimate (offset means weighted
+by the stretch of the segment they represent) is therefore 3.02 / 3.68 at
+150, 2.76 / 2.30 at 300, 2.84 / 2.12 at 600 and 2.64 / 2.03 at 900
+(Table~\ref{tab:gen-q5b}). Among the tested periods, then, none is better
+than another on fresh generated text; what the longer periods buy is a
+little coherence and fewer replays. A period of 75 cannot be measured under
+this protocol, because no 96-token window of generated text fits between two
+injections. Under the event protocol its stream was dead (0.88), which is
+the one part of the earlier claim that survives: a thread needs some tens
+of tokens to exist before it can be broken. The larger numbers of the first
+version were, in good part, the judge reading the injected sentence. What
+survives is the direction of every effect and an operating range of a break
+every 150--300 tokens.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{fig9_q5_period.png}
+\caption{Period of the neutral change: the post-interruption window (32--128
+generated tokens after the injection) at periods 150, 300, 600 and 900; one
+point per premise.}
+\label{fig:q5}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\linewidth]{fig9_q5b_decay.png}
+\caption{Decay: cell-mean surprise of generated-only windows by tokens since
+the injection, per period.}
+\label{fig:q5b}
+\end{figure}
+
 \subsection{What carries the effect: boundary, content, context}
 \label{sec:battery3}
 
 An interruption is three things at once: a boundary in the text, a new
 subject, and a context that is kept or dropped. Battery~3 separates them at
 period 300 (Figure~\ref{fig:q3}, Tables~\ref{tab:gen-q3} and
-\ref{tab:gen-q3-3}). A bare paragraph break every 300 tokens (a sham
-interruption) leaves the stream where habituation alone leaves it (1.42 /
+\ref{tab:gen-q3-3}). A bare paragraph break every 300 tokens, a sham
+interruption, leaves the stream where habituation alone leaves it (1.42 /
 0.97 / 4.43 vs 1.58 / 1.28 / 4.45). A connective that asks for continuity
 (\emph{``And so, as before,''}) is, if anything, worse than nothing (1.08 /
-0.86 / 3.49; $-0.50$ \ci{-1.20}{+0.25} on surprise, $-0.96$ on coherence):
-a boundary that points back is what the premise and own-past injections
-were. The neutral subject change over the preserved context gives 2.90 /
-2.38 / 6.40 (+1.32 \ci{+0.68}{+1.93} on surprise, $p=0.004$; +1.10 on
-connection, $p=0.014$; +1.95 on coherence, $p=0.02$; against the sham break
-+1.48 / +1.42 / +1.97, all $p\le0.006$). And the same subject change on a
-\emph{reset} context, where the model keeps only the premise and the injected
-sentence, gives 3.72 / 3.32 / 6.88: higher than the preserved context on
+0.86 / 3.49; $-0.50$ \ci{-1.20}{+0.25} on surprise, $-0.96$ on coherence). A
+boundary that points back is what the premise and own-past injections were.
+The neutral subject change over the preserved context gives 2.90 / 2.38 /
+6.40: +1.32 \ci{+0.68}{+1.93} on surprise ($p=0.004$), +1.10 on connection
+($p=0.014$), +1.95 on coherence ($p=0.02$), and against the sham break +1.48
+/ +1.42 / +1.97 (all $p\le0.006$). The same subject change on a \emph{reset}
+context, where the model keeps only the premise and the injected sentence,
+gives 3.72 / 3.32 / 6.88. That is higher than the preserved context on
 every dimension (+0.82 \ci{+0.32}{+1.30}, $p=0.02$; +0.93 \ci{+0.53}{+1.32},
 $p=0.004$; +0.48 \ci{+0.03}{+0.95}), and every premise moves the same way on
 surprise. Resetting without a new subject (a break on a reset context) gives
-2.03 / 1.73 / 5.43, little more than the sham; the subject change against
-the break is +1.68 / +1.58 / +1.45 under reset and +1.48 / +1.42 / +1.97
-under the preserved context ($p\le0.006$). What carries the effect, then, is
-the new subject; the boundary by itself does nothing; and dropping the
-earlier text from the model's context does not hurt what the judge reads,
-it helps. Two things must be said about that last result. Under reset the
-model cannot integrate the earlier text, and its ``connection'' is what it
-can still do: return to the premise, sometimes verbatim, in a fresh
-mini-story that the judge, seeing 600 tokens of earlier text about the same
-premise, scores as connected and coherent; under the preserved context the
-model can integrate, returns less, and is entrained by 3,000 tokens of its
-own past. Connection as this rubric measures it does not separate a
-long-range integration from a return to the shared beginning; the preserved
-context is a choice of the recipe we studied, not a demonstrated ingredient
-of the judged effect, and Section~\ref{sec:document} asks the question at
-the level of the whole document, where the difference between integration
-and restart should show if it exists. The same three arms replicate on
-Qwen3-8B-Base against its own habituation cells: the sham break does nothing
-($-0.05$ \ci{-0.77}{+0.80} on surprise), the subject change on the preserved
-context adds +1.38 \ci{+0.74}{+1.98} and +1.28 on connection, and on the
-reset context +2.40 \ci{+2.08}{+2.70} and +2.08, every premise
-(Table~\ref{tab:gen-reset}). On OLMo-2-13B the sham again does nothing
-($-0.08$), the preserved context adds +1.61 \ci{+0.72}{+2.42} and +2.26
-\ci{+1.58}{+2.87}, and the reset context +2.14 \ci{+1.32}{+2.92} and +1.59
-\ci{+1.02}{+2.22} (Table~\ref{tab:gen-reset-3}): there the reset wins on
-surprise and coherence and the preserved context on connection (3.52 vs
-2.85), the one generator on which keeping the earlier text buys connection
-the judge can see, and the one whose interruption arm copies itself least.
-The pattern that holds everywhere is the one that matters: a boundary alone
-does nothing, a new subject does, and a reset context is at least as good
-on surprise.
+2.03 / 1.73 / 5.43, little more than the sham. The subject change against the
+break is +1.68 / +1.58 / +1.45 under reset and +1.48 / +1.42 / +1.97 under
+the preserved context ($p\le0.006$). We read this as follows. The new subject
+is what produces the effect; the boundary by itself does nothing; and
+dropping the earlier text from the model's context does not hurt what the
+judge reads, it helps.
+
+Two things must be said about that last result. Under reset the model cannot
+integrate the earlier text. What it can still do is return to the premise,
+sometimes verbatim, in a fresh mini-story, and the judge, seeing 600 tokens
+of earlier text about the same premise, scores that as connected and
+coherent. Under the preserved context the model can integrate, returns less,
+and is entrained by 3,000 tokens of its own past. Connection as this rubric
+measures it does not separate a long-range integration from a return to the
+shared beginning. The preserved context is therefore a choice in the
+operator we studied, not a demonstrated ingredient of the judged effect, and
+Section~\ref{sec:document} asks the question at the level of the whole
+document, where the difference between integration and restart should show
+if it exists.
+
+The same three arms replicate on Qwen3-8B-Base against its own habituation
+cells. The sham break does nothing ($-0.05$ \ci{-0.77}{+0.80} on surprise).
+The subject change on the preserved context adds +1.38 \ci{+0.74}{+1.98} of
+surprise and +1.28 of connection, and on the reset context +2.40
+\ci{+2.08}{+2.70} and +2.08, every premise (Table~\ref{tab:gen-reset}). On
+OLMo-2-13B the sham again does nothing ($-0.08$). The preserved context adds
++1.61 \ci{+0.72}{+2.42} and +2.26 \ci{+1.58}{+2.87}, the reset context +2.14
+\ci{+1.32}{+2.92} and +1.59 \ci{+1.02}{+2.22} (Table~\ref{tab:gen-reset-3}).
+There the reset wins on surprise and coherence and the preserved context on
+connection (3.52 vs 2.85). OLMo is the one generator on which keeping the
+earlier text buys connection the judge can see, and the one whose
+interruption arm copies itself least. The pattern that holds everywhere is
+the one that matters: a boundary alone does nothing, a new subject does, and
+a reset context is at least as good on surprise.
 
 \begin{figure}[t]
 \centering
@@ -225,32 +340,33 @@ premise.}
 \label{sec:confirm}
 
 Everything above was designed and analyzed in sequence, and the questions of
-batteries~2 and~3 were formulated after seeing battery~1. Before any result of
-battery~3 or of the generated-only judgments was seen, we wrote ten new
-premises (Appendix~\ref{app:repro}), fixed a different random seed, chose
-five arms at period 300 (habituation alone, the sham break, the subject
-change on the preserved context, the subject change without habituation, and
-the subject change on a reset context) and pre-registered four contrasts in
-the laboratory notebook: H1 (primary), the subject change on the preserved
-context beats habituation alone on surprise; H2, it beats the sham break; H3,
-it beats the reset context on connection; H4 (two-sided), habituation matters
-given the interruption. Fifty new cells were then generated and judged under
-the same protocol (Table~\ref{tab:gen-confirmatory}, one-sided exact
-permutation tests). H1 is confirmed: +1.48 \ci{+0.72}{+2.05}, $p=0.003$
-(on fresh windows only, +0.82 \ci{+0.03}{+1.45}, $p=0.04$). H2 is
-confirmed on all windows (+0.91 \ci{+0.23}{+1.55}, $p=0.02$) and not on
-fresh ones (+0.71, $p=0.11$). H3 is refuted in the direction battery~3 had
-found: the reset context scores \emph{higher} on connection ($-0.55$
-\ci{-1.03}{-0.03} for preserved minus reset; $-1.02$ on fresh windows), and
-on surprise (4.17 vs 2.87). H4 is not supported (+0.51 \ci{-0.02}{+1.03},
-$p=0.12$ two-sided). The document-level judgment repeats on the new
-premises as well: the reset arm above the preserved context on all four
-document dimensions ($p\le0.03$), the preserved context at or below
-habituation alone (Table~\ref{tab:gen-confirmatory-3}). The replication thus
-confirms the effect the paper rests on, on premises and a random seed the
-program had never seen, and it settles the two questions the exploratory
-batteries had left open in the less flattering direction: the context need
-not be kept, and habituation is not what makes the interruption work.
+batteries~2 and~3 were formulated after seeing battery~1. Before any result
+of battery~3 or of the generated-only judgments was seen, we wrote ten new
+premises (Appendix~\ref{app:repro}), fixed a different random seed and
+chose five arms at period 300: habituation alone, the sham break, the
+subject change on the preserved context, the subject change without
+habituation, and the subject change on a reset context. We pre-registered
+four contrasts in the laboratory notebook. H1 (primary): the subject change
+on the preserved context beats habituation alone on surprise. H2: it beats
+the sham break. H3: it beats the reset context on connection. H4
+(two-sided): habituation matters given the interruption. Fifty new cells
+were then generated and judged under the same protocol
+(Table~\ref{tab:gen-confirmatory}, one-sided exact permutation tests). H1 is
+confirmed: +1.48 \ci{+0.72}{+2.05}, $p=0.003$; on fresh windows only, +0.82
+\ci{+0.03}{+1.45}, $p=0.04$. H2 is confirmed on all windows (+0.91
+\ci{+0.23}{+1.55}, $p=0.02$) and not on fresh ones (+0.71, $p=0.11$). H3 is
+refuted in the direction battery~3 had found: the reset context scores
+\emph{higher} on connection ($-0.55$ \ci{-1.03}{-0.03} for preserved minus
+reset; $-1.02$ on fresh windows) and on surprise (4.17 vs 2.87). H4 is not
+supported (+0.51 \ci{-0.02}{+1.03}, $p=0.12$ two-sided). The document-level
+judgment repeats on the new premises as well: the reset arm is above the
+preserved context on all four document dimensions ($p\le0.03$), and the
+preserved context at or below habituation alone
+(Table~\ref{tab:gen-confirmatory-3}). The replication thus confirms the
+effect the paper rests on, on premises and a random seed the program had
+never seen. It also settles the two questions the exploratory batteries had
+left open, in the less flattering direction: the context need not be kept,
+and habituation is not what makes the interruption work.
 
 \subsection{The whole document}
 \label{sec:document}
@@ -265,26 +381,27 @@ restart or repeat), \emph{coherence} (does it read as one text) and
 \emph{surprise} (does the whole go somewhere unpredictable yet sensible).
 The answer is no, for every arm (Figure~\ref{fig:document},
 Table~\ref{tab:gen-document}): no condition exceeds 2.5 on any document
-dimension. Worse for the recipe: judged as a whole, the interrupted stream
+dimension. Worse for the operator: judged as a whole, the interrupted stream
 over the preserved context is a sequence of restarts and reads \emph{below}
-the uninterrupted habituated stream (period 150: surprise 0.10 vs 1.40,
-$-1.30$ \ci{-1.60}{-1.00}, $p=0.002$; development 0.30 vs 1.10; period 300:
-surprise $-0.90$, $p=0.03$; integration $-0.60$; the scaffold is at the level
-of habituation). The judge's notes say why: the interrupted stream ``repeats the same
-four-part block verbatim'' and ``cycles four short fragments'', the self-copy
-of the paragraph above seen whole. The longer periods and the stitch arms, with fewer replays and longer
-stretches, sit between (600 and 900: 1.2--1.8 on every dimension). The reset
-arm reads best of all (integration 2.00,
-development 1.60, coherence 2.20, surprise 2.50; above the preserved context
-on all four, $p\le0.03$, and above habituation on surprise, +1.10,
+the uninterrupted habituated stream. At period 150 its document surprise is
+0.10 against 1.40 ($-1.30$ \ci{-1.60}{-1.00}, $p=0.002$) and its development
+0.30 against 1.10; at period 300, surprise $-0.90$ ($p=0.03$) and
+integration $-0.60$; the scaffold is at the level of habituation. The
+judge's notes say why: the interrupted stream ``repeats the same four-part
+block verbatim'' and ``cycles four short fragments'', the self-copy of
+Section~\ref{sec:ablation} seen whole. The longer periods and the stitch
+arms, with fewer replays and longer stretches, sit between (600 and 900:
+1.2--1.8 on every dimension). The reset arm reads best of all (integration
+2.00, development 1.60, coherence 2.20, surprise 2.50; above the preserved
+context on all four, $p\le0.03$, and above habituation on surprise, +1.10,
 $p=0.008$), because each of its parts is a clean piece that returns to the
-premise, which the document judge, like the window judge, credits as a
-kind of unity. So the local gains of Sections~\ref{sec:ablation}
-to~\ref{sec:period} do not compose: an interruption is a local operation
+premise, which the document judge, like the window judge, credits as a kind
+of unity. So the local gains of Sections~\ref{sec:ablation}
+to~\ref{sec:battery3} do not compose. An interruption is a local operation
 that makes the next hundred tokens more surprising, connected and coherent
 than they would have been, and leaves the document a collection. Keeping
 the earlier text in the model's context, which is what a writer would want,
-produces no integration that either judge can see; the accumulation the
+produces no integration that either judge can see, and the accumulation the
 architecture was built for does not happen. We take this as the clearest
 statement of what the paper has and has not found: an operator on windows,
 not on wholes.
@@ -306,214 +423,103 @@ clean parts, each returning to the premise, read best.}
 The scaffold's one instrument for building on a find, the judge-gated
 escalation, never fired (Section~\ref{sec:loop-method}). To test the idea
 rather than the accident, we ran the Review as the architecture intended it,
-with a gate that does open: every 150 tokens, before the scheduled subject
+with a gate that does open. Every 150 tokens, before the scheduled subject
 change, Opus~5 reads the last 128 generated tokens against the 600 before
-them (one call), and if the window is a find (surprise $\ge5$ and coherence
-$\ge5$) the interruption is withheld and the thread is left to run; otherwise
-the neutral subject change is injected as in the clock arm. The hypotheses,
-written before the run: G1, the judge-gated arm beats the clock at 150 on
-the post-interruption window; G2, it beats it at the document level on
-development and integration, since finds are allowed to develop. The gate
-opened on 40 of 300 reads (13\%), so the arm interrupted a little less often
-than the clock and let 40 good threads run. Neither hypothesis is supported
-(Table~\ref{tab:gen-judge-gated}): on the post-interruption windows the
-gated arm is at 2.70 / 3.03 / 5.92 against the clock's 3.02 / 3.68 / 6.12
-($-0.32$ \ci{-0.93}{+0.17} on surprise, $-0.65$ \ci{-1.47}{+0.03} on
-connection), and at the document level it is where the clock is (0.90 /
-0.50 / 1.30 / 0.30 against 0.70 / 0.30 / 1.20 / 0.10; every paired
-difference within $\pm0.2$), below habituation alone on surprise ($-1.10$
-\ci{-1.40}{-0.80}). A real judge deciding when not to interrupt, on this
-generator and at this rate of finds, adds nothing to a clock, locally or in
-the whole. The Review stage of the architecture is not refuted as an idea
-for a different regime, but in this one it had its chance and did not take
-it.
+them (one call). If the window is a find (surprise $\ge5$ and coherence
+$\ge5$), the interruption is withheld and the thread is left to run;
+otherwise the neutral subject change is injected as in the clock arm. Two
+hypotheses were written before the run. G1: the judge-gated arm beats the
+clock at 150 on the post-interruption window. G2: it beats it at the
+document level on development and integration, since finds are allowed to
+develop. The gate opened on 40 of 300 reads (13\%), so the arm interrupted a
+little less often than the clock and let 40 good threads run. Neither
+hypothesis is supported (Table~\ref{tab:gen-judge-gated}). On the
+post-interruption windows the gated arm is at 2.70 / 3.03 / 5.92 against the
+clock's 3.02 / 3.68 / 6.12 ($-0.32$ \ci{-0.93}{+0.17} on surprise, $-0.65$
+\ci{-1.47}{+0.03} on connection). At the document level it is where the
+clock is (0.90 / 0.50 / 1.30 / 0.30 against 0.70 / 0.30 / 1.20 / 0.10; every
+paired difference within $\pm0.2$), below habituation alone on surprise
+($-1.10$ \ci{-1.40}{-0.80}). A real judge deciding when not to interrupt,
+on this generator and at this rate of finds, adds nothing to a clock,
+locally or in the whole. The Review stage of the architecture is not refuted
+as an idea for a different regime, but in this one it had its chance and
+did not take it.
 
 \subsection{Coda: the same operator on a problem with a verifier}
 \label{sec:problem}
 
 The document-level result says that the interruption is a variation
-operator, not a builder; the natural next question is whether variation is
+operator, not a builder. The natural next question is whether variation is
 worth anything where value can be measured. As a first probe, run after
 everything above and pre-registered in the notebook, we gave the main
-generator a Python working notebook for online bin packing (the FunSearch
-benchmark: a priority function scores the feasible bins; fewer bins is
-better) whose docstring states the item-size distribution, with first fit
-and best fit as worked examples, and let it write ideas and \texttt{def
-priority} functions for 4,500 tokens; every complete function was extracted
-and scored by the verifier on held-out instances of the same distribution.
-Ten distributions (the cells) $\times$ two random seeds $\times$ four arms:
-plain (habituation, no interruption), a distinct ``new angle'' comment
-injected every 300 tokens (fifteen different ones, so that the self-copy
-cycle cannot form), the same angles on a reset context, and an empty comment
-line every 300 tokens (sham). Pre-registered: B1 (primary), the angle arm
-beats plain on the gain of its best candidate over best fit; B2, it writes
-more distinct valid functions; B3, angle vs reset on gain; B4, sham equals
-plain. Results (Appendix~\ref{app:problem}): B1 is \emph{not} supported
-($-0.006$ \ci{-0.016}{+0.001} of gain, one-sided $p=0.94$); no arm beats
-best fit on held-out instances in more than one of twenty streams, and the
-mean best candidate sits just above it in every arm. B2 is supported: the
-interrupted notebook writes 9.2 valid and 5.1 distinct valid functions per
-stream against 2.0 and 1.8 for the plain one (+3.3 distinct,
-\ci{+0.8}{+6.7}, $p=0.012$); the sham writes fewer than plain and its best
-is worse ($-0.016$, $p=0.016$, B4 refuted in the direction of harm, as in
-the narrative batteries); the reset arm has the most distinct valid
-functions (6.6) and the best candidates (it reaches best-fit quality in 15 of
-20 streams, +0.007 of gain over plain, $p=0.03$; B3: reset above angle on
-gain, $p=0.04$). The picture is the one the document judge had drawn:
-interruption multiplies valid, distinct attempts three- to fourfold and does
+generator a Python working notebook for online bin packing, the FunSearch
+benchmark: a priority function scores the feasible bins, and fewer bins is
+better. The notebook's docstring states the item-size distribution, first
+fit and best fit are given as worked examples, and the model writes ideas
+and \texttt{def priority} functions for 4,500 tokens. Every complete
+function is extracted and scored by the verifier on held-out instances of
+the same distribution. We ran ten distributions (the cells) $\times$ two
+random seeds $\times$ four arms: plain (habituation, no interruption), a
+distinct ``new angle'' comment injected every 300 tokens (fifteen different
+ones, so that the self-copy cycle cannot form), the same angles on a reset
+context, and an empty comment line every 300 tokens (sham). Pre-registered:
+B1 (primary), the angle arm beats plain on the gain of its best candidate
+over best fit; B2, it writes more distinct valid functions; B3, angle vs
+reset on gain; B4, sham equals plain. Results are in
+Appendix~\ref{app:problem}. B1 is \emph{not} supported ($-0.006$
+\ci{-0.016}{+0.001} of gain, one-sided $p=0.94$). No arm beats best fit on
+held-out instances in more than one of twenty streams, and the mean best
+candidate sits just above it in every arm. B2 is supported: the interrupted
+notebook writes 9.2 valid and 5.1 distinct valid functions per stream
+against 2.0 and 1.8 for the plain one (+3.3 distinct, \ci{+0.8}{+6.7},
+$p=0.012$). The sham writes fewer than plain and its best is worse
+($-0.016$, $p=0.016$), so B4 is refuted in the direction of harm, as in the
+narrative batteries. The reset arm has the most distinct valid functions
+(6.6) and the best candidates: it reaches best-fit quality in 15 of 20
+streams, +0.007 of gain over plain ($p=0.03$), and it is above the angle arm
+on gain (B3, $p=0.04$). The picture is the one the document judge had drawn.
+Interruption multiplies valid, distinct attempts three- to fourfold and does
 not raise the ceiling of the best one; in a single stream, variation without
-selection is organized noise. Whether the same operator inside a
-selection loop (a FunSearch-style evolution over the candidates it
-multiplies) turns variation into value is the next experiment, not this one.
-
-\subsection{The interruption must lead away}
-\label{sec:content}
-
-With the same period (150), a neutral subject change and a re-encounter
-stitch that asks the stream to return to its beginning are indistinguishable
-(3.02 / 3.68 / 6.12 vs 2.83 / 3.70 / 5.50; every paired CI covers zero).
-Injecting the \emph{premise itself} (1.16 / 1.11 / 3.91) or a 64-token window
-of the stream's \emph{own past} (1.48 / 1.44 / 3.70) is as bad as not
-interrupting at all: against the neutral change, surprise $-1.86$
-\ci{-2.38}{-1.35} and $-1.54$ \ci{-2.17}{-0.86}, connection $-2.58$ and
-$-2.24$, coherence $-2.21$ and $-2.42$, all $p\le0.006$, $\delta$ $-0.84$ to
-$-1.00$ (Figure~\ref{fig:q2}). Qualitatively, the own-past injection
-reinforces whatever mode the stream is in: an exam-key well was fed its own
-questions back. A return works only as a short stitch that still opens a new
-sentence; a literal return closes the loop.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig9_q2_content.png}
-\caption{Content of the interruption at period 150: neutral change,
-re-encounter stitch, the premise itself, the stream's own past. Injecting a
-return is as bad as not interrupting.}
-\label{fig:q2}
-\end{figure}
-
-\subsection{Timing: salience against the clock}
-\label{sec:timing}
-
-Salience events (jump, crystallization, recurrence; 1--9 per cell, median
-$\approx$5) are the moments the scaffold's monitor picks out of the stream's
-own telemetry. As a policy for \emph{which} windows to judge they beat a
-clock in the first version of this study; the question here is whether they
-are also the right moments to \emph{interrupt}. With the same stitch, timing
-by salience events and timing by a clock of matched frequency (every 900
-tokens) are indistinguishable on generated text: the post-interruption
-windows score 3.04 / 2.92 / 5.75 against 3.05 / 2.71 / 5.72 (paired
-differences $-0.01$ \ci{-0.76}{+0.73} on surprise, $+0.21$ on connection),
-and the windows at least 300 tokens after the last injection, where the
-stream is left alone, 1.82 / 1.80 / 4.20 against 2.08 / 1.71 / 4.73 ($-0.26$
-\ci{-0.78}{+0.21}) (Figure~\ref{fig:q4}, Table~\ref{tab:gen-q4b}). Salience
-monitoring by itself, with nothing injected, leaves the stream where
-habituation alone leaves it (1.65 / 1.30 / 4.63 vs 1.55 / 1.28 / 4.48). The
-first version of this study reported a large stream-level advantage of the
-clock over salience timing (4.7 vs 2.2 on uniform windows); that advantage
-was carried by the injected sentences inside the clock arm's windows, of
-which it has more. What remains is a null at the present resolution:
-salience is a good reader of the stream and, as a metronome, neither better
-nor worse than a clock ticking at the same rate. Since a clock is free and
-regular, the clock is what we recommend.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig9_q4_timing.png}
-\caption{When to interrupt: the re-encounter stitch on the clock (150 and
-900), the neutral change every 900, the stitch on salience events, and
-salience only (nothing injected). Post-interruption windows; one point per
-premise.}
-\label{fig:q4}
-\end{figure}
-
-\subsection{Period and decay}
-\label{sec:period}
-
-The first version of this study reported that the yield of an interruption
-grew with the length of the thread it broke (5.3--5.9 after 300--900-token
-threads against 3.1 after 150) and decayed over the next few hundred tokens,
-and named 300 tokens as the best rhythm. With the injected sentence excluded
-from the judged window, that finding largely disappears
-(Figure~\ref{fig:q5}). The post-interruption window (32--128 generated tokens
-after the injection) scores 3.02 at period 150, 2.87 at 300, 2.88 at 600 and
-3.18 at 900 on surprise, every paired difference against 150 covering zero;
-connection is highest at the shortest period on all windows (3.68 vs 2.38,
-2.02 and 2.22; $\Delta$ $-1.30$ to $-1.67$, $p\le0.008$), a difference that
-is self-copy (Table~\ref{tab:gen-self}: on fresh windows connection is 2.0
-to 2.3 at every period), and coherence rises a little with the period (6.12
-$\rightarrow$ 6.43, 6.25, 6.78). Deeper into a segment the
-surprise of generated text holds for a few hundred tokens and then sinks
-(period 900: 3.18, 2.67, 3.17, 2.77, 2.23 and 1.80 at 32, 160, 300, 450, 600
-and 750 tokens after the injection, Figure~\ref{fig:q5b}), toward the level
-of habituation alone (1.55). The stream estimate (offset means weighted by
-the stretch of the segment they represent) is therefore 3.02 / 3.68 at 150,
-2.76 / 2.30 at 300, 2.84 / 2.12 at 600 and 2.64 / 2.03 at 900
-(Table~\ref{tab:gen-q5b}). Among the tested periods, then, no period is
-better than another on fresh generated text, and what the longer periods buy
-is a little coherence and fewer replays. A
-period of 75 cannot be measured under this protocol (no 96-token window of
-generated text fits between two injections); under the event protocol its
-stream was dead (0.88), which is the one part of the earlier claim that
-survives: a thread needs some tens of tokens to exist before it can be
-broken. The larger numbers of the first version were, in good part, the judge
-reading the injected sentence. What survives is the direction of every
-effect and an operating range: a break every 150--300 tokens.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\linewidth]{fig9_q5_period.png}
-\caption{Period of the neutral change: the post-interruption window (32--128
-generated tokens after the injection) at periods 150, 300, 600 and 900; one
-point per premise.}
-\label{fig:q5}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.7\linewidth]{fig9_q5b_decay.png}
-\caption{Decay: cell-mean surprise of generated-only windows by tokens since
-the injection, per period.}
-\label{fig:q5b}
-\end{figure}
+selection is organized noise. Whether the same operator inside a selection
+loop, a FunSearch-style evolution over the candidates it multiplies, turns
+variation into value is the next experiment, not this one.
 
 \subsection{Three generator models from two families}
 \label{sec:families}
 
 The ladder replicates on Qwen3-8B-Base and OLMo-2-13B (Table~\ref{tab:ladder},
-Figure~\ref{fig:families}). On the 8B: 0.43 $\rightarrow$ 1.37 $\rightarrow$
-2.76 (interruption over habituation: surprise +1.39 \ci{+0.72}{+2.07},
-$p=0.008$; connection +2.17 \ci{+1.53}{+2.83}, $p=0.002$), scaffold 2.70 /
-2.35. On OLMo, whose bare stream wanders across web genres rather than
-locking into literal orbits and is therefore less dead (1.28), the
-interruption over habituation gains connection (+1.61 \ci{+0.83}{+2.35},
-$p=0.004$) and only some surprise (+0.82 \ci{-0.21}{+1.81}, $p=0.17$), and
-costs nothing detectable in coherence. Self-copy is present there too (78\%
-of the interruption arm's windows on the 8B, 45\% on OLMo,
-Table~\ref{tab:gen-self-2}); on fresh windows the interruption adds +0.95
-(8B) and +1.0 (OLMo) surprise over habituation. On OLMo the full scaffold is
-the best
-arm on surprise (3.60, +1.64 over habituation, $p=0.04$) and coherence (6.23,
-+2.24, $p=0.02$), with less connection than the plain interruption (2.23 vs
-2.87). What the scaffold does for OLMo is what a reset does: pull the stream
-out of a web-boilerplate well, the mechanism the calibration probes had
-suggested; on a generator whose well is boilerplate, the reset earns its
-keep, and battery~3 says it costs nothing on the one that drifts in prose.
-Quantization is not what carries any of this: the same ladder on the
-unquantized (bf16) Qwen3-8B-Base gives 0.60 $\rightarrow$ 1.33 $\rightarrow$
-2.70 on surprise and 0.47 $\rightarrow$ 1.06 $\rightarrow$ 3.25 on connection
-(interruption over habituation +1.37 \ci{+0.26}{+2.42} and +2.19
-\ci{+1.27}{+3.10}), against 0.43 $\rightarrow$ 1.37 $\rightarrow$ 2.76 and
-0.40 $\rightarrow$ 1.00 $\rightarrow$ 3.17 at 8 bits.
+Figure~\ref{fig:families}). On the 8B it reads 0.43, 1.37, 2.76 on surprise
+(interruption over habituation +1.39 \ci{+0.72}{+2.07}, $p=0.008$;
+connection +2.17 \ci{+1.53}{+2.83}, $p=0.002$), with the scaffold at 2.70 /
+2.35. OLMo's bare stream wanders across web genres rather than locking into
+literal loops, and is therefore less dead (1.28). There the interruption over
+habituation gains connection (+1.61 \ci{+0.83}{+2.35}, $p=0.004$) and only
+some surprise (+0.82 \ci{-0.21}{+1.81}, $p=0.17$), and costs nothing
+detectable in coherence. Self-copy is present there too: 78\% of the
+interruption arm's windows on the 8B and 45\% on OLMo
+(Table~\ref{tab:gen-self-2}); on fresh windows the interruption adds +0.95
+(8B) and +1.0 (OLMo) of surprise over habituation. On OLMo the full scaffold
+is the best arm on surprise (3.60, +1.64 over habituation, $p=0.04$) and
+coherence (6.23, +2.24, $p=0.02$), with less connection than the plain
+interruption (2.23 vs 2.87). What the scaffold does for OLMo is what a reset
+does: it pulls the stream out of a web-boilerplate mode, the mechanism the
+calibration probes had suggested. On a generator whose degeneration mode is
+boilerplate the reset earns its keep, and battery~3 says it costs nothing on
+the one that drifts in prose. Quantization carries none of this. The same
+ladder on the unquantized (bf16) Qwen3-8B-Base gives 0.60, 1.33, 2.70 on
+surprise and 0.47, 1.06, 3.25 on connection (interruption over habituation
++1.37 \ci{+0.26}{+2.42} and +2.19 \ci{+1.27}{+3.10}), against 0.43, 1.37,
+2.76 and 0.40, 1.00, 3.17 at 8 bits.
 
-\paragraph{A second genre.} All premises above are narrative. Ten
-expository openings written for the purpose (\emph{``The history of the
-umbrella is mostly a history of people refusing to carry one.''},
-\emph{``Salt was once the reason cities existed where they do.''}; the full
-list is in the repository), run on the main generator at period 300, give
-the same picture: habituation alone 1.35 / 0.95 / 4.47, the subject change
-on the preserved context 2.93 / 2.40 / 6.53 (+1.58 \ci{+1.17}{+2.00} on
-surprise, +1.45 on connection, $p=0.002$, every premise), on the reset
-context 3.00 / 2.48 / 6.67 (+1.65, +1.53); here the two contexts are
+\paragraph{A second genre.} All premises above are narrative. Ten expository
+openings written for the purpose (\emph{``The history of the umbrella is
+mostly a history of people refusing to carry one.''}, \emph{``Salt was once
+the reason cities existed where they do.''}; the full list is in the
+repository), run on the main generator at period 300, give the same
+picture. Habituation alone reads 1.35 / 0.95 / 4.47; the subject change on
+the preserved context 2.93 / 2.40 / 6.53 (+1.58 \ci{+1.17}{+2.00} on
+surprise, +1.45 on connection, $p=0.002$, every premise); on the reset
+context 3.00 / 2.48 / 6.67 (+1.65, +1.53). Here the two contexts are
 indistinguishable (Table~\ref{tab:gen-second}).
 
 \paragraph{A post-trained model.} As one step outside the scope decision, we
@@ -521,13 +527,13 @@ ran the same ladder on the post-trained Qwen3-8B (the released chat model,
 8-bit), continued raw, without a chat template, from the same premises. Its
 degeneration modes are its own: multiple-choice exam items with answer keys,
 and a chain-of-thought voice that treats the premise as a riddle
-(\emph{``Wait, let me think of a classic riddle\ldots''}). The ladder holds at
-a lower level: 0.60 $\rightarrow$ 0.77 $\rightarrow$ 1.90 on surprise and 0.42
-$\rightarrow$ 0.75 $\rightarrow$ 2.28 on connection; habituation does less for
-it than for the base models (+0.17 on surprise) and the interruption still
-adds +1.13 \ci{+0.58}{+1.78} ($p=0.002$) and +1.53 \ci{+0.87}{+2.32}
-($p=0.004$). Whether the operators help such a model when it is used as
-intended, in a dialogue, is not tested here.
+(\emph{``Wait, let me think of a classic riddle\ldots''}). The ladder holds
+at a lower level, 0.60, 0.77, 1.90 on surprise and 0.42, 0.75, 2.28 on
+connection. Habituation does less for it than for the base models (+0.17 on
+surprise), and the interruption still adds +1.13 \ci{+0.58}{+1.78}
+($p=0.002$) and +1.53 \ci{+0.87}{+2.32} ($p=0.004$). Whether the operators
+help such a model when it is used as intended, in a dialogue, is not tested
+here.
 
 \begin{figure}[t]
 \centering
