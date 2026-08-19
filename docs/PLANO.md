@@ -1280,6 +1280,27 @@ dentro de um loop de seleção (evolução tipo FunSearch sobre os candidatos
 que ele multiplica). Tudo no paper (subseção "Coda", apêndice, resumo,
 discussão, conclusão).
 
+**Retorno do pedido de endosso (2026-08-19, tarde)**: o primeiro contato
+(autor de *Rating Roulette*) não pôde endossar (só 2 papers em cs na janela
+de 5 anos), mas leu o paper e apontou: (1) "Design" em Limitações ainda
+chamava a réplica confirmatória de "próximo passo óbvio" e dizia "not a
+preregistered confirmation" — contradição com §4.4/resumo/conclusão →
+corrigido (baterias 1–3 exploratórias; a réplica é a exceção pré-registrada,
+assim como o portão e o verificador); (2) resumo afirmava "a bare paragraph
+break does nothing" mas H2 só vale em todas as janelas (+0,91, p = 0,02) e
+não nas frescas (+0,71, p = 0,11) → "adds nothing detectable on fresh text";
+(3) escrita: 33 palavras/frase em média, 1/3 > 40, 188 ponto-e-vírgulas;
+"scaffold/battery/ladder/recipe/well" sem definição; "What carries it is…"
+~17×; metáforas (café, poço); conclusão/limitações empilhando "not this, not
+that"; contribuições com 9 referências adiante. **Passada de edição completa
+no paper inteiro** (resumo, intro com parágrafo "Terms", método, loop
+reordenado, instrumento, rede, related, sampler/prompt, discussão,
+conclusão, limitações, apêndice): média 37 → 24 palavras/frase, >40 palavras
+36% → 10%, ponto-e-vírgulas 201 → 119; termos definidos; metáforas fora;
+"recipe"/"well" fora. Paper curto idem no resumo/fecho. Pacote arXiv
+regenerado; repositório público atualizado. Endosso ainda pendente (outros
+e-mails enviados).
+
 **Reenquadramento A (2026-08-19, manhã)**: resumo, introdução (contribuições
 na ordem: lição de avaliação → operador → negativos → sampler/prompt/rede) e
 conclusão reescritos; sampler/prompt movidos para apêndice; README. Título
