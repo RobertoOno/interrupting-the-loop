@@ -45,27 +45,16 @@ with the median as the score; the premise, not the window, as the unit of
 inference in the loop experiments; and, where a public training corpus
 exists, verbatim novelty computed against it.
 
-\paragraph{The sampler.} We build the strongest version of the ``fertile
-error'' idea we could: an entropy-banded anti-probable decoder that, at the
-steps where the model is genuinely undecided, re-scores the plausible
-candidates by their semantic distance from the recent context, with a
-coherence floor that never admits an implausible token. It works exactly as
-far as the surface: 4-gram novelty against the OLMo-2 training corpus roughly
-doubles and verbatim 8+-word training blocks fall from 0.80 to 0.20 of
-generations, at a small perplexity cost. But inside a reverie loop the same
-push shows no detectable difference from plain sampling in judged surprise,
-connection or novel delta, and in verified search (bin packing, two models,
-3,200 verified heuristics) it does not separate from plain sampling either.
-Surface novelty is real and, at the present resolution, does not climb: a
-mechanistic counterpart of the finding that most $n$-gram-novel expressions
-are not judged creative \citep{saakyan2026death}.
-
-\paragraph{The prompt.} We build inputs that sit far from any human prompt
-(distant concept pairs, composed improbable contexts; distance measured
-against 10,000 real prompts) and let a strong model develop them. A typical
-request matches or beats every improbable arm; input improbability does not
-correlate with judged novelty. We found no benefit from prompt
-improbability under the tested operationalizations.
+\paragraph{The sampler and the prompt.} We built the strongest version of
+the ``fertile error'' idea we could, an entropy-banded anti-probable decoder
+with a coherence floor, and it works exactly as far as the surface: 4-gram
+novelty against the OLMo-2 training corpus roughly doubles and verbatim
+training blocks fall fourfold, while inside a generation loop and in verified
+search it shows no detectable difference from plain sampling at the level of
+ideas. We built inputs far from any human prompt and found no benefit from
+their improbability under the operationalizations we tested. Both studies
+are reported in Appendix~\ref{sec:sampler}; they are why the program turned
+to the loop.
 
 \paragraph{The loop.} Left to continue a premise with the end-of-text token
 masked, a base model degenerates within a few hundred tokens into
