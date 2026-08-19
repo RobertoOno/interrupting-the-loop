@@ -82,8 +82,19 @@ nunca passou) → teste–reteste do instrumento (91% medianas iguais).
 `scripts/blind_pack3.py`/`blind_score.py`, `scripts/after_confirm.sh`
 (escadas noturnas: 8B bf16 e 8B pós-treinado).
 
-**Em aberto**: inserir a confirmatória e as escadas noturnas no paper;
-rodada 2 humana (Roberto contrata 5 avaliadoras; pacote pronto); título
-final; migração para repositório público (filter-repo, ver PLANO); NOTEBOOK.md
-(tradução do PLANO); venue (ICLR 2027 25/09; NeurIPS workshops 29/08; ICCC'27;
-arXiv).
+**Noite de 18→19/08 (tudo no paper)**: confirmatória (H1 confirmada, H3
+refutada), **auto-cópia** (rotação fixa de 4 frases → o modelo replica
+segmentos anteriores fora da vista do juiz; estimativas "só-frescas" são as
+primárias: interrupção +1,2–1,4 surpresa, +0,75 conexão), nível de documento
+(ninguém constrói um todo; reset é o menos ruim), 8B bf16 ≈ 8-bit, 8B
+pós-treinado (escada mais baixa), reset/preservado no 8B e OLMo, segundo
+gênero, portão de juiz (Review real: não acrescenta ao relógio). Scripts
+novos: `selfcopy.py`, `judge_document.py`, `judge_agreement.py --protocol
+gen`, controle `judge_gate`, baterias `confirm/genre/reset_ladder/ladder3/gate`.
+
+**Em aberto**: rodada 2 humana (Roberto contrata 5 avaliadoras;
+`docs/blind/pack_v3.html`, só janelas frescas); título final (decisão do
+Roberto); migração para repositório público (filter-repo, ver PLANO);
+NOTEBOOK.md (tradução do PLANO); venue (ICLR 2027 25/09; NeurIPS workshops
+29/08; ICCC'27; arXiv); paper seguinte: loop interrompido sobre problema com
+verificador (item 8).
