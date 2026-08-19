@@ -1193,6 +1193,20 @@ cada um julgado no protocolo `gen` ao terminar (`after_confirm.sh`,
 condições); pacote humano v3 pronto (`docs/blind/pack_v3.html`, 56 janelas, 8
 condições × 7, células ao acaso, 3 dimensões, guia embutido).
 
+**Bateria 5, portão de juiz (pré-registro, 2026-08-18 ~21:30, antes de rodar)**:
+o *Review* do DREAM testado com um portão que abre de fato: braço
+`judge_gate150` (30B, 10 premissas originais, habituação, contexto
+preservado): a cada 150 tokens, antes do reseed agendado, o Opus (1 chamada)
+lê os últimos 128 tokens gerados contra os 600 anteriores; se surpresa ≥ 5 e
+coerência ≥ 5 ("achado"), **não** interrompe (deixa o fio correr); senão,
+injeta a mudança de assunto neutra. Compara com `bare_reseed` (relógio 150) e
+`clock300`. Hipóteses (unilaterais, α = 0,05, unidade = célula): G1: janela
+pós-interrupção (protocolo `gen`) do portão ≥ relógio 150 em surpresa; G2:
+no nível do documento, portão > relógio 150 em desenvolvimento e integração
+(deixar o achado correr constrói mais). Se G1/G2 falham, o *Review* não
+acrescenta ao relógio nem quando o portão abre. Custo: ~300 chamadas Opus.
+Roda após o programa da noite (`overnight3`).
+
 **Bateria 4, confirmatória (pré-registro, 2026-08-18 ~17:10, antes de
 qualquer resultado da bateria 3 ou do rejulgamento `gen`)**: dez premissas
 NOVAS (`NEW_SEEDS` em `scripts/dream_battery2.py`, escritas agora, nunca
