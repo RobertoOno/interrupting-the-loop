@@ -2,132 +2,133 @@
 
 Ask a language model for something new and you will usually get something
 fluent, plausible and familiar. Three places are commonly blamed, and three
-places are commonly optimized: the \emph{sampler} (the tail of the next-token
-distribution, tamed by nucleus, typical or min-$p$ truncation, or courted by
-higher temperature), the \emph{prompt} (the input, engineered to steer the
-model somewhere it would not go on its own), and, less often, the
-\emph{loop}: what happens when a model's output becomes its own next input
-and nobody asks anything.
+places are commonly optimized. The first is the \emph{sampler}: the tail of
+the next-token distribution, tamed by nucleus, typical or min-$p$ truncation,
+or courted by higher temperature. The second is the \emph{prompt}: the
+input, engineered to steer the model somewhere it would not go on its own.
+The third, less often, is the \emph{loop}: what happens when a model's output
+becomes its own next input and nobody asks anything.
 
 The loop is where human novelty is usually placed. Insight rarely arrives as
-the answer to a strange question; it arises inside a closed circuit of thought
-feeding on its own output, during incubation, mind-wandering and sleep, when
-a spontaneously generated deviation survives critical review and is linked
-back to what came before. The neuroscience of creative cognition
-describes three coupled systems: a default-mode network that generates,
-an executive network that evaluates, and a salience network that decides
-what deserves attention; more creative people show more coupling between the
+the answer to a strange question. It arises inside a closed circuit of
+thought feeding on its own output, during incubation, mind-wandering and
+sleep, when a spontaneously generated deviation survives critical review and
+is linked back to what came before. The neuroscience of creative cognition
+describes three coupled systems: a default-mode network that generates, an
+executive network that evaluates, and a salience network that decides what
+deserves attention. More creative people show more coupling between the
 first two, with salience regions coupling first
 \citep{beaty2016dynamics,beaty2018robust}. Creativity itself is often
 characterized as connecting semantically distant concepts
 \citep{kenett2018semantic}, and incubation, leaving a problem and coming back
 to it, has a measured effect on solving it \citep{sio2009incubation}.
 
-This paper asks, with controls, where the novelty a base language model can
-produce with no task comes from, and which of the operations usually credited
-for it survive measurement. The outcome we measure is narrow and we name it
-as such: \emph{judged narrative surprise, connection and coherence} on short
-windows of forced open-ended continuation, as read by an LLM judge that is
-itself measured (repeatability, a second judge family, human readers). It is
-one ingredient of creativity, the appropriately unexpected turn, and not
-creativity; the title names the question the program set out with, and the
-results answer this narrower one. Along the way the study became, in part,
-a study of its own instrument: an LLM judge reading windows of a long stream
-misses things that change the answer, and the corrections we had to make
-are, we think, of use beyond this paper. We test the three places in turn. They are three related studies (different
-generators, tasks and sample sizes, joined by one question and one measurement
-philosophy), not a factorial decomposition of sampler, prompt and loop under
-common conditions; the loop study is the paper's contribution and the other
-two are its motivation. One measurement stack is shared by every experiment: base models run locally at
-8 bits (a scope decision; Section~\ref{sec:method}); LLM judges from a
-different model family than the generator, sampled $k$ times per window
-with the median as the score; the premise, not the window, as the unit of
-inference in the loop experiments; and, where a public training corpus
-exists, verbatim novelty computed against it.
+This paper asks, with controls, where the novelty a base language model
+produces with no task comes from, and which of the operations usually
+credited for it survive measurement. The outcome we measure is narrow and we
+name it as such: \emph{judged narrative surprise, connection and coherence}
+on short windows of forced open-ended continuation, read by an LLM judge
+that is itself measured for repeatability, against a second judge family
+and against human readers. This is one ingredient of creativity, the
+appropriately unexpected turn, and not creativity. The title names the
+question the program set out with; the results answer the narrower one.
+Along the way the study became, in part, a study of its own instrument. An
+LLM judge reading windows of a long stream misses things that change the
+answer, and the corrections we had to make are, we think, of use beyond
+this paper.
+
+We test the three places in turn. They are three related studies, with
+different generators, tasks and sample sizes, joined by one question and
+one measurement philosophy. They are not a factorial decomposition of
+sampler, prompt and loop under common conditions; the loop study is the
+paper's contribution and the other two are its motivation. One measurement
+stack is shared by every experiment: base models run locally at 8 bits (a
+scope decision, Section~\ref{sec:method}); LLM judges from a different
+model family than the generator, sampled $k$ times per window with the
+median as the score; the premise, not the window, as the unit of inference
+in the loop experiments; and, where a public training corpus exists,
+verbatim novelty computed against it.
+
+\paragraph{Terms.} A few words recur and are defined here. A \emph{cell} is
+one premise run under one condition. A \emph{battery} is a set of conditions
+run on the same ten premises. The \emph{scaffold} is the full architecture
+we started from (a salience monitor, an in-loop judge, forgetting,
+reseeding, re-encounter), described in Section~\ref{sec:loop-method}. The
+\emph{ladder} is the sequence of four arms that the paper keeps returning
+to: bare generation, bare plus habituation, habituation plus interruption,
+and the scaffold. A \emph{degeneration mode} is the repetitive or
+corpus-like state a base model falls into under forced continuation
+(literal loops, website footers, exam keys, translation tables).
 
 \paragraph{The sampler and the prompt.} We built the strongest version of
-the ``fertile error'' idea we could, an entropy-banded anti-probable decoder
-with a coherence floor, and it works exactly as far as the surface: 4-gram
+the ``fertile error'' idea we could: an entropy-banded anti-probable decoder
+with a coherence floor. It works exactly as far as the surface. Four-gram
 novelty against the OLMo-2 training corpus roughly doubles and verbatim
-training blocks fall fourfold, while inside a generation loop and in verified
-search it shows no detectable difference from plain sampling at the level of
-ideas. We built inputs far from any human prompt and found no benefit from
-their improbability under the operationalizations we tested. Both studies
-are reported in Appendix~\ref{sec:sampler}; they are why the program turned
-to the loop.
+training blocks fall fourfold, while inside a generation loop and in
+verified search the decoder shows no detectable difference from plain
+sampling at the level of ideas. We also built inputs far from any human
+prompt and found no benefit from their improbability under the
+operationalizations we tested. Both studies are reported in
+Appendix~\ref{sec:sampler}; they are why the program turned to the loop.
 
 \paragraph{The loop.} Left to continue a premise with the end-of-text token
-masked, a base model degenerates within a few hundred tokens into
-repetitive or corpus-like modes (literal orbits, website footers, exam keys,
-translation tables) and stays there. A closed reverie loop built on the
-architecture of spontaneous cognition (a salience monitor over the stream's
-own telemetry gating review, selective forgetting, reseeding, re-encounter
-with the premise) revives it. Then we take the loop apart, in four
-batteries and 24 conditions, and find that most of its effect lives in two
-operations, neither of them the elaborate ones: \emph{habituation}, a
-windowed repetition penalty that keeps the loop from eating its literal
-past, and \emph{interruption}, a new starting sentence injected every few
-hundred tokens over the preserved context. It is the machine equivalent of
-getting up for a coffee: leaving a thread one has been developing and being
-made to start somewhere else. We show what a good
-interruption is made of: it must lead away (injecting the premise or the
-stream's own past is as bad as not interrupting), a boundary without a new
-subject does nothing and a boundary that asks for continuity hurts, the new
-subject carries most of the effect and habituation adds to it, it must be
-new each time (a fixed rotation of four sentences makes the model replay its
-own earlier segments, which a window judge cannot see), and it works whether
-the earlier text is kept in the model's context or dropped (dropped scores
-higher, in part because it cannot replay), a clock is as good a
-metronome as the salience monitor at the same rate, and no period beats a
-break every 150--300 tokens on the generated text itself. We also show what
-the interruption does not do: read as whole documents, none of these streams
+masked, a base model falls within a few hundred tokens into a degeneration
+mode and stays there. The scaffold revives it. We then take the scaffold
+apart, in four batteries and 24 conditions, and find that most of its effect
+lives in two operations, neither of them the elaborate ones:
+\emph{habituation}, a windowed repetition penalty that keeps the loop from
+repeating its literal past, and \emph{interruption}, a new starting
+sentence injected every few hundred tokens. The interruption is the larger
+of the two. We then ask what a good interruption is made of. It must lead
+away: injecting the premise or the stream's own past is as bad as not
+interrupting, a boundary without a new subject adds nothing detectable, and
+a boundary that asks for continuity hurts. It must be new each time: a fixed
+rotation of four sentences makes the model replay its own earlier segments,
+which a window judge cannot see. It works whether the earlier text is kept
+in the model's context or dropped, and dropped scores higher, in part
+because the model cannot replay. A clock is as good a metronome as the
+salience monitor at the same rate, and no period beats a break every
+150--300 tokens on the generated text itself. We also show what the
+interruption does not do. Read as whole documents, none of these streams
 builds an integrated or developing text, and the interrupted stream reads as
-a sequence of restarts; the operator acts on windows, not on wholes. The
-ladder replicates on three generator models from two families and under a
-second judge family, its ordering is reproduced by independent human
-readers, and a pre-registered replication on ten new premises confirms the
-primary contrast.
-Finally we look inside the network, descriptively: residual-stream geometry
-at 13 sampled layers shows that bare generation moves least at every sampled
-layer, that judged surprise co-varies with surface departure over deep
-continuity, and that the interruption that scores best barely moves the deep
-state, whereas the scaffold's forgetting reseed moves it toward the
-beginning.
+a sequence of restarts; the operator acts on windows, not on wholes. On a
+problem with a verifier it multiplies valid, distinct candidates without
+improving the best of them. The ladder replicates on three generator models
+from two families and under a second judge family, its ordering is
+reproduced by independent human readers, and a pre-registered replication on
+ten new premises confirms the primary contrast. Finally we look inside the
+network, descriptively. Residual-stream geometry at 13 sampled layers shows
+that bare generation moves least at every sampled layer, that judged
+surprise co-varies with surface departure over deep continuity, and that
+the interruption that scores best barely moves the deep state.
 
 \paragraph{Contributions.} In the order we now think they matter:
 \begin{enumerate}[leftmargin=1.5em,itemsep=0.1em]
 \item \textbf{What an LLM judge cannot see in long-form generation.} Three
-  artefacts that inflated the first version of this study and that any
+  artefacts that inflated the first version of this study, and that any
   evaluation of long generation with a windowed LLM judge is exposed to: the
   judge reading text the experimenter injected as the model's own; the model
-  replaying its own earlier segments from beyond the judge's horizon
-  (self-copy), which the judge scores as surprise and connection; and local
-  gains that do not compose into a whole. And the protocol that corrects
-  them: generated-only windows, fresh-only estimates, a document-level
-  judgment, the premise as the unit, a pipeline test--retest, a second judge
-  family and human readers (Sections~\ref{sec:method}, \ref{sec:ablation},
-  \ref{sec:document}, \ref{sec:instrument}).
-\item \textbf{A controlled characterization of the interruption.} Taking a
-  cognitively inspired loop apart over 24 conditions, a factorial and
-  control battery showing which part of an interruption carries the effect
-  (the new subject; not the boundary, not the kept context), its content,
-  timing and period, replications on three base models from two families, a
-  post-trained model, an unquantized model and a second genre, and a
-  pre-registered confirmatory replication on new premises
-  (Section~\ref{sec:loop}).
-\item \textbf{Negative results on the architecture, and a first probe with
-  a verifier.} The salience monitor as a trigger, the in-loop judge, the
+  replaying its own earlier segments from beyond the judge's horizon, which
+  the judge scores as surprise and connection; and local gains that do not
+  compose into a whole. With them, the protocol that corrects them:
+  generated-only windows, fresh-only estimates, a document-level judgment,
+  the premise as the unit, a pipeline test--retest, a second judge family
+  and human readers.
+\item \textbf{A controlled characterization of the interruption.} Which part
+  of an interruption carries the effect (the new subject; not the boundary,
+  not the kept context), its content, timing and period, replications on
+  three base models from two families, a post-trained model, an unquantized
+  model and a second genre, and a pre-registered confirmatory replication on
+  new premises.
+\item \textbf{Negative results on the architecture, and a first probe with a
+  verifier.} The salience monitor as a trigger, the in-loop judge, the
   forgetting reseed, memory across interruptions, the judge-gated Review run
   with a gate that opens, and accumulation over the document: none adds to
-  the minimal operator, and the architecture's hypothesis about building on
-  finds is not supported in this regime; on a problem with a verifier the
-  operator multiplies valid candidates and not the quality of the best
-  (Sections~\ref{sec:loop}, \ref{sec:gate}, \ref{sec:document},
-  \ref{sec:problem}).
+  the minimal operator. On a problem with a verifier the operator
+  multiplies valid candidates and not the quality of the best.
 \item A calibrated anti-probable decoder whose novelty is real at the surface
   and undetectable at the level of ideas, a null on improbable inputs, and a
-  descriptive residual-stream analysis (Sections~\ref{sec:sampler},
-  \ref{sec:prompt}, \ref{sec:network}).
+  descriptive residual-stream analysis.
 \end{enumerate}
 Code, per-run data, judgments, human-rating packs and the dated laboratory
 notebook are released with the paper.
