@@ -1,0 +1,22 @@
+ARXIV SUBMISSION METADATA (prepared 2026-08-19)
+
+Title: Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models
+
+Authors: Roberto I. Ono Filho (Independent researcher) -- ORCID 0009-0006-8650-629X
+
+Abstract:
+Where does the novelty a base language model can produce with no task come from, and what can an LLM judge of a long stream actually see? We dismantle a cognitively inspired generation loop over 24 conditions on three base models and find that most of its effect lives in one operation: a new subject injected every few hundred tokens (an interruption) into a stream whose literal repetition is damped (habituation). On windows of generated text only, with the premise as the unit (n=10) and a judge measured for repeatability, against a second judge family and against human readers, the interruption raises judged surprise by 1.2 to 1.4 points and connection by 0.8 over habituation alone; a bare paragraph break does nothing, a connective that asks for continuity hurts, a reset context does at least as well as a kept one, and a pre-registered replication on new premises confirms the primary contrast. Three things the window judge could not see changed the first version of this study and are, we think, of general use: the judge scores the experimenter's injected sentence as the model's own; a fixed rotation of injected sentences makes the model replay its earlier segments from beyond the judge's horizon, which the judge scores as surprise and connection (65-80% of post-interruption windows at periods 150-300); and the local gains do not compose, since no arm produces an integrated document. The salience monitor, the in-loop judge, memory across interruptions and a judge-gated Review run with a gate that opens add nothing. We report an evaluation protocol for long generation and a controlled characterization of a simple intervention; not a mechanism of creativity.
+
+Comments: 46 pages including appendix; code, data pipeline and lab notebook at https://github.com/RobertoOno/interrupting-the-loop
+
+Primary category: cs.CL (Computation and Language)
+Cross-lists: cs.AI, cs.LG
+
+License: CC BY 4.0 (recommended) or arXiv non-exclusive license
+
+Source bundle: paper/arxiv_bundle.tar.gz (built by scripts/make_arxiv_bundle.sh; main.tex + sections/ + figures/ + references.bib + main.bbl; pdflatex-compatible; arXiv will regenerate the PDF)
+
+Checklist before upload:
+- rebuild the bundle after any last edit (scripts/make_arxiv_bundle.sh)
+- the \todo macro is defined but no \todo remains in the text
+- date: \date{Preprint, \today} (arXiv will show its own dates)
