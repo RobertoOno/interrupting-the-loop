@@ -328,6 +328,44 @@ the whole. The Review stage of the architecture is not refuted as an idea
 for a different regime, but in this one it had its chance and did not take
 it.
 
+\subsection{Coda: the same operator on a problem with a verifier}
+\label{sec:problem}
+
+The document-level result says that the interruption is a variation
+operator, not a builder; the natural next question is whether variation is
+worth anything where value can be measured. As a first probe, run after
+everything above and pre-registered in the notebook, we gave the main
+generator a Python working notebook for online bin packing (the FunSearch
+benchmark: a priority function scores the feasible bins; fewer bins is
+better) whose docstring states the item-size distribution, with first fit
+and best fit as worked examples, and let it write ideas and \texttt{def
+priority} functions for 4,500 tokens; every complete function was extracted
+and scored by the verifier on held-out instances of the same distribution.
+Ten distributions (the cells) $\times$ two random seeds $\times$ four arms:
+plain (habituation, no interruption), a distinct ``new angle'' comment
+injected every 300 tokens (fifteen different ones, so that the self-copy
+cycle cannot form), the same angles on a reset context, and an empty comment
+line every 300 tokens (sham). Pre-registered: B1 (primary), the angle arm
+beats plain on the gain of its best candidate over best fit; B2, it writes
+more distinct valid functions; B3, angle vs reset on gain; B4, sham equals
+plain. Results (Appendix~\ref{app:problem}): B1 is \emph{not} supported
+($-0.006$ \ci{-0.016}{+0.001} of gain, one-sided $p=0.94$); no arm beats
+best fit on held-out instances in more than one of twenty streams, and the
+mean best candidate sits just above it in every arm. B2 is supported: the
+interrupted notebook writes 9.2 valid and 5.1 distinct valid functions per
+stream against 2.0 and 1.8 for the plain one (+3.3 distinct,
+\ci{+0.8}{+6.7}, $p=0.012$); the sham writes fewer than plain and its best
+is worse ($-0.016$, $p=0.016$, B4 refuted in the direction of harm, as in
+the narrative batteries); the reset arm has the most distinct valid
+functions (6.6) and the best candidates (it reaches best-fit quality in 15 of
+20 streams, +0.007 of gain over plain, $p=0.03$; B3: reset above angle on
+gain, $p=0.04$). The picture is the one the document judge had drawn:
+interruption multiplies valid, distinct attempts three- to fourfold and does
+not raise the ceiling of the best one; in a single stream, variation without
+selection is organized noise. Whether the same operator inside a
+selection loop (a FunSearch-style evolution over the candidates it
+multiplies) turns variation into value is the next experiment, not this one.
+
 \subsection{The interruption must lead away}
 \label{sec:content}
 
