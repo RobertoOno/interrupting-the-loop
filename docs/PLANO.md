@@ -1215,6 +1215,17 @@ nova a cada quebra, ou reset. O paper passa a reportar os dois números e
 trata os "só-frescos" como estimativa primária. Pacote humano v3 refeito com
 `--fresh-only` (56 janelas, 8 condições × 7).
 
+**Confirmatória julgada (2026-08-18, 22:15)**: H1 confirmada (+1,48 [+0,72,
++2,05], p = 0,003 unilateral; só-frescas +0,82, p = 0,04); H2 confirmada no
+total (+0,91, p = 0,02), não nas frescas (+0,71, p = 0,11); **H3 refutada**
+(reset > preservado em conexão: −0,55 [−1,03, −0,03]; frescas −1,02); H4 sem
+suporte (+0,51 [−0,02, +1,03], p = 0,12). Reset vs habituação +2,78 / +2,23.
+Nível de documento nas premissas novas: reset > preservado nas 4 dimensões (p
+≤ 0,03), preservado ≤ habituação. Kimi K2.6 em 160 janelas só-gerado
+(aleatórias, 8 condições): ρ 0,75 / 0,80 / 0,65; ordem reproduzida. Tudo no
+paper (subseção "A confirmatory replication on new premises", resumo,
+introdução, conclusão, instrumento).
+
 **Checklist da manhã (2026-08-19)** — se a sessão morrer, o próximo passo é:
 (1) `python scripts/selfcopy.py runs/dream_fam8b_bf16 runs/dream_instruct8b
 runs/dream_fam8b_reset runs/dream_genre runs/dream_gate` e `... runs/dream_famolmo_reset
