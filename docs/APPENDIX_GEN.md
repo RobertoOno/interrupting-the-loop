@@ -423,20 +423,43 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| bare | 10 | 0.60 [0.42, 0.85] | 0.42 [0.23, 0.60] | 3.58 [2.88, 4.23] |
-| bare + habituation | 10 | 0.77 [0.48, 1.03] | 0.75 [0.50, 0.98] | 4.20 [3.37, 4.87] |
-| habituation + reseed 150 | 10 | 1.90 [1.45, 2.38] | 2.28 [1.65, 2.97] | 4.92 [3.98, 5.78] |
+| bare | 10 | 0.58 [0.40, 0.80] | 0.42 [0.27, 0.57] | 3.62 [2.87, 4.28] |
+| bare + habituation | 10 | 0.75 [0.47, 1.03] | 0.75 [0.50, 1.00] | 4.22 [3.45, 4.83] |
+| habituation + reseed 150 | 10 | 1.87 [1.42, 2.35] | 2.28 [1.67, 2.93] | 4.87 [3.93, 5.75] |
 
 ### vs bare + habituation — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| bare | surprise | -0.17 [-0.43, +0.08] | 0.324 | 0.379 | -0.26 | 10 |
-| bare | connection | **-0.33 [-0.60, -0.10]** | 0.062 | 0.094 | -0.47 | 10 |
-| bare | coherence | **-0.62 [-1.07, -0.10]** | 0.055 | 0.094 | -0.39 | 10 |
-| habituation + reseed 150 | surprise | **+1.13 [+0.58, +1.78]** | 0.002 | 0.012 | +0.82 | 10 |
-| habituation + reseed 150 | connection | **+1.53 [+0.87, +2.32]** | 0.004 | 0.012 | +0.84 | 10 |
-| habituation + reseed 150 | coherence | +0.72 [-0.55, +2.08] | 0.379 | 0.379 | +0.36 | 10 |
+| bare | surprise | -0.17 [-0.43, +0.08] | 0.320 | 0.384 | -0.24 | 10 |
+| bare | connection | **-0.33 [-0.62, -0.08]** | 0.086 | 0.129 | -0.48 | 10 |
+| bare | coherence | **-0.60 [-1.03, -0.10]** | 0.045 | 0.090 | -0.33 | 10 |
+| habituation + reseed 150 | surprise | **+1.12 [+0.57, +1.77]** | 0.002 | 0.006 | +0.79 | 10 |
+| habituation + reseed 150 | connection | **+1.53 [+0.90, +2.30]** | 0.002 | 0.006 | +0.87 | 10 |
+| habituation + reseed 150 | coherence | +0.65 [-0.53, +1.95] | 0.395 | 0.395 | +0.30 | 10 |
+
+### Reset vs preserved vs sham at period 300 on Qwen3-8B-Base — cell means (mean over cells [95% CI over cells])
+
+| condition | n cells | surprise | connection | coherence |
+|---|---|---|---|---|
+| no interruption | 10 | 1.37 [1.03, 1.72] | 1.00 [0.65, 1.37] | 4.35 [3.35, 5.35] |
+| paragraph break (sham) | 10 | 1.32 [0.78, 2.03] | 1.04 [0.50, 1.73] | 4.28 [3.48, 5.04] |
+| subject change, context preserved | 10 | 2.74 [2.14, 3.39] | 2.28 [1.70, 2.93] | 5.98 [5.47, 6.45] |
+| subject change, context reset | 10 | 3.77 [3.65, 3.88] | 3.08 [2.80, 3.40] | 6.32 [5.85, 6.72] |
+
+### vs no interruption — paired by seed
+
+| condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
+|---|---|---|---|---|---|---|
+| paragraph break (sham) | surprise | -0.05 [-0.77, +0.80] | 0.953 | 0.953 | -0.31 | 10 |
+| paragraph break (sham) | connection | +0.04 [-0.60, +0.76] | 0.932 | 0.953 | -0.12 | 10 |
+| paragraph break (sham) | coherence | -0.08 [-1.27, +1.07] | 0.914 | 0.953 | +0.01 | 10 |
+| subject change, context preserved | surprise | **+1.38 [+0.74, +1.98]** | 0.008 | 0.018 | +0.77 | 10 |
+| subject change, context preserved | connection | **+1.28 [+0.73, +1.83]** | 0.006 | 0.018 | +0.74 | 10 |
+| subject change, context preserved | coherence | **+1.63 [+0.70, +2.57]** | 0.012 | 0.021 | +0.58 | 10 |
+| subject change, context reset | surprise | **+2.40 [+2.08, +2.70]** | 0.002 | 0.009 | +1.00 | 10 |
+| subject change, context reset | connection | **+2.08 [+1.62, +2.52]** | 0.002 | 0.009 | +1.00 | 10 |
+| subject change, context reset | coherence | **+1.97 [+0.72, +3.15]** | 0.023 | 0.035 | +0.70 | 10 |
 
 ## Confirmatory battery — ten new premises, RNG seed 1 (420 judged windows)
 

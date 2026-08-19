@@ -77,7 +77,7 @@ def main() -> None:
                 continue
             gi += 1
             cap = heading.replace(" — ", ": ").replace("—", ":")
-            m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered|Document|Self)", heading)
+            m = _re.match(r"\s*(Q\d+[a-z]?|Confirmatory|Protocol|Pre-registered|Document|Self|Reset|Second|Judge-gated|P1|P2)", heading)
             key = m.group(1).lower() if m else None
             if key is not None and not (heading.startswith("vs") or "paired contrasts" in heading or heading.startswith("Fresh")):
                 last_key = key
