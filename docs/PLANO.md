@@ -1255,6 +1255,15 @@ horizonte, janela vs documento; operador em segundo) + workshop (NeurIPS
 "Can We Trust the Judge?", 29/08) e/ou ICCC'27. B = **o loop interrompido
 sobre um problema com verificador** (item 8). Processamento pesado à noite.
 
+**Migração pública (2026-08-19, ~08:10)**: `https://github.com/RobertoOno/interrupting-the-loop`
+(público, MIT, `main` com os 218 commits reescritos por `git filter-repo`:
+placeholder de afiliação e e-mail antigo purgados dos dois commits de
+`paper/main.tex`; `docs/revisor_externo.txt` excluído do histórico público;
+hashes mudam, datas/mensagens preservadas). O repositório privado continua
+sendo o de trabalho; `scripts/publish/publish_public.sh` republica o `main`
+(reescrita determinística → fast-forward). `\todo` do paper resolvidos
+(URL; rodada 2 humana "em andamento"; ética).
+
 **Reenquadramento A (2026-08-19, manhã)**: resumo, introdução (contribuições
 na ordem: lição de avaliação → operador → negativos → sampler/prompt/rede) e
 conclusão reescritos; sampler/prompt movidos para apêndice; README. Título
