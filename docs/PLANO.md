@@ -1155,6 +1155,44 @@ Rascunhos Markdown (`PAPER_DREAM*.md`) congelados na v1; o LaTeX é o
 mestre. Pendente: `exp_loop`, introdução, resumo, discussão, conclusão e
 título — só com os números do protocolo novo.
 
+**Bateria 3 (2026-08-18, ~21:00; protocolo só-gerado, unidade = célula, 10
+premissas)** — período 300 salvo indicação, vs habituação sem interrupção
+(1,58 / 1,28 / 4,45): quebra de parágrafo (sham) 1,42 / 0,97 / 4,43 = nada;
+conectivo de continuidade ("And so, as before,") 1,08 / 0,86 / 3,49 = pior
+que nada (ns); assunto novo, contexto preservado 2,90 / 2,38 / 6,40 (+1,32
+p = 0,004; +1,10 p = 0,014; +1,95 p = 0,02); assunto novo sem habituação
+2,49 / 1,97 / 5,50 (+0,91 p = 0,016) e, no 150, 2,45 / 3,02 / 5,38 (+0,87 p =
+0,04; conexão +1,73 p = 0,010) — a interrupção sozinha faz a maior parte; a
+habituação soma 0,4–0,6 (ns a n = 10): mais aditivo que interativo; **assunto
+novo com contexto RESET 3,72 / 3,32 / 6,88 — acima do preservado nas três
+dimensões** (+0,82 p = 0,02; +0,93 p = 0,004; +0,48), 10/10 premissas em
+surpresa; quebra com reset 2,03 / 1,73 / 5,43 (pouco mais que o sham); assunto
+vs quebra +1,5–1,7 sob os dois contextos (p ≤ 0,006). Habituação 1.3 = 1.15;
+EOS permitido: +1,2 coerência, zero em surpresa/conexão (fronteira sem
+assunto). Leitura: o que carrega o efeito é o **assunto novo**; a fronteira
+sozinha nada; guardar o contexto não é ingrediente para o juiz — sob reset a
+"conexão" é retorno à premissa (às vezes literal), que o juiz de 600 tokens
+não distingue de integração; H3 da confirmatória (preservado > reset em
+conexão) deve cair. Reinterpretação do scaffold: sua conexão menor não é o
+esquecimento, é a raridade das interrupções (0–3 reseeds/célula).
+
+**Julgamento no nível do documento (2026-08-18, ~21:00, `scripts/judge_document.py`)**:
+os 4.500 tokens inteiros de cada célula, frases injetadas removidas, Opus k=3,
+rubrica integração / desenvolvimento / coerência / surpresa — a pergunta que
+o juiz de janela não responde (memória vs reset no todo; *Accumulate* do
+DREAM). Braços: bare, habituação, interrupção 150/300, sem habituação, sham,
+reset com/sem assunto, scaffold; depois todos os demais.
+
+**Programa da noite (2026-08-18 → 19, orçamento LLM ≤ US$500, máquina até
+~8h)**: confirmatória em julgamento; escada 8B **bf16** (sem quantização, P2)
+→ escada 8B **pós-treinado** (P1) → reset/preservado/sham a 300 no **8B** e no
+**OLMo** (réplica do achado do reset) → **segundo gênero** (10 premissas
+expositivas, `GENRE_SEEDS`; bare_habit / clock300 / reset300 no 30B; P1) —
+cada um julgado no protocolo `gen` ao terminar (`after_confirm.sh`,
+`overnight2.sh`); Kimi K2.6 em 160 janelas só-gerado (amostra aleatória, 8
+condições); pacote humano v3 pronto (`docs/blind/pack_v3.html`, 56 janelas, 8
+condições × 7, células ao acaso, 3 dimensões, guia embutido).
+
 **Bateria 4, confirmatória (pré-registro, 2026-08-18 ~17:10, antes de
 qualquer resultado da bateria 3 ou do rejulgamento `gen`)**: dez premissas
 NOVAS (`NEW_SEEDS` em `scripts/dream_battery2.py`, escritas agora, nunca
