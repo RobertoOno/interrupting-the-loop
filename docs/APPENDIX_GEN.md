@@ -10,35 +10,35 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | bare | 10 | 0.45 [0.28, 0.68] | 0.30 [0.15, 0.45] | 2.52 [1.88, 3.43] |
-| bare + habituation | 10 | 1.58 [1.17, 1.98] | 1.28 [0.82, 1.78] | 4.45 [3.47, 5.48] |
-| reseed 150, no habituation | 10 | 2.47 [2.17, 2.77] | 3.00 [2.57, 3.42] | 5.38 [4.80, 5.85] |
+| bare + habituation | 10 | 1.60 [1.18, 2.00] | 1.30 [0.83, 1.80] | 4.45 [3.47, 5.47] |
+| reseed 150, no habituation | 10 | 2.48 [2.17, 2.78] | 3.00 [2.57, 3.42] | 5.37 [4.78, 5.82] |
 | habituation + reseed 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
 | DREAM scaffold | 10 | 2.70 [2.10, 3.40] | 1.85 [1.42, 2.33] | 6.02 [5.32, 6.73] |
-| habituation 1.3 | 10 | 1.77 [1.38, 2.23] | 1.42 [1.05, 1.83] | 4.90 [4.48, 5.38] |
-| habituation, EOS allowed | 10 | 1.55 [1.10, 1.97] | 1.28 [0.95, 1.67] | 5.72 [4.83, 6.45] |
+| habituation 1.3 | 10 | 1.75 [1.33, 2.22] | 1.42 [1.05, 1.82] | 4.88 [4.47, 5.37] |
+| habituation, EOS allowed | 10 | 1.52 [1.08, 1.93] | 1.27 [0.93, 1.65] | 5.70 [4.80, 6.47] |
 
 ### vs bare + habituation — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| bare | surprise | **-1.13 [-1.47, -0.72]** | 0.004 | 0.023 | -0.80 | 10 |
-| bare | connection | **-0.98 [-1.48, -0.48]** | 0.010 | 0.035 | -0.79 | 10 |
-| bare | coherence | **-1.93 [-3.35, -0.53]** | 0.035 | 0.078 | -0.64 | 10 |
-| reseed 150, no habituation | surprise | **+0.88 [+0.27, +1.47]** | 0.039 | 0.078 | +0.70 | 10 |
-| reseed 150, no habituation | connection | **+1.72 [+0.88, +2.45]** | 0.010 | 0.035 | +0.90 | 10 |
-| reseed 150, no habituation | coherence | +0.93 [-0.03, +1.93] | 0.127 | 0.176 | +0.37 | 10 |
-| habituation + reseed 150 | surprise | **+1.43 [+0.93, +2.05]** | 0.002 | 0.018 | +0.85 | 10 |
-| habituation + reseed 150 | connection | **+2.40 [+1.58, +3.32]** | 0.002 | 0.018 | +0.93 | 10 |
+| bare | surprise | **-1.15 [-1.48, -0.73]** | 0.004 | 0.023 | -0.80 | 10 |
+| bare | connection | **-1.00 [-1.50, -0.48]** | 0.010 | 0.035 | -0.79 | 10 |
+| bare | coherence | **-1.93 [-3.35, -0.53]** | 0.035 | 0.070 | -0.64 | 10 |
+| reseed 150, no habituation | surprise | **+0.88 [+0.27, +1.48]** | 0.031 | 0.070 | +0.70 | 10 |
+| reseed 150, no habituation | connection | **+1.70 [+0.87, +2.43]** | 0.010 | 0.035 | +0.90 | 10 |
+| reseed 150, no habituation | coherence | +0.92 [-0.07, +1.92] | 0.135 | 0.187 | +0.37 | 10 |
+| habituation + reseed 150 | surprise | **+1.42 [+0.92, +2.03]** | 0.002 | 0.018 | +0.85 | 10 |
+| habituation + reseed 150 | connection | **+2.38 [+1.57, +3.30]** | 0.002 | 0.018 | +0.93 | 10 |
 | habituation + reseed 150 | coherence | **+1.67 [+0.27, +2.88]** | 0.051 | 0.083 | +0.57 | 10 |
-| DREAM scaffold | surprise | **+1.12 [+0.40, +1.92]** | 0.023 | 0.070 | +0.64 | 10 |
-| DREAM scaffold | connection | **+0.57 [+0.17, +1.02]** | 0.031 | 0.078 | +0.41 | 10 |
+| DREAM scaffold | surprise | **+1.10 [+0.40, +1.88]** | 0.023 | 0.070 | +0.62 | 10 |
+| DREAM scaffold | connection | **+0.55 [+0.15, +1.02]** | 0.031 | 0.070 | +0.40 | 10 |
 | DREAM scaffold | coherence | **+1.57 [+0.15, +2.93]** | 0.051 | 0.083 | +0.57 | 10 |
-| habituation 1.3 | surprise | +0.18 [-0.22, +0.65] | 0.547 | 0.656 | +0.03 | 10 |
-| habituation 1.3 | connection | +0.13 [-0.42, +0.60] | 0.680 | 0.765 | +0.11 | 10 |
-| habituation 1.3 | coherence | +0.45 [-0.67, +1.47] | 0.484 | 0.623 | +0.23 | 10 |
-| habituation, EOS allowed | surprise | -0.03 [-0.48, +0.42] | 0.953 | 1.000 | +0.08 | 10 |
-| habituation, EOS allowed | connection | +0.00 [-0.53, +0.47] | 1.000 | 1.000 | -0.01 | 10 |
-| habituation, EOS allowed | coherence | **+1.27 [+0.10, +2.28]** | 0.064 | 0.097 | +0.48 | 10 |
+| habituation 1.3 | surprise | +0.15 [-0.27, +0.63] | 0.641 | 0.769 | +0.01 | 10 |
+| habituation 1.3 | connection | +0.12 [-0.43, +0.60] | 0.725 | 0.815 | +0.07 | 10 |
+| habituation 1.3 | coherence | +0.43 [-0.70, +1.47] | 0.484 | 0.623 | +0.22 | 10 |
+| habituation, EOS allowed | surprise | -0.08 [-0.53, +0.37] | 0.781 | 0.827 | -0.02 | 10 |
+| habituation, EOS allowed | connection | -0.03 [-0.55, +0.42] | 0.949 | 0.949 | -0.05 | 10 |
+| habituation, EOS allowed | coherence | **+1.25 [+0.07, +2.28]** | 0.072 | 0.108 | +0.48 | 10 |
 
 ### Q2 — what is injected (period 150) — cell means (mean over cells [95% CI over cells])
 
@@ -67,11 +67,11 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| no interruption | 10 | 1.58 [1.17, 1.98] | 1.28 [0.82, 1.78] | 4.45 [3.47, 5.48] |
+| no interruption | 10 | 1.60 [1.18, 2.00] | 1.30 [0.83, 1.80] | 4.45 [3.47, 5.47] |
 | paragraph break (sham) | 10 | 1.40 [1.07, 1.75] | 0.93 [0.63, 1.25] | 4.44 [3.61, 5.27] |
-| continuity connective (sham) | 10 | 1.06 [0.68, 1.47] | 0.82 [0.47, 1.23] | 3.42 [2.98, 3.88] |
-| subject change, context preserved | 10 | 2.90 [2.45, 3.33] | 2.38 [2.02, 2.77] | 6.40 [6.08, 6.70] |
-| subject change, no habituation | 10 | 2.48 [2.08, 2.90] | 1.97 [1.55, 2.52] | 5.50 [4.60, 6.33] |
+| continuity connective (sham) | 10 | 1.08 [0.68, 1.53] | 0.86 [0.47, 1.31] | 3.45 [2.98, 3.97] |
+| subject change, context preserved | 10 | 2.92 [2.47, 3.38] | 2.38 [2.03, 2.77] | 6.40 [6.08, 6.70] |
+| subject change, no habituation | 10 | 2.47 [2.07, 2.88] | 1.97 [1.55, 2.52] | 5.50 [4.60, 6.33] |
 | subject change, context reset | 10 | 3.68 [3.37, 4.03] | 3.32 [3.03, 3.62] | 6.88 [6.67, 7.12] |
 | break, context reset | 10 | 2.03 [1.70, 2.45] | 1.72 [1.48, 1.97] | 5.45 [5.13, 5.83] |
 
@@ -79,42 +79,42 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| paragraph break (sham) | surprise | -0.18 [-0.68, +0.32] | 0.547 | 0.579 | -0.27 | 10 |
-| paragraph break (sham) | connection | -0.35 [-0.80, +0.10] | 0.207 | 0.253 | -0.27 | 10 |
+| paragraph break (sham) | surprise | -0.20 [-0.70, +0.32] | 0.512 | 0.542 | -0.28 | 10 |
+| paragraph break (sham) | connection | -0.37 [-0.83, +0.08] | 0.197 | 0.277 | -0.28 | 10 |
 | paragraph break (sham) | coherence | -0.01 [-1.08, +1.22] | 1.000 | 1.000 | -0.02 | 10 |
-| continuity connective (sham) | surprise | -0.53 [-1.20, +0.20] | 0.199 | 0.253 | -0.41 | 10 |
-| continuity connective (sham) | connection | -0.46 [-1.18, +0.30] | 0.295 | 0.332 | -0.36 | 10 |
-| continuity connective (sham) | coherence | -1.03 [-2.35, +0.28] | 0.180 | 0.253 | -0.39 | 10 |
-| subject change, context preserved | surprise | **+1.32 [+0.68, +1.93]** | 0.004 | 0.018 | +0.86 | 10 |
-| subject change, context preserved | connection | **+1.10 [+0.48, +1.67]** | 0.014 | 0.047 | +0.74 | 10 |
+| continuity connective (sham) | surprise | -0.52 [-1.22, +0.25] | 0.230 | 0.277 | -0.41 | 10 |
+| continuity connective (sham) | connection | -0.44 [-1.20, +0.37] | 0.330 | 0.371 | -0.37 | 10 |
+| continuity connective (sham) | coherence | -1.00 [-2.35, +0.37] | 0.203 | 0.277 | -0.39 | 10 |
+| subject change, context preserved | surprise | **+1.32 [+0.68, +1.93]** | 0.004 | 0.018 | +0.85 | 10 |
+| subject change, context preserved | connection | **+1.08 [+0.47, +1.63]** | 0.014 | 0.047 | +0.74 | 10 |
 | subject change, context preserved | coherence | **+1.95 [+0.72, +3.18]** | 0.021 | 0.055 | +0.64 | 10 |
-| subject change, no habituation | surprise | **+0.90 [+0.43, +1.38]** | 0.016 | 0.047 | +0.70 | 10 |
-| subject change, no habituation | connection | +0.68 [-0.07, +1.48] | 0.148 | 0.253 | +0.51 | 10 |
-| subject change, no habituation | coherence | +1.05 [-0.13, +2.38] | 0.168 | 0.253 | +0.30 | 10 |
-| subject change, context reset | surprise | **+2.10 [+1.68, +2.58]** | 0.002 | 0.018 | +1.00 | 10 |
-| subject change, context reset | connection | **+2.03 [+1.60, +2.42]** | 0.002 | 0.018 | +0.93 | 10 |
+| subject change, no habituation | surprise | **+0.87 [+0.40, +1.35]** | 0.016 | 0.047 | +0.68 | 10 |
+| subject change, no habituation | connection | +0.67 [-0.10, +1.48] | 0.166 | 0.277 | +0.47 | 10 |
+| subject change, no habituation | coherence | +1.05 [-0.13, +2.38] | 0.168 | 0.277 | +0.30 | 10 |
+| subject change, context reset | surprise | **+2.08 [+1.68, +2.57]** | 0.002 | 0.018 | +1.00 | 10 |
+| subject change, context reset | connection | **+2.02 [+1.60, +2.40]** | 0.002 | 0.018 | +0.93 | 10 |
 | subject change, context reset | coherence | **+2.43 [+1.50, +3.33]** | 0.004 | 0.018 | +0.75 | 10 |
-| break, context reset | surprise | +0.45 [-0.12, +1.05] | 0.205 | 0.253 | +0.41 | 10 |
-| break, context reset | connection | +0.43 [-0.13, +1.00] | 0.211 | 0.253 | +0.45 | 10 |
+| break, context reset | surprise | +0.43 [-0.12, +1.02] | 0.207 | 0.277 | +0.38 | 10 |
+| break, context reset | connection | +0.42 [-0.13, +0.98] | 0.219 | 0.277 | +0.42 | 10 |
 | break, context reset | coherence | **+1.00 [+0.13, +1.85]** | 0.070 | 0.158 | +0.49 | 10 |
 
 ### Q3b — direct paired contrasts among the interruption arms
 
 | contrast | dim | Δ [CI] | p (perm) | Cliff δ | n |
 |---|---|---|---|---|---|
-| reset vs preserved (300) | surprise | **+0.78 [+0.30, +1.27]** | 0.021 | +0.61 | 10 |
+| reset vs preserved (300) | surprise | **+0.77 [+0.25, +1.25]** | 0.027 | +0.61 | 10 |
 | reset vs preserved (300) | connection | **+0.93 [+0.53, +1.32]** | 0.004 | +0.81 | 10 |
 | reset vs preserved (300) | coherence | **+0.48 [+0.03, +0.95]** | 0.090 | +0.53 | 10 |
-| with vs without habituation (300) | surprise | +0.42 [-0.17, +1.07] | 0.277 | +0.33 | 10 |
+| with vs without habituation (300) | surprise | +0.45 [-0.15, +1.13] | 0.254 | +0.36 | 10 |
 | with vs without habituation (300) | connection | +0.42 [-0.28, +1.07] | 0.309 | +0.46 | 10 |
 | with vs without habituation (300) | coherence | **+0.90 [+0.07, +1.82]** | 0.117 | +0.33 | 10 |
-| with vs without habituation (150) | surprise | +0.55 [-0.12, +1.28] | 0.197 | +0.34 | 10 |
+| with vs without habituation (150) | surprise | +0.53 [-0.13, +1.27] | 0.219 | +0.32 | 10 |
 | with vs without habituation (150) | connection | +0.68 [-0.27, +1.67] | 0.232 | +0.23 | 10 |
-| with vs without habituation (150) | coherence | +0.73 [-0.00, +1.43] | 0.096 | +0.55 | 10 |
+| with vs without habituation (150) | coherence | **+0.75 [+0.05, +1.43]** | 0.080 | +0.57 | 10 |
 | subject change vs break, both reset (300) | surprise | **+1.65 [+1.13, +2.13]** | 0.002 | +0.90 | 10 |
 | subject change vs break, both reset (300) | connection | **+1.60 [+1.22, +2.03]** | 0.002 | +1.00 | 10 |
 | subject change vs break, both reset (300) | coherence | **+1.43 [+1.12, +1.77]** | 0.002 | +0.91 | 10 |
-| subject change vs break, both preserved (300) | surprise | **+1.50 [+0.85, +2.08]** | 0.006 | +0.89 | 10 |
+| subject change vs break, both preserved (300) | surprise | **+1.52 [+0.85, +2.13]** | 0.006 | +0.89 | 10 |
 | subject change vs break, both preserved (300) | connection | **+1.45 [+1.03, +1.97]** | 0.002 | +0.95 | 10 |
 | subject change vs break, both preserved (300) | coherence | **+1.96 [+1.10, +2.86]** | 0.004 | +0.83 | 10 |
 
@@ -177,20 +177,20 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
-| 300 | 10 | 2.90 [2.45, 3.33] | 2.38 [2.02, 2.77] | 6.40 [6.08, 6.70] |
-| 600 | 10 | 2.88 [2.62, 3.15] | 2.00 [1.70, 2.33] | 6.23 [5.67, 6.68] |
+| 300 | 10 | 2.92 [2.47, 3.38] | 2.38 [2.03, 2.77] | 6.40 [6.08, 6.70] |
+| 600 | 10 | 2.88 [2.62, 3.15] | 1.98 [1.70, 2.30] | 6.25 [5.68, 6.70] |
 | 900 | 10 | 3.18 [2.72, 3.76] | 2.28 [1.78, 2.84] | 6.76 [6.58, 6.92] |
 
 ### vs 150 — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| 300 | surprise | -0.12 [-0.75, +0.47] | 0.781 | 0.805 | +0.00 | 10 |
+| 300 | surprise | -0.10 [-0.75, +0.50] | 0.832 | 0.832 | +0.00 | 10 |
 | 300 | connection | **-1.30 [-2.12, -0.57]** | 0.008 | 0.023 | -0.65 | 10 |
 | 300 | coherence | +0.28 [-0.27, +0.82] | 0.367 | 0.661 | +0.22 | 10 |
-| 600 | surprise | -0.13 [-0.68, +0.35] | 0.707 | 0.805 | -0.03 | 10 |
-| 600 | connection | **-1.68 [-2.43, -1.02]** | 0.002 | 0.009 | -0.87 | 10 |
-| 600 | coherence | +0.12 [-0.63, +0.82] | 0.805 | 0.805 | +0.11 | 10 |
+| 600 | surprise | -0.13 [-0.68, +0.35] | 0.707 | 0.832 | -0.03 | 10 |
+| 600 | connection | **-1.70 [-2.43, -1.03]** | 0.002 | 0.009 | -0.88 | 10 |
+| 600 | coherence | +0.13 [-0.62, +0.83] | 0.766 | 0.832 | +0.14 | 10 |
 | 900 | surprise | +0.16 [-0.25, +0.59] | 0.514 | 0.771 | +0.12 | 10 |
 | 900 | connection | **-1.40 [-1.85, -0.97]** | 0.002 | 0.009 | -0.64 | 10 |
 | 900 | coherence | **+0.64 [+0.21, +1.08]** | 0.029 | 0.066 | +0.60 | 10 |
@@ -200,8 +200,8 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | period | offset 32 | offset 160 | offset 300 | offset 450 | offset 600 | offset 750 | stream estimate (S / C / H) |
 |---|---|---|---|---|---|---|---|
 | 150 | 3.02 (n=10) | — | — | — | — | — | 3.02 / 3.68 / 6.12 |
-| 300 | 2.90 (n=10) | 2.60 (n=10) | — | — | — | — | 2.76 / 2.33 / 6.21 |
-| 600 | 2.88 (n=10) | 2.73 (n=10) | 3.13 (n=10) | 2.63 (n=10) | — | — | 2.85 / 2.12 / 5.81 |
+| 300 | 2.92 (n=10) | 2.60 (n=10) | — | — | — | — | 2.77 / 2.33 / 6.20 |
+| 600 | 2.88 (n=10) | 2.73 (n=10) | 3.13 (n=10) | 2.63 (n=10) | — | — | 2.85 / 2.11 / 5.82 |
 | 900 | 3.18 (n=10) | 2.67 (n=10) | 3.20 (n=10) | 2.73 (n=10) | 2.23 (n=10) | 1.87 (n=10) | 2.65 / 2.07 / 5.80 |
 
 ### Q6 — the ladder on Qwen3-8B-Base — cell means (mean over cells [95% CI over cells])
@@ -257,10 +257,10 @@ Windows of 96 model-generated tokens starting 32 tokens after each injection (no
 | abl_forget | 3.44 / 2.72 | 1.73 / 1.90 | 3.88 / 6.13 | 10 / 10 |
 | salience only | 2.86 / 1.65 | 1.53 / 1.30 | 3.85 / 4.63 | 10 / 10 |
 | bare | 0.28 / 0.45 | 0.20 / 0.30 | 2.06 / 2.52 | 10 / 10 |
-| bare + habituation | 1.70 / 1.58 | 1.08 / 1.28 | 4.08 / 4.45 | 10 / 10 |
+| bare + habituation | 1.70 / 1.60 | 1.08 / 1.30 | 4.08 / 4.45 | 10 / 10 |
 | habituation + reseed 150 | 3.08 / 3.02 | 3.15 / 3.68 | 4.78 / 6.12 | 10 / 10 |
-| reseed 300 | 4.01 / 2.90 | 3.12 / 2.38 | 5.98 / 6.40 | 10 / 10 |
-| reseed 600 | 3.64 / 2.88 | 2.64 / 2.00 | 5.50 / 6.23 | 10 / 10 |
+| reseed 300 | 4.01 / 2.92 | 3.12 / 2.38 | 5.98 / 6.40 | 10 / 10 |
+| reseed 600 | 3.64 / 2.88 | 2.64 / 1.98 | 5.50 / 6.25 | 10 / 10 |
 | reseed 900 | 4.28 / 3.18 | 2.53 / 2.28 | 5.55 / 6.76 | 10 / 10 |
 | stitch 900 | 3.91 / 3.04 | 3.01 / 2.73 | 5.17 / 5.72 | 10 / 10 |
 | premise 150 | 1.02 / 1.19 | 0.98 / 1.11 | 3.03 / 3.90 | 10 / 10 |
@@ -282,14 +282,14 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | condition | n windows | copied | copied, source outside the judge's 600 tokens | fresh windows: S / C / H (cell means, n cells) | copied windows: S / C / H |
 |---|---|---|---|---|---|
 | bare | 60 | 67% | 0% | 1.77 / 1.38 / 5.55 (n=10) | 0.03 / 0.00 / 1.45 |
-| bare + habituation | 60 | 27% | 8% | 1.75 / 1.28 / 5.06 (n=10) | 0.94 / 1.00 / 2.69 |
-| habituation 1.3 | 60 | 18% | 3% | 1.99 / 1.54 / 5.40 (n=10) | 0.64 / 0.73 / 2.91 |
-| habituation, EOS allowed | 60 | 15% | 3% | 1.56 / 1.32 / 5.90 (n=10) | 1.22 / 1.11 / 3.67 |
-| reseed 150, no habituation | 60 | 80% | 7% | 2.93 / 1.83 / 6.07 (n=10) | 2.38 / 3.27 / 5.31 |
+| bare + habituation | 60 | 27% | 8% | 1.76 / 1.30 / 5.06 (n=10) | 0.94 / 1.00 / 2.69 |
+| habituation 1.3 | 60 | 18% | 3% | 1.96 / 1.54 / 5.38 (n=10) | 0.64 / 0.73 / 2.91 |
+| habituation, EOS allowed | 60 | 15% | 3% | 1.52 / 1.30 / 5.88 (n=10) | 1.22 / 1.11 / 3.67 |
+| reseed 150, no habituation | 60 | 80% | 7% | 2.93 / 1.83 / 6.07 (n=10) | 2.40 / 3.27 / 5.29 |
 | habituation + reseed 150 | 60 | 72% | 12% | 2.95 / 2.03 / 6.78 (n=10) | 3.09 / 4.28 / 6.19 |
-| reseed 300, no habituation | 60 | 68% | 63% | 2.45 / 1.65 / 5.55 (n=10) | 2.51 / 2.12 / 5.51 |
-| reseed 300 | 60 | 65% | 62% | 3.07 / 2.03 / 6.52 (n=10) | 2.79 / 2.56 / 6.36 |
-| reseed 600 | 60 | 38% | 35% | 2.88 / 2.07 / 6.29 (n=10) | 2.87 / 2.00 / 6.30 |
+| reseed 300, no habituation | 60 | 68% | 63% | 2.40 / 1.65 / 5.55 (n=10) | 2.51 / 2.12 / 5.51 |
+| reseed 300 | 60 | 65% | 62% | 3.07 / 2.03 / 6.52 (n=10) | 2.82 / 2.56 / 6.36 |
+| reseed 600 | 60 | 38% | 35% | 2.85 / 2.04 / 6.33 (n=10) | 2.91 / 2.00 / 6.30 |
 | reseed 900 | 50 | 12% | 12% | 3.10 / 2.27 / 6.73 (n=10) | 4.17 / 2.67 / 7.00 |
 | re-encounter stitch 150 | 60 | 68% | 45% | 3.38 / 2.98 / 6.33 (n=10) | 2.68 / 3.83 / 5.29 |
 | stitch 900 | 50 | 10% | 6% | 3.20 / 2.80 / 5.83 (n=10) | 2.20 / 2.60 / 4.60 |
@@ -297,35 +297,48 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | own past 150 | 60 | 72% | 27% | 2.50 / 1.37 / 4.98 (n=10) | 1.24 / 1.50 / 3.28 |
 | salience-timed stitch | 30 | 30% | 27% | 3.10 / 3.12 / 5.68 (n=9) | 3.67 / 3.00 / 5.22 |
 | paragraph break 300 (sham) | 60 | 32% | 5% | 2.08 / 1.29 / 4.92 (n=10) | 0.21 / 0.53 / 3.00 |
-| continuity connective 300 (sham) | 60 | 73% | 3% | 3.39 / 1.96 / 5.83 (n=10) | 0.34 / 0.41 / 2.68 |
+| continuity connective 300 (sham) | 60 | 73% | 3% | 3.42 / 1.99 / 5.87 (n=10) | 0.34 / 0.41 / 2.68 |
 | reset + new subject 300 | 60 | 0% | 0% | 3.68 / 3.32 / 6.88 (n=10) | — |
 | reset + break 300 | 60 | 0% | 0% | 2.03 / 1.72 / 5.45 (n=10) | — |
 | DREAM scaffold | 31 | 6% | 0% | 2.69 / 1.92 / 6.24 (n=10) | 2.50 / 1.50 / 2.00 |
+
+### Self-copy on the other generators (ladder arms; copied = >= 50% shingles seen earlier in the stream)
+
+| generator | condition | n windows | copied | fresh windows: S / C / H (n cells) |
+|---|---|---|---|---|
+| Qwen3-8B-Base | bare | 60 | 63% | 1.15 / 1.11 / 6.70 (n=9) |
+| Qwen3-8B-Base | bare + habituation | 60 | 45% | 2.53 / 1.90 / 6.03 (n=10) |
+| Qwen3-8B-Base | habituation + reseed 150 | 60 | 78% | 3.48 / 2.07 / 5.77 (n=10) |
+| Qwen3-8B-Base | DREAM scaffold | 26 | 8% | 2.78 / 2.41 / 5.47 (n=10) |
+| OLMo-2-13B | bare | 60 | 45% | 2.11 / 1.51 / 4.89 (n=10) |
+| OLMo-2-13B | bare + habituation | 60 | 20% | 2.20 / 1.33 / 4.31 (n=10) |
+| OLMo-2-13B | habituation + reseed 150 | 60 | 45% | 3.19 / 2.57 / 3.89 (n=10) |
+| OLMo-2-13B | DREAM scaffold | 28 | 4% | 3.60 / 2.23 / 6.48 (n=10) |
 
 ### Fresh windows only — paired contrasts (cells with at least one fresh window)
 
 | contrast | dim | Δ [CI] | p (perm) | Cliff δ | n seeds |
 |---|---|---|---|---|---|
-| interruption 150 vs habituation | surprise | **+1.20 [+0.43, +2.11]** | 0.010 | +0.74 | 10 |
-| interruption 150 vs habituation | connection | **+0.75 [+0.38, +1.17]** | 0.008 | +0.52 | 10 |
+| interruption 150 vs habituation | surprise | **+1.19 [+0.42, +2.09]** | 0.010 | +0.74 | 10 |
+| interruption 150 vs habituation | connection | **+0.73 [+0.37, +1.15]** | 0.008 | +0.52 | 10 |
 | interruption 150 vs habituation | coherence | **+1.72 [+0.35, +2.86]** | 0.041 | +0.63 | 10 |
-| interruption 300 vs habituation | surprise | **+1.32 [+0.73, +1.88]** | 0.004 | +0.87 | 10 |
-| interruption 300 vs habituation | connection | **+0.75 [+0.37, +1.23]** | 0.008 | +0.66 | 10 |
+| interruption 300 vs habituation | surprise | **+1.30 [+0.73, +1.87]** | 0.004 | +0.87 | 10 |
+| interruption 300 vs habituation | connection | **+0.73 [+0.33, +1.22]** | 0.008 | +0.64 | 10 |
 | interruption 300 vs habituation | coherence | **+1.45 [+0.43, +2.44]** | 0.023 | +0.64 | 10 |
-| reset + subject change 300 vs habituation | surprise | **+1.93 [+1.59, +2.28]** | 0.002 | +1.00 | 10 |
-| reset + subject change 300 vs habituation | connection | **+2.03 [+1.75, +2.33]** | 0.002 | +1.00 | 10 |
+| reset + subject change 300 vs habituation | surprise | **+1.92 [+1.59, +2.26]** | 0.002 | +1.00 | 10 |
+| reset + subject change 300 vs habituation | connection | **+2.02 [+1.73, +2.33]** | 0.002 | +1.00 | 10 |
 | reset + subject change 300 vs habituation | coherence | **+1.82 [+1.07, +2.59]** | 0.004 | +0.75 | 10 |
 | reset vs preserved (300) | surprise | **+0.62 [+0.10, +1.13]** | 0.070 | +0.43 | 10 |
 | reset vs preserved (300) | connection | **+1.28 [+0.82, +1.73]** | 0.004 | +0.93 | 10 |
 | reset vs preserved (300) | coherence | +0.37 [-0.10, +0.82] | 0.188 | +0.34 | 10 |
-| scaffold vs habituation | surprise | **+0.94 [+0.21, +1.74]** | 0.062 | +0.54 | 10 |
-| scaffold vs habituation | connection | **+0.64 [+0.17, +1.14]** | 0.047 | +0.40 | 10 |
+| scaffold vs habituation | surprise | **+0.93 [+0.21, +1.71]** | 0.062 | +0.53 | 10 |
+| scaffold vs habituation | connection | **+0.62 [+0.16, +1.12]** | 0.055 | +0.39 | 10 |
 | scaffold vs habituation | coherence | +1.17 [-0.02, +2.38] | 0.102 | +0.50 | 10 |
-| interruption 900 vs habituation | surprise | **+1.35 [+0.82, +1.80]** | 0.004 | +0.93 | 10 |
-| interruption 900 vs habituation | connection | **+0.99 [+0.39, +1.58]** | 0.020 | +0.74 | 10 |
+| interruption 900 vs habituation | surprise | **+1.33 [+0.81, +1.78]** | 0.004 | +0.93 | 10 |
+| interruption 900 vs habituation | connection | **+0.97 [+0.37, +1.57]** | 0.020 | +0.73 | 10 |
 | interruption 900 vs habituation | coherence | **+1.67 [+0.73, +2.61]** | 0.012 | +0.72 | 10 |
 
-## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (145 documents)
+## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (180 documents)
 
 Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.
 
@@ -341,14 +354,14 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | reset + break 300 | 10 | 0.80 [0.40, 1.20] | 0.40 [0.10, 0.70] | 1.00 [1.00, 1.00] | 0.80 [0.40, 1.20] |
 | DREAM scaffold | 10 | 1.10 [0.80, 1.40] | 1.10 [0.80, 1.40] | 1.00 [0.70, 1.30] | 1.30 [1.00, 1.60] |
 | salience only | 10 | 1.20 [0.80, 1.60] | 1.00 [0.60, 1.50] | 1.50 [1.20, 1.80] | 1.30 [1.00, 1.60] |
-| reseed 600 | 6 | 1.50 [1.17, 1.83] | 0.83 [0.50, 1.00] | 1.50 [1.17, 1.83] | 1.33 [1.00, 1.67] |
-| reseed 75 | 6 | 0.33 [0.00, 0.67] | 0.00 [0.00, 0.00] | 1.00 [1.00, 1.00] | 0.17 [0.00, 0.50] |
-| reseed 900 | 6 | 1.67 [1.33, 2.00] | 1.33 [1.00, 1.67] | 1.67 [1.17, 2.33] | 1.50 [1.17, 1.83] |
-| stitch 900 | 6 | 1.50 [1.17, 1.83] | 1.00 [1.00, 1.00] | 1.83 [1.33, 2.33] | 1.33 [1.00, 1.67] |
-| premise 150 | 6 | 0.33 [0.00, 0.67] | 0.17 [0.00, 0.50] | 1.00 [0.50, 1.50] | 0.17 [0.00, 0.50] |
-| re-encounter stitch 150 | 5 | 1.20 [1.00, 1.60] | 0.20 [0.00, 0.60] | 1.20 [1.00, 1.60] | 0.40 [0.00, 0.80] |
-| own past 150 | 5 | 0.20 [0.00, 0.60] | 0.00 [0.00, 0.00] | 0.80 [0.40, 1.00] | 0.20 [0.00, 0.60] |
-| salience-timed stitch | 5 | 1.60 [1.20, 2.00] | 0.80 [0.40, 1.00] | 1.40 [1.00, 1.80] | 1.00 [0.40, 1.60] |
+| reseed 600 | 10 | 1.70 [1.40, 2.00] | 0.90 [0.70, 1.00] | 1.70 [1.40, 2.00] | 1.20 [1.00, 1.50] |
+| reseed 75 | 10 | 0.60 [0.30, 0.90] | 0.00 [0.00, 0.00] | 1.00 [1.00, 1.00] | 0.10 [0.00, 0.30] |
+| reseed 900 | 10 | 1.70 [1.40, 2.00] | 1.20 [1.00, 1.50] | 1.70 [1.30, 2.10] | 1.50 [1.20, 1.80] |
+| stitch 900 | 10 | 1.80 [1.40, 2.20] | 1.10 [1.00, 1.30] | 1.90 [1.60, 2.20] | 1.60 [1.20, 2.00] |
+| premise 150 | 10 | 0.60 [0.10, 1.20] | 0.40 [0.10, 0.80] | 1.10 [0.80, 1.40] | 0.40 [0.10, 0.80] |
+| re-encounter stitch 150 | 10 | 1.30 [1.00, 1.60] | 0.30 [0.00, 0.60] | 1.40 [1.10, 1.70] | 0.40 [0.10, 0.70] |
+| own past 150 | 10 | 0.40 [0.10, 0.70] | 0.10 [0.00, 0.30] | 1.00 [0.70, 1.30] | 0.20 [0.00, 0.50] |
+| salience-timed stitch | 10 | 1.70 [1.40, 2.00] | 0.80 [0.50, 1.00] | 1.50 [1.20, 1.80] | 0.90 [0.60, 1.20] |
 
 ### Document level — paired contrasts
 
@@ -383,44 +396,44 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | habituation vs bare | coherence | +0.40 [-0.20, +1.00] | 0.406 | +0.35 | 10 |
 | habituation vs bare | surprise | **+0.80 [+0.20, +1.40]** | 0.078 | +0.60 | 10 |
 
-## Confirmatory battery — ten new premises, RNG seed 1 (144 judged windows)
+## Confirmatory battery — ten new premises, RNG seed 1 (209 judged windows)
 
 
 ### Confirmatory — period 300 on new premises — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| no interruption | 5 | 1.23 [0.23, 2.67] | 0.90 [0.17, 1.97] | 4.10 [2.20, 6.03] |
-| subject change, context preserved | 5 | 2.67 [2.23, 3.07] | 2.83 [2.13, 3.57] | 5.90 [4.87, 6.70] |
-| paragraph break (sham) | 7 | 1.65 [0.81, 2.49] | 1.21 [0.43, 2.19] | 5.24 [3.86, 6.43] |
-| subject change, no habituation | 8 | 2.16 [1.46, 2.93] | 2.00 [1.42, 2.58] | 4.78 [3.31, 6.31] |
-| subject change, context reset | 6 | 4.81 [4.08, 5.53] | 3.83 [3.06, 4.78] | 6.36 [5.36, 7.00] |
+| no interruption | 7 | 1.95 [0.60, 3.60] | 1.79 [0.40, 3.67] | 4.86 [3.31, 6.24] |
+| subject change, context preserved | 8 | 3.10 [2.50, 3.79] | 2.96 [2.42, 3.52] | 6.19 [5.56, 6.73] |
+| paragraph break (sham) | 9 | 1.70 [1.00, 2.43] | 1.19 [0.54, 2.00] | 5.20 [3.91, 6.35] |
+| subject change, no habituation | 9 | 2.22 [1.56, 2.81] | 2.02 [1.37, 2.63] | 5.48 [4.35, 6.57] |
+| subject change, context reset | 8 | 4.29 [3.56, 5.10] | 3.46 [2.75, 4.31] | 6.21 [5.40, 6.88] |
 
 ### vs no interruption — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| subject change, context preserved | surprise | **+2.04 [+1.87, +2.25]** | 0.125 | 0.500 | +1.00 | 4 |
-| subject change, context preserved | connection | **+2.42 [+1.83, +3.12]** | 0.125 | 0.500 | +1.00 | 4 |
-| subject change, context preserved | coherence | **+3.00 [+1.25, +4.75]** | 0.125 | 0.500 | +0.88 | 4 |
-| paragraph break (sham) | surprise | +0.94 [-1.00, +3.17] | 0.750 | 0.818 | +0.33 | 3 |
-| paragraph break (sham) | connection | +0.61 [-2.00, +3.67] | 0.750 | 0.818 | +0.56 | 3 |
-| paragraph break (sham) | coherence | +1.17 [-4.00, +4.17] | 0.750 | 0.818 | +0.22 | 3 |
-| subject change, no habituation | surprise | +1.02 [-1.07, +2.48] | 0.375 | 0.562 | +0.52 | 5 |
-| subject change, no habituation | connection | +1.00 [-0.53, +2.20] | 0.312 | 0.536 | +0.64 | 5 |
-| subject change, no habituation | coherence | -0.15 [-2.60, +1.58] | 0.938 | 0.938 | -0.12 | 5 |
-| subject change, context reset | surprise | **+3.56 [+2.83, +4.00]** | 0.250 | 0.500 | +1.00 | 3 |
-| subject change, context reset | connection | **+2.50 [+2.33, +2.67]** | 0.250 | 0.500 | +1.00 | 3 |
-| subject change, context reset | coherence | **+2.56 [+0.67, +3.67]** | 0.250 | 0.500 | +0.78 | 3 |
+| subject change, context preserved | surprise | **+1.94 [+1.03, +2.72]** | 0.062 | 0.250 | +0.75 | 6 |
+| subject change, context preserved | connection | **+2.11 [+1.53, +2.75]** | 0.031 | 0.188 | +0.86 | 6 |
+| subject change, context preserved | coherence | **+2.08 [+0.72, +3.61]** | 0.031 | 0.188 | +0.78 | 6 |
+| paragraph break (sham) | surprise | -0.14 [-2.78, +1.81] | 0.969 | 1.000 | +0.08 | 6 |
+| paragraph break (sham) | connection | -0.67 [-3.64, +1.69] | 0.750 | 1.000 | +0.19 | 6 |
+| paragraph break (sham) | coherence | +0.22 [-2.61, +2.78] | 0.906 | 1.000 | +0.19 | 6 |
+| subject change, no habituation | surprise | +0.05 [-1.79, +1.69] | 1.000 | 1.000 | +0.22 | 7 |
+| subject change, no habituation | connection | +0.00 [-1.81, +1.62] | 1.000 | 1.000 | +0.31 | 7 |
+| subject change, no habituation | coherence | +0.19 [-1.02, +1.21] | 0.750 | 1.000 | +0.02 | 7 |
+| subject change, context reset | surprise | **+2.47 [+0.67, +3.60]** | 0.125 | 0.300 | +0.76 | 5 |
+| subject change, context reset | connection | **+1.90 [+0.67, +2.70]** | 0.125 | 0.300 | +0.76 | 5 |
+| subject change, context reset | coherence | **+2.33 [+0.23, +4.33]** | 0.188 | 0.375 | +0.68 | 5 |
 
 ### Pre-registered contrasts (exact one-sided sign-flip permutation unless stated)
 
 | hypothesis | contrast | dim | Δ (mean of paired differences) [CI] | p | n seeds |
 |---|---|---|---|---|---|
-| H1 (primary) | clock300 vs bare_habit | surprise | +2.04 [+1.87, +2.25] | 0.0625 | 4 |
-| H2 | clock300 vs sham_break300 | surprise | +0.83 [-1.17, +2.00] | 0.2500 | 3 |
-| H3 | clock300 vs reset_reseed300 | connection | -0.71 [-2.21, +0.50] | 0.7500 | 4 |
-| H4 (two-sided) | clock300 vs nohabit300 | surprise | +0.02 [-0.81, +0.75] | 1.0000 | 4 |
+| H1 (primary) | clock300 vs bare_habit | surprise | +1.94 [+1.03, +2.72] | 0.0312 | 6 |
+| H2 | clock300 vs sham_break300 | surprise | +0.71 [-0.00, +1.29] | 0.0547 | 7 |
+| H3 | clock300 vs reset_reseed300 | connection | -0.43 [-1.57, +0.55] | 0.7344 | 7 |
+| H4 (two-sided) | clock300 vs nohabit300 | surprise | +1.05 [+0.07, +2.12] | 0.1875 | 7 |
 
 ### Confirmatory premises — document level (50 documents)
 

@@ -60,7 +60,7 @@ with 95\% bootstrap CIs over cells (Qwen3-30B-A3B, generated-only windows).}
 \end{figure}
 
 \paragraph{The factorial and the baselines.} Battery~3 completes the
-$2\times2$ (Table~\ref{tab:gen-q1}, \ref{tab:gen-q3b}). The neutral subject
+$2\times2$ (Table~\ref{tab:gen-q1}, \ref{tab:gen-q3-3}). The neutral subject
 change \emph{without} habituation reaches 2.45 / 3.02 / 5.38 at period 150
 and 2.49 / 1.97 / 5.50 at period 300: above habituation alone on surprise
 (+0.87 \ci{+0.27}{+1.43}, $p=0.04$; +0.91 \ci{+0.43}{+1.40}, $p=0.016$) and,
@@ -161,7 +161,7 @@ across the space keeping its context.}
 An interruption is three things at once: a boundary in the text, a new
 subject, and a context that is kept or dropped. Battery~3 separates them at
 period 300 (Figure~\ref{fig:q3}, Tables~\ref{tab:gen-q3} and
-\ref{tab:gen-q3b}). A bare paragraph break every 300 tokens (a sham
+\ref{tab:gen-q3-3}). A bare paragraph break every 300 tokens (a sham
 interruption) leaves the stream where habituation alone leaves it (1.42 /
 0.97 / 4.43 vs 1.58 / 1.28 / 4.45). A connective that asks for continuity
 (\emph{``And so, as before,''}) is, if anything, worse than nothing (1.08 /
@@ -370,7 +370,11 @@ $p=0.008$; connection +2.17 \ci{+1.53}{+2.83}, $p=0.002$), scaffold 2.70 /
 locking into literal orbits and is therefore less dead (1.28), the
 interruption over habituation gains connection (+1.61 \ci{+0.83}{+2.35},
 $p=0.004$) and only some surprise (+0.82 \ci{-0.21}{+1.81}, $p=0.17$), and
-costs nothing detectable in coherence; there the full scaffold is the best
+costs nothing detectable in coherence. Self-copy is present there too (78\%
+of the interruption arm's windows on the 8B, 45\% on OLMo,
+Table~\ref{tab:gen-self-2}); on fresh windows the interruption adds +0.95
+(8B) and +1.0 (OLMo) surprise over habituation. On OLMo the full scaffold is
+the best
 arm on surprise (3.60, +1.64 over habituation, $p=0.04$) and coherence (6.23,
 +2.24, $p=0.02$), with less connection than the plain interruption (2.23 vs
 2.87). What the scaffold does for OLMo is what a reset does: pull the stream
