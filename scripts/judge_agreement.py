@@ -23,7 +23,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 from creative_machine.blend import OpenRouterClient, judge_surprise  # noqa: E402
-from dream_rejudge import windows_of  # noqa: E402
+from dream_rejudge import windows_generated, windows_of  # noqa: E402
 
 RUNS = ROOT / "runs"
 DIMS = ("surprise", "connection", "coherence")
@@ -38,32 +38,47 @@ def main() -> None:
     p.add_argument("--conds", nargs="*", default=["bare", "bare_habit", "bare_reseed", "scaffold0", "clock_reenc", "clock300", "sal_reenc"])
     p.add_argument("--seed", type=int, default=3)
     p.add_argument("--tokenizer-model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit")
+    p.add_argument("--protocol", choices=["events", "gen"], default="events",
+                   help="which Opus judgments to sample from and which windows to recut (gen = generated-only, post-interruption)")
+    p.add_argument("--sampling", choices=["stratified", "random"], default="stratified",
+                   help="stratified: evenly across the Opus surprise range; random: uniform over judged windows")
     args = p.parse_args()
 
     from mlx_lm.utils import load_tokenizer
     tok = load_tokenizer(Path(args.tokenizer_model).expanduser())
     rng = random.Random(args.seed)
     out_dir = RUNS / "judge_agreement"; out_dir.mkdir(exist_ok=True)
-    tag = args.judge.replace("/", "_")
+    tag = args.judge.replace("/", "_") + ("_gen" if args.protocol == "gen" else "")
     out_path = out_dir / f"{tag}.json"
     results = json.loads(out_path.read_text()) if out_path.exists() else []
     done = {(r["run"], r["cell"], r["step"]) for r in results}
 
     # stratified sample: per condition, evenly across the Opus surprise range
     pool = []
+    names = ("rejudge_gen.json", "rejudge_gen_w2.json", "rejudge_gen_w3.json") if args.protocol == "gen" else ("rejudge_surprise.json",)
+    seen = set()
     for run in args.runs:
-        pth = RUNS / run / "rejudge_surprise.json"
-        if pth.exists():
-            for r in json.loads(pth.read_text()):
-                if r.get("surprise") is not None and r["cond"] in args.conds and r["step"] >= 100:
-                    pool.append({**r, "run": run})
+        for name in names:
+            pth = RUNS / run / name
+            if pth.exists():
+                for r in json.loads(pth.read_text()):
+                    if r.get("surprise") is None or r["cond"] not in args.conds or (run, r["cell"], r["step"]) in seen:
+                        continue
+                    if args.protocol == "gen" and r.get("since") not in (32, None):
+                        continue
+                    if args.protocol == "events" and r["step"] < 100:
+                        continue
+                    seen.add((run, r["cell"], r["step"])); pool.append({**r, "run": run})
     sample = []
     for cond in args.conds:
         rows = sorted((r for r in pool if r["cond"] == cond), key=lambda r: r["surprise"])
         if not rows:
             continue
-        idx = np.linspace(0, len(rows) - 1, min(args.per_cond, len(rows))).round().astype(int)
-        sample.extend(rows[i] for i in sorted(set(idx)))
+        if args.sampling == "random":
+            sample.extend(rng.sample(rows, min(args.per_cond, len(rows))))
+        else:
+            idx = np.linspace(0, len(rows) - 1, min(args.per_cond, len(rows))).round().astype(int)
+            sample.extend(rows[i] for i in sorted(set(idx)))
     print(f"{len(sample)} windows, judge {args.judge}, k={args.k}", flush=True)
 
     client = OpenRouterClient()
@@ -74,7 +89,10 @@ def main() -> None:
             continue
         ck = (r["run"], r["cell"])
         if ck not in cache:
-            cache[ck] = {(w["step"], w["kind"]): w for w in windows_of(RUNS / r["run"] / r["cell"], tok, 160, 600)}
+            if args.protocol == "gen":
+                cache[ck] = {(w["step"], "gen"): w for w in windows_generated(RUNS / r["run"] / r["cell"], tok)}
+            else:
+                cache[ck] = {(w["step"], w["kind"]): w for w in windows_of(RUNS / r["run"] / r["cell"], tok, 160, 600)}
         w = cache[ck].get((r["step"], r["kind"]))
         if not w:
             continue
