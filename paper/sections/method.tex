@@ -192,11 +192,13 @@ sham break 300 & on & a paragraph break (``\textbackslash n\textbackslash n'') e
 sham continuity 300 & on & ``And so, as before,'' every 300 tokens: a boundary that asks for continuity \\
 reset + subject change 300 & on & neutral subject change every 300 tokens on a \emph{reset} context (premise + injected sentence only) \\
 reset + break 300 & on & a paragraph break every 300 tokens on a reset context \\
+\midrule
+judge-gated 150 & on & the neutral change every 150 tokens unless Opus reads the last 128 tokens as a find (surprise and coherence $\ge5$), which is left to run \\
 \bottomrule
 \end{tabular}
 \caption{Conditions: the habituation $\times$ interruption factorial with its
-baselines (top), the content and timing arms (middle) and the boundary and
-context controls (bottom). Ten premises each, 4,500 tokens per cell, main
+baselines (top), the content and timing arms, the boundary and context
+controls, and the judge-gated arm (bottom). Ten premises each, 4,500 tokens per cell, main
 generator Qwen3-30B-A3B-Base; the ladder bare / habituation / habituation +
 interruption 150 / scaffold is replicated on Qwen3-8B-Base and OLMo-2-13B.}
 \label{tab:conditions}

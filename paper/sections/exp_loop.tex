@@ -300,6 +300,34 @@ clean parts, each returning to the premise, read best.}
 \label{fig:document}
 \end{figure}
 
+\subsection{The Review, with a gate that opens}
+\label{sec:gate}
+
+The scaffold's one instrument for building on a find, the judge-gated
+escalation, never fired (Section~\ref{sec:loop-method}). To test the idea
+rather than the accident, we ran the Review as the architecture intended it,
+with a gate that does open: every 150 tokens, before the scheduled subject
+change, Opus~5 reads the last 128 generated tokens against the 600 before
+them (one call), and if the window is a find (surprise $\ge5$ and coherence
+$\ge5$) the interruption is withheld and the thread is left to run; otherwise
+the neutral subject change is injected as in the clock arm. The hypotheses,
+written before the run: G1, the judge-gated arm beats the clock at 150 on
+the post-interruption window; G2, it beats it at the document level on
+development and integration, since finds are allowed to develop. The gate
+opened on 40 of 300 reads (13\%), so the arm interrupted a little less often
+than the clock and let 40 good threads run. Neither hypothesis is supported
+(Table~\ref{tab:gen-judge-gated}): on the post-interruption windows the
+gated arm is at 2.70 / 3.03 / 5.92 against the clock's 3.02 / 3.68 / 6.12
+($-0.32$ \ci{-0.93}{+0.17} on surprise, $-0.65$ \ci{-1.47}{+0.03} on
+connection), and at the document level it is where the clock is (0.90 /
+0.50 / 1.30 / 0.30 against 0.70 / 0.30 / 1.20 / 0.10; every paired
+difference within $\pm0.2$), below habituation alone on surprise ($-1.10$
+\ci{-1.40}{-0.80}). A real judge deciding when not to interrupt, on this
+generator and at this rate of finds, adds nothing to a clock, locally or in
+the whole. The Review stage of the architecture is not refuted as an idea
+for a different regime, but in this one it had its chance and did not take
+it.
+
 \subsection{The interruption must lead away}
 \label{sec:content}
 

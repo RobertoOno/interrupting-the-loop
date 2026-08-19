@@ -475,42 +475,42 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
 | no interruption | 10 | 1.96 [1.30, 2.61] | 1.26 [0.77, 1.76] | 3.99 [2.89, 5.07] |
-| paragraph break (sham) | 10 | 1.93 [1.41, 2.46] | 1.52 [0.93, 2.19] | 4.06 [2.96, 5.12] |
+| paragraph break (sham) | 10 | 1.92 [1.40, 2.44] | 1.52 [0.93, 2.19] | 4.05 [2.96, 5.11] |
 | subject change, context preserved | 10 | 3.60 [3.10, 4.15] | 3.54 [3.07, 4.10] | 5.65 [5.15, 6.17] |
-| subject change, context reset | 10 | 4.10 [3.78, 4.42] | 2.90 [2.62, 3.18] | 6.63 [6.22, 7.00] |
+| subject change, context reset | 10 | 4.10 [3.78, 4.42] | 2.90 [2.62, 3.18] | 6.65 [6.23, 7.03] |
 
 ### vs no interruption — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| paragraph break (sham) | surprise | -0.02 [-0.90, +0.85] | 0.965 | 0.965 | -0.06 | 10 |
+| paragraph break (sham) | surprise | -0.04 [-0.91, +0.82] | 0.938 | 0.938 | -0.08 | 10 |
 | paragraph break (sham) | connection | +0.27 [-0.48, +1.01] | 0.541 | 0.696 | +0.09 | 10 |
-| paragraph break (sham) | coherence | +0.07 [-1.33, +1.39] | 0.926 | 0.965 | -0.01 | 10 |
+| paragraph break (sham) | coherence | +0.06 [-1.33, +1.37] | 0.938 | 0.938 | -0.01 | 10 |
 | subject change, context preserved | surprise | **+1.64 [+0.74, +2.51]** | 0.012 | 0.021 | +0.80 | 10 |
 | subject change, context preserved | connection | **+2.28 [+1.58, +2.95]** | 0.004 | 0.009 | +0.97 | 10 |
 | subject change, context preserved | coherence | **+1.66 [+0.37, +2.88]** | 0.043 | 0.064 | +0.53 | 10 |
 | subject change, context reset | surprise | **+2.14 [+1.32, +2.92]** | 0.004 | 0.009 | +0.90 | 10 |
 | subject change, context reset | connection | **+1.64 [+1.10, +2.25]** | 0.002 | 0.009 | +0.90 | 10 |
-| subject change, context reset | coherence | **+2.64 [+1.60, +3.79]** | 0.002 | 0.009 | +0.83 | 10 |
+| subject change, context reset | coherence | **+2.66 [+1.61, +3.85]** | 0.002 | 0.009 | +0.83 | 10 |
 
 ### Second genre — expository openings on the main generator (period 300) — cell means (mean over cells [95% CI over cells])
 
 | condition | n cells | surprise | connection | coherence |
 |---|---|---|---|---|
-| no interruption | 10 | 1.35 [1.12, 1.63] | 0.95 [0.68, 1.23] | 4.47 [3.88, 5.02] |
-| subject change, context preserved | 10 | 2.93 [2.60, 3.23] | 2.40 [2.05, 2.92] | 6.53 [6.13, 6.90] |
-| subject change, context reset | 10 | 3.00 [2.65, 3.38] | 2.48 [2.02, 2.97] | 6.67 [6.33, 6.95] |
+| no interruption | 10 | 1.35 [1.12, 1.63] | 0.95 [0.68, 1.23] | 4.48 [3.92, 5.03] |
+| subject change, context preserved | 10 | 2.95 [2.63, 3.23] | 2.42 [2.07, 2.93] | 6.52 [6.10, 6.90] |
+| subject change, context reset | 10 | 2.98 [2.63, 3.37] | 2.47 [2.02, 2.93] | 6.63 [6.32, 6.92] |
 
 ### vs no interruption — paired by seed
 
 | condition | dim | Δ [CI] | p (perm) | q (BH) | Cliff δ | n seeds |
 |---|---|---|---|---|---|---|
-| subject change, context preserved | surprise | **+1.58 [+1.17, +2.00]** | 0.002 | 0.002 | +0.96 | 10 |
-| subject change, context preserved | connection | **+1.45 [+1.00, +2.00]** | 0.002 | 0.002 | +1.00 | 10 |
-| subject change, context preserved | coherence | **+2.07 [+1.45, +2.68]** | 0.002 | 0.002 | +0.96 | 10 |
-| subject change, context reset | surprise | **+1.65 [+1.20, +2.05]** | 0.002 | 0.002 | +0.98 | 10 |
-| subject change, context reset | connection | **+1.53 [+0.92, +2.15]** | 0.004 | 0.004 | +0.92 | 10 |
-| subject change, context reset | coherence | **+2.20 [+1.43, +2.95]** | 0.002 | 0.002 | +0.98 | 10 |
+| subject change, context preserved | surprise | **+1.60 [+1.18, +2.02]** | 0.002 | 0.002 | +0.97 | 10 |
+| subject change, context preserved | connection | **+1.47 [+1.02, +2.02]** | 0.002 | 0.002 | +1.00 | 10 |
+| subject change, context preserved | coherence | **+2.03 [+1.42, +2.65]** | 0.002 | 0.002 | +0.96 | 10 |
+| subject change, context reset | surprise | **+1.63 [+1.20, +2.03]** | 0.002 | 0.002 | +0.98 | 10 |
+| subject change, context reset | connection | **+1.52 [+0.92, +2.12]** | 0.004 | 0.004 | +0.92 | 10 |
+| subject change, context reset | coherence | **+2.15 [+1.42, +2.87]** | 0.002 | 0.002 | +0.98 | 10 |
 
 ### Judge-gated interruption (DREAM's Review with a gate that opens) vs the clock — cell means (mean over cells [95% CI over cells])
 
@@ -519,7 +519,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | no interruption | 10 | 1.60 [1.18, 2.00] | 1.32 [0.87, 1.82] | 4.40 [3.45, 5.42] |
 | clock 150 | 10 | 3.02 [2.53, 3.53] | 3.68 [2.92, 4.52] | 6.12 [5.60, 6.57] |
 | clock 300 | 10 | 2.90 [2.45, 3.35] | 2.40 [2.03, 2.78] | 6.40 [6.08, 6.70] |
-| judge-gated 150 | 9 | 2.69 [2.15, 3.22] | 3.07 [2.54, 3.59] | 6.16 [5.60, 6.79] |
+| judge-gated 150 | 10 | 2.70 [2.13, 3.25] | 3.03 [2.48, 3.55] | 5.92 [5.58, 6.27] |
 
 ### vs clock 150 — paired by seed
 
@@ -530,10 +530,10 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | no interruption | coherence | **-1.72 [-2.90, -0.35]** | 0.043 | 0.097 | -0.61 | 10 |
 | clock 300 | surprise | -0.12 [-0.75, +0.47] | 0.781 | 0.781 | -0.02 | 10 |
 | clock 300 | connection | **-1.28 [-2.10, -0.53]** | 0.008 | 0.023 | -0.64 | 10 |
-| clock 300 | coherence | +0.28 [-0.28, +0.82] | 0.389 | 0.583 | +0.22 | 10 |
-| judge-gated 150 | surprise | -0.39 [-1.17, +0.26] | 0.453 | 0.583 | -0.25 | 9 |
-| judge-gated 150 | connection | -0.76 [-1.69, +0.06] | 0.211 | 0.380 | -0.27 | 9 |
-| judge-gated 150 | coherence | -0.16 [-0.73, +0.52] | 0.711 | 0.781 | -0.20 | 9 |
+| clock 300 | coherence | +0.28 [-0.28, +0.82] | 0.389 | 0.507 | +0.22 | 10 |
+| judge-gated 150 | surprise | -0.32 [-0.93, +0.17] | 0.395 | 0.507 | -0.21 | 10 |
+| judge-gated 150 | connection | -0.65 [-1.47, +0.03] | 0.180 | 0.323 | -0.21 | 10 |
+| judge-gated 150 | coherence | -0.20 [-0.63, +0.27] | 0.461 | 0.519 | -0.27 | 10 |
 
 Gate: 300 reads in 10 cells, 40 finds left to run (13%).
 
