@@ -14,9 +14,10 @@ choice, not an ingredient. The elaborate parts either add nothing detectable (th
 as a trigger; the in-loop judge, which never fired), or interrupt too rarely
 (the forgetting reseed fires 0--3 times per cell, and the scaffold's lower
 connection tracks that rarity, not the forgetting: a complete reset every 300
-tokens scores as well as the preserved context), or work opposite to their
-design (a literal return to the premise closes the
-loop; salience is a good reader of the stream and a bad metronome for it).
+tokens scores at least as well as the preserved context), or work opposite
+to their design (a literal return to the premise closes the loop), or do no
+better than the trivial alternative (salience is a good reader of the stream
+and, as a metronome, no better than a clock at the same rate).
 Only because the whole scaffold was built and then dismantled do we know
 which beam carries the weight, and which pieces are conditional: the reset
 earns its keep on a generator whose well is web boilerplate, and is
@@ -61,8 +62,8 @@ the experiment this paper did not run and the next one should.
 \paragraph{Surface novelty and judged surprise are different quantities.}
 The anti-probable sampler doubles $n$-gram novelty against the training
 corpus and shows no detectable effect on judged surprise or connection; the
-interruption lifts judged surprise and connection by two to three points on
-a ten-point scale without touching the sampler at all. Inside the network,
+interruption lifts judged surprise by more than a point on fresh text (two
+to three points on all windows) without touching the sampler at all. Inside the network,
 read descriptively, the two live at different depths: what the judge calls
 surprise co-varies with lexical departure over an intact deep context, and
 the interruption that scores best barely moves the deep state. This is also
@@ -76,9 +77,9 @@ a story is.
 rhythm: a break every 75 tokens develops nothing, the same break scores
 higher after a longer thread, and 300 tokens looked like the best period.
 On generated text only, most of that is gone. The post-interruption surprise
-does not depend on the length of the thread it breaks; connection is highest
-when breaks are frequent; and a stream left alone for many hundreds of
-tokens sinks back toward the level of habituation alone. What survives is
+does not depend on the length of the thread it breaks; on fresh windows,
+neither does connection; and a stream left alone for many hundreds of tokens
+sinks back toward the level of habituation alone. What survives is
 humbler and, we think, still usable: the interruption is a resource that has
 to be spent regularly (every 150--300 tokens on these generators), a thread
 needs some tens of tokens to exist before breaking it is worth anything, and
@@ -89,8 +90,9 @@ the right picture, provided one takes it often.
 literature; most windows are judged well below the midpoint, and the texts
 are what a base model produces under forced continuation. It is not a claim
 about creativity in the full sense (no value, interest or originality against
-the world is measured), nor about scale (the generators are 8--30B parameters
-at 8 bits), nor about instruction-tuned models. It is a characterization,
+the world is measured), nor about scale (the generators are 8--30B parameters,
+mostly at 8 bits), and only one post-trained model was run, in raw
+continuation. It is a characterization,
 with controls, of a simple intervention on forced open-ended generation, made
 on three base models from two families and under two judge families, and it
 points at the loop's structure and rhythm rather than at the two places where
