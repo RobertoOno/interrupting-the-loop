@@ -28,7 +28,12 @@ interruption: a paragraph break every 300 tokens leaves the stream where
 habituation leaves it, and the model's own document breaks (EOS allowed) buy
 coherence and nothing else. A boundary that points back is worse than none.
 What works is a new subject; habituation adds to it (a fluent stream
-between injections) but the new subject alone gets most of the way. And the
+between injections) but the new subject alone gets most of the way. A new
+subject means new each time: the four-sentence rotation we used is a cycle
+the model closes by replaying its own earlier segments, and a window judge
+with a 600-token horizon reads the replay as surprise and, worse, as
+connection; the fresh-only numbers are the ones to believe, and a reset
+context, or a fresh sentence at each break, is the cure. And the
 new subject works whether the earlier text stays in the model's context or
 is thrown away, at least for what the judge can read; thrown away, it
 scores higher: on a reset context the model writes a fresh mini-story that
