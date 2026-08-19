@@ -1,5 +1,5 @@
 note: Running TeX ...
-warning: sections/method:203: Overfull \hbox (28.55482pt too wide) in paragraph at lines 174--203
+warning: sections/method:207: Overfull \hbox (28.55482pt too wide) in paragraph at lines 178--207
 warning: main.bbl:122: 
 Missing character: There is no ��� ("2014) in font ec-lmr10!
 warning: could not represent character "—" (0x2014) in font "ec-lmr10"
@@ -17,7 +17,7 @@ warning: sections/appendix:89: Overfull \hbox (16.53087pt too wide) in paragraph
 warning: sections/appendix:89: Overfull \hbox (11.28088pt too wide) in paragraph at lines 78--89
 warning: sections/appendix:89: Overfull \hbox (18.10585pt too wide) in paragraph at lines 78--89
 warning: sections/appendix:94: Overfull \hbox (15.17961pt too wide) in paragraph at lines 91--94
-warning: sections/appendix:161: Overfull \hbox (41.47076pt too wide) in paragraph at lines 154--161
+warning: sections/appendix:161: Overfull \hbox (43.56963pt too wide) in paragraph at lines 154--161
 warning: sections/appendix:161: Overfull \hbox (65.60907pt too wide) in paragraph at lines 154--161
 warning: sections/appendix:177: Overfull \hbox (20.30247pt too wide) in paragraph at lines 167--177
 warning: sections/appendix_tables:1192: Underfull \hbox (badness 1297) in paragraph at lines 1192--1192
@@ -28,7 +28,7 @@ warning: sections/appendix_tables:1249: Underfull \hbox (badness 2809) in paragr
 warning: sections/appendix_tables:1250: Underfull \hbox (badness 2809) in paragraph at lines 1250--1250
 note: Running BibTeX on main.aux ...
 note: Rerunning TeX because bibtex was run ...
-warning: sections/method:203: Overfull \hbox (28.55482pt too wide) in paragraph at lines 174--203
+warning: sections/method:207: Overfull \hbox (28.55482pt too wide) in paragraph at lines 178--207
 warning: main.bbl:122: 
 Missing character: There is no ��� ("2014) in font ec-lmr10!
 warning: could not represent character "—" (0x2014) in font "ec-lmr10"
@@ -57,5 +57,5 @@ warning: sections/appendix_tables:1249: Underfull \hbox (badness 2809) in paragr
 warning: sections/appendix_tables:1250: Underfull \hbox (badness 2809) in paragraph at lines 1250--1250
 warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `main.pdf` (2.7625226974487305 MiB)
+note: Writing `main.pdf` (2.7620859146118164 MiB)
 note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
