@@ -43,7 +43,7 @@ LABEL = {"bare": "bare", "bare_habit": "bare + habituation", "bare_reseed": "hab
          "clock900_reenc": "stitch 900", "nohabit150": "reseed 150, no habituation", "nohabit300": "reseed 300, no habituation",
          "sham_break300": "paragraph break 300 (sham)", "sham_cont300": "continuity connective 300 (sham)",
          "bare_eos": "habituation, EOS allowed", "habit_strong": "habituation 1.3", "reset_reseed300": "reset + new subject 300",
-         "reset_break300": "reset + break 300"}
+         "reset_break300": "reset + break 300", "judge_gate150": "judge-gated interruption 150"}
 
 
 def load_gen(run: str):
@@ -318,7 +318,7 @@ def main() -> None:
     # ---- document-level judgment (whole streams, injected sentences removed; one score per cell)
     DDIMS = ("integration", "development", "coherence", "surprise")
     docs = []
-    for name in ("document_judgments_a.json", "document_judgments_b.json", "document_judgments_c.json"):
+    for name in ("document_judgments_a.json", "document_judgments_b.json", "document_judgments_c.json", "document_judgments_gate.json"):
         pth = RUNS / name
         if pth.exists():
             docs.extend(json.loads(pth.read_text()))
@@ -326,7 +326,7 @@ def main() -> None:
         md.append(f"\n## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 ({len(docs)} documents)\n")
         md.append("Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather "
                   "than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.\n")
-        conds_doc = ["bare", "bare_habit", "bare_reseed", "clock300", "nohabit300", "sham_break300", "reset_reseed300", "reset_break300", "scaffold0"]
+        conds_doc = ["bare", "bare_habit", "bare_reseed", "clock300", "nohabit300", "sham_break300", "reset_reseed300", "reset_break300", "scaffold0", "judge_gate150"]
         others = sorted({r["cond"] for r in docs} - set(conds_doc))
         md.append("| condition | n | " + " | ".join(DDIMS) + " |")
         md.append("|---|---|" + "---|" * len(DDIMS))
@@ -350,7 +350,9 @@ def main() -> None:
                           ("reset_reseed300", "clock300", "reset vs preserved (300)"),
                           ("scaffold0", "bare_habit", "scaffold vs habituation"),
                           ("sham_break300", "bare_habit", "sham break vs habituation"),
-                          ("bare_habit", "bare", "habituation vs bare")):
+                          ("bare_habit", "bare", "habituation vs bare"),
+                          ("judge_gate150", "bare_reseed", "judge-gated vs clock 150"),
+                          ("judge_gate150", "bare_habit", "judge-gated vs habituation")):
             for d in DDIMS:
                 if (a, d) in dmeans and (b, d) in dmeans:
                     pr = paired(dmeans[(a, d)], dmeans[(b, d)])
@@ -371,6 +373,41 @@ def main() -> None:
         axes[0].set_ylabel("document score (one point per premise)")
         fig.suptitle("The whole document, injected sentences removed (Opus, k=3)", fontsize=10, y=1.02); fig.tight_layout()
         fig.savefig(FIG / "fig9_document.png", dpi=170, bbox_inches="tight"); plt.close(fig)
+    # ---- overnight follow-ups: unquantized 8B, post-trained 8B, reset ladders on 8B/OLMo, second genre, judge gate
+    bf16 = load_gen("dream_fam8b_bf16"); inst = load_gen("dream_instruct8b")
+    if bf16:
+        block("P2 — the ladder on Qwen3-8B-Base without quantization (bf16)", bf16,
+              [("bare", "bare"), ("bare_habit", "bare + habituation"), ("bare_reseed", "habituation + reseed 150")], ref=1, fname="fig9_bf16.png")
+    if inst:
+        block("P1 — the ladder on the post-trained Qwen3-8B (8-bit), no chat template", inst,
+              [("bare", "bare"), ("bare_habit", "bare + habituation"), ("bare_reseed", "habituation + reseed 150")], ref=1, fname="fig9_instruct.png")
+    for run, base, name in (("dream_fam8b_reset", "dream_fam8b", "Qwen3-8B-Base"), ("dream_famolmo_reset", "dream_famolmo", "OLMo-2-13B")):
+        rr = load_gen(run)
+        if rr:
+            pool = rr + [r for r in load_gen(base) if r["cond"] == "bare_habit"]
+            block(f"Reset vs preserved vs sham at period 300 on {name}", pool,
+                  [("bare_habit", "no interruption"), ("sham_break300", "paragraph break (sham)"),
+                   ("clock300", "subject change, context preserved"), ("reset_reseed300", "subject change, context reset")],
+                  ref=0, fname=f"fig9_reset_{run.split('_')[1]}.png")
+    genre = load_gen("dream_genre")
+    if genre:
+        block("Second genre — expository openings on the main generator (period 300)", genre,
+              [("bare_habit", "no interruption"), ("clock300", "subject change, context preserved"), ("reset_reseed300", "subject change, context reset")],
+              ref=0, fname="fig9_genre.png")
+    gate = load_gen("dream_gate")
+    if gate:
+        pool = gate + [r for r in main30 if r["cond"] in ("bare_reseed", "clock300", "bare_habit")]
+        block("Judge-gated interruption (DREAM's Review with a gate that opens) vs the clock", pool,
+              [("bare_habit", "no interruption"), ("bare_reseed", "clock 150"), ("clock300", "clock 300"), ("judge_gate150", "judge-gated 150")],
+              ref=1, fname="fig9_gate.png")
+        # gate statistics: reads, finds, resulting period
+        import glob as _glob
+        reads = finds = 0; cells = 0
+        for f in _glob.glob(str(RUNS / "dream_gate" / "s*_judge_gate150" / "run.json")):
+            ev = json.loads(Path(f).read_text())["events"]; cells += 1
+            reads += sum(1 for e in ev if e.get("kind") == "gate"); finds += sum(1 for e in ev if e.get("kind") == "gate" and e.get("passed"))
+        if cells:
+            md.append(f"\nGate: {reads} reads in {cells} cells, {finds} finds left to run ({100*finds/max(1,reads):.0f}%).")
     # ---- confirmatory battery (new premises, RNG seed 1): pre-registered contrasts (docs/PLANO.md, 2026-08-18)
     conf = load_gen("dream_confirm")
     if conf:
