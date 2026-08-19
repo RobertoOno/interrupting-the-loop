@@ -1,36 +1,37 @@
 \section{The instrument, measured}
 \label{sec:instrument}
 
-Every idea-level claim in this paper rests on an LLM judge, so we measured the
-judge before using it, in three ways: its repeatability, its agreement with a
-second judge family, and its agreement with human readers. Repeatability is
-not validity: five calls to the same model measure the stability of one
-reader, not whether that reader is right, and only the last two checks bear
-on validity.
+Every idea-level claim in this paper rests on an LLM judge, so we measured
+the judge before using it, in three ways: its repeatability, its agreement
+with a second judge family, and its agreement with human readers.
+Repeatability is not validity. Five calls to the same model measure the
+stability of one reader, not whether that reader is right; only the last two
+checks bear on validity.
 
 \paragraph{Repeatability.} On the same 89 windows judged $k=5$ times by two
 models, Claude Opus~5 gives continuous scores with a median intra-window
-spread of 0.71; Claude Sonnet~5 has spread 0.27, but by scoring zero on the
+spread of 0.71. Claude Sonnet~5 has spread 0.27, but by scoring zero on the
 connection dimension almost everywhere; a ruler that only reads ``0'' is
 consistent (Figure~\ref{fig:judge}). The three-dimension
-surprise/connection/coherence rubric has spreads of 0.45--0.70 under Opus.
-A test--retest of the whole pipeline came for free: two arms of the ablation
-battery (the full scaffold and its no-re-encounter ablation) turned out to be
-byte-identical in all ten cells, because the in-loop judge never passed and
-the re-encounter never fired, and they were judged independently. On their 79
-generated-only windows the medians of five agree exactly in 91\% of windows
-on surprise (mean absolute difference 0.09), 85\% on connection (0.15) and
-71\% on coherence (0.29); the cell means differ by $-0.01$ \ci{-0.09}{+0.07}
-on surprise. Two consequences shape the paper. A binary threshold on a noisy judge is a
-coin (the same window scored 5.24 one night and 4.48 the next), so every
-result uses continuous medians of $k$ samples. And a per-judgment noise of
-about $\pm0.7$ is one of several sources of variance, not a threshold of
-detectability: the median of five reduces it, windows within a stream vary
-more than that, cells vary more still, and the power of a comparison is set
-by the ten paired cells, not by the judge's spread. That is why the
-sampler's null inside the loop (Section~\ref{sec:sampler}), obtained on
-windows and with a half-point difference, is reported as ``no detectable
-effect at the present resolution'', not ``absent''.
+surprise/connection/coherence rubric has spreads of 0.45--0.70 under Opus. A
+test--retest of the whole pipeline came for free. Two arms of the ablation
+battery, the full scaffold and its no-re-encounter ablation, turned out to
+be byte-identical in all ten cells, because the in-loop judge never passed
+and the re-encounter never fired, and they were judged independently. On
+their 79 generated-only windows the medians of five agree exactly in 91\% of
+windows on surprise (mean absolute difference 0.09), 85\% on connection
+(0.15) and 71\% on coherence (0.29); the cell means differ by $-0.01$
+\ci{-0.09}{+0.07} on surprise. Two consequences shape the paper. A binary
+threshold on a noisy judge is a coin (the same window scored 5.24 one night
+and 4.48 the next), so every result uses continuous medians of $k$ samples.
+And a per-judgment noise of about $\pm0.7$ is one of several sources of
+variance, not a threshold of detectability. The median of five reduces it,
+windows within a stream vary more than that, cells vary more still, and the
+power of a comparison is set by the ten paired cells, not by the judge's
+spread. That is why the sampler's null inside the loop
+(Appendix~\ref{sec:sampler}), obtained on windows and with a half-point
+difference, is reported as ``no detectable effect at the present
+resolution'', not ``absent''.
 
 \begin{figure}[t]
 \centering
@@ -46,57 +47,57 @@ the taste of one model family, a stratified sample of 140 already-judged
 event-protocol windows (20 per condition across bare, habituation, clock
 reseed, scaffold, re-encounter stitch, period 300 and salience-timed
 re-encounter) was re-judged by Kimi K2.6 (Moonshot, via OpenRouter) with the
-same rubric and $k=5$. Agreement with Opus~5 on the median of five: surprise
-Spearman $\rho=+0.85$, connection $+0.77$, coherence $+0.71$ ($n=140$
-windows from 70 cells; the correlations are computed on windows and their
-$p$-values are not corrected for the clustering by cell). Kimi is more
-generous (means about one point higher) and noisier (intra-window spread
-2.0--2.6), but every condition ordering replicates: bare 0.55 $\rightarrow$
-habituation 3.15 $\rightarrow$ clock reseed 4.30 $\approx$ scaffold 4.10
-$\rightarrow$ period 300 5.65 on surprise, and the neutral reseed and the
-re-encounter stitch highest on connection under both judges. Repeated on
-the generated-only protocol with a random (not stratified) sample of 160
+same rubric and $k=5$. Agreement with Opus~5 on the median of five is
+Spearman $\rho=+0.85$ on surprise, $+0.77$ on connection and $+0.71$ on
+coherence ($n=140$ windows from 70 cells; the correlations are computed on
+windows and their $p$-values are not corrected for the clustering by cell).
+Kimi is more generous (means about one point higher) and noisier
+(intra-window spread 2.0--2.6), but every condition ordering replicates:
+bare 0.55, habituation 3.15, clock reseed 4.30, scaffold 4.10, period 300
+5.65 on surprise, with the neutral reseed and the re-encounter stitch
+highest on connection under both judges. We repeated the check on the
+generated-only protocol with a random, not stratified, sample of 160
 post-interruption windows from eight conditions including the battery-3
-arms, the agreement is $\rho=+0.75$ on surprise, $+0.80$ on connection and
-$+0.65$ on coherence, and the ordering is again reproduced (bare 1.0 $<$
-habituation 2.5 $\approx$ sham break 2.1 $<$ interruption 150 3.3, 300 5.4,
-scaffold 4.9 $<$ reset 5.7 on surprise under Kimi). Two families agreeing
+arms. The agreement is $\rho=+0.75$ on surprise, $+0.80$ on connection and
+$+0.65$ on coherence, and the ordering is again reproduced (under Kimi,
+surprise runs bare 1.0, habituation 2.5, sham break 2.1, interruption 150
+3.3, scaffold 4.9, interruption 300 5.4, reset 5.7). Two families agreeing
 does not make the rubric valid; it rules out one family's taste as the whole
 explanation.
 
-\paragraph{Human rating, round 1.} A blind rating of 63 event-protocol
-windows (nine per condition, stratified by judged surprise, shuffled, no
-labels, the earlier text shown) by three independent raters recruited on a
+\paragraph{Human rating, round 1.} Three independent raters, recruited on a
 freelance platform without knowledge of the hypotheses or conditions
-(Appendix~\ref{app:human}): a native English reader with professional
-editing experience, a native or bilingual English speaker, and an advanced
+(Appendix~\ref{app:human}), rated 63 event-protocol windows blind: nine per
+condition, stratified by judged surprise, shuffled, no labels, the earlier
+text shown. They were a native English reader with professional editing
+experience, a native or bilingual English speaker, and an advanced
 non-native reader with graduate training in language. They rated surprise
 and coherence (not connection) with the judge's rubric. All three returned
 complete ratings using the whole of both scales, with distinct personal
 calibrations (mean surprise 3.4, 4.3 and 6.1). Each rater alone agrees with
 Opus~5 on surprise (Spearman $\rho=+0.40$, $+0.50$, $+0.47$; all $p\le
-10^{-3}$) and on coherence ($+0.60$, $+0.47$, $+0.23$); the mean of the three
+10^{-3}$) and on coherence ($+0.60$, $+0.47$, $+0.23$). The mean of the three
 agrees more strongly than any one (surprise $\rho=+0.58$, $p=7\times10^{-7}$;
 coherence $+0.52$, $p=10^{-5}$), about as strongly as the raters agree with
-each other (pairwise Spearman on surprise 0.71, 0.38, 0.25; Krippendorff's
-interval $\alpha=0.30$; on coherence 0.69, 0.60, 0.42; $\alpha=0.38$; the low
+each other (pairwise Spearman on surprise 0.71, 0.38, 0.25, Krippendorff's
+interval $\alpha=0.30$; on coherence 0.69, 0.60, 0.42, $\alpha=0.38$; the low
 $\alpha$ reflects the different scale calibrations that rank correlation
-ignores). The human consensus reproduces the condition ordering that
-carries the paper: period-300 interruption 6.5 $\approx$ neutral clock
-reseed 6.4 $>$ re-encounter stitch 5.3 $>$ salience-timed 5.0 $>$ scaffold
-3.6 $\approx$ habituation-only 3.6 $>$ bare 1.5 (surprise, means over nine
-windows); interruption vs bare \ci{+3.1}{+6.5}, habituation vs bare
-\ci{+0.1}{+3.9}, and the plain interruption above the full scaffold by a
-wider margin than under Opus. On coherence the human readers rank
-habituation without interruption highest (7.7) and the interrupted arms
-5.7--6.3: to a human reader, the subject change inside a window costs some
-fluency that the LLM judge does not penalize. Three limits of this round are
-plain. The sample was stratified by the judge's own surprise score, which
-widens the range and can inflate a rank correlation; connection, the
-dimension on which the interruption's advantage is largest, was not rated;
-and inter-rater agreement is low to moderate, so the human data support the
-ordering of conditions and a moderate agreement with the judge, not the
-judge's exact numbers. A second round, on 56 generated-only and fresh
-windows from eight conditions (one per randomly chosen cell, not stratified
-by the judge), with connection added as a third dimension and five raters,
-is in progress and will be reported in a later version.
+ignores). The human consensus reproduces the condition ordering that carries
+the paper. On surprise, means over nine windows: period-300 interruption 6.5,
+neutral clock reseed 6.4, re-encounter stitch 5.3, salience-timed 5.0,
+scaffold 3.6, habituation only 3.6, bare 1.5; interruption vs bare
+\ci{+3.1}{+6.5}, habituation vs bare \ci{+0.1}{+3.9}, and the plain
+interruption above the full scaffold by a wider margin than under Opus. On
+coherence the human readers rank habituation without interruption highest
+(7.7) and the interrupted arms 5.7--6.3: to a human reader, the subject
+change inside a window costs some fluency that the LLM judge does not
+penalize. Three limits of this round are plain. The sample was stratified by
+the judge's own surprise score, which widens the range and can inflate a
+rank correlation. Connection, the dimension on which the interruption's
+all-windows advantage was largest, was not rated. And inter-rater agreement
+is low to moderate, so the human data support the ordering of conditions and
+a moderate agreement with the judge, not the judge's exact numbers. A second
+round, on 56 generated-only and fresh windows from eight conditions (one per
+randomly chosen cell, not stratified by the judge), with connection added as
+a third dimension and five raters, is in progress and will be reported in a
+later version.

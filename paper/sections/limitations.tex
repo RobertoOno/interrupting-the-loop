@@ -3,57 +3,56 @@
 
 \paragraph{What was measured.} The outcome is \emph{judged narrative
 surprise, connection and coherence} on short windows of forced open-ended
-continuation, as read by an LLM judge and, on a subset, by human readers.
-That is a defensible operationalization of one ingredient of creativity, the
-appropriately unexpected turn, and not creativity: no value, interest or
+continuation, read by an LLM judge and, on a subset, by human readers. That
+is a defensible operationalization of one ingredient of creativity, the
+appropriately unexpected turn. It is not creativity: no value, interest or
 originality against the world is measured, and the study makes no claim
 about ideas or problems. Its title names the question the program set out
 with; the results answer a narrower one.
 
-\paragraph{Design.} Ten premises, all English narrative (plus ten
-expository openings for one replication, and ten new narrative premises for
-the confirmatory battery). Three
-generator models from two families for the core ladder; one generator
-(Qwen3-30B-A3B) for the content, timing, period and control batteries. Every
-arm ran once per premise with the same random seed, so the ten cells are the
-whole sample and a paired comparison of ten is the strongest inference
-available. The batteries were designed sequentially and the questions of
-batteries~2 and~3 were formulated after seeing battery~1 and after an external
-review; the analysis reported here (generated-only windows, cell as unit) was
-fixed before battery~3 was generated but after the earlier arms had been seen
-under the first protocol, so the paper should be read as a well-controlled
-exploratory study, not a preregistered confirmation. A confirmatory
-replication of the main contrast on new premises and random seeds is the
-obvious next step.
+\paragraph{Design.} The premises are ten English narrative openings, plus
+ten expository openings for one replication and ten new narrative premises
+for the confirmatory battery. Three generator models from two families run
+the core ladder; one generator (Qwen3-30B-A3B) runs the content, timing,
+period and control batteries. Every arm ran once per premise with the same
+random seed, so the ten cells are the whole sample and a paired comparison
+of ten is the strongest inference available. Batteries 1 to 3 are
+exploratory. They were designed in sequence, the questions of batteries~2
+and~3 were formulated after seeing battery~1 and after an external review,
+and the analysis reported here (generated-only windows, cell as unit) was
+fixed before battery~3 was generated but after the earlier arms had been
+seen under the first protocol. The pre-registered exception is the
+replication of Section~\ref{sec:confirm}, run on new premises and a new
+random seed with its contrasts written down in advance; the judge-gated arm
+and the verifier probe were pre-registered in the same way. Everything else
+should be read as a well-controlled exploratory study.
 
-\paragraph{Instrument.} The judge is one model family, calibrated for
-repeatability, agreeing with a second family ($\rho=0.71$--$0.85$ on
+\paragraph{Instrument.} The judge is one model family. It is calibrated for
+repeatability and agrees with a second family ($\rho=0.71$--$0.85$ on
 windows) and with the consensus of three human readers ($\rho=0.58$ on
-surprise, $0.52$ on coherence, on a judge-stratified sample) whose agreement
-with each other is low to moderate ($\alpha=0.30$--$0.38$). Human readers did
-not rate connection in round~1, and they penalize the fluency cost of a
+surprise, $0.52$ on coherence, on a judge-stratified sample), whose agreement
+with each other is low to moderate ($\alpha=0.30$--$0.38$). Human readers
+did not rate connection in round~1, and they penalize the fluency cost of a
 subject change more than the judge does. The judge sees 600 tokens of
-context, so ``connection'' means connection within that horizon; text that
-the stream copies from further back is invisible to it as a copy, and we
-found (Section~\ref{sec:ablation}) that a fixed rotation of injected
-sentences produces exactly such copies. We report fresh-only estimates for
-that reason, and a judge with the whole document in view for the same
-reason.
+context, so ``connection'' means connection within that horizon. Text that
+the stream copies from further back is invisible to it as a copy, and a
+fixed rotation of injected sentences produces exactly such copies
+(Section~\ref{sec:ablation}). We report fresh-only estimates for that
+reason, and a judge with the whole document in view for the same reason.
 
 \paragraph{Baselines and generality.} The bare arm is a deliberately hard
-regime (forced continuation with end-of-text masked, no repetition control)
-and is reported as the floor of the ladder, not as a fair decoding baseline;
-the fair comparisons are habituation alone, habituation with a stronger
-penalty, EOS allowed, and the sham and reset controls. Stronger decoding
-baselines (look-back or contrastive decoding, learned repetition control)
-were not tested. Base models were used by a scope decision; the one
-post-trained model we ran, in raw continuation, shows the same ladder at a
-lower level and says nothing about the dialogue use such models are made
-for.
+regime (forced continuation with end-of-text masked, no repetition control).
+We report it as the floor of the ladder, not as a fair decoding baseline; the
+fair comparisons are habituation alone, habituation with a stronger penalty,
+EOS allowed, and the sham and reset controls. Stronger decoding baselines
+(look-back or contrastive decoding, learned repetition control) were not
+tested. Base models were used by a scope decision. The one post-trained
+model we ran, in raw continuation, shows the same ladder at a lower level
+and says nothing about the dialogue use such models are made for.
 
 \paragraph{The network section.} The residual-stream analysis is
 correlational and descriptive: mean-pooled 64-token windows at 13 sampled
-layers, a logit lens for a coarse commitment layer, no attention analysis, no
-tuned lens, no causal intervention. It characterizes what the judged
-dimensions correlate with in the model's state; it does not establish a
+layers, a logit lens for a coarse commitment layer, no attention analysis,
+no tuned lens, no causal intervention. It characterizes what the judged
+dimensions correlate with in the model's state. It does not establish a
 mechanism.
