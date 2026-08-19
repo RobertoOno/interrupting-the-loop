@@ -1,82 +1,88 @@
 \section{Related work}
 \label{sec:related}
 
-\paragraph{Decoding and the tail.} Nucleus sampling \citep{holtzman2020curious} truncates
-the unreliable tail of the next-token distribution; locally typical sampling
-\citep{meister2023typical} targets human-like surprisal; min-$p$
-\citep{nguyen2025minp} scales the truncation with the model's confidence and
-is exactly the coherence floor we use; contrastive decoding
+\paragraph{Decoding and the tail.} Nucleus sampling \citep{holtzman2020curious}
+truncates the unreliable tail of the next-token distribution. Locally
+typical sampling \citep{meister2023typical} targets human-like surprisal.
+Min-$p$ \citep{nguyen2025minp} scales the truncation with the model's
+confidence and is exactly the coherence floor we use. Contrastive decoding
 \citep{li2023contrastive} and plug-and-play steering \citep{dathathri2020pplm}
-shape the distribution toward or away from a reference. All of these regulate
-the tail. Our anti-probable sampler \emph{courts} it, inside an entropy band
-and above a floor, and we find that this buys surface novelty only.
+shape the distribution toward or away from a reference. All of these
+regulate the tail. Our anti-probable sampler courts it, inside an entropy
+band and above a floor, and we find that this buys surface novelty only.
 
-\paragraph{Repetition, self-reinforcement and entrainment.} The collapse of a
-base model left to itself is a well-studied phenomenon. \citet{zhu-etal-2023-penalty}
-name the \emph{self-reinforcement effect} (a repeated token becomes more
-probable each time it repeats) and suppress it with a repetition penalty
-restricted to a recent window; the graded, windowed penalty we call
-\emph{habituation} is a decoding-time operator of the same family, and we
-claim no novelty for it. \citet{guan-huang-2023-mitigating} attribute the
-tendency to repeat to a learning bias of maximum-likelihood training and
-correct it with self-contrastive training; \citet{xu-etal-2023-look} track the
-distance between the current next-token distribution and past ones to detect
-repetition and topic drift and steer decoding accordingly. At the mechanistic
-level, \citet{niu-etal-2025-llama} show that language models assign higher
-probability to tokens present in their context even when those tokens are
-irrelevant (\emph{contextual entrainment}), and locate heads that carry it.
-Our bare arm is entrainment on the model's own output; what this paper adds
-is not a new remedy for repetition but a measurement of what the remedy
-leaves untouched (a habituated stream is fluent and still not creative) and
-of what a second, structural operator adds on top of it.
+\paragraph{Repetition, self-reinforcement and entrainment.} The collapse of
+a base model left to itself is a well-studied phenomenon.
+\citet{zhu-etal-2023-penalty} name the \emph{self-reinforcement effect}, by
+which a repeated token becomes more probable each time it repeats, and
+suppress it with a repetition penalty restricted to a recent window. The
+graded, windowed penalty we call \emph{habituation} is a decoding-time
+operator of the same family, and we claim no novelty for it.
+\citet{guan-huang-2023-mitigating} attribute the tendency to repeat to a
+learning bias of maximum-likelihood training and correct it with
+self-contrastive training. \citet{xu-etal-2023-look} track the distance
+between the current next-token distribution and past ones to detect
+repetition and topic drift, and steer decoding accordingly. At the
+mechanistic level, \citet{niu-etal-2025-llama} show that language models
+assign higher probability to tokens present in their context even when those
+tokens are irrelevant (\emph{contextual entrainment}), and locate heads that
+carry it. Our bare arm is entrainment on the model's own output, and our
+self-copy finding is entrainment on the experimenter's injected sentences.
+What this paper adds is not a new remedy for repetition. It is a measurement
+of what the remedy leaves untouched (a habituated stream is fluent and still
+not creative), of what a second, structural operator adds on top of it, and
+of how the replay that entrainment produces can escape a windowed judge.
 
 \paragraph{Evaluating creativity, and the judge.} \citet{nakajima-etal-2026-beyond}
 show that the widely used Divergent Association Task ignores appropriateness
-and propose to score novelty conditional on it; our three separate
+and propose to score novelty conditional on it. Our three separate
 dimensions (surprise, connection, coherence), reported without a composite,
 follow the same logic of not letting novelty be bought with incoherence.
-\citet{saakyan2026death} show with 8,618 expert annotations that
-$\approx$91\% of top-quartile $n$-gram-novel expressions are not judged
-creative; our factual-paraphrase escape mode and the sampler's idea-level
-null are independent confirmations of the same gap. Infini-gram
+\citet{saakyan2026death} show with 8,618 expert annotations that about 91\%
+of top-quartile $n$-gram-novel expressions are not judged creative; our
+factual-paraphrase escape mode and the sampler's idea-level null are
+independent confirmations of the same gap. Infini-gram
 \citep{liu2024infinigram} and Rusty-DAWG \citep{merrill2024rustydawg} make
 verbatim novelty against a training corpus computable at scale; we use
 infini-gram against the OLMo-2 corpus. On the instrument itself,
 \citet{fein-etal-2026-litbench} find that the strongest off-the-shelf judge
-they tested agrees with human preferences on creative-writing pairs only 73\%
-of the time, and \citet{haldar-hockenmaier-2025-rating} document low
+they tested agrees with human preferences on creative-writing pairs only
+73\% of the time, and \citet{haldar-hockenmaier-2025-rating} document low
 intra-rater reliability of LLM judges across runs. Both cautions apply to
 this study. We answer the second by scoring every window with $k=5$
 independent calls and using the median, and by reporting the resolution of
-the instrument; we answer the first only partly, with a second judge family
+the instrument. We answer the first only partly, with a second judge family
 and with human raters on a subset, and we treat the judge as the study's
-main limitation (Section~\ref{sec:limitations}).
+main limitation (Section~\ref{sec:limitations}). To these known problems
+we add three that are specific to judging long streams through windows:
+the injected text inside the window, the replay from beyond the judge's
+horizon, and the gap between windows and wholes.
 
-\paragraph{Loops and steering in story generation.} Outer loops that steer a
-generator are common in story generation: SWAG \citep{pei-etal-2024-swag}
-lets a second model choose the next action for the story model; Collective
+\paragraph{Loops and steering in story generation.} Outer loops that steer
+a generator are common in story generation. SWAG \citep{pei-etal-2024-swag}
+lets a second model choose the next action for the story model. Collective
 Critics \citep{bae-kim-2024-collective} refine a plan and its expression with
-several critic models; STORYTELLER \citep{li-etal-2025-storyteller} adds a
+several critic models. STORYTELLER \citep{li-etal-2025-storyteller} adds a
 plot-planning structure to keep long stories coherent and cohesive. Against
 this literature our contribution is not the idea of an outer loop but its
-reduction: the operator we isolate is one injected sentence on a preserved
-context, without a planner, a critic or a reward; the factorial ablation that
-shows which part of the loop carries the effect; and the temporal
-characterization (period, decay, timing) that a planning framework does not
-provide.
+reduction. The operator we isolate is one injected sentence, without a
+planner, a critic or a reward; the factorial ablation shows which part of
+the loop produces the effect; and the temporal characterization (period,
+decay, timing) is one a planning framework does not provide.
 
-\paragraph{Verified search.} FunSearch \citep{romeraparedes2024funsearch} and
-AlphaEvolve \citep{novikov2025alphaevolve} pair a language model with a hard
-evaluator and let selection do the work. Our bin-packing null (the
-anti-probable operator does not separate from plain sampling under verified
-evolution) and the loop results suggest that the structure of the generation
-loop, not the sampling operator, is where to look next.
+\paragraph{Verified search.} FunSearch \citep{romeraparedes2024funsearch}
+and AlphaEvolve \citep{novikov2025alphaevolve} pair a language model with a
+hard evaluator and let selection do the work. Our bin-packing results, in
+which neither the anti-probable sampler nor the interruption raises the
+quality of the best verified candidate while the interruption multiplies the
+number of valid ones, suggest that the generation loop supplies variation
+and the evaluator must supply the rest.
 
 \paragraph{Reading the residual stream.} The logit lens is known to be
 fragile in intermediate layers, and the tuned lens \citep{belrose2023tunedlens}
 was proposed as a less biased alternative. We use the logit lens only for a
 coarse commitment layer and otherwise work with mean-centered residual
-geometry; the network section is descriptive, and its readings should be
+geometry. The network section is descriptive, and its readings should be
 repeated with a tuned lens before they are taken as mechanism.
 
 \paragraph{Creative cognition.} Creative thought as coupling of default-mode
@@ -88,6 +94,6 @@ dreams as anti-overfitting noise \citep{hoel2021overfitted}; Boden's
 novelty/surprise/value triad \citep{boden2004creative}; conceptual blending
 \citep{fauconnier2002way}; novelty search \citep{stanley2015greatness}. The
 reverie loop of Section~\ref{sec:loop} was an explicit engineering of the
-first three into a text loop; its ablation is, in a sense, a test of which of
-these ingredients a language model needs, and the answer (an interruption on
-a clock) is humbler than the hypothesis.
+first three into a text loop. Its ablation is, in a sense, a test of which of
+these ingredients a language model needs, and the answer, an interruption on
+a clock, is humbler than the hypothesis.
