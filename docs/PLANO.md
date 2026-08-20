@@ -1298,6 +1298,25 @@ best-train < best fit); S4 (exploratória): válidos por geração, curvas.
 Leitura prevista: se S2 sim e S1 não, a diversidade extra não se converte em
 valor nem sob seleção (neste domínio/escala) — resposta igualmente útil.
 
+**Bateria S — resultado (2026-08-19, 20:31–22:46; 20 células, ~2.560
+candidatos; `docs/APPENDIX_S.md`)**: **S1 (primária) não suportada** — ganho
+do campeão held-out: angle − plain = +0,0013 [−0,0015, +0,0047], p = 0,38
+unilateral; nenhuma célula do angle bate o best fit no teste (1/10 no
+plain). **S2 refutada na direção contrária ao esperado**: sob seleção, o
+braço com ângulos NÃO produz mais candidatos distintos (89,5 vs 95,1; Δ =
+−5,6, p = 0,86) — o efeito de diversidade da bateria B (3–4×) desaparece
+quando o prompt já é uma população evolutiva: a pressão do "improve on all
+versions above" + top-K domina, e a linha de ângulo não acrescenta. S3/S4
+nulos (escape ~gen 0–3 nos dois; teto = best fit em quase toda variante).
+Leitura honesta: (a) neste domínio saturado (best fit ≈ ótimo em
+distribuições uniformes), nem diversidade extra teria onde virar valor; (b)
+a interrupção ajuda onde o contexto é um fluxo degenerado (bateria B: 3–4×
+válidos), não onde o prompt já é curado — o operador é um substituto pobre
+de seleção, e sob seleção é redundante. Fim da linha desta trilha no bin
+packing: se quisermos insistir em "interrupção → valor", o próximo passo
+honesto é outro domínio (não saturado, p.ex. cap set) — decisão do Roberto.
+Custo da noite: ~R$0 de API (verificador local).
+
 **Retorno do pedido de endosso (2026-08-19, tarde)**: o primeiro contato
 (autor de *Rating Roulette*) não pôde endossar (só 2 papers em cs na janela
 de 5 anos), mas leu o paper e apontou: (1) "Design" em Limitações ainda
