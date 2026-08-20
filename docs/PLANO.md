@@ -1308,6 +1308,42 @@ fresca, auto-cópia, notas do juiz. Se A1 falha, progressão não vem de
 injeção nenhuma — encerra a família de emulações por prompt e o paper 2
 escreve isso.
 
+**Bateria V (pré-registro, 2026-08-20 ~20:15, antes de rodar) — o
+acoplamento: verificador DENTRO do fluxo.** Caderno de bin packing da
+bateria B (mesmas 10 variantes, premissa idêntica), mas agora o loop fecha
+com o mundo: sempre que o fluxo completa um `def priority...` (função
+fechada por linha desindentada), o harness a executa nas instâncias de
+TREINO (seeds 100+v) e injeta o veredito como comentário do caderno
+("# Verifier: priority_vN scored mean excess 0.0812 on the training
+instances — worse than best fit (0.0777)." / "... new best of this
+notebook."). Braços (10 variantes × 2 RNG (0,1), 4.500 tokens, sampler plain
++ habituação como na B):
+- `fb300`*(nome histórico; o gatilho é o evento, não o relógio)*: só o
+  feedback do verificador por função completada.
+- `fbagenda`: feedback + a cada ~300 tokens um PLACAR determinístico
+  (memória esquemática de resultados + agenda ancorada em valor): "# So far:
+  N functions tried; best is priority_vK at 0.0791; best fit sits at 0.0777.
+  # Open question: what structure would beat best fit on this
+  distribution?".
+Comparações pareadas por variante (célula = média dos 2 RNG) contra os
+braços JÁ RODADOS da bateria B (plain, angle300; runs/dream_problem*),
+com as tentativas da B re-pontuadas em treino post-hoc na mesma ordem do
+texto para a métrica de progressão. Métricas do verificador (sem juiz LLM):
+ganho = excesso do best fit − melhor excesso held-out (seeds 200+v);
+progressões = nº de tentativas que melhoram o próprio recorde de treino do
+caderno; válidos/distintos como na B. Hipóteses (α = 0,05):
+- **V1 (primária, unilateral)**: fb300 > angle300 em GANHO held-out (o
+  feedback eleva o teto?).
+- **V2 (unilateral)**: fb300 > angle300 em PROGRESSÕES (o "desenvolvimento"
+  medido pelo mundo — a dimensão que nenhuma injeção moveu).
+- **V3 (bilateral)**: válidos/distintos (o feedback foca ou suprime a
+  variação?).
+- **V4 (unilateral)**: fbagenda > fb300 em ganho e progressões (o placar
+  esquemático soma?).
+Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
+honesto é população (mas a S já mostrou seleção saturando o domínio) ou
+domínio não saturado — decisão com os dados na mão.
+
 **Braço M+ — resultado (2026-08-20, 18:52–20:00; `docs/APPENDIX_GEN.md`)**:
 **A1 (primária) não suportada** — agenda vs schema em desenvolvimento de
 documento: +0,20 [−0,40, +0,80], p = 0,38. A2 não fecha (+0,45 [−0,05,
