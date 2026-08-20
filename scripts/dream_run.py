@@ -10,6 +10,7 @@
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -99,6 +100,7 @@ def main() -> None:
         # paper 2, battery M: schematic memory and return-to-conflict
         "schema_reseed",  # reset context = premise + model-written schematic recap + new subject (clock)
         "anomaly_reseed", # preserved context; the injection is the stream's own open question (clock)
+        "agenda_reseed",  # reset context = premise + recap + the stream's own open question (memory + agenda)
     ], default="none")
     p.add_argument("--gate-threshold", type=float, default=5.0, help="judge_gate: a find = surprise >= t and coherence >= t (Opus, one call)")
     p.add_argument("--gate-judge", default="anthropic.claude-opus-5")
@@ -131,7 +133,7 @@ def main() -> None:
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
     CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self",
                     "sham_break", "sham_continue", "reset_reseed", "reset_break", "judge_gate",
-                    "problem_angle", "problem_reset", "problem_sham", "schema_reseed", "anomaly_reseed")
+                    "problem_angle", "problem_reset", "problem_sham", "schema_reseed", "anomaly_reseed", "agenda_reseed")
     if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
@@ -183,6 +185,11 @@ def main() -> None:
             cfg.reseed_source = "schema"
         elif args.control == "anomaly_reseed":
             cfg.reseed_source = "anomaly"  # preserved context; the injection is the open question
+        elif args.control == "agenda_reseed":
+            cfg.forget_on_reseed = True    # reset, injected text = recap + open question
+            cfg.keep_recent_tokens = 0
+            cfg.keep_insight_windows = 0
+            cfg.reseed_source = "agenda"
         elif args.control == "reset_break":
             cfg.forget_on_reseed = True
             cfg.keep_recent_tokens = 0
@@ -269,7 +276,7 @@ def main() -> None:
         client = BedrockClient(aws_region=args.region)
         judge = lambda w, e: judge_reverie(client, args.judge_model, w, e)  # noqa: E731
     oracle = None
-    if args.control in ("schema_reseed", "anomaly_reseed"):
+    if args.control in ("schema_reseed", "anomaly_reseed", "agenda_reseed"):
         from mlx_lm import stream_generate
         from mlx_lm.sample_utils import make_sampler as _mk
         _last: dict = {}
@@ -299,6 +306,10 @@ def main() -> None:
                 out = out[: j + 1]
             elif not out.endswith((".", "?", "!")):
                 out = out + "."
+            # numbered-list recaps: drop a trailing dangling item ("..., and 4." / "5.")
+            out = re.sub(r"(?:,?\s*(?:and\s+)?\d+[\.\)])+\s*$", "", out).rstrip()
+            if out and not out.endswith((".", "?", "!")):
+                out += "."
             return out
 
         def oracle(kind: str, recent_text: str) -> str:

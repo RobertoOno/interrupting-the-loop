@@ -77,7 +77,7 @@ class DreamConfig:
     # What an interruption is made of (battery 2). "fixed": cycle kick_seeds;
     # "premise": inject the opening line itself; "self": inject a window of the
     # stream's own past (>= self_min_age tokens ago) — thought feeding on thought.
-    reseed_source: str = "fixed"     # fixed | premise | self | schema (recap + new subject) | anomaly (open question)
+    reseed_source: str = "fixed"     # fixed | premise | self | schema (recap + new subject) | anomaly (open question) | agenda (recap + open question)
     self_min_age: int = 600
     self_window: int = 64
     # Re-encounter armed on the salience event itself (no judge in the loop):
@@ -388,13 +388,20 @@ def dream(
                         log(f"[step {step}] gate: find ({info}) -> no interruption")
                         continue
                 seed_text = next_seed()
-                if oracle is not None and config.reseed_source in ("schema", "anomaly") and len(generated_ids) >= 200:
+                if oracle is not None and config.reseed_source in ("schema", "anomaly", "agenda") and len(generated_ids) >= 200:
                     recent_txt = tokenizer.decode(generated_ids[-1200:])
                     try:
                         if config.reseed_source == "schema":
                             recap = oracle("recap", recent_txt).strip()
-                            if recap:
+                            if len(recap) >= 40:
                                 seed_text = "\n\nBy then, this much had happened: " + recap + seed_text
+                        elif config.reseed_source == "agenda":
+                            recap = oracle("recap", recent_txt).strip()
+                            q = oracle("question", recent_txt).strip()
+                            if len(recap) >= 40 and len(q) >= 8:
+                                seed_text = ("\n\nBy then, this much had happened: " + recap
+                                             + "\n\nBut one question remained: " + q)
+                            # anything shorter: keep the plain rotation seed (logged below)
                         else:
                             q = oracle("question", recent_txt).strip()
                             if q:
