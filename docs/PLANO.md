@@ -1344,6 +1344,20 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Nota de interpretação da bateria V (2026-08-20, 21:00 — DURANTE a
+geração, ANTES de qualquer análise; 20/40 células geradas, nenhum teste
+rodado)**: observação de mecânica nos textos — sem ângulos, o braço `fb300`
+escreve poucas funções (medianas 0–1/célula; fluxos derivam para arneses de
+teste e `__main__`), então o feedback raramente dispara e o braço se parece
+com o `plain` da B em densidade de tentativas. Consequência: V1/V2 (fb300 vs
+angle300) carregam um confundidor de densidade (menos tentativas ≠ feedback
+inútil). Sem alterar as primárias: fica designado, com hora, que a leitura
+de interpretação prioritária usará os pares JÁ pré-registrados como
+exploratórios — `fb300 vs plain` (isola o feedback puro; mesma ausência de
+estímulo) e `fbagenda vs angle300` (feedback+placar vs ângulos; densidades
+comparáveis) — e que qualquer conclusão sobre "o feedback não vale" exigirá
+o par limpo, não só V1/V2.
+
 **Braço M+ — resultado (2026-08-20, 18:52–20:00; `docs/APPENDIX_GEN.md`)**:
 **A1 (primária) não suportada** — agenda vs schema em desenvolvimento de
 documento: +0,20 [−0,40, +0,80], p = 0,38. A2 não fecha (+0,45 [−0,05,
