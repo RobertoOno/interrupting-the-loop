@@ -1280,6 +1280,17 @@ dentro de um loop de seleção (evolução tipo FunSearch sobre os candidatos
 que ele multiplica). Tudo no paper (subseção "Coda", apêndice, resumo,
 discussão, conclusão).
 
+**arXiv: SUBMETIDO (2026-08-20, manhã)** — endosso cs.CL recebido em
+19/08 (após pedidos por e-mail); submissão feita pelo Roberto: pacote
+`arxiv_bundle.tar.gz` (pdflatex, TeX Live 2025, `main.bbl` mantido — opção
+determinística), CC BY 4.0, cs.CL primária, autor "Roberto I. Ono Filho
+(Independent Researcher)" (ORCID via conta), comments com o link do
+repositório público. Aguardando: moderação (primeira submissão) e anúncio
+(~20:00 EST em dia útil). Ao sair o ID: adicionar o arXiv ID ao README, ao
+`ono2026interrupting` nos .bib (paper curto incluso) e à citação do
+repositório; considerar Zenodo DOI para o pacote de dados. Próximos alvos:
+workshop de juízes (paper curto pronto; CFP a confirmar) e ICCC'27.
+
 ## Paper 2 — tese: o órgão que falta (2026-08-20, manhã)
 
 O paper 1 estabeleceu: variação local é barata (interrupção: +1,2–1,4 de
