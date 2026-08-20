@@ -96,6 +96,9 @@ def main() -> None:
         "problem_angle",  # habituation + a distinct 'new angle' comment injected on the clock (context preserved)
         "problem_reset",  # the same angles on a reset context (premise + angle only)
         "problem_sham",   # habituation + an empty comment line on the clock
+        # paper 2, battery M: schematic memory and return-to-conflict
+        "schema_reseed",  # reset context = premise + model-written schematic recap + new subject (clock)
+        "anomaly_reseed", # preserved context; the injection is the stream's own open question (clock)
     ], default="none")
     p.add_argument("--gate-threshold", type=float, default=5.0, help="judge_gate: a find = surprise >= t and coherence >= t (Opus, one call)")
     p.add_argument("--gate-judge", default="anthropic.claude-opus-5")
@@ -128,7 +131,7 @@ def main() -> None:
             setattr(cfg, name, SamplerConfig(**{**base.__dict__, "lam": 0.0, "bridge": 0.0}))
     CLOCK_FAMILY = ("bare_reseed", "clock_reenc", "clock_premise", "clock_self",
                     "sham_break", "sham_continue", "reset_reseed", "reset_break", "judge_gate",
-                    "problem_angle", "problem_reset", "problem_sham")
+                    "problem_angle", "problem_reset", "problem_sham", "schema_reseed", "anomaly_reseed")
     if args.control in ("abl_salience", "abl_forget", "sal_reenc") + CLOCK_FAMILY:
         for name in ("drift", "escalate", "kick"):
             base = getattr(cfg, name)
@@ -173,6 +176,13 @@ def main() -> None:
             cfg.forget_on_reseed = True   # wipe: premise + new subject only
             cfg.keep_recent_tokens = 0
             cfg.keep_insight_windows = 0
+        elif args.control == "schema_reseed":
+            cfg.forget_on_reseed = True   # reset, but with the schematic recap inside the injected text
+            cfg.keep_recent_tokens = 0
+            cfg.keep_insight_windows = 0
+            cfg.reseed_source = "schema"
+        elif args.control == "anomaly_reseed":
+            cfg.reseed_source = "anomaly"  # preserved context; the injection is the open question
         elif args.control == "reset_break":
             cfg.forget_on_reseed = True
             cfg.keep_recent_tokens = 0
@@ -258,6 +268,50 @@ def main() -> None:
     if not args.no_judge:
         client = BedrockClient(aws_region=args.region)
         judge = lambda w, e: judge_reverie(client, args.judge_model, w, e)  # noqa: E731
+    oracle = None
+    if args.control in ("schema_reseed", "anomaly_reseed"):
+        from mlx_lm import stream_generate
+        from mlx_lm.sample_utils import make_sampler as _mk
+        _last: dict = {}
+
+        def _contained(a: str, b: str, n: int = 6) -> float:
+            aw, bw = a.lower().split(), b.lower().split()
+            if len(aw) < n or len(bw) < n:
+                return 0.0
+            A = {tuple(aw[i:i + n]) for i in range(len(aw) - n + 1)}
+            B = {tuple(bw[i:i + n]) for i in range(len(bw) - n + 1)}
+            return len(A & B) / max(1, len(A))
+
+        def _gen(kind: str, recent_text: str, temp: float) -> str:
+            cue = ("\n\nBy then, this much had happened: " if kind == "recap"
+                   else "\n\nThe one question this story had not yet answered was:")
+            prompt = recent_text + cue
+            smp = _mk(temp=temp, min_p=0.05)
+            out = "".join(o.text for o in stream_generate(model, tokenizer, prompt,
+                                                          max_tokens=(110 if kind == "recap" else 40), sampler=smp))
+            out = " ".join(out.split("\n\n")[0].split()).strip()
+            if kind == "question":
+                i = out.find("?")
+                return out[: i + 1] if i > 0 else (out.split(".")[0].strip() + "?" if out else "")
+            # recap: trim to the last complete sentence
+            j = max(out.rfind(". "), out.rfind("? "), out.rfind("! "))
+            if j > 40:
+                out = out[: j + 1]
+            elif not out.endswith((".", "?", "!")):
+                out = out + "."
+            return out
+
+        def oracle(kind: str, recent_text: str) -> str:
+            # anti-copy ladder: the model tends to reproduce its previous recap/question
+            # verbatim (it sits in the recent text); retry hotter, then give up (the
+            # caller falls back to the plain rotation seed and logs it).
+            for temp in (0.7, 1.0, 1.2):
+                out = _gen(kind, recent_text, temp)
+                if out and _contained(out, _last.get(kind, "")) <= 0.5:
+                    _last[kind] = out
+                    return out
+            raise RuntimeError("oracle repeated itself at all temperatures")
+
     gate = None
     if args.control == "judge_gate":
         from creative_machine.blend import judge_surprise
@@ -270,7 +324,7 @@ def main() -> None:
 
     seed = args.seed_text if args.seed_text else SEEDS[args.seed_index % len(SEEDS)]
     print(f"== DREAM ({args.control}) seed: {seed!r}", flush=True)
-    run = dream(model, tokenizer, sampler, seed, cfg, judge=judge, gate=gate)
+    run = dream(model, tokenizer, sampler, seed, cfg, judge=judge, gate=gate, oracle=oracle)
     if args.review_clock > 0:
         if args.no_judge:
             # no judge in the loop: the salience events are still the windows to review offline

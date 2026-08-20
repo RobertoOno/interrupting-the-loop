@@ -77,7 +77,7 @@ class DreamConfig:
     # What an interruption is made of (battery 2). "fixed": cycle kick_seeds;
     # "premise": inject the opening line itself; "self": inject a window of the
     # stream's own past (>= self_min_age tokens ago) — thought feeding on thought.
-    reseed_source: str = "fixed"
+    reseed_source: str = "fixed"     # fixed | premise | self | schema (recap + new subject) | anomaly (open question)
     self_min_age: int = 600
     self_window: int = 64
     # Re-encounter armed on the salience event itself (no judge in the loop):
@@ -181,6 +181,7 @@ def dream(
     judge: Optional[JudgeFn] = None,
     log=print,
     gate=None,              # optional callable(window_text, earlier_text) -> (bool, dict): True = a find, do not interrupt now
+    oracle=None,            # optional callable(kind, recent_text) -> str: 'recap' = 2-3 past-tense sentences; 'question' = one open question
 ) -> DreamRun:
     import mlx.core as mx
     from mlx_lm.generate import generate_step
@@ -387,8 +388,21 @@ def dream(
                         log(f"[step {step}] gate: find ({info}) -> no interruption")
                         continue
                 seed_text = next_seed()
+                if oracle is not None and config.reseed_source in ("schema", "anomaly") and len(generated_ids) >= 200:
+                    recent_txt = tokenizer.decode(generated_ids[-1200:])
+                    try:
+                        if config.reseed_source == "schema":
+                            recap = oracle("recap", recent_txt).strip()
+                            if recap:
+                                seed_text = "\n\nBy then, this much had happened: " + recap + seed_text
+                        else:
+                            q = oracle("question", recent_txt).strip()
+                            if q:
+                                seed_text = "\n\nBut one question remained: " + q
+                    except Exception as exc:  # oracle failure: fall back to the plain rotation seed
+                        log(f"[step {step}] oracle error ({str(exc)[:60]}) -> plain seed")
                 consecutive_stagnations = 0
-                log(f"[step {step}] stagnation persists -> reseed {seed_text.strip()!r}")
+                log(f"[step {step}] stagnation persists -> reseed {seed_text.strip()[:70]!r}")
                 run.reseeds.append((step, seed_text))
                 pending_prompt, cache = do_reseed(seed_text, collapsed=False)
                 reseed_now = True

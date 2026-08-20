@@ -81,6 +81,11 @@ BATTERIES = {
     "gate": [
         ("judge_gate150", "judge_gate", ["--clock-every", "150", "--gate-threshold", "5"]),
     ],
+    # paper 2, battery M: schematic memory and return-to-conflict (period 300)
+    "m": [
+        ("schema300", "schema_reseed", ["--clock-every", "300"]),
+        ("anomaly300", "anomaly_reseed", ["--clock-every", "300"]),
+    ],
     # second genre on the main generator (use --premises genre)
     "genre": [
         ("bare_habit", "bare_habit", []),

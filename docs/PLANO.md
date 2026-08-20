@@ -1317,6 +1317,14 @@ existentes (bare_habit, clock300, reset_reseed300 de b2/b3):
   ~1.200 tokens. Zeigarnik operacionalizado: interromper PARA DENTRO do
   problema (≠ retorno literal, que falhou; ≠ assunto novo, que dispersa).
 
+Emendas de mecânica (2026-08-20 ~05:00, decididas no smoke, ANTES da
+bateria): (a) o oráculo só age com ≥200 tokens de fluxo (a 1ª interrupção
+usa a rotação normal — recapitular o nada alucina); (b) quebras de linha
+internas normalizadas; (c) escada anti-cópia: o modelo tende a reproduzir
+verbatim a recapitulação/pergunta anterior (ela está no texto recente) —
+re-tenta a temp 0,7 → 1,0 → 1,2 e, se a contenção de 6-gramas com a saída
+anterior ficar > 0,5 nas três, cai na frase da rotação (registrado no log).
+
 Hipóteses (permutação exata pareada por premissa, α = 0,05; primárias no
 nível do DOCUMENTO — é onde tudo falhou até agora):
 - **M1 (primária, unilateral)**: `schema300` > `reset_reseed300` em
