@@ -1291,6 +1291,39 @@ repositório público. Aguardando: moderação (primeira submissão) e anúncio
 repositório; considerar Zenodo DOI para o pacote de dados. Próximos alvos:
 workshop de juízes (paper curto pronto; CFP a confirmar) e ICCC'27.
 
+**Bateria M — resultado (2026-08-20, 16:32–18:43; `docs/APPENDIX_GEN.md`)**:
+- **M1 (primária) NÃO suportada no docsum**: schema vs reset em
+  (integração+desenvolvimento)/2 = +0,45 [−0,15, +1,05], p = 0,13. Mas a
+  decomposição é informativa: **integração +0,70 [+0,10, +1,30]** (p = 0,125
+  unilateral no docsum; bilateral por dimensão: IC exclui zero), desenvolvimento
+  +0,20 (nada). A recapitulação dá ao modelo o que integrar (integração de
+  documento 2,70 — o maior valor de TODO o programa) e não dá progressão.
+- **M2 suportada com folga**: schema vs verbatim (clock300) +1,65 [+1,15,
+  +2,25], p = 0,001 — em TODAS as dimensões de documento (integração +1,90,
+  desenvolvimento +1,40, coerência +0,80, surpresa +2,20; 10/10 premissas em
+  integração e surpresa). Lembrar o esquema >> reler o texto.
+- **M3 suportada**: anomaly vs assunto neutro +0,70 [+0,40, +1,05], p =
+  0,004 (integração +0,70 p = 0,03; desenvolvimento +0,70 p = 0,03). A
+  pergunta persistente ajuda — mas o nível absoluto segue baixo (docs ~2) e
+  as notas do juiz mostram colapsos (loop da própria pergunta reimpressa;
+  33% de auto-cópia no braço, fonte quase toda visível).
+- **M4**: janelas frescas schema ≈ reset (surpresa +0,15 ns; conexão −0,08;
+  coerência −0,27) — a recapitulação não custa nada localmente. Auto-cópia
+  do schema = 0%.
+- Escadas de leitura: verbatim 1,08 → reset 2,08 → **schema 2,45** (docsum);
+  todo o ganho do schema sobre reset é integração. Janela fresca do schema:
+  3,90 / 3,22 / 6,60 — também o melhor braço local do programa.
+Leitura: a tese sobrevive pela metade e com direção clara — **memória
+esquemática compra integração** (M2 forte, componente de integração de M1
+positivo), **tensão persistente compra integração+desenvolvimento** (M3),
+mas nada ainda compra progressão de verdade (desenvolvimento ≤ 2/10; M1
+docsum falha porque desenvolvimento não mexe). O órgão que falta agora tem
+nome mais fino: não é lembrar, é **avançar** — o que sugere combinar os dois
+braços (recapitulação + pergunta em aberto na MESMA injeção: "eis o que já
+aconteceu; eis o que ainda não foi respondido") e/ou dar ao recap um formato
+de agenda ("o que falta resolver") em vez de resumo do ocorrido. Candidato
+natural a braço único de follow-up antes de escrever o paper 2.
+
 ## Paper 2 — tese: o órgão que falta (2026-08-20, manhã)
 
 O paper 1 estabeleceu: variação local é barata (interrupção: +1,2–1,4 de
