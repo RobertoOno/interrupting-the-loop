@@ -2,7 +2,7 @@
 
 Windows of 96 model-generated tokens starting 32 tokens after each injection (none crossing an injection); uniform grid for uninterrupted arms; the judge sees the 600 preceding tokens as context. Unit = cell (premise); CIs are bootstrap over cells; paired comparisons use exact sign-flip permutation p-values on the 10 paired differences and Cliff's delta on cell means. Opus 5, k=5, median per window.
 
-2147 judged windows on the main generator, 290 on Qwen3-8B, 272 on OLMo-2.
+2237 judged windows on the main generator, 290 on Qwen3-8B, 272 on OLMo-2.
 
 
 ### Q1 — habituation × interruption (period 150) and baselines — cell means (mean over cells [95% CI over cells])
@@ -303,6 +303,7 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | DREAM scaffold | 31 | 6% | 0% | 2.69 / 1.92 / 6.24 (n=10) | 2.50 / 1.50 / 2.00 |
 | schematic recap 300 (reset) | 60 | 0% | 0% | 3.90 / 3.22 / 6.60 (n=10) | — |
 | open question 300 (preserved) | 60 | 33% | 2% | 2.82 / 2.03 / 6.01 (n=10) | 0.70 / 0.90 / 3.20 |
+| recap + open question 300 (reset) | 60 | 0% | 0% | 3.72 / 3.17 / 6.70 (n=10) | — |
 
 ### Self-copy on the other generators (ladder arms; copied = >= 50% shingles seen earlier in the stream)
 
@@ -346,7 +347,7 @@ A window is *copied* when at least half of its 12-token shingles occur earlier i
 | open question vs neutral subject (300) | connection | -0.00 [-0.45, +0.45] | 1.000 | -0.07 | 10 |
 | open question vs neutral subject (300) | coherence | **-0.51 [-0.87, -0.09]** | 0.059 | -0.36 | 10 |
 
-## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (250 documents)
+## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 (260 documents)
 
 Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.
 
@@ -364,6 +365,7 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | judge-gated interruption 150 | 10 | 0.90 [0.60, 1.20] | 0.50 [0.20, 0.80] | 1.30 [1.00, 1.60] | 0.30 [0.00, 0.60] |
 | schematic recap 300 (reset) | 10 | 2.70 [2.20, 3.20] | 1.80 [1.40, 2.30] | 2.30 [1.80, 2.80] | 2.70 [2.20, 3.20] |
 | open question 300 (preserved) | 10 | 1.50 [1.20, 1.80] | 1.10 [1.00, 1.30] | 1.90 [1.60, 2.20] | 1.00 [0.70, 1.30] |
+| recap + open question 300 (reset) | 10 | 2.50 [2.20, 2.80] | 2.00 [1.60, 2.40] | 1.90 [1.60, 2.20] | 2.60 [2.30, 2.90] |
 | salience only | 10 | 1.20 [0.80, 1.60] | 1.00 [0.60, 1.50] | 1.50 [1.20, 1.80] | 1.30 [1.00, 1.60] |
 | habituation, EOS allowed | 10 | 1.50 [1.00, 2.10] | 1.00 [0.70, 1.30] | 1.50 [1.00, 2.00] | 1.20 [0.80, 1.70] |
 | reseed 600 | 10 | 1.70 [1.40, 2.00] | 0.90 [0.70, 1.00] | 1.70 [1.40, 2.00] | 1.20 [1.00, 1.50] |
@@ -430,6 +432,14 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | open question vs neutral subject (300) | development | **+0.70 [+0.30, +1.10]** | 0.031 | +0.64 | 10 |
 | open question vs neutral subject (300) | coherence | +0.40 [+0.00, +0.80] | 0.250 | +0.35 | 10 |
 | open question vs neutral subject (300) | surprise | +0.50 [+0.00, +1.00] | 0.188 | +0.45 | 10 |
+| recap+question vs recap alone (300) | integration | -0.20 [-0.80, +0.30] | 0.750 | -0.10 | 10 |
+| recap+question vs recap alone (300) | development | +0.20 [-0.40, +0.80] | 0.766 | +0.16 | 10 |
+| recap+question vs recap alone (300) | coherence | -0.40 [-1.10, +0.10] | 0.500 | -0.26 | 10 |
+| recap+question vs recap alone (300) | surprise | -0.10 [-0.70, +0.50] | 1.000 | -0.02 | 10 |
+| recap+question vs reset (300) | integration | +0.50 [-0.00, +1.10] | 0.250 | +0.40 | 10 |
+| recap+question vs reset (300) | development | +0.40 [-0.20, +1.00] | 0.406 | +0.32 | 10 |
+| recap+question vs reset (300) | coherence | -0.30 [-0.70, +0.10] | 0.375 | -0.25 | 10 |
+| recap+question vs reset (300) | surprise | +0.10 [-0.30, +0.50] | 1.000 | +0.10 | 10 |
 
 ### Battery M — pre-registered document-level contrasts (docsum = (integration+development)/2; one-sided)
 
@@ -438,6 +448,14 @@ Unit = cell (one document each). Integration: parts taken up and joined later; d
 | M1 (primary) | schema300 vs reset_reseed300 | +0.45 [-0.15, +1.05] | 0.1328 | 10 |
 | M2 | schema300 vs clock300 | +1.65 [+1.15, +2.25] | 0.0010 | 10 |
 | M3 | anomaly300 vs clock300 | +0.70 [+0.40, +1.05] | 0.0039 | 10 |
+| A2 | agenda300 vs reset_reseed300 | +0.45 [-0.05, +1.05] | 0.1250 | 10 |
+
+### Battery M+ — pre-registered (A1 one-sided on development; A3 two-sided on integration)
+
+| hypothesis | contrast | dim | Δ [CI] | p | n |
+|---|---|---|---|---|---|
+| A1 (primary) | agenda300 vs schema300 | development | +0.20 [-0.40, +0.80] | 0.3828 | 10 |
+| A3 (two-sided) | agenda300 vs schema300 | integration | -0.20 [-0.80, +0.30] | 0.7500 | 10 |
 
 ### P2 — the ladder on Qwen3-8B-Base without quantization (bf16) — cell means (mean over cells [95% CI over cells])
 
