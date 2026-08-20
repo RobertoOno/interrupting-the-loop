@@ -1308,6 +1308,25 @@ fresca, auto-cópia, notas do juiz. Se A1 falha, progressão não vem de
 injeção nenhuma — encerra a família de emulações por prompt e o paper 2
 escreve isso.
 
+**Braço M+ — resultado (2026-08-20, 18:52–20:00; `docs/APPENDIX_GEN.md`)**:
+**A1 (primária) não suportada** — agenda vs schema em desenvolvimento de
+documento: +0,20 [−0,40, +0,80], p = 0,38. A2 não fecha (+0,45 [−0,05,
++1,05], p = 0,125 — mesma cara do M1 do schema). A3: integração −0,20 (ns;
+sem custo detectável, mas também sem o ganho). Coerência −0,40 (ns). Janela
+fresca 3,72 / 3,17 / 6,70 ≈ schema; auto-cópia 0%. Notas do juiz: "restarts
+the premise over and over with new casts and genres" — a pergunta em aberto,
+somada à recapitulação, muda o elenco do reinício, não a progressão.
+**Veredito da família "progressão via injeção": encerrada.** Três variantes
+(esquema, pergunta, esquema+pergunta) movem integração (recorde 2,7) e nunca
+desenvolvimento (teto ~2/10). Conclusão para o paper 2: no regime sem
+tarefa, injeção nenhuma — memória, agenda ou ambas — produz progressão;
+integração melhora com memória esquemática (M2 forte, replicável), e
+desenvolvimento não responde a prompt. A progressão parece exigir o que o
+regime não tem: um critério de "avançar" que não seja textual (verificador /
+valor interno), ou treino. Isso fecha o desenho experimental do paper 2 com
+5 baterias (M, M+, B, S, gate) e uma tese calibrada: **a memória certa
+melhora o todo; nenhuma injeção faz o todo avançar.**
+
 **Bateria M — resultado (2026-08-20, 16:32–18:43; `docs/APPENDIX_GEN.md`)**:
 - **M1 (primária) NÃO suportada no docsum**: schema vs reset em
   (integração+desenvolvimento)/2 = +0,45 [−0,15, +1,05], p = 0,13. Mas a
