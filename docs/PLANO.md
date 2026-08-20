@@ -1280,6 +1280,58 @@ dentro de um loop de seleção (evolução tipo FunSearch sobre os candidatos
 que ele multiplica). Tudo no paper (subseção "Coda", apêndice, resumo,
 discussão, conclusão).
 
+## Paper 2 — tese: o órgão que falta (2026-08-20, manhã)
+
+O paper 1 estabeleceu: variação local é barata (interrupção: +1,2–1,4 de
+surpresa fresca), não compõe (documento = coleção), não vira valor sozinha
+(bateria B) e é redundante sob seleção (bateria S). O cérebro que descobre
+com MENOS conhecimento que um LLM tem quatro coisas que o nosso loop não
+tinha: (1) **um problema mantido sob tensão** (pergunta persistente que
+sobrevive às interrupções — Zeigarnik; a incubação age sobre uma obsessão,
+não sobre o vazio); (2) **memória esquemática** (lembrar é reconstruir um
+esquema comprimido, não reler verbatim — o verbatim entraina, vimos na
+auto-cópia; o reset amnésico foi o menos ruim; falta o meio-termo humano);
+(3) **valor interno barato** (o "aha" como progresso de compressão —
+Schmidhuber — em vez de juiz externo k=5); (4) **verificador contínuo**
+(mundo empurrando de volta). Tese do paper 2: **o que faz ganhos locais
+comporem não é mais variação, é um estado-problema persistente sobre memória
+esquemática**. Emulações testáveis, em ordem: memória esquemática (braço
+`schema`), retorno-ao-conflito (braço `anomaly`), valor por compressão
+(domínio com verificador; desenho depois).
+
+**Bateria M (pré-registro, 2026-08-20 ~04:30, antes de rodar)** — dois
+braços novos no 30B, 10 premissas originais, RNG 0, período 300, protocolo
+`gen` + juiz de documento + auto-cópia; comparações pareadas com células já
+existentes (bare_habit, clock300, reset_reseed300 de b2/b3):
+
+- `schema300` (`schema_reseed`): a cada 300 tokens, contexto RECONSTRUÍDO =
+  premissa + **recapitulação esquemática** (2–3 frases em pretérito geradas
+  pelo próprio modelo a partir dos últimos ~1.200 tokens, injetadas como
+  texto do documento: "By then, this much had happened: …") + frase nova da
+  rotação. Entre o verbatim (entraina) e o reset (amnésia): lembrar o
+  esquema, não o texto. A recapitulação conta como TEXTO INJETADO (nunca na
+  janela julgada; removida do documento; registrada em `reseeds`).
+- `anomaly300` (`anomaly_reseed`): contexto PRESERVADO; a cada 300 tokens a
+  injeção é "But one question remained: {pergunta}", onde a pergunta é a
+  contradição/pergunta em aberto que o próprio modelo extrai dos últimos
+  ~1.200 tokens. Zeigarnik operacionalizado: interromper PARA DENTRO do
+  problema (≠ retorno literal, que falhou; ≠ assunto novo, que dispersa).
+
+Hipóteses (permutação exata pareada por premissa, α = 0,05; primárias no
+nível do DOCUMENTO — é onde tudo falhou até agora):
+- **M1 (primária, unilateral)**: `schema300` > `reset_reseed300` em
+  integração + desenvolvimento do documento (média das duas dimensões).
+- **M2 (unilateral)**: `schema300` > `clock300` (verbatim) na mesma medida.
+- **M3 (unilateral)**: `anomaly300` > `clock300` em integração +
+  desenvolvimento do documento.
+- **M4 (bilateral)**: janelas frescas — `schema300` vs `reset_reseed300` em
+  surpresa (a recapitulação custa surpresa local?).
+- Exploratório: coerência de documento; auto-cópia dos braços novos;
+  qualidade das recapitulações/perguntas (amostra lida à mão).
+Se M1–M3 falham, a tese "esquema + tensão fazem compor" perde as duas
+primeiras emulações e o caminho honesto é o valor interno (3ª peça) ou
+aceitar que composição exige treino, não inferência.
+
 **Bateria S (pré-registro, 2026-08-19 ~20:30, antes de rodar)** — a
 interrupção como operador de DIVERSIDADE dentro de um loop de seleção
 (`scripts/evolve_interrupt.py`): evolução tipo FunSearch em bin packing
