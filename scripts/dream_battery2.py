@@ -86,6 +86,10 @@ BATTERIES = {
         ("schema300", "schema_reseed", ["--clock-every", "300"]),
         ("anomaly300", "anomaly_reseed", ["--clock-every", "300"]),
     ],
+    # M+: memory + agenda combined in one injection
+    "mplus": [
+        ("agenda300", "agenda_reseed", ["--clock-every", "300"]),
+    ],
     # second genre on the main generator (use --premises genre)
     "genre": [
         ("bare_habit", "bare_habit", []),

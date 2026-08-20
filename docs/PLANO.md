@@ -1291,6 +1291,23 @@ repositório público. Aguardando: moderação (primeira submissão) e anúncio
 repositório; considerar Zenodo DOI para o pacote de dados. Próximos alvos:
 workshop de juízes (paper curto pronto; CFP a confirmar) e ICCC'27.
 
+**Braço M+ (pré-registro, 2026-08-20 ~18:55, antes de rodar)** — `agenda300`
+(`agenda_reseed`): a combinação dos dois mecanismos na MESMA injeção, a cada
+300 tokens, contexto reconstruído = premissa + **recapitulação** ("By then,
+this much had happened: …", oráculo como no schema) + **pergunta em aberto**
+("But one question remained: …", oráculo como no anomaly) — memória +
+agenda; sem frase da rotação (a pergunta é o novo começo). Escada anti-cópia
+e guarda de ≥200 tokens idênticas. 10 células (premissas originais, RNG 0),
+protocolo `gen` + documento + auto-cópia. Hipóteses (unilaterais, α = 0,05):
+**A1 (primária)**: agenda300 > schema300 em DESENVOLVIMENTO de documento (a
+agenda faz avançar o que a memória só integra); **A2**: agenda300 >
+reset_reseed300 no docsum (integração+desenvolvimento)/2 — o composto de M1
+que o schema sozinho não fechou; A3 (bilateral): agenda300 vs schema300 em
+integração (a pergunta rouba espaço do esquema?). Exploratório: janela
+fresca, auto-cópia, notas do juiz. Se A1 falha, progressão não vem de
+injeção nenhuma — encerra a família de emulações por prompt e o paper 2
+escreve isso.
+
 **Bateria M — resultado (2026-08-20, 16:32–18:43; `docs/APPENDIX_GEN.md`)**:
 - **M1 (primária) NÃO suportada no docsum**: schema vs reset em
   (integração+desenvolvimento)/2 = +0,45 [−0,15, +1,05], p = 0,13. Mas a

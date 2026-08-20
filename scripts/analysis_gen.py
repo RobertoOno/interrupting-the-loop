@@ -44,7 +44,8 @@ LABEL = {"bare": "bare", "bare_habit": "bare + habituation", "bare_reseed": "hab
          "sham_break300": "paragraph break 300 (sham)", "sham_cont300": "continuity connective 300 (sham)",
          "bare_eos": "habituation, EOS allowed", "habit_strong": "habituation 1.3", "reset_reseed300": "reset + new subject 300",
          "reset_break300": "reset + break 300", "judge_gate150": "judge-gated interruption 150",
-         "schema300": "schematic recap 300 (reset)", "anomaly300": "open question 300 (preserved)"}
+         "schema300": "schematic recap 300 (reset)", "anomaly300": "open question 300 (preserved)",
+         "agenda300": "recap + open question 300 (reset)"}
 
 
 def load_gen(run: str):
@@ -198,7 +199,7 @@ def block(title, pool, spec, ref, fname=None, offset="primary"):
 
 
 def main() -> None:
-    main30 = load_gen("dream_scaffold") + load_gen("dream_b2") + load_gen("dream_b3") + load_gen("dream_m")
+    main30 = load_gen("dream_scaffold") + load_gen("dream_b2") + load_gen("dream_b3") + load_gen("dream_m") + load_gen("dream_mplus")
     fam8b = load_gen("dream_fam8b"); olmo = load_gen("dream_famolmo")
     md.append(f"{len(main30)} judged windows on the main generator, {len(fam8b)} on Qwen3-8B, {len(olmo)} on OLMo-2.\n")
 
@@ -331,7 +332,7 @@ def main() -> None:
         fresh_means = {}
         for c in ["bare", "bare_habit", "habit_strong", "bare_eos", "nohabit150", "bare_reseed", "nohabit300", "clock300", "clock600", "clock900",
                   "clock_reenc", "clock900_reenc", "clock_premise", "clock_self", "sal_reenc", "sham_break300", "sham_cont300",
-                  "reset_reseed300", "reset_break300", "scaffold0", "schema300", "anomaly300"]:
+                  "reset_reseed300", "reset_break300", "scaffold0", "schema300", "anomaly300", "agenda300"]:
             rs = [r for r in main30 if r["cond"] == c and r.get("since") in (32, None) and flag(r) is not None]
             if not rs:
                 continue
@@ -378,7 +379,7 @@ def main() -> None:
     # ---- document-level judgment (whole streams, injected sentences removed; one score per cell)
     DDIMS = ("integration", "development", "coherence", "surprise")
     docs = []
-    for name in ("document_judgments_a.json", "document_judgments_b.json", "document_judgments_c.json", "document_judgments_gate.json", "document_judgments_m.json"):
+    for name in ("document_judgments_a.json", "document_judgments_b.json", "document_judgments_c.json", "document_judgments_gate.json", "document_judgments_m.json", "document_judgments_mplus.json"):
         pth = RUNS / name
         if pth.exists():
             docs.extend(json.loads(pth.read_text()))
@@ -386,7 +387,7 @@ def main() -> None:
         md.append(f"\n## Document level — the whole 4,500-token stream, injected sentences removed, Opus k=3 ({len(docs)} documents)\n")
         md.append("Unit = cell (one document each). Integration: parts taken up and joined later; development: something builds rather "
                   "than restarts or repeats; coherence: reads as one text; surprise: the whole goes somewhere unpredictable yet sensible.\n")
-        conds_doc = ["bare", "bare_habit", "bare_reseed", "clock300", "nohabit300", "sham_break300", "reset_reseed300", "reset_break300", "scaffold0", "judge_gate150", "schema300", "anomaly300"]
+        conds_doc = ["bare", "bare_habit", "bare_reseed", "clock300", "nohabit300", "sham_break300", "reset_reseed300", "reset_break300", "scaffold0", "judge_gate150", "schema300", "anomaly300", "agenda300"]
         others = sorted({r["cond"] for r in docs} - set(conds_doc))
         md.append("| condition | n | " + " | ".join(DDIMS) + " |")
         md.append("|---|---|" + "---|" * len(DDIMS))
@@ -415,7 +416,9 @@ def main() -> None:
                           ("judge_gate150", "bare_habit", "judge-gated vs habituation"),
                           ("schema300", "reset_reseed300", "schematic recap vs reset (300)"),
                           ("schema300", "clock300", "schematic recap vs preserved (300)"),
-                          ("anomaly300", "clock300", "open question vs neutral subject (300)")):
+                          ("anomaly300", "clock300", "open question vs neutral subject (300)"),
+                          ("agenda300", "schema300", "recap+question vs recap alone (300)"),
+                          ("agenda300", "reset_reseed300", "recap+question vs reset (300)")):
             for d in DDIMS:
                 if (a, d) in dmeans and (b, d) in dmeans:
                     pr = paired(dmeans[(a, d)], dmeans[(b, d)])
@@ -429,9 +432,23 @@ def main() -> None:
             def docsum(c):
                 return {r["seed"]: (r["integration"] + r["development"]) / 2 for r in docs if r["cond"] == c}
             for hyp, a, b in (("M1 (primary)", "schema300", "reset_reseed300"), ("M2", "schema300", "clock300"), ("M3", "anomaly300", "clock300")):
+                pass
+            for hyp, a, b in (("M1 (primary)", "schema300", "reset_reseed300"), ("M2", "schema300", "clock300"), ("M3", "anomaly300", "clock300"),
+                              ("A2", "agenda300", "reset_reseed300")):
                 pr = paired(docsum(a), docsum(b), "greater")
                 if pr:
                     md.append(f"| {hyp} | {a} vs {b} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
+        # A1/A3: agenda vs schema on single document dimensions
+        if any(r["cond"] == "agenda300" for r in docs):
+            md.append("\n### Battery M+ — pre-registered (A1 one-sided on development; A3 two-sided on integration)\n")
+            md.append("| hypothesis | contrast | dim | Δ [CI] | p | n |"); md.append("|---|---|---|---|---|---|")
+            def dimc(c, d):
+                return {r["seed"]: r[d] for r in docs if r["cond"] == c}
+            for hyp, a, b, d, alt in (("A1 (primary)", "agenda300", "schema300", "development", "greater"),
+                                      ("A3 (two-sided)", "agenda300", "schema300", "integration", "two-sided")):
+                pr = paired(dimc(a, d), dimc(b, d), alt)
+                if pr:
+                    md.append(f"| {hyp} | {a} vs {b} | {d} | {pr['mean']:+.2f} [{pr['lo']:+.2f}, {pr['hi']:+.2f}] | {pr['p_perm']:.4f} | {pr['n']} |")
         # figure: document-level dots
         show = [c for c in conds_doc if any(r["cond"] == c for r in docs)]
         fig, axes = plt.subplots(1, 4, figsize=(14, 3.6), sharey=True)
