@@ -4,3 +4,17 @@ Qwen3-8B-Base (8-bit), small-item bin-packing family. Transfer measured on 8 hel
 
 | arm | cycle | n cand | mean excess | rel to min(BF,FF) | best | find rate | distinct | copy |
 |---|---|---|---|---|---|---|---|---|
+| base | 0 | 65 | 0.0633 | +0.0322 | 0.0408 | 0.0% | 0.99 | 0% |
+| base | 1 | 53 | 0.0562 | +0.0251 | 0.0327 | 0.0% | 1.00 | 0% |
+| base | 2 | 42 | 0.0583 | +0.0272 | 0.0317 | 0.0% | 0.97 | 0% |
+| base | 3 | 55 | 0.0644 | +0.0333 | 0.0414 | 0.0% | 1.00 | 0% |
+
+### Pre-registered contrasts at the final cycle (k = 3); cells = held-out variants
+
+| hypothesis | contrast | measure | Δ [CI] | p | n |
+|---|---|---|---|---|---|
+
+### Trajectory: attract vs base per cycle (mean excess on held-out variants; paired)
+
+| cycle | Δ mean (attract − base) [CI] | p (less) | Δ find rate | Δ distinct |
+|---|---|---|---|---|
