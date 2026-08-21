@@ -1344,6 +1344,47 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Bateria C (pré-registro, 2026-08-21 ~08:00, antes de rodar) — consolidação
+por LoRA (C-atrair vs controle aleatório vs base).** Modelo: Qwen3-8B-Base
+8-bit (QLoRA via `mlx_lm lora`: rank padrão 8, 16 camadas, lr 1e-5, batch 2,
+prompt mascarado, iterações = 2·|S| (≈4 épocas), mín. 40; ~8 min/treino,
+pico 14 GB). Domínio: família de itens PEQUENOS do bin packing, onde best
+fit é batível (varredura `scripts/headroom2.py`: folga 0,3–0,5 pp; first
+fit ≈ best fit) — 10 variantes de TREINO (`VARIANTS_C_TRAIN`) e **8
+variantes held-out** (`VARIANTS_C_HELDOUT`, nunca em nenhum conjunto de
+treino; n = 8 permite p mínimo 1/256 pareado). Verificação com 20 × 200
+itens (treino: seeds 100+v(+50 held-out); teste: 200+v(+50)); achado =
+bater min(BF, FF) por 0,001 nas instâncias de treino da variante.
+Geração: caderno da B (premissa + comentário-ângulo a cada 250 tokens,
+geração em blocos), 3 cadernos × 1.200 tokens por variante; candidatos =
+`def priority...` fechados. Ciclo 0 = geração base compartilhada (treino +
+held-out). Ciclos k = 1..3: **attract** = LoRA (do base, sempre) sobre S_k
+= achados ∪ top-40 por excesso de treino dos candidatos válidos distintos
+das variantes de TREINO da própria linhagem (base_c0 + attract_c1..k−1);
+**random** = LoRA sobre amostra aleatória de |S_k| candidatos válidos
+distintos da sua linhagem (separa "treinou em si" de "treinou no que
+vale"); **base** = sem adaptador (held-out, mesmas sementes). Sondagem de
+taxa-base (smoke, 22 válidos): 0 achados estritos → o top-40 é o alimento
+principal, como pré-registrado em fallback. Medidas (só verificador; célula
+= variante held-out; instâncias de TESTE): excesso médio dos candidatos
+válidos (onde o prior está), melhor, taxa de achados, distintos/válidos,
+cópia literal do conjunto de treino. Hipóteses (α = 0,05):
+- **C1 (primária, unilateral)**: no ciclo 3, attract < base em excesso
+  médio nas variantes held-out (o prior MOVEU para variantes nunca vistas).
+- **C2 (unilateral)**: attract < random na mesma medida (o filtro de valor
+  importa; se attract ≈ random, é auto-treino, não consolidação de valor).
+- **C3 (unilateral)**: taxa de achados attract > base (e > random).
+- **C4 (bilateral)**: diversidade (distintos/válidos) e cópia — o custo do
+  colapso (risco conhecido do ReST).
+- Exploratório: trajetória por ciclo (monotonia), melhor candidato, métricas
+  nas variantes de treino, leitura à mão das funções consolidadas.
+**C-repelir (preference-LoRA) e R (repulsor em ativação)**: pendentes de
+implementação (DPO custom em MLX); NÃO nesta rodada. Leitura: se C1 e C2
+passam, a fase 2 tem seu primeiro positivo — consolidação transfere; se C1
+passa e C2 não, treinar em si mesmo basta (interessante, humilde); se nada
+passa, a consolidação em escala de escritório não move o prior neste
+domínio (e a folga pequena entra na discussão).
+
 **Ideia do banho (Roberto, 2026-08-20, ~23h) — atratores em repulsores; o
 espaço de desenho da fase 2 vira três degraus, todos "editar o campo" (a
 fase 1 inteira chutava o estado; a paisagem ficava intacta):
