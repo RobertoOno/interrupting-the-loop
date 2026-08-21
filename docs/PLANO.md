@@ -1344,6 +1344,20 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Decisão (2026-08-20, noite): FASE 2 — consolidação.** Amanhã (21/08)
+desenhar e pré-registrar a **Bateria C** (ciclo STaR/ReST em escala de
+escritório): gerar cadernos → verificar → filtrar aprovados → **LoRA no
+Qwen3-8B** (mlx_lm, ~10–12 GB, ~30 min/ciclo) → regenerar com o adaptador →
+medir. Pontos de desenho já acordados: (a) domínio com FOLGA (distribuições
+de bin packing onde best fit é comprovadamente subótimo — picos,
+triangulares, itens em (0,35, 0,5] — a definir com verificação empírica do
+headroom antes do pré-registro); (b) critério de consolidação (aprovados
+pelo verificador; fallback: top-quartil relativo); (c) medida decisiva =
+transferência para variantes NUNCA vistas (C1 primária: ganho held-out
+pós-k-ciclos vs adaptador nulo; C2: progressões; C3: controle sem
+verificador no filtro — consolidar lixo aleatório — para separar "treinou"
+de "treinou no que vale"). Rodadas pesadas à noite, como de costume.
+
 **Bateria V — resultado (2026-08-20, 20:34–21:34; `docs/APPENDIX_V.md`)**:
 **V1 não suportada** (ganho: +0,0003, p = 0,48 — o feedback não eleva o
 teto). **V2 não suportada e na direção oposta** (progressões 0,1 vs 0,3,
