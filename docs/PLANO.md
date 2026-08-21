@@ -1344,6 +1344,27 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Ideia do banho (Roberto, 2026-08-20, ~23h) — atratores em repulsores; o
+espaço de desenho da fase 2 vira três degraus, todos "editar o campo" (a
+fase 1 inteira chutava o estado; a paisagem ficava intacta):
+1. R — repulsor em EXECUÇÃO**: aprender a "direção do poço" nos residuais já
+   capturados e rotulados (janelas degeneradas/copiadas vs frescas boas;
+   diferença de médias por camada) e gerar com gancho que subtrai a projeção
+   nessa direção; as `anchors` viram potencial repulsivo (novelty search
+   interno com direção aprendida, não ruído — ruído cru degrada). Único
+   degrau que não precisa gerar dado novo para começar.
+2. **C-atrair — pesos**: LoRA nos achados verificados (o plano original da
+   Bateria C; aprofunda atratores bons).
+3. **C-repelir — pesos**: preference-LoRA (DPO/ORPO) com os modos
+   degenerados/auto-copiados do PRÓPRIO modelo como rejeitados e os achados
+   verificados como escolhidos — atrator→repulsor permanente; ataca o poço
+   diagnosticado, não só premia a saúde. Mesmo custo da C.
+Riscos anotados: repulsão sem guia sai da variedade do sensato (lição do
+sampler, agora em ativação/pesos) → a interferência precisa de DOIS sinais:
+longe do poço E dentro do válido (verificador). Comparação de desenho mais
+bonita: C-atrair vs C-repelir pareados (reforçar o bom vs apagar o mau,
+mesma máquina). Desenho e pré-registro: 21/08.
+
 **arXiv ANUNCIADO (2026-08-20, noite): arXiv:2608.19893** —
 https://arxiv.org/abs/2608.19893 (cs.CL). Feito na hora: README (link +
 citação com eprint), bib do paper curto, CLAUDE.md, repos sincronizados.
