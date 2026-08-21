@@ -1,0 +1,346 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\usepackage{enumitem}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parskip}{0.25em}
+\newcommand{\ci}[2]{[#1,\,#2]}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+
+\title{The Missing Organ:\\ What Inference-Time Interventions Can and Cannot Buy\\ in Open-Ended Generation}
+\author{Roberto I. Ono Filho\\ Independent researcher\\
+\texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
+\date{Draft skeleton, \today\ --- not for distribution}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A companion study \citep{ono2026interrupting} found that a base language
+model left to write for thousands of tokens gains judged surprise from one
+cheap operation, a new subject injected every few hundred tokens, and that
+the gains do not compose: no arm produced an integrated document, and on a
+problem with a verifier the same operation multiplied valid candidates
+without improving the best. Here we ask what would make local gains compose,
+by giving the loop, one at a time, the things a discovering mind has and the
+loop did not: a schematic memory instead of a verbatim one, a standing
+question instead of a neutral subject, selection over its candidates, a
+verifier inside its stream, and, finally, consolidation of its verified finds
+into its weights. All conditions are pre-registered and judged under the
+generated-only, fresh-only, document-level protocol of the companion study,
+or by a deterministic verifier. Three things worked and one did not. A
+schematic recap written by the model itself and re-injected with the new
+subject raises document-level integration above every earlier arm
+(+1.65 over the verbatim context, $p=0.001$, ten premises; the highest
+integration score of the program), at no local cost. A standing open
+question extracted from the stream raises integration and development
+modestly ($p=0.004$). Neither, nor their combination, moves development
+above about 2 on a 0--10 scale: no injection makes the whole advance.
+Selection over the interruption's candidates adds nothing to selection
+alone, and a verifier whose verdicts are injected into the notebook does not
+raise the ceiling either; instead the model writes its own verdicts, 16.4
+fabricated ``\texttt{\# Verifier:}'' lines per notebook against three real
+ones, a reward hallucination worth knowing about before putting a verifier
+in a prompt. \todo{Consolidation (battery C): one sentence with the result.}
+We read the whole as a measurement of a boundary: at inference time the
+prior can be kicked (variation) and better remembered (integration), but it
+does not move; what moves it is what these loops lack, the updating of the
+model by what the world approved.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+\citet{ono2026interrupting} dismantled a cognitively inspired generation
+loop over 24 conditions and found that most of its effect on judged novelty
+lives in one operation, the \emph{interruption}: a new subject injected
+every few hundred tokens into a stream whose literal repetition is damped.
+On windows of fresh generated text the interruption raises judged surprise
+by 1.2 to 1.4 points over habituation alone, on three base models, a
+post-trained one and two genres, and a pre-registered replication confirms
+it. The same study closed with three negatives. Read as whole documents,
+none of the streams builds anything (no arm above 2.5 on integration,
+development, coherence or surprise, 0--10, judged on 4,500 tokens with the
+injected text removed); a judge-gated review that decides when not to
+interrupt does not change that; and on online bin packing, where a
+deterministic verifier replaces the judge, the interruption multiplies the
+valid, distinct candidate heuristics a base model writes three- to fourfold
+without raising the quality of the best. The interruption is a variation
+operator, and ``variation without selection is organized noise''.
+
+This paper takes up the question that study left: what would make local
+gains compose? We proceed by giving the loop, one piece at a time, the
+things a mind that discovers has and the loop did not, and measuring each
+under the protocol that the companion study showed to be necessary
+(generated-only windows, fresh-only estimates, a document-level reading, the
+premise as the unit of inference, a deterministic verifier where one
+exists). The pieces are (i) a \emph{schematic} memory, in which the model
+carries a compressed recap of its own stream instead of the verbatim text
+that entrains it \citep{bartlett1932remembering}; (ii) a \emph{standing
+question}, in which the interruption points into the stream's own
+unresolved matter rather than away from it \citep{zeigarnik1927behalten};
+(iii) \emph{selection}, a FunSearch-style evolution over the candidates the
+interruption multiplies \citep{romeraparedes2024funsearch}; (iv) a
+\emph{verifier inside the stream}, whose verdict on each candidate is
+written back into the notebook; and (v) \emph{consolidation}, a STaR/ReST
+cycle in which the model is fine-tuned (LoRA) on its own verified finds and
+generates again \citep{zelikman2022star,gulcehre2023rest,singh2023restem}.
+Every battery was pre-registered before it ran; the pre-registrations,
+amendments and results are in the dated laboratory notebook released with
+the code.
+
+\paragraph{Contributions.} (1) A schematic recap, written by the model and
+re-injected at each interruption, is the first intervention of the program
+to raise the document-level reading: integration +1.65 over the verbatim
+context and the highest integration score of any arm, at no cost on fresh
+windows. (2) A standing question raises integration and development
+modestly; its combination with the recap does not raise development
+further. Across all injections development stays near 2/10: we call this
+the progression wall. (3) Selection over the interruption's candidates and a
+verifier inside the stream both leave the ceiling where it was; the latter
+produces a new phenomenon, fabricated verifier verdicts, which we quantify.
+(4) \todo{Consolidation result.} (5) A reading of the whole: the bit
+distance between a fixed prior and a target is not shortened by
+inference-time stimulation; integration can be bought, progression cannot,
+and the organ that is missing is the one that updates the prior.
+
+\section{Setup}
+\label{sec:setup}
+
+\paragraph{Generators and loop.} Unless stated, the generator is
+Qwen3-30B-A3B-Base (mixture of experts, 8-bit, MLX); battery C uses
+Qwen3-8B-Base (8-bit) because it is fine-tuned. A cell is one premise (the
+ten premises of the companion study) continued for 4,500 tokens with the
+end-of-text token masked; habituation (windowed repetition penalty, window
+512, factor 1.15) is on in every arm; interruptions fire on a clock every
+300 tokens. Arms differ in what is injected and in whether the context is
+kept or rebuilt.
+
+\paragraph{Judging.} Windows of generated text only (96 tokens, starting 32
+after any injected text, never crossing an injection), judged by Claude
+Opus~5 ($k=5$, median) on surprise, connection and coherence with 600 tokens
+of context; windows flagged as self-copy (half their 12-token shingles seen
+earlier in the stream) are excluded from the fresh-only estimates. The whole
+stream, injected text removed, is judged once per cell ($k=3$) on
+integration, development, coherence and surprise. The premise is the unit:
+cell means, bootstrap intervals over cells, exact sign-flip permutation
+tests on paired cells, one-sided where pre-registered.
+
+\paragraph{The problem with a verifier.} Online bin packing in the
+FunSearch form: the model writes a notebook of \texttt{priority(item,
+remaining)} functions; the verifier packs held-out instances and reports the
+mean excess over the lower bound. Ten distribution variants (item ranges),
+training instances (seeds 100+$v$) and held-out instances (seeds 200+$v$).
+Battery C moves to a family of small-item distributions in which best fit
+is measurably beatable (Section~\ref{sec:consolidation}).
+
+\section{Memory and tension: what the loop remembers and what it is asked}
+\label{sec:memory}
+
+\paragraph{Arms.} \emph{Verbatim} (\texttt{clock300}): the context is kept
+across interruptions. \emph{Reset} (\texttt{reset300}): the cache is rebuilt
+from the premise and the injected sentence only. \emph{Schema}
+(\texttt{schema300}): at each interruption the model is asked, by a
+completion cue on its last 1,200 tokens, to write a two- to three-sentence
+past-tense recap; the cache is rebuilt from the premise, the recap
+(``\emph{By then, this much had happened: \ldots}'') and the new subject.
+The recap counts as injected text (never inside a judged window; removed
+from the document). \emph{Question} (\texttt{anomaly300}): the context is
+kept, and the injection is the open question the model itself extracts from
+its last 1,200 tokens (``\emph{But one question remained: \ldots}'').
+\emph{Agenda} (\texttt{agenda300}): reset context, recap and question in
+the same injection. An anti-copy ladder retries the model's recap or
+question at higher temperatures when it reproduces the previous one (it
+tends to), and falls back to the plain rotation when it cannot; the oracle
+acts only after 200 tokens of stream.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+arm (Qwen3-30B-A3B-Base, period 300) & integration & development & coherence & surprise \\
+\midrule
+habituation, no interruption & 1.40 & 1.10 & 1.50 & 1.40 \\
+verbatim context (clock300) & 0.80 & 0.40 & 1.50 & 0.50 \\
+reset + new subject & 2.00 & 1.60 & 2.20 & 2.50 \\
+schema: reset + recap + new subject & \textbf{2.70} & 1.80 & 2.30 & 2.70 \\
+question: preserved + open question & 1.50 & 1.10 & 1.90 & 1.00 \\
+agenda: reset + recap + open question & 2.50 & \textbf{2.00} & 1.90 & 2.60 \\
+\bottomrule
+\end{tabular}
+\caption{Document-level reading (whole 4,500-token stream, injected text
+removed; Opus~5, $k=3$; cell means over ten premises, 0--10). The schematic
+recap gives the highest integration of the program; no arm passes 2.0 on
+development.}
+\label{tab:doc}
+\end{table}
+
+\paragraph{Results.} Table~\ref{tab:doc} gives the document-level reading.
+Pre-registered contrasts (one-sided, exact paired permutation over ten
+premises): M2, schema $>$ verbatim on (integration+development)/2:
+$+1.65$ \ci{+1.15}{+2.25}, $p=0.001$, positive on every dimension
+(integration $+1.90$, development $+1.40$, coherence $+0.80$, surprise
+$+2.20$; 10/10 premises on integration and surprise). M3, question $>$
+neutral subject: $+0.70$ \ci{+0.40}{+1.05}, $p=0.004$, with integration and
+development each $+0.70$ ($p=0.03$). M1, schema $>$ reset on the composite:
+$+0.45$ \ci{-0.15}{+1.05}, $p=0.13$, not supported; decomposed, integration
+$+0.70$ \ci{+0.10}{+1.30} and development $+0.20$: the recap gives the model
+something to integrate and nothing to advance. M4, on fresh windows the
+recap costs nothing (surprise $+0.15$, connection $-0.08$, coherence $-0.27$,
+all n.s.; self-copy 0\%; the schema arm's fresh windows, 3.90 / 3.22 / 6.60,
+are the best local scores of the program). The agenda arm (A1, primary:
+agenda $>$ schema on development) gives $+0.20$ \ci{-0.40}{+0.80}, $p=0.38$;
+the question changes the cast of each restart, not its progression
+(document judge: ``restarts the premise over and over with new casts and
+genres'').
+
+\paragraph{Reading.} Remembering the schema beats re-reading the text: the
+verbatim context, which entrains the model on thousands of tokens of its own
+past, reads worst as a whole; a reset reads better; a reset carrying a
+compressed memory reads best. But three injections (schema, question,
+agenda), all pre-registered, move integration and never development above
+about 2/10. We call this the progression wall and return to it in
+Section~\ref{sec:discussion}.
+
+\section{Selection and the verifier}
+\label{sec:selection}
+
+\paragraph{Battery S: the interruption inside a selection loop.} A
+FunSearch-style evolution (10 variants $\times$ 8 generations $\times$ 16
+samples per generation; the prompt shows the current population; paired by
+variant) with and without the interruption's angle line injected into the
+prompt. S1 (gain of the champion on held-out instances): $+0.0013$
+\ci{-0.0015}{+0.0047}, $p=0.38$. S2 (cumulative distinct valid candidates):
+89.5 vs 95.1, $p=0.86$ against the hypothesis. S3 (generation of first
+escape from best fit): $+0.5$, n.s. Under selection the interruption adds
+nothing, not even the diversity it added in a single stream: the population
+prompt already supplies what the interruption supplied.
+
+\paragraph{Battery V: the verifier inside the stream.} The notebook of the
+companion study's battery B, generated in chunks; whenever a
+\texttt{priority} function closes, the harness scores it on the training
+instances and writes the verdict into the notebook as a comment
+(``\texttt{\# Verifier: priority\_x scored mean excess 0.0812 on the
+training instances (worse than best fit, 0.0752); no improvement.}''). A
+second arm adds, every 300 tokens, a deterministic scoreboard (``\texttt{\#
+So far: N functions tried; the best is \ldots; best fit sits at \ldots}'')
+and a value-anchored open question. Ten variants $\times$ two seeds;
+baselines are battery B's plain and angle arms re-scored in text order.
+V1 (held-out gain, feedback vs angle): $+0.0003$, $p=0.48$. V2 (candidates
+improving on the notebook's own training best, the verifier's measure of
+progression): 0.1 vs 0.3 per notebook, opposite direction. V4 (scoreboard
+adds to feedback): nothing; the scoreboard arm writes fewer functions than
+every other arm (1.1 per notebook). Progression is near zero in every arm
+(0.1--0.3 improvements per notebook), with the standing caveat that best fit
+is near-optimal on these distributions.
+
+\paragraph{Fabricated verdicts.} The model wrote on average 16.4
+``\texttt{\# Verifier:}'' lines per notebook in the feedback arm (6.2 with
+the scoreboard) against about three real ones: verdicts with invented
+scores and ``new best of this notebook'' that the harness never issued.
+Injecting the \emph{format} of a reward signal into the context makes a
+base model generate its own reward; entrainment on the verdict is the code
+cousin of the self-copy the companion study found on narrative. Any design
+that places a verifier's output in a model's prompt should expect this and
+measure it.
+
+\section{Consolidation: moving the prior}
+\label{sec:consolidation}
+
+\paragraph{Design (pre-registered 2026-08-21).} Qwen3-8B-Base (8-bit),
+QLoRA (rank 8, 16 layers, lr $10^{-5}$, batch 2, prompt masked,
+$\approx$4 epochs over the consolidation set). Domain: a family of
+small-item bin-packing distributions in which best fit is beatable by
+simple heuristics (headroom 0.3--0.5 points of excess; first fit ties or
+beats best fit), ten training variants and eight held-out variants that
+never enter any training set; verification on $20\times200$-item instances;
+a \emph{find} beats the better of best fit and first fit by 0.001 on the
+variant's training instances. Cycle 0 is a shared base generation (3
+notebooks $\times$ 1,200 tokens per variant, an angle comment every 250
+tokens). Cycles 1--3: \emph{attract} trains a fresh adapter on the finds
+plus the top-40 candidates by training excess from its own lineage;
+\emph{random} trains on a same-size random sample of valid candidates (the
+control that separates ``trained on itself'' from ``trained on what is
+worth''); \emph{base} generates without an adapter at the same seeds.
+Hypotheses, on the held-out variants at the final cycle: C1 (primary),
+attract $<$ base on the mean test excess of valid candidates (the prior
+moved on variants it never saw); C2, attract $<$ random; C3, higher find
+rate; C4 (two-sided), the diversity cost (distinct/valid, literal copies of
+the training set).
+
+\paragraph{Results.} \todo{Battery C results: table by arm and cycle; C1--C4
+contrasts; trajectory across cycles; a reading of the consolidated
+functions.}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\paragraph{What can be bought at inference.} Across the two studies the
+ledger is now complete for the interventions we could build. Variation is
+cheap: the interruption raises fresh surprise by more than a point and
+multiplies valid candidates three- to fourfold. Integration can be bought
+with the right memory: a schematic recap carried across resets is the only
+intervention that raised the document-level reading, and it did so
+reliably. Progression cannot: three injections, selection over the
+candidates, a verifier in the stream and a judge-gated review all leave
+development near 2/10 and the verified ceiling where it was.
+
+\paragraph{The bit distance.} A generative model is a distribution, not a
+store; the question is not whether an answer is ``inside'' it but how much
+probability mass sits near it, how many bits of search separate the prior
+from the target. Inference-time stimulation reorganizes the surface of a
+fixed prior: it buys variation and, with a schematic memory, integration,
+but it does not move the mass. What moves it is what these loops lack and
+battery C supplies: updating the model by what the world approved. \todo{Tie
+to the C result: did the prior move on held-out variants?} This is also why
+the known successes of verified search \citep{romeraparedes2024funsearch,
+novikov2025alphaevolve} pair a proposal distribution with a hard evaluator
+and many samples, not with a cleverer prompt.
+
+\paragraph{Design rules.} For long open-ended generation: damp repetition;
+interrupt with something new each time or reset the context; carry a
+compressed recap rather than the text; do not expect the whole to advance
+from any of this. For search with a verifier: spend on sampling and
+selection, not on stimulation; keep the verifier's verdicts out of the
+prompt or measure the fabrication they induce; if the prior must move,
+train on the finds.
+
+\section{Limitations}
+\label{sec:limitations}
+
+Ten premises and ten variants per battery; 8--30B base models at 8 bits;
+the document judge is a single LLM family at $k=3$ and its absolute levels
+are low for every arm, so ``integration 2.7'' is a relative statement; the
+bin-packing distributions of batteries S and V have little headroom, which
+bounds what selection and feedback could show there (battery C's family was
+chosen for headroom for that reason); the oracle that writes recaps and
+questions is the generator itself and sometimes repeats itself, which the
+anti-copy ladder mitigates but does not remove; \todo{C-specific
+limitations: LoRA capacity, tiny data, collapse}. The negative results are
+resolution-bounded nulls, not proofs of absence.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Given memory, tension, selection and a verifier, the interrupted loop
+composes better and advances no further. A schematic memory is worth having;
+a standing question helps a little; selection and in-stream verification add
+nothing to what they replace, and the latter teaches the model to invent its
+own verdicts. \todo{Consolidation sentence.} The organ that is missing from
+inference-time creativity is the one that learns.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
