@@ -1344,6 +1344,33 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Bateria V — resultado (2026-08-20, 20:34–21:34; `docs/APPENDIX_V.md`)**:
+**V1 não suportada** (ganho: +0,0003, p = 0,48 — o feedback não eleva o
+teto). **V2 não suportada e na direção oposta** (progressões 0,1 vs 0,3,
+p = 0,97). **V4 nada** (o placar não soma; pior: `fbagenda` escreve MENOS
+funções que todos — 1,1/caderno vs 2,9 do fb300, 2,0 do plain, 9,2 do
+angle). Pares limpos designados às 21:00: fb300 vs plain em progressões =
+−0,05 (p = 1,0) — feedback puro não produz progressão; fbagenda vs angle =
+−0,30 (p = 0,125) — se algo, atrapalha. Progressão ≈ 0 em TODOS os braços
+(0,1–0,3 melhorias/caderno; domínio saturado, best fit ≈ ótimo — ressalva
+de sempre). **Achado colateral notável: vereditos confabulados** — o modelo
+escreveu em média **16,4 linhas "# Verifier:" falsas por caderno** no fb300
+(contra ~3 reais) e 6,2 no fbagenda: injete o FORMATO de um sinal de
+recompensa no contexto e o modelo passa a gerar a própria recompensa
+fictícia (entrainment sobre o veredito; "alucinação de recompensa"). É o
+resultado mais interessante da bateria e merece seção própria no paper 2.
+
+**Balanço do programa de inferência (fechado em 20/08)**: variação ✓
+(interrupção, 3–4×), integração ✓ (memória esquemática, recorde 2,7),
+progressão ✗ sob TODAS as vias testadas — injeções (M/M+), seleção externa
+(S), verificador dentro do fluxo (V), Review com portão (gate). Conclusão
+do ENSAIO_BITS confirmada com dado: o prior não se move por contexto; o
+órgão que falta é **consolidação** (atualizar pesos no que o verificador
+aprovou). Paper 2 tem agora: 3 positivos, 1 fronteira completa, 1 fenômeno
+novo (confabulação de veredito). Próximo passo, se o programa continuar:
+fine-tune nos achados verificados (exige desenho de treino; fora do escopo
+desta fase) OU domínio não saturado para um último teste do loop V.
+
 **Nota de interpretação da bateria V (2026-08-20, 21:00 — DURANTE a
 geração, ANTES de qualquer análise; 20/40 células geradas, nenhum teste
 rodado)**: observação de mecânica nos textos — sem ângulos, o braço `fb300`
