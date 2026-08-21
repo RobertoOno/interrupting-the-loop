@@ -92,8 +92,7 @@ gênero, portão de juiz (Review real: não acrescenta ao relógio). Scripts
 novos: `selfcopy.py`, `judge_document.py`, `judge_agreement.py --protocol
 gen`, controle `judge_gate`, baterias `confirm/genre/reset_ladder/ladder3/gate`.
 
-**19–20/08**: arXiv SUBMETIDO (aguardando anúncio; ao sair o ID, atualizar
-README/bibs/repos). Baterias B, S, M, M+, gate e V concluídas e no PLANO: a
+**19–20/08**: arXiv publicado — **arXiv:2608.19893** (README/bibs atualizados). Baterias B, S, M, M+, gate e V concluídas e no PLANO: a
 família de inferência FECHOU — variação ✓ (interrupção 3–4×), integração ✓
 (memória esquemática, `schema_reseed`), progressão ✗ por todas as vias
 (injeções, seleção externa, verificador no fluxo, Review com portão).
@@ -106,6 +105,6 @@ distância em bits; consolidação é o órgão que falta). Paper curto pronto e
 STaR/ReST no 8B; desenho e pré-registro 21/08, ver PLANO "Decisão 20/08")**;
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
-esqueleto a montar); arXiv ID pendente; venue (NeurIPS workshops 29/08;
+esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
 ICCC'27); mover o repo para ~/wrk só APÓS esta sessão (receita no chat de
 20/08).
