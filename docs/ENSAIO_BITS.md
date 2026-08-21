@@ -93,3 +93,12 @@ bits — e medir com honestidade quantos bits faltam.**
 AlphaEvolve (Novikov et al., 2025); Schmidhuber (progresso de compressão
 como interesse intrínseco); os resultados do creative-machine (PLANO.md,
 2026-08-03 → hoje).*
+
+---
+
+*P.S. (2026-08-20, 21:40) — a Bateria V fechou horas depois desta nota e a
+confirmou: o verificador dentro do fluxo não produziu progressão (V1 p =
+0,48; V2 na direção oposta), e o fenômeno colateral foi o modelo escrever
+~16 vereditos falsos por caderno — imitar o formato da recompensa em vez de
+ganhá-la. O prior imita o mundo; não se move por ele. Consolidação continua
+sendo o órgão que falta.*
