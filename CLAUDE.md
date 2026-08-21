@@ -92,10 +92,20 @@ gênero, portão de juiz (Review real: não acrescenta ao relógio). Scripts
 novos: `selfcopy.py`, `judge_document.py`, `judge_agreement.py --protocol
 gen`, controle `judge_gate`, baterias `confirm/genre/reset_ladder/ladder3/gate`.
 
-**Em aberto**: rodada 2 humana (Roberto contrata 5 avaliadoras;
-`docs/blind/pack_v3.html`, só janelas frescas); título final (decisão do
-Roberto); repositório público já criado (`RobertoOno/interrupting-the-loop`;
-republicar com `scripts/publish/publish_public.sh`);
-NOTEBOOK.md (tradução do PLANO); venue (ICLR 2027 25/09; NeurIPS workshops
-29/08; ICCC'27; arXiv); paper seguinte: loop interrompido sobre problema com
-verificador (item 8).
+**19–20/08**: arXiv SUBMETIDO (aguardando anúncio; ao sair o ID, atualizar
+README/bibs/repos). Baterias B, S, M, M+, gate e V concluídas e no PLANO: a
+família de inferência FECHOU — variação ✓ (interrupção 3–4×), integração ✓
+(memória esquemática, `schema_reseed`), progressão ✗ por todas as vias
+(injeções, seleção externa, verificador no fluxo, Review com portão).
+Fenômeno novo: **vereditos confabulados** (16,4 linhas "# Verifier:" falsas
+por caderno no braço fb300). Tese registrada em `docs/ENSAIO_BITS.md` (a
+distância em bits; consolidação é o órgão que falta). Paper curto pronto em
+`paper/short/` (workshop de juízes).
+
+**Em aberto**: **FASE 2 = Bateria C (consolidação por LoRA, ciclo
+STaR/ReST no 8B; desenho e pré-registro 21/08, ver PLANO "Decisão 20/08")**;
+rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
+paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
+esqueleto a montar); arXiv ID pendente; venue (NeurIPS workshops 29/08;
+ICCC'27); mover o repo para ~/wrk só APÓS esta sessão (receita no chat de
+20/08).
