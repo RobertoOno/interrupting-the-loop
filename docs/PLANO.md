@@ -1344,6 +1344,12 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**arXiv ANUNCIADO (2026-08-20, noite): arXiv:2608.19893** —
+https://arxiv.org/abs/2608.19893 (cs.CL). Feito na hora: README (link +
+citação com eprint), bib do paper curto, CLAUDE.md, repos sincronizados.
+Enviar o link aos endossadores/contatos (Zhu, Haldar) e usar o ID nas
+submissões de workshop.
+
 **Decisão (2026-08-20, noite): FASE 2 — consolidação.** Amanhã (21/08)
 desenhar e pré-registrar a **Bateria C** (ciclo STaR/ReST em escala de
 escritório): gerar cadernos → verificar → filtrar aprovados → **LoRA no
