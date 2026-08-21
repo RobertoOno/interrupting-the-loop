@@ -71,3 +71,12 @@ ANGLES = [
 ]
 
 SHAM = ("\n\n#\n",)
+
+
+# Battery C (consolidation): the small-item family, where best fit is beatable
+# (headroom sweep, scripts/headroom2.py, 2026-08-21). Train variants are used for
+# generation + consolidation; held-out variants measure transfer of the prior.
+VARIANTS_C_TRAIN = [(0.02, 0.40), (0.04, 0.40), (0.06, 0.50), (0.08, 0.40), (0.10, 0.35),
+                    (0.10, 0.50), (0.06, 0.55), (0.04, 0.45), (0.08, 0.35), (0.02, 0.55)]
+VARIANTS_C_HELDOUT = [(0.05, 0.45), (0.07, 0.38), (0.03, 0.52), (0.09, 0.47), (0.05, 0.58),
+                      (0.04, 0.50), (0.08, 0.55), (0.06, 0.42)]
