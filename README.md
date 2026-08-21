@@ -4,8 +4,8 @@ Code, data and paper for a study of where novelty comes from when a base
 language model writes with **no task** — feeding on its own output — and which
 of the operations usually credited for it survive measurement.
 
-**Paper**: [`paper/main.pdf`](paper/main.pdf) (LaTeX source in `paper/`, the
-master; the earlier Markdown/HTML drafts in `docs/` are frozen at v1). All
+**Paper**: [arXiv:2608.19893](https://arxiv.org/abs/2608.19893) ([`paper/main.pdf`](paper/main.pdf); LaTeX source in `paper/`, the
+master; the earlier Markdown/HTML drafts in `docs/` are frozen at v1.) All
 tables of the primary analysis: [`docs/APPENDIX_GEN.md`](docs/APPENDIX_GEN.md). **Lab notebook**, every decision and
 result dated: [`docs/PLANO.md`](docs/PLANO.md) (Portuguese; an English
 translation, `docs/NOTEBOOK.md`, accompanies the public release).
@@ -139,9 +139,12 @@ Code and documentation are released under the MIT License (see `LICENSE`).
 @misc{ono2026interrupting,
   title  = {Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models},
   author = {Ono Filho, Roberto I.},
-  note   = {ORCID 0009-0006-8650-629X},
   year   = {2026},
-  howpublished = {Preprint}
+  eprint = {2608.19893},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.CL},
+  url    = {https://arxiv.org/abs/2608.19893},
+  note   = {ORCID 0009-0006-8650-629X}
 }
 ```
 
