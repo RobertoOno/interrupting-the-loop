@@ -134,6 +134,73 @@ def cmd_select(a):
     cands = json.loads((out / "candidates.json").read_text())
     ok = {c["hash"]: c for c in cands.values() if c["ok"] and c["which"] == "train"}  # never train on held-out variants
     rng = np.random.default_rng(a.seed)
+    if a.mode in ("qd", "pairs_mode"):
+        # behaviour vectors (per-instance excess on the variant's training instances) for valid distinct train candidates
+        bcache_p = out / "behaviour.json"
+        bcache = json.loads(bcache_p.read_text()) if bcache_p.exists() else {}
+        from creative_machine.domains.binpack import best_fit as _bf, first_fit as _ff
+        byv = {}
+        for c in ok.values():
+            byv.setdefault(c["variant"], []).append(c)
+        elites, clones = [], {}
+        for v, cs in sorted(byv.items()):
+            tr = instances("train", v, vseed("train", v, 100))
+            ref = {}
+            for nm, fn in (("bf", _bf), ("ff", _ff)):
+                r = run_heuristic_code("def priority(item: float, remaining: list[float]) -> list[float]:\n    return " +
+                                       ("[-(r - item) for r in remaining]" if nm == "bf" else "[0.0] * len(remaining)") + "\n", tr, timeout_s=20.0)
+                ref[nm] = np.array(r["excesses"])
+            vecs = []
+            for c in cs:
+                if c["hash"] not in bcache:
+                    r = run_heuristic_code(c["src"], tr, timeout_s=20.0)
+                    bcache[c["hash"]] = r.get("excesses") if r.get("ok") else None
+                if bcache[c["hash"]] is not None:
+                    vecs.append((c, np.array(bcache[c["hash"]])))
+            bcache_p.write_text(json.dumps(bcache))
+            # clones of the classic attractor: behaviour identical to best fit or first fit on every instance
+            cl = [c for c, x in vecs if np.allclose(x, ref["bf"], atol=1e-9) or np.allclose(x, ref["ff"], atol=1e-9)]
+            clones[v] = cl
+            rest = [(c, x) for c, x in vecs if c not in cl]
+            # k-means (k=4) on behaviour; elite = best train excess per niche; one niche reserved for the clone mode
+            k = 3
+            if len(rest) >= k:
+                X = np.stack([x for _, x in rest]); rs = np.random.default_rng(a.seed + v)
+                cent = X[rs.choice(len(X), k, replace=False)]
+                for _ in range(20):
+                    lab = np.argmin(((X[:, None, :] - cent[None]) ** 2).sum(-1), axis=1)
+                    for j in range(k):
+                        if np.any(lab == j):
+                            cent[j] = X[lab == j].mean(0)
+                for j in range(k):
+                    members = [rest[i][0] for i in range(len(rest)) if lab[i] == j]
+                    if members:
+                        elites.append(min(members, key=lambda c: c["train"]))
+            else:
+                elites.extend(c for c, _ in rest)
+            if cl:
+                elites.append(min(cl, key=lambda c: c["train"]))   # the attractor keeps one seat
+        elites = elites[: a.k] if len(elites) > a.k else elites
+        Path(a.sft).parent.mkdir(parents=True, exist_ok=True)
+        with open(a.sft, "w") as f:
+            if a.mode == "qd":
+                for c in elites:
+                    lo, hi = VARIANTS_C_TRAIN[c["variant"]]
+                    f.write(json.dumps({"prompt": premise(lo, hi), "completion": c["src"] + "\n"}) + "\n")
+                print(f"qd: {len(elites)} elites -> {a.sft} (clone niches {sum(1 for v in clones if clones[v])}/{len(clones)}; "
+                      f"mean excess {np.mean([c['train'] for c in elites]):.4f})", flush=True)
+            else:   # pairs_mode: chosen = non-clone elites, rejected = a best-fit clone of the same variant
+                n = 0
+                for c in elites:
+                    cl = clones.get(c["variant"], [])
+                    if not cl or c in cl:
+                        continue
+                    r = cl[n % len(cl)]
+                    lo, hi = VARIANTS_C_TRAIN[c["variant"]]
+                    f.write(json.dumps({"prompt": premise(lo, hi), "chosen": c["src"] + "\n", "rejected": r["src"] + "\n",
+                                        "chosen_excess": c["train"], "rejected_excess": r["train"]}) + "\n"); n += 1
+                print(f"pairs_mode: {n} pairs -> {a.sft}", flush=True)
+        return
     if a.mode == "pairs":   # DPO pairs: chosen = the attract set, rejected = the worst valid of the same variant
         chosen = [c for c in ok.values() if c.get("find")]
         if len(chosen) < a.k:
@@ -181,7 +248,7 @@ if __name__ == "__main__":
     g.add_argument("--n", type=int, default=3); g.add_argument("--tokens", type=int, default=1500); g.add_argument("--chunk", type=int, default=125)
     g.add_argument("--seed", type=int, default=0); g.add_argument("--out", required=True)
     v = sp.add_parser("verify"); v.add_argument("--out", required=True)
-    s = sp.add_parser("select"); s.add_argument("--out", required=True); s.add_argument("--mode", choices=["finds", "random", "pairs"], required=True)
+    s = sp.add_parser("select"); s.add_argument("--out", required=True); s.add_argument("--mode", choices=["finds", "random", "pairs", "qd", "pairs_mode"], required=True)
     s.add_argument("--k", type=int, default=60); s.add_argument("--sft", required=True); s.add_argument("--seed", type=int, default=0)
     a = p.parse_args()
     {"gen": cmd_gen, "verify": cmd_verify, "select": cmd_select}[a.cmd](a)
