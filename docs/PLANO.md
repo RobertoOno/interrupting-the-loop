@@ -1344,6 +1344,31 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**C-ext e transferência distante — resultado (2026-08-22, 03:30;
+`docs/APPENDIX_C.md`, `docs/APPENDIX_C_FAR.md`)**:
+- **C1-ext SUPORTADA**: ciclo 5, attract − base = **−1,70 pp** [−2,68,
+  −0,79], **p = 0,008** (held-out, excesso médio, 8 variantes). **C2-ext**:
+  attract − random = −3,09 pp, p = 0,004. Trajetória attract (held-out):
+  5,59 → 4,30 → 5,16 → 4,20 → **3,86%** (apenas +0,74 pp acima do melhor
+  clássico, vs +2,4 pp do base); base 5,6–6,4%; random 5,1–7,1% (pior que o
+  base de novo no c5: +1,4 pp). Cópias literais 1% no c5; distintos 1,00 —
+  **cinco ciclos sem colapso**. Melhor candidato: 3,11% (attract) vs 3,25%
+  (base), C1b −0,14 pp, p = 0,125 — o teto mexe pouco; achados estritos 0.
+  → Com 5 ciclos a primária fecha com folga: **o prior moveu em massa nas
+  variantes nunca vistas**; o teto continua no nível do best fit.
+- **Far (6 distribuições de outras famílias): F1 NÃO suportada** — attract
+  ≈ base (8,03% vs 8,38%; Δ +0,10 pp, p = 0,69, n = 5: o base quase não
+  escreve funções fora da família, 18 candidatos no total); **F2
+  suportada** — attract < random por −2,0 pp (p = 0,016); random pior que
+  o base também aqui (+1,7 pp, p = 0,06). Leitura: o que moveu é
+  **específico da família** (itens pequenos uniformes), não "bin packing
+  em geral" — consolidação em 200 exemplos ajusta o prior à distribuição
+  vista; fora dela, protege do dano do auto-treino e nada mais.
+Frase para o paper 2: *consolidar o que o verificador aprovou move a massa
+do prior dentro da família treinada (−1,7 pp, p = 0,008, 5 ciclos, sem
+colapso), não move o teto e não transfere para outras famílias; consolidar
+sem filtro de valor degrada em toda parte.*
+
 **C-ext + transferência distante + C-repelir (pré-registro, 2026-08-21
 ~23:10, antes de rodar)** — (a) **C-ext**: ciclos 4 e 5 com a MESMA regra
 (retreino do base sobre a linhagem; mesmos braços); teste **C1-ext**:

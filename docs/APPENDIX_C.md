@@ -14,20 +14,26 @@ Qwen3-8B-Base (8-bit), small-item bin-packing family. Transfer measured on 8 hel
 | base | 3 | 55 | 0.0644 | +0.0333 | 0.0414 | 0.0% | 1.00 | 0% |
 | attract | 3 | 214 | 0.0516 | +0.0204 | 0.0311 | 0.0% | 0.99 | 7% |
 | random | 3 | 334 | 0.0653 | +0.0342 | 0.0312 | 0.0% | 0.99 | 1% |
+| base | 4 | 57 | 0.0532 | +0.0221 | 0.0323 | 0.0% | 1.00 | 0% |
+| attract | 4 | 195 | 0.0420 | +0.0109 | 0.0311 | 1.7% | 0.98 | 16% |
+| random | 4 | 276 | 0.0510 | +0.0199 | 0.0307 | 0.7% | 1.00 | 0% |
+| base | 5 | 47 | 0.0556 | +0.0244 | 0.0325 | 0.0% | 1.00 | 0% |
+| attract | 5 | 226 | 0.0386 | +0.0074 | 0.0311 | 0.0% | 1.00 | 1% |
+| random | 5 | 287 | 0.0695 | +0.0383 | 0.0311 | 0.0% | 0.99 | 0% |
 
-### Pre-registered contrasts at the final cycle (k = 3); cells = held-out variants
+### Pre-registered contrasts at the final cycle (k = 5); cells = held-out variants
 
 | hypothesis | contrast | measure | Δ [CI] | p | n |
 |---|---|---|---|---|---|
-| C1 (primary) | attract vs base (c3) | mean | -0.0129 [-0.0317, +0.0027] | 0.1094 | 8 |
-| C1b | attract vs base (c3) | best | -0.0103 [-0.0305, +0.0000] | 0.2500 | 8 |
-| C2 | attract vs random (c3) | mean | -0.0138 [-0.0252, -0.0024] | 0.0352 | 8 |
-| C2b | attract vs random (c3) | best | -0.0001 [-0.0004, +0.0000] | 0.5000 | 8 |
-| C3 | attract vs base (c3) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
-| C3b | attract vs random (c3) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
-| C4 (two-sided) | attract vs base (c3) | distinct | -0.0114 [-0.0341, +0.0000] | 1.0000 | 8 |
-| C4b (two-sided) | attract vs random (c3) | distinct | -0.0020 [-0.0060, +0.0000] | 1.0000 | 8 |
-| exploratory | random vs base (c3) | mean | +0.0009 [-0.0152, +0.0158] | 0.9219 | 8 |
+| C1 (primary) | attract vs base (c5) | mean | -0.0170 [-0.0268, -0.0079] | 0.0078 | 8 |
+| C1b | attract vs base (c5) | best | -0.0014 [-0.0030, -0.0001] | 0.1250 | 8 |
+| C2 | attract vs random (c5) | mean | -0.0309 [-0.0423, -0.0188] | 0.0039 | 8 |
+| C2b | attract vs random (c5) | best | -0.0000 [-0.0000, +0.0000] | 0.5000 | 8 |
+| C3 | attract vs base (c5) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
+| C3b | attract vs random (c5) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
+| C4 (two-sided) | attract vs base (c5) | distinct | -0.0034 [-0.0101, +0.0000] | 1.0000 | 8 |
+| C4b (two-sided) | attract vs random (c5) | distinct | +0.0041 [-0.0101, +0.0225] | 1.0000 | 8 |
+| exploratory | random vs base (c5) | mean | +0.0139 [-0.0019, +0.0288] | 0.1641 | 8 |
 
 ### Trajectory: attract vs base per cycle (mean excess on held-out variants; paired)
 
@@ -36,3 +42,5 @@ Qwen3-8B-Base (8-bit), small-item bin-packing family. Transfer measured on 8 hel
 | 1 | -0.0003 [-0.0132, +0.0118] | 0.4844 | +0.000 | -0.02 |
 | 2 | -0.0153 [-0.0247, -0.0057] | 0.0156 | +0.000 | +0.02 |
 | 3 | -0.0129 [-0.0317, +0.0027] | 0.1094 | +0.000 | -0.01 |
+| 4 | -0.0112 [-0.0263, +0.0024] | 0.1094 | +0.017 | -0.02 |
+| 5 | -0.0170 [-0.0268, -0.0079] | 0.0078 | +0.000 | -0.00 |
