@@ -1344,6 +1344,18 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Paper 2 — rascunho v0.1 fechado para revisão (2026-08-22, ~08:40)**:
+título aprovado *"Mass, Not Frontier: What Inference-Time Interventions and
+Weight Consolidation Do and Do Not Buy in Open-Ended Generation"*;
+`paper2/main.tex` completo (abstract, intro com 5 contribuições, related
+work — STaR/ReST, DPO, QD, FunSearch, memória/tensão —, setup, memória e
+tensão (M/M+), seleção e verificador (S/V + vereditos confabulados),
+consolidação (C, C-ext, far, repulsões, N) com duas tabelas — a de ciclos e
+a **escada dos adaptadores** —, discussão (distância em bits; regras de
+desenho; portfólio), limitações, conclusão, apêndice de reprodutibilidade);
+10 páginas; compila sem avisos. Status: **em revisão pelo Roberto e por um
+amigo**; exploração retomada depois da revisão.
+
 **Bateria N — resultado (2026-08-22, 06:39–07:58; `docs/APPENDIX_N.md`)**:
 **T1 (primária) NÃO suportada** — far tail: qd 0,6% vs attract 3,9% (base
 10,0%; repel_anch 0%); Δ −3,4 pp, p = 0,875 (direção oposta). T1b: repel_mode
