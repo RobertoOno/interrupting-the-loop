@@ -112,21 +112,140 @@ mirostat; 2025: conformative decoding, selective sampling; avaliação)*
 
 ## 5. Busca + verificador: onde a fronteira realmente moveu
 
-- **FunSearch (Romera-Paredes et al., Nature 2024)**: cap sets e bin packing; milhões
-  de amostras; propositor pequeno, não treinado; seleção por ilhas.
-- **AlphaEvolve (Novikov et al., 2025; arXiv 2506.13131)**: 4×4 com 48 multiplicações
-  escalares (primeira melhora sobre Strassen em 56 anos — para matrizes COMPLEXAS);
-  em 50+ problemas, igualou 75% e melhorou 20% (13: 7 geometria elementar, 5 análise
-  real, 1 combinatória; e.g., kissing number em 11-D 593 vs 592 = 0,36% do intervalo
-  conhecido); ganhos práticos no Google (0,7% de recursos, 1% do treino do Gemini,
-  23% num kernel). **Milhares** de amostras (vs milhões) com LLM de ponta e contexto
-  rico. **E. Davis (2025), "Some comments on AlphaEvolve"**: ceticismo sobre a
-  significância prática/teórica (multiplicações complexas; resultados matemáticos
-  "arbitrários" vs os obtidos por teoria), sistema altamente configurável (quanto
-  do resultado é o sistema "out of the box"?). *Liga-se a:* propositor largo +
-  verificador duro; nosso S mostrou seleção saturando onde não há folga.
-- *(a preencher com o varredor C: EoH/ReEvo/LLaMEA/LLM-SR; Eureka; AI Scientist e
-  críticas; AI co-scientist; episódios de 2025–26 com problemas de Erdős e reações)*
+**5.1 Os carros-chefe (linhagem DeepMind).**
+- **FunSearch — Romera-Paredes et al., Nature 625 (2024)**: cap set de tamanho 512
+  em n=8 (antes 496) e conjunto admissível de 237.984 → novo limite inferior da
+  capacidade de cap sets 2,2202 (maior avanço em ~20 anos); bin packing online
+  5,30%/4,19% de excesso vs 5,81%/6,06% do best fit. Propositor = PaLM 2/Codey
+  **pré-treinado, nunca ajustado**; ~2,5 milhões de programas por corrida.
+  *Liga-se a:* o nosso domínio, a nossa escolha de propositor cru.
+- **AlphaEvolve — Novikov et al. (2025), arXiv 2506.13131**: 4×4 **complexas** em 48
+  multiplicações (primeira melhora sobre Strassen nesse cenário em 56 anos); 50+
+  problemas: ~75% igualados, ~20% melhorados (13; E. Davis: 7 de geometria
+  elementar, 5 de análise real, 1 de combinatória; kissing number em 11-D 592 → 593
+  = 0,36% do intervalo conhecido); infra Google: 0,7% de recursos, kernel +23% → 1%
+  do treino do Gemini, FlashAttention até +32,5%. **Milhares** de amostras com LLM
+  de ponta e contexto rico (vs milhões do FunSearch).
+- **E. Davis (2025), "Some comments on AlphaEvolve"** (lido na íntegra): as
+  multiplicações são complexas (valor prático limitado; recursivo dá O(n^2,792) vs
+  O(n^2,37) teórico); resultados matemáticos "arbitrários" face aos obtidos por
+  teoria (Ganzinov 2025; de Laat & Leijenhorst 2024); sistema altamente
+  configurável — quanto do resultado é "out of the box" é desconhecido;
+  indisponível fora do Google.
+- **Georgiev, Gómez-Serrano, Tao & Wagner (2025), "Mathematical exploration and
+  discovery at scale"** (arXiv 2511.02864; repositório público): AlphaEvolve em 67
+  problemas — redescobre o melhor conhecido na maioria; melhora em alguns.
+- **Dupont, Eisenberger, …, Alman, Vassilevska Williams, Balog (ago 2026)**, ω <
+  2,371177 (antes 2,371339), arXiv 2608.16884: reformulação humana + otimização
+  moderna; AlphaEvolve como passo de **refino** do otimizador. *Divisão de trabalho
+  atual: humanos reformulam, o agente evolutivo pole.*
+- **AlphaProof — Hubert et al., Nature (2025)**: RL sobre milhões de problemas
+  auto-formalizados em Lean + RL em tempo de teste; 3 de 5 problemas não-geométricos
+  da IMO 2024 (prata). **AlphaGeometry (Nature 2024) / AG2 (2025)**: 25/30 → 84% dos
+  problemas de geometria da IMO 2000–2024; o ganho veio sobretudo de AMPLIAR a
+  linguagem do domínio (66% → 88%), não do modelo. **AlphaTensor (Nature 2022)**:
+  4×4 sobre GF(2) em 47 multiplicações — **sem LLM** (AlphaZero): o esqueleto
+  verificador+busca carrega o resultado.
+- **PatternBoost — Charton, Ellenberg, Wagner, Williamson (2024)**, arXiv 2411.00566:
+  alterna busca local clássica com uma fase global em que um transformer é
+  **treinado nas melhores construções achadas até ali** e reamostrado (treinado do
+  zero, não um LLM pré-treinado); melhores soluções conhecidas em vários problemas
+  extremais e um **contraexemplo a uma conjectura de 30 anos**. *Liga-se a:* é o
+  braço "consolidar o que funcionou no propositor" — a nossa Bateria C — feito
+  com um modelo pequeno e dedicado, e com busca local forte em volta.
+
+**5.2 Busca evolutiva/heurística guiada por LLM.**
+- **EoH — Liu et al., ICML 2024** (2401.02051): evolui "pensamentos" em linguagem +
+  código; bate heurísticas manuais em bin packing com orçamento de consultas
+  ordens de grandeza menor que o FunSearch. **ReEvo — Ye et al., NeurIPS 2024**
+  (2402.01145): reflexões do LLM como "gradientes verbais"; SOTA/competitivo em 5
+  tipos de algoritmo × 6 problemas. **LLaMEA — van Stein & Bäck, IEEE TEVC 2025**:
+  otimizadores gerados batem CMA-ES/DE em baixa dimensão; vantagem encolhe fora do
+  regime pontuado. **LLM-SR — Shojaee et al., ICLR 2025 (oral)** + **LLM-SRBench
+  (ICML 2025)**: em 239 problemas resistentes a memorização, o melhor sistema
+  chega a 31,5% de acurácia simbólica — a lacuna mais nítida entre "recupera uma
+  lei conhecida" e "descobre uma nova". **Eureka — Ma et al., ICLR 2024**:
+  recompensa como código evoluído; supera especialistas em 83% de 29 ambientes.
+  **OPRO — Yang et al., ICLR 2024**: LLM como otimizador funciona em objetivos
+  "de texto", não compete com solvers em combinatória dura.
+- **ShinkaEvolve — Sakana AI (2025)**, arXiv 2509.19349 (aberto): SOTA em circle
+  packing com **150 amostras** (bate a solução do AlphaEvolve); ganhos vêm de
+  amostragem adaptativa de pais, **rejeição por novidade** e bandido sobre um
+  ensemble de LLMs. *Liga-se a:* diversidade, não qualidade do modelo, é a
+  restrição ativa. **LEVI (2026)**, arXiv 2605.09764: arquiteturas de busca
+  melhores substituem LLMs maiores (3,3–6,7× menos orçamento). **Zarankiewicz
+  (Bhan et al., mai 2026)**, arXiv 2605.01120, com OpenEvolve aberto: valores
+  exatos inéditos de Z(11,21,3,3)=116, Z(11,22,3,3)=121, Z(12,22,3,3)=132 + 41
+  limites novos — o paradigma já rende matemática verificada fora do Google.
+
+**5.3 Agentes de ciência autônoma e suas auditorias.**
+- **AI Scientist (Lu, Lu, Lange, Foerster, Clune, Ha, 2024)** e **v2 (2025)**: um de
+  três papers passaria num workshop da ICLR 2025 (nota 6,33; retirado). Auditoria
+  **Beel, Kan & Baumgart (2025)**, arXiv 2502.14297: revisão de literatura rasa,
+  avaliação de novidade não confiável, incapaz de detectar as próprias falhas —
+  passa a barra social, não a de correção. **Agent Laboratory (Schmidgall et al.,
+  Findings EMNLP 2025)**: valor é throughput/custo (−84%), humano continua sendo o
+  verificador. **AI co-scientist (Gottweis et al., 2025; Nature 2026)**: três casos
+  com bancada; o caso cf-PICI ("pirataria de cauda") é **recapitulação, sob direção
+  de especialistas, de um resultado não publicado** — não descoberta espontânea.
+- **Si, Yang & Hashimoto (2024)** / **Si & Hashimoto (2025) "Ideation–Execution
+  Gap"**: ver §3 — o resultado negativo mais importante desta literatura: novidade
+  julgada não é proxy de descoberta. **MOOSE-Chem (Yang et al., ICLR 2025)**:
+  hipóteses de 51 papers de 2024 redescobertas por modelos com corte em 2023 a
+  partir de "inspirações" — evidência limpa de **recombinação do conhecido**.
+
+**5.4 2025–26: problemas em aberto e o que se aprendeu.**
+- **Episódio GPT-5/Erdős (out 2025)**: "10 problemas em aberto resolvidos" → Thomas
+  Bloom (erdosproblems.com): "aberto" = ele desconhecia solução publicada; o modelo
+  fez **busca bibliográfica eficaz**; claim recuado. Hipótese-padrão da comunidade
+  desde então: **recuperação até prova em contrário**.
+- **Bubeck et al. (nov 2025), "Early science acceleration experiments with GPT-5"**
+  (2511.16072): quatro resultados matemáticos novos, "modestos", verificados por
+  humanos, com humanos no circuito.
+- **Feng, Trinh, Bingham et al. (DeepMind, jan 2026)**, "Semi-Autonomous Mathematics
+  Discovery with Gemini" (2601.22401): 700 conjecturas "abertas"; 13 tratadas — **5
+  soluções aparentemente novas, 8 eram soluções já publicadas** (~62% recuperação);
+  os autores nomeiam o risco de "plágio subconsciente".
+- **Erdős #728 (jan 2026)**: GPT-5.2 Pro + Aristotle, prova **formal em Lean**
+  (2601.07421) — primeiro problema de Erdős tido como resolvido de forma autônoma;
+  **#397** (≈30 anos) verificado por Terence Tao, que o chamou de "fruta mais
+  baixa": problemas negligenciados, solúveis por técnica padrão, não a fronteira
+  (relato de imprensa sobre posts no Mathstodon; não verificado na fonte).
+  *O que converteu claim em aceitação foi o verificador (Lean).*
+
+**5.5 Análises sistemáticas: por que funciona e onde quebra.**
+- **Large Language Monkeys — Brown et al. (2024)**, 2407.21787: cobertura cresce
+  log-linear com o número de amostras por 4 ordens de grandeza (SWE-bench Lite:
+  15,9% com 1 amostra → 56% com 250); exige verificador de domínio — sem ele, a
+  seleção estaciona muito abaixo da cobertura. **Massa vence fronteira só onde há
+  verificador.**
+- **Yue et al. (2025)**: base vence RLVR em pass@256 — suporte direto à escolha de
+  propositor não treinado.
+- **"Mutation Without Variation" (GECCO'26 workshop)**, 2606.05408: sem pressão de
+  seleção, cadeias de mutação por LLM **colapsam em regiões atratoras** (em 87% das
+  cadeias, >93% das mutações revisitam uma forma já vista; ciclos curtos e
+  auto-laços dominam; mutação de subárvore em GP clássica não faz isso). *Liga-se
+  a:* a nossa auto-cópia, os nossos poços — o propositor LLM é intrinsecamente um
+  atrator; novidade tem de ser imposta de fora (ilhas, rejeição por novidade,
+  resets).
+- **Bin packing auditado duas vezes**: **Sim, Renau & Hart (EvoApplications 2025)**,
+  2501.11411 — a maioria das heurísticas evoluídas por LLM **não generaliza**
+  (especialistas estreitos, caros); **Herrmann & Pallez (2025/26)**, 2510.27353 —
+  heurísticas legíveis mas opacas, alternativas humanas simples são mais
+  eficientes e gerais; o avanço é do arcabouço de busca/avaliação, não do LLM.
+  *Liga-se a:* a nossa escolha de domínio e a folga pequena; as nossas funções
+  consolidadas são best-fit afiado.
+
+**Leitura transversal (§5):** toda descoberta verificada desta literatura está
+atrás de um **escore barato e checável por máquina**; onde o verificador é um juiz
+(revisor LLM, nota de novidade, primeira impressão de especialista) o resultado
+inverte na execução ou dissolve na auditoria. **A força do propositor não é o
+gargalo; a diversidade das propostas é** (propositores não treinados por escolha;
+RLVR encolhe pass@k; mutação por LLM colapsa em atratores; maquinário de novidade
+compra ~3 ordens de grandeza de eficiência amostral). E os episódios de 2025–26
+convergem para um número: 8 de 13 "soluções" do Gemini eram literatura; as de
+GPT-5 em outubro, todas; os casos inequívocos são pequenos, verificados
+formalmente e descritos por Tao como a cauda negligenciada, não a fronteira.
 
 ## 6. Teoria e programas de pesquisa
 
