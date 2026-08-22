@@ -101,8 +101,13 @@ por caderno no braço fb300). Tese registrada em `docs/ENSAIO_BITS.md` (a
 distância em bits; consolidação é o órgão que falta). Paper curto pronto em
 `paper/short/` (workshop de juízes).
 
-**Em aberto**: **FASE 2 = Bateria C (consolidação por LoRA, ciclo
-STaR/ReST no 8B; desenho e pré-registro 21/08, ver PLANO "Decisão 20/08")**;
+**21/08**: **Bateria C (consolidação por LoRA)** concluída: C2 suportada
+(valor > aleatório, p = 0,035), C1 direção certa (−1,3 pp held-out; p = 0,016
+no c2, 0,11 no c3), teto não move, sem colapso (`docs/APPENDIX_C.md`,
+`scripts/consolidate.py`, `run_c.sh`). Paper 2 rascunhado em `paper2/`.
+
+**Em aberto**: fase 2 continua (mais ciclos/amostras; C-repelir via DPO;
+repulsor em ativação; domínio com folga maior);
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
