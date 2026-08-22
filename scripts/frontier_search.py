@@ -215,6 +215,10 @@ def main():
             agenda = write_agenda(model, tok, sampler, P, elites[0]) if a.agenda else None
             repel = [f"score {e['score']:.6f}, signature {e.get('sig','')}" for e in elites] if a.repel_prompt else None
             prompt = build_prompt(P, elites, a.memory, recap, agenda, repel)
+            shown = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
+            if a.memory == "schema" and recap:
+                shown = shown[:1]
+            prelude = "\n\n".join(e["code"].replace("def " + P["entry"], "def " + P["entry"] + "_v" + str(i)) for i, e in enumerate(shown))
             if recap or agenda:
                 with open(out / "notebook.jsonl", "a") as f:
                     f.write(json.dumps({"gen": g, "island": k, "recap": recap, "agenda": agenda}) + "\n")
@@ -231,7 +235,7 @@ def main():
                 else:
                     h = hashlib.md5(re.sub(r"\s+", " ", code).encode()).hexdigest()[:12]
                     rec["hash"] = h
-                    res = run_candidate(code, P["module"], P["entry"], P["args"])
+                    res = run_candidate(code, P["module"], P["entry"], P["args"], prelude=prelude)
                     rec["ok"] = bool(res.get("ok"))
                     if res.get("ok"):
                         sc = float(res["score"]); rec["score"] = sc; n_ok += 1
