@@ -20,21 +20,46 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from creative_machine.code_exec import run_heuristic_code
 from creative_machine.domains.binpack import evaluate, best_fit, first_fit
-from creative_machine.problem_premises import VARIANTS_C_TRAIN, VARIANTS_C_HELDOUT, premise, ANGLES
+from creative_machine.problem_premises import VARIANTS_C_TRAIN, VARIANTS_C_HELDOUT, FAR_VARIANTS, premise, premise_far, ANGLES
 from problem_loop import closed_functions, inside_open_function
 
 N_INST, N_ITEMS = 20, 200
 MARGIN = 0.001
 
 def variants(which):
-    return VARIANTS_C_TRAIN if which == "train" else VARIANTS_C_HELDOUT
+    return {"train": VARIANTS_C_TRAIN, "heldout": VARIANTS_C_HELDOUT, "far": FAR_VARIANTS}[which]
 
-def instances(lo, hi, seed):
+def far_items(name, rng, n):
+    if name == "weibull_2_030":
+        return np.clip(rng.weibull(2.0, n) * 0.30, 0.01, 1.0)
+    if name == "weibull_15_025":
+        return np.clip(rng.weibull(1.5, n) * 0.25, 0.01, 1.0)
+    if name == "tri_002_030_060":
+        return rng.triangular(0.02, 0.30, 0.60, n)
+    if name == "tri_005_015_050":
+        return rng.triangular(0.05, 0.15, 0.50, n)
+    if name == "bimodal_small_large":
+        m = rng.random(n) < 0.6
+        return np.where(m, rng.uniform(0.05, 0.20, n), rng.uniform(0.50, 0.70, n))
+    if name == "orlib_20_100_150":
+        return rng.integers(20, 101, n) / 150.0
+    raise KeyError(name)
+
+def instances(which, vi, seed):
     rng = np.random.default_rng(seed)
+    if which == "far":
+        return [list(far_items(FAR_VARIANTS[vi][0], rng, N_ITEMS)) for _ in range(N_INST)]
+    lo, hi = variants(which)[vi]
     return [list(np.clip(rng.uniform(lo, hi, N_ITEMS), 0.01, 1.0)) for _ in range(N_INST)]
 
+def premise_for(which, vi):
+    if which == "far":
+        return premise_far(FAR_VARIANTS[vi][1])
+    lo, hi = variants(which)[vi]
+    return premise(lo, hi)
+
 def vseed(which, vi, base):
-    return base + vi + (50 if which == "heldout" else 0)
+    return base + vi + {"train": 0, "heldout": 50, "far": 80}[which]
 
 def norm(code):
     body = "\n".join(l.strip() for l in code.splitlines()[1:] if l.strip() and not l.strip().startswith('"""'))
@@ -49,12 +74,12 @@ def cmd_gen(a):
     model, tok = load(str(Path(a.model).expanduser()), adapter_path=(None if a.adapter in (None, "none") else a.adapter))
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     done = {p.stem for p in out.glob("*.txt")}
-    for vi, (lo, hi) in enumerate(variants(a.variants)):
+    for vi in range(len(variants(a.variants))):
         for nb in range(a.n):
             key = f"{a.variants}_v{vi}_n{nb}"
             if key in done:
                 continue
-            text = premise(lo, hi)
+            text = premise_for(a.variants, vi)
             rng = np.random.default_rng(a.seed * 100003 + vi * 101 + nb)
             cfg = SamplerConfig(lam=0.0, entropy_trigger=99.0, no_push_ids=eos_ids(tok),
                                 seed=int(rng.integers(0, 2**31)), repetition_window=512, repetition_penalty=1.15)
@@ -79,9 +104,9 @@ def cmd_verify(a):
     base_cache = {}
     for txt in sorted(out.glob("*.txt")):
         which, v, nb = txt.stem.split("_")
-        vi = int(v[1:]); lo, hi = variants(which)[vi]
+        vi = int(v[1:])
         if (which, vi) not in base_cache:
-            tr, te = instances(lo, hi, vseed(which, vi, 100)), instances(lo, hi, vseed(which, vi, 200))
+            tr, te = instances(which, vi, vseed(which, vi, 100)), instances(which, vi, vseed(which, vi, 200))
             base_cache[(which, vi)] = (tr, te, {"bf_train": evaluate(best_fit, tr)["mean_excess"], "ff_train": evaluate(first_fit, tr)["mean_excess"],
                                                "bf_test": evaluate(best_fit, te)["mean_excess"], "ff_test": evaluate(first_fit, te)["mean_excess"]})
         tr, te, base = base_cache[(which, vi)]
@@ -130,7 +155,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = p.add_subparsers(dest="cmd", required=True)
     g = sp.add_parser("gen"); g.add_argument("--model", default="~/models/mlx/Qwen3-8B-Base-8bit"); g.add_argument("--adapter", default="none")
-    g.add_argument("--arm", required=True); g.add_argument("--cycle", type=int, default=0); g.add_argument("--variants", choices=["train", "heldout"], default="train")
+    g.add_argument("--arm", required=True); g.add_argument("--cycle", type=int, default=0); g.add_argument("--variants", choices=["train", "heldout", "far"], default="train")
     g.add_argument("--n", type=int, default=3); g.add_argument("--tokens", type=int, default=1500); g.add_argument("--chunk", type=int, default=125)
     g.add_argument("--seed", type=int, default=0); g.add_argument("--out", required=True)
     v = sp.add_parser("verify"); v.add_argument("--out", required=True)

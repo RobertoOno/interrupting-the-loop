@@ -80,3 +80,20 @@ VARIANTS_C_TRAIN = [(0.02, 0.40), (0.04, 0.40), (0.06, 0.50), (0.08, 0.40), (0.1
                     (0.10, 0.50), (0.06, 0.55), (0.04, 0.45), (0.08, 0.35), (0.02, 0.55)]
 VARIANTS_C_HELDOUT = [(0.05, 0.45), (0.07, 0.38), (0.03, 0.52), (0.09, 0.47), (0.05, 0.58),
                       (0.04, 0.50), (0.08, 0.55), (0.06, 0.42)]
+
+
+# Far transfer for battery C: other families (never trained on; the prior moved on
+# small-item uniform ranges — does it move here?). (name, premise sentence).
+FAR_VARIANTS = [
+    ("weibull_2_030", "item sizes follow a Weibull distribution with shape 2 and scale 0.30, clipped to (0, 1]"),
+    ("weibull_15_025", "item sizes follow a Weibull distribution with shape 1.5 and scale 0.25, clipped to (0, 1]"),
+    ("tri_002_030_060", "item sizes follow a triangular distribution on [0.02, 0.60] with mode 0.30"),
+    ("tri_005_015_050", "item sizes follow a triangular distribution on [0.05, 0.50] with mode 0.15"),
+    ("bimodal_small_large", "item sizes are a mixture: 60% uniform on [0.05, 0.20] and 40% uniform on [0.50, 0.70]"),
+    ("orlib_20_100_150", "item sizes are integers from 20 to 100 in a bin of capacity 150, i.e. uniform on {20/150, ..., 100/150}"),
+]
+
+
+def premise_far(desc: str) -> str:
+    base = premise(0.10, 0.70)
+    return base.replace("item sizes are drawn uniformly from [0.10, 0.70]", desc)
