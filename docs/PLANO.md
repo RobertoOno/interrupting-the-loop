@@ -1344,6 +1344,42 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Bateria C — resultado (2026-08-21, 16:06–22:19, com relançamento às
+17:38 por bug de caminho do adaptador; `docs/APPENDIX_C.md`)** — held-out
+(8 variantes nunca treinadas), excesso médio dos candidatos válidos
+(teste), pareado por variante:
+- **C1 (primária, ciclo 3)**: attract − base = **−1,29 pp** [−3,17, +0,27],
+  p = 0,109 — NÃO suportada a α = 0,05 no ciclo final; mas direção e
+  tamanho consistentes: 7/8 variantes melhores no c3 e 7/8 no c2; **no
+  ciclo 2, −1,53 pp [−2,47, −0,57], p = 0,016** (suportada). Trajetória
+  attract: 5,59% → 4,30% → 5,16%; base: 5,62% → 5,83% → 6,44% (variância de
+  semente grande; pareamento por semente absorve parte).
+- **C2 suportada**: attract − random = **−1,38 pp** [−2,52, −0,24],
+  p = 0,035 — o filtro de valor importa. Random: +1,5 pp PIOR que o base no
+  c1 (consolidar lixo degrada), ≈ base no c3 (+0,09 pp). Auto-treino sem
+  valor não move o prior para melhor; com valor, move.
+- **C3 nula**: achados estritos = 0 em todos os braços/ciclos; o MELHOR
+  candidato por variante é igual em todos (≈ 3,1% = nível do best fit): o
+  teto não moveu — a MASSA moveu. O adaptador do c3 foi ensinado com 24/40
+  funções do tipo razão (1/(r**2+ε): "a caixa mais justa", best fit
+  afiado) + 13 best-fit-like: consolidação puxa a massa para o melhor
+  atrator já verificado, não além dele.
+- **C4**: sem colapso — distintos/válidos ≈ 0,99 em todos os braços nos 3
+  ciclos; cópias literais do conjunto de treino 6–10% (attract), 1–8%
+  (random). Produção: 3,6–4× mais funções por caderno sob qualquer adaptador.
+Leitura honesta: **primeiro positivo da fase 2, calibrado** — consolidar
+achados verificados por LoRA move a distribuição de candidatos em
+variantes nunca vistas na direção do valor (≈ −1,3 a −1,5 pp; p = 0,016 no
+c2, 0,11 no c3; vs controle aleatório p = 0,035), sem colapso de
+diversidade, e NÃO move o teto (nenhum achado estrito; melhor ≈ best fit).
+O prior moveu em massa, não em fronteira: 3 ciclos × 40 exemplos puxam para
+o conhecido-bom. Para mover a fronteira, o próximo degrau é (a) mais ciclos
+e mais amostras por ciclo (o C1 está a um ciclo/semente de fechar), (b)
+C-repelir (DPO com os poços como negativos), (c) domínio com folga maior.
+Confundidores a declarar: n = 8 variantes; variância de semente do base;
+o critério estrito de achado deixa passar sorte (achados de treino perdem
+no teste) — por isso o C1 é sobre a média.
+
 **Bateria C (pré-registro, 2026-08-21 ~08:00, antes de rodar) — consolidação
 por LoRA (C-atrair vs controle aleatório vs base).** Modelo: Qwen3-8B-Base
 8-bit (QLoRA via `mlx_lm lora`: rank padrão 8, 16 camadas, lr 1e-5, batch 2,

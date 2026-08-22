@@ -21,7 +21,7 @@
 \title{The Missing Organ:\\ What Inference-Time Interventions Can and Cannot Buy\\ in Open-Ended Generation}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{Draft skeleton, \today\ --- not for distribution}
+\date{Draft, \today\ --- not for distribution}
 
 \begin{document}
 \maketitle
@@ -52,7 +52,15 @@ alone, and a verifier whose verdicts are injected into the notebook does not
 raise the ceiling either; instead the model writes its own verdicts, 16.4
 fabricated ``\texttt{\# Verifier:}'' lines per notebook against three real
 ones, a reward hallucination worth knowing about before putting a verifier
-in a prompt. \todo{Consolidation (battery C): one sentence with the result.}
+in a prompt. Consolidation does something the others do not: three STaR/ReST cycles
+of LoRA fine-tuning on the model's own value-filtered candidates shift the
+distribution of what it writes on distributions it never trained on
+toward value (mean excess $-1.3$ to $-1.5$ points of excess over the base
+model on eight held-out variants, $p=0.016$ at cycle 2 and $0.11$ at cycle
+3; $-1.4$ against a same-size random-consolidation control, $p=0.035$),
+without collapsing diversity, and without moving the ceiling: no candidate
+beats the classic heuristics, and the best per variant is the same in every
+arm. The prior moves in mass, not at its frontier.
 We read the whole as a measurement of a boundary: at inference time the
 prior can be kicked (variation) and better remembered (integration), but it
 does not move; what moves it is what these loops lack, the updating of the
@@ -110,7 +118,10 @@ further. Across all injections development stays near 2/10: we call this
 the progression wall. (3) Selection over the interruption's candidates and a
 verifier inside the stream both leave the ceiling where it was; the latter
 produces a new phenomenon, fabricated verifier verdicts, which we quantify.
-(4) \todo{Consolidation result.} (5) A reading of the whole: the bit
+(4) Consolidation by LoRA on verified finds moves the candidate distribution
+on never-seen variants toward value (cycle 2 $p=0.016$; vs a random
+consolidation control $p=0.035$), keeps diversity, and leaves the ceiling
+where it was. (5) A reading of the whole: the bit
 distance between a fixed prior and a target is not shortened by
 inference-time stimulation; integration can be bought, progression cannot,
 and the organ that is missing is the one that updates the prior.
@@ -279,9 +290,51 @@ moved on variants it never saw); C2, attract $<$ random; C3, higher find
 rate; C4 (two-sided), the diversity cost (distinct/valid, literal copies of
 the training set).
 
-\paragraph{Results.} \todo{Battery C results: table by arm and cycle; C1--C4
-contrasts; trajectory across cycles; a reading of the consolidated
-functions.}
+\paragraph{Results.} Table~\ref{tab:c} gives the held-out reading by arm
+and cycle. C1 (primary, final cycle): attract vs base on the mean test
+excess of valid candidates, $-0.0129$ \ci{-0.0317}{+0.0027}, $p=0.109$,
+not supported at $\alpha=0.05$, with the direction consistent (7 of 8
+variants better at cycle 3, 7 of 8 at cycle 2) and the cycle-2 contrast
+supported ($-0.0153$ \ci{-0.0247}{-0.0057}, $p=0.016$). C2: attract vs
+random, $-0.0138$ \ci{-0.0252}{-0.0024}, $p=0.035$, supported: the value
+filter matters. The random control hurts at cycle 1 ($+1.5$ points over
+base: consolidating mediocre functions makes the next ones worse) and is
+neutral by cycle 3. C3: strict finds are zero in every arm and cycle, and the
+best candidate per variant is the same in every arm ($\approx$3.1\% excess,
+the level of best fit): the ceiling did not move. C4: no collapse; the
+distinct/valid ratio is 0.97--1.00 throughout, literal copies of the
+training set 6--10\% (attract); every adapter makes the model write
+3.6--4$\times$ more functions per notebook. The adapter of the last cycle
+was taught mostly tight-bin functions (24 of 40 of the form
+\texttt{1/(r**2+eps)}, 13 best-fit-like): consolidation pulls the mass
+toward the best attractor the verifier has approved, not beyond it.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+arm & cycle & candidates & mean excess & rel.\ to min(BF,FF) & best & distinct & copies \\
+\midrule
+base & 0 & 65 & 0.0633 & +0.0322 & 0.0408 & 0.99 & -- \\
+base & 1 & 53 & 0.0562 & +0.0251 & 0.0327 & 1.00 & -- \\
+attract & 1 & 235 & 0.0559 & +0.0248 & 0.0319 & 0.98 & 10\% \\
+random & 1 & 276 & 0.0708 & +0.0397 & 0.0332 & 1.00 & 5\% \\
+base & 2 & 42 & 0.0583 & +0.0272 & 0.0317 & 0.97 & -- \\
+attract & 2 & 198 & \textbf{0.0430} & +0.0119 & 0.0312 & 0.99 & 6\% \\
+random & 2 & 274 & 0.0697 & +0.0386 & 0.0310 & 0.99 & 8\% \\
+base & 3 & 55 & 0.0644 & +0.0333 & 0.0414 & 1.00 & -- \\
+attract & 3 & 214 & \textbf{0.0516} & +0.0204 & 0.0311 & 0.99 & 7\% \\
+random & 3 & 334 & 0.0653 & +0.0342 & 0.0312 & 0.99 & 1\% \\
+\bottomrule
+\end{tabular}
+\caption{Battery C on the eight held-out variants (never in any training
+set; test instances): candidates per arm and cycle, mean test excess of
+valid candidates (cell means over variants), the same relative to the
+better of best fit and first fit, the best candidate, the distinct/valid
+ratio and the share of literal copies of the arm's training set. The
+value-filtered adapter lowers the mean without moving the best.}
+\label{tab:c}
+\end{table}
 
 \section{Discussion}
 \label{sec:discussion}
@@ -302,8 +355,10 @@ probability mass sits near it, how many bits of search separate the prior
 from the target. Inference-time stimulation reorganizes the surface of a
 fixed prior: it buys variation and, with a schematic memory, integration,
 but it does not move the mass. What moves it is what these loops lack and
-battery C supplies: updating the model by what the world approved. \todo{Tie
-to the C result: did the prior move on held-out variants?} This is also why
+battery C supplies: updating the model by what the world approved. Battery C shows the lever and its
+present reach: three cycles of forty examples move the mass of the
+candidate distribution on never-seen variants toward the verified good,
+and no further than the best thing the verifier had already approved. This is also why
 the known successes of verified search \citep{romeraparedes2024funsearch,
 novikov2025alphaevolve} pair a proposal distribution with a hard evaluator
 and many samples, not with a cleverer prompt.
@@ -326,8 +381,12 @@ bin-packing distributions of batteries S and V have little headroom, which
 bounds what selection and feedback could show there (battery C's family was
 chosen for headroom for that reason); the oracle that writes recaps and
 questions is the generator itself and sometimes repeats itself, which the
-anti-copy ladder mitigates but does not remove; \todo{C-specific
-limitations: LoRA capacity, tiny data, collapse}. The negative results are
+anti-copy ladder mitigates but does not remove; battery C is three cycles of forty examples on
+an 8B model with a rank-8 adapter, its primary contrast reaches $p=0.016$
+at cycle 2 and $0.11$ at the pre-registered final cycle, its base arm
+varies by seed, and the strict find criterion admits lucky candidates
+(training finds lose on test), which is why the primary measure is the
+mean and not the best. The negative results are
 resolution-bounded nulls, not proofs of absence.
 
 \section{Conclusion}
@@ -337,7 +396,9 @@ Given memory, tension, selection and a verifier, the interrupted loop
 composes better and advances no further. A schematic memory is worth having;
 a standing question helps a little; selection and in-stream verification add
 nothing to what they replace, and the latter teaches the model to invent its
-own verdicts. \todo{Consolidation sentence.} The organ that is missing from
+own verdicts. Consolidating verified finds into the weights is the one intervention
+that moved what the model writes on problems it had not seen, and it
+moved it toward what it already knew to be good. The organ that is missing from
 inference-time creativity is the one that learns.
 
 \bibliographystyle{plainnat}
