@@ -228,7 +228,9 @@ def main():
             recent_by_island[k] = []
             for s in range(a.samples):
                 text = "".join(o.text for o in stream_generate(model, tok, prompt, max_tokens=a.max_tokens, sampler=sampler))
-                code = extract_program(f"def {P['entry']}(" + text, P["entry"])
+                # the prompt ends with `def entry(`; some models repeat the header instead of continuing it
+                full = text if re.search(rf"^def {P['entry']}\(", text, re.M) else f"def {P['entry']}(" + text
+                code = extract_program(full, P["entry"])
                 rec = {"gen": g, "island": k, "sample": s, "prompt": ph, "ok": False}
                 if code is None:
                     rec["error"] = "no function"
