@@ -1344,6 +1344,33 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Repulsão ancorada (pré-registro, 2026-08-22 ~09:30, antes de rodar)** —
+dois braços sobre os MESMOS 40 pares do ciclo 5 (escolhido = conjunto do
+attract; rejeitado = pior válido da mesma variante), mesmas sementes
+held-out (ciclo 5) e far (9), comparados com attract_c5 / base_c5 /
+random_c5:
+- `repel_anch` (primário): DPO **ancorado** (estilo RPO): perda = −log
+  σ(β·margem) + α·NLL_média_por_token(escolhido), β = 0,1, α = 1,0, 80
+  passos (= attract), lr 1e-5. A âncora mantém a política na distribuição
+  (escrever funções); a margem empurra para longe dos poços de valor. Contra
+  o attract isola o EFEITO DA REPULSÃO (mesmo lado escolhido, mesmos passos).
+- `repel_early`: DPO cru com parada precoce — 20 passos (perda ~0,3 no log
+  de ontem), β = 0,1.
+Hipóteses (célula = variante held-out, n = 8; α = 0,05):
+- **R1' (primária, bilateral)**: repel_anch vs attract em excesso médio
+  held-out — a repulsão soma (negativo) ou custa (positivo) sobre a atração
+  com os mesmos dados?
+- **R2' (unilateral)**: melhor candidato held-out repel_anch < attract (o
+  repulsor move o TETO que a atração não moveu).
+- **R3' (sanidade, unilateral)**: funções válidas por caderno repel_anch ≥
+  base (a âncora restaura a escrita; se falhar, o braço é inválido e R1'/R2'
+  não se interpretam).
+- Exploratório: repel_early nas mesmas medidas; far (6 distribuições);
+  diversidade/cópias; taxa de achados.
+Leitura: R2' positivo = "atratores em repulsores" move a fronteira; só R1'
+negativo = mais uma forma de mover a massa; R3' falha = DPO precisa de mais
+que âncora neste regime de 40 pares.
+
 **C-repelir — resultado (2026-08-22, 04:10; `docs/APPENDIX_C_REPEL.md`)**:
 **negativo como implementado.** O adaptador DPO (40 pares, 80 passos, β =
 0,1; perda 0,69 → 0,0015 = margem maximizada, sobreajuste) **destruiu a
