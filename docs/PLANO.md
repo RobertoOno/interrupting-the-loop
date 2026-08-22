@@ -1344,6 +1344,28 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**C-ext + transferência distante + C-repelir (pré-registro, 2026-08-21
+~23:10, antes de rodar)** — (a) **C-ext**: ciclos 4 e 5 com a MESMA regra
+(retreino do base sobre a linhagem; mesmos braços); teste **C1-ext**:
+attract < base no ciclo 5 (held-out, excesso médio; unilateral); C2-ext
+idem vs random; a trajetória completa (c1–c5) é reportada. (b) **Far**
+(`FAR_VARIANTS`, 6 distribuições de OUTRAS famílias: Weibull ×2,
+triangular ×2, bimodal, OR-library; premissa descreve a distribuição; 3
+cadernos × 1.200 tokens; adaptadores finais do ciclo 5): **F1** attract <
+base em excesso médio (unilateral, célula = distribuição, n = 6, p mínimo
+1/64); **F2** attract < random. Se F1 passa, o prior moveu "bin packing",
+não só "uniformes pequenos". (c) **C-repelir** (a implementar esta noite;
+roda depois, se pronto): DPO custom em MLX sobre LoRA (referência = base
+congelado, logprobs de referência pré-computados; β = 0,1; lr 1e-5; mesmo
+número de passos que o attract), pares por variante de treino: escolhido =
+conjunto do attract (achados ∪ top-40), rejeitado = os 40 PIORES válidos
+por excesso de treino da mesma linhagem (os poços de valor); hipóteses
+**R1**: repel < attract em excesso médio held-out (bilateral, exploratório
+— empurrar para longe do ruim vs puxar para o bom); **R2**: melhor
+candidato held-out repel < base (o repulsor move o TETO? unilateral); R3:
+diversidade. Se R2 passa, "atratores em repulsores" move a fronteira; se
+só R1, é outra forma de mover a massa.
+
 **Bateria C — resultado (2026-08-21, 16:06–22:19, com relançamento às
 17:38 por bug de caminho do adaptador; `docs/APPENDIX_C.md`)** — held-out
 (8 variantes nunca treinadas), excesso médio dos candidatos válidos
