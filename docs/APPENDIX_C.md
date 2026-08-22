@@ -6,15 +6,33 @@ Qwen3-8B-Base (8-bit), small-item bin-packing family. Transfer measured on 8 hel
 |---|---|---|---|---|---|---|---|---|
 | base | 0 | 65 | 0.0633 | +0.0322 | 0.0408 | 0.0% | 0.99 | 0% |
 | base | 1 | 53 | 0.0562 | +0.0251 | 0.0327 | 0.0% | 1.00 | 0% |
+| attract | 1 | 235 | 0.0559 | +0.0248 | 0.0319 | 0.0% | 0.98 | 10% |
+| random | 1 | 276 | 0.0708 | +0.0397 | 0.0332 | 0.5% | 1.00 | 5% |
 | base | 2 | 42 | 0.0583 | +0.0272 | 0.0317 | 0.0% | 0.97 | 0% |
+| attract | 2 | 198 | 0.0430 | +0.0119 | 0.0312 | 0.0% | 0.99 | 6% |
+| random | 2 | 274 | 0.0697 | +0.0386 | 0.0310 | 0.6% | 0.99 | 8% |
 | base | 3 | 55 | 0.0644 | +0.0333 | 0.0414 | 0.0% | 1.00 | 0% |
+| attract | 3 | 214 | 0.0516 | +0.0204 | 0.0311 | 0.0% | 0.99 | 7% |
+| random | 3 | 334 | 0.0653 | +0.0342 | 0.0312 | 0.0% | 0.99 | 1% |
 
 ### Pre-registered contrasts at the final cycle (k = 3); cells = held-out variants
 
 | hypothesis | contrast | measure | Δ [CI] | p | n |
 |---|---|---|---|---|---|
+| C1 (primary) | attract vs base (c3) | mean | -0.0129 [-0.0317, +0.0027] | 0.1094 | 8 |
+| C1b | attract vs base (c3) | best | -0.0103 [-0.0305, +0.0000] | 0.2500 | 8 |
+| C2 | attract vs random (c3) | mean | -0.0138 [-0.0252, -0.0024] | 0.0352 | 8 |
+| C2b | attract vs random (c3) | best | -0.0001 [-0.0004, +0.0000] | 0.5000 | 8 |
+| C3 | attract vs base (c3) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
+| C3b | attract vs random (c3) | find | +0.0000 [+0.0000, +0.0000] | 1.0000 | 8 |
+| C4 (two-sided) | attract vs base (c3) | distinct | -0.0114 [-0.0341, +0.0000] | 1.0000 | 8 |
+| C4b (two-sided) | attract vs random (c3) | distinct | -0.0020 [-0.0060, +0.0000] | 1.0000 | 8 |
+| exploratory | random vs base (c3) | mean | +0.0009 [-0.0152, +0.0158] | 0.9219 | 8 |
 
 ### Trajectory: attract vs base per cycle (mean excess on held-out variants; paired)
 
 | cycle | Δ mean (attract − base) [CI] | p (less) | Δ find rate | Δ distinct |
 |---|---|---|---|---|
+| 1 | -0.0003 [-0.0132, +0.0118] | 0.4844 | +0.000 | -0.02 |
+| 2 | -0.0153 [-0.0247, -0.0057] | 0.0156 | +0.000 | +0.02 |
+| 3 | -0.0129 [-0.0317, +0.0027] | 0.1094 | +0.000 | -0.01 |

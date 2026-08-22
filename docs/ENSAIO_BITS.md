@@ -102,3 +102,11 @@ confirmou: o verificador dentro do fluxo não produziu progressão (V1 p =
 ~16 vereditos falsos por caderno — imitar o formato da recompensa em vez de
 ganhá-la. O prior imita o mundo; não se move por ele. Consolidação continua
 sendo o órgão que falta.*
+
+*P.P.S. (2026-08-21, 22:30) — a Bateria C deu ao ensaio seu primeiro
+positivo, calibrado: consolidar por LoRA os achados verificados move a
+massa dos candidatos em variantes nunca vistas na direção do valor (−1,3 a
+−1,5 pp; p = 0,016 no ciclo 2; vs controle aleatório p = 0,035), sem
+colapso — e não move o teto (nenhum achado estrito; melhor ≈ best fit). O
+prior anda quando se treina no que o mundo aprovou; anda para o
+conhecido-bom, não além. Os bits encurtam; a fronteira ainda não.*
