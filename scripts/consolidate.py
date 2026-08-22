@@ -134,6 +134,28 @@ def cmd_select(a):
     cands = json.loads((out / "candidates.json").read_text())
     ok = {c["hash"]: c for c in cands.values() if c["ok"] and c["which"] == "train"}  # never train on held-out variants
     rng = np.random.default_rng(a.seed)
+    if a.mode == "pairs":   # DPO pairs: chosen = the attract set, rejected = the worst valid of the same variant
+        chosen = [c for c in ok.values() if c.get("find")]
+        if len(chosen) < a.k:
+            chosen = sorted(ok.values(), key=lambda c: c["train"])[: a.k]
+        chosen_h = {c["hash"] for c in chosen}
+        rows = []
+        for v in sorted({c["variant"] for c in chosen}):
+            ch = [c for c in chosen if c["variant"] == v]
+            worst = sorted([c for c in ok.values() if c["variant"] == v and c["hash"] not in chosen_h], key=lambda c: -c["train"])
+            if not worst:
+                continue
+            lo, hi = VARIANTS_C_TRAIN[v]; pre = premise(lo, hi)
+            for i, c in enumerate(ch):
+                r = worst[i % len(worst)]
+                rows.append({"prompt": pre, "chosen": c["src"] + "\n", "rejected": r["src"] + "\n",
+                             "chosen_excess": c["train"], "rejected_excess": r["train"]})
+        Path(a.sft).parent.mkdir(parents=True, exist_ok=True)
+        with open(a.sft, "w") as f:
+            for r in rows:
+                f.write(json.dumps(r) + "\n")
+        print(f"pairs: {len(rows)} -> {a.sft} (chosen mean {np.mean([r['chosen_excess'] for r in rows]):.4f}, rejected mean {np.mean([r['rejected_excess'] for r in rows]):.4f})", flush=True)
+        return
     if a.mode == "finds":
         pool = [c for c in ok.values() if c.get("find")]
         if len(pool) < a.k:   # pre-registered fallback: top-k by train excess
@@ -159,7 +181,7 @@ if __name__ == "__main__":
     g.add_argument("--n", type=int, default=3); g.add_argument("--tokens", type=int, default=1500); g.add_argument("--chunk", type=int, default=125)
     g.add_argument("--seed", type=int, default=0); g.add_argument("--out", required=True)
     v = sp.add_parser("verify"); v.add_argument("--out", required=True)
-    s = sp.add_parser("select"); s.add_argument("--out", required=True); s.add_argument("--mode", choices=["finds", "random"], required=True)
+    s = sp.add_parser("select"); s.add_argument("--out", required=True); s.add_argument("--mode", choices=["finds", "random", "pairs"], required=True)
     s.add_argument("--k", type=int, default=60); s.add_argument("--sft", required=True); s.add_argument("--seed", type=int, default=0)
     a = p.parse_args()
     {"gen": cmd_gen, "verify": cmd_verify, "select": cmd_select}[a.cmd](a)
