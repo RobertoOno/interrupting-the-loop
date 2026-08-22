@@ -186,9 +186,17 @@ def main():
     P = PROBLEMS[a.problem]
     # one model process at a time: a second 30B instance exhausts unified memory (machine rebooted 2026-08-22)
     import os, subprocess
-    others = [l for l in subprocess.run(["ps", "-axo", "pid,command"], capture_output=True, text=True).stdout.splitlines()
-              if any(k in l for k in ("frontier_search.py", "dream_run.py", "consolidate.py gen", "mlx_lm lora", "dpo_lora.py", "problem_loop.py", "evolve_interrupt.py"))
-              and str(os.getpid()) not in l.split()[0:1] and "grep" not in l]
+    me = {str(os.getpid()), str(os.getppid())}
+    others = []
+    for l in subprocess.run(["ps", "-axo", "pid,command"], capture_output=True, text=True).stdout.splitlines():
+        parts = l.split(None, 1)
+        if len(parts) < 2 or parts[0] in me:
+            continue
+        cmd = parts[1]
+        if "python" not in cmd or "grep" in cmd or "/bin/zsh -c" in cmd or "/bin/sh -c" in cmd or "snapshot-zsh" in cmd:
+            continue   # only real python model processes, not the shells that launched us
+        if any(k in cmd for k in ("frontier_search.py", "dream_run.py", "consolidate.py gen", "mlx_lm lora", "dpo_lora.py", "problem_loop.py", "evolve_interrupt.py")):
+            others.append(l)
     if others and not os.environ.get("CM_ALLOW_MULTI"):
         print("REFUSING TO START: another model process is running (set CM_ALLOW_MULTI=1 to override):\n  " + "\n  ".join(o[:120] for o in others), flush=True)
         sys.exit(3)
