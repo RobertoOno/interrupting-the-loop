@@ -110,3 +110,10 @@ massa dos candidatos em variantes nunca vistas na direção do valor (−1,3 a
 colapso — e não move o teto (nenhum achado estrito; melhor ≈ best fit). O
 prior anda quando se treina no que o mundo aprovou; anda para o
 conhecido-bom, não além. Os bits encurtam; a fronteira ainda não.*
+
+*P.P.P.S. (2026-08-22, 06:30) — repulsão ancorada: empurrar para longe dos
+poços, com âncora, levou a massa inteira do prior ao melhor atrator
+conhecido (100% dos candidatos ≡ best fit) e apagou as caudas onde vivem os
+raros "melhores que os clássicos". Mover o mapa é fácil; o que é difícil é
+movê-lo sem apagar a fronteira. A próxima pergunta da distância em bits não
+é "como puxar", é "como puxar preservando as caudas".*

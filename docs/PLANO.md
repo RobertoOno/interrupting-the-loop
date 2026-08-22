@@ -1344,6 +1344,44 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Repulsão ancorada — resultado (2026-08-22, 04:50–06:10;
+`docs/APPENDIX_C_REPEL.md`)**:
+- **R3' passa**: a âncora restaura a escrita (144 válidos held-out; +12
+  válidos/célula vs base, p = 0,023; 100% distintas por hash).
+- **R1' SUPORTADA**: repel_anch − attract = **−0,74 pp** [−1,04, −0,47],
+  p = 0,008 — a repulsão SOMA sobre a atração com dados e passos idênticos:
+  excesso médio held-out **3,11%** = exatamente o nível do melhor clássico
+  (rel +0,0000). 
+- **R2' nula**: melhor candidato igual ao do attract (3,11%) — **o teto não
+  moveu**. E o porquê é o achado: **100% dos candidatos do repel_anch
+  pontuam exatamente no nível do best fit/first fit** (funcionalmente, todos
+  são variantes monótonas de "a caixa mais cheia": `(1-r)**14`, `-(r**3)/…`
+  — rankings equivalentes ao best fit); attract 73%, base 15%, random 15%,
+  repel_early 30%, DPO cru 0% (degenerado). A escada dos seis adaptadores
+  é a massa do prior andando até o atrator conhecido e ficando lá.
+- Far (6 famílias): repel_anch 7,58% (base 8,38%, attract 8,03%) — a lição
+  "seja best fit" transfere um pouco, porque é boa em toda parte; mas as
+  **caudas sumiram**: no far, base (5,6%) e attract (3,2%) ainda produzem
+  candidatos MELHORES que os clássicos (2 funções); repel_anch, 0.
+- `repel_early` (DPO cru, 20 passos): pior que attract (+3,4 pp, p = 0,008),
+  ≈ random — parada precoce não salva o DPO sem âncora neste regime.
+Leitura: "atratores em repulsores", nesta versão, **não cria atratores
+novos — aprofunda o melhor conhecido e apaga o resto**. É otimização do
+conhecido, não exploração: a massa converge (bom para confiabilidade), a
+fronteira exige preservar as caudas (onde vivem os raros "melhores que os
+clássicos") + seleção — exatamente a tensão explorar/explotar. Próximo
+degrau honesto se quisermos o teto: objetivo que preserve entropia/
+diversidade funcional (ex.: repulsão entre os PRÓPRIOS candidatos — novelty
+search em espaço de comportamento — e não só contra os ruins), avaliado
+pela taxa de "melhores que os clássicos" no far e num domínio com folga.
+
+**Balanço final da fase 2 (22/08, manhã)**: consolidação por LoRA move o
+prior em massa (attract −1,7 pp; +repulsão ancorada −0,7 pp a mais, até o
+nível do best fit), dentro da família; sem colapso por hash mas COM colapso
+funcional sob repulsão (100% ≡ best fit); teto imóvel em todos os braços;
+sem filtro de valor degrada; DPO sem âncora rasga. Paper 2 tem a seção
+completa: seis adaptadores, uma escada, uma parede.
+
 **Repulsão ancorada (pré-registro, 2026-08-22 ~09:30, antes de rodar)** —
 dois braços sobre os MESMOS 40 pares do ciclo 5 (escolhido = conjunto do
 attract; rejeitado = pior válido da mesma variante), mesmas sementes

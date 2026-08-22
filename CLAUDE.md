@@ -112,8 +112,14 @@ C-repelir (DPO cru) degenerou — precisa de âncora (RPO/ORPO ou parada
 precoce). `docs/APPENDIX_C*.md`; `scripts/dpo_lora.py`, `run_c_ext.sh`,
 `run_c_repel.sh`.
 
-**Em aberto**: fase 2 continua (repulsão ancorada; repulsor em ativação;
-domínio com folga maior; mover o teto);
+Repulsão ancorada (22/08 manhã): soma −0,7 pp sobre o attract até o nível
+do best fit; 100% dos candidatos ≡ best fit (colapso funcional); teto
+imóvel; caudas somem no far. Fase 2 = seis adaptadores, uma escada, uma
+parede (`docs/APPENDIX_C_REPEL.md`).
+
+**Em aberto**: fase 3? (objetivo que preserve caudas: repulsão entre os
+próprios candidatos / novelty search comportamental; domínio com folga
+maior; mover o teto);
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
