@@ -93,20 +93,33 @@ PROBLEMS = {
 }
 
 def extract_program(text: str, entry: str) -> str | None:
-    """First complete top-level `def entry(...)` block (closed by a dedented non-blank line or end)."""
-    m = re.search(rf"^def {entry}\(.*?\):\s*$", text, re.M)
-    if not m:
+    """The candidate program = the completion as a module (imports, helpers, the entry function), cut at the
+    first sign that the model started echoing the prompt pattern or closed a code fence, then trimmed from the
+    end until it compiles (truncated tails). Must define `def entry(`."""
+    if "```" in text:
+        # prefer the first fenced python block if there is one
+        m = re.search(r"```(?:python|py)?\s*\n(.*?)(?:```|$)", text, re.S)
+        if m and f"def {entry}(" in m.group(1):
+            text = m.group(1)
+    cut = len(text)
+    for marker in (r"^# Version \d", r"^# Improved version", r"^\"\"\"", r"^# Lab notebook", r"^# Obstacle to attack", r"^# Constructions already found", r"^if __name__"):
+        mm = re.search(marker, text, re.M)
+        if mm and mm.start() > 0:
+            cut = min(cut, mm.start())
+    text = text[:cut]
+    if not re.search(rf"^def {entry}\(", text, re.M):
         return None
-    lines = text[m.start():].splitlines()
-    body = [lines[0]]
-    for ln in lines[1:]:
-        if ln.strip() == "" or ln.startswith((" ", "\t")):
-            body.append(ln)
-        else:
-            break
-    while body and body[-1].strip() == "":
-        body.pop()
-    return "\n".join(body) + "\n"
+    lines = text.rstrip().splitlines()
+    for _ in range(40):
+        src = "\n".join(lines) + "\n"
+        try:
+            compile(src, "candidate", "exec")
+            return src
+        except SyntaxError:
+            if len(lines) <= 1:
+                return None
+            lines.pop()
+    return None
 
 def build_prompt(P: dict, elites: list[dict], memory: str = "verbatim", recap: str | None = None,
                  agenda: str | None = None, repel: list[str] | None = None) -> str:
@@ -129,7 +142,7 @@ def build_prompt(P: dict, elites: list[dict], memory: str = "verbatim", recap: s
     parts.append(f"# Improved version ({better} score):\ndef {P['entry']}(")
     return "\n".join(parts)
 
-def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict], max_tokens: int = 220) -> str:
+def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict], max_tokens: int = 220, chat: bool = False) -> str:
     """The model writes its own compressed notebook (schematic memory) from the island's elites and the
     recent failures: what worked, what failed and why, and the open question. Returned as comment lines."""
     es = sorted(isl, key=lambda e: e["score"], reverse=P["maximize"])[:3]
@@ -145,8 +158,14 @@ def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict
     cue.append("# Lab notebook (what has worked, what failed and why, and the single open question that blocks "
                "progress; terse, as comments):\n# What worked:")
     from mlx_lm import stream_generate
-    text = "".join(o.text for o in stream_generate(model, tok, "\n".join(cue), max_tokens=max_tokens, sampler=sampler))
-    text = "# What worked:" + text
+    if chat:
+        user = ("\n".join(cue[:-1]) + "\n\nWrite a terse lab notebook for this line of attack, as Python comment lines only "
+                "(max 10 lines): '# What worked:', '# What failed and why:', '# Open question:'. Base it ONLY on the programs "
+                "and results above; do not invent results.")
+        text = "".join(o.text for o in stream_generate(model, tok, tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True), max_tokens=max_tokens, sampler=sampler))
+        text = text.replace("```python", "").replace("```", "")
+    else:
+        text = "# What worked:" + "".join(o.text for o in stream_generate(model, tok, "\n".join(cue), max_tokens=max_tokens, sampler=sampler))
     lines = []
     for ln in text.splitlines():
         if ln.strip() == "":
@@ -162,11 +181,15 @@ def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict
             break
     return "\n".join(lines)
 
-def write_agenda(model, tok, sampler, P: dict, best: dict, max_tokens: int = 60) -> str:
+def write_agenda(model, tok, sampler, P: dict, best: dict, max_tokens: int = 60, chat: bool = False) -> str:
     cue = (f'"""{P["statement"]}"""\n# Current best program (score {best["score"]:.6f}):\n{best["code"]}\n'
            "# The one structural obstacle that keeps this construction from a better score is:")
     from mlx_lm import stream_generate
-    text = "".join(o.text for o in stream_generate(model, tok, cue, max_tokens=max_tokens, sampler=sampler))
+    if chat:
+        user = cue.rsplit("\n", 1)[0] + "\n\nIn ONE sentence: what is the single structural obstacle that keeps this construction from a better score? Reply with the sentence only."
+        text = "".join(o.text for o in stream_generate(model, tok, tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True), max_tokens=max_tokens, sampler=sampler))
+    else:
+        text = "".join(o.text for o in stream_generate(model, tok, cue, max_tokens=max_tokens, sampler=sampler))
     return text.strip().split("\n")[0].strip(" #")[:200]
 
 def main():
@@ -181,6 +204,7 @@ def main():
     ap.add_argument("--agenda", action="store_true", help="add a model-written 'obstacle to attack' line to the prompt")
     ap.add_argument("--repel-prompt", action="store_true", help="list already-found constructions in the prompt as things not to reproduce")
     ap.add_argument("--max-tokens", type=int, default=700); ap.add_argument("--temp", type=float, default=1.0); ap.add_argument("--min-p", type=float, default=0.05)
+    ap.add_argument("--chat", action="store_true", help="wrap prompts with the chat template (instruct/coder proposers); the program is read from the reply")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     a = ap.parse_args()
     P = PROBLEMS[a.problem]
@@ -219,8 +243,8 @@ def main():
         t0 = time.time(); n_ok = n_new = 0
         for k, isl in enumerate(islands):
             elites = sorted(isl, key=lambda e: e["score"], reverse=P["maximize"])[: a.elites]
-            recap = write_recap(model, tok, sampler, P, isl, recent_by_island[k]) if a.memory == "schema" else None
-            agenda = write_agenda(model, tok, sampler, P, elites[0]) if a.agenda else None
+            recap = write_recap(model, tok, sampler, P, isl, recent_by_island[k], chat=a.chat) if a.memory == "schema" else None
+            agenda = write_agenda(model, tok, sampler, P, elites[0], chat=a.chat) if a.agenda else None
             repel = [f"score {e['score']:.6f}, signature {e.get('sig','')}" for e in elites] if a.repel_prompt else None
             prompt = build_prompt(P, elites, a.memory, recap, agenda, repel)
             shown = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
@@ -230,14 +254,24 @@ def main():
             if recap or agenda:
                 with open(out / "notebook.jsonl", "a") as f:
                     f.write(json.dumps({"gen": g, "island": k, "recap": recap, "agenda": agenda}) + "\n")
+            if a.chat:
+                user = (prompt.rsplit(f"def {P['entry']}(", 1)[0].rstrip() + "\n\n"
+                        f"Write the improved version now: a complete, self-contained Python program defining `def {P['entry']}(...)` "
+                        f"(plus any helpers/imports it needs), returning the construction. Reply with ONE ```python code block and nothing else.")
+                prompt_used = tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True)
+            else:
+                prompt_used = prompt
             ph = hashlib.md5(prompt.encode()).hexdigest()[:10]
             seen_scores = {round(e["score"], 6) for e in isl}
             seen_sigs = {e.get("sig", "") for e in isl}
             recent_by_island[k] = []
             for s in range(a.samples):
-                text = "".join(o.text for o in stream_generate(model, tok, prompt, max_tokens=a.max_tokens, sampler=sampler))
-                # the prompt ends with `def entry(`; some models repeat the header instead of continuing it
-                full = text if re.search(rf"^def {P['entry']}\(", text, re.M) else f"def {P['entry']}(" + text
+                text = "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
+                if a.chat:
+                    full = text
+                else:
+                    # the prompt ends with `def entry(`; some models repeat the header instead of continuing it
+                    full = text if re.search(rf"^def {P['entry']}\(", text, re.M) else f"def {P['entry']}(" + text
                 code = extract_program(full, P["entry"])
                 rec = {"gen": g, "island": k, "sample": s, "prompt": ph, "ok": False}
                 if code is None:
