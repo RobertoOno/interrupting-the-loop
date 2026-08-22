@@ -1344,6 +1344,20 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Revisão bibliográfica v1.0 (2026-08-22, ~10:30)** — `docs/REVISAO_BIBLIOGRAFICA.md`
+(494 linhas; ~110 trabalhos verificados por 3 varreduras paralelas + checagem
+manual dos âncoras): §0 quadro em uma página, §1 decodificação, §2 prompting, §3
+medição/homogeneização, §4 treino (RLHF/RLVR, auto-treino, objetivos de
+diversidade, abertura), §5 busca+verificador e descobertas 2024–26 (com
+auditorias), §6 teoria, §7 síntese + lacunas. BibTeX de 79 entradas em
+`paper2/references.bib` (algumas listas de autores marcadas "a verificar").
+Conclusão-síntese: por três caminhos a comunidade chega às nossas três leis —
+inferência é dial/andaime (variação, não valor); treino por recompensa/auto-
+treino concentra massa e apaga caudas (pass@k inverte; colapso de modelo); a
+fronteira moveu com propositor largo não treinado + verificador duro + muitas
+amostras + pressão de novidade. Lacuna que ninguém fechou: consolidar o que o
+mundo aprovou sem apagar o que o mundo ainda não julgou.
+
 **Paper 2 — rascunho v0.1 fechado para revisão (2026-08-22, ~08:40)**:
 título aprovado *"Mass, Not Frontier: What Inference-Time Interventions and
 Weight Consolidation Do and Do Not Buy in Open-Ended Generation"*;
