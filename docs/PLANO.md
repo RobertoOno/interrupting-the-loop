@@ -1344,6 +1344,38 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**FASE 3 — Bateria N: preservar as caudas (pré-registro, 2026-08-22
+~07:00, antes de rodar).** Pergunta: dá para mover a massa para o valor SEM
+apagar as caudas (os raros "melhores que os clássicos")? Dois braços sobre
+o pool da linhagem attract (ciclo 5), mesmas sementes held-out (5) e far
+(9), comparados com attract_c5 e repel_anch_c5 (+ base):
+- `qd` (SFT, qualidade-diversidade): vetor de comportamento de cada
+  candidato = excesso por instância nas 20 instâncias de treino da
+  variante; **clones do atrator** = comportamento idêntico ao best fit ou
+  first fit em todas as instâncias; por variante, k-means (k = 3) sobre os
+  NÃO-clones e elite = melhor excesso por nicho, + 1 assento para o melhor
+  clone (o atrator fica com um nicho, não com todos); LoRA nos elites
+  (mesmo treino do attract).
+- `repel_mode` (DPO ancorado, α = 1, β = 0,1, 80 passos): escolhido = elites
+  não-clones; **rejeitado = um clone do best fit da mesma variante** — o
+  atrator conhecido literalmente como repulsor, ancorado na diversidade
+  boa. (A versão tail-preserving da ideia do banho.)
+Medidas por célula (variante): **tail** = fração dos candidatos válidos
+MELHORES que o melhor clássico no teste; **atbf** = fração exatamente no
+nível do clássico (colapso funcional); **levels** = níveis distintos de
+pontuação por candidato; média; melhor. Hipóteses (α = 0,05):
+- **T1 (primária, unilateral, far, n = 6)**: tail(qd) > tail(attract) — a
+  QD preserva as caudas que a atração erodiu (base 5,6%, attract 3,2%,
+  repel_anch 0%). T1b: tail(repel_mode) > tail(repel_anch). T1c: held-out
+  (provavelmente 0 em todos — reportado).
+- **T2 (unilateral, held-out)**: atbf(qd) < atbf(attract) (73%);
+  atbf(repel_mode) < atbf(repel_anch) (100%); níveis distintos maiores.
+- **T3 (bilateral)**: custo em valor médio held-out de preservar caudas.
+- **T4 (unilateral, far)**: melhor candidato qd/repel_mode < base (o teto
+  mexe onde há folga?).
+Leitura: T1+T2 passando com T3 pequeno = consolidação que move SEM
+colapsar — o desenho a levar para um domínio com folga; T4 é o sonho.
+
 **Repulsão ancorada — resultado (2026-08-22, 04:50–06:10;
 `docs/APPENDIX_C_REPEL.md`)**:
 - **R3' passa**: a âncora restaura a escrita (144 válidos held-out; +12

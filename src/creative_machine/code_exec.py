@@ -23,7 +23,9 @@ from creative_machine.domains import binpack
 {code}
 
 instances = json.loads({instances_json!r})
-print(json.dumps(binpack.evaluate(priority, instances)))
+res = binpack.evaluate(priority, instances)
+res["excesses"] = [(binpack.simulate(priority, it) - binpack.lower_bound(it)) / binpack.lower_bound(it) for it in instances]
+print(json.dumps(res))
 """
 
 
