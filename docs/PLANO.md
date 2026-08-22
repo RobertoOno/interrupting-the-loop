@@ -1344,6 +1344,36 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**Bateria N — resultado (2026-08-22, 06:39–07:58; `docs/APPENDIX_N.md`)**:
+**T1 (primária) NÃO suportada** — far tail: qd 0,6% vs attract 3,9% (base
+10,0%; repel_anch 0%); Δ −3,4 pp, p = 0,875 (direção oposta). T1b: repel_mode
+0% = repel_anch 0%. **T2 suportada** — a diversidade FUNCIONAL voltou: qd
+25% no nível do clássico (attract 72%), níveis distintos 0,33 vs 0,14
+(p = 0,004); repel_mode 2% (repel_anch 100%), níveis 0,50 (p = 0,008). **T3**
+— e custou caro: qd held-out 5,98% (attract 3,86%, base 5,56%; +2,1 pp,
+p = 0,008); repel_mode 7,92% (+4,8 pp sobre repel_anch), melhor candidato
+4,8% (pior que o base). **T4 nula**: melhor no far qd = base; repel_mode
+pior. Leitura: **preservar diversidade funcional é possível (as duas
+objetivas fizeram), mas a diversidade preservada é de medíocres, não de
+melhores** — as caudas ("melhores que os clássicos") NÃO voltaram; e a
+taxa mais alta de caudas no far é a do **base cru (10%)** > attract (3,9%)
+> todos os consolidados (≤ 0,6%). Em todas as formas testadas — atrair,
+repelir do ruim, QD, repelir do atrator — **consolidar paga a massa com as
+caudas**; o prior largo, não treinado, continua sendo o melhor descobridor
+desta família. Isso é consistente com FunSearch (proposta larga + seleção
+dura, sem treinar) e fecha a fase 3-N: o desenho para descoberta não é "um
+adaptador melhor", é **portfólio** (base largo para explorar + adaptador
+para explotar) + seleção/verificação — e mover o TETO exige domínio com
+folga real e muito mais amostras, não objetivo novo de treino.
+
+**Fase 2+3 fechadas (22/08, 08:00). Frase-síntese para o paper 2:** *em
+inferência nada move o prior; nos pesos, toda consolidação que testamos move
+a massa para o conhecido-bom e poda as caudas — o base não treinado é onde
+nascem os raros melhores-que-os-clássicos.* Quatro positivos (interrupção →
+variação; memória esquemática → integração; consolidação → massa; âncora
+restaura escrita), duas paredes (teto; caudas), um fenômeno (vereditos
+confabulados).
+
 **FASE 3 — Bateria N: preservar as caudas (pré-registro, 2026-08-22
 ~07:00, antes de rodar).** Pergunta: dá para mover a massa para o valor SEM
 apagar as caudas (os raros "melhores que os clássicos")? Dois braços sobre

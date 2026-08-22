@@ -64,8 +64,13 @@ transfer to item distributions of other families, and consolidating without
 the value filter makes the model worse everywhere. Adding an anchored repulsion from the
 worst candidates moves the mass further, onto the best classic heuristic
 exactly, and erases the tails where the rare better-than-classic functions
-appear. The prior moves in mass, within the family it was trained on, not at
-its frontier.
+appear. Two tail-preserving objectives (quality-diversity
+selection; repulsion from the attractor itself) restore functional
+diversity at the price of value and do not bring the tails back: across
+every consolidation we ran, the rate of better-than-classic candidates on
+new families is highest in the untrained base. The prior moves in mass,
+within the family it was trained on, not at its frontier, and it pays for
+the mass with its tails.
 We read the whole as a measurement of a boundary: at inference time the
 prior can be kicked (variation) and better remembered (integration), but it
 does not move; what moves it is what these loops lack, the updating of the
@@ -344,7 +349,23 @@ arm on the mean (7.6\% vs 8.4\% base) because ``be best fit'' is good
 everywhere, and the only arm with no candidate better than the classics
 (base 5.6\%, attract 3.2\% of candidates): the tails where the rare
 better-than-classic functions live are gone. Repulsion from the bad, as
-implemented, is optimization of the known, not exploration. The adapter of the last cycle
+implemented, is optimization of the known, not exploration. Two
+tail-preserving objectives (pre-registered) recovered functional diversity
+and nothing else: a quality-diversity selection (one elite per behavioural
+niche of the verifier's per-instance profile, the classic attractor given
+one seat) trains an adapter with 25\% of candidates at the classic level
+(attract 72\%, $p=0.004$) and 2.4$\times$ the distinct score levels, at a
+cost of $+2.1$ points of mean excess ($p=0.008$) and with the
+better-than-classic rate on the far families \emph{lower} than
+attraction's (0.6\% vs 3.9\%; the base: 10\%); an anchored repulsion
+whose rejected examples are the best-fit clones themselves removes the
+collapse entirely (2\% at the classic level) and with it most of the
+value (7.9\% mean excess, best 4.8\%, worse than the base). The diversity
+these objectives keep is diversity of the mediocre. Across every
+consolidation we ran (attraction, repulsion from the bad, quality-diversity,
+repulsion from the attractor) the rate of better-than-classic candidates on
+new families is highest in the untrained base and falls with consolidation:
+consolidation pays for mass with tails. The adapter of the last cycle
 was taught mostly tight-bin functions (24 of 40 of the form
 \texttt{1/(r**2+eps)}, 13 best-fit-like): consolidation pulls the mass
 toward the best attractor the verifier has approved, not beyond it.
@@ -405,7 +426,12 @@ battery C supplies: updating the model by what the world approved. Battery C sho
 present reach: five cycles of forty examples move the mass of the
 candidate distribution on never-seen variants of the trained family toward
 the verified good, no further than the best thing the verifier had already
-approved, and not beyond the family. This is also why
+approved, not beyond the family, and at the cost of the tails where the
+rare better-than-classic candidates appear; objectives built to keep the
+tails kept diversity of the mediocre instead. For discovery this argues for
+a portfolio (the broad untrained prior to propose, the consolidated one to
+exploit) and for spending on selection, which is what verified search does
+\citep{romeraparedes2024funsearch}. This is also why
 the known successes of verified search \citep{romeraparedes2024funsearch,
 novikov2025alphaevolve} pair a proposal distribution with a hard evaluator
 and many samples, not with a cleverer prompt.
@@ -446,7 +472,8 @@ nothing to what they replace, and the latter teaches the model to invent its
 own verdicts. Consolidating verified finds into the weights is the one intervention
 that moved what the model writes on problems it had not seen, and it
 moved it toward what it already knew to be good; repelling the bad, anchored,
-moved it all the way there and no further. The organ that is missing from
+moved it all the way there and no further; keeping the tails kept the
+mediocre. The untrained prior remained the better discoverer. The organ that is missing from
 inference-time creativity is the one that learns.
 
 \bibliographystyle{plainnat}
