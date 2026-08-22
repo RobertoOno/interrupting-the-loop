@@ -37,54 +37,132 @@ programa encontrou em miniatura:
 
 ## 1. Decodificação e amostragem (novidade de superfície)
 
-*(a preencher com o varredor A: nucleus/typical/min-p/contrastive; anti-verossimilhança;
-mirostat; 2025: conformative decoding, selective sampling; avaliação)*
-
-- **Peeperkorn et al. (2025), "Mind the Gap: Conformative Decoding to Improve
-  Output Diversity of Instruction-Tuned LLMs"** (arXiv 2507.20956). Mede a "lacuna
-  de diversidade" criada pelo alinhamento (DPO é o passo que mais a reduz) e guia o
-  modelo instruído pelo base, mais diverso; aumenta diversidade mantendo ou
-  melhorando qualidade. *Liga-se a:* nosso base é o melhor descobridor; o base como
-  propositor num portfólio.
-- **Troshin et al. (2025), "Control the Temperature: Selective Sampling"**
-  (arXiv 2510.01218). Alterna greedy e alta temperatura conforme um classificador
-  de risco; melhora o trade-off qualidade–diversidade em raciocínio. *Liga-se a:*
-  nosso sampler anti-provável (novidade só de superfície) — a versão "guiada" do
-  mesmo botão.
+- **Holtzman et al. (ICLR 2020)**, nucleus: maximizar verossimilhança dá laços
+  repetitivos; truncar a cauda não confiável dá texto longo julgado de alta
+  qualidade e tão diverso quanto o humano. **Zhang, Duckworth, Ippolito &
+  Neelakantan (2021)**, "Trading Off Diversity and Quality": primeira avaliação
+  humana em larga escala do espectro qualidade–diversidade; a "armadilha da
+  verossimilhança" (as sequências mais prováveis são ruins); decodificação é um
+  **dial unidimensional** — nenhum amostrador escapa da fronteira. **Mirostat
+  (ICLR 2021)**: armadilhas do tédio (repetição) e da confusão (incoerência);
+  controle de surpresa por perplexidade evita ambas. **Typical sampling (Meister et
+  al., TACL 2023)**; **ε/η-sampling (Hewitt et al., 2022)**: truncar = remover ruído
+  de suavização — fidelidade, não novidade. **Contrastive search (Su et al., NeurIPS
+  2022)** e **contrastive decoding (Li et al., ACL 2023)**: penalizar o que um modelo
+  pequeno também diria ("anti-genérico") melhora coerência (preferido 2,6× sobre
+  nucleus) — anti-amador, não anti-provável.
+- **Min-p (Nguyen et al., ICLR 2025 oral)** — "qualidade+diversidade em alta
+  temperatura" — e a crítica **"Turning Down the Heat" (2025, 2506.13681)**: dados
+  omitidos/estatística incorreta; min-p não supera as linhas de base em qualidade,
+  diversidade ou trade-off; no máximo benefício fraco em temperaturas onde o
+  desempenho absoluto é pior. **Peeperkorn et al. (ICCC 2024), "Is Temperature the
+  Creativity Parameter of LLMs?"**: temperatura correlaciona fracamente com
+  novidade, moderadamente com incoerência — **temperatura não é um botão de
+  criatividade**. **Chen & Ding (EMNLP 2023)**: GPT-4 guloso supera 96% dos humanos
+  no DAT; amostragem sobe o DAT de modelos fracos com custo de estabilidade.
+  **Arias et al. (COLING 2025), "Decoding Decoded"**: varredura grande — top-p 0,95 e
+  T=1 aproximam o humano; beam colapsa (diversidade 12,8); hiperparâmetros importam
+  mais que escala; nenhuma configuração rende "ideias novas", só menos repetição.
+  **Shi et al. (EMNLP 2024)**: 13 métodos × 11 tarefas — nenhum vencedor universal;
+  ganhos frágeis e dependentes de tuning.
+- **Nagarajan, Wu, Ding & Raghunathan (ICML 2025 spotlight), "Roll the dice & look
+  before you leap"**: em abstrações mínimas de criatividade aberta, o treino
+  token-a-token é míope e memoriza; treino multi-token (sem professor, difusão) dá
+  saída mais diversa/original; **"seed-conditioning" (ruído no prefixo) iguala ou
+  bate temperatura** — o teto está no paradigma de treino/decodificação;
+  aleatoriedade no prefixo > aleatoriedade por token. **Tan et al. (EMNLP 2024)**:
+  trade-off probabilidade–qualidade em modelos alinhados — amostrar troca
+  verossimilhança sob o prior pré-alinhamento por recompensa.
+- **Linha 2025–26 "puxar de volta à entropia do base"**: conformative decoding
+  (Peeperkorn et al., 2507.20956: o modelo instruído guiado pelo próprio base
+  recupera diversidade; o DPO é o passo que mais a perde); EPIC/decodificação
+  alinhada à entropia (Ahmed & Singh, jan 2026, 2601.01714); modulação calibrada por
+  variância (jun 2026, 2606.22511); selective sampling (Troshin et al., 2510.01218).
+  → O trabalho atual de decodificação trata o **colapso induzido pelo alinhamento**,
+  não a criatividade em si. *Liga-se a:* o nosso sampler anti-provável (novidade
+  n-grama 2×, nada em ideias) é um ponto desse dial; o **Cultural Alien Sampler
+  (NeurIPS 2025 Creative AI)** é o mesmo desenho (tipicidade baixa sob guarda de
+  coerência) — útil para diversidade, calado sobre valor.
 
 ## 2. Prompting e andaimes (estimular em inferência)
 
-*(a preencher com o varredor A: brainstorming, personas, ToT criativo, pipelines de ideias)*
+- **Brainstorm-then-select (Summers-Stay et al., AAAI-23 wkshp)**: gerar muitos e
+  selecionar bate brainstorming simples no AUT. **Tree of Thoughts (Yao et al.,
+  NeurIPS 2023)**: escrita criativa — coerência 7,56 vs 6,93 (CoT); novidade não
+  medida. **Girotra et al. (Wharton 2023), "Ideas are Dimes a Dozen"**: ChatGPT-4
+  supera estudantes de elite em qualidade média e variância de ideias de produto;
+  a maioria das melhores ideias do pool veio do modelo — **o problema é dispersão,
+  não média**. **Meincke, Mollick & Terwiesch (2024), "Prompting Diverse Ideas"**:
+  pools do GPT-4 são menos diversos que grupos humanos; CoT dá a maior diversidade
+  (próxima dos humanos); persona "Steve Jobs" ajuda pouco (números de fonte
+  secundária). **LLM Discussion (Lu et al., COLM 2024)**: discussão multiagente com
+  papéis bate baselines em AUT/Instances/criatividade científica. **Zhao et al.
+  (2024; MIR 2025)**: TTCT modificado — LLMs fracos em originalidade, fortes em
+  elaboração; colaboração multi-LLM sobe originalidade. **Wang, Huang, Shen & Uzzi
+  (Nature Human Behaviour 2025/26)**: 9.198 humanos vs 215.542 observações de LLM
+  — humanos um pouco acima na média e **muito acima na cauda direita**; personas
+  "gênio" ajudam só até um limiar; outras engenharias de prompt mistas/negativas.
+  **Agents' Room (Huot et al., DeepMind, ICLR 2025)**: decomposição por teoria
+  narrativa melhora qualidade longa; novidade não é o alvo. **Verbalized Sampling
+  (Zhang et al., 2025/ICML 2026)**: pedir uma DISTRIBUIÇÃO de respostas com
+  probabilidades dá 1,6–2,1× (até 2–3×) de diversidade — um "repulsor do modo" em
+  nível de prompt. **Mirowski et al. (FAccT 2024), "A Robot Walks into a Bar"**: 20
+  comediantes — material brando/estereotipado; o achatamento por segurança derrota
+  o apoio a especialistas.
+- *Liga-se a:* a interrupção do paper 1 é um andaime mínimo (novidade local, sem
+  composição); a memória esquemática é o andaime que compra integração;
+  "gerar-muitos-e-selecionar" é a única receita que aparece em todas as seções — e
+  sempre dentro da distribuição do modelo.
 
-- **Doshi & Hauser (2024), Science Advances 10(28)**, "Generative AI enhances
-  individual creativity but reduces the collective diversity of novel content".
-  Ideias de LLM tornam histórias mais criativas (sobretudo para escritores menos
-  criativos) e mais parecidas entre si. *Liga-se a:* interrupção = novidade local;
-  documento = coleção; homogeneização é a outra face da mesma moeda.
-- **Azad et al. (2026), "Ex Ante Evaluation of AI-Induced Idea Diversity
-  Collapse"** (arXiv 2605.06540): três modelos de fronteira "abaixo da paridade"
-  com humanos em aglomeração de ideias; mitigável por desenho do protocolo de
-  geração.
+## 3. Medir criatividade — e os achados de homogeneização
 
-## 3. Medir criatividade (e o que o juiz não vê)
-
-- **Lu et al. (ICLR 2025, oral), "AI as Humanity's Salieri"** (arXiv 2410.04265):
-  Creativity Index por atribuição contra a web; autores profissionais 66,2% acima
-  dos LLMs; alinhamento reduz 30,1%. *Liga-se a:* novidade n-grama do nosso
-  sampler; auto-cópia além do horizonte do juiz.
-- **Zhang et al. (2025), NoveltyBench** (arXiv 2504.05228): 20 modelos geram muito
-  menos diversidade que humanos; maiores da mesma família, menos diversos.
-- **Schapiro et al. (2026), "Assessing the Creativity of LLMs: Testing, Limits,
-  and New Frontiers"** (arXiv 2605.13450): testes humanos de criatividade não
-  preveem ideação científica; propõem o DRAT (associação remota divergente), único
-  preditor significativo.
-- **Si, Yang & Hashimoto (2024)**, 100+ pesquisadores: ideias de LLM julgadas MAIS
-  novas que as de humanos, um pouco menos viáveis. **Si & Hashimoto (2025), "The
-  Ideation–Execution Gap"** (arXiv 2506.20803): 43 pesquisadores executaram as
-  ideias (103 h em média); as notas das ideias de LLM caem muito mais — a lacuna
-  se fecha na execução. *Liga-se a:* "o juiz de janela vê novidade, não valor"; o
-  mundo (execução/verificador) é o juiz que falta.
-- *(companion)* paper 1: texto injetado, auto-cópia além do horizonte, janelas vs todo.
+- **Testes de pensamento divergente saturam**: Koivisto & Grassini (Sci Rep 2023):
+  chatbots > humano médio, os melhores humanos > melhores respostas; Hubert, Awa &
+  Zabelina (Sci Rep 2024): GPT-4 mais original/elaborado no AUT/DAT; Bellemare-Pepin
+  et al. (2024/25; vs 100k humanos): acima da média, abaixo dos muito criativos;
+  **Haase et al. (J. Creativity 2025), "Has the creativity of LLMs peaked?"**: 14
+  modelos acima da média humana, mas **0,28% das respostas** na faixa dos 10%
+  melhores humanos; sem melhora em 18–24 meses. **Nakajima et al. (EACL 2026,
+  CDAT)**: no DAT os SOTA ficam abaixo de baselines não criativas; condicionando
+  novidade à adequação, famílias menores são as mais criativas e as avançadas
+  trocam novidade por adequação. **Schapiro et al. (2026)**: nenhum teste humano
+  prevê ideação científica; DRAT.
+- **Escrita vs especialistas**: **Chakrabarty et al. (CHI 2024), "Art or Artifice?"**:
+  TTCW, 48 histórias, 10 escritores profissionais — histórias de LLM passam 3–10×
+  menos testes; **nenhum juiz LLM correlaciona com especialistas**; **"Can AI
+  writing be salvaged?" (CHI 2025)**: taxonomia de idiossincrasias (clichês,
+  exposição desnecessária), GPT-4o/Claude/Llama indistinguíveis em qualidade;
+  Gómez-Rodríguez & Williams (2023) e **"Pron vs Prompt" (Marco et al., EMNLP
+  2024)**: contra um romancista premiado (5.400 notas), GPT-4 perde em toda
+  dimensão; **escreve melhor a partir dos títulos do humano que dos seus**.
+  Ismayilzada et al. (2024/25): 60 LLMs vs 60 pessoas — mais complexos no estilo,
+  menos novos/surpreendentes/diversos. **Xu et al. (PNAS 2025), "Echoes in AI"**:
+  elementos de enredo idiossincráticos se repetem entre gerações e entre modelos;
+  humanos raramente ecoam. **Lu et al. (ICLR 2025)**: Creativity Index (ver quadro).
+  **Si et al. 2024 / Si & Hashimoto 2025**: novidade julgada não sobrevive à
+  execução.
+- **Homogeneização (o dilema social)**: **Anderson, Shah & Kreminski (C&C 2024)**:
+  usuários do ChatGPT produzem mais ideias, mais detalhadas e menos distintas entre
+  si; menos senso de autoria. **Doshi & Hauser (Science Advances 2024)**: +8,1% de
+  novidade, +9% de utilidade (até +26,6% "melhor escrita" para os menos
+  criativos), histórias ~10,7% mais parecidas entre si. **Kumar et al. (CHI 2025)**:
+  ganho de curto prazo, desempenho sem assistência PIOR depois. **Padmakumar & He
+  (ICLR 2024)**: escrever com InstructGPT (não com GPT-3 base) reduz a diversidade
+  entre autores. **Wenger & Kenett (PNAS Nexus 2026)**: 22 LLMs vs 100+ humanos —
+  respostas de LLM muito mais parecidas entre si, mesmo controlando estrutura;
+  **"Artificial Hivemind" (Jiang et al., NeurIPS 2025 D&B best paper)**: trocar de
+  fornecedor não devolve diversidade; juízes premiam o modo. **Azad et al. (2026)**:
+  colapso de diversidade de ideias medido ex ante. **2026**: "Narrative Flattening"
+  (Li … Evans: OLMo Base→SFT→DPO→RLVR comprime variação temática/afetiva/
+  estilística), "Where does output diversity collapse in post-training?" (OLMo-3:
+  Think perde no SFT, Instruct no DPO; composição dos dados). → **O colapso está
+  nos dados de pós-treino, não na arquitetura.**
+- *Liga-se a:* o paper 1 inteiro é uma lição de instrumento (o juiz de janela não
+  vê o texto injetado, a auto-cópia além do horizonte, o todo); a literatura
+  confirma que juízes LLM não rastreiam criatividade de especialista e premiam o
+  modo. Qualquer claim "mais criativo" precisa de: novidade condicionada à
+  adequação, avaliação do TODO, cauda direita (não média), e — onde houver — o
+  mundo como juiz (execução/verificador).
 
 ## 4. Treino: RLHF/RLVR, auto-treino, objetivos de diversidade, abertura
 
@@ -371,16 +449,46 @@ formalmente e descritos por Tao como a cauda negligenciada, não a fronteira.
   (Hughes et al. 2024); "distância em bits" (nosso ENSAIO_BITS).
 - *(a preencher)*
 
-## 7. Síntese provisória — o que a comunidade aprendeu (e nós confirmamos)
+## 7. Síntese — o que a comunidade aprendeu (2019–2026), e o que nós acrescentamos
 
-1. Inferência compra variação e, com memória certa, integração; não compra
-   progressão nem valor.
-2. Treino por recompensa/auto-treino compra confiabilidade (pass@1, massa) e paga
-   com diversidade/caudas (pass@k, colapso); filtrar por valor é necessário e não
-   suficiente; objetivos de diversidade devolvem dispersão, não fronteira (por ora).
-3. A fronteira que moveu veio de propositor LARGO + verificador DURO + muitas
-   amostras + seleção — sem treinar o propositor. Implicação de desenho:
-   portfólio (base para propor, adaptador para explotar), gastar em seleção.
-4. Lacunas abertas: objetivos que preservem caudas de VALOR (não só dispersão);
-   medir criatividade científica (DRAT); o papel do domínio com folga; consolidar
-   sem colapsar (BBG-like: treinar só onde a fronteira ainda cresce).
+1. **Decodificação é um dial, não uma porta.** Vinte anos de amostradores compram
+   menos repetição e mais dispersão de superfície; temperatura não é criatividade;
+   o único claim "criativo" de decodificação recente (min-p) está contestado; o
+   trabalho de 2025–26 reconhece que está consertando o colapso do alinhamento
+   (puxar o modelo de volta ao base), não criando novidade. *Nosso sampler: idem.*
+2. **Prompting compra variação e dispersão bounded; a cauda direita humana não é
+   alcançada.** Gerar-muitos-e-selecionar, CoT para variância, discussão
+   multiagente, distribuições verbalizadas — tudo real, tudo dentro da distribuição
+   do modelo; personas plateiam. *Nossa interrupção: variação local; nossa memória
+   esquemática: integração; nenhuma progressão.*
+3. **Medir é a metade do problema.** Testes de divergência saturam na média e
+   falham na cauda; juízes LLM não rastreiam especialistas e premiam o modo;
+   novidade julgada não sobrevive à execução; o colapso está nos dados de
+   pós-treino. *Nosso paper 1 é uma contribuição exatamente aqui.*
+4. **Treino por recompensa estreita por construção; auto-treino afia e satura;
+   colapso de modelo apaga caudas.** RLHF/RLVR/KL-RL concentram massa; pass@k
+   inverte; laços STaR/ReST saturam em 2–3 rodadas e, sem sinal exógeno,
+   regridem; verificação + acumulação são o que mantém a distribuição larga.
+   *Nossa Bateria C: massa −1,7 pp, caudas apagadas, consolidar sem filtro degrada
+   — a mesma lei, com verificador de domínio e controle aleatório.*
+5. **Objetivos de diversidade devolvem dispersão do repertório; "raro-mas-bom" é
+   a fronteira do lado do treino.** DivPO, DARLING, CrPO, polychromic, QD; nosso QD
+   devolveu dispersão de medíocres — o próximo passo óbvio é o par "raro-mas-BOM".
+6. **Onde a fronteira moveu, o desenho foi sempre o mesmo: propositor LARGO (não
+   treinado) + verificador DURO + muitas amostras + seleção com pressão de
+   novidade.** FunSearch, AlphaEvolve, ShinkaEvolve, PatternBoost (com modelo
+   dedicado), Lean nos Erdős; e a lição das auditorias: o mérito é do arcabouço,
+   as heurísticas evoluídas não generalizam, mutação por LLM colapsa em atratores
+   sem seleção. *Nossos S, V, C e N chegam ao mesmo lugar pelo caminho negativo.*
+7. **Lacunas em aberto (onde valeria investir)**: (a) objetivos que preservem
+   caudas de VALOR, não só dispersão (gating por problema tipo BBG; "raro-mas-bom";
+   âncora no base); (b) portfólio propositor-cru + explotador consolidado +
+   verificador, medido por taxa de "melhores que o conhecido" em domínios com
+   folga; (c) medir criatividade científica (DRAT) e no TODO; (d) abertura de
+   verdade: co-evoluir problemas e soluções (POET/OMNI/DGM) em vez de otimizar um
+   objetivo fixo; (e) a peça ainda ausente em toda a literatura: **consolidar o que
+   o mundo aprovou sem apagar o que o mundo ainda não julgou**.
+
+*Este documento será revisado; itens marcados "a verificar" ou de fonte
+secundária devem ser conferidos antes de citação formal. BibTeX parcial em
+`paper2/references.bib`.*
