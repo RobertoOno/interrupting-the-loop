@@ -117,3 +117,11 @@ conhecido (100% dos candidatos ≡ best fit) e apagou as caudas onde vivem os
 raros "melhores que os clássicos". Mover o mapa é fácil; o que é difícil é
 movê-lo sem apagar a fronteira. A próxima pergunta da distância em bits não
 é "como puxar", é "como puxar preservando as caudas".*
+
+*P.P.P.P.S. (2026-08-22, 08:10) — Bateria N: objetivos feitos para preservar
+caudas preservaram diversidade de medíocres. Em toda consolidação testada, a
+taxa de "melhores que os clássicos" em famílias novas é maior no base não
+treinado (10%) e cai com o treino. Consolidar paga a massa com as caudas; o
+prior largo continua sendo o melhor descobridor. A resposta da distância em
+bits, por ora: treine para explotar, proponha com o prior cru, selecione
+com o mundo.*

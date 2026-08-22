@@ -117,9 +117,13 @@ do best fit; 100% dos candidatos ≡ best fit (colapso funcional); teto
 imóvel; caudas somem no far. Fase 2 = seis adaptadores, uma escada, uma
 parede (`docs/APPENDIX_C_REPEL.md`).
 
-**Em aberto**: fase 3? (objetivo que preserve caudas: repulsão entre os
-próprios candidatos / novelty search comportamental; domínio com folga
-maior; mover o teto);
+Bateria N (22/08 manhã): QD e repulsão-do-atrator devolvem diversidade
+funcional, não as caudas (melhores-que-clássicos: base 10% > attract 3,9% >
+consolidados ≤ 0,6% no far) — consolidar paga massa com caudas
+(`docs/APPENDIX_N.md`). Fases 2+3 fechadas.
+
+**Em aberto**: paper 2 (título calibrado; leitura do Roberto); portfólio
+base+adaptador e domínio com folga real só se o programa continuar;
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
