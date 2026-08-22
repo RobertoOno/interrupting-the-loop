@@ -86,29 +86,146 @@ mirostat; 2025: conformative decoding, selective sampling; avaliação)*
   mundo (execução/verificador) é o juiz que falta.
 - *(companion)* paper 1: texto injetado, auto-cópia além do horizonte, janelas vs todo.
 
-## 4. Treino: RLHF/RLVR, auto-treino, diversidade, abertura
+## 4. Treino: RLHF/RLVR, auto-treino, objetivos de diversidade, abertura
 
-- **Kirk et al. (ICLR 2024)**, RLHF generaliza melhor que SFT e reduz muito a
-  diversidade (por entrada e entre entradas) — trade-off generalização↔diversidade.
-- **Yue et al. (2025), "Does RL Really Incentivize Reasoning Capacity in LLMs
-  Beyond the Base Model?"** (arXiv 2504.13837; NeurIPS 2025): RLVR sobe pass@1;
-  em k grande o BASE vence; a fronteira de raciocínio ESTREITA com o treino; RL
-  realoca massa dentro do suporte do base. → **a nossa escada de adaptadores em
-  outro domínio.** Seguimentos 2025–26: entropia colapsa (Cui et al.; "Revisiting
-  Entropy…" 2511.05993), auto-jogo com síntese de problemas para sustentar pass@k
-  (2508.14029), "diversity collapse como overtraining" + Bayesian Boundary Gating
-  (Yuan et al. 2026, 2606.15455), PAEC, controle flexível de entropia (2602.09782).
-- **Shumailov et al. (Nature 2024)**: colapso de modelo — caudas desaparecem
-  (cedo: erros acumulam; tarde: eventos raros somem). *Liga-se a:* nosso random
-  arm degrada; nosso attract/repel apagam caudas mesmo com filtro de valor.
-- **Ismayilzada et al. (2025), Creative Preference Optimization** (arXiv
-  2505.14442): otimização de preferência com sinais de novidade/diversidade/
-  surpresa/qualidade (MuCE, 200k avaliações humanas); supera GPT-4o em avaliação
-  humana e automática; valida em NoveltyBench. *Liga-se a:* treinar para a
-  diversidade É possível — a pergunta é se compra fronteira ou só dispersão
-  (nosso QD: dispersão de medíocres).
-- *(a preencher com o varredor B: STaR/ReST/ReST-EM e saturação; QDAIF; ELM;
-  novelty/curiosity RL; open-endedness — Hughes et al. 2024, OMNI, Voyager)*
+**4.1 Alinhamento e RL com recompensa: o que acontece com a distribuição.**
+- **Kirk et al. (ICLR 2024)**, 2310.06452: RLHF generaliza melhor que SFT fora da
+  distribuição (a vantagem cresce com o deslocamento) e reduz significativamente a
+  diversidade por entrada; "colapso de modo". **Mohammadi (2024), "Creativity Has
+  Left the Chat"** (2406.05587): Llama-2 alinhado vs base — entropia menor,
+  embeddings em aglomerados apertados, **"estados atratores"**. **Murthy, Ullman &
+  Hu (NAACL 2025)**, 2411.04427: populações simuladas de LLM — alinhado <
+  instruído < humanos em diversidade conceitual.
+- **Yue et al. (NeurIPS 2025, oral)**, 2504.13837: RLVR vence em pass@1, o BASE
+  vence em pass@k grande em famílias/algoritmos/domínios; a cobertura "origina-se
+  e é limitada pelo base"; seis algoritmos de RLVR semelhantes; destilação, sim,
+  expande. **A réplica principal: ProRL (Liu et al., NVIDIA 2025)**, 2505.24864:
+  >2k passos com controle de KL, resets da política de referência e tarefas
+  diversas movem a fronteira (RL > base em todo pass@k, inclusive onde o base é 0%);
+  ganhos maiores onde o base é fraco — duração e regularização importam (vale
+  conferir se a v5 de Yue responde). **"The Invisible Leash" (Wu et al., NeurIPS
+  2025)**, 2507.14843: RLVR é restrito ao suporte (não amostra soluções de prior
+  zero), uma reponderação conservadora; na prática o encolhimento do suporte
+  domina. **"Echo Chamber" (Zhao et al., COLM 2025)** + **"Spurious Rewards" (Shao
+  et al., 2025)**: RL amplifica padrões do pré-treino (recompensa ALEATÓRIA dá +21,4
+  no MATH-500 no Qwen2.5-Math; não no Llama/OLMo) — o teto de novidade é o
+  pré-treino. **Karan & Du (ICLR 2026), "Reasoning with Sampling: Your Base Model
+  is Smarter Than You Think"**, 2510.14901: amostragem "de potência" (MCMC) do base,
+  SEM treino, ≈ GRPO no MATH500 e melhor fora da distribuição — a "capacidade" que
+  o RL acrescenta já estava no base.
+- **Mecanismo e remédios (2025–26)**: **Cui et al., "The Entropy Mechanism of RL"**
+  (2505.22617): R = −a·e^H + b — o desempenho é gargalado pela exaustão de entropia;
+  Clip-Cov/KL-Cov. **Wang et al. (Qwen, NeurIPS 2025)**: atualizar só os ~20% de
+  tokens de alta entropia ("bifurcações") iguala ou supera o treino completo — a
+  exploração mora em poucas bifurcações. Objetivos que restauram exploração:
+  entropia na vantagem (Cheng et al.), **pass@k como recompensa** (Chen et al.,
+  2508.10751), **exploração por resultado** (Song, Kempe & Munos: o RL reduz a
+  diversidade até no conjunto de treino e a perda transfere para problemas não
+  resolvidos; bônus UCB + penalidade de repetição recuperam pass@k), **"Rewarding
+  the Unlikely"** (He, Fried & Welleck, EMNLP 2025: pass@80 = pass@256 do GRPO),
+  SvS (síntese de variantes mantém entropia). **GX-Chen et al. (2025), "KL-Regularized
+  RL is Designed to Mode Collapse"**: β baixo + recompensas verificáveis iguais
+  especificam um alvo UNIMODAL por construção. 2026: **Yuan et al.** (colapso =
+  sobretreino; Bayesian Boundary Gating), **Zhou** (inversão de pass@k em "prompts
+  de fronteira" cujos traços raros nunca aparecem nos grupos de rollout),
+  **UCPO**, **OPEFO (ACL 2026)**, **BODHI** (colapso de entropia é perda de
+  ramificação SEMÂNTICA), **Matsutani et al. (ICLR 2026) "RL Squeezes, SFT
+  Expands"**. → Em 2026 a inversão de pass@k é aceita e explicada; os remédios são
+  portões/âncoras por problema, não "mais RL".
+  *Liga-se a:* a nossa escada de adaptadores (attract → repel_anch = 100% ≡ best
+  fit) é a inversão de pass@k medida com verificador de domínio; "âncora por
+  problema" é o nosso "o base é o melhor descobridor".
+
+**4.2 Laços de auto-treino e sua saturação.**
+- **STaR (Zelikman et al., NeurIPS 2022)**: gerar → filtrar pela resposta →
+  racionalizar → ajustar; ≈ modelo 30× maior no CommonsenseQA — elicita, não
+  acrescenta. **ReST (Gulcehre et al. 2023)**: retornos decrescentes após poucos
+  passos de Improve (sobreajuste). **ReST-EM (Singh et al., TMLR 2024)**: 3
+  iterações (41,9) > 1 iteração com 3× dados (40,3); várias iterações sobreajustam.
+  **Quiet-STaR (COLM 2024)**. **Self-Rewarding LMs (Yuan et al., ICML 2024)**: DPO
+  iterativo com o modelo como juiz, 3 rodadas; os autores preveem saturação;
+  **DIVE (Qin et al. 2025)**: auto-aperfeiçoamento iterativo perde diversidade;
+  seleção de pares consciente de diversidade devolve +10–45% com qualidade igual.
+- **Por que satura**: **"Mind the Gap" (Song et al., ICLR 2025)**, 2412.02674 — o
+  auto-aperfeiçoamento é governado pela lacuna geração–verificação; **"The
+  Sharpening Mechanism" (Huang et al. 2024)** — auto-aperfeiçoamento = afiar para o
+  que o modelo já tem certeza. **SRT (Shafayat et al. 2025)**: auto-recompensa por
+  voto majoritário iguala a recompensa verdadeira no início e depois "colapso
+  súbito e completo" por hacking; **"Self-Improvement Can Self-Regress" (2026)**:
+  pass@1 sobe em dezenas de passos e cai (às vezes a ~0); KL/EWC não evitam.
+  **Absolute Zero (Zhao et al., NeurIPS 2025 spotlight)**: auto-jogo propor-e-
+  resolver com executor de código como verificador, sem dados; **DéjàQ (2026)**:
+  problemas verificáveis evoluídos por QD na zona de aprendibilidade. → O laço
+  vive enquanto houver verificador externo E diversidade no propositor de
+  tarefas.
+- **Linha do colapso de modelo**: Shumailov et al. (Nature 2024: caudas primeiro);
+  **Gerstgrasser et al. (COLM 2024)**: ACUMULAR (não substituir) dados limita o
+  erro; **Guo et al. (NAACL 2024)**: diversidade lexical/sintática/semântica cai a
+  cada recursão, pior em tarefas criativas; **Feng et al. (ICLR 2025)**: até
+  verificadores imperfeitos evitam o colapso; **"When AI Reviews Its Own Code"
+  (2026)**: sem portão colapsa rápido, portão humano retarda, auto-portão
+  "carimba" (aceitação sobe, correção cai). → **As caudas morrem primeiro; só
+  verificação exógena + acumulação mantêm a distribuição larga.** *Liga-se a:*
+  nosso random arm degrada; nosso attract mantém largura por hash e perde caudas
+  de valor; nossos vereditos confabulados = auto-portão que carimba.
+
+**4.3 Objetivos de diversidade/novidade no treino.**
+- **ELM (Lehman et al., OpenAI 2022)**, 2206.08896: mutação por diff + MAP-Elites
+  gera centenas de milhares de "Sodaracers" ausentes do pré-treino e depois
+  destila num LM condicional — a invenção acontece no laço QD externo; o LLM é o
+  operador de variação. **QDAIF (Bradley et al., ICLR 2024)**: LM como mutador E juiz
+  de qualidade/diversidade em MAP-Elites; cobre mais do espaço descritor com alta
+  qualidade. **Recompensas de curiosidade/novidade**: red-teaming por curiosidade
+  (Hong et al., ICLR 2024), Rainbow Teaming (2024), MERCI (ICLR 2026: pseudo-contagem
+  em trajetórias de raciocínio). **"Forcing Diffuse Distributions" (Zhang,
+  Schwarzschild, Carlini, Kolter, Ippolito, COLM 2024)**: diversidade treinável
+  quando o conjunto válido é definível. **DivPO (Lanchantin et al., Meta 2025)**:
+  pares "raro-mas-bom vs comum-mas-ruim": +45,6% diversidade de personas, +74,6% em
+  histórias. **DDPO/DORPO (Chung et al., COLM 2025)**; **CrPO (Ismayilzada et al.,
+  EMNLP Findings 2025)**. **DARLING (Li et al., Meta 2025)**: partição semântica
+  aprendida × recompensa de qualidade em RL online — maior pass@1 E pass@k em
+  matemática ("otimizar diversidade catalisa exploração"). **Polychromic Objectives
+  (ICLR 2026)**: objetivo em nível de conjunto para PPO que refina o repertório
+  diverso do pré-treino. → **A diversidade como termo de recompensa é a melhor
+  alavanca do lado do treino hoje — e todos os ganhos são redistribuições do que o
+  repertório pré-treinado contém.** *Liga-se a:* nosso QD devolveu dispersão de
+  medíocres; DivPO/DARLING escolhem "raro-mas-BOM" — a nossa próxima versão, se
+  houver, é essa.
+- **Diagnósticos do modo**: NoveltyBench (COLM 2025); **"Artificial Hivemind" (Jiang
+  et al., NeurIPS 2025 D&B best paper)**: homogeneidade intra e inter-modelos em
+  26k prompts; modelos de recompensa/juízes penalizam respostas válidas-mas-
+  diferentes; **Verbalized Sampling (Zhang et al., ICML 2026)**: a causa é o **viés
+  de tipicidade** nos dados de preferência; VS dá 2–3× diversidade sem treino;
+  **Hamilton & Mimno (2026)**: 11 palavras em 88,3% de 20k histórias de 4 modelos,
+  rastreadas a dados de preferência compartilhados; **Sui (2026)**: 28 modelos com
+  incerteza menor que escritores profissionais; remédios 2026: anotações no
+  pré-treino (Springer et al.), restauração seletiva de camadas. → A causa converge
+  para dados de pós-treino + juízes + KL-RL; os consertos ancoram no pré-treino.
+
+**4.4 Abertura (open-endedness) com LLMs.**
+- **POET/Enhanced POET (Wang, Lehman, Clune, Stanley, 2019/2020)**: co-evoluir
+  ambientes e solucionadores. **Hughes et al. (ICML 2024, oral), "Open-Endedness is
+  Essential for ASI"**: aberto = sequência de artefatos **nova E aprendível** para um
+  observador; modelos de fundação treinados em dados fixos "não podem ser
+  infinitamente novos"; o caminho são sistemas abertos construídos SOBRE eles.
+  **Voyager (TMLR 2024)**: currículo automático + biblioteca de habilidades +
+  auto-verificação no Minecraft, sem ajuste de pesos. **OMNI/OMNI-EPIC (ICLR
+  2024/2025)**: LM como modelo de "interessante e aprendível"; EPIC gera ambientes
+  e recompensas como código. **Darwin Gödel Machine (Zhang, Hu, Lu, Lange, Clune,
+  ICLR 2026)**: arquivo de agentes auto-modificáveis; SWE-bench 20,0 → 50,0.
+  **AC/DC (ICLR 2026)**: co-evolução de LLMs mesclados e tarefas sintéticas.
+  **Picbreeder com VLMs (GECCO 2026)**: difere qualitativamente do arquivo humano.
+  **Mutation Without Variation (GECCO 2026)**: ver §5.5. **Cultural Alien Sampler
+  (Artiles et al., NeurIPS 2025 Creative AI)**: separa "coerência composicional" de
+  "tipicidade cultural" — originalidade = baixa tipicidade sob guarda de coerência;
+  mais diverso que GPT-4. *Liga-se a:* é exatamente o nosso sampler anti-provável
+  com piso de coerência, reformulado — e com o mesmo teto que encontramos
+  (superfície) enquanto a medida for diversidade e não valor.
+
+*Ressalvas do varredor:* venue não confirmada/preprint para ProRL, DivPO, DARLING,
+SRT, Pass@k Training, e a maioria dos itens de 2026; números do ProRL vêm do
+resumo; conferir se a v5 de Yue et al. responde ao ProRL antes de citar como
+debate resolvido.
 
 ## 5. Busca + verificador: onde a fronteira realmente moveu
 
