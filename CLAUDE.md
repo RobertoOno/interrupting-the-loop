@@ -122,8 +122,9 @@ funcional, não as caudas (melhores-que-clássicos: base 10% > attract 3,9% >
 consolidados ≤ 0,6% no far) — consolidar paga massa com caudas
 (`docs/APPENDIX_N.md`). Fases 2+3 fechadas.
 
-**Em aberto**: paper 2 (título calibrado; leitura do Roberto); portfólio
-base+adaptador e domínio com folga real só se o programa continuar;
+**Paper 2 v0.1 fechado (22/08)**: "Mass, Not Frontier: …" (`paper2/main.pdf`,
+10 p.) — em revisão (Roberto + amigo). **Em aberto**: incorporar revisão;
+depois, exploração (portfólio base+adaptador; domínio com folga real);
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
