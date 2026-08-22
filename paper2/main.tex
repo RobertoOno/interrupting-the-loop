@@ -16,12 +16,11 @@
 \captionsetup{font=small,labelfont=bf}
 \setlength{\parskip}{0.25em}
 \newcommand{\ci}[2]{[#1,\,#2]}
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 
-\title{The Missing Organ:\\ What Inference-Time Interventions Can and Cannot Buy\\ in Open-Ended Generation}
+\title{Mass, Not Frontier:\\ What Inference-Time Interventions and Weight Consolidation\\ Do and Do Not Buy in Open-Ended Generation}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{Draft, \today\ --- not for distribution}
+\date{Draft v0.1 for review, \today}
 
 \begin{document}
 \maketitle
@@ -33,48 +32,35 @@ cheap operation, a new subject injected every few hundred tokens, and that
 the gains do not compose: no arm produced an integrated document, and on a
 problem with a verifier the same operation multiplied valid candidates
 without improving the best. Here we ask what would make local gains compose,
-by giving the loop, one at a time, the things a discovering mind has and the
+by giving the loop, one piece at a time, what a discovering mind has and the
 loop did not: a schematic memory instead of a verbatim one, a standing
 question instead of a neutral subject, selection over its candidates, a
-verifier inside its stream, and, finally, consolidation of its verified finds
-into its weights. All conditions are pre-registered and judged under the
-generated-only, fresh-only, document-level protocol of the companion study,
-or by a deterministic verifier. Three things worked and one did not. A
-schematic recap written by the model itself and re-injected with the new
-subject raises document-level integration above every earlier arm
-(+1.65 over the verbatim context, $p=0.001$, ten premises; the highest
-integration score of the program), at no local cost. A standing open
-question extracted from the stream raises integration and development
-modestly ($p=0.004$). Neither, nor their combination, moves development
-above about 2 on a 0--10 scale: no injection makes the whole advance.
-Selection over the interruption's candidates adds nothing to selection
-alone, and a verifier whose verdicts are injected into the notebook does not
-raise the ceiling either; instead the model writes its own verdicts, 16.4
-fabricated ``\texttt{\# Verifier:}'' lines per notebook against three real
-ones, a reward hallucination worth knowing about before putting a verifier
-in a prompt. Consolidation does something the others do not: three STaR/ReST cycles
-of LoRA fine-tuning on the model's own value-filtered candidates shift the
-distribution of what it writes on distributions it never trained on
-toward value (mean excess $-1.7$ points over the base model on eight
-held-out variants after five cycles, $p=0.008$; $-3.1$ against a same-size
-random-consolidation control, $p=0.004$), without collapsing diversity, and
-without moving the ceiling: no candidate beats the classic heuristics, and
-the best per variant is nearly the same in every arm. The shift does not
-transfer to item distributions of other families, and consolidating without
-the value filter makes the model worse everywhere. Adding an anchored repulsion from the
-worst candidates moves the mass further, onto the best classic heuristic
-exactly, and erases the tails where the rare better-than-classic functions
-appear. Two tail-preserving objectives (quality-diversity
-selection; repulsion from the attractor itself) restore functional
-diversity at the price of value and do not bring the tails back: across
-every consolidation we ran, the rate of better-than-classic candidates on
-new families is highest in the untrained base. The prior moves in mass,
-within the family it was trained on, not at its frontier, and it pays for
-the mass with its tails.
-We read the whole as a measurement of a boundary: at inference time the
-prior can be kicked (variation) and better remembered (integration), but it
-does not move; what moves it is what these loops lack, the updating of the
-model by what the world approved.
+verifier inside its stream, and, finally, consolidation of its verified
+finds into its weights. Every battery was pre-registered and measured under
+the generated-only, fresh-only, document-level protocol of the companion
+study, or by a deterministic verifier. At inference time one thing worked:
+a schematic recap written by the model and re-injected with the new subject
+raises document-level integration above every earlier arm (+1.65 over the
+verbatim context, $p=0.001$, ten premises), at no local cost; a standing
+question helps a little; neither, nor their combination, moves development
+above about 2 on a 0--10 scale. Selection over the interruption's candidates
+adds nothing to selection alone; a verifier whose verdicts are written into
+the notebook does not raise the ceiling, and the model writes its own
+verdicts instead, 16.4 fabricated ``\texttt{\# Verifier:}'' lines per
+notebook against three real ones. Consolidation is different in kind: five
+cycles of LoRA fine-tuning on the model's own value-filtered candidates
+shift what it writes on distributions it never trained on toward value
+($-1.7$ points of excess over the base, $p=0.008$; $-3.1$ against a
+same-size random-consolidation control, $p=0.004$), without collapsing
+diversity; an anchored repulsion from the worst candidates moves the mass
+further, onto the best classic heuristic exactly, with every candidate at
+that level. But across every consolidation we ran, including two objectives
+built to keep the tails, the ceiling does not move, the shift does not
+transfer to other families, and the rate of candidates better than the
+classics on new families is highest in the untrained base and falls with
+training. Inference-time stimulation reorganizes a fixed prior; weight
+consolidation moves its mass toward the known good and pays for it with the
+tails where discovery would have to come from.
 \end{abstract}
 
 \section{Introduction}
@@ -95,7 +81,7 @@ interrupt does not change that; and on online bin packing, where a
 deterministic verifier replaces the judge, the interruption multiplies the
 valid, distinct candidate heuristics a base model writes three- to fourfold
 without raising the quality of the best. The interruption is a variation
-operator, and ``variation without selection is organized noise''.
+operator, and variation without selection is organized noise.
 
 This paper takes up the question that study left: what would make local
 gains compose? We proceed by giving the loop, one piece at a time, the
@@ -111,12 +97,14 @@ unresolved matter rather than away from it \citep{zeigarnik1927behalten};
 (iii) \emph{selection}, a FunSearch-style evolution over the candidates the
 interruption multiplies \citep{romeraparedes2024funsearch}; (iv) a
 \emph{verifier inside the stream}, whose verdict on each candidate is
-written back into the notebook; and (v) \emph{consolidation}, a STaR/ReST
-cycle in which the model is fine-tuned (LoRA) on its own verified finds and
-generates again \citep{zelikman2022star,gulcehre2023rest,singh2023restem}.
-Every battery was pre-registered before it ran; the pre-registrations,
-amendments and results are in the dated laboratory notebook released with
-the code.
+written back into the notebook; and (v) \emph{consolidation}, STaR/ReST
+cycles in which the model is fine-tuned (LoRA) on its own verified finds
+and generates again \citep{zelikman2022star,gulcehre2023rest,singh2023restem},
+followed by preference-based repulsion \citep{rafailov2023dpo} and by
+quality-diversity selection \citep{mouret2015mapelites,lehman2011novelty}
+designed to keep the tails. Every battery was pre-registered before it ran;
+the pre-registrations, their dated amendments and the results are in the
+laboratory notebook released with the code.
 
 \paragraph{Contributions.} (1) A schematic recap, written by the model and
 re-injected at each interruption, is the first intervention of the program
@@ -124,30 +112,81 @@ to raise the document-level reading: integration +1.65 over the verbatim
 context and the highest integration score of any arm, at no cost on fresh
 windows. (2) A standing question raises integration and development
 modestly; its combination with the recap does not raise development
-further. Across all injections development stays near 2/10: we call this
-the progression wall. (3) Selection over the interruption's candidates and a
-verifier inside the stream both leave the ceiling where it was; the latter
-produces a new phenomenon, fabricated verifier verdicts, which we quantify.
-(4) Consolidation by LoRA on verified finds moves the candidate distribution
-on never-seen variants of the trained family toward value ($-1.7$ points
-after five cycles, $p=0.008$; vs a random-consolidation control $p=0.004$),
-keeps diversity over five cycles, leaves the ceiling where it was, and does
-not transfer to other families. (5) A reading of the whole: the bit
-distance between a fixed prior and a target is not shortened by
-inference-time stimulation; integration can be bought, progression cannot,
-and the organ that is missing is the one that updates the prior.
+further. Across all injections development stays near 2/10: the
+\emph{progression wall}. (3) Selection over the interruption's candidates
+and a verifier inside the stream both leave the ceiling where it was; the
+latter produces a new phenomenon, fabricated verifier verdicts, which we
+quantify. (4) Consolidation by LoRA on verified finds moves the candidate
+distribution on never-seen variants of the trained family toward value
+($p=0.008$ after five cycles; vs a random-consolidation control $p=0.004$),
+keeps diversity over five cycles, leaves the ceiling where it was and does
+not transfer to other families; anchored repulsion from the worst moves the
+mass onto the best classic heuristic exactly; two tail-preserving
+objectives restore functional diversity and not the tails, and across every
+consolidation the rate of better-than-classic candidates on new families is
+highest in the untrained base. (5) A reading of the whole: the bit distance
+between a fixed prior and a target is not shortened by inference-time
+stimulation; weight consolidation moves the mass, not the frontier, and
+pays for the mass with the tails.
+
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Self-training on one's own outputs.} STaR \citep{zelikman2022star}
+fine-tunes a model on its own rationales that led to correct answers; ReST
+\citep{gulcehre2023rest} and ReST-EM \citep{singh2023restem} alternate
+sampling, filtering by a reward and supervised fine-tuning, and report gains
+that saturate after a few iterations. Our attract arm is that recipe at
+office scale (an 8B model, forty examples per cycle, a rank-8 adapter) with
+three additions: a same-size random-consolidation control, which separates
+``trained on its own outputs'' from ``trained on what the verifier
+approved''; transfer measured on variants and families that never entered
+any training set; and the rate of candidates better than the classic
+heuristics, which is where the cost of self-training shows.
+
+\paragraph{Preference optimization.} DPO \citep{rafailov2023dpo} optimizes a
+policy against a frozen reference from chosen/rejected pairs. Our repulsion
+arms use it with the model's own worst candidates, or the clones of the
+known optimum, as rejected examples; unanchored it degenerates, anchored
+with a supervised term on the chosen side it sharpens the policy onto the
+known optimum. Both behaviours are known failure and success modes of
+preference optimization; what we add is their effect on the tails of a
+candidate distribution measured by a verifier.
+
+\paragraph{Quality-diversity.} MAP-Elites \citep{mouret2015mapelites} and
+novelty search \citep{lehman2011novelty,stanley2015greatness} keep the best
+solution per behavioural niche rather than the best overall. Our qd arm
+consolidates one elite per niche of the verifier's per-instance behaviour
+profile; it keeps functional diversity and, in this regime, loses value and
+the tails alike.
+
+\paragraph{Verified search.} FunSearch \citep{romeraparedes2024funsearch}
+and AlphaEvolve \citep{novikov2025alphaevolve} pair an untrained proposal
+model with a hard evaluator and many samples, without fine-tuning the
+proposer. Our results are consistent with that choice: the untrained prior
+has the highest rate of better-than-classic candidates, and every
+consolidation we ran lowered it.
+
+\paragraph{Memory, tension, and the judge.} Schematic memory as
+reconstruction \citep{bartlett1932remembering}; unfinished tasks as
+retained tension \citep{zeigarnik1927behalten}; compression progress as
+intrinsic reward \citep{schmidhuber2010formal}. On the instrument, the
+companion study documents what a windowed LLM judge cannot see (injected
+text, self-copy beyond its horizon, windows against wholes); the fabricated
+verdicts of Section~\ref{sec:selection} are the same entrainment acting on a
+verifier's output placed in the prompt.
 
 \section{Setup}
 \label{sec:setup}
 
 \paragraph{Generators and loop.} Unless stated, the generator is
-Qwen3-30B-A3B-Base (mixture of experts, 8-bit, MLX); battery C uses
-Qwen3-8B-Base (8-bit) because it is fine-tuned. A cell is one premise (the
-ten premises of the companion study) continued for 4,500 tokens with the
-end-of-text token masked; habituation (windowed repetition penalty, window
-512, factor 1.15) is on in every arm; interruptions fire on a clock every
-300 tokens. Arms differ in what is injected and in whether the context is
-kept or rebuilt.
+Qwen3-30B-A3B-Base (mixture of experts, 8-bit, MLX on an Apple M5 Pro);
+battery C uses Qwen3-8B-Base (8-bit) because it is fine-tuned. A cell is
+one premise (the ten premises of the companion study) continued for 4,500
+tokens with the end-of-text token masked; habituation (windowed repetition
+penalty, window 512, factor 1.15) is on in every arm; interruptions fire on
+a clock every 300 tokens. Arms differ in what is injected and in whether
+the context is kept or rebuilt.
 
 \paragraph{Judging.} Windows of generated text only (96 tokens, starting 32
 after any injected text, never crossing an injection), judged by Claude
@@ -161,11 +200,12 @@ tests on paired cells, one-sided where pre-registered.
 
 \paragraph{The problem with a verifier.} Online bin packing in the
 FunSearch form: the model writes a notebook of \texttt{priority(item,
-remaining)} functions; the verifier packs held-out instances and reports the
-mean excess over the lower bound. Ten distribution variants (item ranges),
-training instances (seeds 100+$v$) and held-out instances (seeds 200+$v$).
-Battery C moves to a family of small-item distributions in which best fit
-is measurably beatable (Section~\ref{sec:consolidation}).
+remaining)} functions; the verifier packs instances and reports the mean
+excess over the lower bound. Batteries S and V use the ten distribution
+variants of the companion study (item ranges within $[0.1, 0.8]$, where
+best fit is near-optimal); battery C moves to a family of small-item
+distributions in which best fit is measurably beatable
+(Section~\ref{sec:consolidation}).
 
 \section{Memory and tension: what the loop remembers and what it is asked}
 \label{sec:memory}
@@ -232,8 +272,7 @@ verbatim context, which entrains the model on thousands of tokens of its own
 past, reads worst as a whole; a reset reads better; a reset carrying a
 compressed memory reads best. But three injections (schema, question,
 agenda), all pre-registered, move integration and never development above
-about 2/10. We call this the progression wall and return to it in
-Section~\ref{sec:discussion}.
+about 2/10. We call this the progression wall.
 
 \section{Selection and the verifier}
 \label{sec:selection}
@@ -280,95 +319,36 @@ measure it.
 \section{Consolidation: moving the prior}
 \label{sec:consolidation}
 
-\paragraph{Design (pre-registered 2026-08-21).} Qwen3-8B-Base (8-bit),
-QLoRA (rank 8, 16 layers, lr $10^{-5}$, batch 2, prompt masked,
-$\approx$4 epochs over the consolidation set). Domain: a family of
-small-item bin-packing distributions in which best fit is beatable by
-simple heuristics (headroom 0.3--0.5 points of excess; first fit ties or
-beats best fit), ten training variants and eight held-out variants that
-never enter any training set; verification on $20\times200$-item instances;
-a \emph{find} beats the better of best fit and first fit by 0.001 on the
-variant's training instances. Cycle 0 is a shared base generation (3
+\paragraph{Design (pre-registered 2026-08-21, extensions 2026-08-22).}
+Qwen3-8B-Base (8-bit), QLoRA (rank 8, 16 layers, lr $10^{-5}$, batch 2,
+prompt masked, $\approx$4 epochs over the consolidation set). Domain: a
+family of small-item bin-packing distributions in which best fit is
+beatable by simple heuristics (headroom 0.3--0.5 points of excess; first fit
+ties or beats best fit), ten training variants and eight held-out variants
+that never enter any training set; six far families (Weibull, triangular,
+bimodal, OR-library) for far transfer; verification on $20\times200$-item
+instances; a \emph{find} beats the better of best fit and first fit by 0.001
+on the variant's training instances. Cycle 0 is a shared base generation (3
 notebooks $\times$ 1,200 tokens per variant, an angle comment every 250
-tokens). Cycles 1--3: \emph{attract} trains a fresh adapter on the finds
+tokens). Cycles 1--5: \emph{attract} trains a fresh adapter on the finds
 plus the top-40 candidates by training excess from its own lineage;
 \emph{random} trains on a same-size random sample of valid candidates (the
 control that separates ``trained on itself'' from ``trained on what is
-worth''); \emph{base} generates without an adapter at the same seeds.
-Hypotheses, on the held-out variants at the final cycle: C1 (primary),
-attract $<$ base on the mean test excess of valid candidates (the prior
-moved on variants it never saw); C2, attract $<$ random; C3, higher find
-rate; C4 (two-sided), the diversity cost (distinct/valid, literal copies of
-the training set).
-
-\paragraph{Results.} Table~\ref{tab:c} gives the held-out reading by arm
-and cycle. At the pre-registered final cycle (3), C1 (attract vs base on
-the mean test excess of valid candidates) was $-0.0129$
-\ci{-0.0317}{+0.0027}, $p=0.109$, not supported at $\alpha=0.05$, with the
-direction consistent (7 of 8 variants better) and the cycle-2 contrast
-supported ($-0.0153$, $p=0.016$); a pre-registered extension to five cycles
-closed it: $-0.0170$ \ci{-0.0268}{-0.0079}, $p=0.008$, the attract arm
-ending at 3.86\% mean excess, 0.74 points above the better classic
-heuristic, against 5.6--6.4\% for the base. C2: attract vs random,
-$-0.0138$ ($p=0.035$) at cycle 3 and $-0.0309$ ($p=0.004$) at cycle 5,
-supported: the value filter matters. The random control hurts at cycle 1 ($+1.5$ points over
-base: consolidating mediocre functions makes the next ones worse) and is
-neutral by cycle 3. C3: strict finds are zero in every arm and cycle, and the
-best candidate per variant is the same in every arm ($\approx$3.1\% excess,
-the level of best fit): the ceiling did not move. C4: no collapse over five cycles; the
-distinct/valid ratio is 0.97--1.00 throughout, literal copies of the
-training set 1--16\% (attract); every adapter makes the model write
-3.6--4$\times$ more functions per notebook. Far transfer: on six
-distributions of other families (Weibull, triangular, bimodal, OR-library),
-the final attract adapter equals the base ($+0.001$, $p=0.69$, $n=5$) and
-beats the random adapter by $-0.020$ ($p=0.016$); the random adapter is
-worse than the base there too ($+0.017$). What moved is the prior for the
-family it was trained on. A repulsion arm (DPO on the same LoRA, pairs of
-a value-filtered function against the worst valid function of the same
-variant, 80 steps at $\beta=0.1$; pre-registered) degenerated: the DPO
-loss fell to 0.0015 and the adapter wrote 1.1 closed functions per notebook
-(attract 9, base 2), 60\% comment lines and recursive non-code; the few
-valid candidates were far worse than the base (10.6\% vs 5.6\% excess).
-Pushing the policy away from bad functions, unanchored, pushes it away from
-writing functions. Anchored (the same DPO loss plus a token-mean SFT term on
-the chosen side, $\alpha=1$, same pairs and steps; pre-registered), the
-repulsion writes again (144 valid candidates, $+12$ per cell over the base,
-$p=0.02$) and adds to attraction: mean held-out excess 3.11\% against the
-attract arm's 3.86\% ($-0.0074$ \ci{-0.0104}{-0.0047}, $p=0.008$), which
-is exactly the level of the better classic heuristic. The best candidate
-does not move ($0.0311$ in both arms), and the reason is the finding:
-\textbf{every} held-out candidate of the anchored-repulsion adapter scores
-exactly at the best-fit level (all are monotone ``fullest bin'' variants),
-against 73\% for attraction, 15\% for the base and the random control,
-30\% for an early-stopped plain DPO (which is otherwise worse than
-attraction, $+0.034$, $p=0.008$) and 0\% for the degenerate one. The six
-adapters are a ladder of the prior's mass walking onto the known attractor
-and staying there; hash-level diversity survives (1.00), functional
-diversity does not. On the far families the anchored adapter is the best
-arm on the mean (7.6\% vs 8.4\% base) because ``be best fit'' is good
-everywhere, and the only arm with no candidate better than the classics
-(base 5.6\%, attract 3.2\% of candidates): the tails where the rare
-better-than-classic functions live are gone. Repulsion from the bad, as
-implemented, is optimization of the known, not exploration. Two
-tail-preserving objectives (pre-registered) recovered functional diversity
-and nothing else: a quality-diversity selection (one elite per behavioural
-niche of the verifier's per-instance profile, the classic attractor given
-one seat) trains an adapter with 25\% of candidates at the classic level
-(attract 72\%, $p=0.004$) and 2.4$\times$ the distinct score levels, at a
-cost of $+2.1$ points of mean excess ($p=0.008$) and with the
-better-than-classic rate on the far families \emph{lower} than
-attraction's (0.6\% vs 3.9\%; the base: 10\%); an anchored repulsion
-whose rejected examples are the best-fit clones themselves removes the
-collapse entirely (2\% at the classic level) and with it most of the
-value (7.9\% mean excess, best 4.8\%, worse than the base). The diversity
-these objectives keep is diversity of the mediocre. Across every
-consolidation we ran (attraction, repulsion from the bad, quality-diversity,
-repulsion from the attractor) the rate of better-than-classic candidates on
-new families is highest in the untrained base and falls with consolidation:
-consolidation pays for mass with tails. The adapter of the last cycle
-was taught mostly tight-bin functions (24 of 40 of the form
-\texttt{1/(r**2+eps)}, 13 best-fit-like): consolidation pulls the mass
-toward the best attractor the verifier has approved, not beyond it.
+worth''); \emph{base} generates without an adapter at the same seeds. On the
+cycle-5 lineage we then trained: \emph{repel} (DPO, $\beta=0.1$, 80 steps,
+chosen = the attract set, rejected = the worst valid candidate of the same
+variant), \emph{repel-anch} (the same plus a token-mean supervised term on
+the chosen side, $\alpha=1$), \emph{repel-early} (plain DPO, 20 steps),
+\emph{qd} (supervised, one elite per behavioural niche of the verifier's
+per-instance profile, $k=3$ niches per variant plus one seat for the best
+clone of the classic attractor) and \emph{repel-mode} (anchored DPO whose
+rejected examples are the best-fit clones themselves). Hypotheses, on the
+held-out variants: C1 (primary), attract $<$ base on the mean test excess of
+valid candidates (the prior moved on variants it never saw); C2, attract
+$<$ random; C3, higher find rate; C4 (two-sided), the diversity cost; R1'
+repulsion adds to attraction; R2' the best moves; T1 the tail rate (share of
+candidates better than the classics) on far families; T2 functional
+collapse.
 
 \begin{table}[t]
 \centering\small
@@ -403,17 +383,110 @@ value-filtered adapter lowers the mean without moving the best.}
 \label{tab:c}
 \end{table}
 
+\paragraph{Attraction.} Table~\ref{tab:c} gives the held-out reading by arm
+and cycle. At the pre-registered final cycle (3), C1 was $-0.0129$
+\ci{-0.0317}{+0.0027}, $p=0.109$, not supported at $\alpha=0.05$, with the
+direction consistent (7 of 8 variants better) and the cycle-2 contrast
+supported ($-0.0153$, $p=0.016$); a pre-registered extension to five cycles
+closed it: $-0.0170$ \ci{-0.0268}{-0.0079}, $p=0.008$, the attract arm
+ending at 3.86\% mean excess, 0.74 points above the better classic
+heuristic, against 5.6--6.4\% for the base. C2: attract vs random,
+$-0.0138$ ($p=0.035$) at cycle 3 and $-0.0309$ ($p=0.004$) at cycle 5: the
+value filter matters. The random control hurts at cycle 1 ($+1.5$ points
+over base: consolidating mediocre functions makes the next ones worse) and
+is neutral to harmful later. C3: strict finds are zero in every arm and
+cycle, and the best candidate per variant is nearly the same in every arm
+($\approx$3.1\% excess, the level of best fit): the ceiling did not move.
+C4: no collapse over five cycles; the distinct/valid ratio is 0.97--1.00
+throughout, literal copies of the training set 1--16\% (attract); every
+adapter makes the model write 3.6--4$\times$ more functions per notebook.
+Far transfer: on six distributions of other families the final attract
+adapter equals the base on the mean ($+0.001$, $p=0.69$, $n=5$) and beats
+the random adapter by $-0.020$ ($p=0.016$); the random adapter is worse
+than the base there too ($+0.017$). What moved is the prior for the family
+it was trained on. The adapter of the last cycle was taught mostly
+tight-bin functions (24 of 40 of the form \texttt{1/(r**2+eps)}, 13
+best-fit-like): consolidation pulls the mass toward the best attractor the
+verifier has approved.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{4}{c}{held-out variants (8)} & \multicolumn{2}{c}{far families (6)} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-7}
+adapter (cycle-5 lineage) & candidates & mean excess & at classic level & score levels & mean excess & better than classics \\
+\midrule
+base (none) & 47 & 0.0556 & 20\% & 0.81 & 0.0838 & 10.0\% \\
+random & 287 & 0.0695 & 15\% & -- & 0.1004 & 0.0\% \\
+repel-early (DPO, 20 steps) & 71 & 0.0721 & 30\% & -- & 0.0994 & 2.0\% \\
+attract (SFT on value) & 226 & 0.0386 & 72\% & 0.14 & 0.0803 & 3.9\% \\
+repel-anch (DPO + anchor) & 144 & \textbf{0.0311} & 100\% & 0.07 & \textbf{0.0758} & 0.0\% \\
+qd (SFT on niche elites) & 293 & 0.0598 & 25\% & 0.33 & 0.1012 & 0.6\% \\
+repel-mode (DPO from the attractor) & 62 & 0.0792 & 2\% & 0.50 & 0.0935 & 0.0\% \\
+repel (DPO, unanchored) & 13 & 0.1056 & 0\% & -- & -- & -- \\
+\bottomrule
+\end{tabular}
+\caption{The ladder of adapters. Held-out: mean test excess of valid
+candidates, share scoring exactly at the level of the better classic
+heuristic, distinct score levels per valid candidate; far families: mean
+excess and share of candidates better than the classics. The mass walks onto
+the known attractor; the tails live in the untrained base.}
+\label{tab:ladder}
+\end{table}
+
+\paragraph{Repulsion.} Unanchored DPO (loss 0.69 $\to$ 0.0015) degenerated:
+1.1 closed functions per notebook (attract 9, base 2), 60\% comment lines
+and recursive non-code; the few valid candidates were far worse than the
+base (10.6\% vs 5.6\% excess). Pushing the policy away from bad functions,
+unanchored, pushes it away from writing functions. Anchored (the same loss
+plus a token-mean supervised term on the chosen side; pre-registered), the
+repulsion writes again (144 valid candidates, $+12$ per cell over the base,
+$p=0.02$) and adds to attraction: mean held-out excess 3.11\% against
+3.86\% ($-0.0074$ \ci{-0.0104}{-0.0047}, $p=0.008$), which is exactly the
+level of the better classic heuristic. The best candidate does not move
+($0.0311$ in both arms), and the reason is the finding: \textbf{every}
+held-out candidate of the anchored-repulsion adapter scores exactly at the
+best-fit level (all are monotone ``fullest bin'' variants), against 72\%
+for attraction, 15--20\% for the base and the random control, 30\% for an
+early-stopped plain DPO (otherwise worse than attraction, $+0.034$,
+$p=0.008$) and 0\% for the degenerate one (Table~\ref{tab:ladder}).
+Hash-level diversity survives (1.00); functional diversity does not. On the
+far families the anchored adapter is the best arm on the mean (7.6\% vs
+8.4\% base) because ``be best fit'' is good everywhere, and the only arm
+with no candidate better than the classics.
+
+\paragraph{Keeping the tails.} Two objectives built to keep the tails
+(pre-registered) recovered functional diversity and nothing else. The qd
+adapter has 25\% of candidates at the classic level (attract 72\%,
+$p=0.004$) and 2.4$\times$ the distinct score levels, at a cost of $+2.1$
+points of mean excess ($p=0.008$), and its better-than-classic rate on the
+far families is \emph{lower} than attraction's (0.6\% vs 3.9\%; T1, primary,
+not supported). Repulsion from the attractor itself removes the collapse
+entirely (2\% at the classic level) and with it most of the value (7.9\%
+mean excess, best 4.8\%, worse than the base; no far tail). The diversity
+these objectives keep is diversity of the mediocre. Across every
+consolidation we ran, the rate of better-than-classic candidates on new
+families is highest in the untrained base (10\%) and falls with training
+(attract 3.9\%, every other adapter $\le$ 2\%): consolidation pays for mass
+with tails.
+
 \section{Discussion}
 \label{sec:discussion}
 
-\paragraph{What can be bought at inference.} Across the two studies the
-ledger is now complete for the interventions we could build. Variation is
-cheap: the interruption raises fresh surprise by more than a point and
-multiplies valid candidates three- to fourfold. Integration can be bought
-with the right memory: a schematic recap carried across resets is the only
+\paragraph{What can be bought.} Across the two studies the ledger is now
+complete for the interventions we could build. Variation is cheap: the
+interruption raises fresh surprise by more than a point and multiplies valid
+candidates three- to fourfold. Integration can be bought with the right
+memory: a schematic recap carried across resets is the only inference-time
 intervention that raised the document-level reading, and it did so
-reliably. Progression cannot: three injections, selection over the
-candidates, a verifier in the stream and a judge-gated review all leave
+reliably. Mass can be bought with the right training: a few cycles of
+consolidation on what the verifier approved move the candidate distribution
+of a never-seen variant onto the known good, and an anchored repulsion from
+the bad moves it there exactly. Progression and frontier cannot, by
+anything we tried: three injections, selection over the candidates, a
+verifier in the stream, a judge-gated review, five cycles of attraction,
+four kinds of repulsion and a quality-diversity consolidation all leave
 development near 2/10 and the verified ceiling where it was.
 
 \paragraph{The bit distance.} A generative model is a distribution, not a
@@ -421,28 +494,25 @@ store; the question is not whether an answer is ``inside'' it but how much
 probability mass sits near it, how many bits of search separate the prior
 from the target. Inference-time stimulation reorganizes the surface of a
 fixed prior: it buys variation and, with a schematic memory, integration,
-but it does not move the mass. What moves it is what these loops lack and
-battery C supplies: updating the model by what the world approved. Battery C shows the lever and its
-present reach: five cycles of forty examples move the mass of the
-candidate distribution on never-seen variants of the trained family toward
-the verified good, no further than the best thing the verifier had already
-approved, not beyond the family, and at the cost of the tails where the
-rare better-than-classic candidates appear; objectives built to keep the
-tails kept diversity of the mediocre instead. For discovery this argues for
-a portfolio (the broad untrained prior to propose, the consolidated one to
-exploit) and for spending on selection, which is what verified search does
-\citep{romeraparedes2024funsearch}. This is also why
-the known successes of verified search \citep{romeraparedes2024funsearch,
-novikov2025alphaevolve} pair a proposal distribution with a hard evaluator
-and many samples, not with a cleverer prompt.
+but it does not move the mass. Weight consolidation moves the mass, and
+battery C shows its present reach: toward the best thing the verifier had
+already approved, within the family it was trained on, and at the cost of
+the tails where the rare better-than-classic candidates appear; objectives
+built to keep the tails kept diversity of the mediocre instead. This is
+also why the known successes of verified search \citep{romeraparedes2024funsearch,
+novikov2025alphaevolve} pair an untrained proposal distribution with a hard
+evaluator and many samples rather than fine-tune the proposer. For discovery
+our results argue for a portfolio, the broad untrained prior to propose and
+the consolidated one to exploit, and for spending on selection.
 
 \paragraph{Design rules.} For long open-ended generation: damp repetition;
 interrupt with something new each time or reset the context; carry a
 compressed recap rather than the text; do not expect the whole to advance
 from any of this. For search with a verifier: spend on sampling and
 selection, not on stimulation; keep the verifier's verdicts out of the
-prompt or measure the fabrication they induce; if the prior must move,
-train on the finds.
+prompt or measure the fabrication they induce; if reliability is the goal,
+consolidate on what the verifier approved (and never without the filter);
+if discovery is the goal, keep the untrained prior in the loop.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -452,15 +522,19 @@ the document judge is a single LLM family at $k=3$ and its absolute levels
 are low for every arm, so ``integration 2.7'' is a relative statement; the
 bin-packing distributions of batteries S and V have little headroom, which
 bounds what selection and feedback could show there (battery C's family was
-chosen for headroom for that reason); the oracle that writes recaps and
-questions is the generator itself and sometimes repeats itself, which the
-anti-copy ladder mitigates but does not remove; battery C is five cycles of forty examples on
-an 8B model with a rank-8 adapter, its primary contrast missed $\alpha$ at
-the pre-registered third cycle ($p=0.11$) and closed at the pre-registered
-extension to five ($p=0.008$), its base arm varies by seed, and the strict find criterion admits lucky candidates
-(training finds lose on test), which is why the primary measure is the
-mean and not the best. The negative results are
-resolution-bounded nulls, not proofs of absence.
+chosen for headroom for that reason, and its headroom is still small:
+0.3--0.5 points); the oracle that writes recaps and questions is the
+generator itself and sometimes repeats itself, which the anti-copy ladder
+mitigates but does not remove; battery C is five cycles of forty examples
+on an 8B model with a rank-8 adapter, its primary contrast missed $\alpha$
+at the pre-registered third cycle ($p=0.11$) and closed at the pre-registered
+extension to five ($p=0.008$), its base arm varies by seed, the far
+families are six and the tail rates rest on tens of candidates, and the
+strict find criterion admits lucky candidates (training finds lose on
+test), which is why the primary measure is the mean and not the best. The
+negative results are resolution-bounded nulls, not proofs of absence; the
+tail finding in particular deserves replication at a larger sample and on a
+domain with more headroom.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -469,12 +543,34 @@ Given memory, tension, selection and a verifier, the interrupted loop
 composes better and advances no further. A schematic memory is worth having;
 a standing question helps a little; selection and in-stream verification add
 nothing to what they replace, and the latter teaches the model to invent its
-own verdicts. Consolidating verified finds into the weights is the one intervention
-that moved what the model writes on problems it had not seen, and it
-moved it toward what it already knew to be good; repelling the bad, anchored,
-moved it all the way there and no further; keeping the tails kept the
-mediocre. The untrained prior remained the better discoverer. The organ that is missing from
-inference-time creativity is the one that learns.
+own verdicts. Consolidating verified finds into the weights is the one
+intervention that moved what the model writes on problems it had not seen,
+and it moved it toward what it already knew to be good; repelling the bad,
+anchored, moved it all the way there and no further; keeping the tails kept
+the mediocre. The untrained prior remained the better discoverer. Mass can
+be bought; the frontier, so far, cannot.
+
+\appendix
+\section{Reproducibility}
+\label{app:repro}
+
+Code, run data, judgments, pre-registrations and the dated laboratory
+notebook are in the repository of the companion study
+(\url{https://github.com/RobertoOno/interrupting-the-loop}): the oracle arms
+(\texttt{schema\_reseed}, \texttt{anomaly\_reseed}, \texttt{agenda\_reseed}
+in \texttt{scripts/dream\_run.py}), battery S
+(\texttt{scripts/evolve\_interrupt.py}), battery V
+(\texttt{scripts/problem\_loop.py}), battery C and its extensions
+(\texttt{scripts/consolidate.py}, \texttt{dpo\_lora.py},
+\texttt{run\_c.sh}, \texttt{run\_c\_ext.sh}, \texttt{run\_c\_repel*.sh},
+\texttt{run\_n.sh}) and the analyses that generate the tables
+(\texttt{docs/APPENDIX\_GEN.md}, \texttt{APPENDIX\_S.md},
+\texttt{APPENDIX\_V.md}, \texttt{APPENDIX\_C*.md}, \texttt{APPENDIX\_N.md}).
+Judging used \texttt{anthropic.claude-opus-5} on Amazon Bedrock (20--21
+August 2026) under the prompts of the companion study; fine-tuning used
+\texttt{mlx\_lm} (QLoRA on the 8-bit model, peak 14\,GB, about 8 minutes
+per adapter) and a small DPO trainer in MLX released with the code. Every
+hypothesis, amendment and result is dated in \texttt{docs/PLANO.md}.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
