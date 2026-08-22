@@ -1344,6 +1344,33 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+**C-repelir — resultado (2026-08-22, 04:10; `docs/APPENDIX_C_REPEL.md`)**:
+**negativo como implementado.** O adaptador DPO (40 pares, 80 passos, β =
+0,1; perda 0,69 → 0,0015 = margem maximizada, sobreajuste) **destruiu a
+escrita de funções**: 1,1 função fechada por caderno (attract 9, base 2), 60%
+das linhas são comentários, expressões recursivas degeneradas
+("1.0/(1.0+1e-6/(1.0+...))"), funções comentadas; 20 candidatos em 24
+cadernos, 13 válidos, excesso médio **10,6%** (base 5,6%, attract 3,9%);
+R1: +6,4 pp pior que attract (p = 0,06, n = 5); **R2 refutada** (melhor
+candidato 10,6% vs 3,3% do base); far: 6 válidos, 7,1%. Diagnóstico: modo
+de falha clássico do DPO sem âncora — empurrar para longe dos "ruins"
+baixa a verossimilhança de escrever função ALGUMA (o modo mais fácil de
+maximizar a margem é sair da distribuição); com a regra pré-registrada de
+"mesmo número de passos que o attract", o otimizador passou longe do ponto
+útil. A ideia "atratores em repulsores" NÃO está testada de forma justa
+ainda: o teste honesto exige âncora (DPO + SFT no escolhido, i.e. RPO /
+ORPO) ou parada precoce (perda ~0,3, ~15–20 passos) e β menor — fica como
+próximo degrau da fase 2, não como conclusão.
+
+**Balanço da fase 2 (22/08, madrugada)**: (1) consolidação por LoRA no que
+o verificador aprovou **move o prior em massa** dentro da família treinada
+(−1,7 pp held-out, p = 0,008, 5 ciclos, sem colapso) — primeiro positivo
+do programa sobre "mover o mapa"; (2) não move o teto (melhor ≈ best fit)
+nem transfere para outras famílias; (3) consolidar sem filtro de valor
+degrada em toda parte (o controle mais importante do desenho); (4)
+repulsão via DPO cru degenera — precisa de âncora. Paper 2 tem seção de
+consolidação completa com estes quatro pontos.
+
 **C-ext e transferência distante — resultado (2026-08-22, 03:30;
 `docs/APPENDIX_C.md`, `docs/APPENDIX_C_FAR.md`)**:
 - **C1-ext SUPORTADA**: ciclo 5, attract − base = **−1,70 pp** [−2,68,

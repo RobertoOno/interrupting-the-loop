@@ -106,8 +106,14 @@ distância em bits; consolidação é o órgão que falta). Paper curto pronto e
 no c2, 0,11 no c3), teto não move, sem colapso (`docs/APPENDIX_C.md`,
 `scripts/consolidate.py`, `run_c.sh`). Paper 2 rascunhado em `paper2/`.
 
-**Em aberto**: fase 2 continua (mais ciclos/amostras; C-repelir via DPO;
-repulsor em ativação; domínio com folga maior);
+**22/08 madrugada**: C-ext fechou C1 (−1,7 pp held-out, p = 0,008, 5
+ciclos sem colapso); transferência distante nula (específico da família);
+C-repelir (DPO cru) degenerou — precisa de âncora (RPO/ORPO ou parada
+precoce). `docs/APPENDIX_C*.md`; `scripts/dpo_lora.py`, `run_c_ext.sh`,
+`run_c_repel.sh`.
+
+**Em aberto**: fase 2 continua (repulsão ancorada; repulsor em ativação;
+domínio com folga maior; mover o teto);
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;

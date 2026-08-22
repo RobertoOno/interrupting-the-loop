@@ -315,7 +315,15 @@ distributions of other families (Weibull, triangular, bimodal, OR-library),
 the final attract adapter equals the base ($+0.001$, $p=0.69$, $n=5$) and
 beats the random adapter by $-0.020$ ($p=0.016$); the random adapter is
 worse than the base there too ($+0.017$). What moved is the prior for the
-family it was trained on. The adapter of the last cycle
+family it was trained on. A repulsion arm (DPO on the same LoRA, pairs of
+a value-filtered function against the worst valid function of the same
+variant, 80 steps at $\beta=0.1$; pre-registered) degenerated: the DPO
+loss fell to 0.0015 and the adapter wrote 1.1 closed functions per notebook
+(attract 9, base 2), 60\% comment lines and recursive non-code; the few
+valid candidates were far worse than the base (10.6\% vs 5.6\% excess).
+Pushing the policy away from bad functions, unanchored, pushes it away from
+writing functions; a fair test of repulsion needs an anchor (an SFT term on
+the chosen side) or early stopping, and is left for the next cycle. The adapter of the last cycle
 was taught mostly tight-bin functions (24 of 40 of the form
 \texttt{1/(r**2+eps)}, 13 best-fit-like): consolidation pulls the mass
 toward the best attractor the verifier has approved, not beyond it.
