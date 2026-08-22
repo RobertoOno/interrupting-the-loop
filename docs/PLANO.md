@@ -1344,6 +1344,59 @@ Se V1/V2 falham, o acoplamento por comentário não basta e o próximo degrau
 honesto é população (mas a S já mostrou seleção saturando o domínio) ou
 domínio não saturado — decisão com os dados na mão.
 
+## FASE 4 — fronteira: busca verificada com operadores cognitivos (2026-08-22)
+
+**Infra**: `scripts/frontier_search.py` (propositor MLX; ilhas+elites+migração;
+`--novelty none|score|behavior`; `--memory verbatim|schema` = caderno comprimido
+escrito pelo modelo; `--agenda` = obstáculo nomeado; `--repel-prompt`; `--chat`
+para modelos instruídos; extração robusta; sandbox com assinatura de
+comportamento da construção); 6 problemas do repositório AlphaEvolve com
+verificadores portados dos notebooks oficiais (`domains/circlepack.py`,
+`autocorr1.py`, `beatavg.py`, `ringload.py`, `isofree.py`, `sumdiff3.py`);
+reconhecimento dos 68 problemas em `docs/FRONTEIRA_PROBLEMAS.md`; clones
+oficiais em `~/wrk/ext/`. **Política declarada**: na fase 4 o propositor é
+`Qwen3-Coder-30B-A3B-Instruct-8bit` (pós-treinado para código; a variável são
+os operadores do loop) — baixado 22/08 com autorização; os papers 1–2 usaram
+só modelos base. Incidente 22/08 ~09:50: duas instâncias de 30B → memória
+esgotada → reboot; trava "um modelo por vez" no harness.
+
+**Sondagens (22/08, circle packing 26, melhor conhecido 2,635983)**: 30B base,
+prompt-padrão, sem numpy: 8 ger. sem sair da semente (2,1667); com numpy/scipy,
+30 ger. × 16: 480 candidatos, 52% válidos, 16 comportamentos distintos, **zero
+melhora**; Coder no prompt de completamento: 80% falhas por truncamento/
+extração (culpa do harness) — parado na ger. 25; **Coder em modo chat +
+extração robusta: 20 ger. × 16 (320 amostras, 88% válidos): 2,5546 → 2,6181
+(g1) → 2,6276 (g3) → 2,6281 (g13) = a 0,0079 do recorde (99,7%), e ACIMA do
+recorde de 2012 (Friedman 2,634)**; smoke dos braços cognitivos (3 ger. × 4 =
+12 amostras): 2,6276 — caderno e agenda agora substantivos ("grid init + scipy
+improved over pure grid"; "hexagonal lattice initialization limits…").
+
+**Bateria F (pré-registro, 2026-08-22 ~16:10, antes de rodar)** — fatorial de
+operadores, 6 problemas, mesmo orçamento por corrida (10 ger. × 2 ilhas × 6 =
+120 amostras; Coder chat, T 0,8, 1.400 tokens):
+- Braços: **A** = loop-padrão (verbatim, sem novidade); **B** = memória
+  esquemática (`--memory schema`); **C** = agenda (`--agenda`); **D** =
+  repulsão comportamental (`--novelty behavior --repel-prompt`); **E** = B+C+D.
+- Medidas por corrida (célula = problema, n = 6): **frac** = fração do
+  caminho percorrida da semente ao melhor conhecido, (best − seed)/(record −
+  seed) (direção do problema; >1 = recorde batido); **auc** = média de frac do
+  melhor-até-agora ao longo das 120 amostras (eficiência amostral); **div** =
+  comportamentos distintos / válidos; **valid**; **record** = bateu o melhor
+  conhecido (sim/não) e por quanto.
+- Hipóteses (α = 0,05; permutação exata pareada por problema; n = 6 → p mín.
+  1/64 unilateral): **F1 (primária, unilateral)**: frac(E) > frac(A).
+  **F2 (unilateral)**: auc(E) > auc(A). **F3 (exploratório, BH)**: B, C, D
+  vs A em frac e auc (qual operador carrega). **F4 (unilateral)**: div(D) >
+  div(A) (a repulsão comportamental preserva diversidade funcional).
+  **F5 (reportado)**: recordes batidos por braço (se algum).
+- Leitura: F1+F2 positivos = os operadores cognitivos movem a busca
+  verificada (contribuição original); F1 nulo com F4 positivo = a repulsão
+  muda a distribuição sem mover o melhor (massa, não fronteira — de novo);
+  tudo nulo = a fronteira de construções é busca + verificador e os
+  operadores da narrativa não transferem (também se escreve). Ordem de
+  execução intercalada por problema (A–E) para resultados parciais
+  equilibrados; ~45 min por corrida, ~22 h no total, sequencial.
+
 **Revisão bibliográfica v1.0 (2026-08-22, ~10:30)** — `docs/REVISAO_BIBLIOGRAFICA.md`
 (494 linhas; ~110 trabalhos verificados por 3 varreduras paralelas + checagem
 manual dos âncoras): §0 quadro em uma página, §1 decodificação, §2 prompting, §3
