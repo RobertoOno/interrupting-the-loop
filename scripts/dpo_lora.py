@@ -24,15 +24,16 @@ def encode_pair(tok, prompt, completion, max_len):
     ids = (p + c)[:max_len]
     return mx.array(ids)[None], len(p)
 
-def seq_logprob(model, ids, prompt_len):
-    """Sum of log-probabilities of the completion tokens (positions >= prompt_len) given the prefix."""
+def seq_logprob(model, ids, prompt_len, mean=False):
+    """Sum (or mean) of log-probabilities of the completion tokens (positions >= prompt_len) given the prefix."""
     logits = model(ids[:, :-1]).astype(mx.float32)
     logp = nn.log_softmax(logits, axis=-1)
     tgt = ids[:, 1:]
     tok_lp = mx.take_along_axis(logp, tgt[..., None], axis=-1)[..., 0]
     T = tok_lp.shape[1]
     mask = (mx.arange(T) >= (prompt_len - 1)).astype(mx.float32)[None]
-    return (tok_lp * mask).sum(axis=1)
+    s = (tok_lp * mask).sum(axis=1)
+    return s / mx.maximum(mask.sum(axis=1), 1.0) if mean else s
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -40,6 +41,7 @@ def main():
     ap.add_argument("--pairs", required=True); ap.add_argument("--adapter-path", required=True)
     ap.add_argument("--iters", type=int, default=80); ap.add_argument("--pairs-per-step", type=int, default=2)
     ap.add_argument("--beta", type=float, default=0.1); ap.add_argument("--lr", type=float, default=1e-5)
+    ap.add_argument("--alpha", type=float, default=0.0, help="SFT anchor weight on the chosen completion (RPO-style); 0 = plain DPO")
     ap.add_argument("--num-layers", type=int, default=16); ap.add_argument("--rank", type=int, default=8)
     ap.add_argument("--max-len", type=int, default=1024); ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
@@ -67,7 +69,10 @@ def main():
     def loss_fn(model, c_ids, r_ids, pl, rc, rr):
         lc = seq_logprob(model, c_ids, pl); lr_ = seq_logprob(model, r_ids, pl)
         margin = a.beta * ((lc - rc) - (lr_ - rr))
-        return -nn.log_sigmoid(margin).mean(), margin.mean()
+        loss = -nn.log_sigmoid(margin).mean()
+        if a.alpha > 0:   # anchor: token-mean NLL of the chosen completion (RPO-style)
+            loss = loss + a.alpha * (-seq_logprob(model, c_ids, pl, mean=True)).mean()
+        return loss, margin.mean()
 
     vg = nn.value_and_grad(model, lambda m, *x: loss_fn(m, *x)[0])
     rng = __import__("random").Random(a.seed)
@@ -92,7 +97,7 @@ def main():
     out = Path(a.adapter_path); out.mkdir(parents=True, exist_ok=True)
     mx.save_safetensors(str(out / "adapters.safetensors"), dict(tree_flatten(model.trainable_parameters())))
     (out / "adapter_config.json").write_text(json.dumps({"fine_tune_type": "lora", "lora_parameters": lora_cfg, "num_layers": a.num_layers,
-                                                          "method": "dpo", "beta": a.beta, "iters": a.iters, "learning_rate": a.lr,
+                                                          "method": "dpo" if a.alpha == 0 else "dpo+sft_anchor", "beta": a.beta, "alpha": a.alpha, "iters": a.iters, "learning_rate": a.lr,
                                                           "pairs": a.pairs, "model": str(Path(a.model).expanduser())}, indent=2))
     print(f"saved adapter to {out}", flush=True)
 
