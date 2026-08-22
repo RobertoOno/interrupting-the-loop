@@ -22,18 +22,73 @@ from creative_machine.frontier_exec import run_candidate
 PROBLEMS = {
     "circlepack26": {
         "module": "circlepack", "entry": "construct", "args": (26,), "maximize": True,
-        "best_known": 2.635983,  # ShinkaEvolve 2025 (2.635983283); AlphaEvolve 2.63586276; pre-2025 Friedman 2012: 2.634
+        "best_known": 2.635983,  # ShinkaEvolve 2025 (2.635983283); AlphaEvolve 2.63586276; Friedman 2012: 2.634
         "statement": (
-            "Place n = 26 circles inside the unit square [0, 1] x [0, 1] so that no two circles overlap "
-            "and every circle lies entirely inside the square, maximizing the SUM OF THE RADII. "
-            "Write a Python function `construct(n)` that returns a list of n tuples (x, y, r) "
-            "(center coordinates and radius). The verifier checks containment and non-overlap exactly "
-            "(tolerance 1e-7) and scores the sum of radii. Use only the standard library and math; "
-            "numpy is NOT available. Keep it deterministic and fast (< 10 s)."),
+            "Place n = 26 circles inside the unit square [0, 1] x [0, 1] so that no two circles overlap and every "
+            "circle lies entirely inside the square, maximizing the SUM OF THE RADII. Write a Python function "
+            "`construct(n)` returning a list of n tuples (x, y, r). The verifier checks containment and non-overlap "
+            "exactly (tolerance 1e-7) and scores the sum of radii. numpy and scipy (e.g. scipy.optimize) are "
+            "available; keep the run deterministic and under 20 seconds."),
         "seed_program": (
             "def construct(n):\n    import math\n    k = math.ceil(math.sqrt(n)); r = 0.5 / k\n    out = []\n"
             "    for i in range(k):\n        for j in range(k):\n            if len(out) < n:\n"
             "                out.append((r + 2 * r * i, r + 2 * r * j, r))\n    return out\n"),
+    },
+    "autocorr1": {
+        "module": "autocorr1", "entry": "construct", "args": (), "maximize": False,
+        "best_known": 1.5029,  # Yuksekgonul et al. Jan 2026; AlphaEvolve 1.5032 (Dec 2025); Matolcsi-Vinuesa 2009: 1.50992
+        "statement": (
+            "First autocorrelation inequality. Find a non-negative step function f on [-1/4, 1/4] with n equal-width "
+            "steps that makes 2 n max(a * a) / (sum a)^2 as SMALL as possible, where a is the list of step heights "
+            "and a * a is the discrete autocorrelation (numpy.convolve(a, a)). This ratio is an upper bound on the "
+            "constant C1 (best known 1.5029; the 2009 record was 1.50992). Write a Python function `construct()` "
+            "returning a list of between 300 and 5000 non-negative floats. numpy and scipy are available; "
+            "deterministic, under 20 seconds."),
+        "seed_program": "def construct():\n    return [1.0] * 300\n",
+    },
+    "beatavg": {
+        "module": "beatavg", "entry": "construct", "args": (5000,), "maximize": True,
+        "best_known": 0.400695,  # Bellec-Fritz (best known); AlphaEvolve 0.3890 at L = 20000
+        "statement": (
+            "Beat-the-average game. Choose a probability mass function p on {0, 1, ..., L-1} (L = 5000) for i.i.d. "
+            "variables X1..X4 to MAXIMIZE P[X1 + X2 + X3 < 2 X4]. Write a Python function `construct(L)` returning a "
+            "list of L non-negative floats (the verifier normalizes them). The best known value is 0.400695; sparse, "
+            "carefully placed atoms do well. numpy and scipy are available; deterministic, under 20 seconds."),
+        "seed_program": "def construct(L):\n    return [1.0] * L\n",
+    },
+    "ringload15": {
+        "module": "ringload", "entry": "construct", "args": (15,), "maximize": True,
+        "best_known": 1.1190,  # AlphaEvolve new result at m = 15
+        "statement": (
+            "Ring loading constant. Choose m = 15 pairs (u_i, v_i) with u_i, v_i >= 0 and u_i + v_i <= 1 to MAXIMIZE "
+            "alpha = min over all choices z_i in {v_i, -u_i} of max_k |sum(z[:k]) - sum(z[k:])| (k = 1..m-1). "
+            "The verifier enumerates all 2^m choices exactly. Values above 1.101 are known to be achievable and the "
+            "best known is about 1.119. Write a Python function `construct(m)` returning a list of m (u, v) pairs. "
+            "numpy and scipy are available; deterministic, under 20 seconds."),
+        "seed_program": "def construct(m):\n    return [(0.5, 0.5)] * m\n",
+    },
+    "isofree64": {
+        "module": "isofree", "entry": "construct", "args": (64,), "maximize": True,
+        "best_known": 112.0,  # AlphaEvolve (n = 64); best known before: 110
+        "statement": (
+            "Isosceles-free subsets of the grid. Find as MANY points as possible with integer coordinates in "
+            "{0, ..., 63}^2 such that no three distinct points a, b, c satisfy dist(a, b) == dist(b, c) (no isosceles "
+            "triangle, including degenerate collinear ones). Equivalently: from every point, the distances to all "
+            "other points are pairwise distinct. Best known: 112 points. Write a Python function `construct(n)` "
+            "returning a list of distinct (x, y) integer tuples. numpy and scipy are available; deterministic, under "
+            "20 seconds (a greedy or randomized incremental construction with a fast validity check works well)."),
+        "seed_program": "def construct(n):\n    return [(0, 0), (1, 0), (3, 0)]\n",
+    },
+    "sumdiff3": {
+        "module": "sumdiff3", "entry": "construct", "args": (), "maximize": True,
+        "best_known": 1.1584,  # AlphaEvolve (54265 ints); later improved by Gerbicz (2505.16105) and Zheng (2506.01896)
+        "statement": (
+            "Sum-difference problem III. Find a set U of distinct non-negative integers containing 0 (at most 4000 "
+            "elements) that MAXIMIZES log(|U - U| / |U + U|) / log(2 max(U) + 1) + 1, where U - U and U + U are the "
+            "difference and sum sets. Best known values: 1.14465 (2007), 1.1479 with 2003 integers and 1.1584 with "
+            "54265 integers (2025). Write a Python function `construct()` returning the list of integers. numpy and "
+            "scipy are available; deterministic, under 20 seconds."),
+        "seed_program": "def construct():\n    return [0, 1, 3]\n",
     },
 }
 
