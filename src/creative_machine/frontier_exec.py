@@ -43,9 +43,13 @@ except BaseException as e:
 print(json.dumps(res))
 ''')
 
-def run_candidate(code: str, module: str, entry: str, args: tuple, timeout_s: int = 20, mem_bytes: int = 2 * 1024**3) -> dict:
+def run_candidate(code: str, module: str, entry: str, args: tuple, timeout_s: int = 20, mem_bytes: int = 2 * 1024**3, prelude: str = "") -> dict:
+    """`prelude` (optional) is executed before the candidate in the same namespace (e.g. the elite programs
+    shown in the prompt under their renamed entry points), so a candidate may call or reuse them."""
     if f"def {entry}(" not in code:
         return {"ok": False, "error": f"no `def {entry}(` in candidate"}
+    if prelude:
+        code = prelude.rstrip() + "\n\n" + code
     src = str(Path(__file__).resolve().parent.parent)
     with tempfile.TemporaryDirectory() as td:
         cp = Path(td) / "cand.py"; cp.write_text(code)
