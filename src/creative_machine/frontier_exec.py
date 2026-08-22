@@ -22,6 +22,22 @@ try:
     from creative_machine.domains import {module} as dom
     out = ns[{entry!r}](*{args!r})
     res = dom.verify(out, *{args!r})
+    try:
+        import hashlib
+        def _r(o):
+            if isinstance(o, float): return round(o, 6)
+            if isinstance(o, (list, tuple)): return [_r(x) for x in o]
+            try:
+                import numpy as _np
+                if isinstance(o, _np.ndarray): return _r(o.tolist())
+                if isinstance(o, (_np.floating,)): return round(float(o), 6)
+                if isinstance(o, (_np.integer,)): return int(o)
+            except Exception:
+                pass
+            return o
+        res["sig"] = hashlib.md5(repr(_r(out)).encode()).hexdigest()[:12]
+    except Exception:
+        pass
 except BaseException as e:
     res = {{"ok": False, "error": type(e).__name__ + ": " + str(e)[:200]}}
 print(json.dumps(res))
