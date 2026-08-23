@@ -1371,6 +1371,21 @@ recorde de 2012 (Friedman 2,634)**; smoke dos braços cognitivos (3 ger. × 4 =
 12 amostras): 2,6276 — caderno e agenda agora substantivos ("grid init + scipy
 improved over pure grid"; "hexagonal lattice initialization limits…").
 
+**F-ext (pré-registro, 2026-08-23 ~09:20, antes de rodar)** — segunda
+réplica independente (rótulo s1) das mesmas 30 corridas (5 braços × 6
+problemas, mesmos parâmetros e orçamento de 120 amostras; a geração não é
+bitwise-reprodutível, então "semente" = réplica). Análise: célula =
+problema, valor = MÉDIA das duas réplicas por braço. Hipóteses (α = 0,05,
+permutação exata pareada, unilaterais salvo indicação):
+- **F1' (primária)**: frac(E) > frac(A) no dado agrupado.
+- **F6**: frac(E) > frac(D) — a formalização da "âncora" (ontem intuição,
+  hoje hipótese; o post-hoc da réplica 0 deu +0,221, p = 0,19).
+- **F2'**: auc(E) > auc(A). **F4'**: div(D) > div(A) (confirmação).
+- **F7 (descritivo, sem teste)**: colapsos por braço (frac < 0,05) nas 12
+  corridas — a previsão é E = 0 e D ≥ 2.
+Nenhuma outra comparação será promovida a confirmatória depois de ver os
+dados. Custo ~13 h, sequencial, resumível.
+
 **Bateria F — resultado (2026-08-22 15:58 → 2026-08-23 04:41;
 `docs/APPENDIX_F.md`)**:
 - **F1 (primária) NÃO fecha por pouco**: frac(E) − frac(A) = **+0,175**

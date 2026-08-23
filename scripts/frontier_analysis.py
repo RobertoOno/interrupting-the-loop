@@ -13,10 +13,22 @@ def seed_score(P):
     sys.path.insert(0, str(ROOT / "src"))
     from creative_machine.frontier_exec import run_candidate
     return run_candidate(P["seed_program"], P["module"], P["entry"], P["args"])["score"]
-def metrics(prob, arm, budget=120):
-    f = R / f"{prob}_{arm}" / "history.jsonl"
+def metrics_dir(d, prob, budget=120):
+    f = R / d / "history.jsonl"
     if not f.exists(): return None
+    return _metrics_file(f, prob, budget)
+
+def metrics(prob, arm, budget=120):
+    """Pooled over available replicates: mean of per-replicate metrics (record = any)."""
+    ms = [m for m in (metrics_dir(f"{prob}_{arm}", prob, budget), metrics_dir(f"{prob}_{arm}_s1", prob, budget)) if m]
+    if not ms: return None
+    out = {k: float(np.mean([m[k] for m in ms])) for k in ("frac", "auc", "div", "valid", "best")}
+    out["record"] = any(m["record"] for m in ms); out["n"] = sum(m["n"] for m in ms); out["reps"] = len(ms)
+    return out
+
+def _metrics_file(f, prob, budget=120):
     P = PROBLEMS[prob]; rows = [json.loads(l) for l in f.read_text().splitlines() if l.strip()][:budget]
+    # (unchanged below)
     if not rows: return None
     s0 = SEED[prob]; rec = P["best_known"]; sgn = 1 if P["maximize"] else -1
     best = s0; fr = []
@@ -44,15 +56,30 @@ md = ["# Appendix — Battery F: cognitive operators inside verified search (aut
       "| problem | arm | samples | valid | best | frac | auc | div | record? |", "|---|---|---|---|---|---|---|---|---|"]
 for prob in PROBLEMS:
     for arm in ARMS:
+        for lbl, d in (("s0", f"{prob}_{arm}"), ("s1", f"{prob}_{arm}_s1")):
+            mr = metrics_dir(d, prob)
+            if mr:
+                md.append(f"| {prob} | {arm} ({lbl}) | {mr['n']} | {100*mr['valid']:.0f}% | {mr['best']:.6f} | {mr['frac']:.3f} | {mr['auc']:.3f} | {mr['div']:.2f} | {'YES' if mr['record'] else 'no'} |")
         m = metrics(prob, arm)
         if m:
             T[arm][prob] = m
-            md.append(f"| {prob} | {arm} | {m['n']} | {100*m['valid']:.0f}% | {m['best']:.6f} | {m['frac']:.3f} | {m['auc']:.3f} | {m['div']:.2f} | {'YES' if m['record'] else 'no'} |")
 md.append("\n## Pre-registered contrasts (cells = problems)\n"); md.append("| hypothesis | contrast | measure | Δ [CI] | p | n |"); md.append("|---|---|---|---|---|---|")
-for hyp, a, b, key, alt in (("F1 (primary)", "E", "A", "frac", "greater"), ("F2", "E", "A", "auc", "greater"),
+md.append("| — pooled over replicates — | | | | | |")
+for hyp, a, b, key, alt in (("F1' (primary)", "E", "A", "frac", "greater"), ("F6 (anchor)", "E", "D", "frac", "greater"), ("F2'", "E", "A", "auc", "greater"), ("F4'", "D", "A", "div", "greater"),
+                            ("F1 (primary)", "E", "A", "frac", "greater"), ("F2", "E", "A", "auc", "greater"),
                             ("F3 B", "B", "A", "frac", "greater"), ("F3 C", "C", "A", "frac", "greater"), ("F3 D", "D", "A", "frac", "greater"),
                             ("F3 B auc", "B", "A", "auc", "greater"), ("F3 C auc", "C", "A", "auc", "greater"), ("F3 D auc", "D", "A", "auc", "greater"),
                             ("F4", "D", "A", "div", "greater"), ("F4b", "E", "A", "div", "greater")):
     pr = paired(T[a], T[b], key, alt)
     if pr: md.append(f"| {hyp} | {a} vs {b} | {key} | {pr[0]:+.3f} [{pr[1]:+.3f}, {pr[2]:+.3f}] | {pr[3]:.4f} | {pr[4]} |")
+collapse = {}
+for arm in ARMS:
+    c = 0
+    for prob in PROBLEMS:
+        for d in (f"{prob}_{arm}", f"{prob}_{arm}_s1"):
+            mr = metrics_dir(d, prob)
+            if mr and mr["frac"] < 0.05:
+                c += 1
+    collapse[arm] = c
+md.append("\nF7 (descriptive): collapses (frac < 0.05) per arm across replicate runs: " + ", ".join(f"{a}: {collapse[a]}" for a in ARMS))
 (ROOT / "docs/APPENDIX_F.md").write_text("\n".join(md) + "\n"); print("\n".join(md))
