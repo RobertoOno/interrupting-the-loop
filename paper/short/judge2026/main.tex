@@ -1,0 +1,184 @@
+\documentclass{article}
+\usepackage{neurips_2026}          % anonymous submission mode (line numbers, no authors)
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{microtype}
+\newcommand{\ci}[2]{[#1,\,#2]}
+
+\title{What an LLM Judge Cannot See in Long-Form Generation:\\ Injected Text, Self-Copy and the Horizon}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Evaluating thousands of tokens of model-generated text with an LLM judge that
+reads one window at a time is common practice. We report three things such a
+judge could not see in a recent study of interventions on long, open-ended
+generation by base language models \citep{ono2026interrupting}, in which
+Claude Opus~5 judged 96- to 160-token windows with 600 tokens of context.
+Each was large enough to change the study's conclusions. (1)~Text the
+experimenter injects into a stream (a new subject every few hundred tokens)
+ends up inside the judged windows and is scored as the model's own; a
+reported growth of the effect with the injection period was mostly the
+injected sentence. (2)~Given the same four injected sentences in rotation, a
+base model replays its own earlier segments from 600 to 1{,}200 tokens back,
+beyond the judge's horizon: at periods 150--300, 65--80\% of
+post-interruption windows were more than half verbatim reproductions, and the
+judge scored them as surprise and, worse, as connection. (3)~Local gains do
+not compose: on whole documents no condition built an integrated text, and
+the condition with the best windows read as a sequence of restarts. We
+describe the protocol that corrects these --- windows of generated text only,
+fresh-only estimates with a shingle-based self-copy flag, a document-level
+reading, the premise as the unit of inference, a pipeline test--retest from
+two byte-identical arms, a second judge family and human raters --- and what
+survives it: the intervention's effect on surprise is real and about one
+point smaller than first reported; its effect on connection was mostly
+artefact. The general lesson: a windowed judge measures what is in the
+window, and what a long stream does is partly outside it.
+\end{abstract}
+
+\section{Setting}
+
+The study of \citet{ono2026interrupting} asks where the novelty a base
+language model produces with no task comes from. A cell is one premise (a
+single sentence) continued by a base model (mainly Qwen3-30B-A3B-Base, 8-bit,
+MLX) for 4{,}500 tokens with the end-of-text token masked; arms differ in
+whether a windowed repetition penalty (\emph{habituation}) is on and in
+whether, how often and with what the stream is \emph{interrupted}: a short
+sentence injected into the model's cache as if it had written it, such as
+\emph{``Meanwhile, in a city with no name,''}, every 150 to 900 tokens. Ten
+premises are shared by all arms; 24 arms were run. Windows of the stream are
+judged by Claude Opus~5 on three 0--10 dimensions (surprise given the earlier
+text, connection to it, coherence), five calls per window with the median as
+the score, the 600 preceding tokens shown as context. The judge was measured:
+intra-window spread 0.45--0.70, agreement with a second family (Kimi K2.6)
+$\rho=0.65$ to $0.85$, agreement of three human raters' consensus with the
+judge $\rho=0.58$ on surprise. The first version of the study, written under
+this protocol, reported that the interruption raised surprise from 1.7 to 3.1
+and connection from 1.1 to 3.2 over habituation, that its yield grew with the
+length of the thread it broke, and that a period of about 300 tokens was
+best. Each of these numbers was partly an artefact of what the judge could
+and could not see.
+
+\section{Three things the judge could not see}
+
+\paragraph{1. The injected text.} The first protocol cut 160-token windows
+right before each injection and on a uniform grid, so that a window after an
+interruption contained the injected sentence. The judge, asked how unexpected
+the window is given the earlier text, read the experimenter's sentence as the
+model's turn. Re-judging with windows of generated text only (96 tokens
+starting 32 tokens after the end of the injected sentence, none crossing an
+injection; uniform grid in uninterrupted arms) kept the direction of every
+effect and removed the period story entirely: the post-interruption window
+scores 3.0 at period 150, 2.9 at 300, 2.9 at 600 and 3.2 at 900, every paired
+difference covering zero. Across 14 conditions the means under the two
+protocols correlate at $\rho=+0.82$ (surprise) to $+0.94$ (connection); the
+sizes differ exactly where an injected sentence sat in the window.
+
+\paragraph{2. Self-copy beyond the horizon.} A base model given the same four
+subject-change sentences in rotation learns the rotation: after \emph{``That
+night she dreamed of something else entirely:''} it tends to write what it
+wrote the last time that sentence appeared, 600 or 1{,}200 tokens earlier. A
+judged window is flagged as \emph{copied} when at least half of its 12-token
+shingles occur earlier in the same stream, recording whether the source lies
+within the 600 tokens the judge sees (Table~\ref{tab:copy}). Bare generation
+is 67\% copied (literal loops, all visible to the judge, who scores them
+0.0); habituation alone 27\%; the interruption arms with the fixed rotation
+65--80\% at periods 150 and 300, and at 300 the source of 62\% of all windows
+lies outside the judge's context; 38\% at 600, 12\% at 900; the arm whose
+context is reset at each interruption 0\%. A copied window scores high on
+``connection'' for the obvious reason (it \emph{is} earlier text) and, when
+its source is out of view, on surprise. On fresh windows only, the
+interruption still adds +1.2 \ci{+0.4}{+2.1} of surprise at period 150 and
++1.3 at 300 over habituation ($p\le0.01$, exact paired permutation over ten
+premises), but its connection effect falls from +2.4 to +0.75; the reset arm,
+which cannot replay, adds +1.9 and +2.0. This was found because a
+document-level judge (below) remarked that the stream ``repeats the same
+four-part block verbatim''.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+arm (Qwen3-30B-A3B-Base) & windows & copied & source beyond 600 tokens & fresh-only S / C / H \\
+\midrule
+bare & 60 & 67\% & 0\% & 1.77 / 1.38 / 5.55 \\
+habituation & 60 & 27\% & 8\% & 1.76 / 1.32 / 5.01 \\
+habituation + interruption 150 & 60 & 72\% & 12\% & 2.95 / 2.03 / 6.78 \\
+habituation + interruption 300 & 60 & 65\% & 62\% & 3.02 / 2.03 / 6.52 \\
+habituation + interruption 600 & 60 & 38\% & 35\% & 2.84 / 2.04 / 6.33 \\
+habituation + interruption 900 & 50 & 12\% & 12\% & 3.12 / 2.25 / 6.75 \\
+sham break 300 & 60 & 32\% & 5\% & 2.16 / 1.41 / 5.03 \\
+reset + new subject 300 & 60 & 0\% & 0\% & 3.75 / 3.30 / 6.87 \\
+\bottomrule
+\end{tabular}
+\caption{Self-copy in the judged windows: share at least half verbatim
+reproductions of the stream's own earlier text, share whose source lies
+beyond the 600 tokens shown to the judge, and cell means of surprise /
+connection / coherence on the fresh windows only (ten premises).}
+\label{tab:copy}
+\end{table}
+
+\paragraph{3. Windows and wholes.} Every score above is local. The judge also
+read the whole 4{,}500-token stream of each cell, injected sentences removed,
+scoring integration (parts taken up and joined later), development (something
+builds rather than restarts), coherence and surprise once per document
+($k=3$). No condition exceeds 2.5 on any dimension. The interrupted stream
+over the preserved context, whose windows are the best, reads \emph{below}
+the uninterrupted habituated one (surprise 0.1 vs 1.4, $p=0.002$; development
+0.3 vs 1.1): a sequence of restarts. The reset arm reads best (2.0 / 1.6 /
+2.2 / 2.5), because each of its parts is a clean piece that returns to the
+premise; this replicated on ten new premises.
+
+\section{The protocol that corrects them}
+
+\begin{enumerate}
+\item \textbf{Windows of generated text only}, starting a margin after any
+injected text and never crossing an injection; the context shown to the judge
+may contain injected text, the graded region never does.
+\item \textbf{A self-copy flag} per window (shingles seen earlier in the
+stream; source within or beyond the judge's horizon) and \textbf{fresh-only
+estimates} reported alongside the all-windows ones; a design rule that
+follows: never inject the same sentence twice, or reset the context.
+\item \textbf{A document-level reading} of the whole stream, with injected
+text removed, as the check that local gains compose.
+\item \textbf{The stream, not the window, as the unit of inference}: cell
+means, bootstrap intervals over cells, exact sign-flip permutation tests on
+paired cells; window-level statistics only as descriptive.
+\item \textbf{A measured judge}: the median of $k$ calls; the intra-window
+spread; a pipeline test--retest (two arms that turned out byte-identical in
+all ten cells were judged independently: medians of five agree exactly in
+91\% of windows on surprise, cell means differ by $-0.01$
+\ci{-0.09}{+0.07}); a second judge family on a random, not judge-stratified,
+sample ($\rho=0.75$ / $0.80$ / $0.65$); and human raters on fresh windows.
+\item \textbf{A pre-registered confirmatory battery} on new premises and a
+new random seed, analyzed under the protocol fixed in advance: the primary
+contrast confirmed ($p=0.003$; on fresh windows $p=0.04$), the expectation
+that a kept context carries connection refuted.
+\end{enumerate}
+
+\section{What survives}
+
+The intervention is real and smaller than first reported: a new subject
+injected every few hundred tokens into a habituated stream raises judged
+surprise on fresh generated text by about 1.2 to 1.4 points over habituation
+alone, on three base models from two families, a post-trained model, an
+unquantized model and a second genre. A bare paragraph break adds nothing
+detectable on fresh text, and a connective that asks for continuity hurts.
+The kept context is not what produces the effect, and the connection it
+seemed to carry was mostly replay. What did not survive were the claims that
+depended on what the judge could not see. We think the general point holds
+for any evaluation of long generation with a windowed LLM judge: the judge
+measures what is in the window, and a long stream does much of what it does
+outside it, including copying the experimenter and copying itself. Code, run
+data, judgments and the analysis pipeline are released with
+\citet{ono2026interrupting}.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

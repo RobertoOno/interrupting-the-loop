@@ -1,0 +1,46 @@
+note: Running TeX ...
+note: downloading size10.clo
+note: downloading environ.sty
+note: downloading trimspaces.sty
+note: downloading lineno.sty
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+note: downloading t1ptm.fd
+note: downloading ptmr8t.tfm
+note: downloading mt-ptm.cfg
+note: downloading ptmb8t.tfm
+note: downloading cmex7.tfm
+note: downloading t1phv.fd
+note: downloading phvr8t.tfm
+note: downloading ptmri8t.tfm
+note: downloading cmr9.tfm
+note: downloading cmr6.tfm
+note: downloading cmmi9.tfm
+note: downloading cmmi6.tfm
+note: downloading cmsy9.tfm
+note: downloading cmsy6.tfm
+note: downloading cmex9.tfm
+note: Running BibTeX on main.aux ...
+note: Rerunning TeX because bibtex was run ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+note: Rerunning TeX because "main.aux" changed ...
+warning: lineno.sty:296: Invalid UTF-8 byte or sequence at line 296 replaced by U+FFFD.
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
+note: Running xdvipdfmx ...
+note: downloading ptmb8t.vf
+note: downloading ptmb8r.tfm
+note: downloading 8r.enc
+note: downloading utmb8a.pfb
+note: downloading ptmr8t.vf
+note: downloading ptmr8r.tfm
+note: downloading utmr8a.pfb
+note: downloading phvr8t.vf
+note: downloading phvr8r.tfm
+note: downloading uhvr8a.pfb
+note: downloading ptmri8t.vf
+note: downloading ptmri8r.tfm
+note: downloading utmri8a.pfb
+note: downloading cmmi10.pfb
+note: downloading cmr10.pfb
+note: downloading cmsy10.pfb
+note: Writing `main.pdf` (38.986328125 KiB)
+note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
