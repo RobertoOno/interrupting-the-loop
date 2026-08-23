@@ -123,8 +123,16 @@ consolidados ≤ 0,6% no far) — consolidar paga massa com caudas
 (`docs/APPENDIX_N.md`). Fases 2+3 fechadas.
 
 **Paper 2 v0.1 fechado (22/08)**: "Mass, Not Frontier: …" (`paper2/main.pdf`,
-10 p.) — em revisão (Roberto + amigo). **Em aberto**: incorporar revisão;
-depois, exploração (portfólio base+adaptador; domínio com folga real);
+10 p.) — em revisão (Roberto + amigo). **FASE 4 (22–23/08)**: harness de fronteira (`frontier_search.py`, 6
+problemas do repositório AlphaEvolve, propositor Qwen3-Coder-30B chat);
+baseline 2,6281 no circle packing (99,7% do recorde, acima de Friedman
+2012); **Bateria F** (5 braços × 6 problemas): F1 quase (E>A +0,175,
+p=0,0625, 5/6), F4 suportada (repulsão → diversidade +0,32, p=0,047), D
+sozinho bimodal (melhor em pmfs/sequências, catastrófico em geometria), E
+nunca colapsa. `docs/APPENDIX_F.md`, `docs/FRONTEIRA_PROBLEMAS.md`.
+
+**Em aberto**: decisão pós-F (2ª semente vs escrever paper 3); incorporar
+revisão do paper 2; checagem do teto com Coder no bin packing (fila);
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;

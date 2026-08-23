@@ -1371,6 +1371,37 @@ recorde de 2012 (Friedman 2,634)**; smoke dos braços cognitivos (3 ger. × 4 =
 12 amostras): 2,6276 — caderno e agenda agora substantivos ("grid init + scipy
 improved over pure grid"; "hexagonal lattice initialization limits…").
 
+**Bateria F — resultado (2026-08-22 15:58 → 2026-08-23 04:41;
+`docs/APPENDIX_F.md`)**:
+- **F1 (primária) NÃO fecha por pouco**: frac(E) − frac(A) = **+0,175**
+  [+0,011, +0,369], p = 0,0625 (E > A em 5 de 6 problemas; com n = 6 o p
+  mínimo é 0,0156 — estamos a um problema de distância). F2 (AUC) nula: os
+  operadores custam orçamento no arranque.
+- **F4 SUPORTADA**: repulsão comportamental eleva a diversidade funcional
+  (+0,32, p = 0,047; E +0,33, p = 0,0625). De novo: **diversidade se
+  compra; fronteira, não** (nenhum recorde batido; melhor chegada: E a
+  98,7% no circle packing).
+- **F3 (exploratório) — a heterogeneidade é o achado**: D sozinho é
+  bimodal: MELHOR braço em beatavg (0,646; AUC 0,52) e ringload (0,81; AUC
+  0,79), e **catastrófico** em circle packing (0,000 — 24% válidos, ilha
+  morta de fome) e sumdiff3 (0,000): a repulsão funciona onde a variedade
+  válida é LARGA (pmfs, sequências) e rasga onde a validade é frágil
+  (geometria de empacotamento, conjuntos com restrição fina). E (com
+  âncora de memória+agenda) nunca colapsa: melhor ou quase-melhor em 4/6 e
+  pior queda limitada — **a composição protege**, quarta vez que a lei
+  "repelir precisa de âncora" aparece, agora em prompt puro.
+- Meta-observação: em 120 amostras o office-scale chega a 99% (circle
+  packing), 81% (ringload), 56% (isofree — todos os braços param em
+  exatamente 64 pontos; recorde 112), 10–65% nos demais; nenhum recorde.
+  isofree64 e o platô comum sugerem tetos de construção que o Coder conhece
+  (a diagonal de 64) e não ultrapassa sem ideia nova — o lugar certo para
+  testar operadores mais fortes ou orçamento maior.
+Decisões possíveis (a discutir): (a) 2ª semente para fechar F1 (mais ~13h);
+(b) trocar D-alone por D-ancorado leve e re-testar; (c) aceitar e escrever
+o paper 3 com F1 "direção consistente, não significativa a n=6" + F4 +
+heterogeneidade. Sem p-hacking: qualquer extensão será pré-registrada como
+extensão.
+
 **Bateria F (pré-registro, 2026-08-22 ~16:10, antes de rodar)** — fatorial de
 operadores, 6 problemas, mesmo orçamento por corrida (10 ger. × 2 ilhas × 6 =
 120 amostras; Coder chat, T 0,8, 1.400 tokens):
