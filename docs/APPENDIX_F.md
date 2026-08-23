@@ -5,6 +5,7 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | problem | arm | samples | valid | best | frac | auc | div | record? |
 |---|---|---|---|---|---|---|---|---|
 | circlepack26 | A (s0) | 120 | 82% | 2.623068 | 0.972 | 0.919 | 0.21 | no |
+| circlepack26 | A (s1) | 120 | 88% | 2.370000 | 0.433 | 0.376 | 0.08 | no |
 | circlepack26 | B (s0) | 120 | 85% | 2.624402 | 0.975 | 0.818 | 0.22 | no |
 | circlepack26 | C (s0) | 120 | 72% | 2.626826 | 0.980 | 0.879 | 0.32 | no |
 | circlepack26 | D (s0) | 120 | 24% | 2.166667 | 0.000 | 0.000 | 0.34 | no |
@@ -40,19 +41,19 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | hypothesis | contrast | measure | Δ [CI] | p | n |
 |---|---|---|---|---|---|
 | — pooled over replicates — | | | | | |
-| F1' (primary) | E vs A | frac | +0.175 [+0.011, +0.369] | 0.0625 | 6 |
+| F1' (primary) | E vs A | frac | +0.220 [+0.056, +0.399] | 0.0625 | 6 |
 | F6 (anchor) | E vs D | frac | +0.221 [-0.009, +0.554] | 0.1875 | 6 |
-| F2' | E vs A | auc | +0.066 [-0.160, +0.315] | 0.3438 | 6 |
-| F4' | D vs A | div | +0.322 [+0.074, +0.605] | 0.0469 | 6 |
-| F1 (primary) | E vs A | frac | +0.175 [+0.011, +0.369] | 0.0625 | 6 |
-| F2 | E vs A | auc | +0.066 [-0.160, +0.315] | 0.3438 | 6 |
-| F3 B | B vs A | frac | +0.121 [-0.037, +0.302] | 0.2188 | 6 |
-| F3 C | C vs A | frac | +0.090 [-0.093, +0.317] | 0.2812 | 6 |
-| F3 D | D vs A | frac | -0.046 [-0.473, +0.346] | 0.5312 | 6 |
-| F3 B auc | B vs A | auc | +0.066 [-0.065, +0.228] | 0.2969 | 6 |
-| F3 C auc | C vs A | auc | +0.038 [-0.143, +0.234] | 0.3594 | 6 |
-| F3 D auc | D vs A | auc | -0.043 [-0.446, +0.323] | 0.5312 | 6 |
-| F4 | D vs A | div | +0.322 [+0.074, +0.605] | 0.0469 | 6 |
-| F4b | E vs A | div | +0.327 [+0.083, +0.598] | 0.0625 | 6 |
+| F2' | E vs A | auc | +0.111 [-0.120, +0.350] | 0.2188 | 6 |
+| F4' | D vs A | div | +0.333 [+0.094, +0.616] | 0.0312 | 6 |
+| F1 (primary) | E vs A | frac | +0.220 [+0.056, +0.399] | 0.0625 | 6 |
+| F2 | E vs A | auc | +0.111 [-0.120, +0.350] | 0.2188 | 6 |
+| F3 B | B vs A | frac | +0.166 [+0.008, +0.338] | 0.1250 | 6 |
+| F3 C | C vs A | frac | +0.135 [-0.071, +0.360] | 0.1875 | 6 |
+| F3 D | D vs A | frac | -0.001 [-0.354, +0.346] | 0.5312 | 6 |
+| F3 B auc | B vs A | auc | +0.111 [-0.017, +0.257] | 0.1094 | 6 |
+| F3 C auc | C vs A | auc | +0.083 [-0.118, +0.274] | 0.2344 | 6 |
+| F3 D auc | D vs A | auc | +0.003 [-0.331, +0.323] | 0.4688 | 6 |
+| F4 | D vs A | div | +0.333 [+0.094, +0.616] | 0.0312 | 6 |
+| F4b | E vs A | div | +0.338 [+0.090, +0.610] | 0.0625 | 6 |
 
 F7 (descriptive): collapses (frac < 0.05) per arm across replicate runs: A: 0, B: 1, C: 0, D: 2, E: 0
