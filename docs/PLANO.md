@@ -1371,6 +1371,39 @@ recorde de 2012 (Friedman 2,634)**; smoke dos braços cognitivos (3 ger. × 4 =
 12 amostras): 2,6276 — caderno e agenda agora substantivos ("grid init + scipy
 improved over pure grid"; "hexagonal lattice initialization limits…").
 
+**F-ext — resultado (2026-08-23, 09:20–18:21; agregado das 2 réplicas em
+`docs/APPENDIX_F.md`)**: **F1' +0,199 [+0,045, +0,368], p = 0,0625** — de
+novo no degrau de granularidade: com n = 6 células e um problema adverso, o
+teste exato de sinais não desce de ~0,06 mesmo com IC excluindo zero. **F6
+(âncora) +0,227 [+0,011, +0,548], p = 0,0625** — mesma situação. **F4'
+SUPORTADA no p mínimo possível (+0,376, p = 0,0156)**: repulsão
+comportamental compra diversidade funcional, confirmado nas duas réplicas.
+F2' +0,138, p = 0,078. **F7 (previsão registrada: E = 0, D ≥ 2)**: colapsos
+A:1 B:1 C:1 **D:3** E:1 — metade certa (D colapsa mais), metade errada (E
+teve 1 colapso numa réplica). Leitura honesta: efeitos médios positivos e
+estáveis entre réplicas (F1' e F6 com IC > 0), mas o desenho com 6
+problemas bate no teto de resolução do teste exato; **não** declaramos F1'/
+F6 suportadas a α = 0,05. Caminhos: (i) extensão de N (adicionar 3
+problemas tratáveis — Heilbronn 48/49, razão max/min 50 ou fatoração de N!
+38 — n = 9, p mínimo 1/512), a pré-registrar se formos; (ii) reportar como
+está. Decisão adiada para depois da corrida de recorde.
+
+**Corrida de recorde (pré-registro, 2026-08-23 ~18:40, antes de rodar)** —
+o teste de existência: o office-scale bate um melhor-conhecido? Problema:
+**beat-the-average** (folga garantida: melhor conhecido Bellec–Fritz
+0,400695; o próprio AlphaEvolve reportou 0,3890 em L = 20000; nossos braços
+a 120 amostras: D 0,3547, E 0,3500). Dois braços, sequenciais, mesmos
+parâmetros da F fora o orçamento: **E** (protegido) e **D** (melhor local
+neste problema), cada um com 50 ger. × 2 ilhas × 6 = **600 amostras**
+(~4–5 h cada). Hipóteses/registro: **R1**: melhor score verificado > 
+0,400695 (recorde batido; frac > 1) em qualquer braço — reportado como
+existência, sem teste; **R2 (descritivo)**: frac(600 amostras) vs
+frac(120) — a curva de escala; **R3**: se nenhum bater, análise do limite
+da discretização L = 5000 (o alvo pode exigir átomos mais finos) e
+distância final em frac. Sem juiz LLM; verificador exato; L fixo em 5000
+como na F (mudança de L, se necessária, será NOVA corrida pré-registrada,
+não emenda).
+
 **F-ext (pré-registro, 2026-08-23 ~09:20, antes de rodar)** — segunda
 réplica independente (rótulo s1) das mesmas 30 corridas (5 braços × 6
 problemas, mesmos parâmetros e orçamento de 120 amostras; a geração não é
