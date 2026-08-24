@@ -1405,6 +1405,21 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Fatorial 2³ — completamento (pré-registro, 2026-08-24 ~08:40, antes de
+rodar; em resposta ao parecer externo)** — braços que faltavam: **BC**
+(memória+agenda), **BD** (memória+repulsão), **CD** (agenda+repulsão) × 9
+problemas × 2 réplicas = 54 corridas (~22–25 h, sequencial, resumível;
+`scripts/run_f_23.sh`, encadeado após a F-ext2). Com A, B, C, D, E já
+rodados, fecha o 2³ completo (8 células × 9 × 2). Análise registrada:
+efeitos codificados ±1 sobre frac com célula = problema (n = 9),
+permutação exata pareada; **I1 (primária, unilateral)**: interação
+memória×repulsão > 0 (a formalização causal da "âncora"); **I2**:
+agenda×repulsão; **I3**: efeitos principais M, A, R (bilaterais, BH);
+tabela completa de médias por célula do cubo. A partir destas corridas o
+harness LOGA o código de cada candidato, chars de saída e chamadas/chars
+extras de recap/agenda (contabilidade de orçamento pedida no parecer).
+Nada além de I1–I3 será promovido a confirmatório.
+
 **F-ext2 (pré-registro, 2026-08-24 ~05:30, antes de rodar; DISPARO pelo
 Roberto quando a máquina estiver livre)** — extensão de N do fatorial: TRÊS
 problemas novos portados dos notebooks oficiais com as convenções exatas —

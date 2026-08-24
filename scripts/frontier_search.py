@@ -331,7 +331,9 @@ def main():
             prelude = "\n\n".join(e["code"].replace("def " + P["entry"], "def " + P["entry"] + "_v" + str(i)) for i, e in enumerate(shown))
             if recap or agenda:
                 with open(out / "notebook.jsonl", "a") as f:
-                    f.write(json.dumps({"gen": g, "island": k, "recap": recap, "agenda": agenda}) + "\n")
+                    f.write(json.dumps({"gen": g, "island": k, "recap": recap, "agenda": agenda,
+                                        "extra_calls": int(recap is not None) + int(agenda is not None),
+                                        "extra_chars": len(recap or "") + len(agenda or "")}) + "\n")
             user_msg = (prompt.rsplit(f"def {P['entry']}(", 1)[0].rstrip() + "\n\n"
                         f"Write the improved version now: a complete, self-contained Python program defining `def {P['entry']}(...)` "
                         f"(plus any helpers/imports it needs), returning the construction. Reply with ONE ```python code block and nothing else.")
@@ -356,7 +358,8 @@ def main():
                     # the prompt ends with `def entry(`; some models repeat the header instead of continuing it
                     full = text if re.search(rf"^def {P['entry']}\(", text, re.M) else f"def {P['entry']}(" + text
                 code = extract_program(full, P["entry"])
-                rec = {"gen": g, "island": k, "sample": s, "prompt": ph, "ok": False}
+                rec = {"gen": g, "island": k, "sample": s, "prompt": ph, "ok": False, "chars_out": len(text)}
+                rec["code"] = code
                 if code is None:
                     rec["error"] = "no function"
                 else:
