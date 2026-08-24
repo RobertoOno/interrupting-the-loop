@@ -1405,6 +1405,16 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**JUDGe 2026: SUBMETIDO (2026-08-24, ~16h)** — short paper "What an LLM
+Judge Cannot See in Long-Form Generation" no NeurIPS 2026 Workshop JUDGe
+(Atlanta, 12/12; deadline 30/08 8:59). OpenReview ativado no mesmo dia
+(e-mail institucional confirmado destravou a moderação). Reciprocal reviewer:
+o próprio Roberto (revisões em setembro — preparar quando chegarem).
+Notificação: 29/09; camera-ready 15/10. E-mails de follow-up com o link
+do arXiv enviados a Wenhong Zhu e Rajarshi Haldar. Marcos do dia: perfil
+OpenReview ativo, 1ª submissão a workshop feita pelo Roberto, respostas
+de cortesia quitadas.
+
 **Análises de orçamento igualado da C (24/08, dos logs; pedido A3 do
 parecer; `docs/APPENDIX_C_BOK.md`)**: com k = 10 igualado por subamostra —
 attract 0,0311 (8/8 variantes) vs random 0,0381 (8/8): attract melhor a
