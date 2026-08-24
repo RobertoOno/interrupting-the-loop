@@ -1405,6 +1405,22 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Recorde-4 — resultado (00:15–~04:45)**: teto de tempo 3× (60 s) moveu o
+platô em **+0,0002** — melhor 0,389934 (frac 0,917; 74% válidos, 206
+comportamentos distintos; ganhos tardios na 5ª casa nas ger. 15 e 23).
+**Hipótese registrada confirmada: a barreira NÃO é computação/tempo — é a
+FAMÍLIA de construção.** Dois propositores independentes + 3× de tempo de
+verificação param no mesmo degrau (~0,390), o mesmo nível reportado pelo
+AlphaEvolve (0,3890); o 0,400695 de Bellec–Fritz evidentemente usa
+estrutura diferente da família "átomos esparsos otimizados" que todos os
+LLMs propõem. **Frase final da fase 4: a última milha é uma ideia, não um
+orçamento.** Mapa completo: office-scale local = 85–99% dos recordes;
+operadores compostos ajudam e escalam (repulsão exige âncora, 5×
+replicado); força do propositor = alavanca de ordem de grandeza em
+eficiência amostral; além de ~92% neste problema, parede de ideia. Fase 4
+ENCERRADA para escrita (paper 3); extensão n=9 do fatorial fica opcional
+pré-registrada se quisermos fechar F1 formalmente antes da submissão.
+
 **Recorde-3 — resultado (21:53–00:0x)**: **recorde nao batido** — Claude
 Opus 5 terminou em **0,389731** (frac 0,916; 300 amostras, 75% válidos, 224
 comportamentos distintos), platô da ger. 8 à 25. **Curva da força do
