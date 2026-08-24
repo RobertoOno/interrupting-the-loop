@@ -1,0 +1,138 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\captionsetup{font=small,labelfont=bf}
+\graphicspath{{figures/}}
+\setlength{\parskip}{0.25em}
+\newcommand{\ci}[2]{[#1,\,#2]}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+
+\title{The Last Mile Is an Idea:\\ Cognitive Operators, Proposer Strength and the Limits of\\ Office-Scale Verified Search}
+\author{Roberto I. Ono Filho\\ Independent researcher\\
+\texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
+\date{Draft skeleton v0.1, \today\ --- not for distribution}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Verified search --- a language model proposing programs, a hard evaluator
+scoring them, selection keeping the best --- is how machine systems have
+recently moved mathematical records. The published systems vary the
+scaffolding (islands, ensembles, novelty machinery) and report the wins; none
+measures, with controls, which parts of the \emph{proposer's cognition}
+matter. We instrument a minimal FunSearch-style loop at office scale (a
+30B-parameter local model on a laptop, 120--600 verified samples per run)
+with three operators isolated in our earlier work on open-ended generation
+\citep{ono2026interrupting}: a \emph{schematic notebook} the model writes
+and carries instead of verbatim elite programs, a \emph{named obstacle}
+(agenda), and \emph{behavioural repulsion} from constructions already found.
+On six construction problems from the AlphaEvolve repository
+\citep{georgiev2025exploration}, a pre-registered $5\times6$ factorial with
+a replicate shows: the composed operators improve the fraction of the
+seed-to-record gap closed in 5 of 6 problems (+0.20 pooled, $p=0.0625$ at
+the $n{=}6$ exactness floor); behavioural repulsion raises functional
+diversity at the minimum attainable $p$ ($+0.38$, $p=0.0156$) and collapses
+without the anchoring memory (three collapses alone, none composed \todo{check});
+and at larger budgets the composition scales while repulsion alone
+plateaus. Swapping the proposer for a frontier model (Claude Opus~5) under
+the same loop closes in tens of samples what the local model cannot close
+in hundreds, and exceeds the value AlphaEvolve reported on the
+beat-the-average problem (0.3897 vs 0.3890) with 300 samples; tripling the
+verifier's time budget moves this by $+0.0002$. Across proposers, grids and
+time budgets the search stalls at $\approx$92\% of the best known value,
+whose record construction evidently lies outside the sparse-atom family
+every proposer writes: the remaining mile is an idea, not a budget. We
+release the harness, every candidate, and the pre-registrations.
+\end{abstract}
+
+\section{Introduction}
+\todo{Frame: verified search moved records (FunSearch, AlphaEvolve,
+ShinkaEvolve); what nobody measured (operator factorial; proposer curve
+under fixed loop); our question and contributions list.}
+
+\paragraph{Contributions.} (1) A pre-registered factorial of cognitive
+operators inside verified search, with a replicate. (2) The
+anchoring law, fifth independent appearance: repulsion without memory
+breaks --- as prompt-only collapse here, echoing DPO and consolidation
+results in \todo{cite paper 2}. (3) The scaling inversion: composition
+scales with budget, pure repulsion plateaus. (4) The first controlled
+proposer-strength curve under a fixed loop, local 30B vs frontier API.
+(5) An honest calibration of office-scale verified search: 85--99\% of
+records at 120--600 samples; and a characterized wall --- grid, time
+budget and proposer strength all ruled out --- leaving the construction
+family itself.
+
+\section{Related work}
+\todo{Condense from the review: FunSearch/AlphaEvolve/ShinkaEvolve/EoH/ReEvo
+(scaffolding, not operator factorials); Mutation Without Variation
+(attractors without selection); Large Language Monkeys (coverage law);
+pass@k inversion literature; ReEvo reflections vs our persistent schematic
+notebook; the bin-packing audits.}
+
+\section{The harness and the problems}
+\todo{Describe frontier\_search.py: islands, elites, migration; chat-mode
+proposing; sandboxed verification with behaviour signatures; the operators
+(memory/agenda/novelty/repel) exactly as run. The six problems ported from
+the official notebooks, with best-known values and seeds. One table.}
+
+\section{The factorial (battery F)}
+\todo{Arms A--E; budget 120 samples; metrics frac/auc/div; the table by
+problem and arm (both replicates); pre-registered tests F1/F2/F4 + F-ext
+(F1', F6, F4', F7); the granularity-floor discussion (exact sign-flip at
+n=6); the heterogeneity reading (D bimodal by validity-manifold width).}
+
+\section{Scale: the record attempts}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.86\linewidth]{fig_f4_proposer_curve.png}
+\caption{Beat-the-average under the same loop (arm E): fraction of the
+seed-to-record gap closed per verified sample. The local 30B at two grids;
+Claude Opus~5; dotted lines mark AlphaEvolve's reported value and the best
+known (Bellec--Fritz).}
+\label{fig:curve}
+\end{figure}
+\todo{The pre-registered ladder: E vs D at 600 samples (scaling inversion:
+0.3816 vs 0.3514 from a 120-sample tie); grid change (L=20000 hurts the
+local proposer at equal budget); the frontier proposer (0.3897 at 300
+samples, past AlphaEvolve's reported 0.3890, plateau from gen 8); the
+60-second verifier budget (+0.0002). The legible constructions: the 30B's
+bimodal 16-atom measure with commented strategy; Claude's exact sparse-atom
+objective with analytic gradient and multiplicative-weights refinement.
+The wall: every proposer writes the sparse-atom family; the record
+construction lies elsewhere.}
+
+\section{Discussion}
+\todo{(a) What office scale buys and where it stops (the calibration map);
+(b) operators: composition as the only safe arm; the anchor law across
+five measurements; (c) the proposer lever vs the idea wall; relation to
+"mass, not frontier" and the bit distance; (d) design rules for verified
+search at small scale.}
+
+\section{Limitations}
+\todo{n=6 problems and the exactness floor; one domain for the record
+saga; API proposer nondeterminism; verifier time budgets; best-known
+values move (live repository); no head-to-head with ShinkaEvolve (open
+question; their system is open-source).}
+
+\section{Conclusion}
+\todo{One paragraph: operators help and compose; proposers move the
+sample-efficiency curve by orders of magnitude; and every lever we could
+pull stalls at the same wall, which is conceptual. "The last mile is an
+idea, not a budget."}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}
