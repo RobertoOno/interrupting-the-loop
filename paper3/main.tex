@@ -39,23 +39,29 @@ a \emph{schematic notebook} the model writes and carries instead of
 verbatim elite programs, a \emph{named obstacle} (agenda), and
 \emph{behavioural repulsion} from constructions already found. On six
 construction problems from a public repository of open problems, a
-pre-registered $5{\times}6$ factorial with a replicate shows: the composed
-operators improve the fraction of the seed-to-record gap closed in five of
-six problems ($+0.20$ pooled \ci{+0.05}{+0.37}, $p=0.0625$ at the $n{=}6$
-exactness floor of the paired sign-flip test); behavioural repulsion raises
-functional diversity at the minimum attainable $p$ ($+0.38$, $p=0.0156$)
-and collapses without the anchoring memory (three collapses alone, one
-composed); and at a $5\times$ budget the composition keeps climbing while
-repulsion alone plateaus. Swapping the proposer for a frontier model
+pre-registered ablation (five arms: each operator alone and their triple
+composition; two replicates; the full $2^3$ factorial and a nine-problem
+extension are in progress) shows a consistent direction: the composed
+operators close a larger fraction of the seed-to-record gap in five of six
+problems ($+0.20$ pooled \ci{+0.05}{+0.37}, $p=0.0625$, with one problem
+genuinely adverse --- a pilot-level result, not yet a certified effect);
+behavioural repulsion raises functional diversity at the minimum
+attainable $p$ ($+0.38$, $p=0.0156$), with the caveat that the operator
+optimizes a quantity related to this outcome; repulsion alone collapses in
+three of twelve runs against one for the composition; and at a $5\times$
+budget the composition keeps climbing while repulsion alone plateaus. Swapping the proposer for a frontier model
 (Claude Opus~5) under the same loop reaches in tens of samples what the
 local model does not reach in hundreds, and exceeds the value AlphaEvolve
 reported on the beat-the-average problem (0.3897 vs 0.3890) within 300
 samples; tripling the verifier's time budget then moves the result by
 $+0.0002$. Across proposers, grids and time budgets the search stalls at
-$\approx$92\% of the best known value, whose record construction evidently
-lies outside the sparse-atom family every proposer writes. Office-scale
-verified search reaches 85--99\% of records; the remaining mile is an
-idea, not a budget. We release the harness, every candidate, and the dated
+$\approx$92\% of the best published lower-bound construction
+\citep{bellec2024beat}, and the candidate programs of both proposers
+remain within a sparse-atom construction family. Office-scale verified
+search reaches 85--99\% of the reference values on these problems; we
+state as a hypothesis, and design a test for, the reading that the
+remaining gap is a matter of construction family --- an idea --- rather
+than budget. We release the harness, every candidate, and the dated
 pre-registrations.
 \end{abstract}
 
@@ -123,8 +129,11 @@ ReEvo uses model-written reflections as ``verbal gradients''
 \citep{ye2024reevo}. Our schematic notebook differs from ReEvo's
 reflections in being a persistent, compressed lineage memory that
 \emph{replaces} verbatim elites rather than commenting on pairs; and none
-of these systems reports a controlled factorial of its own prompt
-components.
+of these systems reports a controlled ablation of its own prompt
+components. LoongFlow \citep{wan2025loongflow} composes planning, hybrid
+memory and MAP-Elites niches into one system and reports large efficiency
+gains; it is the closest architecture to our composed arm, and exactly the
+kind of system whose components an ablation like ours aims to isolate.
 
 \paragraph{Why diversity needs help.} Without selection pressure, LLM
 mutation chains collapse into attractor regions \citep{gurkan2026mutation};
@@ -286,53 +295,74 @@ away from something only works while anchored to something --- across
 narrative generation, weight-space preference optimization, and now
 prompt-space search.
 
-\paragraph{The proposer curve and the wall.} The largest single lever in
-our data is the proposer ($+0.008$ absolute over the local model's
-600-sample best, reached $20\times$ faster); the smallest is everything we
-tried after it (grid, time, more samples: $+0.0002$). That ordering, and
-the shared plateau, suggest a two-regime picture consistent with our
-earlier ``mass, not frontier'' results: search over a fixed prior rapidly
-collects what the prior's construction families contain, and then stalls
-at the best family member. The record's family is absent from every
-proposer we tried. Whether a stronger reasoning effort, a different
-representation of the problem, or a human hint supplies the missing family
-is exactly the question \citet{georgiev2025exploration} report answering
-with expert-in-the-loop use --- their phrase and ours agree: the last mile
-is an idea.
+\paragraph{The proposer comparison and the plateau.} On this one problem,
+the frontier proposer is far more sample-efficient ($+0.008$ absolute over
+the local model's 600-sample best, reached $20\times$ faster), and
+everything we tried after it moved little (grid, time, more samples:
+$+0.0002$). This is a sample-efficiency comparison on one problem under
+one harness --- not yet a proposer-strength curve; replications on further
+problems are planned, and reasoning effort, ensembles, alternative
+representations and thousand-sample budgets all remain untested
+explanations. The shared plateau suggests, consistently with our
+consolidation results \citep{ono2026mass}, that search over a fixed prior
+rapidly collects what the prior's construction families contain and then
+stalls at the best family member --- a hypothesis to test rather than
+assert. \emph{The family-hint experiment} (registered as the next
+battery), on beat-the-average: (a) no hint; (b) a generic hint (``try a
+different representation''); (c) a structural hint naming the family of
+the \citet{bellec2024beat} construction without parameters; (d) a seed
+from that family far from its optimum; (e) the full construction as an
+oracle control. If the loop optimizes the family once given but never
+proposes it unaided, the missing ingredient is the idea; if it cannot even
+optimize it, the story is different. This is the question
+\citet{georgiev2025exploration} report answering with an expert in the
+loop, from the other side.
 
 \paragraph{Design rules.} For verified search at small scale: compose the
 operators, never run repulsion alone on fragile manifolds; keep the
 behaviour descriptor exact (the construction, not an embedding); spend on
-the proposer before spending on samples; treat plateaus as family
-boundaries, not as budget exhaustion --- and measure them by ruling out
-grid, time and proposer in pre-registered steps.
+the proposer before spending on samples; treat plateaus as candidate family
+boundaries and test them --- grid, time, proposer and hints in
+pre-registered steps --- rather than declaring them.
 
 \section{Limitations}
 \label{sec:limitations}
 
-Six problems (nine pending the pre-registered extension) and the $n{=}6$
-exactness floor; one domain for the scaling ladder; the API proposer is
-not bitwise reproducible and its reasoning effort was fixed low; verifier
-conventions were ported from the official notebooks but records move (the
-repository is live); no head-to-head with ShinkaEvolve or AlphaEvolve
-(different problems, models and budgets --- only the published values are
-compared, on their own terms); and the wall we characterize is specific to
-the sparse-atom family of one problem, however suggestive the pattern.
+Six problems (nine pending the pre-registered extension), and the
+$p=0.0625$ of the primary contrast reflects a genuinely adverse problem,
+not only the $n{=}6$ exactness floor; the design is an ablation, not the
+full $2^3$ factorial (running), so operator interactions are not isolated;
+budgets are equalized in verified samples, not tokens or calls (arms B, C
+and E spend one to two extra short model calls per island-generation;
+token accounting is enabled for the runs in progress); the diversity
+metric is related to the repulsion operator's own filter, and the
+behaviour signature's sensitivity to rounding is untested; the six
+problems satisfy criteria fixed before any runs (cheap exact verifier,
+short-function candidates, known headroom; the universe of 68 candidates
+and per-problem ratings are in the released reconnaissance table) but were
+not sampled randomly; \emph{frac} is floored at the seed by construction,
+signs are harmonized for minimization, and reference values are frozen at
+the repository commit recorded in the release; the scaling ladder is one
+domain; the API proposer is not bitwise reproducible and its reasoning
+effort was fixed low; and no system-level head-to-head with ShinkaEvolve
+or AlphaEvolve is attempted --- only published values are compared, on
+their own terms.
 
 \section{Conclusion}
 \label{sec:conclusion}
 
 Inside a fixed verified-search loop at office scale, the cognitive
 operators our generation studies isolated --- schematic memory, a named
-obstacle, behavioural repulsion --- compose into the only arm that is
-never unsafe and the one that scales; repulsion alone buys certified
-functional diversity and nothing durable; and the proposer, not the
-scaffold, is the order-of-magnitude lever. Every lever we could pull ---
-operators, budget, grid, verifier time, proposer strength --- leaves the
-same last gap on the same problem, at the boundary of the construction
-family the models know. Verified search harvests the prior's families to
-their best members. Crossing a family boundary took, in every published
-case we know and in ours, the thing this loop does not generate: an idea.
+obstacle, behavioural repulsion --- compose into the arm that was safest
+in these runs (one collapse in twelve, against three for repulsion alone)
+and the one that kept improving with budget; repulsion alone enforces
+behavioural non-duplication by construction and was the best single
+operator exactly where the valid manifold is wide; and on the one problem
+where we compared them, a frontier proposer was more sample-efficient by
+an order of magnitude. Within every setting we tested, the search stalled
+at the boundary of the construction families the models propose. Whether
+crossing that boundary requires what we have informally called an idea is
+now a registered experiment rather than a metaphor.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
