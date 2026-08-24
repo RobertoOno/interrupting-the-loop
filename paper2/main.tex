@@ -35,30 +35,37 @@ without improving the best. Here we ask what would make local gains compose,
 by giving the loop, one piece at a time, what a discovering mind has and the
 loop did not: a schematic memory instead of a verbatim one, a standing
 question instead of a neutral subject, selection over its candidates, a
-verifier inside its stream, and, finally, consolidation of its verified
-finds into its weights. Every battery was pre-registered and measured under
+verifier inside its stream, and, finally, consolidation of its
+training-verifier-selected candidates into its weights. Every battery was pre-registered and measured under
 the generated-only, fresh-only, document-level protocol of the companion
 study, or by a deterministic verifier. At inference time one thing worked:
 a schematic recap written by the model and re-injected with the new subject
-raises document-level integration above every earlier arm (+1.65 over the
-verbatim context, $p=0.001$, ten premises), at no local cost; a standing
-question helps a little; neither, nor their combination, moves development
-above about 2 on a 0--10 scale. Selection over the interruption's candidates
-adds nothing to selection alone; a verifier whose verdicts are written into
-the notebook does not raise the ceiling, and the model writes its own
-verdicts instead, 16.4 fabricated ``\texttt{\# Verifier:}'' lines per
-notebook against three real ones. Consolidation is different in kind: five
+raises document-level integration above every earlier arm (the causal decomposition matters: $+1.65$ against the
+verbatim context, $p=0.001$, ten premises, but $+0.45$, $p=0.13$, against
+a reset without the recap --- integration $+0.70$, development unchanged
+--- so most of the headline is the reset, and the recap adds integration
+on top), at no local cost; a standing question helps a little; neither,
+nor their combination, moves development above about 2 on a 0--10 scale. Selection over the interruption's candidates
+adds nothing to selection alone; on near-saturated variants, a verifier whose verdicts are written into
+the notebook does not improve held-out performance, and the model
+reproduces the verdict format instead, 16.4 fabricated
+``\texttt{\# Verifier:}'' lines per notebook against three real ones. Consolidation is different in kind: five
 cycles of LoRA fine-tuning on the model's own value-filtered candidates
 shift what it writes on distributions it never trained on toward value
-($-1.7$ points of excess over the base, $p=0.008$; $-3.1$ against a
-same-size random-consolidation control, $p=0.004$), without collapsing
-diversity; an anchored repulsion from the worst candidates moves the mass
-further, onto the best classic heuristic exactly, with every candidate at
-that level. But across every consolidation we ran, including two objectives
-built to keep the tails, the ceiling does not move, the shift does not
-transfer to other families, and the rate of candidates better than the
-classics on new families is highest in the untrained base and falls with
-training. Inference-time stimulation reorganizes a fixed prior; weight
+($-1.7$ points of excess over the base, $p=0.008$ --- in a
+sequential-analysis sense: the registered cycle-3 endpoint was not
+supported and the extension to five cycles was registered after seeing it;
+$-3.1$ against a same-size random-consolidation control, $p=0.004$). The
+adapter preserves syntactic uniqueness while substantially concentrating
+verified behaviour; an anchored repulsion from the worst candidates
+concentrates it fully, onto the best classic heuristic exactly. Across
+every consolidation we ran, including two small tail-preserving
+objectives, the best candidate observed under our budgets does not
+improve, the shift does not transfer to other families, and the rate of
+candidates better than the classics on new families is highest in the
+untrained base and falls with training --- all within a single training
+lineage, whose eight held-out variants replicate the adapter, not the
+procedure. Inference-time stimulation reorganizes a fixed prior; weight
 consolidation moves its mass toward the known good and pays for it with the
 tails where discovery would have to come from.
 \end{abstract}
@@ -98,7 +105,8 @@ unresolved matter rather than away from it \citep{zeigarnik1927behalten};
 interruption multiplies \citep{romeraparedes2024funsearch}; (iv) a
 \emph{verifier inside the stream}, whose verdict on each candidate is
 written back into the notebook; and (v) \emph{consolidation}, STaR/ReST
-cycles in which the model is fine-tuned (LoRA) on its own verified finds
+cycles in which the model is fine-tuned (LoRA) on its own
+training-verifier-selected candidates
 and generates again \citep{zelikman2022star,gulcehre2023rest,singh2023restem},
 followed by preference-based repulsion \citep{rafailov2023dpo} and by
 quality-diversity selection \citep{mouret2015mapelites,lehman2011novelty}
@@ -116,7 +124,7 @@ further. Across all injections development stays near 2/10: the
 \emph{progression wall}. (3) Selection over the interruption's candidates
 and a verifier inside the stream both leave the ceiling where it was; the
 latter produces a new phenomenon, fabricated verifier verdicts, which we
-quantify. (4) Consolidation by LoRA on verified finds moves the candidate
+quantify. (4) Consolidation by LoRA on training-verifier-selected candidates moves the candidate
 distribution on never-seen variants of the trained family toward value
 ($p=0.008$ after five cycles; vs a random-consolidation control $p=0.004$),
 keeps diversity over five cycles, leaves the ceiling where it was and does
@@ -311,10 +319,14 @@ is near-optimal on these distributions.
 the scoreboard) against about three real ones: verdicts with invented
 scores and ``new best of this notebook'' that the harness never issued.
 Injecting the \emph{format} of a reward signal into the context makes a
-base model generate its own reward; entrainment on the verdict is the code
-cousin of the self-copy the companion study found on narrative. Any design
-that places a verifier's output in a model's prompt should expect this and
-measure it.
+base model continue a highly predictable textual pattern present in its
+context; whether the fabrication functions as reward or as mere format
+imitation is untested (no fabricated verdict was produced by the harness;
+their correlation with true scores and their effect on subsequent
+candidates are open analyses). The rule is narrower than ``keep verdicts
+out of the prompt'': do not place forgeable verifier syntax in the same
+generative channel without provenance (a non-generable channel, a nonce,
+reserved tokens) and without measuring imitation.
 
 \section{Consolidation: moving the prior}
 \label{sec:consolidation}
@@ -401,7 +413,8 @@ C4: no collapse over five cycles; the distinct/valid ratio is 0.97--1.00
 throughout, literal copies of the training set 1--16\% (attract); every
 adapter makes the model write 3.6--4$\times$ more functions per notebook.
 Far transfer: on six distributions of other families the final attract
-adapter equals the base on the mean ($+0.001$, $p=0.69$, $n=5$) and beats
+adapter equals the base on the mean ($+0.001$, $p=0.69$; $n=5$ of the six
+far families --- the base arm produced no valid candidate in one) and beats
 the random adapter by $-0.020$ ($p=0.016$); the random adapter is worse
 than the base there too ($+0.017$). What moved is the prior for the family
 it was trained on. The adapter of the last cycle was taught mostly
@@ -489,7 +502,8 @@ verifier in the stream, a judge-gated review, five cycles of attraction,
 four kinds of repulsion and a quality-diversity consolidation all leave
 development near 2/10 and the verified ceiling where it was.
 
-\paragraph{The bit distance.} A generative model is a distribution, not a
+\paragraph{The bit distance (a conceptual model consistent with, not
+demonstrated by, these data).} A generative model is a distribution, not a
 store; the question is not whether an answer is ``inside'' it but how much
 probability mass sits near it, how many bits of search separate the prior
 from the target. Inference-time stimulation reorganizes the surface of a
@@ -525,12 +539,22 @@ bounds what selection and feedback could show there (battery C's family was
 chosen for headroom for that reason, and its headroom is still small:
 0.3--0.5 points); the oracle that writes recaps and questions is the
 generator itself and sometimes repeats itself, which the anti-copy ladder
-mitigates but does not remove; battery C is five cycles of forty examples
-on an 8B model with a rank-8 adapter, its primary contrast missed $\alpha$
-at the pre-registered third cycle ($p=0.11$) and closed at the pre-registered
-extension to five ($p=0.008$), its base arm varies by seed, the far
-families are six and the tail rates rest on tens of candidates, and the
-strict find criterion admits lucky candidates (training finds lose on
+mitigates but does not remove; battery C is ONE training lineage of five cycles of forty examples on an
+8B model with a rank-8 adapter --- the eight held-out variants replicate
+the adapter, not the training procedure, and independent lineages (new
+generation seeds, new example sampling, fresh never-consulted held-outs,
+a stopping rule fixed in advance) are the required next step; its primary
+contrast missed $\alpha$ at the registered third cycle ($p=0.11$) and
+closed only in a sequential-analysis sense at the extension to five
+($p=0.008$), the held-out set having been consulted at both looks; its
+base arm varies by seed; candidate counts differ by arm (47--334), so the
+observed best is not an equal-budget comparison of tails --- best-of-$k$
+and pass@$k$ analyses at matched $k$ are being added; the far families
+are six (paired $n=5$) and the tail rates rest on tens of candidates; the
+QD arm is a small implementation (three niches per variant), so
+``tail-preserving objectives keep the mediocre'' is a statement about this
+implementation, not the class \citep{wan2025loongflow}; and the
+selection criterion admits lucky candidates (training finds lose on
 test), which is why the primary measure is the mean and not the best. The
 negative results are resolution-bounded nulls, not proofs of absence; the
 tail finding in particular deserves replication at a larger sample and on a
@@ -543,7 +567,8 @@ Given memory, tension, selection and a verifier, the interrupted loop
 composes better and advances no further. A schematic memory is worth having;
 a standing question helps a little; selection and in-stream verification add
 nothing to what they replace, and the latter teaches the model to invent its
-own verdicts. Consolidating verified finds into the weights is the one
+own verdicts. Consolidating training-verifier-selected candidates into
+the weights is the one
 intervention that moved what the model writes on problems it had not seen,
 and it moved it toward what it already knew to be good; repelling the bad,
 anchored, moved it all the way there and no further; keeping the tails kept
