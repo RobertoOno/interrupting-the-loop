@@ -1405,6 +1405,20 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**F-ext2 (pré-registro, 2026-08-24 ~05:30, antes de rodar; DISPARO pelo
+Roberto quando a máquina estiver livre)** — extensão de N do fatorial: TRÊS
+problemas novos portados dos notebooks oficiais com as convenções exatas —
+**maxmin16** (razão máx/mín ao quadrado, minimizar; recorde 12,889266112),
+**heiltri11** (Heilbronn no triângulo equilátero, área mínima normalizada,
+maximizar; recorde ~0,0365), **factn180** (180! em 180 fatores, maximizar o
+menor; recorde 54, verificação exata) × 5 braços × 2 réplicas, MESMO
+orçamento da F (120 amostras/corrida; 30 corridas ≈ 13 h; resumível;
+`scripts/run_f_ext2.sh`). Análise agregada passa a n = 9 células (p mínimo
+1/512). Hipóteses (fixadas agora): **F1'' (primária)**: frac(E) > frac(A)
+no agregado n = 9 (2 réplicas); **F6''**: frac(E) > frac(D); **F4''**:
+div(D) > div(A); F7'' descritivo (colapsos). Nada mais será promovido a
+confirmatório. Sementes dos seeds verificadas (heiltri com min-área > 0).
+
 **Recorde-4 — resultado (00:15–~04:45)**: teto de tempo 3× (60 s) moveu o
 platô em **+0,0002** — melhor 0,389934 (frac 0,917; 74% válidos, 206
 comportamentos distintos; ganhos tardios na 5ª casa nas ger. 15 e 23).

@@ -67,6 +67,42 @@ PROBLEMS = {
             "60 seconds — heavier local optimization is allowed."),
         "seed_program": "def construct(L):\n    return [1.0] * L\n",
     },
+    "maxmin16": {
+        "module": "maxmin", "entry": "construct", "args": (16, 2), "maximize": False,
+        "best_known": 12.889266112,  # AlphaEvolve 2025; Friedman's table had 12.89
+        "statement": (
+            "Max/min distance ratio. Place n = 16 points in the plane to MINIMIZE the ratio "
+            "(max pairwise distance / min pairwise distance)^2 (the squared ratio is the score, as in Friedman's "
+            "tables). Best known: 12.889266112. Write a Python function `construct(n, d)` returning a list of n "
+            "points, each a list/tuple of d floats. numpy and scipy are available; deterministic; time limit 60 s."),
+        "seed_program": "def construct(n, d):\n    k = 4\n    return [(float(i), float(j)) for i in range(k) for j in range(k)][:n]\n",
+    },
+    "heiltri11": {
+        "module": "heiltri", "entry": "construct", "args": (11,), "maximize": True,
+        "best_known": 0.0365,  # AlphaEvolve 2025 (> 0.0365); SOTA before: 0.036
+        "statement": (
+            "Heilbronn problem in a triangle. Place n = 11 points on or inside the equilateral triangle with "
+            "vertices (0, 0), (1, 0), (0.5, sqrt(3)/2) to MAXIMIZE the minimum area among all C(11, 3) triangles "
+            "formed by the points, normalized by the big triangle's area (unit-area convention). Best known: "
+            "about 0.0365. Degenerate (collinear) triples give area 0, so avoid collinear placements. Write a "
+            "Python function `construct(n)` returning a list of n (x, y) tuples. numpy and scipy are available; "
+            "deterministic; time limit 60 s."),
+        "seed_program": ("def construct(n):\n    rows = [(0.5, 0.8), (0.3, 0.46), (0.7, 0.44), (0.5, 0.3),"
+                         " (0.15, 0.13), (0.42, 0.11), (0.68, 0.14), (0.88, 0.05), (0.06, 0.04), (0.28, 0.02), (0.55, 0.015)]\n"
+                         "    return rows[:n]\n"),
+    },
+    "factn180": {
+        "module": "factorial_min", "entry": "construct", "args": (180,), "maximize": True,
+        "best_known": 54.0,  # AlphaEvolve 2025 (exact); 51 before; since improved further by others
+        "statement": (
+            "Factor N! into N factors. Write the integer 180! as a product of exactly 180 positive integers, "
+            "MAXIMIZING the smallest factor. The verifier checks the product in exact arithmetic. Best known "
+            "minimum factor: 54 (previously 51). A good program factors 180! into primes and assigns prime powers "
+            "to 180 buckets to balance the smallest products. Write a Python function `construct(n)` returning the "
+            "list of n integers. numpy and scipy are available; deterministic; time limit 60 s."),
+        "seed_program": ("def construct(n):\n    import math\n    out = [1] * n\n    out[-1] = math.factorial(n)\n"
+                         "    for _ in range(0):\n        pass\n    return out\n"),
+    },
     "ringload15": {
         "module": "ringload", "entry": "construct", "args": (15,), "maximize": True,
         "best_known": 1.1190,  # AlphaEvolve new result at m = 15
