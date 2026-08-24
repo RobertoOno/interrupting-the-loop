@@ -140,7 +140,7 @@ descartados como limite → parede de FAMÍLIA de construção ("a última milha
 `docs/figures/fig_f4_proposer_curve.png`. Fase 4 encerrada para escrita.
 
 **Em aberto**: paper 3 (esqueleto + escrita); divulgação coordenada;
-JUDGe (submeter até 29/08 quando OpenReview ativar); incorporar revisão do
+JUDGe SUBMETIDO 24/08 (notificação 29/09; Roberto é reciprocal reviewer em setembro); incorporar revisão do
 paper 2; opcional: extensão n=9 do fatorial; contribuição ao repositório
 AlphaEvolve;
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
