@@ -63,7 +63,8 @@ PROBLEMS = {
             "Beat-the-average game. Choose a probability mass function p on {0, 1, ..., L-1} (L = 20000) for i.i.d. "
             "variables X1..X4 to MAXIMIZE P[X1 + X2 + X3 < 2 X4]. Write a Python function `construct(L)` returning a "
             "list of L non-negative floats (the verifier normalizes them). The best known value is 0.400695; sparse, "
-            "carefully placed atoms do well. numpy and scipy are available; deterministic, under 20 seconds."),
+            "carefully placed atoms do well. numpy and scipy are available; deterministic; your program's TIME LIMIT is "
+            "60 seconds — heavier local optimization is allowed."),
         "seed_program": "def construct(L):\n    return [1.0] * L\n",
     },
     "ringload15": {
