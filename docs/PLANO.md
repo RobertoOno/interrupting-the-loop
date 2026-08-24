@@ -1405,6 +1405,14 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Recorde-2 — resultado (21:27–22:5x)**: 30B local em L = 20000 terminou em
+**0,356105** — PIOR que os 0,3816 do mesmo braço em L = 5000 com o mesmo
+orçamento. R2' respondida: para o propositor local, a grade fina NÃO
+compra melhora a orçamento igual (colocar átomos certos em 20.000 índices é
+mais difícil; o limite era o propositor, não a grade). Parcial da Recorde-3
+no mesmo instante: Claude na ger. 8 (~100 amostras) já em **0,389731 —
+acima do 0,3890 reportado pelo AlphaEvolve**, a 0,011 do recorde.
+
 **Recorde-3 (pré-registro, 2026-08-23 ~22:20, antes de rodar) — propositor
 de fronteira.** Braço E, beat-the-average **L = 20000**, propositor =
 **Claude Opus 5 via Bedrock** (o caminho dos juízes, `AnthropicBedrockMantle`,
