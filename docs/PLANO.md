@@ -1388,6 +1388,29 @@ problemas tratáveis — Heilbronn 48/49, razão max/min 50 ou fatoração de N!
 38 — n = 9, p mínimo 1/512), a pré-registrar se formos; (ii) reportar como
 está. Decisão adiada para depois da corrida de recorde.
 
+**Corrida de recorde — resultado (2026-08-23, 18:25–21:12)**: **R1: recorde
+NÃO batido** — melhor pmf verificada **E: 0,381593** (frac 0,853; 98%
+válidos; 566 comportamentos distintos em 600 amostras); D: 0,351378 (frac
+0,620). **R2 (escala) — inversão informativa**: a 120 amostras D
+liderava este problema (0,3547 vs E 0,3500); a 600, **E dispara (0,3816) e
+D estaciona (0,3514)** — a repulsão pura gera dispersão que não acumula
+direção; a composição (memória+agenda+repulsão) escala. Quinta aparição da
+lei da âncora, agora como curva de escala. **R3 (limite de L)**: a melhor
+construção do E é **conceitualmente correta e legível** — medida esparsa
+bimodal com 16 átomos: metade da massa em {0,1,2,3} e átomos com
+espaçamento geométrico no topo {4999, 4997, …} (o programa COMENTA a
+estratégia); a estrutura bate com as "medidas ótimas esparsas" citadas no
+notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
+0,389 com L = 20000 (4× mais fino); nosso 0,3816 em L = 5000 com átomos
+espremidos na borda superior sugere que L limita. Conforme pré-registro,
+mudança de L = corrida NOVA:
+
+**Recorde-2 (pré-registro, 2026-08-23 ~21:40, antes de rodar)**: braço E,
+mesmos parâmetros, **L = 20000** (`beatavg20k` no harness; verificador ~3×
+mais lento), 50 ger. × 2 ilhas × 6 = 600 amostras (~3–4 h). R1': melhor
+verificado > 0,400695. R2': comparação com L = 5000 no mesmo orçamento
+(quanto o refinamento de grade compra). Único braço; sem outras mudanças.
+
 **Corrida de recorde (pré-registro, 2026-08-23 ~18:40, antes de rodar)** —
 o teste de existência: o office-scale bate um melhor-conhecido? Problema:
 **beat-the-average** (folga garantida: melhor conhecido Bellec–Fritz
