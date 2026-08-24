@@ -1406,10 +1406,13 @@ espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
 **Análises de orçamento igualado da C (24/08, dos logs; pedido A3 do
-parecer; `docs/APPENDIX_C_BOK.md`)**: com k = 10 igualado por subamostra,
-best-of-k held-out — base 0,0313 / attract 0,0290 / random 0,0341 (attract
-levemente melhor que o base MESMO no melhor, ao contrário da leitura com
-orçamentos crus); pass@k vs clássicos = 0 em todos (confirma teto).
+parecer; `docs/APPENDIX_C_BOK.md`)**: com k = 10 igualado por subamostra —
+attract 0,0311 (8/8 variantes) vs random 0,0381 (8/8): attract melhor a
+orçamento igual; a comparação com o BASE quase não existe a k igualado
+(o base só tem ≥10 válidos em 1/8 variantes — 0,0449 nessa única), o que
+por si responde ao parecer: o déficit de "best" do base era em parte
+déficit de PRODUÇÃO de candidatos válidos. pass@k vs clássicos = 0 em
+todos os braços (teto confirmado sob k igualado).
 Quantis (teste, agrupado): attract domina o base em p10/p50/p90 (0,0257/
 0,0283/0,0676 vs 0,0285/0,0483/0,1075) — o deslocamento é de distribuição
 inteira, não só de média; random pior que o base em p50 (0,0754). A
