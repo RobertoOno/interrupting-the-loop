@@ -1405,6 +1405,17 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Análises de orçamento igualado da C (24/08, dos logs; pedido A3 do
+parecer; `docs/APPENDIX_C_BOK.md`)**: com k = 10 igualado por subamostra,
+best-of-k held-out — base 0,0313 / attract 0,0290 / random 0,0341 (attract
+levemente melhor que o base MESMO no melhor, ao contrário da leitura com
+orçamentos crus); pass@k vs clássicos = 0 em todos (confirma teto).
+Quantis (teste, agrupado): attract domina o base em p10/p50/p90 (0,0257/
+0,0283/0,0676 vs 0,0285/0,0483/0,1075) — o deslocamento é de distribuição
+inteira, não só de média; random pior que o base em p50 (0,0754). A
+limitação "best de 47 vs best de 226" está respondida no apêndice novo e
+citada nas Limitations do paper 2.
+
 **Fatorial 2³ — completamento (pré-registro, 2026-08-24 ~08:40, antes de
 rodar; em resposta ao parecer externo)** — braços que faltavam: **BC**
 (memória+agenda), **BD** (memória+repulsão), **CD** (agenda+repulsão) × 9
