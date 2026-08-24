@@ -217,6 +217,7 @@ def main():
     ap.add_argument("--repel-prompt", action="store_true", help="list already-found constructions in the prompt as things not to reproduce")
     ap.add_argument("--max-tokens", type=int, default=700); ap.add_argument("--temp", type=float, default=1.0); ap.add_argument("--min-p", type=float, default=0.05)
     ap.add_argument("--chat", action="store_true", help="wrap prompts with the chat template (instruct/coder proposers); the program is read from the reply")
+    ap.add_argument("--verify-timeout", type=int, default=20, help="sandbox time limit per candidate (seconds)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     a = ap.parse_args()
     P = PROBLEMS[a.problem]
@@ -255,7 +256,7 @@ def main():
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     hist = out / "history.jsonl"; state_p = out / "state.json"
     rng = random.Random(a.seed)
-    seed_res = run_candidate(P["seed_program"], P["module"], P["entry"], P["args"])
+    seed_res = run_candidate(P["seed_program"], P["module"], P["entry"], P["args"], timeout_s=a.verify_timeout)
     islands = [[{"code": P["seed_program"], "score": seed_res["score"], "hash": "seed", "sig": seed_res.get("sig", "")}] for _ in range(a.islands)]
     recent_by_island = [[] for _ in range(a.islands)]
     gen0 = 0
@@ -325,7 +326,7 @@ def main():
                 else:
                     h = hashlib.md5(re.sub(r"\s+", " ", code).encode()).hexdigest()[:12]
                     rec["hash"] = h
-                    res = run_candidate(code, P["module"], P["entry"], P["args"], prelude=prelude)
+                    res = run_candidate(code, P["module"], P["entry"], P["args"], prelude=prelude, timeout_s=a.verify_timeout)
                     rec["ok"] = bool(res.get("ok"))
                     if res.get("ok"):
                         sc = float(res["score"]); rec["score"] = sc; n_ok += 1

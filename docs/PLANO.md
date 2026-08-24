@@ -1405,6 +1405,27 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Recorde-3 — resultado (21:53–00:0x)**: **recorde nao batido** — Claude
+Opus 5 terminou em **0,389731** (frac 0,916; 300 amostras, 75% válidos, 224
+comportamentos distintos), platô da ger. 8 à 25. **Curva da força do
+propositor (mesmo loop, orçamento comparável)**: 30B@L5000 0,3816 (600
+am.) · 30B@L20000 0,3561 (600) · **Claude@L20000 0,3897 (300; nível
+atingido já com ~30–100 amostras)** — o propositor de fronteira alcança em
+dezenas de amostras o que o local nunca alcançou, e ULTRAPASSA o valor
+reportado pelo AlphaEvolve (0,3890). A melhor construção do Claude é
+matematicamente sofisticada e legível: objetivo EXATO para átomos esparsos
+com gradiente analítico + otimizador de pesos multiplicativos — outra
+classe de programa vs o 30B. **O platô em ~0,3897 com dois propositores
+independentes** (e o AlphaEvolve no mesmo nível) sugere barreira estrutural
+da família de construções esparsas + limites do harness: 43 erros "lista de
+20000" e timeouts de 20 s cortando otimizadores pesados. → **Recorde-4
+(pré-registro, 2026-08-24 ~00:20, antes de rodar)**: única mudança =
+**timeout do verificador 20 s → 60 s** (flag `--verify-timeout`; o
+enunciado passa a declarar o limite de 60 s); Claude, L=20000, braço E, 25
+ger. × 2 × 6 = 300 amostras (~US$ 25–55). Hipótese registrada: se o platô
+NÃO se mover com o teto de tempo, a leitura final é barreira de FAMÍLIA de
+construção (falta ideia, não computação) — e a fase 4 fecha com esse mapa.
+
 **Recorde-2 — resultado (21:27–22:5x)**: 30B local em L = 20000 terminou em
 **0,356105** — PIOR que os 0,3816 do mesmo braço em L = 5000 com o mesmo
 orçamento. R2' respondida: para o propositor local, a grade fina NÃO
