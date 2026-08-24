@@ -206,6 +206,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--problem", choices=sorted(PROBLEMS), required=True)
     ap.add_argument("--model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit"); ap.add_argument("--adapter", default="none")
+    ap.add_argument("--api-model", default="none", help="Bedrock model id (e.g. anthropic.claude-opus-5): propose via API instead of the local model; implies chat-style prompts")
     ap.add_argument("--gens", type=int, default=10); ap.add_argument("--samples", type=int, default=8)
     ap.add_argument("--islands", type=int, default=2); ap.add_argument("--elites", type=int, default=3)
     ap.add_argument("--novelty", choices=["none", "score", "behavior"], default="none",
@@ -218,6 +219,15 @@ def main():
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     a = ap.parse_args()
     P = PROBLEMS[a.problem]
+    api = None
+    if a.api_model != "none":
+        from creative_machine.blend import BedrockClient
+        _bc = BedrockClient(effort="low")   # the judges' known-good path; low effort = fast proposer
+        def api(message, max_tokens):
+            try:
+                return _bc.chat(a.api_model, "You are an expert at writing short, correct, self-contained Python programs for mathematical constructions.", message, max_tokens=max_tokens)
+            except Exception as exc:
+                return f"(api error: {str(exc)[:80]})"
     # one model process at a time: a second 30B instance exhausts unified memory (machine rebooted 2026-08-22)
     import os, subprocess
     me = {str(os.getpid()), str(os.getppid())}
@@ -231,12 +241,16 @@ def main():
             continue   # only real python model processes, not the shells that launched us
         if any(k in cmd for k in ("frontier_search.py", "dream_run.py", "consolidate.py gen", "mlx_lm lora", "dpo_lora.py", "problem_loop.py", "evolve_interrupt.py")):
             others.append(l)
-    if others and not os.environ.get("CM_ALLOW_MULTI"):
+    if others and api is None and not os.environ.get("CM_ALLOW_MULTI"):   # API-only runs load no local model
         print("REFUSING TO START: another model process is running (set CM_ALLOW_MULTI=1 to override):\n  " + "\n  ".join(o[:120] for o in others), flush=True)
         sys.exit(3)
-    from mlx_lm import load, stream_generate
-    from mlx_lm.sample_utils import make_sampler
-    model, tok = load(str(Path(a.model).expanduser()), adapter_path=(None if a.adapter == "none" else a.adapter))
+    if api is None:
+        from mlx_lm import load, stream_generate
+        from mlx_lm.sample_utils import make_sampler
+        model, tok = load(str(Path(a.model).expanduser()), adapter_path=(None if a.adapter == "none" else a.adapter))
+    else:
+        model = tok = None
+        import concurrent.futures as _cf
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     hist = out / "history.jsonl"; state_p = out / "state.json"
     rng = random.Random(a.seed)
@@ -248,13 +262,29 @@ def main():
         st = json.loads(state_p.read_text()); islands = st["islands"]; gen0 = st["gen"] + 1
     best = max(e["score"] for isl in islands for e in isl)
     print(f"{a.problem}: seed score {seed_res['score']:.4f}; best known {P['best_known']}; resume at gen {gen0}", flush=True)
-    sampler = make_sampler(temp=a.temp, min_p=a.min_p)
+    sampler = None if api else make_sampler(temp=a.temp, min_p=a.min_p)
     for g in range(gen0, a.gens):
         t0 = time.time(); n_ok = n_new = 0
         for k, isl in enumerate(islands):
             elites = sorted(isl, key=lambda e: e["score"], reverse=P["maximize"])[: a.elites]
-            recap = write_recap(model, tok, sampler, P, isl, recent_by_island[k], chat=a.chat) if a.memory == "schema" else None
-            agenda = write_agenda(model, tok, sampler, P, elites[0], chat=a.chat) if a.agenda else None
+            if api is not None:
+                recap = agenda = None
+                if a.memory == "schema":
+                    es = sorted(isl, key=lambda e: e["score"], reverse=P["maximize"])[:3]
+                    fails = [r for r in recent_by_island[k] if not r.get("ok")][-6:]
+                    cue = f'"""{P["statement"]}"""\n' + "\n".join(f"# Program {i} (score {e['score']:.6f}):\n{e['code']}" for i, e in enumerate(es))
+                    if fails:
+                        cue += "\n# Recent failures:\n" + "\n".join(f"#   {f.get('error','?')[:80]}" for f in fails)
+                    txt = api(cue + "\n\nWrite a terse lab notebook for this line of attack, as Python comment lines only (max 10 lines): "
+                                    "'# What worked:', '# What failed and why:', '# Open question:'. Base it ONLY on the programs and results above.", 300)
+                    recap = "\n".join(l if l.lstrip().startswith("#") else "# " + l.strip() for l in txt.replace("```", "").strip().splitlines()[:12])
+                if a.agenda:
+                    txt = api(f'"""{P["statement"]}"""\n# Current best (score {elites[0]["score"]:.6f}):\n{elites[0]["code"]}\n\n'
+                              "In ONE sentence: the single structural obstacle keeping this construction from a better score. Reply with the sentence only.", 80)
+                    agenda = txt.strip().split("\n")[0][:200]
+            else:
+                recap = write_recap(model, tok, sampler, P, isl, recent_by_island[k], chat=a.chat) if a.memory == "schema" else None
+                agenda = write_agenda(model, tok, sampler, P, elites[0], chat=a.chat) if a.agenda else None
             repel = [f"score {e['score']:.6f}, signature {e.get('sig','')}" for e in elites] if a.repel_prompt else None
             prompt = build_prompt(P, elites, a.memory, recap, agenda, repel)
             shown = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
@@ -264,20 +294,25 @@ def main():
             if recap or agenda:
                 with open(out / "notebook.jsonl", "a") as f:
                     f.write(json.dumps({"gen": g, "island": k, "recap": recap, "agenda": agenda}) + "\n")
-            if a.chat:
-                user = (prompt.rsplit(f"def {P['entry']}(", 1)[0].rstrip() + "\n\n"
+            user_msg = (prompt.rsplit(f"def {P['entry']}(", 1)[0].rstrip() + "\n\n"
                         f"Write the improved version now: a complete, self-contained Python program defining `def {P['entry']}(...)` "
                         f"(plus any helpers/imports it needs), returning the construction. Reply with ONE ```python code block and nothing else.")
-                prompt_used = tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True)
+            if api is not None:
+                prompt_used = user_msg
+            elif a.chat:
+                prompt_used = tok.apply_chat_template([{"role": "user", "content": user_msg}], tokenize=False, add_generation_prompt=True)
             else:
                 prompt_used = prompt
             ph = hashlib.md5(prompt.encode()).hexdigest()[:10]
             seen_scores = {round(e["score"], 6) for e in isl}
             seen_sigs = {e.get("sig", "") for e in isl}
             recent_by_island[k] = []
+            if api is not None:
+                with _cf.ThreadPoolExecutor(max_workers=min(6, a.samples)) as ex:
+                    api_texts = list(ex.map(lambda _: api(prompt_used, a.max_tokens), range(a.samples)))
             for s in range(a.samples):
-                text = "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
-                if a.chat:
+                text = api_texts[s] if api is not None else "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
+                if a.chat or api is not None:
                     full = text
                 else:
                     # the prompt ends with `def entry(`; some models repeat the header instead of continuing it

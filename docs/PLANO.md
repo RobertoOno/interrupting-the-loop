@@ -1405,6 +1405,19 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Recorde-3 (pré-registro, 2026-08-23 ~22:20, antes de rodar) — propositor
+de fronteira.** Braço E, beat-the-average **L = 20000**, propositor =
+**Claude Opus 5 via Bedrock** (o caminho dos juízes, `AnthropicBedrockMantle`,
+effort low; 6 chamadas concorrentes; max_tokens 6000), 25 ger. × 2 ilhas ×
+6 = **300 amostras** (custo estimado US$ 25–55; autorização geral de
+orçamento do Roberto cobre). Smoke registrado: em 1 geração × 2 amostras o
+propositor-Claude produziu 0,3505 — o nível que o 30B local levou ~300
+amostras para alcançar. R1'': melhor verificado > 0,400695. R2'':
+comparação de curvas (Claude vs 30B local no mesmo problema) — a resposta
+empírica à pergunta "com mais poder melhora?". Roda em PARALELO à
+Recorde-2 (API + verificador em CPU; sem conflito de GPU/memória; trava
+ajustada para permitir corridas só-API).
+
 **Recorde-2 (pré-registro, 2026-08-23 ~21:40, antes de rodar)**: braço E,
 mesmos parâmetros, **L = 20000** (`beatavg20k` no harness; verificador ~3×
 mais lento), 50 ger. × 2 ilhas × 6 = 600 amostras (~3–4 h). R1': melhor
