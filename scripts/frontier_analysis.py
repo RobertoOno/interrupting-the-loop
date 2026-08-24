@@ -8,7 +8,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent; R = ROOT / "runs/frontier/F"
 sys.path.insert(0, str(ROOT / "scripts"))
 from frontier_search import PROBLEMS
-ARMS = ["A", "B", "C", "D", "E"]
+ARMS = ["A", "B", "C", "D", "E", "BC", "BD", "CD"]
 def seed_score(P):
     sys.path.insert(0, str(ROOT / "src"))
     from creative_machine.frontier_exec import run_candidate
