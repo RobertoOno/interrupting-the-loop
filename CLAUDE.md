@@ -131,8 +131,18 @@ p=0,0625, 5/6), F4 suportada (repulsão → diversidade +0,32, p=0,047), D
 sozinho bimodal (melhor em pmfs/sequências, catastrófico em geometria), E
 nunca colapsa. `docs/APPENDIX_F.md`, `docs/FRONTEIRA_PROBLEMAS.md`.
 
-**Em aberto**: decisão pós-F (2ª semente vs escrever paper 3); incorporar
-revisão do paper 2; checagem do teto com Coder no bin packing (fila);
+**F-ext + recordes (23–24/08)**: F1'/F6 no teto de granularidade (p=0,0625,
+ICs>0), F4' fechada (p=0,0156); corrida de recorde no beat-the-average:
+inversão de escala (E escala, D estaciona), curva do propositor (30B 0,3816
+vs Claude 0,3897 = acima do AlphaEvolve reportado), grade e timeout
+descartados como limite → parede de FAMÍLIA de construção ("a última milha
+é uma ideia"). `docs/APPENDIX_F.md`, `runs/frontier/record/*`,
+`docs/figures/fig_f4_proposer_curve.png`. Fase 4 encerrada para escrita.
+
+**Em aberto**: paper 3 (esqueleto + escrita); divulgação coordenada;
+JUDGe (submeter até 29/08 quando OpenReview ativar); incorporar revisão do
+paper 2; opcional: extensão n=9 do fatorial; contribuição ao repositório
+AlphaEvolve;
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —
 esqueleto a montar); arXiv: **2608.19893** (anunciado 20/08); venue (NeurIPS workshops 29/08;
