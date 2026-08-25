@@ -1405,6 +1405,20 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**F-ext2 — resultado (2026-08-24 07:17 → 2026-08-25 00:52; n = 9 completo,
+2 réplicas, `docs/APPENDIX_F.md`)**: **F1'' (primária) SUPORTADA — E vs A
+em frac: +0,196 [+0,059, +0,343], p = 0,0234** (a extensão exigida pelo
+parecer entregou: com 9 células o teste exato tem resolução e a composição
+certifica). **F4'' (diversidade): p = 0,0039** — positiva nas 9 células,
+2 réplicas; a lei mais robusta da fase. **F6'' (âncora E vs D): +0,137,
+p = 0,156 — NÃO suportada**; a decisão causal fica com a interação I1 do
+2³ (rodando). F2'' (AUC): +0,115, p = 0,07. F7'': colapsos A:2 B:1 C:1
+D:3 E:1 (BC/BD/CD em curso, 0 até aqui). Achados por problema replicáveis:
+maxmin16 = B e D a 99,5–99,6% do recorde nas duas réplicas (composição no
+meio); factn180 = os 5 braços no MESMO platô 0,774 (teto de família);
+heiltri11 com variância entre réplicas. Candidato a corrida de recorde:
+**maxmin16** (pré-registrar após o 2³).
+
 **JUDGe 2026: SUBMETIDO (2026-08-24, ~16h)** — short paper "What an LLM
 Judge Cannot See in Long-Form Generation" no NeurIPS 2026 Workshop JUDGe
 (Atlanta, 12/12; deadline 30/08 8:59). OpenReview ativado no mesmo dia
