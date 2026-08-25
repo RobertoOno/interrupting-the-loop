@@ -27,6 +27,9 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | autocorr1 | D (s1) | 120 | 100% | 1.873585 | 0.254 | 0.147 | 0.98 | no |
 | autocorr1 | E (s0) | 120 | 95% | 1.918039 | 0.165 | 0.056 | 0.81 | no |
 | autocorr1 | E (s1) | 120 | 90% | 1.978531 | 0.043 | 0.018 | 0.57 | no |
+| autocorr1 | BC (s0) | 120 | 93% | 1.987568 | 0.025 | 0.024 | 0.73 | no |
+| autocorr1 | BD (s0) | 120 | 96% | 1.839013 | 0.324 | 0.263 | 0.84 | no |
+| autocorr1 | CD (s0) | 120 | 98% | 2.000000 | -0.000 | 0.000 | 0.97 | no |
 | beatavg | A (s0) | 120 | 94% | 0.296296 | 0.196 | 0.171 | 0.09 | no |
 | beatavg | A (s1) | 120 | 99% | 0.292462 | 0.167 | 0.166 | 0.26 | no |
 | beatavg | B (s0) | 120 | 96% | 0.342151 | 0.549 | 0.341 | 0.74 | no |
@@ -38,7 +41,8 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | beatavg | E (s0) | 120 | 88% | 0.349957 | 0.609 | 0.482 | 0.94 | no |
 | beatavg | E (s1) | 120 | 98% | 0.375915 | 0.809 | 0.597 | 0.97 | no |
 | beatavg | BC (s0) | 120 | 96% | 0.351320 | 0.620 | 0.576 | 0.60 | no |
-| beatavg | BD (s0) | 26 | 81% | 0.351535 | 0.621 | 0.346 | 0.90 | no |
+| beatavg | BD (s0) | 120 | 93% | 0.380638 | 0.846 | 0.689 | 0.97 | no |
+| beatavg | CD (s0) | 120 | 92% | 0.339249 | 0.527 | 0.445 | 0.95 | no |
 | maxmin16 | A (s0) | 120 | 100% | 16.273691 | 0.338 | 0.247 | 0.68 | no |
 | maxmin16 | A (s1) | 120 | 100% | 18.000000 | -0.000 | 0.000 | 0.12 | no |
 | maxmin16 | B (s0) | 120 | 79% | 12.917254 | 0.995 | 0.961 | 0.98 | no |
@@ -49,6 +53,9 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | maxmin16 | D (s1) | 120 | 91% | 12.908375 | 0.996 | 0.758 | 0.91 | no |
 | maxmin16 | E (s0) | 120 | 88% | 13.998662 | 0.783 | 0.469 | 0.90 | no |
 | maxmin16 | E (s1) | 120 | 97% | 14.760331 | 0.634 | 0.432 | 0.99 | no |
+| maxmin16 | BC (s0) | 120 | 87% | 13.010457 | 0.976 | 0.362 | 0.79 | no |
+| maxmin16 | BD (s0) | 120 | 96% | 12.918255 | 0.994 | 0.723 | 0.81 | no |
+| maxmin16 | CD (s0) | 10 | 70% | 18.000000 | -0.000 | 0.000 | 1.00 | no |
 | heiltri11 | A (s0) | 120 | 69% | 0.024936 | 0.657 | 0.577 | 0.99 | no |
 | heiltri11 | A (s1) | 120 | 73% | 0.025931 | 0.687 | 0.561 | 1.00 | no |
 | heiltri11 | B (s0) | 120 | 51% | 0.023197 | 0.606 | 0.228 | 1.00 | no |
@@ -92,6 +99,9 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | isofree64 | D (s1) | 120 | 77% | 29.000000 | 0.239 | 0.212 | 0.57 | no |
 | isofree64 | E (s0) | 120 | 72% | 64.000000 | 0.560 | 0.220 | 0.61 | no |
 | isofree64 | E (s1) | 120 | 32% | 64.000000 | 0.560 | 0.415 | 0.77 | no |
+| isofree64 | BC (s0) | 120 | 71% | 64.000000 | 0.560 | 0.457 | 0.91 | no |
+| isofree64 | BD (s0) | 120 | 31% | 64.000000 | 0.560 | 0.541 | 0.97 | no |
+| isofree64 | CD (s0) | 120 | 72% | 64.000000 | 0.560 | 0.532 | 1.00 | no |
 | sumdiff3 | A (s0) | 120 | 95% | 1.108290 | 0.367 | 0.349 | 0.75 | no |
 | sumdiff3 | A (s1) | 120 | 79% | 1.112278 | 0.418 | 0.073 | 0.66 | no |
 | sumdiff3 | B (s0) | 120 | 89% | 1.104225 | 0.316 | 0.255 | 0.51 | no |
@@ -102,6 +112,9 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | sumdiff3 | D (s1) | 120 | 75% | 1.104225 | 0.316 | 0.259 | 0.92 | no |
 | sumdiff3 | E (s0) | 120 | 48% | 1.107858 | 0.362 | 0.215 | 0.74 | no |
 | sumdiff3 | E (s1) | 120 | 69% | 1.107858 | 0.362 | 0.275 | 0.70 | no |
+| sumdiff3 | BC (s0) | 120 | 76% | 1.105251 | 0.329 | 0.128 | 0.89 | no |
+| sumdiff3 | BD (s0) | 120 | 92% | 1.104973 | 0.325 | 0.254 | 0.59 | no |
+| sumdiff3 | CD (s0) | 120 | 90% | 1.090101 | 0.137 | 0.109 | 0.94 | no |
 
 ## Pre-registered contrasts (cells = problems)
 
@@ -123,4 +136,4 @@ Arms: A = standard loop; B = schematic notebook memory; C = agenda (named obstac
 | F4 | D vs A | div | +0.307 [+0.149, +0.477] | 0.0039 | 9 |
 | F4b | E vs A | div | +0.284 [+0.111, +0.470] | 0.0039 | 9 |
 
-F7 (descriptive): collapses (frac < 0.05) per arm across replicate runs: A: 2, B: 1, C: 1, D: 3, E: 1, BC: 0, BD: 0, CD: 0
+F7 (descriptive): collapses (frac < 0.05) per arm across replicate runs: A: 2, B: 1, C: 1, D: 3, E: 1, BC: 1, BD: 0, CD: 2
