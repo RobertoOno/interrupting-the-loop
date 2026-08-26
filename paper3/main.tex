@@ -59,12 +59,13 @@ climbing while repulsion alone plateaus. Swapping the proposer for a frontier mo
 (Claude Opus~5) under the identical loop reaches in tens of samples what
 the local model does not reach in hundreds, locating the residual gap
 in the proposer's construction knowledge, not in the loop; tripling the
-verifier's time budget then moves the result by $+0.0002$. Across proposers, grids and time budgets the search stalls at
-$\approx$92\% of the best published lower-bound construction
+verifier's time budget then moves the result by $+0.0002$. Across proposers, grids and time budgets the search stalls after
+closing $\approx$92\% of the seed-to-reference gap toward the best
+published lower-bound construction
 \citep{bellec2024beat}, and the candidate programs of both proposers
 remain within a sparse-atom construction family. Office-scale verified
 search reaches 57--99.9\% of the reference values on these problems
-(median 89\%); we
+(raw value ratios, median 89\%); we
 state as a hypothesis, and design a test for, the reading that the
 remaining gap is a matter of construction family (an idea) rather
 than budget. We release the harness, every candidate, and the dated
@@ -338,9 +339,10 @@ The constructions are legible. The local model's best is a bimodal sparse
 measure of 16 atoms (half the mass on $\{0,1,2,3\}$, geometrically
 spaced atoms at the top), with the strategy stated in comments. Claude's
 best implements an exact sparse-atom objective with an analytic gradient
-and a multiplicative-weights refinement. Both proposers, and AlphaEvolve's
-published value, stall within half a percent of each other, at
-$\approx$92\% of a record whose construction evidently lies outside the
+and a multiplicative-weights refinement. The frontier proposer and AlphaEvolve's published value sit within
+0.0007 of each other; the local model stalls about 0.008 behind them.
+All three lie at 92--98\% of the seed-to-reference gap toward a
+reference whose construction evidently lies outside the
 sparse-atom family every language model proposes. Grid, time and proposer
 strength are ruled out; what remains is the family: an idea.
 
@@ -378,16 +380,19 @@ strong API models \citep{lange2025shinka}; the band we measure (local
 proposer, hundreds of samples, controlled operators) was unoccupied,
 and it is the band most laboratories can afford.
 
-\paragraph{The operator ledger.} Composition is the only arm that never
-collapsed, and its edge has a mechanism visible in the notebooks: the
-schematic memory keeps direction across generations, the agenda names the
-obstacle, and the repulsion spends the saved budget on genuinely different
-constructions. Alone, each fails somewhere: memory and agenda are inert on
-problems the model already saturates; repulsion starves fragile manifolds.
-This is the fifth time this program has measured the same law (pushing
-away from something only works while anchored to something) across
-narrative generation, weight-space preference optimization, and now
-prompt-space search.
+\paragraph{The operator ledger.} E had the highest mean and one
+collapse; memory+repulsion was the only zero-collapse arm, at a mean
+within $0.025$ of E's and without the agenda's extra call, so the
+parsimonious operational recipe these data support is memory+repulsion,
+with the full composition as the highest-mean variant. The mechanism is
+visible in the notebooks: the schematic memory keeps direction across
+generations and the repulsion spends the saved budget on genuinely
+different constructions. Alone, each fails somewhere: memory and agenda
+are inert on problems the model already saturates; repulsion starves
+fragile manifolds. This is a recurring collapse-prevention pattern,
+consistent with the anchoring hypothesis, that this program has now
+observed across narrative generation, weight-space preference
+optimization, and prompt-space search.
 
 \paragraph{The proposer comparison and the plateau.} On this one problem,
 the frontier proposer is far more sample-efficient ($+0.008$ absolute over
