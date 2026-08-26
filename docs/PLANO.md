@@ -1405,6 +1405,15 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**FP TRUNCADO ao beatavg (decisão 26/08 ~07:55, ANTES de ver os braços
+B/D)** — por foco (regra do ESTADO.md: fechar papers antes de bateria), o
+FP para após o trio do beatavg (A concluído 0,38707; B em curso; D em
+seguida; corte automático antes do maxmin16). maxmin16/heiltri11 NÃO
+rodam — economia ~US$100; o paper 3 reporta a mini-ablação A/B/D/E do
+beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
+como o dado de escopo. Se decidirmos completar depois, roda numa noite
+(o run_frontier_ops.sh é resumível e pula o que está pronto).
+
 **BATERIA L — o laço que dorme (PRÉ-REGISTRO, 2026-08-26 ~07:10, antes de
 rodar; aprovado pelo Roberto; NA FILA depois das linhagens C)** — decisão
 estratégica que a origina: o alvo científico do programa passa a ser **o
