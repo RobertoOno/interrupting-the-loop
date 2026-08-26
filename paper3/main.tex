@@ -55,11 +55,10 @@ at $n=9$), and anchoring survives only in the tail --- memory+repulsion
 never collapses in eighteen runs, against three for repulsion alone and
 four for agenda+repulsion. At a $5\times$ budget the composition keeps
 climbing while repulsion alone plateaus. Swapping the proposer for a frontier model
-(Claude Opus~5) under the same loop reaches in tens of samples what the
-local model does not reach in hundreds, and exceeds the value AlphaEvolve
-reported on the beat-the-average problem (0.3897 vs 0.3890) within 300
-samples; tripling the verifier's time budget then moves the result by
-$+0.0002$. Across proposers, grids and time budgets the search stalls at
+(Claude Opus~5) under the identical loop reaches in tens of samples what
+the local model does not reach in hundreds --- locating the residual gap
+in the proposer's construction knowledge, not in the loop; tripling the
+verifier's time budget then moves the result by $+0.0002$. Across proposers, grids and time budgets the search stalls at
 $\approx$92\% of the best published lower-bound construction
 \citep{bellec2024beat}, and the candidate programs of both proposers
 remain within a sparse-atom construction family. Office-scale verified
@@ -117,8 +116,11 @@ in weight space.
 (3) A \emph{scaling inversion}: from a 120-sample tie, the composed arm
 climbs to 0.3816 at 600 samples while repulsion alone stalls at 0.3514 ---
 diversity without accumulated direction does not compound.
-(4) The first controlled \emph{proposer-strength curve}: local 30B versus
-a frontier model under the identical loop and budget, on the same problem.
+(4) A controlled \emph{proposer comparison}: local 30B versus a frontier
+model under the identical loop and budget, on the same problem ---
+locating the residual gap in the proposer, with a pre-registered
+operator-scoping follow-up (do the operators still pay at frontier
+strength?) in progress.
 (5) An honest calibration of office-scale verified search --- 85--99\% of
 records at 120--600 samples --- and a characterized wall: grid resolution,
 verifier time and proposer strength each ruled out, leaving the
@@ -302,8 +304,10 @@ direction does not compound. (ii) \emph{Grid}: refining the pmf grid from
 $L{=}5000$ to $L{=}20000$ at equal budget makes the local proposer
 \emph{worse} (0.3561): the limit was not resolution. (iii)
 \emph{Proposer}: Claude Opus~5 under the identical loop reaches 0.3897
-within $\sim$100 samples --- past AlphaEvolve's reported value --- and
-plateaus there for 17 generations. (iv) \emph{Verifier time}: tripling the
+within $\sim$100 samples --- just above the repository's published value,
+which was obtained with 2025-era proposers; we read this as locating the
+wall, not as ranking systems across model generations --- and plateaus
+there for 17 generations. (iv) \emph{Verifier time}: tripling the
 sandbox budget to 60 seconds, so heavier optimizers can run, moves the
 plateau by $+0.0002$.
 
@@ -316,6 +320,18 @@ published value, stall within half a percent of each other, at
 $\approx$92\% of a record whose construction evidently lies outside the
 sparse-atom family every language model proposes. Grid, time and proposer
 strength are ruled out; what remains is the family --- an idea.
+
+A second problem sharpens where such ideas live. On max--min distance 16,
+the frontier proposer under the same loop emits, \emph{in generation
+zero} --- before any search feedback --- a minimax program (SLSQP on
+$\min t$ s.t.\ $d^2_{ij}\le t$, $d^2_{ij}\ge 1$, analytic Jacobians)
+whose value lies marginally below the repository's published one; every
+valid sample across the run converges to the same value. The loop
+verified this construction; it did not discover it. We treat the datum as
+scope, not as a record claim: the operators structure search and protect
+its tails, but they do not inject construction knowledge the proposer
+lacks --- which is precisely why the pre-registered operator-scoping runs
+ask what the operators still buy \emph{at} frontier strength.
 
 \section{Discussion}
 \label{sec:discussion}
@@ -391,9 +407,12 @@ not sampled randomly; \emph{frac} is floored at the seed by construction,
 signs are harmonized for minimization, and reference values are frozen at
 the repository commit recorded in the release; the scaling ladder is one
 domain; the API proposer is not bitwise reproducible and its reasoning
-effort was fixed low; and no system-level head-to-head with ShinkaEvolve
-or AlphaEvolve is attempted --- only published values are compared, on
-their own terms.
+effort was fixed low; comparisons against repository values compare a
+2026 proposer with values obtained by 2025-era systems, so they locate
+our wall and never rank systems --- no system-level head-to-head with
+ShinkaEvolve or AlphaEvolve is attempted, and the operators should be
+read as structuring search, not as a substitute for construction
+knowledge the proposer lacks.
 
 \section{Conclusion}
 \label{sec:conclusion}
@@ -401,7 +420,8 @@ their own terms.
 Inside a fixed verified-search loop at office scale, the cognitive
 operators our generation studies isolated --- schematic memory, a named
 obstacle, behavioural repulsion --- compose into the arm that was safest
-in these runs (one collapse in twelve, against three for repulsion alone)
+in these runs (one collapse in eighteen, against three for repulsion
+alone --- and zero for memory+repulsion)
 and the one that kept improving with budget; repulsion alone enforces
 behavioural non-duplication by construction and was the best single
 operator exactly where the valid manifold is wide; and on the one problem
