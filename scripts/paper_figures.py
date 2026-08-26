@@ -42,19 +42,21 @@ fig.savefig(OUT / "fig_c_mean_vs_best.png", bbox_inches="tight"); plt.close(fig)
 # ---- Paper 2, fig 2: the price in the tails (APPENDIX_N.md) ----
 arms = ["base", "attract", "qd", "repel\n(anchored)", "repel\n(mode)"]
 tail_far = [10.0, 3.9, 0.6, 0.0, 0.0]
+tail_n = ["1/18", "5/156", "1/158", "0/79", "0/28"]
 at_cls_ho = [20, 72, 25, 100, 2]
 CJ = [GRAY, BLUE, GREEN, VERM, PURPLE]
 fig, axes = plt.subplots(1, 2, figsize=(6.6, 2.4))
 for ax, vals, title, unit in ((axes[0], tail_far, "candidates better than the classic\n(far family)", "%"),
                               (axes[1], at_cls_ho, "candidates exactly at the classic's level\n(held-out)", "%")):
     bars = ax.bar(range(len(arms)), vals, color=CJ, width=0.62)
-    for b, v in zip(bars, vals):
-        ax.annotate(f"{v:g}{unit}", (b.get_x() + b.get_width() / 2, v), xytext=(0, 2),
-                    textcoords="offset points", ha="center", fontsize=8)
+    for i, (b, v) in enumerate(zip(bars, vals)):
+        lbl = f"{v:g}{unit}" + (f"\n({tail_n[i]})" if vals is tail_far else "")
+        ax.annotate(lbl, (b.get_x() + b.get_width() / 2, v), xytext=(0, 2),
+                    textcoords="offset points", ha="center", fontsize=7.5)
     ax.set_xticks(range(len(arms))); ax.set_xticklabels(arms, fontsize=8)
     ax.set_title(title, fontsize=9); ax.set_yticks([])
     for s in ("left",): ax.spines[s].set_visible(False)
-axes[0].set_ylim(0, 12.5); axes[1].set_ylim(0, 118)
+axes[0].set_ylim(0, 13.5); axes[1].set_ylim(0, 118)
 fig.tight_layout()
 fig.savefig(OUT / "fig_n_tails.png", bbox_inches="tight"); plt.close(fig)
 
@@ -74,15 +76,36 @@ for arm, (dv, fr, col, mem, rep) in cube.items():
 ax.set_xlabel("functional diversity (distinct behaviours / valid)")
 ax.set_ylabel("frac of seed→record gap closed")
 ax.set_xlim(0.37, 0.88); ax.set_ylim(0.41, 0.67)
-ax.annotate("memory on (blue) moves ↑", (0.385, 0.655), fontsize=8, color=BLUE)
-ax.annotate("repulsion on (circles) moves →", (0.385, 0.638), fontsize=8, color="#333333")
+ax.annotate("memory-on (blue): the four best means", (0.385, 0.655), fontsize=8, color=BLUE)
+ax.annotate("repulsion-on (circles): highest diversity", (0.385, 0.638), fontsize=8, color="#333333")
 ax.annotate("(n) = collapses in 18 runs", (0.385, 0.621), fontsize=8, color=GRAY)
 fig.tight_layout()
 fig.savefig(OUT / "fig_f23_cube.png", bbox_inches="tight"); plt.close(fig)
+# ---- Paper 3: forest of per-problem E-A effects (APPENDIX_F.md pooled fracs) ----
+forest = [("beat-the-average", .528), ("max–min 16", .539), ("ring loading", .364),
+          ("circle packing", .289), ("autocorr $C_1$", .045), ("Heilbronn 11", .028),
+          ("isosceles-free", 0.0), ("$180!$", 0.0), ("sum-difference", -.030)]
+forest.sort(key=lambda x: x[1])
+fig, ax = plt.subplots(figsize=(4.6, 2.9))
+ys = range(len(forest))
+ax.axvline(0, color="#999999", lw=0.8)
+ax.axvline(0.196, color=BLUE, lw=1.0, ls="--")
+ax.axvline(0.045, color=GRAY, lw=1.0, ls=":")
+ax.scatter([v for _, v in forest], list(ys), s=42, color=BLUE, zorder=3)
+ax.set_yticks(list(ys)); ax.set_yticklabels([n for n, _ in forest], fontsize=8)
+ax.set_xlabel("E $-$ A, frac of seed$\\to$record gap (pooled replicates)")
+ax.annotate("mean +0.196", (0.196, len(forest) - 0.6), xytext=(4, 0), textcoords="offset points",
+            fontsize=8, color=BLUE)
+ax.annotate("median +0.045", (0.045, 1.4), xytext=(4, 0), textcoords="offset points",
+            fontsize=8, color=GRAY)
+fig.tight_layout()
+fig.savefig(OUT / "fig_forest_ea.png", bbox_inches="tight"); plt.close(fig)
+
 import shutil
 for name, dests in (("fig_c_mean_vs_best.png", ["paper2/figures"]),
                     ("fig_n_tails.png", ["paper2/figures"]),
-                    ("fig_f23_cube.png", ["paper3/figures"])):
+                    ("fig_f23_cube.png", ["paper3/figures"]),
+                    ("fig_forest_ea.png", ["paper3/figures"])):
     for d in dests:
         (ROOT / d).mkdir(parents=True, exist_ok=True)
         shutil.copy2(OUT / name, ROOT / d / name)

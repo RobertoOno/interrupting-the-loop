@@ -21,55 +21,41 @@
 \title{The Last Mile Is an Idea:\\ Cognitive Operators, Proposer Strength and the Limits of\\ Office-Scale Verified Search}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{Draft v0.1 for review, \today}
+\date{Draft v0.2 for review, \today}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
 Verified search, in which a language model proposes programs, a hard
-evaluator scores them, and selection keeps the best, is how machine systems have
-recently moved mathematical records. The published systems vary the
-scaffolding (islands, model ensembles, novelty machinery) and report the
-wins; none measures, with controls, which parts of the \emph{proposer's
-cognition} matter. We instrument a minimal FunSearch-style loop at office
-scale (a 30B local model on a laptop, 120--600 verified samples per run)
-with three operators isolated in our earlier work on open-ended generation:
-a \emph{schematic notebook} the model writes and carries instead of
-verbatim elite programs, a \emph{named obstacle} (agenda), and
-\emph{behavioural repulsion} from constructions already found. On nine
-construction problems from a public repository of open problems (six in
-the original battery, three added in a pre-registered extension), an
-ablation of five arms (each operator alone and their triple
-composition; two replicates), completed to the full $2^3$ factorial,
-certifies the primary contrast:
-the composed operators close a larger fraction of the seed-to-record gap
-($+0.196$ pooled \ci{+0.059}{+0.343}, $p=0.023$, exact paired sign-flip
-over nine problems, two replicates); behavioural repulsion raises
-functional diversity in all nine problems and both replicates ($+0.31$,
-$p=0.0039$), with the caveat that the operator optimizes a quantity
-related to this outcome; and the completed $2^3$ rejects anchoring as an
-interaction (memory$\times$repulsion $\beta \approx 0$, $p=0.47$): the
-certified composite gain decomposes additively, with schematic memory the
-largest single share ($\sim$58\%; raw $p=0.047$, not surviving correction
-at $n=9$), and anchoring survives only in the tail: memory+repulsion
-never collapses in eighteen runs, against three for repulsion alone and
-four for agenda+repulsion. At a $5\times$ budget the composition keeps
-climbing while repulsion alone plateaus. Swapping the proposer for a frontier model
-(Claude Opus~5) under the identical loop reaches in tens of samples what
-the local model does not reach in hundreds, locating the residual gap
-in the proposer's construction knowledge, not in the loop; tripling the
-verifier's time budget then moves the result by $+0.0002$. Across proposers, grids and time budgets the search stalls after
-closing $\approx$92\% of the seed-to-reference gap toward the best
-published lower-bound construction
-\citep{bellec2024beat}, and the candidate programs of both proposers
-remain within a sparse-atom construction family. Office-scale verified
-search reaches 57--99.9\% of the reference values on these problems
-(raw value ratios, median 89\%); we
-state as a hypothesis, and design a test for, the reading that the
-remaining gap is a matter of construction family (an idea) rather
-than budget. We release the harness, every candidate, and the dated
-pre-registrations.
+evaluator scores them, and selection keeps the best, is how machine
+systems have recently moved mathematical records; controlled ablations of
+the proposer-side components remain rare. We instrument a minimal
+FunSearch-style loop at office scale (a 30B local model on a laptop,
+120--600 verified samples per run) with three operator packages: a
+\emph{schematic notebook} the model writes and carries instead of
+verbatim elites, a \emph{named obstacle} (agenda), and \emph{behavioural
+repulsion} from constructions already found. On nine construction
+problems from a public repository (six in the discovery battery, three in
+a prospectively registered extension), the complete $2^3$ factorial with
+two replicates supports the primary contrast: the composition closes more
+of the seed-to-record gap ($+0.196$ \ci{+0.059}{+0.343}, $p=0.023$
+combined; median per-problem effect $+0.045$). Repulsion raises
+functional diversity everywhere ($+0.31$, $p=0.0039$; the operator partly
+optimizes this quantity). The factorial rejects anchoring as an
+interaction (memory$\times$repulsion $\beta\approx 0$): the gain
+decomposes additively, memory carrying the largest share, and anchoring
+survives as collapse prevention: memory+repulsion is the only arm that
+never collapses (0 of 18 runs, against 3 for repulsion alone) and matches
+the full composition to within $0.025$. A frontier proposer under the
+identical loop reaches in tens of samples what the local model does not
+in hundreds, and its gains arrive without the operators; the tested grid,
+verifier-time and budget changes move nothing. The search stalls after
+closing $\approx$92\% of the gap toward the best published construction
+on the flagship problem, every proposer inside one construction family.
+We state as a registered hypothesis that the remaining gap is a matter of
+construction family, an idea, and release the harness, every candidate,
+and the dated pre-registrations.
 \end{abstract}
 
 \section{Introduction}
@@ -144,9 +130,16 @@ novelty-based rejection and bandit model selection \citep{lange2025shinka};
 ReEvo uses model-written reflections as ``verbal gradients''
 \citep{ye2024reevo}. Our schematic notebook differs from ReEvo's
 reflections in being a persistent, compressed lineage memory that
-\emph{replaces} verbatim elites rather than commenting on pairs; and none
-of these systems reports a controlled ablation of its own prompt
-components. LoongFlow \citep{wan2025loongflow} composes planning, hybrid
+\emph{replaces} verbatim elites rather than commenting on pairs. A recent
+wave adds persistent memory to evolutionary code search:
+$\varepsilon$-MemEvo transfers compact strategy summaries across tasks
+with an adaptive injection gate and reports gate ablations
+\citep{liu2026memevo}; EvoMem reuses mutation knowledge across runs
+\citep{volkov2026evomem}; MEMOIR shares algorithmic and failure-mode
+summaries across search branches \citep{haji2026memoir}. What remains
+absent, and what we contribute, is a complete factorial, within one task
+suite and under a fixed local proposer, of a schematic-notebook package,
+an obstacle line, and an exact behavioural duplicate control. LoongFlow \citep{wan2025loongflow} composes planning, hybrid
 memory and MAP-Elites niches into one system and reports large efficiency
 gains; it is the closest architecture to our composed arm, and exactly the
 kind of system whose components an ablation like ours aims to isolate.
@@ -184,7 +177,13 @@ shows the notebook and only the single best program. \textbf{C} (agenda):
 one model-written line naming the structural obstacle of the current best,
 appended to the prompt. \textbf{D} (behavioural repulsion): candidates
 whose construction duplicates an island member's are rejected, and the
-prompt lists already-found constructions as forbidden. \textbf{E}: B+C+D.
+prompt lists already-found constructions as forbidden. \textbf{E}: B+C+D. We refer to these as operator \emph{packages}: each
+bundles several changes at once (B replaces three verbatim elites with
+one, adds failure summaries and an open question, and spends an extra
+call; D combines a prompt-level forbidden list with a post-verification
+duplicate filter), so the factorial isolates packages, not single
+cognitive mechanisms; a finer within-package decomposition is registered
+as future work.
 
 \paragraph{Problems.} Nine construction problems ported from the official
 repository notebooks, chosen for cheap exact verification and known
@@ -239,13 +238,31 @@ same wall.}
 \label{tab:factorial}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.6\linewidth]{fig_forest_ea.png}
+\caption{The primary contrast, problem by problem: E $-$ A on the
+fraction of the seed-to-record gap closed (pooled over two replicates).
+The mean is $+0.196$; the median, $+0.045$; leave-one-problem-out means
+stay between $+0.153$ and $+0.224$.}
+\label{fig:forest}
+\end{figure}
+
 Pre-registered contrasts (exact paired sign-flip over problems, cells =
 problems, pooled replicates). The original six-problem battery put the
 primary contrast at the design's resolution floor ($+0.199$, $p=0.0625$;
 with six cells and one adverse problem the exact test cannot go below
-$4/64$); the pre-registered nine-problem extension certifies it:
+$4/64$); the prospectively registered nine-problem extension supports it:
 \textbf{F1} (primary), E vs A on frac: $+0.196$ \ci{+0.059}{+0.343},
-$p=0.023$. \textbf{F4}, D vs A on functional diversity: $+0.307$
+$p=0.023$ over the combined nine problems. We report the stages
+separately, since the combination is a two-look sequence rather than an
+independent confirmation: the three extension problems alone are positive
+but underpowered ($+0.19$ on average, $p=0.25$, carried mostly by
+max--min distance). The effect is also heterogeneous
+(Figure~\ref{fig:forest}): the median per-problem effect is $+0.045$,
+leave-one-problem-out means span $+0.153$ to $+0.224$, with large gains
+on four problems, little on four, and one small loss.
+\textbf{F4}, D vs A on functional diversity: $+0.307$
 \ci{+0.149}{+0.477}, $p=0.0039$, the minimum attainable $p$, positive
 in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
 D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$: not supported as a
@@ -280,19 +297,28 @@ schematic memory is the largest single term ($\beta=+0.057$
 repulsion ($+0.011$) near zero on frac. The decomposition is exact
 ($E-A = 2\,(\beta_M+\beta_A+\beta_R+\beta_{MAR}) = 0.196$): the
 certified composite gain splits as roughly $58\%$ memory, $16\%$
-agenda, $12\%$ repulsion and $14\%$ three-way; at $n=9$ the total
+agenda, $12\%$ repulsion and $14\%$ three-way (a descriptive
+decomposition with wide per-term intervals); at $n=9$ the total
 certifies, the parts do not. Two patterns in the cube are worth the trip. First, each
 operator has one job (Table~\ref{tab:factorial}, Figure~\ref{fig:cube}): the four memory-on
 cells hold the four best mean fracs, while every repulsion-on cell sits
 at $0.68$--$0.80$ functional diversity against $0.41$--$0.59$ without
-it: memory moves the gap, repulsion moves diversity. Second, the
-anchor lives in the tail, not the
+it; directionally, memory moves the gap and repulsion moves diversity,
+with the caveat that the memory main effect does not survive correction.
+Second, the anchor lives in the tail, not the
 mean: memory+repulsion is the only arm that never collapses (0 of 18
 runs, against 3 for repulsion alone and 4 for agenda+repulsion, the
 cube's worst), so what memory buys repulsion is insurance against
 starving the island, not superadditive mean gain. Agenda, decomposed at
 last, pays for neither: near-zero on frac alone, and the worst collapse
-count when paired with repulsion.
+count when paired with repulsion. Exploratory pairwise contrasts back the
+parsimony reading: E vs BD $+0.025$ ($p=0.55$, median $0.000$), E vs B
+$+0.039$ ($p=0.47$), BD vs B $+0.014$ ($p=0.81$), all null at $n=9$. The
+collapse asymmetry is robust to the threshold: at frac $\le 0$, $<0.01$,
+$<0.05$ and $<0.10$ the counts stay 3/3/3/3 for repulsion alone and
+3/4/4/4 for agenda+repulsion against 0/0/0/0 for memory+repulsion, and
+no run anywhere produced zero valid candidates, so these are performance
+collapses, not validity collapses.
 \end{sloppypar}
 
 The heterogeneity is the finding the factorial adds to the literature:
@@ -343,8 +369,14 @@ and a multiplicative-weights refinement. The frontier proposer and AlphaEvolve's
 0.0007 of each other; the local model stalls about 0.008 behind them.
 All three lie at 92--98\% of the seed-to-reference gap toward a
 reference whose construction evidently lies outside the
-sparse-atom family every language model proposes. Grid, time and proposer
-strength are ruled out; what remains is the family: an idea.
+sparse-atom family every language model proposes. More precisely: the
+candidates of both proposers are small finitely supported measures found
+numerically, while the \citet{bellec2024beat} construction is a
+multiscale, recursively structured sequence of discrete measures whose
+analysis shows a finitely supported measure cannot be optimal; the
+family-hint conditions below name that structure. Within the settings
+tested, grid, time and proposer strength are ruled out; what remains is
+the family: an idea.
 
 A second problem sharpens where such ideas live. On max--min distance 16,
 the frontier proposer under the same loop emits \emph{in generation
@@ -417,12 +449,41 @@ optimize it, the story is different. This is the question
 \citet{georgiev2025exploration} report answering with an expert in the
 loop, from the other side.
 
-\paragraph{Design rules.} For verified search at small scale: compose the
-operators, never run repulsion alone on fragile manifolds; keep the
+\paragraph{Design rules.} For verified search at small scale: pair
+memory with repulsion (the zero-collapse arm; the full composition adds
+$+0.025$ of mean at the cost of the agenda's extra calls, a difference
+our data cannot distinguish from zero), and never run repulsion alone on
+fragile manifolds; keep the
 behaviour descriptor exact (the construction, not an embedding); spend on
 the proposer before spending on samples; treat plateaus as candidate family
 boundaries and test them (grid, time, proposer and hints in
 pre-registered steps) rather than declaring them.
+
+\section{Experimental provenance}
+\label{sec:provenance}
+
+Every battery was registered before running; the combined analyses are
+sequential, and the table makes the order of looks explicit.
+
+\begin{table}[h]
+\centering\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+battery & registered & data already seen & primary & status \\
+\midrule
+F ($5{\times}6{\times}2$) & 2026-08-22 & none & E$>$A frac & $p=0.0625$ (floor) \\
+F-ext ladder & 2026-08-23 & F & budget/grid/proposer & descriptive \\
+F-ext2 ($n{=}9$) & 2026-08-24 & F, ladder & E$>$A frac & $p=0.023$ combined \\
+$2^3$ completion & 2026-08-24 & F, ext2 partial & M$\times$R $>0$ & rejected ($p=0.47$) \\
+Frontier scoping & 2026-08-26 & all above & estimation only & operators $\approx$ null \\
+Family hint & registered & all above & optimize-once-given & to run \\
+\bottomrule
+\end{tabular}
+\caption{Order of registrations and looks. The nine-problem primary
+analysis is a two-look sequence (discovery + prospective extension), not
+an independent confirmation.}
+\label{tab:provenance}
+\end{table}
 
 \section{Limitations}
 \label{sec:limitations}
@@ -431,11 +492,19 @@ Nine problems is still a small universe of construction families; the
 full $2^3$ isolates interactions, but at $n{=}9$ no per-term effect
 survives correction, so the operator decomposition (memory largest) is
 directional, not certified, and the collapse asymmetry is descriptive;
-budgets are equalized in verified samples, not tokens or calls (arms B, C
-and E spend one to two extra short model calls per island-generation;
-token accounting is logged from the factorial-completion runs); the diversity
-metric is related to the repulsion operator's own filter, and the
-behaviour signature's sensitivity to rounding is untested; the six
+budgets are equalized in proposals and verifier evaluations (120 of each
+per run; duplicate rejection in the repulsion arms happens after
+verification, since the signature requires the construction, and discards
+20--30 verified candidates per run from the islands); the operators'
+extra calls are measured at one per island-generation per operator
+($\sim$220 characters per call, an overhead of 1--3\% of proposer
+output characters), so sample efficiency here means verifier-evaluation
+efficiency at nearly matched token budgets; the diversity
+metric is related to the repulsion operator's own filter; the behaviour
+signature is a hash of the returned construction after rounding, with no
+canonicalization for symmetries (permutation, rotation, reflection), so
+div can count symmetric variants as distinct, its rounding sensitivity is
+untested, and the D filter and the div metric share this signature; the six
 problems satisfy criteria fixed before any runs (cheap exact verifier,
 short-function candidates, known headroom; the universe of 68 candidates
 and per-problem ratings are in the released reconnaissance table) but were
