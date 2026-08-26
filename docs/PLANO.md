@@ -1405,6 +1405,57 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**BATERIA L — o laço que dorme (PRÉ-REGISTRO, 2026-08-26 ~07:10, antes de
+rodar; aprovado pelo Roberto; NA FILA depois das linhagens C)** — decisão
+estratégica que a origina: o alvo científico do programa passa a ser **o
+órgão que falta — acumular sem perder as caudas**. Achado que a motiva
+(bateria N, `docs/APPENDIX_N.md`, família far): fração de candidatos
+melhores que o clássico = **base 10,0% → attract 3,9% → qd 0,6% →
+repulsão ancorada 0,0%**; no held-out, 72% (attract) e 100%
+(repel_anch) dos candidatos caem EXATAMENTE no nível do clássico
+(colapso funcional). Consolidar paga massa com cauda — e descoberta vive
+na cauda. **Pergunta**: os operadores do paper 3 (que existem justamente
+para gerar variação sem colapso) recuperam a cauda que a consolidação em
+pesos custa? É a síntese dos três papers num só organismo: variação
+(contexto) → seleção (verificador exato) → consolidação (pesos) →
+busca de novo.
+
+Desenho: 6 problemas (`circlepack26 ringload15 beatavg autocorr1
+sumdiff3 maxmin16`; escolhidos ANTES por headroom mensurável a partir de
+fatos já publicados da bateria F — `isofree64`/`factn180` excluídos por
+serem platôs de família onde todos os braços empatam, `heiltri11` por
+variância entre réplicas). **Sessão 1**: busca nua (braço A, seed 0) →
+pool de candidatos. **Consolidação**: LoRA nos 40 melhores distintos do
+próprio pool (`cons`) e em 40 válidos ao acaso (`rand`, controle de "é a
+seleção ou é qualquer fine-tuning?"). **Sessão 2** (seed 3, fresco): 2×2
+consolidação × repulsão + o controle `rand` = 5 braços. 36 corridas + 12
+treinos, resumível (`scripts/run_l.sh`; `scripts/closed_loop.py` faz
+seleção e métricas; `scripts/analysis_l.py` a análise).
+
+Métricas (verificador exato; nenhum juiz-LLM): **tail_p90** = fração dos
+candidatos válidos, distintos e NÃO memorizados da sessão 2 acima do
+percentil 90 do pool da sessão 1 (primária); tail_best (acima do melhor
+do pool); mean_frac (massa); div; **echo** = fração que reproduz
+assinatura do conjunto de treino (memorização, descritivo); valid; best.
+Testes (células = problemas, n = 6, permutação exata pareada 2⁶, mínimo
+p = 0,0156): **L1 (primária, unilateral)**: interação [consD − cons] −
+[baseD − base] em tail_p90 > 0 — a repulsão recupera a cauda
+ESPECIFICAMENTE sob consolidação; **L2** (bilateral): cons − base em
+tail_p90 (prior da N: negativo); **L3** (bilateral): cons − base em
+mean_frac (prior: positivo — massa); **L4a/b**: rand − base (qualquer
+fine-tuning faz?). Nada além de L1–L4 sobe a confirmatório.
+
+Nota técnica pré-registrada: o propositor é decidido por um PORTÃO
+técnico rodado antes (não pelos dados) — sonda de LoRA de 2 iterações no
+30B MoE coder; passou → 30B, 120 amostras/corrida (igual à bateria F);
+falhou → Qwen3-8B-8bit, 60 amostras (memória e tempo). A medida é o
+DELTA da consolidação, então o nível absoluto do propositor não é o
+alvo. Custo: ~3 noites de máquina (36 corridas + 12 treinos), zero API.
+Qualquer resultado serve: L1 positiva = os operadores são o antídoto ao
+estreitamento (o kit completo vira receita); L1 nula = acumular sem
+perder cauda continua em aberto e o "órgão que falta" fica nomeado com
+mais precisão.
+
 **Escopo de operadores no propositor de fronteira (PRÉ-REGISTRO,
 2026-08-26 ~05:20, antes de rodar; aprovado pelo Roberto; decisão de
 moldura: metodologia-primeiro, recordes rebaixados a contexto)** —
