@@ -277,6 +277,8 @@ def main():
         cmd = parts[1]
         if "python" not in cmd or "grep" in cmd or "/bin/zsh -c" in cmd or "/bin/sh -c" in cmd or "snapshot-zsh" in cmd:
             continue   # only real python model processes, not the shells that launched us
+        if "--api-model" in cmd and "--api-model none" not in cmd:
+            continue   # API-only proposers hold no local weights
         if any(k in cmd for k in ("frontier_search.py", "dream_run.py", "consolidate.py gen", "mlx_lm lora", "dpo_lora.py", "problem_loop.py", "evolve_interrupt.py")):
             others.append(l)
     if others and api is None and not os.environ.get("CM_ALLOW_MULTI"):   # API-only runs load no local model
