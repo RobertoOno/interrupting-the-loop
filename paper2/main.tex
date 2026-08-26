@@ -43,8 +43,8 @@ study, or by a deterministic verifier. At inference time one thing worked:
 a schematic recap written by the model and re-injected with the new subject
 raises document-level integration above every earlier arm (the causal decomposition matters: $+1.65$ against the
 verbatim context, $p=0.001$, ten premises, but $+0.45$, $p=0.13$, against
-a reset without the recap --- integration $+0.70$, development unchanged
---- so most of the headline is the reset, and the recap adds integration
+a reset without the recap (integration $+0.70$, development unchanged),
+so most of the headline is the reset, and the recap adds integration
 on top), at no local cost; a standing question helps a little; neither,
 nor their combination, moves development above about 2 on a 0--10 scale. Selection over the interruption's candidates
 adds nothing to selection alone; on near-saturated variants, a verifier whose verdicts are written into
@@ -53,7 +53,7 @@ reproduces the verdict format instead, 16.4 fabricated
 ``\texttt{\# Verifier:}'' lines per notebook against three real ones. Consolidation is different in kind: five
 cycles of LoRA fine-tuning on the model's own value-filtered candidates
 shift what it writes on distributions it never trained on toward value
-($-1.7$ points of excess over the base, $p=0.008$ --- in a
+($-1.7$ points of excess over the base, $p=0.008$, in a
 sequential-analysis sense: the registered cycle-3 endpoint was not
 supported and the extension to five cycles was registered after seeing it;
 $-3.1$ against a same-size random-consolidation control, $p=0.004$). The
@@ -64,7 +64,7 @@ every consolidation we ran, including two small tail-preserving
 objectives, the best candidate observed under our budgets does not
 improve, the shift does not transfer to other families, and the rate of
 candidates better than the classics on new families is highest in the
-untrained base and falls with training --- all within a single training
+untrained base and falls with training, all within a single training
 lineage, whose eight held-out variants replicate the adapter, not the
 procedure. Inference-time stimulation reorganizes a fixed prior; weight
 consolidation moves its mass toward the known good and pays for it with the
@@ -402,7 +402,7 @@ value-filtered adapter lowers the mean without moving the best.}
 \caption{The title of this paper, as data (held-out variants, never in any
 training set; cycle 0 is the shared pre-consolidation base). Left: mean
 excess over the lower bound falls under attraction and nowhere else.
-Right: the best candidate never moves --- every arm is pinned at the
+Right: the best candidate never moves; every arm is pinned at the
 0.0311 ceiling from the first cycle. Consolidation moves the mean, not
 the best.}
 \label{fig:meanbest}
@@ -427,7 +427,7 @@ throughout, literal copies of the training set 1--16\% (attract); every
 adapter makes the model write 3.6--4$\times$ more functions per notebook.
 Far transfer: on six distributions of other families the final attract
 adapter equals the base on the mean ($+0.001$, $p=0.69$; $n=5$ of the six
-far families --- the base arm produced no valid candidate in one) and beats
+far families; the base arm produced no valid candidate in one) and beats
 the random adapter by $-0.020$ ($p=0.016$); the random adapter is worse
 than the base there too ($+0.017$). What moved is the prior for the family
 it was trained on. The adapter of the last cycle was taught mostly
@@ -486,12 +486,12 @@ with no candidate better than the classics.
 \centering
 \includegraphics[width=0.98\linewidth]{fig_n_tails.png}
 \caption{What consolidation costs. Left: the share of candidates
-\emph{better} than the stronger classic heuristic on the far families ---
-the tail where discovery lives --- shrinks from 10\% (base) to 3.9\%
+\emph{better} than the stronger classic heuristic on the far families,
+the tail where discovery lives, shrinks from 10\% (base) to 3.9\%
 (attraction) to at most 0.6\% under every tail-preserving objective we
 built. Right: on held-out variants the consolidated arms concentrate
 \emph{exactly at} the classic's level (attraction 72\%, anchored
-repulsion 100\% --- functional collapse), against 20\% for the base.
+repulsion 100\%, a functional collapse), against 20\% for the base.
 Competence is bought with idiosyncrasy.}
 \label{fig:tails}
 \end{figure}
@@ -568,7 +568,7 @@ chosen for headroom for that reason, and its headroom is still small:
 0.3--0.5 points); the oracle that writes recaps and questions is the
 generator itself and sometimes repeats itself, which the anti-copy ladder
 mitigates but does not remove; battery C is ONE training lineage of five cycles of forty examples on an
-8B model with a rank-8 adapter --- the eight held-out variants replicate
+8B model with a rank-8 adapter; the eight held-out variants replicate
 the adapter, not the training procedure, and independent lineages (new
 generation seeds, new example sampling, fresh never-consulted held-outs,
 a stopping rule fixed in advance) are the required next step; its primary
@@ -576,8 +576,8 @@ contrast missed $\alpha$ at the registered third cycle ($p=0.11$) and
 closed only in a sequential-analysis sense at the extension to five
 ($p=0.008$), the held-out set having been consulted at both looks; its
 base arm varies by seed; candidate counts differ by arm (47--334), so the
-observed best is not an equal-budget comparison of tails --- best-of-$k$
-and pass@$k$ analyses at matched $k$ are being added; the far families
+observed best is not an equal-budget comparison of tails (best-of-$k$
+and pass@$k$ analyses at matched $k$ are being added); the far families
 are six (paired $n=5$) and the tail rates rest on tens of candidates; the
 QD arm is a small implementation (three niches per variant), so
 ``tail-preserving objectives keep the mediocre'' is a statement about this
