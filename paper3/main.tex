@@ -267,9 +267,10 @@ on four problems, little on four, and one small loss.
 in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
 D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$: not supported as a
 pairwise contrast; the factorial below resolves what it was measuring.
-F2 (auc): $+0.115$, $p=0.070$: the operators cost budget early (the
-notebook and agenda calls spend samples' worth of tokens) and repay it
-late.
+F2 (auc): $+0.115$, $p=0.070$: the composed arm's advantage builds late.
+(The operators' measured overhead is small: one extra call per
+island-generation per operator, $\sim$220 characters each, 1--3\% of
+proposer output; Section~\ref{sec:limitations} gives the accounting.)
 
 \begin{figure}[t]
 \centering
