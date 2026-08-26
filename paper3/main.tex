@@ -27,8 +27,8 @@
 \maketitle
 
 \begin{abstract}
-Verified search --- a language model proposing programs, a hard evaluator
-scoring them, selection keeping the best --- is how machine systems have
+Verified search, in which a language model proposes programs, a hard
+evaluator scores them, and selection keeps the best, is how machine systems have
 recently moved mathematical records. The published systems vary the
 scaffolding (islands, model ensembles, novelty machinery) and report the
 wins; none measures, with controls, which parts of the \emph{proposer's
@@ -40,8 +40,8 @@ verbatim elite programs, a \emph{named obstacle} (agenda), and
 \emph{behavioural repulsion} from constructions already found. On nine
 construction problems from a public repository of open problems (six in
 the original battery, three added in a pre-registered extension), an
-ablation of five arms --- each operator alone and their triple
-composition, two replicates --- completed to the full $2^3$ factorial
+ablation of five arms (each operator alone and their triple
+composition; two replicates), completed to the full $2^3$ factorial,
 certifies the primary contrast:
 the composed operators close a larger fraction of the seed-to-record gap
 ($+0.196$ pooled \ci{+0.059}{+0.343}, $p=0.023$, exact paired sign-flip
@@ -52,12 +52,12 @@ related to this outcome; and the completed $2^3$ rejects anchoring as an
 interaction (memory$\times$repulsion $\beta \approx 0$, $p=0.47$): the
 certified composite gain decomposes additively, with schematic memory the
 largest single share ($\sim$58\%; raw $p=0.047$, not surviving correction
-at $n=9$), and anchoring survives only in the tail --- memory+repulsion
+at $n=9$), and anchoring survives only in the tail: memory+repulsion
 never collapses in eighteen runs, against three for repulsion alone and
 four for agenda+repulsion. At a $5\times$ budget the composition keeps
 climbing while repulsion alone plateaus. Swapping the proposer for a frontier model
 (Claude Opus~5) under the identical loop reaches in tens of samples what
-the local model does not reach in hundreds --- locating the residual gap
+the local model does not reach in hundreds, locating the residual gap
 in the proposer's construction knowledge, not in the loop; tripling the
 verifier's time budget then moves the result by $+0.0002$. Across proposers, grids and time budgets the search stalls at
 $\approx$92\% of the best published lower-bound construction
@@ -66,7 +66,7 @@ remain within a sparse-atom construction family. Office-scale verified
 search reaches 57--99.9\% of the reference values on these problems
 (median 89\%); we
 state as a hypothesis, and design a test for, the reading that the
-remaining gap is a matter of construction family --- an idea --- rather
+remaining gap is a matter of construction family (an idea) rather
 than budget. We release the harness, every candidate, and the dated
 pre-registrations.
 \end{abstract}
@@ -82,8 +82,8 @@ mathematical constructions. The systems that followed improved the
 \citep{lange2025shinka}, verbal reflections as search gradients
 \citep{ye2024reevo}, stronger databases and routing. Two questions have
 stayed unmeasured. First, \emph{which parts of what the proposer is asked
-to think} --- its memory of the lineage, its statement of the obstacle, its
-relation to what was already found --- change the search, and by how much?
+to think} (its memory of the lineage, its statement of the obstacle, its
+relation to what was already found) change the search, and by how much?
 The prompts of the published systems show elite programs verbatim and vary
 everything else. Second, \emph{how much of the outcome is the proposer
 itself}, holding the loop fixed? Published systems change model and
@@ -94,7 +94,7 @@ discipline our earlier studies \citep{ono2026interrupting} found necessary:
 every battery pre-registered before running, dated amendments, exact paired
 tests, and negative results reported at the same volume as positive ones.
 The operators we test are not arbitrary: they are the three interventions
-that survived a two-paper program on open-ended generation --- a
+that survived a two-paper program on open-ended generation: a
 \emph{schematic memory} (the model's own compressed recap outperformed
 verbatim context on document-level integration), a \emph{standing
 question}, and \emph{repulsion} from the already-produced, which in weight
@@ -110,22 +110,22 @@ every problem and replicate ($p=0.0039$), and no single operator is safe
 alone.
 (2) A revision, by the completed factorial, of this program's recurring
 \emph{anchoring pattern}: the memory$\times$repulsion interaction on mean
-gap closed is zero --- anchoring is not superadditive gain but
+gap closed is zero: anchoring is not superadditive gain but
 \emph{collapse prevention}. Repulsion without memory still breaks (three
 collapses in eighteen runs; four when paired with agenda), while
 memory+repulsion never does, echoing unanchored preference optimization
 in weight space.
 (3) A \emph{scaling inversion}: from a 120-sample tie, the composed arm
-climbs to 0.3816 at 600 samples while repulsion alone stalls at 0.3514 ---
+climbs to 0.3816 at 600 samples while repulsion alone stalls at 0.3514:
 diversity without accumulated direction does not compound.
 (4) A controlled \emph{proposer comparison}: local 30B versus a frontier
-model under the identical loop and budget, on the same problem ---
+model under the identical loop and budget, on the same problem,
 locating the residual gap in the proposer rather than in the loop, with a
 frontier-strength scoping run in which the operators' mean contribution
 sits inside run-to-run noise.
-(5) An honest calibration of office-scale verified search --- 57--99.9\%
-of the reference values (median 89\%) at 120--600 samples --- and a
-characterized wall: grid resolution,
+(5) An honest calibration of office-scale verified search, reaching
+57--99.9\% of the reference values (median 89\%) at 120--600 samples,
+and a characterized wall: grid resolution,
 verifier time and proposer strength each ruled out, leaving the
 construction family itself as the binding constraint.
 
@@ -170,15 +170,15 @@ limits) and is scored by the problem's verifier; islands keep bounded
 elites and migrate their best every third generation. The proposer is
 \texttt{Qwen3-Coder-30B-A3B-Instruct} (8-bit, MLX, on a MacBook M5 Pro)
 prompted through its chat template; Section~\ref{sec:records} swaps in
-Claude Opus~5 through an API under the identical loop. Every candidate ---
-code, score, error, generation, island, and a behaviour signature (a hash
-of the rounded construction it outputs) --- is logged.
+Claude Opus~5 through an API under the identical loop. Every candidate is
+logged: code, score, error, generation, island, and a behaviour signature
+(a hash of the rounded construction it outputs).
 
 \paragraph{Operators.} \textbf{A} (baseline): the prompt shows the
 statement and the island's top-3 programs with scores, FunSearch-style.
 \textbf{B} (schematic notebook): each generation the model writes a
-$\le$12-line notebook --- what worked, what failed and why, the open
-question --- from the elites and the recent failures; the prompt then
+$\le$12-line notebook (what worked, what failed and why, the open
+question) from the elites and the recent failures; the prompt then
 shows the notebook and only the single best program. \textbf{C} (agenda):
 one model-written line naming the structural obstacle of the current best,
 appended to the prompt. \textbf{D} (behavioural repulsion): candidates
@@ -229,7 +229,7 @@ collapses (frac $<$ 0.05, of 18 runs) & 2 & 1 & 1 & 3 & 2 & \textbf{0} & 4 & 1 \
 \caption{The complete $2^3$ factorial over nine problems, pooled over two
 independent replicates (120 verified samples per run). frac = fraction of
 the seed-to-record gap closed. E has the best mean and is best or
-tied-best in five of nine problems; D alone is bimodal --- best on wide
+tied-best in five of nine problems; D alone is bimodal: best on wide
 valid manifolds (pmfs, sequences), catastrophic where validity is fragile
 (packing geometry, constrained integer sets); BD is the only arm that
 never collapses, CD the one that collapses most; two problems
@@ -245,9 +245,9 @@ with six cells and one adverse problem the exact test cannot go below
 $4/64$); the pre-registered nine-problem extension certifies it:
 \textbf{F1} (primary), E vs A on frac: $+0.196$ \ci{+0.059}{+0.343},
 $p=0.023$. \textbf{F4}, D vs A on functional diversity: $+0.307$
-\ci{+0.149}{+0.477}, $p=0.0039$ --- the minimum attainable $p$, positive
+\ci{+0.149}{+0.477}, $p=0.0039$, the minimum attainable $p$, positive
 in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
-D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$ --- not supported as a
+D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$: not supported as a
 pairwise contrast; the factorial below resolves what it was measuring.
 F2 (auc): $+0.115$, $p=0.070$: the operators cost budget early (the
 notebook and agenda calls spend samples' worth of tokens) and repay it
@@ -273,18 +273,18 @@ over the same nine problems and two replicates complete the cube
 effect-coded analysis (exact sign-flip over problems, $2^9$) rejects the
 primary interaction: memory$\times$repulsion $\beta = +0.003$
 \ci{-0.039}{+0.035}, $p=0.47$ one-sided; agenda$\times$repulsion is null
-($-0.007$, $p=0.79$); and no main effect survives BH correction ---
+($-0.007$, $p=0.79$); and no main effect survives BH correction:
 schematic memory is the largest single term ($\beta=+0.057$
 \ci{+0.014}{+0.105}, raw $p=0.047$, $q=0.14$), agenda ($+0.016$) and
 repulsion ($+0.011$) near zero on frac. The decomposition is exact
 ($E-A = 2\,(\beta_M+\beta_A+\beta_R+\beta_{MAR}) = 0.196$): the
 certified composite gain splits as roughly $58\%$ memory, $16\%$
-agenda, $12\%$ repulsion and $14\%$ three-way --- at $n=9$ the total
+agenda, $12\%$ repulsion and $14\%$ three-way; at $n=9$ the total
 certifies, the parts do not. Two patterns in the cube are worth the trip. First, each
 operator has one job (Table~\ref{tab:factorial}, Figure~\ref{fig:cube}): the four memory-on
 cells hold the four best mean fracs, while every repulsion-on cell sits
 at $0.68$--$0.80$ functional diversity against $0.41$--$0.59$ without
-it --- memory moves the gap, repulsion moves diversity. Second, the
+it: memory moves the gap, repulsion moves diversity. Second, the
 anchor lives in the tail, not the
 mean: memory+repulsion is the only arm that never collapses (0 of 18
 runs, against 3 for repulsion alone and 4 for agenda+repulsion, the
@@ -298,7 +298,7 @@ The heterogeneity is the finding the factorial adds to the literature:
 \emph{where} the valid manifold is wide (a pmf, a sequence of pairs),
 repulsion alone is the best single operator; where validity is fragile
 (non-overlapping circles, exact integer constraints), it starves the
-island (both replicates of circle packing collapse) --- and the composed
+island (both replicates of circle packing collapse), and the composed
 arm inherits most of the benefit with none of the catastrophes. No single
 operator is safe; the composition is.
 
@@ -315,38 +315,38 @@ resolutions; Claude Opus~5; dotted lines mark AlphaEvolve's reported value
 \label{fig:curve}
 \end{figure}
 
-We then took the problem with guaranteed headroom --- beat-the-average,
+We then took the problem with guaranteed headroom, beat-the-average,
 where AlphaEvolve's own reported value (0.3890) sits below the best known
-(0.400695) --- and ran a pre-registered ladder. (i) \emph{Budget}: at 600
+(0.400695), and ran a pre-registered ladder. (i) \emph{Budget}: at 600
 samples the composed arm reaches 0.3816 while repulsion alone, which had
 tied it at 120 samples, stalls at 0.3514: diversity without accumulated
 direction does not compound. (The same $5\times$ extension on max--min
 distance 16 left both local arms \emph{worse} than their own 120-sample
-runs on a fresh seed --- seed variance dominates budget there too.)
+runs on a fresh seed: seed variance dominates budget there too.)
 (ii) \emph{Grid}: refining the pmf grid from
 $L{=}5000$ to $L{=}20000$ at equal budget makes the local proposer
 \emph{worse} (0.3561): the limit was not resolution. (iii)
 \emph{Proposer}: Claude Opus~5 under the identical loop reaches 0.3897
-within $\sim$100 samples --- just above the repository's published value,
-which was obtained with 2025-era proposers; we read this as locating the
-wall, not as ranking systems across model generations --- and plateaus
+within $\sim$100 samples (just above the repository's published value,
+obtained with 2025-era proposers; we read this as locating the
+wall, not as ranking systems across model generations) and plateaus
 there for 17 generations. (iv) \emph{Verifier time}: tripling the
 sandbox budget to 60 seconds, so heavier optimizers can run, moves the
 plateau by $+0.0002$.
 
 The constructions are legible. The local model's best is a bimodal sparse
-measure of 16 atoms --- half the mass on $\{0,1,2,3\}$, geometrically
-spaced atoms at the top --- with the strategy stated in comments. Claude's
+measure of 16 atoms (half the mass on $\{0,1,2,3\}$, geometrically
+spaced atoms at the top), with the strategy stated in comments. Claude's
 best implements an exact sparse-atom objective with an analytic gradient
 and a multiplicative-weights refinement. Both proposers, and AlphaEvolve's
 published value, stall within half a percent of each other, at
 $\approx$92\% of a record whose construction evidently lies outside the
 sparse-atom family every language model proposes. Grid, time and proposer
-strength are ruled out; what remains is the family --- an idea.
+strength are ruled out; what remains is the family: an idea.
 
 A second problem sharpens where such ideas live. On max--min distance 16,
-the frontier proposer under the same loop emits, \emph{in generation
-zero} --- before any search feedback --- a minimax program (SLSQP on
+the frontier proposer under the same loop emits \emph{in generation
+zero}, before any search feedback, a minimax program (SLSQP on
 $\min t$ s.t.\ $d^2_{ij}\le t$, $d^2_{ij}\ge 1$, analytic Jacobians)
 whose value lies marginally below the repository's published one; every
 valid sample across the run converges to the same value. The loop
@@ -357,7 +357,7 @@ lacks. A pre-registered scoping run makes the same point from the other
 side, on beat-the-average: at frontier strength the bare, memory-only and
 repulsion-only arms land within $0.001$ of one another ($0.3871$,
 $0.3866$, $0.3876$; single runs, estimation only) and within $0.003$ of
-the composed arm's $0.3897$ --- the operators' certified gains are a
+the composed arm's $0.3897$: the operators' certified gains are a
 local-proposer phenomenon, and their mean contribution at frontier
 strength on this problem sits inside run-to-run noise (whether the
 collapse insurance survives at this strength remains untested; the two
@@ -369,13 +369,13 @@ results were seen, as dated in the pre-registration).
 
 \paragraph{What office scale buys.} With 120--600 verified samples, a
 local model and one laptop: 57--99.9\% of the best known values (median
-89\%) across nine problems, legible programs, and --- with a frontier proposer at
-$\sim$US\$50 of API --- parity with the values the large systems report on
+89\%) across nine problems, legible programs, and, with a frontier proposer
+at $\sim$US\$50 of API, parity with the values the large systems report on
 this problem. The published record-movers used frontier ensembles with
 thousands of samples \citep{novikov2025alphaevolve}, millions with small
 models \citep{romeraparedes2024funsearch}, or open-source loops with
-strong API models \citep{lange2025shinka}; the band we measure --- local
-proposer, hundreds of samples, controlled operators --- was unoccupied,
+strong API models \citep{lange2025shinka}; the band we measure (local
+proposer, hundreds of samples, controlled operators) was unoccupied,
 and it is the band most laboratories can afford.
 
 \paragraph{The operator ledger.} Composition is the only arm that never
@@ -384,8 +384,8 @@ schematic memory keeps direction across generations, the agenda names the
 obstacle, and the repulsion spends the saved budget on genuinely different
 constructions. Alone, each fails somewhere: memory and agenda are inert on
 problems the model already saturates; repulsion starves fragile manifolds.
-This is the fifth time this program has measured the same law --- pushing
-away from something only works while anchored to something --- across
+This is the fifth time this program has measured the same law (pushing
+away from something only works while anchored to something) across
 narrative generation, weight-space preference optimization, and now
 prompt-space search.
 
@@ -394,13 +394,13 @@ the frontier proposer is far more sample-efficient ($+0.008$ absolute over
 the local model's 600-sample best, reached $20\times$ faster), and
 everything we tried after it moved little (grid, time, more samples:
 $+0.0002$). This is a sample-efficiency comparison on one problem under
-one harness --- not yet a proposer-strength curve; replications on further
+one harness, not yet a proposer-strength curve; replications on further
 problems are planned, and reasoning effort, ensembles, alternative
 representations and thousand-sample budgets all remain untested
 explanations. The shared plateau suggests, consistently with our
 consolidation results \citep{ono2026mass}, that search over a fixed prior
 rapidly collects what the prior's construction families contain and then
-stalls at the best family member --- a hypothesis to test rather than
+stalls at the best family member, a hypothesis to test rather than
 assert. \emph{The family-hint experiment} (registered as the next
 battery), on beat-the-average: (a) no hint; (b) a generic hint (``try a
 different representation''); (c) a structural hint naming the family of
@@ -416,8 +416,8 @@ loop, from the other side.
 operators, never run repulsion alone on fragile manifolds; keep the
 behaviour descriptor exact (the construction, not an embedding); spend on
 the proposer before spending on samples; treat plateaus as candidate family
-boundaries and test them --- grid, time, proposer and hints in
-pre-registered steps --- rather than declaring them.
+boundaries and test them (grid, time, proposer and hints in
+pre-registered steps) rather than declaring them.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -440,7 +440,7 @@ the repository commit recorded in the release; the scaling ladder is one
 domain; the API proposer is not bitwise reproducible and its reasoning
 effort was fixed low; comparisons against repository values compare a
 2026 proposer with values obtained by 2025-era systems, so they locate
-our wall and never rank systems --- no system-level head-to-head with
+our wall and never rank systems: no system-level head-to-head with
 ShinkaEvolve or AlphaEvolve is attempted, and the operators should be
 read as structuring search, not as a substitute for construction
 knowledge the proposer lacks.
@@ -449,10 +449,10 @@ knowledge the proposer lacks.
 \label{sec:conclusion}
 
 Inside a fixed verified-search loop at office scale, the cognitive
-operators our generation studies isolated --- schematic memory, a named
-obstacle, behavioural repulsion --- compose into the arm that was safest
+operators our generation studies isolated (schematic memory, a named
+obstacle, behavioural repulsion) compose into the arm that was safest
 in these runs (one collapse in eighteen, against three for repulsion
-alone --- and zero for memory+repulsion)
+alone, and zero for memory+repulsion)
 and the one that kept improving with budget; repulsion alone enforces
 behavioural non-duplication by construction and was the best single
 operator exactly where the valid manifold is wide; and on the one problem
