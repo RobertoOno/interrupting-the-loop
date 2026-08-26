@@ -10,8 +10,11 @@ echo "--- processos de modelo ativos:"
 ps aux | grep -E "[f]rontier_search|[c]onsolidate.py gen|[m]lx_lm lora|[d]po_lora" | awk '{printf "  pid %s  %s%%cpu  %s\n", $2, $3, $NF}' | head -4
 [ -z "$(ps aux | grep -E '[f]rontier_search|[c]onsolidate.py gen|[m]lx_lm lora')" ] && echo "  (nenhum — esteira ociosa)"
 echo "--- cadeia atual (última linha de cada log de cadeia):"
-for f in "$R"/dream_c_rep/chain.log "$R"/frontier/FP_chain2.log "$R"/frontier/F_23_chain.log "$R"/frontier/record_chain.log; do
-  [ -f "$f" ] && printf "  %-18s %s\n" "$(basename "$f" .log):" "$(tail -1 "$f")"
+for f in "$R"/dream_c_rep/chain.log "$R"/frontier/FP_chain2.log; do
+  if [ -f "$f" ]; then
+    age=$(( ($(date +%s) - $(stat -f %m "$f")) / 60 ))
+    printf "  %-14s (%s min atras) %s\n" "$(basename "$f" .log):" "$age" "$(tail -1 "$f")"
+  fi
 done
 if [ -d "$R/frontier/F" ]; then
   done23=$(grep -l "DONE best" "$R"/frontier/F/*_B[CD]*.log "$R"/frontier/F/*_CD*.log 2>/dev/null | wc -l | tr -d ' ')
