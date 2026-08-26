@@ -37,11 +37,12 @@ scale (a 30B local model on a laptop, 120--600 verified samples per run)
 with three operators isolated in our earlier work on open-ended generation:
 a \emph{schematic notebook} the model writes and carries instead of
 verbatim elite programs, a \emph{named obstacle} (agenda), and
-\emph{behavioural repulsion} from constructions already found. On six
-construction problems from a public repository of open problems, a
-pre-registered ablation (five arms: each operator alone and their triple
-composition; two replicates; extended to nine problems and completed to
-the full $2^3$ factorial) certifies the primary contrast:
+\emph{behavioural repulsion} from constructions already found. On nine
+construction problems from a public repository of open problems (six in
+the original battery, three added in a pre-registered extension), an
+ablation of five arms --- each operator alone and their triple
+composition, two replicates --- completed to the full $2^3$ factorial
+certifies the primary contrast:
 the composed operators close a larger fraction of the seed-to-record gap
 ($+0.196$ pooled \ci{+0.059}{+0.343}, $p=0.023$, exact paired sign-flip
 over nine problems, two replicates); behavioural repulsion raises
@@ -62,7 +63,8 @@ verifier's time budget then moves the result by $+0.0002$. Across proposers, gri
 $\approx$92\% of the best published lower-bound construction
 \citep{bellec2024beat}, and the candidate programs of both proposers
 remain within a sparse-atom construction family. Office-scale verified
-search reaches 85--99\% of the reference values on these problems; we
+search reaches 57--99.9\% of the reference values on these problems
+(median 89\%); we
 state as a hypothesis, and design a test for, the reading that the
 remaining gap is a matter of construction family --- an idea --- rather
 than budget. We release the harness, every candidate, and the dated
@@ -119,8 +121,9 @@ diversity without accumulated direction does not compound.
 (4) A controlled \emph{proposer comparison}: local 30B versus a frontier
 model under the identical loop and budget, on the same problem ---
 locating the residual gap in the proposer rather than in the loop.
-(5) An honest calibration of office-scale verified search --- 85--99\% of
-records at 120--600 samples --- and a characterized wall: grid resolution,
+(5) An honest calibration of office-scale verified search --- 57--99.9\%
+of the reference values (median 89\%) at 120--600 samples --- and a
+characterized wall: grid resolution,
 verifier time and proposer strength each ruled out, leaving the
 construction family itself as the binding constraint.
 
@@ -180,13 +183,18 @@ appended to the prompt. \textbf{D} (behavioural repulsion): candidates
 whose construction duplicates an island member's are rejected, and the
 prompt lists already-found constructions as forbidden. \textbf{E}: B+C+D.
 
-\paragraph{Problems.} Six construction problems ported from the official
+\paragraph{Problems.} Nine construction problems ported from the official
 repository notebooks, chosen for cheap exact verification and known
-headroom: circle packing (26 circles, maximize the sum of radii),
-ring loading ($m{=}15$, exact $2^m$ verification), beat-the-average
-(a pmf maximizing $P[X_1{+}X_2{+}X_3<2X_4]$), the first autocorrelation
-inequality (minimize an upper bound on $C_1$), isosceles-free subsets of
-the $64^2$ grid, and sum-difference III. Each run's budget is 120 verified
+headroom. The original battery: circle packing (26 circles, maximize the
+sum of radii), ring loading ($m{=}15$, exact $2^m$ verification),
+beat-the-average (a pmf maximizing $P[X_1{+}X_2{+}X_3<2X_4]$), the first
+autocorrelation inequality (minimize an upper bound on $C_1$),
+isosceles-free subsets of the $64^2$ grid, and sum-difference III. A
+pre-registered extension, run before any $n{=}9$ analysis, added three:
+the max--min pairwise-distance ratio for 16 points in the plane
+(minimize), the Heilbronn triangle problem for 11 points (maximize the
+smallest triple area), and splitting $180!$ into 180 factors maximizing
+the smallest (exact big-integer verification). Each run's budget is 120 verified
 samples (10 generations $\times$ 2 islands $\times$ 6); the primary
 metric \emph{frac} is the fraction of the seed-to-record gap closed,
 \emph{auc} its mean over the budget (sample efficiency), \emph{div} the
@@ -335,8 +343,8 @@ ask what the operators still buy \emph{at} frontier strength.
 \label{sec:discussion}
 
 \paragraph{What office scale buys.} With 120--600 verified samples, a
-local model and one laptop: 85--99\% of the best known values across six
-problems, legible programs, and --- with a frontier proposer at
+local model and one laptop: 57--99.9\% of the best known values (median
+89\%) across nine problems, legible programs, and --- with a frontier proposer at
 $\sim$US\$50 of API --- parity with the values the large systems report on
 this problem. The published record-movers used frontier ensembles with
 thousands of samples \citep{novikov2025alphaevolve}, millions with small
