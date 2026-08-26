@@ -1405,6 +1405,26 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**RECORDE no maxmin16 — braço Claude (26/08 ~04:30, `runs/frontier/record/
+maxmin16_claude_B`)**: **12,889229907694016 < 12,889266112** (valor
+publicado no colab do AlphaEvolve; minimizar; margem 3,6×10⁻⁵, ~10¹¹×
+acima do ruído de float64). Reproduzível: 3 re-execuções do `best.py`
+idênticas (determinístico); 17/300 amostras válidas, TODAS abaixo do
+valor publicado, **a primeira já na geração 0**. A construção NÃO é
+coordenada decorada: Claude escreveu um otimizador minimax próprio
+(SLSQP, minimizar t s.a. d²ᵢⱼ ≤ t e d²ᵢⱼ ≥ 1, Jacobianas analíticas,
+multi-start, 178 linhas); os 15 sigs distintos convergem ao MESMO valor.
+Leitura calibrada: provavelmente a MESMA família de configuração do
+best_known, convergida mais fino por um solver melhor — **o loop não
+descobriu, o propositor sabia** (gen 0 = zero retroalimentação da busca);
+segundo problema em que o propositor de fronteira supera o valor
+publicado do repositório (com beatavg 0,3897 > 0,3890), e o mais limpo
+(métrica primária, determinístico). Claim permitido: "abaixo do valor
+publicado no repositório"; NUNCA "melhor que o sistema AlphaEvolve".
+283/300 inválidas = timeout de verificação (20 s) no multi-start — o
+solver que sobrevive é o que converge rápido. Braços locais B600/D600 em
+curso para o contraste local-vs-fronteira pré-registrado.
+
 **Record run maxmin16 (PRÉ-REGISTRO, 2026-08-26 ~03:40, antes de rodar;
 `scripts/run_record_maxmin.sh`)** — alvo: **12,889266112** (best_known do
 repositório, minimizar (max/min distância)²; nosso melhor até aqui
