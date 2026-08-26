@@ -79,4 +79,11 @@ ax.annotate("repulsion on (circles) moves →", (0.385, 0.638), fontsize=8, colo
 ax.annotate("(n) = collapses in 18 runs", (0.385, 0.621), fontsize=8, color=GRAY)
 fig.tight_layout()
 fig.savefig(OUT / "fig_f23_cube.png", bbox_inches="tight"); plt.close(fig)
-print("wrote fig_c_mean_vs_best.png, fig_n_tails.png, fig_f23_cube.png")
+import shutil
+for name, dests in (("fig_c_mean_vs_best.png", ["paper2/figures"]),
+                    ("fig_n_tails.png", ["paper2/figures"]),
+                    ("fig_f23_cube.png", ["paper3/figures"])):
+    for d in dests:
+        (ROOT / d).mkdir(parents=True, exist_ok=True)
+        shutil.copy2(OUT / name, ROOT / d / name)
+print("wrote and synced fig_c_mean_vs_best.png, fig_n_tails.png, fig_f23_cube.png")
