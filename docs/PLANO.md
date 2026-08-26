@@ -1414,6 +1414,14 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**FP — RETOMADA (26/08 ~11:40, decisão do Roberto)**: completar os 5
+braços cancelados (maxmin16 A/D, heiltri11 A/B/D) para reportar o
+conjunto pré-registrado inteiro e remover a nota de cancelamento do paper.
+Epistemicamente limpo: a decisão é tomada SEM ter visto nada dos problemas
+restantes, e o trio beatavg já está travado como reportado (operadores ≈
+sem efeito na média), qualquer que seja o resto. Custo: os ~US$95
+poupados voltam a ser gastos; paralelo (API), termina à noite.
+
 **FP — resultado (26/08 11:14; trio beatavg completo; CORTE executado
 09:59 antes do maxmin16, decisão de foco tomada de manhã ANTES de ver os
 braços B/D, registrada aqui)**: no propositor de fronteira, os operadores
