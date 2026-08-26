@@ -139,9 +139,20 @@ descartados como limite → parede de FAMÍLIA de construção ("a última milha
 é uma ideia"). `docs/APPENDIX_F.md`, `runs/frontier/record/*`,
 `docs/figures/fig_f4_proposer_curve.png`. Fase 4 encerrada para escrita.
 
-**Em aberto**: paper 3 (esqueleto + escrita); divulgação coordenada;
+**F-ext2 + fatorial 2³ COMPLETO (24–26/08, resposta ao parecer)**: n=9
+certificou a primária (F1 +0,196, p=0,0234) e a diversidade (p=0,0039,
+9/9 células ambas réplicas); o 2³ (54 corridas) **rejeitou a âncora como
+interação** (I1 β≈0, p=0,47) — decomposição aditiva: ~58% memória (maior
+termo, p bruto 0,047, não sobrevive BH), agenda inerte; âncora sobrevive
+na CAUDA (colapsos: BD 0/18, D 3, CD 4). `docs/APPENDIX_F23.md`,
+`scripts/analysis_23.py`; paper 3 atualizado (tabela 9×8, TODOs zerados).
+Record run maxmin16: braços B e D (4/4 ≥ 0,989), a pré-registrar.
+
+**Em aberto**: paper 3 (revisão final + arXiv); divulgação coordenada;
 JUDGe SUBMETIDO 24/08 (notificação 29/09; Roberto é reciprocal reviewer em setembro); incorporar revisão do
-paper 2; opcional: extensão n=9 do fatorial; contribuição ao repositório
+paper 2; record run maxmin16 (pré-registrar); linhagens C novas +
+family-hint (noites); entrevista Primary (respostas prontas, Roberto
+envia); resposta ao amigo revisor; contribuição ao repositório
 AlphaEvolve;
 rodada 2 humana (`docs/blind/pack_v3.html`, avaliadoras a contratar);
 paper 2 ("o órgão que falta": 3 positivos + fronteira + confabulação —

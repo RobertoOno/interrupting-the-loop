@@ -40,19 +40,21 @@ verbatim elite programs, a \emph{named obstacle} (agenda), and
 \emph{behavioural repulsion} from constructions already found. On six
 construction problems from a public repository of open problems, a
 pre-registered ablation (five arms: each operator alone and their triple
-composition; two replicates; the full $2^3$ factorial and a nine-problem
-extension now complete at nine problems) certifies the primary contrast:
+composition; two replicates; extended to nine problems and completed to
+the full $2^3$ factorial) certifies the primary contrast:
 the composed operators close a larger fraction of the seed-to-record gap
 ($+0.196$ pooled \ci{+0.059}{+0.343}, $p=0.023$, exact paired sign-flip
 over nine problems, two replicates); behavioural repulsion raises
 functional diversity in all nine problems and both replicates ($+0.31$,
 $p=0.0039$), with the caveat that the operator optimizes a quantity
-related to this outcome; whether the composition's edge over repulsion
-alone is an anchoring interaction is not yet certified ($E$ vs $D$:
-$+0.14$, $p=0.16$; the full $2^3$ deciding it is running); repulsion alone
-collapses in three of eighteen runs against one for the composition; and
-at a $5\times$ budget the composition keeps climbing while repulsion
-alone plateaus. Swapping the proposer for a frontier model
+related to this outcome; and the completed $2^3$ rejects anchoring as an
+interaction (memory$\times$repulsion $\beta \approx 0$, $p=0.47$): the
+certified composite gain decomposes additively, with schematic memory the
+largest single share ($\sim$58\%; raw $p=0.047$, not surviving correction
+at $n=9$), and anchoring survives only in the tail --- memory+repulsion
+never collapses in eighteen runs, against three for repulsion alone and
+four for agenda+repulsion. At a $5\times$ budget the composition keeps
+climbing while repulsion alone plateaus. Swapping the proposer for a frontier model
 (Claude Opus~5) under the same loop reaches in tens of samples what the
 local model does not reach in hundreds, and exceeds the value AlphaEvolve
 reported on the beat-the-average problem (0.3897 vs 0.3890) within 300
@@ -99,14 +101,19 @@ space collapsed without an anchor and in behaviour space is the natural
 tail-preserving form.
 
 \paragraph{Contributions.}
-(1) A pre-registered $5{\times}6{\times}2$ factorial of cognitive operators
-inside a fixed verified-search loop: composition helps in five of six
-problems ($+0.20$ pooled; at the exactness floor of the $n{=}6$ sign-flip
-test), behavioural repulsion buys functional diversity at the minimum
-attainable $p$, and no single operator is safe alone.
-(2) The \emph{anchoring law}, in its fifth independent appearance across
-this program: repulsion without memory breaks --- here as prompt-only
-collapse (the island starves), echoing unanchored preference optimization.
+(1) A pre-registered program of cognitive operators inside a fixed
+verified-search loop, grown from a $5{\times}6{\times}2$ ablation to the
+complete $2^3{\times}9{\times}2$ factorial: the composition certifies at
+$+0.196$ ($p=0.023$), behavioural repulsion buys functional diversity in
+every problem and replicate ($p=0.0039$), and no single operator is safe
+alone.
+(2) A revision, by the completed factorial, of this program's recurring
+\emph{anchoring pattern}: the memory$\times$repulsion interaction on mean
+gap closed is zero --- anchoring is not superadditive gain but
+\emph{collapse prevention}. Repulsion without memory still breaks (three
+collapses in eighteen runs; four when paired with agenda), while
+memory+repulsion never does, echoing unanchored preference optimization
+in weight space.
 (3) A \emph{scaling inversion}: from a 120-sample tie, the composed arm
 climbs to 0.3816 at 600 samples while repulsion alone stalls at 0.3514 ---
 diversity without accumulated direction does not compound.
@@ -190,43 +197,80 @@ share of distinct behaviours among valid candidates.
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{@{}lccccc@{}}
+\begin{tabular}{@{}lcccccccc@{}}
 \toprule
-frac (pooled over 2 replicates) & A & B & C & D & E \\
+frac (pooled over 2 replicates) & A & B & C & D & BC & BD & CD & E \\
 \midrule
-circle packing 26 & 0.703 & 0.974 & 0.976 & 0.000 & \textbf{0.992} \\
-ring loading 15 & 0.444 & 0.767 & \textbf{0.808} & \textbf{0.808} & \textbf{0.808} \\
-beat-the-average & 0.181 & 0.384 & 0.519 & 0.608 & \textbf{0.709} \\
-autocorrelation $C_1$ & 0.059 & 0.156 & 0.041 & \textbf{0.202} & 0.104 \\
-isosceles-free $64^2$ & 0.560 & 0.560 & 0.560 & 0.399 & 0.560 \\
-sum-difference III & \textbf{0.392} & 0.329 & 0.253 & 0.158 & 0.362 \\
+circle packing 26 & 0.703 & 0.974 & 0.976 & 0.000 & 0.989 & 0.752 & 0.980 & \textbf{0.992} \\
+ring loading 15 & 0.444 & 0.767 & \textbf{0.808} & \textbf{0.808} & 0.731 & \textbf{0.808} & \textbf{0.808} & \textbf{0.808} \\
+beat-the-average & 0.181 & 0.384 & 0.519 & 0.608 & 0.661 & \textbf{0.789} & 0.540 & 0.709 \\
+autocorrelation $C_1$ & 0.059 & 0.156 & 0.041 & 0.202 & 0.014 & \textbf{0.212} & 0.000 & 0.104 \\
+isosceles-free $64^2$ & \textbf{0.560} & \textbf{0.560} & \textbf{0.560} & 0.399 & \textbf{0.560} & \textbf{0.560} & \textbf{0.560} & \textbf{0.560} \\
+sum-difference III & \textbf{0.392} & 0.329 & 0.253 & 0.158 & 0.314 & 0.327 & 0.069 & 0.362 \\
+max--min distance 16 & 0.169 & 0.992 & 0.372 & \textbf{0.993} & 0.919 & 0.793 & 0.247 & 0.708 \\
+Heilbronn triangle 11 & 0.672 & 0.431 & 0.507 & 0.540 & 0.371 & 0.477 & 0.619 & \textbf{0.700} \\
+$180!$ into 180 factors & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} \\
 \midrule
-mean functional diversity & 0.38 & 0.47 & 0.50 & \textbf{0.76} & 0.71 \\
-collapses (frac $<$ 0.05, of 12 runs) & 1 & 1 & 1 & 3 & 1 \\
+mean frac & 0.439 & 0.596 & 0.534 & 0.498 & 0.592 & 0.610 & 0.511 & \textbf{0.635} \\
+mean functional diversity & 0.41 & 0.53 & 0.52 & 0.72 & 0.59 & 0.68 & \textbf{0.80} & 0.70 \\
+collapses (frac $<$ 0.05, of 18 runs) & 2 & 1 & 1 & 3 & 2 & \textbf{0} & 4 & 1 \\
 \bottomrule
 \end{tabular}
-\caption{Battery F pooled over two independent replicates (120 verified
-samples per run). frac = fraction of the seed-to-record gap closed. E is
-best or tied-best in four of six problems and never collapses both
-replicates; D alone is bimodal --- best on wide valid manifolds (pmfs,
-sequences), catastrophic where validity is fragile (packing geometry,
-constrained integer sets).}
+\caption{The complete $2^3$ factorial over nine problems, pooled over two
+independent replicates (120 verified samples per run). frac = fraction of
+the seed-to-record gap closed. E has the best mean and is best or
+tied-best in five of nine problems; D alone is bimodal --- best on wide
+valid manifolds (pmfs, sequences), catastrophic where validity is fragile
+(packing geometry, constrained integer sets); BD is the only arm that
+never collapses, CD the one that collapses most; two problems
+(isosceles-free, $180!$) are family plateaus where every arm meets the
+same wall.}
 \label{tab:factorial}
 \end{table}
 
 Pre-registered contrasts (exact paired sign-flip over problems, cells =
-problems, pooled replicates): \textbf{F1} (primary), E vs A on frac:
-$+0.199$ \ci{+0.045}{+0.368}, $p=0.0625$; with six cells and one adverse
-problem the exact test cannot go below $4/64$, so this sits at the design's
-resolution floor with a bootstrap interval excluding zero --- we report it
-as a stable direction, not a certified effect. \textbf{F6} (the anchor),
-E vs D: $+0.227$ \ci{+0.011}{+0.548}, $p=0.0625$, same floor. \textbf{F4},
-D vs A on functional diversity: $+0.376$ \ci{+0.201}{+0.553},
-$p=0.0156$ --- the minimum attainable $p$, positive in all six problems in
-both replicates. F2 (auc): $+0.138$, $p=0.078$: the operators cost budget
-early (the notebook and agenda calls spend samples' worth of tokens) and
-repay it late. A pre-registered extension to nine problems (resolution
-$1/512$) is prepared\todo{fold in F-ext2 when it lands}.
+problems, pooled replicates). The original six-problem battery put the
+primary contrast at the design's resolution floor ($+0.199$, $p=0.0625$;
+with six cells and one adverse problem the exact test cannot go below
+$4/64$); the pre-registered nine-problem extension certifies it:
+\textbf{F1} (primary), E vs A on frac: $+0.196$ \ci{+0.059}{+0.343},
+$p=0.023$. \textbf{F4}, D vs A on functional diversity: $+0.307$
+\ci{+0.149}{+0.477}, $p=0.0039$ --- the minimum attainable $p$, positive
+in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
+D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$ --- not supported as a
+pairwise contrast; the factorial below resolves what it was measuring.
+F2 (auc): $+0.115$, $p=0.070$: the operators cost budget early (the
+notebook and agenda calls spend samples' worth of tokens) and repay it
+late.
+
+\paragraph{The completed $2^3$.}
+\begin{sloppypar}
+Three pairwise arms (memory+agenda, memory+repulsion, agenda+repulsion)
+over the same nine problems and two replicates complete the cube
+($8$ cells $\times\,9\times2$; pre-registered before running). The
+effect-coded analysis (exact sign-flip over problems, $2^9$) rejects the
+primary interaction: memory$\times$repulsion $\beta = +0.003$
+\ci{-0.039}{+0.035}, $p=0.47$ one-sided; agenda$\times$repulsion is null
+($-0.007$, $p=0.79$); and no main effect survives BH correction ---
+schematic memory is the largest single term ($\beta=+0.057$
+\ci{+0.014}{+0.105}, raw $p=0.047$, $q=0.14$), agenda ($+0.016$) and
+repulsion ($+0.011$) near zero on frac. The decomposition is exact
+($E-A = 2\,(\beta_M+\beta_A+\beta_R+\beta_{MAR}) = 0.196$): the
+certified composite gain splits as roughly $58\%$ memory, $16\%$
+agenda, $12\%$ repulsion and $14\%$ three-way --- at $n=9$ the total
+certifies, the parts do not. Two patterns in the cube are worth the trip. First, each
+operator has one job (Table~\ref{tab:factorial}): the four memory-on
+cells hold the four best mean fracs, while every repulsion-on cell sits
+at $0.68$--$0.80$ functional diversity against $0.41$--$0.59$ without
+it --- memory moves the gap, repulsion moves diversity. Second, the
+anchor lives in the tail, not the
+mean: memory+repulsion is the only arm that never collapses (0 of 18
+runs, against 3 for repulsion alone and 4 for agenda+repulsion, the
+cube's worst), so what memory buys repulsion is insurance against
+starving the island, not superadditive mean gain. Agenda, decomposed at
+last, pays for neither: near-zero on frac alone, and the worst collapse
+count when paired with repulsion.
+\end{sloppypar}
 
 The heterogeneity is the finding the factorial adds to the literature:
 \emph{where} the valid manifold is wide (a pmf, a sequence of pairs),
@@ -331,13 +375,13 @@ pre-registered steps --- rather than declaring them.
 \section{Limitations}
 \label{sec:limitations}
 
-Six problems (nine pending the pre-registered extension), and the
-$p=0.0625$ of the primary contrast reflects a genuinely adverse problem,
-not only the $n{=}6$ exactness floor; the design is an ablation, not the
-full $2^3$ factorial (running), so operator interactions are not isolated;
+Nine problems is still a small universe of construction families; the
+full $2^3$ isolates interactions, but at $n{=}9$ no per-term effect
+survives correction, so the operator decomposition (memory largest) is
+directional, not certified, and the collapse asymmetry is descriptive;
 budgets are equalized in verified samples, not tokens or calls (arms B, C
 and E spend one to two extra short model calls per island-generation;
-token accounting is enabled for the runs in progress); the diversity
+token accounting is logged from the factorial-completion runs); the diversity
 metric is related to the repulsion operator's own filter, and the
 behaviour signature's sensitivity to rounding is untested; the six
 problems satisfy criteria fixed before any runs (cheap exact verifier,
