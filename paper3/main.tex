@@ -120,7 +120,9 @@ climbs to 0.3816 at 600 samples while repulsion alone stalls at 0.3514 ---
 diversity without accumulated direction does not compound.
 (4) A controlled \emph{proposer comparison}: local 30B versus a frontier
 model under the identical loop and budget, on the same problem ---
-locating the residual gap in the proposer rather than in the loop.
+locating the residual gap in the proposer rather than in the loop, with a
+frontier-strength scoping run in which the operators' mean contribution
+sits inside run-to-run noise.
 (5) An honest calibration of office-scale verified search --- 57--99.9\%
 of the reference values (median 89\%) at 120--600 samples --- and a
 characterized wall: grid resolution,
@@ -306,7 +308,10 @@ where AlphaEvolve's own reported value (0.3890) sits below the best known
 (0.400695) --- and ran a pre-registered ladder. (i) \emph{Budget}: at 600
 samples the composed arm reaches 0.3816 while repulsion alone, which had
 tied it at 120 samples, stalls at 0.3514: diversity without accumulated
-direction does not compound. (ii) \emph{Grid}: refining the pmf grid from
+direction does not compound. (The same $5\times$ extension on max--min
+distance 16 left both local arms \emph{worse} than their own 120-sample
+runs on a fresh seed --- seed variance dominates budget there too.)
+(ii) \emph{Grid}: refining the pmf grid from
 $L{=}5000$ to $L{=}20000$ at equal budget makes the local proposer
 \emph{worse} (0.3561): the limit was not resolution. (iii)
 \emph{Proposer}: Claude Opus~5 under the identical loop reaches 0.3897
@@ -336,8 +341,16 @@ valid sample across the run converges to the same value. The loop
 verified this construction; it did not discover it. We treat the datum as
 scope, not as a record claim: the operators structure search and protect
 its tails, but they do not inject construction knowledge the proposer
-lacks --- which is precisely why the pre-registered operator-scoping runs
-ask what the operators still buy \emph{at} frontier strength.
+lacks. A pre-registered scoping run makes the same point from the other
+side, on beat-the-average: at frontier strength the bare, memory-only and
+repulsion-only arms land within $0.001$ of one another ($0.3871$,
+$0.3866$, $0.3876$; single runs, estimation only) and within $0.003$ of
+the composed arm's $0.3897$ --- the operators' certified gains are a
+local-proposer phenomenon, and their mean contribution at frontier
+strength on this problem sits inside run-to-run noise (whether the
+collapse insurance survives at this strength remains untested; the two
+remaining scoping problems were cancelled for focus before any of these
+results were seen, as dated in the pre-registration).
 
 \section{Discussion}
 \label{sec:discussion}

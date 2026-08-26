@@ -1414,6 +1414,22 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**FP — resultado (26/08 11:14; trio beatavg completo; CORTE executado
+09:59 antes do maxmin16, decisão de foco tomada de manhã ANTES de ver os
+braços B/D, registrada aqui)**: no propositor de fronteira, os operadores
+**não movem a média** no beatavg — A (Claude puro) 0,38707, B (memória)
+0,38659, D (repulsão) 0,38759, todos a ≤0,001 entre si e a ≤0,003 do E
+da semana passada (0,3897). Corridas únicas, estimativa sem teste (como
+pré-registrado). Leitura: os ganhos certificados dos operadores são
+fenômeno do propositor LOCAL; na força de fronteira, a contribuição média
+fica dentro do ruído de corrida (o seguro contra colapso segue não
+testado nessa força). maxmin16/heiltri11 cancelados pelo corte (~US$95
+poupados; maxmin16_A morreu com ~1 amostra). **D600 local fechou:
+14,928** — pior que o B600 (13,26) e MUITO pior que as corridas de 120
+amostras do fatorial (12,91–12,95): na semente 2, 5× orçamento piorou
+AMBOS os braços locais no maxmin16; variância de semente domina, orçamento
+não é o gargalo (segundo problema onde isso vale).
+
 **BATERIA L — o laço que dorme (PRÉ-REGISTRO, 2026-08-26 ~07:10, antes de
 rodar; aprovado pelo Roberto; NA FILA depois das linhagens C)** — decisão
 estratégica que a origina: o alvo científico do programa passa a ser **o
