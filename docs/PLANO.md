@@ -1405,6 +1405,22 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Record run maxmin16 (PRÉ-REGISTRO, 2026-08-26 ~03:40, antes de rodar;
+`scripts/run_record_maxmin.sh`)** — alvo: **12,889266112** (best_known do
+repositório, minimizar (max/min distância)²; nosso melhor até aqui
+12,908375 = frac 0,996, braço D). Exploratório (caça a recorde): sem
+teste de hipótese; reportar best e frac de qualquer resultado. Braços
+escolhidos PELOS DADOS do fatorial (B 0,995/0,989 e D 0,989/0,996 = 4/4
+≥ 0,989; BD instável 0,994/0,591; E 0,783/0,634): (1) `maxmin16_B600` —
+30B coder chat local, `--memory schema`, 600 amostras (50×6×2), seed 2
+(fresco), temp 0,8; (2) `maxmin16_D600` — `--novelty behavior
+--repel-prompt`, idem; sequenciais (um modelo por vez). (3)
+`maxmin16_claude_B` — Claude Opus 5 via Bedrock, `--memory schema`, 300
+amostras (25×6×2), em PARALELO (isento do guard de memória). Critério de
+sucesso: frac > 1,0 em qualquer braço; senão, a distância que resta é
+dado para a tese da "última milha é uma ideia". Saídas em
+`runs/frontier/record/maxmin16_*`.
+
 **Fatorial 2³ COMPLETO (2026-08-25 ~08:40 → 26/08 03:08; 54/54 corridas,
 zero faltas; `scripts/analysis_23.py` → `docs/APPENDIX_F23.md`)** —
 vereditos pré-registrados: **I1 (primária, memória×repulsão > 0) NÃO
