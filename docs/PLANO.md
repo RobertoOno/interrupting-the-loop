@@ -1405,6 +1405,27 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Escopo de operadores no propositor de fronteira (PRÉ-REGISTRO,
+2026-08-26 ~05:20, antes de rodar; aprovado pelo Roberto; decisão de
+moldura: metodologia-primeiro, recordes rebaixados a contexto)** —
+pergunta: **os operadores ainda pagam quando o propositor é de
+fronteira?** Propositor Claude Opus 5 (Bedrock, effort low), parâmetros
+do braço record (25×6×2 = 300 amostras, max-tokens 1400, seed 2).
+Problemas (3 famílias com headroom): beatavg, maxmin16, heiltri11.
+Braços: **A** (sem operadores), **B** (memória esquemática), **D**
+(repulsão comportamental); `maxmin16_B` reutiliza o braço do record → 8
+corridas novas, sequenciais (`scripts/run_frontier_ops.sh`,
+`runs/frontier/FP/`, marcador FRONTIER-OPS DONE). Métricas: frac
+(primária), div, colapsos, trajetória do best por geração. Análise:
+**ESTIMATIVA, sem teste e sem certificação** (n=3 células): deltas por
+problema B−A e D−A em frac, D−A em div, média agrupada com as células à
+mostra; **FP3 (descritivo)**: fração do best final já presente na gen 0,
+por braço — quantifica "o propositor sabia" e separa conhecimento do
+propositor de ganho de busca. Direções esperadas (não testáveis a n=3):
+FP1 B−A > 0 em frac; FP2 D−A > 0 em div. Custo estimado: ~2.400 amostras
+API ≈ US$100–150. Qualquer resposta serve à moldura: kit generaliza OU
+kit é compensador de propositor fraco — ambos são escopo do método.
+
 **RECORDE no maxmin16 — braço Claude (26/08 ~04:30, `runs/frontier/record/
 maxmin16_claude_B`)**: **12,889229907694016 < 12,889266112** (valor
 publicado no colab do AlphaEvolve; minimizar; margem 3,6×10⁻⁵, ~10¹¹×
