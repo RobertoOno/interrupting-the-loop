@@ -1405,6 +1405,29 @@ notebook oficial. Indício de teto de discretização: o AlphaEvolve reportou
 espremidos na borda superior sugere que L limita. Conforme pré-registro,
 mudança de L = corrida NOVA:
 
+**Fatorial 2³ COMPLETO (2026-08-25 ~08:40 → 26/08 03:08; 54/54 corridas,
+zero faltas; `scripts/analysis_23.py` → `docs/APPENDIX_F23.md`)** —
+vereditos pré-registrados: **I1 (primária, memória×repulsão > 0) NÃO
+suportada** (β = +0,003 [−0,039, +0,035], p = 0,469) — **a âncora não é
+interação na média**; I2 (agenda×repulsão) nula (−0,007, p = 0,79); I3:
+nenhum efeito principal sobrevive ao BH — memória é o maior (β = +0,057
+[+0,014, +0,105], p bruto = 0,047, q = 0,14), agenda +0,016 e repulsão
++0,011 (ambos p = 0,62). Checagem algébrica exata: E−A = 2(β_M + β_A +
+β_R + β_MAR) = 0,196 = o F1 certificado — a decomposição do ganho
+composto: **~58% memória, ~16% agenda, ~12% repulsão, ~14% três-vias**;
+o TOTAL certifica (p = 0,023), as partes não (n = 9). Células (frac):
+E 0,635 > BD 0,610 > B 0,596 > BC 0,592 > C 0,534 > CD 0,511 > D 0,498 >
+A 0,439; diversidade: CD 0,798 > D 0,720 > E 0,697 > BD 0,684 ≫ A 0,413
+(repulsão é dona da diversidade; agenda inerte em frac). **Onde a âncora
+sobrevive: na cauda** — colapsos por braço (18 corridas): **BD 0**, B 1,
+C 1, E 1, A 2, BC 2, D 3, **CD 4** (pior do cubo): memória previne os
+colapsos da repulsão; agenda os agrava. Leitura: trocar "anchoring law"
+por **decomposição aditiva + prevenção de colapso** (um ofício por
+operador: memória move frac, repulsão move diversidade, agenda não paga
+o que custa). maxmin16 nos braços novos: BD 0,994/0,591 (instável),
+CD 0,494/colapso — **B e D seguem os braços do record run** (4/4 corridas
+≥ 0,989 entre eles; pré-registrar a corrida em seguida).
+
 **F-ext2 — resultado (2026-08-24 07:17 → 2026-08-25 00:52; n = 9 completo,
 2 réplicas, `docs/APPENDIX_F.md`)**: **F1'' (primária) SUPORTADA — E vs A
 em frac: +0,196 [+0,059, +0,343], p = 0,0234** (a extensão exigida pelo
