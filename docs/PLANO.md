@@ -1414,6 +1414,30 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**BATERIA C-REP — linhagens independentes (PRÉ-REGISTRO, 2026-08-26
+~15:30, antes de rodar; item decisivo do parecer 2ª rodada do amigo,
+aprovado pelo Roberto)** — pergunta: o procedimento (gerar → selecionar
+por valor → LoRA → repetir) replica, ou o efeito era peculiar à linhagem
+única? Desenho: **3 linhagens completas independentes** (`run_c_rep.sh`,
+`runs/dream_c_rep/L{1,2,3}`), 5 ciclos FIXADOS de antemão, sementes de
+geração (100L+c) e seleção (10L+c) novas por linhagem, braços
+base/attract/random como na original, hiperparâmetros idênticos ao
+`run_c.sh`. **Held-out NOVO e nunca consultado**: `VARIANTS_C_HELDOUT2`
+(8 variantes disjuntas de todas as 18 anteriores), gerado e verificado
+UMA vez, só após o ciclo 5 de cada linhagem; NENHUMA análise interina
+(leitura única ao final das 3). Regra de parada: 5 ciclos, sem parada
+precoce; aborto só por falha técnica (sem dados de SFT válidos),
+registrado. Análise registrada: primária = attract vs base (c5) em
+excesso médio no heldout2; células = 8 variantes, diferenças pareadas
+por variante MÉDIAS sobre as 3 linhagens, sign-flip exato 2⁸ +
+bootstrap hierárquico (linhagem×variante); secundárias = attract vs
+random (idem), best (bilateral), tabela linhagem×variante completa;
+descritivo = variância entre linhagens (a pergunta do parecer).
+**Controle de pool compartilhado** (encadeado ao final): um pool único
+do base (seed 400), top-40 vs random-40 DO MESMO pool, dois adapters,
+leitura única em heldout2 — isola o filtro de valor da adaptação da
+população (ponto 7 do parecer). Custo: ~3 noites de máquina, zero API.
+
 **FP — RETOMADA (26/08 ~11:40, decisão do Roberto)**: completar os 5
 braços cancelados (maxmin16 A/D, heiltri11 A/B/D) para reportar o
 conjunto pré-registrado inteiro e remover a nota de cancelamento do paper.

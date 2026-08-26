@@ -20,14 +20,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from creative_machine.code_exec import run_heuristic_code
 from creative_machine.domains.binpack import evaluate, best_fit, first_fit
-from creative_machine.problem_premises import VARIANTS_C_TRAIN, VARIANTS_C_HELDOUT, FAR_VARIANTS, premise, premise_far, ANGLES
+from creative_machine.problem_premises import VARIANTS_C_TRAIN, VARIANTS_C_HELDOUT, VARIANTS_C_HELDOUT2, FAR_VARIANTS, premise, premise_far, ANGLES
 from problem_loop import closed_functions, inside_open_function
 
 N_INST, N_ITEMS = 20, 200
 MARGIN = 0.001
 
 def variants(which):
-    return {"train": VARIANTS_C_TRAIN, "heldout": VARIANTS_C_HELDOUT, "far": FAR_VARIANTS}[which]
+    return {"train": VARIANTS_C_TRAIN, "heldout": VARIANTS_C_HELDOUT, "heldout2": VARIANTS_C_HELDOUT2, "far": FAR_VARIANTS}[which]
 
 def far_items(name, rng, n):
     if name == "weibull_2_030":
@@ -244,7 +244,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sp = p.add_subparsers(dest="cmd", required=True)
     g = sp.add_parser("gen"); g.add_argument("--model", default="~/models/mlx/Qwen3-8B-Base-8bit"); g.add_argument("--adapter", default="none")
-    g.add_argument("--arm", required=True); g.add_argument("--cycle", type=int, default=0); g.add_argument("--variants", choices=["train", "heldout", "far"], default="train")
+    g.add_argument("--arm", required=True); g.add_argument("--cycle", type=int, default=0); g.add_argument("--variants", choices=["train", "heldout", "heldout2", "far"], default="train")
     g.add_argument("--n", type=int, default=3); g.add_argument("--tokens", type=int, default=1500); g.add_argument("--chunk", type=int, default=125)
     g.add_argument("--seed", type=int, default=0); g.add_argument("--out", required=True)
     v = sp.add_parser("verify"); v.add_argument("--out", required=True)

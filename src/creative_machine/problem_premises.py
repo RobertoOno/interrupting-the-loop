@@ -81,6 +81,12 @@ VARIANTS_C_TRAIN = [(0.02, 0.40), (0.04, 0.40), (0.06, 0.50), (0.08, 0.40), (0.1
 VARIANTS_C_HELDOUT = [(0.05, 0.45), (0.07, 0.38), (0.03, 0.52), (0.09, 0.47), (0.05, 0.58),
                       (0.04, 0.50), (0.08, 0.55), (0.06, 0.42)]
 
+# Battery C-rep (independent lineages): a SECOND held-out set, disjoint from every
+# variant above, generated and scored ONCE at the end of each lineage (never
+# consulted during training or interim analysis).
+VARIANTS_C_HELDOUT2 = [(0.03, 0.44), (0.07, 0.52), (0.09, 0.36), (0.05, 0.50),
+                       (0.02, 0.48), (0.10, 0.44), (0.06, 0.37), (0.08, 0.49)]
+
 
 # Far transfer for battery C: other families (never trained on; the prior moved on
 # small-item uniform ranges — does it move here?). (name, premise sentence).
