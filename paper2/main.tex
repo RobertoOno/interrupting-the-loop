@@ -6,6 +6,7 @@
 \usepackage{microtype}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{hyperref}
@@ -395,8 +396,20 @@ value-filtered adapter lowers the mean without moving the best.}
 \label{tab:c}
 \end{table}
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_c_mean_vs_best.png}
+\caption{The title of this paper, as data (held-out variants, never in any
+training set; cycle 0 is the shared pre-consolidation base). Left: mean
+excess over the lower bound falls under attraction and nowhere else.
+Right: the best candidate never moves --- every arm is pinned at the
+0.0311 ceiling from the first cycle. Consolidation moves the mean, not
+the best.}
+\label{fig:meanbest}
+\end{figure}
+
 \paragraph{Attraction.} Table~\ref{tab:c} gives the held-out reading by arm
-and cycle. At the pre-registered final cycle (3), C1 was $-0.0129$
+and cycle (Figure~\ref{fig:meanbest}). At the pre-registered final cycle (3), C1 was $-0.0129$
 \ci{-0.0317}{+0.0027}, $p=0.109$, not supported at $\alpha=0.05$, with the
 direction consistent (7 of 8 variants better) and the cycle-2 contrast
 supported ($-0.0153$, $p=0.016$); a pre-registered extension to five cycles
@@ -469,8 +482,23 @@ far families the anchored adapter is the best arm on the mean (7.6\% vs
 8.4\% base) because ``be best fit'' is good everywhere, and the only arm
 with no candidate better than the classics.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_n_tails.png}
+\caption{What consolidation costs. Left: the share of candidates
+\emph{better} than the stronger classic heuristic on the far families ---
+the tail where discovery lives --- shrinks from 10\% (base) to 3.9\%
+(attraction) to at most 0.6\% under every tail-preserving objective we
+built. Right: on held-out variants the consolidated arms concentrate
+\emph{exactly at} the classic's level (attraction 72\%, anchored
+repulsion 100\% --- functional collapse), against 20\% for the base.
+Competence is bought with idiosyncrasy.}
+\label{fig:tails}
+\end{figure}
+
 \paragraph{Keeping the tails.} Two objectives built to keep the tails
-(pre-registered) recovered functional diversity and nothing else. The qd
+(pre-registered) recovered functional diversity and nothing else
+(Figure~\ref{fig:tails}). The qd
 adapter has 25\% of candidates at the classic level (attract 72\%,
 $p=0.004$) and 2.4$\times$ the distinct score levels, at a cost of $+2.1$
 points of mean excess ($p=0.008$), and its better-than-classic rate on the

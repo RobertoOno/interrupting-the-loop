@@ -253,6 +253,18 @@ F2 (auc): $+0.115$, $p=0.070$: the operators cost budget early (the
 notebook and agenda calls spend samples' worth of tokens) and repay it
 late.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.62\linewidth]{fig_f23_cube.png}
+\caption{The completed $2^3$ at a glance (cell means over nine problems,
+two replicates). Memory-on cells (blue) hold the four best gap fractions;
+repulsion-on cells (circles) hold the highest functional diversity; the
+two axes barely interact ($\beta_{M\times R} \approx 0$). Collapse counts
+in parentheses: memory+repulsion is the only arm that never collapses;
+agenda+repulsion collapses most.}
+\label{fig:cube}
+\end{figure}
+
 \paragraph{The completed $2^3$.}
 \begin{sloppypar}
 Three pairwise arms (memory+agenda, memory+repulsion, agenda+repulsion)
@@ -269,7 +281,7 @@ repulsion ($+0.011$) near zero on frac. The decomposition is exact
 certified composite gain splits as roughly $58\%$ memory, $16\%$
 agenda, $12\%$ repulsion and $14\%$ three-way --- at $n=9$ the total
 certifies, the parts do not. Two patterns in the cube are worth the trip. First, each
-operator has one job (Table~\ref{tab:factorial}): the four memory-on
+operator has one job (Table~\ref{tab:factorial}, Figure~\ref{fig:cube}): the four memory-on
 cells hold the four best mean fracs, while every repulsion-on cell sits
 at $0.68$--$0.80$ functional diversity against $0.41$--$0.59$ without
 it --- memory moves the gap, repulsion moves diversity. Second, the
