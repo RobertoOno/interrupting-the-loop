@@ -1414,6 +1414,21 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**C-REP — EMENDA DATADA (2026-08-27 ~05:10, falha técnica SEM olhada)**:
+as gerações finais de heldout2 falharam no argparse (--cycle "5f" não é
+int) ANTES de gerar qualquer dado — heldout2 segue nunca-consultado; os
+5 ciclos e adapters de cada linhagem estão íntegros. Correção:
+`run_c_rep_fix.sh` (na fila, dispara após C-REP DONE) re-executa
+exatamente as leituras finais pré-registradas com ciclo inteiro
+(linhagens: c6; pool: c2), MESMAS sementes (109/209/309/409). Análise
+pronta (`analysis_c_rep.py`: CR1 primária attract<base em heldout2,
+células=8 variantes, médias sobre linhagens, sign-flip 2⁸ + bootstrap
+hierárquico; CR2 attract<random; CR3 best bilateral; tabela
+linhagem×variante; pool compartilhado) — mecânica testada SÓ em pools de
+treino (--train-smoke; espiada legítima, não-confirmatória: attract<base
+nas duas linhagens completas, −0,0144 e −0,0115). Leitura única de
+heldout2 apenas quando C-REP-FIX DONE.
+
 **BATERIA C-REP — linhagens independentes (PRÉ-REGISTRO, 2026-08-26
 ~15:30, antes de rodar; item decisivo do parecer 2ª rodada do amigo,
 aprovado pelo Roberto)** — pergunta: o procedimento (gerar → selecionar
