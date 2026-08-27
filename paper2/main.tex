@@ -402,8 +402,9 @@ value-filtered adapter lowers the mean without moving the best.}
 \caption{The title of this paper, as data (held-out variants, never in any
 training set; cycle 0 is the shared pre-consolidation base). Left: mean
 excess over the lower bound falls under attraction and nowhere else.
-Right: the best candidate never moves; every arm is pinned at the
-0.0311 ceiling from the first cycle. Consolidation moves the mean, not
+Right: the best candidate shows no detectable improvement; the trained
+arms sit at the 0.0311 level from the first cycle, while the base's best
+fluctuates between 0.0317 and 0.0414. Consolidation moves the mean, not
 the best.}
 \label{fig:meanbest}
 \end{figure}
@@ -636,14 +637,16 @@ keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
 absolute tail events; the observed best improved nowhere. Mean candidate
-quality can be bought; the observed best, so far, has not moved. And the
-question the review of this work rightly made central, whether the
-procedure replicates or the effect was a peculiarity of one training
+quality among valid candidates can be bought; no improvement in the
+observed best was detected. And the central remaining question, whether
+the procedure replicates or the effect was a peculiarity of one training
 path, is now answered: three independent lineages, fresh seeds, five
 cycles fixed in advance, a second held-out set read exactly once, and
 the same result three times, $-2.0$, $-1.8$ and $-1.9$ points of mean
-excess against the base ($p=0.008$), with the best candidate immobile in
-every one ($p=0.094$).
+excess against the base (aggregated by held-out variant, positive in
+seven evaluable variants, $p=0.008$), and no detectable improvement of
+the best (difference $-0.004$ \ci{-0.011}{-0.000}; any true improvement
+bounded by about one excess point).
 
 \appendix
 \section{Reproducibility and experimental provenance}
