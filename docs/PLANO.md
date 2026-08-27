@@ -1414,6 +1414,28 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**FAMILY-HINT (PRÉ-REGISTRO, 2026-08-27 ~15:50, antes de rodar; o teste
+decisivo do título do paper 3, aprovado pelo Roberto)** — beatavg, 30B
+local chat, braço BD (receita parcimoniosa), 120 amostras, **5 condições
+× 3 sementes** (11/12/13), encadeado após o SFT-only (`run_hint.sh`,
+`runs/frontier/hint/`, marcador HINT DONE): (a) nohint; (b) hint
+genérico ("família fundamentalmente diferente"); (c) hint ESTRUTURAL
+nomeando a família Bellec–Fritz sem parâmetros (átomo em zero + escada
+geométrica acumulando no topo); (d) famseed = semente CRUA da família
+(medida 0,2734, acima do seed padrão 0,2708, longe do platô); (e)
+oracle = nossa MELHOR instanciação manual da família no grid (0,3742).
+**Fato medido antes de rodar, parte do registro**: a família B–F pura em
+grid L=5000 com desigualdade estrita fica ABAIXO do platô esparso
+(0,3742 < 0,3816; empates diádicos sangram massa; recursão de 2 níveis
+não ajuda) — logo a hipótese "a última milha é a ideia" está sob teste
+real, não assumida. Desfechos registrados (estimativa, n=3 sementes/
+condição; sem certificação): best final por condição; estrutura de
+escalas do best final (nº de clusters de escala); trajetória; para (d)/
+(e): o loop explora a família (sobe), abandona (volta ao esparso) ou
+hibridiza? Direções esperadas: (c),(d) > (a),(b) se a ideia falta;
+(a)≈(c) se instrução não basta (coerente com FP); qualquer resultado
+informa o título. Custo: ~8 h de máquina (15 corridas).
+
 **CONTROLE SFT-ONLY (PRÉ-REGISTRO, 2026-08-27 ~16:00, antes de rodar;
 exigência das rodadas 2–3 do parecer, aprovado pelo Roberto)** — o braço
 repel_anch combina DPO (repelir os piores) + âncora SFT (atrair os
