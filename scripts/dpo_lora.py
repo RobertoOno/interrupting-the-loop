@@ -42,6 +42,7 @@ def main():
     ap.add_argument("--iters", type=int, default=80); ap.add_argument("--pairs-per-step", type=int, default=2)
     ap.add_argument("--beta", type=float, default=0.1); ap.add_argument("--lr", type=float, default=1e-5)
     ap.add_argument("--alpha", type=float, default=0.0, help="SFT anchor weight on the chosen completion (RPO-style); 0 = plain DPO")
+    ap.add_argument("--sft-only", action="store_true", help="drop the DPO term entirely: loss = alpha * NLL(chosen). Matched control for the anchored arm")
     ap.add_argument("--num-layers", type=int, default=16); ap.add_argument("--rank", type=int, default=8)
     ap.add_argument("--max-len", type=int, default=1024); ap.add_argument("--seed", type=int, default=0)
     a = ap.parse_args()
@@ -70,7 +71,9 @@ def main():
         lc = seq_logprob(model, c_ids, pl); lr_ = seq_logprob(model, r_ids, pl)
         margin = a.beta * ((lc - rc) - (lr_ - rr))
         loss = -nn.log_sigmoid(margin).mean()
-        if a.alpha > 0:   # anchor: token-mean NLL of the chosen completion (RPO-style)
+        if a.sft_only:    # matched control: anchor term only, same data order and steps
+            loss = a.alpha * (-seq_logprob(model, c_ids, pl, mean=True)).mean()
+        elif a.alpha > 0:  # anchor: token-mean NLL of the chosen completion (RPO-style)
             loss = loss + a.alpha * (-seq_logprob(model, c_ids, pl, mean=True)).mean()
         return loss, margin.mean()
 
@@ -97,7 +100,7 @@ def main():
     out = Path(a.adapter_path); out.mkdir(parents=True, exist_ok=True)
     mx.save_safetensors(str(out / "adapters.safetensors"), dict(tree_flatten(model.trainable_parameters())))
     (out / "adapter_config.json").write_text(json.dumps({"fine_tune_type": "lora", "lora_parameters": lora_cfg, "num_layers": a.num_layers,
-                                                          "method": "dpo" if a.alpha == 0 else "dpo+sft_anchor", "beta": a.beta, "alpha": a.alpha, "iters": a.iters, "learning_rate": a.lr,
+                                                          "method": "sft_only" if a.sft_only else ("dpo" if a.alpha == 0 else "dpo+sft_anchor"), "beta": a.beta, "alpha": a.alpha, "iters": a.iters, "learning_rate": a.lr,
                                                           "pairs": a.pairs, "model": str(Path(a.model).expanduser())}, indent=2))
     print(f"saved adapter to {out}", flush=True)
 

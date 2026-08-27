@@ -1414,6 +1414,22 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**CONTROLE SFT-ONLY (PRÉ-REGISTRO, 2026-08-27 ~16:00, antes de rodar;
+exigência das rodadas 2–3 do parecer, aprovado pelo Roberto)** — o braço
+repel_anch combina DPO (repelir os piores) + âncora SFT (atrair os
+escolhidos); qual metade produz a concentração de 100% no nível do
+clássico? Controle casado: MESMO treinador (`dpo_lora.py --sft-only`),
+mesmos pares (pairs_repel_c5), mesmos 80 iters, mesma lr 1e-5, mesmo
+alpha 1.0, mesma ordem de dados — só o termo DPO removido; mesmas
+gerações de avaliação (heldout seed 5, far seed 9) do run_c_repel2.
+Desfechos: fração exatamente-no-clássico no held-out, excesso médio,
+métricas far (cauda). Leitura registrada: se o SFT-only concentrar ≈100%
+→ a concentração é da ATRAÇÃO (o DPO não é o motor); se não → a
+repulsão é necessária. Análise descritiva/mecanística (held-out já
+consultado antes; nenhum claim confirmatório novo de tamanho de efeito).
+Custo: ~2 h. Depois dele, na mesma noite: family-hint (pré-registro
+próprio a seguir).
+
 **C-REP — LEITURA ÚNICA (2026-08-27 14:30) — O PROCEDIMENTO REPLICA**:
 **CR1 (primária) SUPORTADA: attract − base = −0,0187 [−0,0308, −0,0080],
 p = 0,0078** no heldout2 nunca-consultado; por linhagem: −0,0196,
