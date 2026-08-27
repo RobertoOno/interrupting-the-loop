@@ -50,9 +50,12 @@ $p=0.004$), while the best observed candidate never improves and the
 per-candidate rate of better-than-classic candidates on far families
 falls from 10\% to at most 3.9\% (absolute yields, resting on one to five
 events, run the other way). Inference-time stimulation reorganizes a
-fixed prior; weight consolidation moves its mass toward the known good,
-at a per-candidate cost in the tails that the registered independent
-lineages now running must confirm.
+fixed prior; weight consolidation moves its mass toward the known good.
+Three registered independent lineages with fresh seeds and
+never-consulted held-outs replicate both halves of the title: the mean
+shifts in all three ($-1.9$ points pooled, $p=0.008$; per lineage $-2.0$,
+$-1.8$, $-1.9$) and the best observed candidate moves in none
+($p=0.094$).
 \end{abstract}
 
 \section{Introduction}
@@ -575,11 +578,15 @@ bounds what selection and feedback could show there (battery C's family was
 chosen for headroom for that reason, and its headroom is still small:
 0.3--0.5 points); the oracle that writes recaps and questions is the
 generator itself and sometimes repeats itself, which the anti-copy ladder
-mitigates but does not remove; battery C is ONE training lineage of five cycles of forty examples on an
-8B model with a rank-8 adapter; the eight held-out variants replicate
-the adapter, not the training procedure, and independent lineages (new
-generation seeds, new example sampling, fresh never-consulted held-outs,
-a stopping rule fixed in advance) are the required next step; its primary
+mitigates but does not remove; the original battery C is one training
+lineage of five cycles of forty examples on an 8B model with a rank-8
+adapter, whose eight held-out variants replicate the adapter, not the
+procedure; the replication battery (three independent lineages, new
+generation and selection seeds, five cycles fixed in advance, a second
+held-out set generated and read once) closes that gap for the mean and
+the value filter, on seven of eight registered variants (the base
+produced no valid candidate in one, the production deficit again); the
+original lineage's primary
 contrast missed $\alpha$ at the registered third cycle ($p=0.11$) and
 closed only in a sequential-analysis sense at the extension to five
 ($p=0.008$), the held-out set having been consulted at both looks; its
@@ -596,9 +603,10 @@ QD arm is a small implementation (three niches per variant), so
 ``tail-preserving objectives keep the mediocre'' is a statement about this
 implementation, not the class \citep{wan2025loongflow}; and the
 after the first cycle attract and random are two whole adaptive
-procedures rather than two selection criteria applied to one pool (a
-shared-pool one-shot control, top-40 vs random-40 from a single base
-pool, is registered and running with the new lineages); excluding the far
+procedures rather than two selection criteria applied to one pool (the
+registered shared-pool one-shot control, top-40 vs random-40 from a
+single base pool, points the registered way, $-0.008$, $p=0.078$ at
+$n{=}8$, underpowered alone); excluding the far
 family in which the base produced no valid candidate treats a production
 failure as missing data, so the paired far contrast is conditioned on
 validity; the selection criterion admits lucky candidates (training finds lose on
@@ -626,9 +634,14 @@ keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
 absolute tail events; the observed best improved nowhere. Mean candidate
-quality can be bought; the observed best, so far, has not moved, and
-whether the procedure replicates is the question the registered
-independent lineages now running exist to answer.
+quality can be bought; the observed best, so far, has not moved. And the
+question the review of this work rightly made central, whether the
+procedure replicates or the effect was a peculiarity of one training
+path, is now answered: three independent lineages, fresh seeds, five
+cycles fixed in advance, a second held-out set read exactly once, and
+the same result three times, $-2.0$, $-1.8$ and $-1.9$ points of mean
+excess against the base ($p=0.008$), with the best candidate immobile in
+every one ($p=0.094$).
 
 \appendix
 \section{Reproducibility and experimental provenance}
@@ -647,7 +660,7 @@ C cycles 1--3 & 2026-08-21 & none (new domain) & attract vs base (c3) & not supp
 C cycles 4--5 & 2026-08-22 & c3 result & attract vs base (c5) & sequential, $p=0.008$ \\
 C-repel, N (tails) & 2026-08-22 & C & keep the tails & degenerate / not kept \\
 Matched-$k$ analyses & 2026-08-24 & all C & best-of-$k$, pass@$k$ & reported \\
-C-rep (3 lineages) & 2026-08-26 & all above & procedure replicates? & running \\
+C-rep (3 lineages) & 2026-08-26 & all above & procedure replicates? & supported ($p=0.008$; best null) \\
 \bottomrule
 \end{tabular}
 \caption{Order of registrations and looks. The cycle-5 result is a
