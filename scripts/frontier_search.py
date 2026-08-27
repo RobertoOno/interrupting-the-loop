@@ -255,8 +255,14 @@ def main():
     ap.add_argument("--chat", action="store_true", help="wrap prompts with the chat template (instruct/coder proposers); the program is read from the reply")
     ap.add_argument("--verify-timeout", type=int, default=20, help="sandbox time limit per candidate (seconds)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
+    ap.add_argument("--hint", default="none", help="text appended to the problem statement in every prompt (family-hint battery)")
+    ap.add_argument("--seed-file", default="none", help="file whose contents replace the problem's seed program")
     a = ap.parse_args()
-    P = PROBLEMS[a.problem]
+    P = dict(PROBLEMS[a.problem])
+    if a.seed_file != "none":
+        P["seed_program"] = Path(a.seed_file).read_text()
+    if a.hint != "none":
+        P["statement"] = P["statement"] + "\n\nHint: " + a.hint
     api = None
     if a.api_model != "none":
         from creative_machine.blend import BedrockClient
