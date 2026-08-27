@@ -274,7 +274,19 @@ def main():
                 return f"(api error: {str(exc)[:80]})"
     # one model process at a time: a second 30B instance exhausts unified memory (machine rebooted 2026-08-22)
     import os, subprocess
-    me = {str(os.getpid()), str(os.getppid())}
+    me = set()
+    try:  # exclude the WHOLE ancestor chain (sh -> nohup -> caffeinate -> ...), not just the parent
+        tbl = {}
+        for l in subprocess.run(["ps", "-axo", "pid,ppid"], capture_output=True, text=True).stdout.splitlines()[1:]:
+            parts = l.split()
+            if len(parts) >= 2:
+                tbl[int(parts[0])] = int(parts[1])
+        pid = os.getpid()
+        while pid > 1 and pid in tbl and len(me) < 25:
+            me.add(str(pid)); pid = tbl[pid]
+        me.add(str(pid))
+    except Exception:
+        me = {str(os.getpid()), str(os.getppid())}
     others = []
     for l in subprocess.run(["ps", "-axo", "pid,command"], capture_output=True, text=True).stdout.splitlines():
         parts = l.split(None, 1)
@@ -285,6 +297,8 @@ def main():
             continue   # only real python model processes, not the shells that launched us
         if "--api-model" in cmd and "--api-model none" not in cmd:
             continue   # API-only proposers hold no local weights
+        if str(a.out) in cmd:
+            continue   # our own wrapper (caffeinate does not stay as parent on macOS)
         if any(k in cmd for k in ("frontier_search.py", "dream_run.py", "consolidate.py gen", "mlx_lm lora", "dpo_lora.py", "problem_loop.py", "evolve_interrupt.py")):
             others.append(l)
     if others and api is None and not os.environ.get("CM_ALLOW_MULTI"):   # API-only runs load no local model
