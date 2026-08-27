@@ -1438,6 +1438,21 @@ do base (seed 400), top-40 vs random-40 DO MESMO pool, dois adapters,
 leitura única em heldout2 — isola o filtro de valor da adaptação da
 população (ponto 7 do parecer). Custo: ~3 noites de máquina, zero API.
 
+**FP — CONJUNTO COMPLETO (26/08 19:22; 8/8 corridas pré-registradas +
+braço record reutilizado)**: quadro final por problema — beatavg: A
+0,38707, B 0,38659, D 0,38759 (E anterior 0,3897): ≤0,001 entre braços;
+maxmin16: A = B = D = **12,889230** (idênticos, abaixo do valor exato do
+colab, gen 0); heiltri11: A = B = D = **0,036530** (idênticos; ATENÇÃO
+de calibração: o best_known 0,0365 do registro é PISO — o comentário do
+código diz "AlphaEvolve 2025 (> 0.0365)" — então heiltri = "alcança o
+piso da referência congelada", SEM claim de superação, diferente do
+maxmin16 onde a referência é exata). Leitura fechada: na força de
+fronteira os operadores não movem NADA mensurável — todos os braços
+convergem ao mesmo valor nos 3 problemas; os ganhos certificados são
+fenômeno do propositor local. Paper 3 atualizado com os 3 problemas e a
+nota de cancelamento REMOVIDA (retomada cumpriu o combinado). Custo
+total FP ~US$150.
+
 **FP — RETOMADA (26/08 ~11:40, decisão do Roberto)**: completar os 5
 braços cancelados (maxmin16 A/D, heiltri11 A/B/D) para reportar o
 conjunto pré-registrado inteiro e remover a nota de cancelamento do paper.
