@@ -1414,6 +1414,15 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**ESCALA-2 (PRÉ-REGISTRO, 2026-08-27 ~16:10; "experimento mínimo" do
+parecer 3ª rodada)** — a inversão de escala isolava E vs D; falta saber
+O QUE escala: beatavg, 600 amostras, braços **B / BD / E × 3 sementes**
+(21/22/23), 9 corridas (`run_scale2.sh`, encadeado após o HINT).
+Perguntas registradas (estimativa, n=3): B sozinho compõe com
+orçamento? BD mantém a vantagem parcimoniosa em 600? agenda acrescenta
+algo em escala? Desfechos: best final e trajetória por braço×semente;
+variância entre sementes (a que domina no maxmin). Custo: ~22 h.
+
 **FAMILY-HINT (PRÉ-REGISTRO, 2026-08-27 ~15:50, antes de rodar; o teste
 decisivo do título do paper 3, aprovado pelo Roberto)** — beatavg, 30B
 local chat, braço BD (receita parcimoniosa), 120 amostras, **5 condições
