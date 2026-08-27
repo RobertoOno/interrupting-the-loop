@@ -1414,6 +1414,11 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**ESCALA-2 — ADIADA (decisão do Roberto, 27/08 ~18:20, ANTES de
+qualquer corrida)**: bateria cortada da fila para não atrasar o arXiv;
+o paper 3 mantém a ressalva honesta ("comportamento do BD em orçamento
+maior não testado"). Script e pré-registro prontos para v2/camera-ready.
+
 **ESCALA-2 (PRÉ-REGISTRO, 2026-08-27 ~16:10; "experimento mínimo" do
 parecer 3ª rodada)** — a inversão de escala isolava E vs D; falta saber
 O QUE escala: beatavg, 600 amostras, braços **B / BD / E × 3 sementes**
