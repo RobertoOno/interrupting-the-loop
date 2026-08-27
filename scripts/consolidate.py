@@ -59,7 +59,7 @@ def premise_for(which, vi):
     return premise(lo, hi)
 
 def vseed(which, vi, base):
-    return base + vi + {"train": 0, "heldout": 50, "far": 80}[which]
+    return base + vi + {"train": 0, "heldout": 50, "far": 80, "heldout2": 120}[which]
 
 def norm(code):
     body = "\n".join(l.strip() for l in code.splitlines()[1:] if l.strip() and not l.strip().startswith('"""'))

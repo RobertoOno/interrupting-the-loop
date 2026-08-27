@@ -1414,6 +1414,24 @@ beatavg como ESTIMATIVA de corrida única, e o gen-0 do maxmin16 segue
 como o dado de escopo. Se decidirmos completar depois, roda numa noite
 (o run_frontier_ops.sh é resumível e pula o que está pronto).
 
+**C-REP — LEITURA ÚNICA (2026-08-27 14:30) — O PROCEDIMENTO REPLICA**:
+**CR1 (primária) SUPORTADA: attract − base = −0,0187 [−0,0308, −0,0080],
+p = 0,0078** no heldout2 nunca-consultado; por linhagem: −0,0196,
+−0,0176, −0,0188 — três linhagens independentes, mesmo efeito, mesmo
+tamanho (original: −1,7 pp; réplicas: −1,9 pp). **CR2 SUPORTADA**
+(attract − random = −0,0149, p = 0,0156; −0,0203/−0,0119/−0,0125): o
+filtro de valor replica. **CR3 (best) NÃO suportada** (−0,0038,
+p = 0,094): o melhor não se move — o outro lado do título também
+replicou. Pool compartilhado (n=8, one-shot): top − rand = −0,0076,
+p = 0,078 — direção certa, subpotente sozinho. NOTA de missingness:
+base da L1 sem candidato válido na variante 0 → interseção de 7 células
+(o déficit de produção do base, documentado; exclusão conservadora
+reportada). Emendas técnicas do caminho (sem nenhuma olhada em dados):
+vseed sem 'heldout2' (offset 120 adicionado na correção), e o loop de
+verificação inicial rodou com $spec não dividido pelo zsh (verifies em
+diretórios inexistentes, '0 candidates'; re-rodados com caminhos
+explícitos). `docs/APPENDIX_C_REP.md`. **O bloqueador do paper 2 caiu.**
+
 **C-REP — EMENDA DATADA (2026-08-27 ~05:10, falha técnica SEM olhada)**:
 as gerações finais de heldout2 falharam no argparse (--cycle "5f" não é
 int) ANTES de gerar qualquer dado — heldout2 segue nunca-consultado; os
