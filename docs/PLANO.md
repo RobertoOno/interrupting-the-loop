@@ -1423,6 +1423,24 @@ orçamento? BD mantém a vantagem parcimoniosa em 600? agenda acrescenta
 algo em escala? Desfechos: best final e trajetória por braço×semente;
 variância entre sementes (a que domina no maxmin). Custo: ~22 h.
 
+**SFT-ONLY — RESULTADO (27/08 16:06): A CONCENTRAÇÃO É DA ÂNCORA** — só
+o termo supervisionado (sem DPO), mesmos pares/passos/lr do repel_anch:
+held-out **96% exatamente no nível do clássico** (repel_anch: 100%;
+attract: 72%), média 0,0317 (repel_anch: 0,0311), best 0,0241; far: 78%
+no clássico, média 0,1278 (pior que todos — generaliza pior), 0 caudas.
+Leitura: "repelir os piores" nunca foi o motor; a atração supervisionada
+concentra sozinha (o DPO acrescenta os 4 pp finais). O paper 2 troca
+"which half awaits a control" pela resposta.
+
+**EMENDA — guard, 2 falhas em cadeia (27/08 ~16:06–17:57, sem perda de
+dados)**: as 24 corridas hint/scale2 da 1ª passada se AUTO-recusaram —
+o guard casou com o próprio wrapper caffeinate (no macOS o caffeinate
+não permanece como pai; exclusão por ppid e depois por cadeia de
+ancestrais falharam). Correção definitiva: excluir qualquer processo
+cujo comando contenha o PRÓPRIO --out da corrida. Cadeias relançadas
+17:57 (hint rodando; scale2 reencadeada), resumíveis, logs falhos
+limpos.
+
 **FAMILY-HINT (PRÉ-REGISTRO, 2026-08-27 ~15:50, antes de rodar; o teste
 decisivo do título do paper 3, aprovado pelo Roberto)** — beatavg, 30B
 local chat, braço BD (receita parcimoniosa), 120 amostras, **5 condições
