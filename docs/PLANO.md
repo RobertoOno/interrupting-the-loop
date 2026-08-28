@@ -1428,6 +1428,29 @@ orçamento? BD mantém a vantagem parcimoniosa em 600? agenda acrescenta
 algo em escala? Desfechos: best final e trajetória por braço×semente;
 variância entre sementes (a que domina no maxmin). Custo: ~22 h.
 
+**RESPOSTA À 4ª RODADA DO the external reviewer (28/08; aplicada no dia)** — o achado
+central dele CONFERIDO E CONFIRMADO: o best do attract nas 3 linhagens é
+EXATAMENTE 0,021028 = o clássico da variante 0 do heldout2 (6 casas);
+"o best não se move" era falso — **o best se move ATÉ o clássico e não
+além** (leitura-atrator, mais forte que a original). Paper 2: abstract/
+contribuições/conclusão/proveniência reescritos nessa leitura; CI vs p
+do best explicado (agregações distintas, bootstrap descritivo); fig 2
+separa macro-average de pooled (10,0% macro vs 5,6% pooled no base);
+SFT-only entrou na tabela ladder + nuance far (DPO muda comportamento
+fora-da-família: 0,0758 vs 0,1278); frases de discussão calibradas.
+Paper 3: p=0,023 qualificado como nominal acumulado (Fisher dos
+estágios ≈0,08 no texto); **sensibilidade do frac SEM piso: idêntica
+(+0,196, p=0,0234; excluindo os 2 platôs: +0,252, mesmo p)** — a
+primária é robusta à métrica; "rejects anchoring" → "no positive
+interaction, bounded ±0.04"; "grid ceiling" → "best tested finite-grid
+implementation"; contradição pré/pós-hint resolvida (moldura
+histórica); "proposer ruled out" corrigido; classificador de família
+FORMALIZADO (≤50 átomos, ≥0,3 em {0..3}, ≥3 bandas log: 8/9 finais das
+condições-família in-family, 0/6 das sem-dica); claims localizados
+("no unaided candidate in the three registered runs"); caveat
+inter-baterias do 0,3816; rótulos B-on/D-on nas figuras; DOIs do paper
+1 nos dois bibs. PENDENTE (decisão Roberto): título do paper 2.
+
 **FAMILY-HINT — RESULTADO (27/08 21:53; 15/15; `docs/APPENDIX_HINT.md`)
 — HIPÓTESE DO TÍTULO NÃO SUPORTADA NESTE GRID, com nuance nova**:
 médias (3 sementes): nohint 0,3522 > generic 0,3326 > structural
