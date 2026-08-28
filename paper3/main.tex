@@ -28,39 +28,32 @@
 
 \begin{abstract}
 Verified search, in which a language model proposes programs, a hard
-evaluator scores them, and selection keeps the best, is how machine
-systems have recently moved mathematical records; controlled ablations of
-the proposer-side components remain rare. We instrument a minimal
-FunSearch-style loop at office scale (a 30B local model on a laptop,
-120--600 verified samples per run) with three operator packages: a
-\emph{schematic notebook} the model writes and carries instead of
-verbatim elites, a \emph{named obstacle} (agenda), and \emph{behavioural
-repulsion} from constructions already found. On nine construction
-problems from a public repository (six in the discovery battery, three in
-a prospectively registered extension), the complete $2^3$ factorial with
-two replicates supports the primary contrast: the composition closes more
-of the seed-to-record gap ($+0.196$ \ci{+0.059}{+0.343}, $p=0.023$
-combined; median per-problem effect $+0.045$). Repulsion raises
-functional diversity everywhere ($+0.31$, $p=0.0039$; the operator partly
-optimizes this quantity). The factorial rejects anchoring as an
-interaction (memory$\times$repulsion $\beta\approx 0$): the gain
-decomposes additively, the notebook package carrying the largest share,
-and a descriptive pattern consistent with collapse prevention remains:
-memory+repulsion is the only arm that
-never collapses (0 of 18 runs, against 3 for repulsion alone) and matches
-the full composition to within $0.025$. A frontier proposer under the
-identical loop reaches in tens of samples what the local model does not
-in hundreds, and its gains arrive without the operators; once each
-proposer reaches its plateau, the tested grid and verifier-time changes
-add nothing. The search stalls after
-closing $\approx$92\% of the gap toward the best published construction
-on the flagship problem, every proposer inside one construction family.
-The registered family-hint test gives that reading its first measured
-answer on the flagship: named in words, the reference family is adopted
-and loses; handed as code, it is optimized but its grid ceiling lies
-below the plateau reached unaided. The loop transports and optimizes
-ideas; it did not originate one. We release the harness, every
-candidate, and the dated pre-registrations.
+evaluator scores them, and selection keeps the best, has recently moved
+mathematical records; controlled ablations of the proposer-side
+components remain rare. We instrument a minimal FunSearch-style loop at
+office scale (a 30B local model on a laptop, 120--600 verified samples
+per run) with three operator packages: a schematic notebook the model
+writes and carries instead of verbatim elites, a named obstacle, and
+behavioural repulsion from constructions already found. On nine
+construction problems from a public repository, the complete $2^3$
+factorial with two replicates supports the primary contrast in a
+two-look sequence: the composition closes more of the seed-to-record gap
+($+0.196$ \ci{+0.059}{+0.343}, $p=0.023$; median per-problem effect
+$+0.045$). Repulsion raises functional diversity everywhere ($+0.31$,
+$p=0.0039$; the operator partly optimizes this quantity). The factorial
+rejects anchoring as an interaction: the gain decomposes additively, the
+notebook package carrying the largest share, and memory+repulsion is the
+only arm that never collapses (0 of 18 runs) while matching the full
+composition to within $0.025$. A frontier proposer under the identical
+loop reaches in tens of samples what the local model does not in
+hundreds, and its gains arrive without the operators. The search stalls
+after closing $\approx$92\% of the gap toward the best published
+construction on the flagship problem, and the registered family-hint
+test gives the stall its first reading: named in words, the reference
+family is adopted and loses; handed as code, it is optimized but its
+grid ceiling lies below the plateau reached unaided. The loop transports
+and optimizes ideas; it did not originate one. We release the harness,
+every candidate, and the dated pre-registrations.
 \end{abstract}
 
 \section{Introduction}
