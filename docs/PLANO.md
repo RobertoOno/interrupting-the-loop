@@ -1428,6 +1428,38 @@ orçamento? BD mantém a vantagem parcimoniosa em 600? agenda acrescenta
 algo em escala? Desfechos: best final e trajetória por braço×semente;
 variância entre sementes (a que domina no maxmin). Custo: ~22 h.
 
+**RESPOSTA À 5ª RODADA DO the external reviewer (28/08; aplicada no dia; Roberto:
+"refletir, não seguir estritamente")** — veredito dele: P2 weak accept
+após correções localizadas ("não precisa de nova bateria"); P3 weak
+accept especializado. APLICADO: P2 — todas as frases herdadas de
+imobilidade do best mortas (legendas tab 4/fig 3/fig 1, conclusão,
+"Progression and frontier"); decomposição em TRÊS efeitos explícita
+(produção → alcançar o clássico [random também chega a 0,021028];
+filtro de valor → deslocamento da média); **sensibilidade de imputação
+da variante excluída: n=8, 8/8 a favor, p=0,0039 sob ambos os limites —
+o condicionamento era conservador**; controles de linhagem única
+rotulados; legenda das caudas bilateral; standing question calibrada;
+typo "the after" achado (quebra de linha) e morto; P3 — family-hint
+promovido a SEÇÃO de resultados com tabela por semente e classificador
+declarado como manipulation check parcial; varredura
+"certified/rejects" completa → nominal/no-evidence+bounds;
+**diversidade por AST computada (independente do filtro): D-on 0,67–0,87
+vs 0,38–0,39 A/B, D−A +0,27 no piso n=3 — a diversidade não é só
+tautologia**; oracle → "strong in-family seed"/"best tested finite-grid
+instantiation"; "grid ceiling" eliminado; percentuais 57–99,9% →
+mediana de frac 0,71; caveats de suíte selecionada e
+retrieval-vs-discovery nas limitações; orçamento com inserções no
+archive por braço e "matched em propostas/verificações, não
+demonstradamente em tokens"; abstract com p de combinação de estágios
+(~0,08) ao lado do nominal; bibs com título novo do paper 2 e arXiv
+visível do paper 1. NÃO SEGUIDO (com justificativa): título singular
+("a Plateau") — mantido plural: os platôs são fatos observados, o
+vínculo de família é reivindicado só no beatavg; novos controles do
+hint (seeds pareadas por score, paráfrases) — registrados como
+próximos controles NO TEXTO, sem rodar (regra: nada antes do arXiv);
+modelo hurdle completo — coberto pela decomposição de duas partes +
+imputação.
+
 **RESPOSTA À 4ª RODADA DO the external reviewer (28/08; aplicada no dia)** — o achado
 central dele CONFERIDO E CONFIRMADO: o best do attract nas 3 linhagens é
 EXATAMENTE 0,021028 = o clássico da variante 0 do heldout2 (6 casas);

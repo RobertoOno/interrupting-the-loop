@@ -38,9 +38,9 @@ behavioural repulsion from constructions already found. On nine
 construction problems from a public repository, the complete $2^3$
 factorial with two replicates favours the primary contrast in a nominal
 two-stage analysis: the composition closes more of the seed-to-record
-gap ($+0.196$ \ci{+0.059}{+0.343}, nominal $p=0.023$; median
-per-problem effect $+0.045$; robust to removing the seed floor from the
-metric). Repulsion raises construction-hash diversity everywhere
+gap ($+0.196$ \ci{+0.059}{+0.343}; nominal pooled $p=0.023$,
+stage-combination $p\approx 0.08$; median per-problem effect $+0.045$;
+robust to removing the seed floor from the metric). Repulsion raises construction-hash diversity everywhere
 ($+0.31$, $p=0.0039$; partly a manipulation check, since the operator
 optimizes a relative of this quantity). The factorial finds no positive
 memory-by-repulsion interaction and bounds any such interaction to about
@@ -49,7 +49,8 @@ carrying the largest descriptive share, and memory+repulsion is the only
 arm that never collapses (0 of 18 runs), with a mean $0.025$ below the
 full composition's, a difference unresolved at $n=9$. A frontier proposer under the identical
 loop reaches in tens of samples what the local model does not in
-hundreds, and its gains arrive without the operators. The search stalls
+hundreds, and in single scoping runs its gains arrive without the
+operators (differences at most $0.003$). The search stalls
 after closing $\approx$92\% of the gap toward the best published
 construction on the flagship problem, and the registered family-hint
 test gives the stall its first reading: named in words, the reference
@@ -114,13 +115,13 @@ model under the identical loop and budget, on the same problem,
 locating the residual gap in the proposer rather than in the loop, with a
 frontier-strength scoping run in which the single-run operator
 differences are at most $0.001$--$0.003$.
-(5) An honest calibration of office-scale verified search, reaching
-57--99.9\% of the reference values (median 89\%) at 120--600 samples,
-and a characterized wall: the tested grid and verifier-time changes did
-not improve the result, a stronger proposer raised and accelerated the
-plateau without closing the final gap, and the construction family
-remains the leading suspect for the binding constraint. (Reference
-percentages are raw value ratios; frac in the text is gap-based.)
+(5) An honest calibration of office-scale verified search: the composed
+arm closes a median $0.71$ of the seed-to-reference gap (per-problem
+$0.10$--$0.99$; two problems sit at plateaus every arm shares), the
+tested grid and verifier-time changes did not improve the result, a
+stronger proposer raised and accelerated the flagship plateau without
+closing the final gap, and the construction family remains the leading
+suspect for the binding constraint.
 
 \section{Related work}
 \label{sec:related}
@@ -228,7 +229,7 @@ Heilbronn triangle 11 & 0.672 & 0.431 & 0.507 & 0.540 & 0.371 & 0.477 & 0.619 & 
 $180!$ into 180 factors & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} & \textbf{0.774} \\
 \midrule
 mean frac & 0.439 & 0.596 & 0.534 & 0.498 & 0.592 & 0.610 & 0.511 & \textbf{0.635} \\
-mean functional diversity & 0.41 & 0.53 & 0.52 & 0.72 & 0.59 & 0.68 & \textbf{0.80} & 0.70 \\
+mean construction-hash diversity & 0.41 & 0.53 & 0.52 & 0.72 & 0.59 & 0.68 & \textbf{0.80} & 0.70 \\
 collapses (frac $<$ 0.05, of 18 runs) & 2 & 1 & 1 & 3 & 2 & \textbf{0} & 4 & 1 \\
 \bottomrule
 \end{tabular}
@@ -278,7 +279,7 @@ every arm meets the same plateau it rises to $+0.252$ at the same $p$
 (Figure~\ref{fig:forest}): the median per-problem effect is $+0.045$,
 leave-one-problem-out means span $+0.153$ to $+0.224$, with large gains
 on four problems, little on four, and one small loss.
-\textbf{F4}, D vs A on functional diversity: $+0.307$
+\textbf{F4}, D vs A on construction-hash diversity: $+0.307$
 \ci{+0.149}{+0.477}, $p=0.0039$, the minimum attainable $p$, positive
 in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
 D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$: not supported as a
@@ -293,7 +294,7 @@ proposer output; Section~\ref{sec:limitations} gives the accounting.)
 \includegraphics[width=0.62\linewidth]{fig_f23_cube.png}
 \caption{The completed $2^3$ at a glance (cell means over nine problems,
 two replicates). Memory-on cells (blue) hold the four best gap fractions;
-repulsion-on cells (circles) hold the highest functional diversity; the
+D-on cells (circles) hold the highest construction-hash diversity; the
 two axes barely interact ($\beta_{M\times R} \approx 0$). Collapse counts
 in parentheses: memory+repulsion is the only arm that never collapses;
 agenda+repulsion collapses most.}
@@ -305,23 +306,25 @@ agenda+repulsion collapses most.}
 Three pairwise arms (memory+agenda, memory+repulsion, agenda+repulsion)
 over the same nine problems and two replicates complete the cube
 ($8$ cells $\times\,9\times2$; pre-registered before running). The
-effect-coded analysis (exact sign-flip over problems, $2^9$) rejects the
-primary interaction: memory$\times$repulsion $\beta = +0.003$
+effect-coded analysis (exact sign-flip over problems, $2^9$) finds no
+evidence for the primary interaction: memory$\times$repulsion $\beta = +0.003$
 \ci{-0.039}{+0.035}, $p=0.47$ one-sided; agenda$\times$repulsion is null
 ($-0.007$, $p=0.79$); and no main effect survives BH correction:
 schematic memory is the largest single term ($\beta=+0.057$
 \ci{+0.014}{+0.105}, raw $p=0.047$, $q=0.14$), agenda ($+0.016$) and
 repulsion ($+0.011$) near zero on frac. The decomposition is exact
 ($E-A = 2\,(\beta_M+\beta_A+\beta_R+\beta_{MAR}) = 0.196$): the
-certified composite gain splits as roughly $58\%$ memory, $16\%$
+nominal pooled composite gain splits as roughly $58\%$ notebook, $16\%$
 agenda, $12\%$ repulsion and $14\%$ three-way (a descriptive
 decomposition with wide per-term intervals); at $n=9$ the total
-certifies, the parts do not. Two patterns in the cube are worth the trip. First, each
+total is directionally supported, the parts remain unresolved. Two
+patterns in the cube are worth the trip. First, each
 operator has one job (Table~\ref{tab:factorial}, Figure~\ref{fig:cube}): the four memory-on
 cells hold the four best mean fracs, while every repulsion-on cell sits
-at $0.68$--$0.80$ functional diversity against $0.41$--$0.59$ without
-it; directionally, memory moves the gap and repulsion moves diversity,
-with the caveat that the memory main effect does not survive correction.
+at $0.68$--$0.80$ construction-hash diversity against $0.41$--$0.59$ without
+it; directionally, B-on cells hold the higher means and D-on cells the
+higher hash diversity, with the caveat that no main effect survives
+correction.
 Second, the anchor lives in the tail, not the
 mean: memory+repulsion is the only arm that never collapses (0 of 18
 runs, against 3 for repulsion alone and 4 for agenda+repulsion, the
@@ -341,8 +344,8 @@ collapses, not validity collapses.
 The heterogeneity is the finding the factorial adds to the literature:
 \emph{where} the valid manifold is wide (a pmf, a sequence of pairs),
 repulsion alone is the best single operator; where validity is fragile
-(non-overlapping circles, exact integer constraints), it starves the
-island (both replicates of circle packing collapse), and the composed
+(non-overlapping circles, exact integer constraints), it is associated
+with performance collapses (both replicates of circle packing), and the composed
 arm inherits most of the benefit with none of the catastrophes. No
 single package avoids every failure mode; memory+repulsion was the only
 configuration that avoided all of them in these runs.
@@ -417,17 +420,85 @@ on the Heilbronn problem every arm converges to an identical value
 registry floors the reported figure, so that value reaches the frozen
 reference and supports no exceedance claim). At frontier strength the
 single-run operator differences are at most $0.001$--$0.003$ everywhere
-we measured them: the certified gains are a local-proposer phenomenon,
+we measured them: the nominal gains are a local-proposer phenomenon,
 and whether the collapse insurance survives at this strength remains
 untested (single runs; the frontier proposer's own run-to-run noise is
 unestimated).
+
+\section{The family-hint test: verbal specification versus executable seed}
+\label{sec:hint}
+
+The registered family-hint experiment (five conditions $\times$ three
+seeds, 120 samples each, memory+repulsion arm, beat-the-average) asks
+what it takes to move the search into the \citet{bellec2024beat}
+family: (a) no hint; (b) a generic hint; (c) a structural hint naming
+the family without parameters; (d) a crude in-family seed program
+(initial score 0.2734); (e) a \emph{strong in-family seed}, our best
+tested finite-grid instantiation of the family (0.3742; on this grid
+with strict inequality, notably \emph{below} the 0.3816 sparse-atom
+plateau, a fact measured and registered before launch --- the condition
+supplies an author-implemented finite approximation, not the theoretical
+multiscale construction itself).
+
+\begin{table}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+condition & seed 11 & seed 12 & seed 13 & mean & finals in-family \\
+\midrule
+no hint & 0.3496 & 0.3607 & 0.3463 & 0.3522 & 0/3 \\
+generic hint & 0.3512 & 0.3381 & 0.3086 & 0.3326 & 0/3 \\
+structural hint & 0.3284 & 0.3383 & 0.3140 & 0.3269 & 3/3 \\
+crude in-family seed & 0.3554 & 0.3679 & 0.3520 & 0.3584 & 2/3 \\
+strong in-family seed & 0.3762 & 0.3739 & 0.3743 & 0.3748 & 3/3 \\
+\bottomrule
+\end{tabular}
+\caption{Family-hint test: final best per seed. In-family membership by
+the preregistered family-signature classifier (at most 50 support atoms,
+mass $\ge 0.3$ on $\{0..3\}$, atoms in $\ge 3$ $\log_{10}$
+distance-from-top bands; the structural hint instructs exactly this
+structure, so the classifier is partly a manipulation check of
+instruction-following). With three seeds per condition every contrast is
+descriptive (the smallest one-sided sign-flip $p$ at $n{=}3$ is 0.125).}
+\label{tab:hint}
+\end{table}
+
+The answer came with a twist (Table~\ref{tab:hint}). The structural
+hint \emph{worked as an instruction and lost as a search}: its final
+constructions carry the family signature, so the model obeyed, entered a
+family that is inferior at this grid, and paid about $0.025$ for it.
+Handed the family as code, the loop optimizes it ($+0.085$ from the
+crude seed, above the no-hint endpoint in three of three seeds) and
+stays loyal to it (no strong-seed run deserted to the better sparse
+family). No unaided candidate in the three registered 120-sample runs
+matched the family signature. Two caveats bound the reading: the
+historical $0.3816$ comes from a different battery under strong seed
+variance, so the strong seed's $0.375$ exceeds the \emph{contemporary}
+no-hint $0.352$ descriptively while trailing the historical best; and
+the seed conditions enter with different initial scores, so final values
+mix family advantage with starting-point advantage (matched-score sparse
+seeds and paraphrased or deliberately wrong hints are the registered
+next controls). Within those bounds the registered hypothesis was not
+supported: handing the idea, in words or in this finite encoding, did
+not cross the last mile under this budget --- our tested finite-grid
+encoding of the idea was not sufficient to close the gap, which leaves
+open whether the theoretical family, a richer encoding, or a larger
+budget would. What the experiment does establish is a division of
+labour: under these runs the loop transported and optimized the idea it
+was handed and did not produce its signature unaided, and instructing a
+construction is not inducing a competitive implementation of it, the
+third appearance of that pattern in this program (the continuity
+connective of the companion study; the frontier scoping runs; now the
+structural hint).
 
 \section{Discussion}
 \label{sec:discussion}
 
 \paragraph{What office scale buys.} With 120--600 verified samples, a
-local model and one laptop: 57--99.9\% of the best known values (median
-89\%) across nine problems, legible programs, and, with a frontier proposer
+local model and one laptop: a median $0.71$ of the seed-to-reference
+gap closed by the composed arm across nine problems (per-problem
+$0.10$--$0.99$), legible programs, and, with a frontier proposer
 at $\sim$US\$50 of API, parity with the values the large systems report on
 this problem. The published record-movers used frontier ensembles with
 thousands of samples \citep{novikov2025alphaevolve}, millions with small
@@ -441,8 +512,9 @@ collapse; memory+repulsion was the only zero-collapse arm, at a mean
 within $0.025$ of E's and without the agenda's extra call, so the
 parsimonious operational recipe these data support is memory+repulsion,
 with the full composition as the highest-mean variant. The mechanism is
-visible in the notebooks: the schematic memory keeps direction across
-generations and the repulsion spends the saved budget on genuinely
+visible in the notebooks: the notebook package carries lineage
+information across generations and the duplicate control spends the
+budget on genuinely
 different constructions. Alone, each fails somewhere: memory and agenda
 are inert on problems the model already saturates; repulsion is
 associated with performance collapses on fragile manifolds. This is a recurring collapse-prevention pattern,
@@ -463,45 +535,12 @@ explanations. The shared plateau suggests, consistently with our
 consolidation results \citep{ono2026mass}, that search over a fixed prior
 rapidly collects what the prior's construction families contain and then
 stalls at the best family member, a hypothesis to test rather than
-assert. \emph{The family-hint experiment} (registered before running;
-five conditions $\times$ three seeds, 120 samples, memory+repulsion arm)
-put it to the test on beat-the-average: (a) no hint; (b) a generic hint;
-(c) a structural hint naming the \citet{bellec2024beat} family without
-parameters; (d) a crude in-family seed program (score 0.2734); (e) our
-best hand instantiation of the family as an oracle seed (0.3742; on this
-grid with strict inequality, notably \emph{below} the 0.3816 sparse-atom
-plateau, a fact measured and registered before launch). The answer came
-with a twist. Condition means over three seeds: no hint 0.352, generic
-0.333, structural 0.327 (the worst), family seed 0.358, oracle 0.375.
-The structural hint \emph{worked as an instruction and lost as a
-search}: its final constructions carry the family's signature (an atom
-at zero, atoms accumulating toward the maximum across four
-log-distance bands), so the model obeyed, entered a family that is
-inferior at this grid, and paid about $0.025$ for it. Handed the family
-as code, the loop optimizes it well ($+0.085$ from the crude seed,
-above the no-hint endpoint in three of three seeds) and stays loyal to
-it (no oracle run deserted to the better sparse family). Family
-membership is decided by an explicit rule (at most 50 support atoms,
-mass at least $0.3$ on $\{0..3\}$, atoms in at least three
-$\log_{10}$ distance-from-top bands; per-run table released): by it,
-eight of nine hint-family finals are in-family and zero of six
-no-hint/generic finals are. No unaided candidate in the three registered
-120-sample runs was classified in-family. Two caveats bound the reading:
-with three seeds per condition these contrasts are descriptive (the
-smallest one-sided sign-flip $p$ at $n{=}3$ is $0.125$), and the
-historical $0.3816$ comes from a different battery under strong seed
-variance, so the oracle's $0.375$ exceeds the \emph{contemporary}
-no-hint $0.352$ descriptively while trailing the historical best. Within
-those bounds, the registered hypothesis was not supported: handing the
-idea, in words or in code, did not cross the last mile under this
-budget, and our best implementation of the idea was not the missing step
-at $L{=}5000$. What the experiment does establish is a
-division of labour: the loop transports and optimizes ideas; it does not
-originate them, and instructing one is not inducing one, the third
-appearance of that pattern in this program (the continuity connective of
-the companion study; the frontier scoping runs; now the structural
-hint). This is the question \citet{georgiev2025exploration} report
-answering with an expert in the loop, from the other side.
+assert. Section~\ref{sec:hint} put that hypothesis to a registered test; the
+short answer is that a verbal specification of the reference family was
+followed and lost, while an executable in-family seed was optimized, and
+no unaided run produced the family signature. This is the question
+\citet{georgiev2025exploration} report answering with an expert in the
+loop, from the other side.
 
 \paragraph{Design rules.} For verified search at small scale: pair
 memory with repulsion (the zero-collapse arm; the full composition adds
@@ -546,25 +585,40 @@ an independent confirmation.}
 Nine problems is still a small universe of construction families; the
 full $2^3$ isolates interactions, but at $n{=}9$ no per-term effect
 survives correction, so the operator decomposition (memory largest) is
-directional, not certified, and the collapse asymmetry is descriptive;
+directional, not statistically resolved, and the collapse asymmetry is
+descriptive;
 budgets are equalized in proposals and verifier evaluations (120 of each
 per run; duplicate rejection in the repulsion arms happens after
 verification, since the signature requires the construction, and discards
 20--30 verified candidates per run from the islands); the operators'
 extra calls are measured at one per island-generation per operator
 ($\sim$220 characters per call, an overhead of 1--3\% of proposer
-output characters), so sample efficiency here means verifier-evaluation
-efficiency at nearly matched token budgets; the diversity
+output characters; input-token accounting is incomplete, so budgets are
+matched in proposals and verifications, not demonstrably in tokens), and
+the arms differ in candidates surviving dedup into the islands (per run:
+A 108, B 95, C 93, D 72, BC 94, BD 65, CD 73, E 63), so sample
+efficiency here means verifier-evaluation efficiency; the diversity
 metric is related to the repulsion operator's own filter; the behaviour
 signature is a hash of the returned construction after rounding, with no
 canonicalization for symmetries (permutation, rotation, reflection), so
 div can count symmetric variants as distinct, its rounding sensitivity is
-untested, and the D filter and the div metric share this signature; the six
+untested, and the D filter and the div metric share this signature (a
+retrospective AST-structure metric, invariant to renaming and
+independent of that signature, is directionally consistent on the runs
+with logged code: D-on arms 0.67--0.87 distinct structures per valid
+candidate against 0.38--0.39 for A and B on the matched problems; paired
+D$-$A $+0.27$ at the $n{=}3$ resolution floor); the six
 problems satisfy criteria fixed before any runs (cheap exact verifier,
 short-function candidates, known headroom; the universe of 68 candidate
 problems
 and per-problem ratings are in the released reconnaissance table) but were
-not sampled randomly; \emph{frac} is floored at the seed by construction,
+not sampled randomly, so the exact tests quantify sign consistency
+within this selected suite and do not license random-sample
+generalization to the repository or to construction problems generally;
+because the problems and their literature are public, proposer
+performance does not distinguish retrieval of pretrained construction
+knowledge from de novo discovery (the generation-zero minimax program is
+the extreme case); \emph{frac} is floored at the seed by construction,
 signs are harmonized for minimization, and reference values are frozen at
 the repository commit recorded in the release; the scaling ladder is one
 domain; the API proposer is not bitwise reproducible and its reasoning
@@ -592,13 +646,15 @@ proposers stalled inside one small finite-support construction family,
 below a multiscale reference; the other plateaus are consistent with,
 but do not establish, analogous family boundaries. Whether
 crossing that boundary requires what we have informally called an idea
-was put to a registered test on the flagship problem: the idea, handed in
-words, was followed and lost; handed as code, it was optimized but its
-grid ceiling lies below the plateau the models reach unaided. The loop
-moved ideas; it did not originate one, and the one we handed it was not
-the missing mile here. Whether the last mile of these searches is an
-idea, the question this program has carried informally, remains open,
-now with its first measured answer.
+was put to a registered test on the flagship problem: the idea, handed
+in words, was followed and lost; handed as code, it was optimized, but
+our best tested finite-grid instantiation remained below the plateau the
+models reach unaided. Under the three registered runs the loop moved the
+idea it was handed and produced no candidate matching its signature
+unaided; our finite encoding of the idea was not sufficient to close the
+gap here. Whether the last mile of these searches is an idea, the
+question this program has carried informally, remains open, now with its
+first measured answer.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

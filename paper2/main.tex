@@ -387,10 +387,10 @@ value-filtered adapter lowers the mean without moving the best.}
 \caption{The title of this paper, as data (held-out variants, never in any
 training set; cycle 0 is the shared pre-consolidation base). Left: mean
 excess over the lower bound falls under attraction and nowhere else.
-Right: the best candidate shows no detectable improvement; the trained
-arms sit at the 0.0311 level from the first cycle, while the base's best
-fluctuates between 0.0317 and 0.0414. Consolidation moves the mean, not
-the best.}
+Right: the trained arms' best sits at the 0.0311 classic level from the
+first cycle, while the base's best fluctuates above it (0.0317--0.0414).
+Consolidation moves the mean; the trained arms reach but do not exceed
+the classic level.}
 \label{fig:meanbest}
 \end{figure}
 
@@ -444,8 +444,10 @@ repel (DPO, unanchored) & 13 & 0.1056 & 0\% & -- & -- & -- \\
 \caption{The ladder of adapters. Held-out: mean test excess of valid
 candidates, share scoring exactly at the level of the better classic
 heuristic, distinct score levels per valid candidate; far families: mean
-excess and share of candidates better than the classics. The mass walks onto
-the known attractor; the tails live in the untrained base.}
+excess and share of candidates better than the classics. The mass walks
+onto the known attractor; attraction lowers the far-family tail rate per
+valid candidate while raising absolute tail yield through production.
+Rows below attract are single-lineage mechanistic follow-ups.}
 \label{tab:ladder}
 \end{table}
 
@@ -512,7 +514,9 @@ on validity, shifts their mean quality ($-0.019$). ``Moving the mean''
 is the second part; the first may matter as much in practice, and both
 replicate.
 
-\paragraph{The registered SFT-only control.} The anchored objective
+\paragraph{The registered SFT-only control (a single-lineage mechanistic
+follow-up, like the repulsion, QD and far-family results that follow).}
+The anchored objective
 combines repulsion from the worst candidates with a supervised term on
 the chosen ones; which half concentrates the policy? The matched control
 (same pairs, same 80 steps, same learning rate and data order, the DPO
@@ -548,7 +552,15 @@ no valid candidate at all (the eighth variant is therefore excluded from
 the paired contrast, a conditioning we flag rather than hide). The
 registered shared-pool one-shot (top-40 vs random-40 from a single base
 pool) points the same way ($-0.008$, $p=0.078$ at $n{=}8$, underpowered
-alone).
+alone). Two readings sharpen the picture. First, a sensitivity for the
+excluded variant: restoring it under imputation (assigning the base its
+best or its worst observed variant mean there) gives $n{=}8$ with all
+eight variants favoring attract, $p=0.0039$ under either bound, so the
+conditioning was conservative. Second, a three-effect decomposition: the
+random control also reaches the best of 0.021028 in every lineage, so
+generic self-training plus increased valid production suffices to
+\emph{reach} the classic level; value filtering is what the
+distributional mean shift requires.
 
 \begin{table}[t]
 \centering\footnotesize
@@ -572,7 +584,8 @@ lineage & arm & candidates & valid & mean excess & best & $\Delta$ vs base \\
 (means averaged over the seven common variants; $\Delta$ = per-lineage
 variant-averaged difference to base). Three independent runs of the
 whole procedure produce three nearly identical effects on the mean and
-none on the best.}
+the same movement of the best: to the classic level, in every arm that
+trains, and never beyond it.}
 \label{tab:crep}
 \end{table}
 
@@ -582,7 +595,8 @@ none on the best.}
 \caption{Independent replication, variant by variant: each line pairs
 one held-out variant's mean under base and under attract, one panel per
 lineage; the right panel shows the best candidate. The slope repeats
-across lineages; the best barely moves.}
+across lineages; the best moves to the classic level in all three
+lineages and stops there.}
 \label{fig:crep}
 \end{figure}
 
@@ -623,11 +637,13 @@ arm, although the pre-registered composite against reset alone was not
 supported. Mass can be bought with the right training: a few cycles of
 consolidation on what the verifier approved move the candidate distribution
 of a never-seen variant onto the known good, and an anchored repulsion from
-the bad moves it there exactly. Progression and frontier cannot, by
-anything we tried: three injections, selection over the candidates, a
-verifier in the stream, a judge-gated review, five cycles of attraction,
-four kinds of repulsion and a quality-diversity consolidation all leave
-development near 2/10 and the verified ceiling where it was.
+the bad moves it there exactly. Two things nothing we tried produced:
+measurable document progression (three injections, selection, a verifier
+in the stream and a judge-gated review all leave development near 2/10)
+and a beyond-classic candidate under the evaluated bin-packing budgets
+(five cycles of attraction, four kinds of repulsion and a
+quality-diversity consolidation all leave the best observed
+within-family level where it was).
 
 \paragraph{The bit distance (a conceptual model consistent with, not
 demonstrated by, these data).} A generative model is a distribution, not a
@@ -687,8 +703,8 @@ analyses in the results address this); the far families
 are six (paired $n=5$) and the tail rates rest on tens of candidates; the
 QD arm is a small implementation (three niches per variant), so
 ``tail-preserving objectives keep the mediocre'' is a statement about this
-implementation, not the class \citep{wan2025loongflow}; and the
-after the first cycle attract and random are two whole adaptive
+implementation, not the class \citep{wan2025loongflow}; after the
+first cycle attract and random are two whole adaptive
 procedures rather than two selection criteria applied to one pool (the
 registered shared-pool one-shot control, top-40 vs random-40 from a
 single base pool, points the registered way, $-0.008$, $p=0.078$ at
@@ -707,7 +723,9 @@ domain with more headroom.
 Given memory, tension, selection and a verifier, the interrupted loop
 composes better and advances no further. A schematic recap raised judged
 integration relative to reset, while the pre-registered composite
-contrast was not supported; a standing question helps a little; selection
+contrast was not supported; a standing question outperformed the fixed
+subject change under preserved context but did not improve development
+over habituation alone or over schema; selection
 and in-stream verification showed no detectable benefit on the
 near-saturated variants tested, and the latter teaches the model to
 imitate verdicts. Consolidating training-verifier-selected candidates
@@ -720,7 +738,8 @@ level without any repulsion term);
 keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
-absolute tail events; the observed best improved nowhere. Mean candidate
+absolute tail events; the best statistic improved to the classic level
+and no beyond-classic candidate appeared. Mean candidate
 quality among valid candidates can be bought; the observed best moves
 to the classic heuristic and not beyond it, in every lineage. And the central remaining question, whether
 the procedure replicates or the effect was a peculiarity of one training

@@ -73,7 +73,7 @@ for arm, (dv, fr, col, mem, rep) in cube.items():
     dx, dy = (6, 5) if arm not in ("C", "BC") else (6, -9)
     ax.annotate(f"{arm} ({col})", (dv, fr), xytext=(dx, dy), textcoords="offset points",
                 fontsize=8.5, color=(BLUE if mem else "#333333"))
-ax.set_xlabel("functional diversity (distinct behaviours / valid)")
+ax.set_xlabel("construction-hash diversity (distinct hashes / valid)")
 ax.set_ylabel("frac of seed→record gap closed")
 ax.set_xlim(0.37, 0.88); ax.set_ylim(0.41, 0.67)
 ax.annotate("B-on (blue): the four best means", (0.385, 0.655), fontsize=8, color=BLUE)
