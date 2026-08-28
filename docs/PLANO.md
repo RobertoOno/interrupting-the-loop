@@ -1428,6 +1428,24 @@ orçamento? BD mantém a vantagem parcimoniosa em 600? agenda acrescenta
 algo em escala? Desfechos: best final e trajetória por braço×semente;
 variância entre sementes (a que domina no maxmin). Custo: ~22 h.
 
+**FAMILY-HINT — RESULTADO (27/08 21:53; 15/15; `docs/APPENDIX_HINT.md`)
+— HIPÓTESE DO TÍTULO NÃO SUPORTADA NESTE GRID, com nuance nova**:
+médias (3 sementes): nohint 0,3522 > generic 0,3326 > structural
+**0,3269 (pior)**; famseed 0,3584 (> nohint 3/3); oracle 0,3748 (teto da
+família). A volta de parafuso: os candidatos do structural TÊM a
+assinatura multiescala (4 bandas, átomo no zero, escada no topo) — **a
+dica funcionou como instrução e perdeu como busca**: o modelo obedeceu,
+entrou na família (inferior neste grid) e pagou ~0,025. Dada como CÓDIGO
+cru, o loop otimiza a família (+0,085; a resposta ao "consegue otimizar
+quando dada?" é sim); dado o oráculo, +0,001 e fidelidade total (nunca
+desertou para a esparsa, que é melhor aqui). Ninguém propôs a família
+espontaneamente. Leitura: o loop transporta e otimiza ideias, não as
+origina — e a ideia testada não era a milha que faltava em L=5000 (teto
+da família 0,375 < platô esparso 0,3816). Pesa a favor do título em
+pergunta ("Is the Last Mile an Idea?") com o experimento decisivo dentro
+do paper. Padrão "instruir ≠ induzir" na 3ª aparição (conectivo do
+paper 1; FP; agora a dica estrutural).
+
 **SFT-ONLY — RESULTADO (27/08 16:06): A CONCENTRAÇÃO É DA ÂNCORA** — só
 o termo supervisionado (sem DPO), mesmos pares/passos/lr do repel_anch:
 held-out **96% exatamente no nível do clássico** (repel_anch: 100%;
