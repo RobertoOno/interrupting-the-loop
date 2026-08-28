@@ -501,6 +501,77 @@ bought with idiosyncrasy; total yield depends on production.}
 \label{fig:tails}
 \end{figure}
 
+\paragraph{The registered SFT-only control.} The anchored objective
+combines repulsion from the worst candidates with a supervised term on
+the chosen ones; which half concentrates the policy? The matched control
+(same pairs, same 80 steps, same learning rate and data order, the DPO
+term removed) answers: the supervised anchor alone concentrates 96\% of
+held-out candidates exactly at the classic level (anchored: 100\%;
+attraction: 72\%), at mean excess 0.0317 against the anchored arm's
+0.0311. Repelling the bad was never the mover; supervised attraction to
+the chosen does nearly all the concentrating, and the repulsion term
+adds the last four points. On the far families the SFT-only adapter has
+the worst mean of any arm (0.1278) and no better-than-classic candidate:
+the concentration it buys generalizes worst.
+
+\paragraph{Independent replication across three lineages.} The
+confirmation battery re-ran the whole procedure three times: independent
+lineages with fresh generation and selection seeds, five cycles fixed in
+advance, and a second held-out set of eight variants, disjoint from
+every earlier set, generated and read exactly once after cycle five.
+Table~\ref{tab:crep} and Figure~\ref{fig:crep} give the design's
+answer. The mean moves in every lineage by nearly the same amount
+($-0.0196$, $-0.0176$, $-0.0188$; pooled $-0.0187$
+\ci{-0.0308}{-0.0080}, aggregated by held-out variant, positive in all
+seven evaluable variants, exact sign-flip $p=0.008$, hierarchical
+bootstrap over lineages and variants); attract beats the random control
+in each ($-0.0149$ pooled, $p=0.016$); and the best moves in none
+(difference $-0.004$ \ci{-0.011}{-0.000}, $p=0.094$; any true
+improvement is bounded by about one excess point). Production replicates
+too: the base wrote 33--63 valid candidates per lineage against the
+adapters' 108--205, and in one variant of one lineage the base produced
+no valid candidate at all (the eighth variant is therefore excluded from
+the paired contrast, a conditioning we flag rather than hide). The
+registered shared-pool one-shot (top-40 vs random-40 from a single base
+pool) points the same way ($-0.008$, $p=0.078$ at $n{=}8$, underpowered
+alone).
+
+\begin{table}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+lineage & arm & candidates & valid & mean excess & best & $\Delta$ vs base \\
+\midrule
+1 & base & 71 & 63 & 0.0612 & 0.0247 & \\
+1 & attract & 201 & 184 & 0.0416 & 0.0210 & $-0.0196$ \\
+1 & random & 219 & 191 & 0.0619 & 0.0210 & $+0.0007$ \\
+2 & base & 79 & 51 & 0.0605 & 0.0243 & \\
+2 & attract & 162 & 140 & 0.0430 & 0.0210 & $-0.0176$ \\
+2 & random & 232 & 205 & 0.0548 & 0.0210 & $-0.0057$ \\
+3 & base & 41 & 33 & 0.0613 & 0.0243 & \\
+3 & attract & 120 & 108 & 0.0424 & 0.0210 & $-0.0188$ \\
+3 & random & 202 & 133 & 0.0549 & 0.0210 & $-0.0064$ \\
+\bottomrule
+\end{tabular}
+\caption{The replication battery on the never-consulted held-out set
+(means averaged over the seven common variants; $\Delta$ = per-lineage
+variant-averaged difference to base). Three independent runs of the
+whole procedure produce three nearly identical effects on the mean and
+none on the best.}
+\label{tab:crep}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_crep.png}
+\caption{Independent replication, variant by variant: each line pairs
+one held-out variant's mean under base and under attract, one panel per
+lineage; the right panel shows the best candidate. The slope repeats
+across lineages; the best barely moves.}
+\label{fig:crep}
+\end{figure}
+
 \paragraph{Keeping the tails.} Two objectives built to keep the tails
 (pre-registered) recovered functional diversity and nothing else
 (Figure~\ref{fig:tails}). The qd
@@ -630,9 +701,10 @@ near-saturated variants tested, and the latter teaches the model to
 imitate verdicts. Consolidating training-verifier-selected candidates
 into the weights is the one intervention that moved what the model writes
 on problems it had not seen, and it moved it toward what it already knew
-to be good; the combined anchored objective (supervised attraction plus
-repulsion from the worst) moved it all the way there and no further,
-though which half does the moving awaits a registered SFT-only control;
+to be good; the combined anchored objective moved it all the way there
+and no further, and the registered SFT-only control showed the
+supervised half does nearly all of that moving (96\% at the classic
+level without any repulsion term);
 keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
