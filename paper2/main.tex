@@ -33,12 +33,16 @@ successes? In cycles of generate, verify, select and LoRA-consolidate on
 online bin packing, training on value-filtered candidates shifts what
 the model writes on held-out variants toward value ($-1.7$ points of
 excess, $p=0.008$; $-3.1$ against a random-consolidation control,
-$p=0.004$) while the best observed candidate never improves. A
+$p=0.004$) while the best observed candidate converges to the classic
+heuristic's level and no further. A
 confirmation battery replicates the whole procedure three times, with
 fresh seeds and a never-consulted held-out set read exactly once: the
-mean moves by nearly the same amount in every lineage ($-2.0$, $-1.8$,
-$-1.9$; $p=0.008$) and no improvement of the best is detectable in any
-(bounded by about one excess point). A matched SFT-only control shows
+mean was nearly identical in all three lineages ($-2.0$, $-1.8$, $-1.9$),
+and after aggregating within held-out variant all seven evaluable
+variants favored consolidation ($p=0.008$). The best observed candidate
+moved \emph{to} the classic heuristic's level, exactly (0.021028 in all
+three lineages, for attract and for the random control alike), and never
+beyond it. A matched SFT-only control shows
 the supervised anchor, not repulsion from bad candidates, does the
 concentrating (96\% of candidates land exactly at the classic
 heuristic's level). The tails cut both ways: consolidation lowers the
@@ -49,7 +53,7 @@ ledger that led here: a model-written schematic recap buys judged
 document integration and nothing buys development; a verifier written
 into the stream is imitated, 16.4 fabricated verdict lines per notebook.
 Mean quality among valid candidates can be bought and replicated; the
-observed best, so far, has not moved.
+observed best goes to the classic and, so far, never beyond it.
 \end{abstract}
 
 \section{Introduction}
@@ -102,16 +106,19 @@ laboratory notebook released with the code.
 (1) Consolidation by LoRA on training-verifier-selected candidates moves
 the candidate distribution on never-seen variants of the trained family
 toward value ($p=0.008$; against a random-consolidation control,
-$p=0.004$), leaves the observed best where it was, and does not transfer
-to other families. (2) A confirmation battery: three independent
+$p=0.004$), moves the observed best to the classic heuristic's level and
+not beyond it, and does not transfer to other families. (2) A confirmation battery: three independent
 lineages with fresh seeds and a never-consulted held-out set read once
-replicate the mean shift ($-2.0$, $-1.8$, $-1.9$ points; $p=0.008$) and
-the undetectable best, and a matched SFT-only control shows the
-supervised anchor, not the repulsion term, does the concentrating.
+find the same mean shift in each ($-2.0$, $-1.8$, $-1.9$ points; all
+seven evaluable variants favor consolidation, $p=0.008$) and the same
+convergence of the best, exactly at the classic level in every lineage;
+a matched SFT-only control shows the supervised anchor, not the
+repulsion term, does the in-family concentrating, while the repulsion
+term substantially changes out-of-family behavior.
 (3) The tails, both ways: the per-candidate better-than-classic rate is
 highest in the untrained base while attraction's larger production
 yields more absolute tail events; pass@$k$ against the classics is zero
-everywhere. (4) As motivation, the inference-time ledger: a model-written
+on the held-out within-family variants. (4) As motivation, the inference-time ledger: a model-written
 schematic recap gives the program's highest document integration at no
 local cost, a verifier written into the stream is imitated rather than
 used (16.4 fabricated verdict lines per notebook), and no injection
@@ -428,6 +435,7 @@ random & 287 & 0.0695 & 15\% & -- & 0.1004 & 0.0\% \\
 repel-early (DPO, 20 steps) & 71 & 0.0721 & 30\% & -- & 0.0994 & 2.0\% \\
 attract (SFT on value) & 226 & 0.0386 & 72\% & 0.14 & 0.0803 & 3.9\% \\
 repel-anch (DPO + anchor) & 144 & \textbf{0.0311} & 100\% & 0.07 & \textbf{0.0758} & 0.0\% \\
+sft-only (anchor term alone) & 78 & 0.0317 & 96\% & -- & 0.1278 & 0.0\% \\
 qd (SFT on niche elites) & 293 & 0.0598 & 25\% & 0.33 & 0.1012 & 0.6\% \\
 repel-mode (DPO, from attractor) & 62 & 0.0792 & 2\% & 0.50 & 0.0935 & 0.0\% \\
 repel (DPO, unanchored) & 13 & 0.1056 & 0\% & -- & -- & -- \\
@@ -472,7 +480,10 @@ the tail where discovery lives, shrinks from 10\% (base) to 3.9\%
 built. Right: on held-out variants the consolidated arms concentrate
 \emph{exactly at} the classic's level (attraction 72\%, anchored
 repulsion 100\%, a functional collapse), against 20\% for the base.
-Absolute counts above the bars; the rates rest on 0--5 events per arm
+The bar heights are per-family average rates (the registered estimand);
+the counts above them are pooled events over all candidates, a different
+aggregation (base: 10.0\% macro but 1/18 = 5.6\% pooled; attraction:
+3.9\% macro, 5/156 = 3.2\% pooled). Both rest on 0--5 events per arm
 and are preliminary. Per notebook, attraction's absolute tail yield is
 higher than the base's (0.28 vs 0.08). Competence per candidate is
 bought with idiosyncrasy; total yield depends on production.}
@@ -512,7 +523,10 @@ attraction: 72\%), at mean excess 0.0317 against the anchored arm's
 the chosen does nearly all the concentrating, and the repulsion term
 adds the last four points. On the far families the SFT-only adapter has
 the worst mean of any arm (0.1278) and no better-than-classic candidate:
-the concentration it buys generalizes worst.
+the concentration it buys generalizes worst (0.1278 against the
+anchored arm's 0.0758): supervised attraction drives the in-family
+concentration, while the DPO term substantially changes out-of-family
+behavior.
 
 \paragraph{Independent replication across three lineages.} The
 confirmation battery re-ran the whole procedure three times: independent
@@ -525,9 +539,9 @@ answer. The mean moves in every lineage by nearly the same amount
 \ci{-0.0308}{-0.0080}, aggregated by held-out variant, positive in all
 seven evaluable variants, exact sign-flip $p=0.008$, hierarchical
 bootstrap over lineages and variants); attract beats the random control
-in each ($-0.0149$ pooled, $p=0.016$); and the best moves in none
-(difference $-0.004$ \ci{-0.011}{-0.000}, $p=0.094$; any true
-improvement is bounded by about one excess point). Production replicates
+in each ($-0.0149$ pooled, $p=0.016$); and the best converges in all: the adapters' best lands exactly at the
+classic level (0.021028) in each lineage, with no beyond-classic
+candidate anywhere. Production replicates
 too: the base wrote 33--63 valid candidates per lineage against the
 adapters' 108--205, and in one variant of one lineage the base produced
 no valid candidate at all (the eighth variant is therefore excluded from
@@ -603,10 +617,10 @@ contrast, produced no better-than-classic candidate at all.
 \paragraph{What can be bought.} Across the two studies the ledger is now
 complete for the interventions we could build. Variation is cheap: the
 interruption raises fresh surprise by more than a point and multiplies valid
-candidates three- to fourfold. Integration can be bought with the right
-memory: a schematic recap carried across resets is the only inference-time
-intervention that raised the document-level reading, and it did so
-reliably. Mass can be bought with the right training: a few cycles of
+candidates three- to fourfold. The document judge assigned higher
+integration to a schematic recap carried across resets than to any other
+arm, although the pre-registered composite against reset alone was not
+supported. Mass can be bought with the right training: a few cycles of
 consolidation on what the verifier approved move the candidate distribution
 of a never-seen variant onto the known good, and an anchored repulsion from
 the bad moves it there exactly. Progression and frontier cannot, by
@@ -638,8 +652,11 @@ compressed recap rather than the text; do not expect the whole to advance
 from any of this. For search with a verifier: spend on sampling and
 selection, not on stimulation; keep the verifier's verdicts out of the
 prompt or measure the fabrication they induce; if reliability is the goal,
-consolidate on what the verifier approved (and never without the filter);
-if discovery is the goal, keep the untrained prior in the loop.
+consolidate on what the verifier approved (and never without the
+filter); whether a portfolio that keeps the untrained prior in the loop
+beats pure consolidation for discovery depends on the cost function
+(per candidate, the base finds more; per notebook, attraction does) and
+awaits a fixed-budget comparison.
 
 \section{Limitations}
 \label{sec:limitations}
@@ -704,16 +721,22 @@ keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
 absolute tail events; the observed best improved nowhere. Mean candidate
-quality among valid candidates can be bought; no improvement in the
-observed best was detected. And the central remaining question, whether
+quality among valid candidates can be bought; the observed best moves
+to the classic heuristic and not beyond it, in every lineage. And the central remaining question, whether
 the procedure replicates or the effect was a peculiarity of one training
 path, is now answered: three independent lineages, fresh seeds, five
 cycles fixed in advance, a second held-out set read exactly once, and
 the same result three times, $-2.0$, $-1.8$ and $-1.9$ points of mean
 excess against the base (aggregated by held-out variant, positive in
-seven evaluable variants, $p=0.008$), and no detectable improvement of
-the best (difference $-0.004$ \ci{-0.011}{-0.000}; any true improvement
-bounded by about one excess point).
+seven evaluable variants, $p=0.008$), and the same convergence of the
+best: in every lineage the adapters' best candidate lands exactly on the
+classic heuristic's level (0.021028) and no arm produces a
+beyond-classic candidate. The best statistic itself improves from the
+base's 0.0243--0.0247 to that level, an attractor reading rather than an
+immobility one; the exact sign-flip on the variant-paired best
+difference does not resolve it ($-0.004$, $p=0.094$; the hierarchical
+bootstrap interval \ci{-0.011}{-0.000} reflects a different aggregation
+and should be read as descriptive).
 
 \appendix
 \section{Reproducibility and experimental provenance}
@@ -732,7 +755,7 @@ C cycles 1--3 & 2026-08-21 & none (new domain) & attract vs base (c3) & not supp
 C cycles 4--5 & 2026-08-22 & c3 result & attract vs base (c5) & sequential, $p=0.008$ \\
 C-repel, N (tails) & 2026-08-22 & C & keep the tails & degenerate / not kept \\
 Matched-$k$ analyses & 2026-08-24 & all C & best-of-$k$, pass@$k$ & reported \\
-C-rep (3 lineages) & 2026-08-26 & all above & replicates? & yes, $p=0.008$; best null \\
+C-rep (3 lineages) & 2026-08-26 & all above & does the procedure replicate & mean: yes ($p=0.008$); best: to the classic \\
 \bottomrule
 \end{tabular}
 \caption{Order of registrations and looks. The cycle-5 result is a

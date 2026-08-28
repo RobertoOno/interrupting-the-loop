@@ -36,23 +36,27 @@ per run) with three operator packages: a schematic notebook the model
 writes and carries instead of verbatim elites, a named obstacle, and
 behavioural repulsion from constructions already found. On nine
 construction problems from a public repository, the complete $2^3$
-factorial with two replicates supports the primary contrast in a
-two-look sequence: the composition closes more of the seed-to-record gap
-($+0.196$ \ci{+0.059}{+0.343}, $p=0.023$; median per-problem effect
-$+0.045$). Repulsion raises functional diversity everywhere ($+0.31$,
-$p=0.0039$; the operator partly optimizes this quantity). The factorial
-rejects anchoring as an interaction: the gain decomposes additively, the
-notebook package carrying the largest share, and memory+repulsion is the
-only arm that never collapses (0 of 18 runs) while matching the full
-composition to within $0.025$. A frontier proposer under the identical
+factorial with two replicates favours the primary contrast in a nominal
+two-stage analysis: the composition closes more of the seed-to-record
+gap ($+0.196$ \ci{+0.059}{+0.343}, nominal $p=0.023$; median
+per-problem effect $+0.045$; robust to removing the seed floor from the
+metric). Repulsion raises construction-hash diversity everywhere
+($+0.31$, $p=0.0039$; partly a manipulation check, since the operator
+optimizes a relative of this quantity). The factorial finds no positive
+memory-by-repulsion interaction and bounds any such interaction to about
+$\pm 0.04$: the gain decomposes additively, the notebook package
+carrying the largest descriptive share, and memory+repulsion is the only
+arm that never collapses (0 of 18 runs), with a mean $0.025$ below the
+full composition's, a difference unresolved at $n=9$. A frontier proposer under the identical
 loop reaches in tens of samples what the local model does not in
 hundreds, and its gains arrive without the operators. The search stalls
 after closing $\approx$92\% of the gap toward the best published
 construction on the flagship problem, and the registered family-hint
 test gives the stall its first reading: named in words, the reference
 family is adopted and loses; handed as code, it is optimized but its
-grid ceiling lies below the plateau reached unaided. The loop transports
-and optimizes ideas; it did not originate one. We release the harness,
+best tested finite-grid implementation remains below the plateau
+reached unaided. The loop transported and optimized the idea it was
+handed; no unaided run produced it. We release the harness,
 every candidate, and the dated pre-registrations.
 \end{abstract}
 
@@ -90,13 +94,15 @@ tail-preserving form.
 (1) A pre-registered program of cognitive operators inside a fixed
 verified-search loop, grown from a $5{\times}6{\times}2$ ablation to the
 complete $2^3{\times}9{\times}2$ factorial: the composition reaches
-$+0.196$ ($p=0.023$ over the two-look sequence), behavioural repulsion buys functional diversity in
-every problem and replicate ($p=0.0039$), and no single operator is safe
-alone.
+$+0.196$ (nominal $p=0.023$ over the two-stage sequence; robust to the
+metric's seed floor), behavioural repulsion buys construction-hash
+diversity in every problem and replicate ($p=0.0039$), and no single
+package avoids every failure mode.
 (2) A revision, by the completed factorial, of this program's recurring
-\emph{anchoring pattern}: the memory$\times$repulsion interaction on mean
-gap closed is zero: anchoring is not superadditive gain but
-\emph{collapse prevention}. Repulsion without memory still breaks (three
+\emph{anchoring pattern}: the factorial finds no positive
+memory$\times$repulsion interaction and bounds any such interaction to
+about $\pm 0.04$ of frac; what remains of anchoring is descriptive
+\emph{collapse prevention}, not superadditive gain. Repulsion without memory still breaks (three
 collapses in eighteen runs; four when paired with agenda), while
 memory+repulsion never does, echoing unanchored preference optimization
 in weight space.
@@ -106,14 +112,15 @@ diversity without accumulated direction does not compound.
 (4) A controlled \emph{proposer comparison}: local 30B versus a frontier
 model under the identical loop and budget, on the same problem,
 locating the residual gap in the proposer rather than in the loop, with a
-frontier-strength scoping run in which the operators' mean contribution
-sits inside run-to-run noise.
+frontier-strength scoping run in which the single-run operator
+differences are at most $0.001$--$0.003$.
 (5) An honest calibration of office-scale verified search, reaching
 57--99.9\% of the reference values (median 89\%) at 120--600 samples,
-and a characterized wall: grid resolution,
-verifier time and proposer strength each unmoved within the tested
-settings, leaving the construction family as the leading suspect for the
-binding constraint.
+and a characterized wall: the tested grid and verifier-time changes did
+not improve the result, a stronger proposer raised and accelerated the
+plateau without closing the final gap, and the construction family
+remains the leading suspect for the binding constraint. (Reference
+percentages are raw value ratios; frac in the text is gap-based.)
 
 \section{Related work}
 \label{sec:related}
@@ -138,7 +145,7 @@ with an adaptive injection gate and reports gate ablations
 summaries across search branches \citep{haji2026memoir}. What remains
 absent, and what we contribute, is a complete factorial, within one task
 suite and under a fixed local proposer, of a schematic-notebook package,
-an obstacle line, and an exact behavioural duplicate control. LoongFlow \citep{wan2025loongflow} composes planning, hybrid
+an obstacle line, and a construction-hash duplicate control. LoongFlow \citep{wan2025loongflow} composes planning, hybrid
 memory and MAP-Elites niches into one system and reports large efficiency
 gains; it is the closest architecture to our composed arm, and exactly the
 kind of system whose components an ablation like ours aims to isolate.
@@ -261,7 +268,13 @@ $p=0.023$ over the combined nine problems. We report the stages
 separately, since the combination is a two-look sequence rather than an
 independent confirmation: the three extension problems alone are positive
 but underpowered ($+0.19$ on average, $p=0.25$, carried mostly by
-max--min distance). The effect is also heterogeneous
+max--min distance), and a Fisher combination of the stage $p$-values
+(0.0625, 0.25) gives $p\approx 0.08$, so the pooled $0.023$ should be
+read as nominal accumulated evidence. The result is robust to the
+outcome definition: with the seed floor removed the contrast is
+unchanged ($+0.196$, $p=0.023$), and excluding the two problems where
+every arm meets the same plateau it rises to $+0.252$ at the same $p$
+($n=7$). The effect is also heterogeneous
 (Figure~\ref{fig:forest}): the median per-problem effect is $+0.045$,
 leave-one-problem-out means span $+0.153$ to $+0.224$, with large gains
 on four problems, little on four, and one small loss.
@@ -380,8 +393,10 @@ numerically, while the \citet{bellec2024beat} construction is a
 multiscale, recursively structured sequence of discrete measures whose
 analysis shows a finitely supported measure cannot be optimal; the
 family-hint conditions below name that structure. Within the settings
-tested, grid, time and proposer strength are ruled out; what remains is
-the family: an idea.
+tested, grid and time changes did not move the result and a stronger
+proposer moved it without closing the gap; these plateaus motivated the
+hypothesis that what remained was the construction family, an idea. The
+family-hint experiment below tests and qualifies that interpretation.
 
 A second problem sharpens where such ideas live. On max--min distance 16,
 the frontier proposer under the same loop emits \emph{in generation
@@ -401,10 +416,11 @@ on the Heilbronn problem every arm converges to an identical value
 ($12.889230$ and $0.036530$ respectively; the Heilbronn reference in our
 registry floors the reported figure, so that value reaches the frozen
 reference and supports no exceedance claim). At frontier strength the
-operators' mean contribution sits inside run-to-run noise everywhere we
-measured it: the certified gains are a local-proposer phenomenon, and
-whether the collapse insurance survives at this strength remains
-untested.
+single-run operator differences are at most $0.001$--$0.003$ everywhere
+we measured them: the certified gains are a local-proposer phenomenon,
+and whether the collapse insurance survives at this strength remains
+untested (single runs; the frontier proposer's own run-to-run noise is
+unestimated).
 
 \section{Discussion}
 \label{sec:discussion}
@@ -428,8 +444,8 @@ with the full composition as the highest-mean variant. The mechanism is
 visible in the notebooks: the schematic memory keeps direction across
 generations and the repulsion spends the saved budget on genuinely
 different constructions. Alone, each fails somewhere: memory and agenda
-are inert on problems the model already saturates; repulsion starves
-fragile manifolds. This is a recurring collapse-prevention pattern,
+are inert on problems the model already saturates; repulsion is
+associated with performance collapses on fragile manifolds. This is a recurring collapse-prevention pattern,
 consistent with the anchoring hypothesis, that this program has now
 observed across narrative generation, weight-space preference
 optimization, and prompt-space search.
@@ -464,11 +480,22 @@ log-distance bands), so the model obeyed, entered a family that is
 inferior at this grid, and paid about $0.025$ for it. Handed the family
 as code, the loop optimizes it well ($+0.085$ from the crude seed,
 above the no-hint endpoint in three of three seeds) and stays loyal to
-it (no oracle run deserted to the better sparse family). No unaided run
-proposed the family. Within this problem and grid, then, the registered
-hypothesis was \emph{not} supported: handing the idea, in words or in
-code, did not cross the last mile, and the idea itself was not the
-missing step at $L{=}5000$. What the experiment does establish is a
+it (no oracle run deserted to the better sparse family). Family
+membership is decided by an explicit rule (at most 50 support atoms,
+mass at least $0.3$ on $\{0..3\}$, atoms in at least three
+$\log_{10}$ distance-from-top bands; per-run table released): by it,
+eight of nine hint-family finals are in-family and zero of six
+no-hint/generic finals are. No unaided candidate in the three registered
+120-sample runs was classified in-family. Two caveats bound the reading:
+with three seeds per condition these contrasts are descriptive (the
+smallest one-sided sign-flip $p$ at $n{=}3$ is $0.125$), and the
+historical $0.3816$ comes from a different battery under strong seed
+variance, so the oracle's $0.375$ exceeds the \emph{contemporary}
+no-hint $0.352$ descriptively while trailing the historical best. Within
+those bounds, the registered hypothesis was not supported: handing the
+idea, in words or in code, did not cross the last mile under this
+budget, and our best implementation of the idea was not the missing step
+at $L{=}5000$. What the experiment does establish is a
 division of labour: the loop transports and optimizes ideas; it does not
 originate them, and instructing one is not inducing one, the third
 appearance of that pattern in this program (the continuity connective of
@@ -481,7 +508,8 @@ memory with repulsion (the zero-collapse arm; the full composition adds
 $+0.025$ of mean at the cost of the agenda's extra calls, a difference
 our data cannot distinguish from zero), and never run repulsion alone on
 fragile manifolds; keep the
-behaviour descriptor exact (the construction, not an embedding); spend on
+behaviour descriptor construction-derived (a rounded construction hash,
+not an embedding; no symmetry canonicalization); spend on
 the proposer before spending on samples; treat plateaus as candidate family
 boundaries and test them (grid, time, proposer and hints in
 pre-registered steps) rather than declaring them.

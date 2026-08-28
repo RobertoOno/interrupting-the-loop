@@ -35,7 +35,7 @@ for ax, data, title in ((axes[0], mean, "mean excess (held-out)"), (axes[1], bes
     ax.set_xticks([0] + cyc); ax.set_xlim(-0.3, 6.3)
 axes[0].set_ylabel("excess over lower bound"); axes[0].set_ylim(0.030, 0.075); axes[1].set_ylim(0.030, 0.075)
 axes[1].axhline(0.0311, color=GRAY, lw=0.7, ls=":", zorder=0)
-axes[1].annotate("every arm pinned at the 0.0311 ceiling", (2.9, 0.0345), fontsize=8, color="#333333")
+axes[1].annotate("trained arms at the 0.0311 classic level;\nthe base fluctuates above it", (2.4, 0.0350), fontsize=7.5, color="#333333")
 fig.tight_layout()
 fig.savefig(OUT / "fig_c_mean_vs_best.png", bbox_inches="tight"); plt.close(fig)
 
@@ -46,7 +46,7 @@ tail_n = ["1/18", "5/156", "1/158", "0/79", "0/28"]
 at_cls_ho = [20, 72, 25, 100, 2]
 CJ = [GRAY, BLUE, GREEN, VERM, PURPLE]
 fig, axes = plt.subplots(1, 2, figsize=(6.6, 2.4))
-for ax, vals, title, unit in ((axes[0], tail_far, "candidates better than the classic\n(far family)", "%"),
+for ax, vals, title, unit in ((axes[0], tail_far, "better than the classic, per-family\naverage rate (far families)", "%"),
                               (axes[1], at_cls_ho, "candidates exactly at the classic's level\n(held-out)", "%")):
     bars = ax.bar(range(len(arms)), vals, color=CJ, width=0.62)
     for i, (b, v) in enumerate(zip(bars, vals)):
@@ -76,8 +76,8 @@ for arm, (dv, fr, col, mem, rep) in cube.items():
 ax.set_xlabel("functional diversity (distinct behaviours / valid)")
 ax.set_ylabel("frac of seed→record gap closed")
 ax.set_xlim(0.37, 0.88); ax.set_ylim(0.41, 0.67)
-ax.annotate("memory-on (blue): the four best means", (0.385, 0.655), fontsize=8, color=BLUE)
-ax.annotate("repulsion-on (circles): highest diversity", (0.385, 0.638), fontsize=8, color="#333333")
+ax.annotate("B-on (blue): the four best means", (0.385, 0.655), fontsize=8, color=BLUE)
+ax.annotate("D-on (circles): highest hash diversity", (0.385, 0.638), fontsize=8, color="#333333")
 ax.annotate("(n) = collapses in 18 runs", (0.385, 0.621), fontsize=8, color=GRAY)
 fig.tight_layout()
 fig.savefig(OUT / "fig_f23_cube.png", bbox_inches="tight"); plt.close(fig)
