@@ -43,10 +43,14 @@ train() { # problem mode sft-dir adapter-dir pool-dir
   $PY scripts/closed_loop.py select --run $5 --problem $1 --mode $2 --k $K --sft $3 \
       --chat-model $MODEL --seed 7 || return 1
   cp $3/train.jsonl $3/valid.jsonl
-  N=$(wc -l < $3/train.jsonl); IT=$(( (4 * N + 1) / 2 )); [ $IT -lt 40 ] && IT=40
+  # Amendment 2026-08-28: default depth (16 layers) + batch 2 on the 8-bit MoE
+  # silently zeroes training (Metal resource failure: 0 trained tokens, NaN/garbage
+  # stats; verified 8 layers + batch 1 trains cleanly, peak ~39 GB). Exposure
+  # matched to the original design: batch 2 -> 1, iters doubled (examples seen equal).
+  N=$(wc -l < $3/train.jsonl); IT=$(( 4 * N )); [ $IT -lt 80 ] && IT=80
   echo "train $(basename $4) ($N programs, $IT iters) $(date)"
   caffeinate -is $PY -m mlx_lm lora --model $MODEL --train --data $3 --mask-prompt --iters $IT \
-      --batch-size 2 --adapter-path $4 >> $4.log 2>&1
+      --batch-size 1 --num-layers 8 --adapter-path $4 >> $4.log 2>&1
 }
 
 for p in $PROBS; do
