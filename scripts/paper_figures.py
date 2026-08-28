@@ -82,17 +82,22 @@ ax.annotate("(n) = collapses in 18 runs", (0.385, 0.621), fontsize=8, color=GRAY
 fig.tight_layout()
 fig.savefig(OUT / "fig_f23_cube.png", bbox_inches="tight"); plt.close(fig)
 # ---- Paper 3: forest of per-problem E-A effects (APPENDIX_F.md pooled fracs) ----
-forest = [("beat-the-average", .528), ("max–min 16", .539), ("ring loading", .364),
-          ("circle packing", .289), ("autocorr $C_1$", .045), ("Heilbronn 11", .028),
-          ("isosceles-free", 0.0), ("$180!$", 0.0), ("sum-difference", -.030)]
+forest = [("beat-the-average", .528, .413, .643), ("max–min 16", .539, .445, .634),
+          ("ring loading", .364, .565, .162), ("circle packing", .289, .014, .563),
+          ("autocorr $C_1$", .045, .064, .027), ("Heilbronn 11", .028, -.035, .092),
+          ("isosceles-free", 0.0, 0.0, 0.0), ("$180!$", 0.0, 0.0, 0.0),
+          ("sum-difference", -.030, -.005, -.056)]
 forest.sort(key=lambda x: x[1])
 fig, ax = plt.subplots(figsize=(4.6, 2.9))
 ys = range(len(forest))
 ax.axvline(0, color="#999999", lw=0.8)
 ax.axvline(0.196, color=BLUE, lw=1.0, ls="--")
 ax.axvline(0.045, color=GRAY, lw=1.0, ls=":")
-ax.scatter([v for _, v in forest], list(ys), s=42, color=BLUE, zorder=3)
-ax.set_yticks(list(ys)); ax.set_yticklabels([n for n, _ in forest], fontsize=8)
+for y, (_, m, r0, r1) in zip(ys, forest):
+    ax.plot([r0, r1], [y, y], color=GRAY, lw=0.7, alpha=0.7, zorder=2)
+    ax.scatter([r0, r1], [y, y], s=12, color=GRAY, zorder=2)
+ax.scatter([v for _, v, _, _ in forest], list(ys), s=42, color=BLUE, zorder=3)
+ax.set_yticks(list(ys)); ax.set_yticklabels([f[0] for f in forest], fontsize=8)
 ax.set_xlabel("E $-$ A, frac of seed$\\to$record gap (pooled replicates)")
 ax.annotate("mean +0.196", (0.196, len(forest) - 0.6), xytext=(4, 0), textcoords="offset points",
             fontsize=8, color=BLUE)
