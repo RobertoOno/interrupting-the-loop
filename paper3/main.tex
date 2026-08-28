@@ -16,12 +16,11 @@
 \graphicspath{{figures/}}
 \setlength{\parskip}{0.25em}
 \newcommand{\ci}[2]{[#1,\,#2]}
-\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 
 \title{Operator Packages, Proposer Strength, and\\ Construction-Family Plateaus in\\ Office-Scale Verified Search}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{Draft v0.2 for review, \today}
+\date{}
 
 \begin{document}
 \maketitle
@@ -655,6 +654,26 @@ unaided; our finite encoding of the idea was not sufficient to close the
 gap here. Whether the last mile of these searches is an idea, the
 question this program has carried informally, remains open, now with its
 first measured answer.
+
+\appendix
+\section{Reproducibility}
+\label{app:repro}
+
+Code, run data, the dated laboratory notebook with every
+pre-registration and amendment, and the analyses that generate every
+table are in the repository of the program
+(\url{https://github.com/RobertoOno/interrupting-the-loop}): the search
+harness (\texttt{scripts/frontier\_search.py}), the problem verifiers
+(\texttt{src/creative\_machine/domains/}), the batteries
+(\texttt{run\_f*.sh}, \texttt{run\_hint.sh}), the analyses
+(\texttt{frontier\_analysis.py}, \texttt{analysis\_23.py}) and the
+generated appendices (\texttt{docs/APPENDIX\_F*.md},
+\texttt{APPENDIX\_HINT.md}). Every candidate of every reported run is
+logged in the released run data. Proposing used
+\texttt{Qwen3-Coder-30B-A3B-Instruct} (8-bit, MLX) locally and
+\texttt{anthropic.claude-opus-5} on Amazon Bedrock for the frontier
+comparison; every hypothesis, amendment and result is dated in
+\texttt{docs/PLANO.md}.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
