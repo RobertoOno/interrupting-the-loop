@@ -55,9 +55,12 @@ proposer reaches its plateau, the tested grid and verifier-time changes
 add nothing. The search stalls after
 closing $\approx$92\% of the gap toward the best published construction
 on the flagship problem, every proposer inside one construction family.
-We state as a registered hypothesis that the remaining gap is a matter of
-construction family, an idea, and release the harness, every candidate,
-and the dated pre-registrations.
+The registered family-hint test gives that reading its first measured
+answer on the flagship: named in words, the reference family is adopted
+and loses; handed as code, it is optimized but its grid ceiling lies
+below the plateau reached unaided. The loop transports and optimizes
+ideas; it did not originate one. We release the harness, every
+candidate, and the dated pre-registrations.
 \end{abstract}
 
 \section{Introduction}
@@ -447,16 +450,34 @@ explanations. The shared plateau suggests, consistently with our
 consolidation results \citep{ono2026mass}, that search over a fixed prior
 rapidly collects what the prior's construction families contain and then
 stalls at the best family member, a hypothesis to test rather than
-assert. \emph{The family-hint experiment} (registered as the next
-battery), on beat-the-average: (a) no hint; (b) a generic hint (``try a
-different representation''); (c) a structural hint naming the family of
-the \citet{bellec2024beat} construction without parameters; (d) a seed
-from that family far from its optimum; (e) the full construction as an
-oracle control. If the loop optimizes the family once given but never
-proposes it unaided, the missing ingredient is the idea; if it cannot even
-optimize it, the story is different. This is the question
-\citet{georgiev2025exploration} report answering with an expert in the
-loop, from the other side.
+assert. \emph{The family-hint experiment} (registered before running;
+five conditions $\times$ three seeds, 120 samples, memory+repulsion arm)
+put it to the test on beat-the-average: (a) no hint; (b) a generic hint;
+(c) a structural hint naming the \citet{bellec2024beat} family without
+parameters; (d) a crude in-family seed program (score 0.2734); (e) our
+best hand instantiation of the family as an oracle seed (0.3742; on this
+grid with strict inequality, notably \emph{below} the 0.3816 sparse-atom
+plateau, a fact measured and registered before launch). The answer came
+with a twist. Condition means over three seeds: no hint 0.352, generic
+0.333, structural 0.327 (the worst), family seed 0.358, oracle 0.375.
+The structural hint \emph{worked as an instruction and lost as a
+search}: its final constructions carry the family's signature (an atom
+at zero, atoms accumulating toward the maximum across four
+log-distance bands), so the model obeyed, entered a family that is
+inferior at this grid, and paid about $0.025$ for it. Handed the family
+as code, the loop optimizes it well ($+0.085$ from the crude seed,
+above the no-hint endpoint in three of three seeds) and stays loyal to
+it (no oracle run deserted to the better sparse family). No unaided run
+proposed the family. Within this problem and grid, then, the registered
+hypothesis was \emph{not} supported: handing the idea, in words or in
+code, did not cross the last mile, and the idea itself was not the
+missing step at $L{=}5000$. What the experiment does establish is a
+division of labour: the loop transports and optimizes ideas; it does not
+originate them, and instructing one is not inducing one, the third
+appearance of that pattern in this program (the continuity connective of
+the companion study; the frontier scoping runs; now the structural
+hint). This is the question \citet{georgiev2025exploration} report
+answering with an expert in the loop, from the other side.
 
 \paragraph{Design rules.} For verified search at small scale: pair
 memory with repulsion (the zero-collapse arm; the full composition adds
@@ -485,7 +506,7 @@ F-ext ladder & 2026-08-23 & F & budget/grid/proposer & descriptive \\
 F-ext2 ($n{=}9$) & 2026-08-24 & F, ladder & E$>$A frac & $p=0.023$ combined \\
 $2^3$ completion & 2026-08-24 & F, ext2 partial & M$\times$R $>0$ & rejected ($p=0.47$) \\
 Frontier scoping & 2026-08-26 & all above & estimation only & operators $\approx$ null \\
-Family hint & registered & all above & optimize-once-given & to run \\
+Family hint & 2026-08-27 & all above & optimize-once-given & yes as code, no as words \\
 \bottomrule
 \end{tabular}
 \caption{Order of registrations and looks. The nine-problem primary
@@ -545,8 +566,13 @@ roughly $20\times$ fewer verifier evaluations. On beat-the-average both
 proposers stalled inside one small finite-support construction family,
 below a multiscale reference; the other plateaus are consistent with,
 but do not establish, analogous family boundaries. Whether
-crossing that boundary requires what we have informally called an idea is
-now a registered experiment rather than a metaphor.
+crossing that boundary requires what we have informally called an idea
+was put to a registered test on the flagship problem: the idea, handed in
+words, was followed and lost; handed as code, it was optimized but its
+grid ceiling lies below the plateau the models reach unaided. The loop
+moved ideas; it did not originate one, and the one we handed it was not
+the missing mile here. The question in this paper's title remains open,
+now with its first measured answer.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

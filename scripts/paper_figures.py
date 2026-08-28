@@ -101,11 +101,44 @@ ax.annotate("median +0.045", (0.045, 1.4), xytext=(4, 0), textcoords="offset poi
 fig.tight_layout()
 fig.savefig(OUT / "fig_forest_ea.png", bbox_inches="tight"); plt.close(fig)
 
+# ---- Paper 2: independent replication (C-rep) — paired per-variant, per lineage ----
+import json as _json
+fig, axes = plt.subplots(1, 4, figsize=(8.6, 2.5), gridspec_kw={"width_ratios": [1, 1, 1, 0.8]})
+for li, L in enumerate(("L1", "L2", "L3")):
+    ax = axes[li]
+    means = {}
+    for a in ("base", "attract"):
+        by = {}
+        cs = _json.load(open(ROOT / f"runs/dream_c_rep/{L}/{a}_c6/candidates.json"))
+        for c in cs.values():
+            if c.get("ok") and c.get("test") is not None:
+                by.setdefault(c["variant"], []).append(c["test"])
+        means[a] = {v: sum(x) / len(x) for v, x in by.items()}
+    common = sorted(set(means["base"]) & set(means["attract"]))
+    for v in common:
+        ax.plot([0, 1], [means["base"][v], means["attract"][v]], color=GRAY, lw=0.8, alpha=0.6)
+        ax.scatter([0], [means["base"][v]], s=18, color=GRAY, zorder=3)
+        ax.scatter([1], [means["attract"][v]], s=18, color=BLUE, zorder=3)
+    ax.set_xticks([0, 1]); ax.set_xticklabels(["base", "attract"], fontsize=8)
+    ax.set_title(f"lineage {li + 1}", fontsize=9); ax.set_xlim(-0.4, 1.4); ax.set_ylim(0.015, 0.105)
+    if li == 0: ax.set_ylabel("mean test excess (held-out 2)")
+    else: ax.set_yticklabels([])
+ax = axes[3]
+bl, al = [0.0247, 0.0243, 0.0243], [0.0210, 0.0210, 0.0210]
+for i in range(3):
+    ax.plot([0, 1], [bl[i], al[i]], color=GRAY, lw=0.8, alpha=0.6)
+    ax.scatter([0], [bl[i]], s=18, color=GRAY, zorder=3); ax.scatter([1], [al[i]], s=18, color=BLUE, zorder=3)
+ax.set_xticks([0, 1]); ax.set_xticklabels(["base", "attract"], fontsize=8)
+ax.set_title("best (3 lineages)", fontsize=9); ax.set_xlim(-0.4, 1.4); ax.set_ylim(0.015, 0.105); ax.set_yticklabels([])
+fig.tight_layout()
+fig.savefig(OUT / "fig_crep.png", bbox_inches="tight"); plt.close(fig)
+
 import shutil
 for name, dests in (("fig_c_mean_vs_best.png", ["paper2/figures"]),
                     ("fig_n_tails.png", ["paper2/figures"]),
                     ("fig_f23_cube.png", ["paper3/figures"]),
-                    ("fig_forest_ea.png", ["paper3/figures"])):
+                    ("fig_forest_ea.png", ["paper3/figures"]),
+                    ("fig_crep.png", ["paper2/figures"])):
     for d in dests:
         (ROOT / d).mkdir(parents=True, exist_ok=True)
         shutil.copy2(OUT / name, ROOT / d / name)
