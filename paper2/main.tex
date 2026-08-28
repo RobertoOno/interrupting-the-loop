@@ -501,6 +501,28 @@ bought with idiosyncrasy; total yield depends on production.}
 \label{fig:tails}
 \end{figure}
 
+\paragraph{Equal-budget comparisons.} At matched candidate counts the
+picture sharpens rather than reverses. Best-of-$k$ over 2{,}000
+subsamples per variant: at $k{=}10$ valid candidates, attraction's
+subsample best (0.0311) beats the random control's (0.0381) in eight of
+eight variants each, while the base reaches ten valid candidates in only
+one variant of eight (0.0449 there); at $k{=}40$ only the random arm has
+coverage at all. The base's small-sample best advantage is therefore in
+part a production deficit, and no arm's pass@$k$ against the classics
+ever leaves zero. The pooled quantiles say the same about the whole
+distribution: attraction dominates the base at p10, p50 and p90
+(0.0257/0.0283/0.0676 against 0.0285/0.0483/0.1075), so the shift is of
+the distribution, not only of its mean.
+
+\paragraph{A two-part reading.} Because the headline measure conditions
+on validity, the effect decomposes into two parts that the replication
+battery lets us separate: consolidation multiplies the production of
+valid candidates (base 33--63 per lineage against attraction's
+108--184, with one base variant producing none at all) and, conditional
+on validity, shifts their mean quality ($-0.019$). ``Moving the mean''
+is the second part; the first may matter as much in practice, and both
+replicate.
+
 \paragraph{The registered SFT-only control.} The anchored objective
 combines repulsion from the worst candidates with a supervised term on
 the chosen ones; which half concentrates the policy? The matched control
@@ -665,13 +687,8 @@ contrast missed $\alpha$ at the registered third cycle ($p=0.11$) and
 closed only in a sequential-analysis sense at the extension to five
 ($p=0.008$), the held-out set having been consulted at both looks; its
 base arm varies by seed; candidate counts differ by arm (47--334), so the
-observed best is not an equal-budget comparison of tails; the matched-$k$
-analyses (released appendix) find: at $k{=}10$ valid candidates per
-variant, attraction's best-of-$k$ beats random's (0.0311 vs 0.0381 mean
-excess; both 8/8 variants) while the base reaches ten valid candidates in
-only one of eight variants (0.0449 there), so part of the base's
-small-sample best advantage is a production deficit; pass@$k$ against the
-classics is zero for every arm at matched $k$; the far families
+observed best is not an equal-budget comparison of tails (the matched-$k$
+analyses in the results address this); the far families
 are six (paired $n=5$) and the tail rates rest on tens of candidates; the
 QD arm is a small implementation (three niches per variant), so
 ``tail-preserving objectives keep the mediocre'' is a statement about this
