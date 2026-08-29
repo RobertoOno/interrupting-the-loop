@@ -125,7 +125,10 @@ def main() -> None:
     p.add_argument("--model", default="~/models/mlx/Qwen3-8B-Base-8bit")
     p.add_argument("--seed-text", default=None)
     p.add_argument("--seed-index", type=int, default=0)
-    p.add_argument("--op", choices=["none", "translate", "rotate", "repel"], default="none")
+    p.add_argument("--op", choices=["none", "translate", "rotate", "repel", "prompt"], default="none",
+                   help="prompt = the prompt-matched control: --inject-text fed as literal text every --inject-every steps (dream-format reseeds); no state operator")
+    p.add_argument("--inject-text", default=None, help="text for --op prompt (prepended with a paragraph break)")
+    p.add_argument("--inject-every", type=int, default=300)
     p.add_argument("--layer", type=int, default=18)
     p.add_argument("--alpha", type=float, default=0.0, help="dose: translation length (units of premise-state norm), rotor angle (radians), or repel step")
     p.add_argument("--concept-a", default=None, help="direction text A (v = mean_A - mean_B, or mean_A - premise if no B)")
@@ -197,23 +200,49 @@ def main() -> None:
             hf = so.renorm(hf, pre_norm, mx)
         return hf.astype(h.dtype)
 
-    tok = sample_token(head_logits(model, h_last, mx), a.temp, a.top_p, ban, mx)
-    ids, fired, t0 = [tok], 0, time.time()
-    for step in range(2, a.max_tokens + 1):
-        x = mx.array([[ids[-1]]])
+    inj_text = ("\n\n" + a.inject_text + " ") if a.inject_text else None
+    inj_ids = tokenizer.encode(inj_text, add_special_tokens=False) if inj_text else []
+
+    def feed(token_ids):
+        """Force tokens through the model (extends the cache); returns last hidden."""
+        x = mx.array([token_ids])
         h = inner.embed_tokens(x)
-        mask = cam(h, cache[0])
-        for li, (layer_m, c) in enumerate(zip(inner.layers, cache)):
-            h = layer_m(h, mask, c)
-            if li == a.layer:
-                if a.op == "repel":
-                    mu = (1.0 - lam) * mu + lam * h[0, -1].astype(mx.float32)
-                if a.op != "none" and sched.active(step):
-                    h = apply_op(h)
-                    fired += 1
+        m = cam(h, cache[0])
+        for layer_m, c in zip(inner.layers, cache):
+            h = layer_m(h, m, c)
+        return h
+
+    tok = sample_token(head_logits(model, h_last, mx), a.temp, a.top_p, ban, mx)
+    ids, gen_mask, step_pos, reseeds, fired, t0 = [tok], [True], [1], [], 0, time.time()
+    n_gen, h_ready = 1, None  # h_ready: hidden to sample from right after a text injection
+    while n_gen < a.max_tokens:
+        step = n_gen + 1
+        if h_ready is not None:
+            h, h_ready = h_ready, None
+        else:
+            x = mx.array([[ids[-1]]])
+            h = inner.embed_tokens(x)
+            mask = cam(h, cache[0])
+            for li, (layer_m, c) in enumerate(zip(inner.layers, cache)):
+                h = layer_m(h, mask, c)
+                if li == a.layer:
+                    if a.op == "repel":
+                        mu = (1.0 - lam) * mu + lam * h[0, -1].astype(mx.float32)
+                    if a.op in ("translate", "rotate", "repel") and sched.active(step):
+                        h = apply_op(h)
+                        fired += 1
         tok = sample_token(head_logits(model, h, mx), a.temp, a.top_p, ban, mx)
         ids.append(tok)
-        if step % 512 == 0:
+        gen_mask.append(True)
+        n_gen += 1
+        step_pos.append(len(ids))
+        if a.op == "prompt" and n_gen % a.inject_every == 0 and n_gen < a.max_tokens:
+            reseeds.append([n_gen, inj_text, {"pos": len(ids)}])
+            h_ready = feed(inj_ids)
+            ids.extend(inj_ids)
+            gen_mask.extend([False] * len(inj_ids))
+            fired += 1
+        if n_gen % 512 == 0:
             mx.clear_cache()
 
     text = tokenizer.decode(ids)
@@ -229,18 +258,21 @@ def main() -> None:
         take = mx.take_along_axis(lp[:, : tgts.shape[1]], tgts[..., None], axis=-1)
         mx.eval(take)
         nll.extend((-np.asarray(take[0, :, 0])).tolist())
-    gen_nll = nll[len(seed_ids) - 1 :]
-    grams = [tuple(ids[i : i + 4]) for i in range(len(ids) - 3)]
+    off = len(seed_ids) - 1
+    gen_nll = [nll[off + j] for j in range(len(ids)) if gen_mask[j] and off + j < len(nll)]
+    gids = [t for t, m in zip(ids, gen_mask) if m]
+    grams = [tuple(gids[i : i + 4]) for i in range(len(gids) - 3)]
     distinct4 = len(set(grams)) / max(1, len(grams))
 
     a.out.mkdir(parents=True, exist_ok=True)
     (a.out / "text.txt").write_text(seed + text)
-    (a.out / "tokens.json").write_text(json.dumps({"ids": ids, "step_pos": list(range(1, len(ids) + 1))}))
+    (a.out / "tokens.json").write_text(json.dumps({"ids": ids, "step_pos": step_pos}))
     (a.out / "insights.json").write_text("[]")
     state = {"op": a.op, "layer": a.layer, "alpha": a.alpha, "schedule": sched.describe(),
              "keep_norm": a.keep_norm, "anchor": a.anchor, "fired": fired,
              "model": a.model, "temp": a.temp, "top_p": a.top_p, "rng_seed": a.rng_seed,
              "concept_a": a.concept_a, "concept_b": a.concept_b, "cos_ab": cos_ab,
+             "inject_text": a.inject_text, "inject_every": a.inject_every if a.op == "prompt" else None,
              "state_scale": round(state_scale, 4),
              "clean_nll_mean": round(float(np.mean(gen_nll)), 4),
              "clean_nll_p90": round(float(np.percentile(gen_nll, 90)), 4),
@@ -248,8 +280,8 @@ def main() -> None:
     (a.out / "state.json").write_text(json.dumps(state, indent=2))
     (a.out / "run.json").write_text(json.dumps(
         {"seed": seed, "summary": {"n_tokens": len(ids), "n_events": 0, "n_reviews": 0,
-                                   "n_insights": 0, "n_reseeds": 0},
-         "events": [], "regime_switches": [], "reseeds": [], "state": state}, indent=2))
+                                   "n_insights": 0, "n_reseeds": len(reseeds)},
+         "events": [], "regime_switches": [], "reseeds": reseeds, "state": state}, indent=2))
     print(f"{a.out.name}: {len(ids)} tokens, op={a.op} L{a.layer} alpha={a.alpha} fired={fired}, "
           f"clean_nll={state['clean_nll_mean']}, distinct4={state['distinct4']}, {time.time()-t0:.0f}s", flush=True)
 
