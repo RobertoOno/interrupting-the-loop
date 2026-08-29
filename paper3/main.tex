@@ -160,6 +160,22 @@ behavioural-repulsion operator is novelty search
 proposer's prompt, with the construction itself (not an embedding) as the
 behaviour descriptor.
 
+\paragraph{Automated researchers at industrial scale.} Concurrently with
+this work, \citet{chen2026automated} ran LLM ``automated alignment
+researchers'' that propose and train post-training fixes for ten
+alignment failures. Their harness independently converges on the organs
+studied here---a persistent memory file carried across fresh sessions
+and a shared finding forum, whose removal costs the most headroom in
+their ablation---and their telemetry shows each failure collapsing into
+a single dominant method family while idea diversity stays flat or
+declines as scores climb. A novelty-rejection variant raises the novelty
+of accepted methods but yields mixed downstream gains, mirroring the
+dissociation we certify here between diversity and value. Their setting
+is complementary to ours: mitigating a well-characterized failure is a
+task whose known-good region already exists in the literature, precisely
+the regime in which loops of this family excel; the construction-family
+plateau we document marks the boundary of that regime.
+
 \section{The harness, the operators, the problems}
 \label{sec:harness}
 
