@@ -137,6 +137,10 @@ def main() -> None:
     p.add_argument("--inject-rotate", action="store_true", help="--op prompt: cycle the paper-1 kick_seeds verbatim instead of --inject-text")
     p.add_argument("--inject-every", type=int, default=300)
     p.add_argument("--pulse-len", type=int, default=32, help="--op pulse: burst length in generated tokens")
+    p.add_argument("--pulse-op", choices=["translate", "rotate", "repel"], default="translate",
+                   help="--op pulse: operator applied during bursts. translate: + alpha*state_scale toward the rotating "
+                        "kick direction; rotate: rotor by alpha radians in plane(premise -> kick); repel: alpha*state_scale "
+                        "away from the trajectory's EMA mean (kick directions unused)")
     p.add_argument("--habit", action="store_true",
                    help="habituation as in the paper-1 loop: logprob -= count * ln(1.15) over the last 512 generated tokens")
     p.add_argument("--layer", type=int, default=18)
@@ -189,12 +193,14 @@ def main() -> None:
     u_hat = w_hat = None
     if a.op == "rotate":
         u_hat, w_hat = so.orthonormal_pair(prem, v, mx)
-    pulse_dirs = []
-    if a.op == "pulse":
+    pulse_dirs, pulse_planes = [], []
+    if a.op == "pulse" and a.pulse_op in ("translate", "rotate"):
         for k in KICKS:
             vk = concept_vector(model, tokenizer, k, a.layer, mx, cam, mpc)
             d = vk - prem_np
             pulse_dirs.append(mx.array((d / (np.linalg.norm(d) + 1e-12)).astype(np.float32)))
+            if a.pulse_op == "rotate":
+                pulse_planes.append(so.orthonormal_pair(prem, pulse_dirs[-1], mx))
 
     # --- prefill (also the premise-state scale for translate's dose unit) ---
     cache = mpc(model)
@@ -258,7 +264,7 @@ def main() -> None:
             for li, (layer_m, c) in enumerate(zip(inner.layers, cache)):
                 h = layer_m(h, mask, c)
                 if li == a.layer:
-                    if a.op == "repel":
+                    if a.op == "repel" or (a.op == "pulse" and a.pulse_op == "repel"):
                         mu = (1.0 - lam) * mu + lam * h[0, -1].astype(mx.float32)
                     if a.op in ("translate", "rotate", "repel") and sched.active(step):
                         h = apply_op(h)
@@ -269,7 +275,13 @@ def main() -> None:
                             hf = h.astype(mx.float32)
                             pre_norm = so.norms(hf, mx)
                             tgt = so.coord(hf, prem, mx)
-                            hf = so.translate(hf, pulse_dirs[(q - 1) % len(pulse_dirs)], a.alpha * state_scale)
+                            if a.pulse_op == "translate":
+                                hf = so.translate(hf, pulse_dirs[(q - 1) % len(pulse_dirs)], a.alpha * state_scale)
+                            elif a.pulse_op == "rotate":
+                                u_k, w_k = pulse_planes[(q - 1) % len(pulse_planes)]
+                                hf = so.rotate(hf, u_k, w_k, a.alpha, mx)
+                            else:  # repel
+                                hf = so.repel(hf, mu, a.alpha * state_scale, mx)
                             if a.anchor:
                                 hf = so.restore_coord(hf, prem, tgt, mx)
                             if a.keep_norm:
@@ -323,7 +335,8 @@ def main() -> None:
              "concept_a": a.concept_a, "concept_b": a.concept_b, "cos_ab": cos_ab,
              "inject_text": a.inject_text, "inject_rotate": a.inject_rotate,
              "inject_every": a.inject_every if a.op in ("prompt", "pulse") else None,
-             "pulse_len": a.pulse_len if a.op == "pulse" else None, "habit": a.habit,
+             "pulse_len": a.pulse_len if a.op == "pulse" else None,
+             "pulse_op": a.pulse_op if a.op == "pulse" else None, "habit": a.habit,
              "state_scale": round(state_scale, 4),
              "clean_nll_mean": round(float(np.mean(gen_nll)), 4),
              "clean_nll_p90": round(float(np.percentile(gen_nll, 90)), 4),
