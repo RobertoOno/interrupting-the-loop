@@ -267,7 +267,13 @@ def main() -> None:
                         q, r = (step - 1) // a.inject_every, (step - 1) % a.inject_every
                         if q >= 1 and r < a.pulse_len:
                             hf = h.astype(mx.float32)
+                            pre_norm = so.norms(hf, mx)
+                            tgt = so.coord(hf, prem, mx)
                             hf = so.translate(hf, pulse_dirs[(q - 1) % len(pulse_dirs)], a.alpha * state_scale)
+                            if a.anchor:
+                                hf = so.restore_coord(hf, prem, tgt, mx)
+                            if a.keep_norm:
+                                hf = so.renorm(hf, pre_norm, mx)
                             h = hf.astype(h.dtype)
                             fired += 1
         tok = draw(h)
