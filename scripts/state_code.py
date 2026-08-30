@@ -36,7 +36,7 @@ def variant_premises(which: str) -> list[str]:
     if which == "train":
         return [premise(lo, hi) for lo, hi in VARIANTS_C_TRAIN]
     if which == "far":
-        return [premise_far(d) for d in FAR_VARIANTS]
+        return [premise_far(desc) for _name, desc in FAR_VARIANTS]
     raise SystemExit(f"unknown variants set {which}")
 
 
