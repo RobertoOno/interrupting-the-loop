@@ -57,6 +57,10 @@ def main() -> None:
     p.add_argument("--anchor", action="store_true")
     p.add_argument("--keep-norm", action="store_true")
     p.add_argument("--repel-halflife", type=int, default=128)
+    p.add_argument("--block-route-dir", type=Path, default=None,
+                   help="route blocking (operator 7): dir with route_{which}_v{vi}.npy bases; "
+                        "the top --block-k directions are projected OUT at --layer on every step")
+    p.add_argument("--block-k", type=int, default=8)
     p.add_argument("--rng-seed", type=int, default=0)
     a = p.parse_args()
     refuse_if_other_model(a.out)
@@ -74,7 +78,7 @@ def main() -> None:
     prems = variant_premises(a.variants)
     pool_texts = ANGLES if a.pulse_source == "angles" else list(DreamConfig().kick_seeds)
 
-    def generate(seed_text: str, cell_rng: np.random.Generator) -> str:
+    def generate(seed_text: str, cell_rng: np.random.Generator, block=None) -> str:
         mx.random.seed(int(cell_rng.integers(0, 2 ** 31)))
         prem_np = concept_vector(model, tokenizer, seed_text, a.layer, mx, cam, mpc)
         prem = mx.array(prem_np.astype(np.float32))
@@ -143,6 +147,13 @@ def main() -> None:
                             if a.keep_norm:
                                 hf = so.renorm(hf, pre_norm, mx)
                             hh = hf.astype(hh.dtype)
+                    if block is not None:
+                        hf = hh.astype(mx.float32)
+                        tgt = so.coord(hf, prem, mx)
+                        hf = so.project_out(hf, block, mx)
+                        if a.anchor:
+                            hf = so.restore_coord(hf, prem, tgt, mx)
+                        hh = hf.astype(hh.dtype)
             tok = sample_token(head_logits(model, hh, mx), 1.0, 0.95, ban, mx, recent=recent)
             ids.append(tok); recent.append(tok); n_gen += 1
             if n_gen >= next_angle:
@@ -167,8 +178,13 @@ def main() -> None:
                 print(f"skip {key}", flush=True)
                 continue
             rng = np.random.default_rng(a.rng_seed * 100003 + vi * 101 + nb)
+            block = None
+            if a.block_route_dir:
+                import mlx.core as _mx
+                basis = np.load(a.block_route_dir / f"route_{a.variants}_v{vi}.npy")
+                block = _mx.array(basis[: a.block_k])
             t0 = time.time()
-            outf.write_text(generate(prems[vi], rng))
+            outf.write_text(generate(prems[vi], rng, block=block))
             print(f"{a.out.name} {key}: {time.time() - t0:.0f}s", flush=True)
     print(f"STATE-CODE DONE {a.out.name}", flush=True)
 
