@@ -35,7 +35,8 @@ def test_translate():
 
 
 def test_rotor_matches_matrix_exponential():
-    from scipy.linalg import expm
+    scipy_linalg = pytest.importorskip("scipy.linalg", reason="expm verification is local-only (CI installs no scipy)")
+    expm = scipy_linalg.expm
 
     u, v = rand_h(), rand_h()
     uh, wh = so.orthonormal_pair(u, v, np)
