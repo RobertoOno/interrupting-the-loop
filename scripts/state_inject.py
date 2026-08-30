@@ -103,11 +103,16 @@ def head_logits(model, h, mx):
     return model.lm_head(g)
 
 
-def sample_token(logits, temp: float, top_p: float, ban, mx) -> int:
+def sample_token(logits, temp: float, top_p: float, ban, mx, recent=None, penalty: float = 1.15) -> int:
     lg = logits[0, -1].astype(mx.float32)
     for t in ban:
         lg[t] = -1e9
     lg = lg / max(temp, 1e-6)
+    if recent:
+        from collections import Counter
+        counts = Counter(recent)
+        idx = mx.array(list(counts.keys()))
+        lg[idx] = lg[idx] - mx.array([c * math.log(penalty) for c in counts.values()])
     if top_p < 1.0:
         idx = mx.argsort(-lg)
         srt = lg[idx]
@@ -125,10 +130,15 @@ def main() -> None:
     p.add_argument("--model", default="~/models/mlx/Qwen3-8B-Base-8bit")
     p.add_argument("--seed-text", default=None)
     p.add_argument("--seed-index", type=int, default=0)
-    p.add_argument("--op", choices=["none", "translate", "rotate", "repel", "prompt"], default="none",
-                   help="prompt = the prompt-matched control: --inject-text fed as literal text every --inject-every steps (dream-format reseeds); no state operator")
+    p.add_argument("--op", choices=["none", "translate", "rotate", "repel", "prompt", "pulse"], default="none",
+                   help="prompt = the prompt-matched control: --inject-text fed as literal text every --inject-every steps (dream-format reseeds); "
+                        "pulse = translation BURSTS (--pulse-len tokens every --inject-every) with the direction rotating over the paper-1 kick_seeds")
     p.add_argument("--inject-text", default=None, help="text for --op prompt (prepended with a paragraph break)")
+    p.add_argument("--inject-rotate", action="store_true", help="--op prompt: cycle the paper-1 kick_seeds verbatim instead of --inject-text")
     p.add_argument("--inject-every", type=int, default=300)
+    p.add_argument("--pulse-len", type=int, default=32, help="--op pulse: burst length in generated tokens")
+    p.add_argument("--habit", action="store_true",
+                   help="habituation as in the paper-1 loop: logprob -= count * ln(1.15) over the last 512 generated tokens")
     p.add_argument("--layer", type=int, default=18)
     p.add_argument("--alpha", type=float, default=0.0, help="dose: translation length (units of premise-state norm), rotor angle (radians), or repel step")
     p.add_argument("--concept-a", default=None, help="direction text A (v = mean_A - mean_B, or mean_A - premise if no B)")
@@ -162,6 +172,9 @@ def main() -> None:
     sched = so.Schedule.parse(a.schedule)
 
     # --- directions (fresh caches; computed before the generation cache) ---
+    from creative_machine.dream import DreamConfig
+    KICKS = list(DreamConfig().kick_seeds)  # the paper-1 rotating new-subject pool
+
     prem_np = concept_vector(model, tokenizer, seed, a.layer, mx, cam, mpc)
     v_np, cos_ab = None, None
     if a.op in ("translate", "rotate"):
@@ -176,6 +189,12 @@ def main() -> None:
     u_hat = w_hat = None
     if a.op == "rotate":
         u_hat, w_hat = so.orthonormal_pair(prem, v, mx)
+    pulse_dirs = []
+    if a.op == "pulse":
+        for k in KICKS:
+            vk = concept_vector(model, tokenizer, k, a.layer, mx, cam, mpc)
+            d = vk - prem_np
+            pulse_dirs.append(mx.array((d / (np.linalg.norm(d) + 1e-12)).astype(np.float32)))
 
     # --- prefill (also the premise-state scale for translate's dose unit) ---
     cache = mpc(model)
@@ -200,8 +219,13 @@ def main() -> None:
             hf = so.renorm(hf, pre_norm, mx)
         return hf.astype(h.dtype)
 
-    inj_text = ("\n\n" + a.inject_text + " ") if a.inject_text else None
-    inj_ids = tokenizer.encode(inj_text, add_special_tokens=False) if inj_text else []
+    if a.inject_rotate:
+        inj_pool = [k + " " for k in KICKS]  # verbatim paper-1 kicks (they begin with \n\n)
+    elif a.inject_text:
+        inj_pool = ["\n\n" + a.inject_text + " "]
+    else:
+        inj_pool = []
+    assert a.op != "prompt" or inj_pool, "--op prompt needs --inject-text or --inject-rotate"
 
     def feed(token_ids):
         """Force tokens through the model (extends the cache); returns last hidden."""
@@ -212,7 +236,15 @@ def main() -> None:
             h = layer_m(h, m, c)
         return h
 
-    tok = sample_token(head_logits(model, h_last, mx), a.temp, a.top_p, ban, mx)
+    from collections import deque
+    recent = deque(maxlen=512)  # habituation window over the recent stream (generated + injected)
+
+    def draw(h):
+        return sample_token(head_logits(model, h, mx), a.temp, a.top_p, ban, mx,
+                            recent=(recent if a.habit else None))
+
+    tok = draw(h_last)
+    recent.append(tok)
     ids, gen_mask, step_pos, reseeds, fired, t0 = [tok], [True], [1], [], 0, time.time()
     n_gen, h_ready = 1, None  # h_ready: hidden to sample from right after a text injection
     while n_gen < a.max_tokens:
@@ -231,16 +263,27 @@ def main() -> None:
                     if a.op in ("translate", "rotate", "repel") and sched.active(step):
                         h = apply_op(h)
                         fired += 1
-        tok = sample_token(head_logits(model, h, mx), a.temp, a.top_p, ban, mx)
+                    elif a.op == "pulse":
+                        q, r = (step - 1) // a.inject_every, (step - 1) % a.inject_every
+                        if q >= 1 and r < a.pulse_len:
+                            hf = h.astype(mx.float32)
+                            hf = so.translate(hf, pulse_dirs[(q - 1) % len(pulse_dirs)], a.alpha * state_scale)
+                            h = hf.astype(h.dtype)
+                            fired += 1
+        tok = draw(h)
         ids.append(tok)
+        recent.append(tok)
         gen_mask.append(True)
         n_gen += 1
         step_pos.append(len(ids))
         if a.op == "prompt" and n_gen % a.inject_every == 0 and n_gen < a.max_tokens:
-            reseeds.append([n_gen, inj_text, {"pos": len(ids)}])
-            h_ready = feed(inj_ids)
-            ids.extend(inj_ids)
-            gen_mask.extend([False] * len(inj_ids))
+            txt = inj_pool[len(reseeds) % len(inj_pool)]
+            tids = tokenizer.encode(txt, add_special_tokens=False)
+            reseeds.append([n_gen, txt, {"pos": len(ids)}])
+            h_ready = feed(tids)
+            ids.extend(tids)
+            recent.extend(tids)
+            gen_mask.extend([False] * len(tids))
             fired += 1
         if n_gen % 512 == 0:
             mx.clear_cache()
@@ -272,7 +315,9 @@ def main() -> None:
              "keep_norm": a.keep_norm, "anchor": a.anchor, "fired": fired,
              "model": a.model, "temp": a.temp, "top_p": a.top_p, "rng_seed": a.rng_seed,
              "concept_a": a.concept_a, "concept_b": a.concept_b, "cos_ab": cos_ab,
-             "inject_text": a.inject_text, "inject_every": a.inject_every if a.op == "prompt" else None,
+             "inject_text": a.inject_text, "inject_rotate": a.inject_rotate,
+             "inject_every": a.inject_every if a.op in ("prompt", "pulse") else None,
+             "pulse_len": a.pulse_len if a.op == "pulse" else None, "habit": a.habit,
              "state_scale": round(state_scale, 4),
              "clean_nll_mean": round(float(np.mean(gen_nll)), 4),
              "clean_nll_p90": round(float(np.percentile(gen_nll, 90)), 4),
