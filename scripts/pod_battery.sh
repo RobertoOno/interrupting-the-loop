@@ -86,9 +86,11 @@ $SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HU
       .pod-venv/bin/pip install -q transformers accelerate numpy $EXTRA_PIP >/dev/null 2>&1; \
       .pod-venv/bin/pip install -q -e . >/dev/null 2>&1; echo SETUP-OK' || exit 6
 
-echo "lançando cadeia (destacada)"
-$SSH "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
-      mkdir -p runs && setsid bash -c '$CMD' > runs/pod_chain.log 2>&1 </dev/null & echo LANÇADA"
+echo "lançando cadeia (destacada, ssh -f)"
+ssh -f -i "$KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=20 -p "$PORT" root@"$IP" \
+  "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
+   mkdir -p runs && setsid bash -c '$CMD' > runs/pod_chain.log 2>&1 </dev/null" </dev/null
+echo "LANÇADA (local)"
 
 echo "monitorando (timeout ${WAIT_MIN} min)"
 t=0
