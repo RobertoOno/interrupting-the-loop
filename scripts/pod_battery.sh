@@ -72,8 +72,8 @@ SSH="ssh -i $KEY -o StrictHostKeyChecking=no -o ConnectTimeout=20 -p $PORT root@
 echo "pod pronto: $IP:$PORT"
 
 echo "sincronizando repo -> pod"
-rsync -az -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
-  --exclude .venv --exclude runs --exclude '.git' --exclude paper --exclude paper2 --exclude paper3 \
+rsync -rltz -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
+  --exclude .venv --exclude runs --exclude '.git' --exclude __pycache__ --exclude '*.egg-info' --exclude .pytest_cache --exclude paper --exclude paper2 --exclude paper3 \
   ./ root@"$IP":/workspace/creative-machine/ || exit 6
 
 echo "preparando ambiente remoto"
@@ -99,6 +99,6 @@ done
 
 echo "puxando resultados"
 mkdir -p runs/pod
-rsync -az -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
+rsync -rltz -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
   root@"$IP":/workspace/creative-machine/runs/ runs/pod/ || echo "rsync de volta falhou"
 echo "POD-BATTERY DONE ($(date))"
