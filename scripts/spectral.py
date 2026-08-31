@@ -55,11 +55,20 @@ def autocorr_tok(ids: list[int], max_lag: int) -> np.ndarray:
     return np.array([float((a[:n - t] == a[t:]).mean()) for t in range(1, max_lag + 1)])
 
 
-def dominant(curve: np.ndarray, min_period: int = 3):
-    """(period, prominence): argmax over lags >= min_period, prominence vs the
-    curve's median (a flat curve gives prominence ~0)."""
-    lag = int(np.argmax(curve[min_period - 1:]) + min_period)
-    return lag, float(curve[lag - 1] - np.median(curve))
+def dominant(curve: np.ndarray, min_period: int = 5, smooth: int = 21):
+    """(period, prominence) of the strongest LOCAL peak after detrending:
+    subtract a running-median baseline (window `smooth`) so short-lag
+    smoothness and slow drifts don't masquerade as periodicity; then take
+    the highest detrended local maximum at lag >= min_period."""
+    pad = smooth // 2
+    padded = np.pad(curve, pad, mode="edge")
+    base = np.array([np.median(padded[i:i + smooth]) for i in range(len(curve))])
+    d = curve - base
+    best_lag, best = 0, 0.0
+    for i in range(min_period - 1, len(d) - 1):
+        if d[i] > d[i - 1] and d[i] >= d[i + 1] and d[i] > best:
+            best, best_lag = float(d[i]), i + 1
+    return best_lag, best
 
 
 def main() -> None:
