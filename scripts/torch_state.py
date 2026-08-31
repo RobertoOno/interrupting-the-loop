@@ -203,6 +203,7 @@ def main() -> None:
         hook_op["fn"] = None
         tokid = sample(logits)
         ids.append(tokid)
+        gen_mask.append(True)
         recent.append(tokid)
         n_gen += 1
         step_pos.append(len(ids))
@@ -222,7 +223,6 @@ def main() -> None:
             step_pos.append(len(ids))
             fired += 1
             continue
-        gen_mask.append(True)
 
     handle.remove()
     text = tok.decode(ids)
