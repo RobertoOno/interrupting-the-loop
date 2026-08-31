@@ -88,7 +88,7 @@ $SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HU
 
 echo "lançando cadeia (destacada, ssh -f)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -o ConnectTimeout=20 -p "$PORT" root@"$IP" \
-  "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
+  "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True && \
    mkdir -p runs && setsid bash -c '$CMD' > runs/pod_chain.log 2>&1 </dev/null" </dev/null
 echo "LANÇADA (local)"
 

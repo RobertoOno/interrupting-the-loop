@@ -85,7 +85,7 @@ def main() -> None:
         # natively-quantized checkpoint: device_map keeps mxfp4 on-GPU during
         # load (a plain .to() dequantizes layer by layer and OOMs — H100 lesson #2)
         model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype="auto",
-                                                     device_map="auto").eval()
+                                                     device_map={"": 0}).eval()
     else:
         model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=dtype).to(device).eval()
     layers = model.model.layers
