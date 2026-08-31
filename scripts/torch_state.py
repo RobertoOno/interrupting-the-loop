@@ -34,13 +34,16 @@ from creative_machine import state_ops as so
 from state_inject import refuse_if_other_model
 
 
-def pick_device():
-    """dtype 'auto' on CUDA: respects each model's native precision (a forced
-    bfloat16 would DEQUANTIZE natively-quantized models like gpt-oss's mxfp4
-    and blow past VRAM — learned on the H100, 2026-08-31)."""
+def pick_device(model_id: str):
+    """Three-case dtype policy, both halves learned the hard way (2026-08-31):
+    natively-quantized checkpoints (gpt-oss mxfp4) need 'auto' — a forced
+    bfloat16 dequantizes them past VRAM; full-precision checkpoints (OLMo-2
+    ships fp32) need a bf16 CAP — 'auto' doubles them past VRAM."""
     import torch
+    from transformers import AutoConfig
+    quant = getattr(AutoConfig.from_pretrained(model_id), "quantization_config", None)
     if torch.cuda.is_available():
-        return "cuda", "auto"
+        return "cuda", ("auto" if quant is not None else torch.bfloat16)
     if torch.backends.mps.is_available():
         return "mps", torch.float16
     return "cpu", torch.float32
@@ -75,7 +78,7 @@ def main() -> None:
     from creative_machine.dream import DreamConfig
     from dream_run import SEEDS
 
-    device, dtype = pick_device()
+    device, dtype = pick_device(a.model)
     torch.manual_seed(a.rng_seed)
     tok = AutoTokenizer.from_pretrained(a.model)
     model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=dtype).to(device).eval()
