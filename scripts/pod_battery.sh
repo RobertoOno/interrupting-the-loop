@@ -29,11 +29,13 @@ if $RP ssh list-keys 2>/dev/null | grep -q '"keys": null'; then
   echo y | $RP ssh add-key || exit 3
 fi
 
-VOL=$($RP network-volume list 2>/dev/null | awk '/cm-vol/ {print $1; exit}')
+volid() { $RP network-volume list 2>/dev/null | .venv/bin/python -c \
+  'import sys,json; vs=[v for v in json.load(sys.stdin) if v.get("name")=="cm-vol"]; print(vs[0]["id"] if vs else "")'; }
+VOL=$(volid)
 if [ -z "$VOL" ]; then
   echo "criando volume cm-vol (50GB, $DC)"
   $RP network-volume create --name cm-vol --size 50 --data-center-id "$DC" || exit 3
-  VOL=$($RP network-volume list | awk '/cm-vol/ {print $1; exit}')
+  VOL=$(volid)
 fi
 echo "volume: $VOL"
 
