@@ -37,15 +37,15 @@ if [ -z "$VOL" ]; then
 fi
 echo "volume: $VOL"
 
-TERM_AT=$(date -u -v+"${TTL_H}"H +%Y-%m-%dT%H:%M:%SZ 2>/dev/null || date -u -d "+${TTL_H} hours" +%Y-%m-%dT%H:%M:%SZ)
-echo "criando pod ($GPU, $DC, terminate-after $TERM_AT)"
+# v2.12: no --terminate-after; the guards are the exit trap + the monitor timeout.
+echo "criando pod ($GPU, $DC) e aguardando SSH (--wait)"
 OUT=$($RP pod create --name cm-pod --template-id runpod-torch-v280 \
       --gpu-id "$GPU" --data-center-ids "$DC" \
       --network-volume-id "$VOL" --volume-mount-path /workspace \
-      --ssh --terminate-after "$TERM_AT" 2>&1)
-echo "$OUT"
-POD=$(echo "$OUT" | grep -oE '[a-z0-9]{13,}' | head -1)
-[ -z "$POD" ] && { echo "falha ao criar pod"; exit 4; }
+      --wait --wait-timeout 10m 2>&1)
+POD=$(echo "$OUT" | .venv/bin/python -c 'import sys,re; m=re.search(r"\"id\":\s*\"([a-z0-9]+)\"", sys.stdin.read()); print(m.group(1) if m else "")')
+[ -z "$POD" ] && { echo "falha ao criar pod:"; echo "$OUT" | tail -5; exit 4; }
+echo "pod: $POD"
 
 cleanup() {
   echo "removendo pod $POD (anti-esquecimento)"
