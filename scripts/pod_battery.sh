@@ -106,4 +106,5 @@ echo "puxando resultados"
 mkdir -p runs/pod
 rsync -rltz -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
   root@"$IP":/workspace/creative-machine/runs/ runs/pod/ || echo "rsync de volta falhou"
+cp runs/pod/pod_chain.log "runs/pod/pod_chain.$(date +%m%d-%H%M%S).log" 2>/dev/null
 echo "POD-BATTERY DONE ($(date))"
