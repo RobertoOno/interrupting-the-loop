@@ -80,14 +80,14 @@ rsync -rltz -e "ssh -i $KEY -o StrictHostKeyChecking=no -p $PORT" \
   ./ root@"$IP":/workspace/creative-machine/ || exit 6
 
 echo "preparando ambiente remoto"
-$SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache && \
+$SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       python3 -m venv --system-site-packages .pod-venv 2>/dev/null; \
       .pod-venv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
       .pod-venv/bin/pip install -q transformers accelerate numpy $EXTRA_PIP >/dev/null 2>&1; \
       .pod-venv/bin/pip install -q -e . >/dev/null 2>&1; echo SETUP-OK' || exit 6
 
 echo "lançando cadeia (destacada)"
-$SSH "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache && \
+$SSH "cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       mkdir -p runs && setsid bash -c '$CMD' > runs/pod_chain.log 2>&1 </dev/null & echo LANÇADA"
 
 echo "monitorando (timeout ${WAIT_MIN} min)"
@@ -96,7 +96,7 @@ while :; do
   sleep 60; t=$((t+1))
   TAIL=$($SSH 'tail -3 /workspace/creative-machine/runs/pod_chain.log 2>/dev/null')
   echo "[$t min] $(echo "$TAIL" | tail -1)"
-  echo "$TAIL" | grep -q "CM-DONE" && { echo "cadeia concluída"; break; }
+  echo "$TAIL" | grep -qE "CM-DONE|CM-FAILED" && { echo "cadeia terminou: $(echo "$TAIL" | grep -oE 'CM-DONE|CM-FAILED.*')"; break; }
   [ $t -ge "$WAIT_MIN" ] && { echo "TIMEOUT — puxando o que houver"; break; }
 done
 

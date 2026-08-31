@@ -35,9 +35,12 @@ from state_inject import refuse_if_other_model
 
 
 def pick_device():
+    """dtype 'auto' on CUDA: respects each model's native precision (a forced
+    bfloat16 would DEQUANTIZE natively-quantized models like gpt-oss's mxfp4
+    and blow past VRAM — learned on the H100, 2026-08-31)."""
     import torch
     if torch.cuda.is_available():
-        return "cuda", torch.bfloat16
+        return "cuda", "auto"
     if torch.backends.mps.is_available():
         return "mps", torch.float16
     return "cpu", torch.float32
