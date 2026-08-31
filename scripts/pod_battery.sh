@@ -15,6 +15,9 @@ GPU="${CM_GPU:-NVIDIA GeForce RTX 4090}"
 DC="${CM_DC:-EU-RO-1}"
 TTL_H="${CM_TTL_H:-12}"
 WAIT_MIN="${CM_WAIT_MIN:-600}"
+NOVOL="${CM_NOVOL:-}"
+DISK="${CM_DISK:-40}"
+EXTRA_PIP="${CM_EXTRA_PIP:-}"
 
 CMD="${1:-}"
 [ -z "$CMD" ] && { echo "usage: pod_battery.sh smoke|'<remote command>'"; exit 2; }
@@ -32,7 +35,7 @@ fi
 volid() { $RP network-volume list 2>/dev/null | .venv/bin/python -c \
   'import sys,json; vs=[v for v in json.load(sys.stdin) if v.get("name")=="cm-vol"]; print(vs[0]["id"] if vs else "")'; }
 VOL=$(volid)
-if [ -z "$VOL" ]; then
+if [ -n "$NOVOL" ]; then VOL=""; echo "sem volume (CM_NOVOL)"; elif [ -z "$VOL" ]; then
   echo "criando volume cm-vol (50GB, $DC)"
   $RP network-volume create --name cm-vol --size 50 --data-center-id "$DC" || exit 3
   VOL=$(volid)
@@ -41,9 +44,9 @@ echo "volume: $VOL"
 
 # v2.12: no --terminate-after; the guards are the exit trap + the monitor timeout.
 echo "criando pod ($GPU, $DC) e aguardando SSH (--wait)"
+VOLFLAGS=""; [ -n "$VOL" ] && VOLFLAGS="--network-volume-id $VOL --volume-mount-path /workspace --data-center-ids $DC"
 OUT=$($RP pod create --name cm-pod --template-id runpod-torch-v280 \
-      --gpu-id "$GPU" --data-center-ids "$DC" \
-      --network-volume-id "$VOL" --volume-mount-path /workspace \
+      --gpu-id "$GPU" --container-disk-in-gb "$DISK" $VOLFLAGS \
       --wait --wait-timeout 10m 2>&1)
 POD=$(echo "$OUT" | .venv/bin/python -c 'import sys,re; m=re.search(r"\"id\":\s*\"([a-z0-9]+)\"", sys.stdin.read()); print(m.group(1) if m else "")')
 [ -z "$POD" ] && { echo "falha ao criar pod:"; echo "$OUT" | tail -5; exit 4; }
@@ -80,7 +83,7 @@ echo "preparando ambiente remoto"
 $SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache && \
       python3 -m venv --system-site-packages .pod-venv 2>/dev/null; \
       .pod-venv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
-      .pod-venv/bin/pip install -q transformers accelerate numpy >/dev/null 2>&1; \
+      .pod-venv/bin/pip install -q transformers accelerate numpy $EXTRA_PIP >/dev/null 2>&1; \
       .pod-venv/bin/pip install -q -e . >/dev/null 2>&1; echo SETUP-OK' || exit 6
 
 echo "lançando cadeia (destacada)"
