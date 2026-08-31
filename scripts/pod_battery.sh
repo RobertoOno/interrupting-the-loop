@@ -24,7 +24,10 @@ if [ "$CMD" = "smoke" ]; then
 fi
 
 $RP user >/dev/null 2>&1 || { echo "RUNPOD_API_KEY não resolvível (runpodctl user falhou)"; exit 3; }
-$RP ssh list-keys 2>/dev/null | grep -q . || { echo "registrando chave SSH"; $RP ssh add-key || exit 3; }
+if $RP ssh list-keys 2>/dev/null | grep -q '"keys": null'; then
+  echo "registrando chave SSH"
+  $RP ssh add-key || exit 3
+fi
 
 VOL=$($RP network-volume list 2>/dev/null | awk '/cm-vol/ {print $1; exit}')
 if [ -z "$VOL" ]; then
