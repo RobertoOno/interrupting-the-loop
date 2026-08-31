@@ -81,7 +81,13 @@ def main() -> None:
     device, dtype = pick_device(a.model)
     torch.manual_seed(a.rng_seed)
     tok = AutoTokenizer.from_pretrained(a.model)
-    model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=dtype).to(device).eval()
+    if dtype == "auto":
+        # natively-quantized checkpoint: device_map keeps mxfp4 on-GPU during
+        # load (a plain .to() dequantizes layer by layer and OOMs — H100 lesson #2)
+        model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype="auto",
+                                                     device_map="auto").eval()
+    else:
+        model = AutoModelForCausalLM.from_pretrained(a.model, torch_dtype=dtype).to(device).eval()
     layers = model.model.layers
     n_layers = len(layers)
     L = min(a.layer, n_layers - 2)
