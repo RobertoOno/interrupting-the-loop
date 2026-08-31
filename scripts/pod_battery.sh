@@ -26,7 +26,7 @@ fi
 $RP user >/dev/null 2>&1 || { echo "RUNPOD_API_KEY não resolvível (runpodctl user falhou)"; exit 3; }
 if $RP ssh list-keys 2>/dev/null | grep -q '"keys": null'; then
   echo "registrando chave SSH"
-  $RP ssh add-key || exit 3
+  echo y | $RP ssh add-key || exit 3
 fi
 
 VOL=$($RP network-volume list 2>/dev/null | awk '/cm-vol/ {print $1; exit}')
