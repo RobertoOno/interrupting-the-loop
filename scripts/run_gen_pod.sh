@@ -9,7 +9,7 @@ cd "$(dirname "$0")/.." || exit 1
 TAG="$1"; MODEL="$2"; LAYER="$3"; MODE="${4:-full}"
 PY=.pod-venv/bin/python
 R=runs/gen_$TAG
-NPREM=10; NTOK=1500; ARMS="habit pulse inter"; NFAIL=0
+NPREM=10; NTOK=1500; ARMS="habit pulse inter"; NFAIL=0; CONSEC=0
 [ "$MODE" = "smoke" ] && { NPREM=1; NTOK=120; ARMS="habit pulse"; }
 
 for i in $(seq 0 $((NPREM - 1))); do
@@ -24,7 +24,8 @@ for i in $(seq 0 $((NPREM - 1))); do
     # the 10 confirmatory premises live in dream_battery2.NEW_SEEDS; index via env
     PREM=$($PY -c "import sys; sys.path.insert(0,'scripts'); from dream_battery2 import NEW_SEEDS; print(NEW_SEEDS[$i])")
     $PY scripts/torch_state.py --out "$out" --model "$MODEL" --layer "$LAYER" \
-        --seed-text "$PREM" --max-tokens "$NTOK" --rng-seed 0 $FLAGS || { echo "FAIL p${i}_${arm}"; NFAIL=$((NFAIL+1)); }
+        --seed-text "$PREM" --max-tokens "$NTOK" --rng-seed 0 $FLAGS && CONSEC=0 || { echo "FAIL p${i}_${arm}"; NFAIL=$((NFAIL+1)); CONSEC=$((CONSEC+1)); }
+    [ "$CONSEC" -ge 3 ] && { echo "CM-FAILED (abortado: $CONSEC consecutivas)"; exit 1; }
   done
 done
 if [ "$NFAIL" -gt 0 ]; then echo "CM-FAILED ($NFAIL)"; else echo "CM-DONE"; fi
