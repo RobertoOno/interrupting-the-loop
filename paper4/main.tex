@@ -1,0 +1,487 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\captionsetup{font=small,labelfont=bf}
+\graphicspath{{figures/}}
+\setlength{\parskip}{0.25em}
+\emergencystretch=1em
+\newcommand{\ci}[2]{[#1,\,#2]}
+
+\title{Pulsed, Not Pressed: State-Space Injection Reaches Parity with\\ Text Interruption in Open-Ended Generation}
+\author{Roberto I. Ono Filho\\ Independent researcher\\
+\texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+A research program on machine novelty has intervened at three depths of
+a language model --- the token distribution, the context, and the
+weights --- and certified the limit of each. This paper opens the fourth:
+the residual stream during live generation. We introduce a rank-1/2
+operator algebra on hidden states (translations toward model-derived
+concept directions, closed-form rotors, projections, repulsion from a
+moving mean; an anchor and a norm-shell as geometric guards; doses in
+units of the premise-state norm, which transfer across models), and
+evaluate it under a deception-resistant protocol: judged surprise,
+connection and coherence on generated-only windows, plus an exact
+program verifier. Five pre-registered findings. (i)~\emph{The temporal
+law}: with direction, layer and per-token dose fixed, continuous
+injection lowers judged surprise (dose--response, $p=0.81$ against, coherence
+collapsing), while the same directions pulsed for 32 tokens every 300
+raise it ($+0.90$, $p=0.006$). (ii)~Geometric guards do not repair
+damage; they license dose --- and at guarded dose 2.0 the pulse reaches
+statistical \emph{parity} with the best prompt-side intervention we
+know, text interruption ($3.40$ vs $3.64$, two-sided $p=0.53$;
+connection identical), without spending a token of the stream.
+(iii)~The result replicates in-family at 14B with an exact tie ($3.48$
+vs $3.48$; replication $p=0.002$). (iv)~Mechanistically, habituated
+generation carries a \emph{silent schematic orbit} --- matched
+token--state periodicity without verbatim repetition --- and both
+winning interventions flatten the internal spectrum. (v)~On verified
+code search the same operators buy no tail depth at all: best distances
+to classical baselines are identical across arms, dissociating judged
+experience from discovered value. We also map the boundaries: late
+layers act as token bias, early layers destabilize into register
+basins, aligned models break under forced continuation, and repulsion
+from a moving reference is self-limiting. We release the instrument,
+every cell, and the dated pre-registrations.
+\end{abstract}
+
+\section{Introduction}
+\label{sec:intro}
+
+Can a language model produce something genuinely new, and which
+interventions actually help? A sequence of studies has approached this
+question one substrate at a time, under a fixed measurement discipline:
+judged surprise, connection and coherence on windows containing only
+generated text (so that the judge can never be shown the intervention
+itself)~\citep{ono2026interrupting}, and, in verifiable domains, an
+exact evaluator with classical baselines~\citep{ono2026mass}. At the
+\emph{token} level, anti-probable sampling bought only surface novelty.
+At the \emph{context} level, periodically interrupting a habituated
+stream with a new subject raised judged surprise from $1.8$ to $\sim
+3.0$ --- the flagship positive of the program --- while constant
+pressure (a continuity connective) was worse than nothing
+\citep{ono2026interrupting}. At the \emph{weight} level, consolidating
+a model's own verified findings moved the mean toward the known good
+and never beyond it, paying for mass with tails \citep{ono2026mass};
+in verified search, operator packages composed additively and stalled
+at a construction-family plateau (companion paper, in moderation at
+the time of writing). Between the context and the token sits the object
+none of these touched: the residual stream $h_\ell(t)$ --- the thought
+in progress. Recent work proves that steered activations reach states
+that no discrete prompt reaches~\citep{mishra2026nonsurjective}, but
+leaves their \emph{value} untested; activation steering itself is an
+industrial control tool --- removing behaviors, enforcing
+styles~\citep{turner2023actadd,panickssery2023caa,li2023iti,zou2023repe,arditi2024refusal}
+--- that has not been pointed at creation under a deception-resistant
+measure.
+
+This paper does that. Its contributions:
+
+\begin{enumerate}
+\item \textbf{An instrument}: a rank-1/2 operator algebra on the
+  residual stream (\S\ref{sec:instrument}) with model-derived
+  directions, geometric guards, and a dimensionless dose unit that
+  transfers across models; dual MLX/PyTorch backends, bit-identical on
+  the algebra.
+\item \textbf{The temporal law} (\S\ref{sec:temporal}): continuous
+  injection has no fertile band --- more dose, less judged surprise ---
+  while the same vectors, pulsed, are fertile. The decisive variable is
+  \emph{when}, not \emph{what} or \emph{how much}.
+\item \textbf{Parity} (\S\ref{sec:parity}): guards trade repair for
+  dose, and the guarded pulse at dose 2.0 statistically ties text
+  interruption on judged surprise with identical connection ---
+  replicating in-family at 14B with an exact tie
+  (\S\ref{sec:generality}).
+\item \textbf{A mechanism} (\S\ref{sec:mechanism}): habituation leaves
+  a silent schematic orbit, measurable as matched token--state
+  periodicity; interruption and the pulse both flatten it.
+\item \textbf{A dissociation} (\S\ref{sec:verified}): on verified code
+  search the same operators buy zero tail depth --- the state channel
+  moves judged experience, not discovered value.
+\end{enumerate}
+
+Every confirmatory analysis below was pre-registered (grid, primary
+contrast, guards, verdict tiers) and written as code before the data
+existed; exploratory screens are labeled as such. All deltas are paired
+per premise over the ten held-out premises of
+\citet{ono2026interrupting}'s confirmatory battery, with exact sign-flip
+tests ($2^{10}$) and bootstrap 95\% CIs.
+
+\section{Instrument and protocol}
+\label{sec:instrument}
+
+\paragraph{Operators.} All operators are rank-1/2 updates from stored
+unit vectors, $O(d)$ per position; no $d\times d$ matrix is ever
+materialized. With $\hat u,\hat w$ orthonormal and
+$c_u=\langle h,\hat u\rangle$: \emph{translation} $h + \alpha v$;
+\emph{rotor} $h + \sin\theta\,(c_u \hat w - c_w \hat u) +
+(\cos\theta-1)(c_u \hat u + c_w \hat w)$, the closed (Rodrigues) form of
+$\exp\!\big(\theta(\hat w\hat u^{\top}-\hat u\hat w^{\top})\big)$,
+verified against the matrix exponential to $10^{-10}$;
+\emph{projection/dilation} of a subspace; \emph{repulsion}
+$h + \beta\,(h-\mu)/\lVert h-\mu\rVert$ from an exponential moving
+average $\mu$ of the trajectory. Two composable \emph{guards}: an
+anchor that restores the coordinate along the premise direction after
+the operator, and a norm shell that rescales $\lVert h\rVert$ to its
+pre-operator value.
+
+\paragraph{Directions and dose.} Concept directions are the model's
+own: the unit mean hidden state of a concept text at the target layer
+(position 0 excluded), differenced against the premise state. Doses are
+expressed in units of the premise-state norm at that layer, making
+$\alpha$ dimensionless and, as \S\ref{sec:generality} shows,
+transferable across models without retuning.
+
+\paragraph{Carrier and measurement.} Unless noted, generation runs on a
+base model (Qwen3-8B) with the habituation of
+\citet{ono2026interrupting} (a count-weighted log-penalty over the last
+512 tokens) --- the regime in which text interruption was established.
+Judging follows the generated-only protocol: 96-token windows that
+never contain injected text, scored on surprise, connection and
+coherence by a $k{=}5$ judge panel whose test--retest behavior was
+measured in the original study. A cheap coherence proxy (mean NLL of
+the stream under the same model, untouched) and distinct-4 accompany
+every cell. Verified experiments (\S\ref{sec:verified}) reuse the exact
+bin-packing evaluator and classical baselines of \citet{ono2026mass}.
+
+\section{The temporal law}
+\label{sec:temporal}
+
+\paragraph{Continuous injection has no fertile band.} An exploratory
+depth$\times$dose map (57 cells) located the semantic lever in the
+middle of the network: early-layer injection collapses generation into
+memorized register basins (a math-homework attractor), late-layer
+injection acts as token bias --- at high dose the concept's own token
+fragment becomes a literal loop --- and only mid-network injection
+transports content. The pre-registered confirmatory then swept the
+candidate band (layers 14/18/22, $\alpha\in[0.1,1.5]$, continuous
+schedule, 140 cells) with judges. The primary failed in both halves:
+band-core surprise minus the habituated baseline $-0.478$
+\ci{-1.478}{+0.522}, one-sided $p=0.81$, and the coherence guard
+failed ($-1.08$). The dose--response is monotone the wrong way:
+surprise $2.38 \to 0.85$ and coherence $4.83 \to 1.38$ as $\alpha$
+rises to 1.5 (Fig.~\ref{fig:templaw}). More push makes text that a
+judge finds \emph{less} surprising: degeneration is boring. Notably,
+the prompt-matched control --- the same concept injected as text into
+this plain carrier --- also failed to beat the baseline, reproducing
+the original finding that novelty injection needs habituation as its
+carrier \citep{ono2026interrupting}.
+
+\paragraph{The same vectors, pulsed, are fertile.} The pre-registered
+transposition of the interruption's temporal structure --- bursts of 32
+tokens every 300, directions rotating over the same four new-subject
+texts used by text interruption, on the habituated carrier --- raises
+judged surprise by $+0.90$ \ci{+0.45}{+1.33} over habituation
+($p=0.0059$, coherence guard passed). Same directions, same layer, same
+per-token dose as a continuous regime that failed at $p=0.81$: the
+decisive variable is the temporal regime. Text interruption replicates
+in the same battery ($+1.76$, $p=0.0029$), anchoring the instrument.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_p4_templaw.png}
+\caption{\textbf{The temporal law.} Left, center: judged surprise and
+coherence at layer 18 as continuous dose rises, against the
+plain-sampling baseline of that battery (dashed) --- more push, less
+surprise, collapsing coherence. Right: the same directions delivered as
+32-token pulses every 300 on the habituated carrier, against that
+carrier's own baseline ($+0.90$, $p=0.006$). The vectors are identical;
+only the temporal regime differs.}
+\label{fig:templaw}
+\end{figure}
+
+\section{Guards license dose; parity with the written word}
+\label{sec:parity}
+
+Pulsing at higher dose without protection costs coherence ($-1.01$
+against text interruption, $p=0.049$). The pre-registered guard test
+shows the guards do \emph{not} repair this: at equal dose, anchor +
+norm-shell change coherence by $+0.02$ ($p=0.50$) while visibly
+weakening the effective push (clean NLL $2.53 \to 1.83$). What they do
+is license dose: under guards the ladder $\alpha = 1.0 \to 1.5 \to 2.0$
+climbs monotonically in judged surprise ($2.10 \to 3.23 \to 3.40$) at
+roughly constant coherence (Fig.~\ref{fig:ladder}).
+
+At the top of that ladder sits the pre-registered comparison against
+the program's strongest prompt-side intervention. The verdict tier that
+fired is the middle one: \textbf{parity}. Guarded pulse at dose 2.0
+versus text interruption: surprise $3.40$ vs $3.64$ ($\Delta = -0.24$
+\ci{-0.94}{+0.47}, two-sided $p=0.53$, $|\Delta|<0.5$), connection
+$2.38$ vs $2.39$, coherence within the pre-registered guard. A subject
+can be placed into the model's stream as pure activation --- invisible
+in the text, spending no tokens, continuously dosable --- and a judge
+panel cannot tell the difference from writing it down. We emphasize
+what parity is not: the strong hypothesis, that state injection reaches
+value no prompt reaches, remains open ($\S$\ref{sec:discussion}).
+
+Two declared secondaries returned honest negatives. A first-version
+rotor (rotating the premise--subject plane, $\theta=0.8$) underperforms
+text interruption ($-1.53$, $p=0.014$; a later cheap screen located its
+useful range at $\theta \in [1.2, 1.6]$ --- an untuned operator, not a
+dead one). And the program's own registered prediction failed: pulsed
+state repulsion \emph{without} an anchor did not degenerate (its
+coherence was the highest of the state arms), refusing the fourth
+appearance of the anchor law; a stress screen then showed why ---
+repulsion from a \emph{moving} mean is self-limiting, because the
+reference chases the state. The anchor law, as established in weights
+and behavior, is about fixed references.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.72\linewidth]{fig_p4_ladder.png}
+\caption{\textbf{Guards license dose.} Judged surprise of the guarded
+pulse at doses 1.0/1.5/2.0 (points), with the unguarded pulse (square)
+and the text-interruption reference (dashed line). The ladder reaches
+parity.}
+\label{fig:ladder}
+\end{figure}
+
+\section{Generality: the parity travels in-family}
+\label{sec:generality}
+
+The pre-registered generality battery reran the decisive trio ---
+habituated baseline, guarded pulse at dose 2.0, text interruption ---
+on three untouched models, with the layer at 50\% of each network's
+depth and the dose carried over unchanged in premise-norm units.
+
+\textbf{Qwen3-14B (same family, larger): full replication.} Pulse over
+habituation $+1.083$ \ci{+0.567}{+1.617}, $p=0.0020$, coherence guard
+clean; and parity with text interruption lands as an exact tie:
+surprise $3.48$ vs $3.48$ ($p=0.99$). The dimensionless dose and
+proportional-depth layer transferred without retuning.
+
+\textbf{Qwen3.8-27B (current generation, aligned): the carrier breaks,
+not the phenomenon.} Under our base-model protocol --- which bans EOS
+and forces 1500 tokens --- this chat-trained model opens with fluent
+prose and collapses into token salad past its natural turn end
+(judge notes: ``degenerate token soup''). A nominally significant
+pulse effect inside that salad ($p=0.041$) does not count as support,
+and we do not count it. Aligned carriers need their own protocol
+(chat-formatted seeding, free EOS, natural lengths); this is future
+work, not a footnote.
+
+\textbf{OLMo-2-13B (different family): a real null with a carrier
+caveat.} Pulse minus habituation $-0.09$ ($p=0.78$). All three arms,
+however, sit in an encyclopedic register basin (judged coherence
+$0.4$--$0.6$ everywhere; heavy judge-refusal rate), the OLMo analogue
+of the register basins of \S\ref{sec:temporal}. Whether the null
+reflects family-dependence of the phenomenon or miscalibration of
+layer and dose for this family cannot be separated here; per-model
+calibration is registered future work. The generality claim we make is
+therefore exactly this: \emph{the parity travels across scale within a
+family; family-generality is open}.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lccc}
+\toprule
+model & pulse $-$ habit (primary) & pulse $-$ inter & verdict \\
+\midrule
+Qwen3-8B (origin) & $+0.90$, $p=0.006$ & $-0.24$, $p=0.53$ & parity \\
+Qwen3-14B & $+1.08$, $p=0.002$ & $+0.005$, $p=0.99$ & parity (exact tie) \\
+Qwen3.8-27B (aligned) & \multicolumn{2}{c}{carrier breaks under forced continuation} & no reading \\
+OLMo-2-13B & $-0.09$, $p=0.78$ & --- & null (register basin) \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{The generality ladder.} Judged-surprise contrasts,
+paired over the ten premises; doses in premise-norm units and layers at
+50\% depth, carried over without retuning.}
+\label{tab:ladder}
+\end{table}
+
+\section{The mechanism: silent orbits, flattened spectra}
+\label{sec:mechanism}
+
+Why does the pulse work where pressure fails? A measurement study
+replayed finished cells through the model, capturing the mid-layer
+trajectory, and compared the state autocorrelation
+$A_{\mathrm{state}}(\tau)$ (unit-normed, mean-centered states) against
+the token autocorrelation (the ground truth of literal loops), reading
+the strongest detrended local peak of each ($\tau \ge 5$; literal
+period-2 loops sit below the reader's floor and are noted as a blind
+spot).
+
+The prominence ladder is clean (Fig.~\ref{fig:spectra}). A literal
+phrase loop shows a state period matching the phrase length ($P=7$,
+prominence $0.44$). Register collapses --- the quiz mode, the
+math-exercise mode --- show matched token--state periodicity at their
+block rhythms ($P=123$ and $84$). And the habituated carrier, which
+repeats no tokens, still carries a \emph{silent schematic orbit}:
+matched token--state periodicity at $P\approx 30$ (prominence
+$0.18/0.15$) whose text reads as sentence-level cycling through the
+same cast --- the ``return to the theme, not the sentence'' of
+\citet{ono2026interrupting}, now visible as a rhythm in the state.
+Interruption, the pulse, and state repulsion all flatten this internal
+spectrum (prominence $\le 0.014$). The interventions that judges
+reward are, mechanically, spectral flatteners of the thought
+trajectory.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_p4_spectra.png}
+\caption{\textbf{Silent orbits and their removal.} Detrended state
+autocorrelation for a literal loop (state period = phrase length), the
+habituated carrier (the silent orbit at $P\approx30$, matched in
+tokens), and an interrupted cell (flat).}
+\label{fig:spectra}
+\end{figure}
+
+\section{The verified dissociation}
+\label{sec:verified}
+
+Do these operators buy anything a verifier can price? The
+pre-registered battery ran three arms --- untouched carrier, pulses
+toward narrative subjects (the cross-register wildcard), pulses toward
+the domain's own thinking prompts --- inside verified bin-packing
+notebook generation (16 distribution variants including the far family
+of \citet{ono2026mass}, 6 notebooks each, 288 notebooks), scoring with
+the exact evaluator against best-fit and first-fit.
+
+The answer is a clean null with a striking signature. Per-variant best
+distance to the classics: wildcard minus control $+0.00014$
+\ci{+0.00000}{+0.00036}, one-sided $p=1.0$; transfer and far-family
+contrasts null; and the single best gap across \emph{all three arms} is
+identical to five decimals ($-0.00334$, three times). At this scale the
+reachable tail depth behaves as a constant of the model and carrier,
+untouched by state stimulation. (An earlier 120-notebook screen had
+produced a lone wildcard find; the confirmatory dissolved it into
+$n{=}3$ sampling noise --- all arms find occasionally at $n{=}6$ ---
+which is the two-gear system doing its job.) A first-version
+route-blocking operator --- projecting out the top principal directions
+of a previous solution's trajectory --- behaved as a mild handicap:
+production down, no depth gained, and a calibration curve showing that
+the top trajectory components carry the code-writing machinery itself
+(blocking $\ge 4$ directions is lobotomy).
+
+Together with \S\ref{sec:parity}, this is the paper's deepest result:
+\emph{the state channel moves judged experience, not discovered value}.
+The operators that tie the written word in a judge's eyes buy zero
+verified tail --- the oldest lesson of the program (surface novelty is
+not value), returned at the deepest substrate, and consistent with the
+attractor results of \citet{ono2026mass}.
+
+\section{Boundaries}
+\label{sec:boundaries}
+
+For designers of state interventions, the mapped edges: (i) \emph{depth
+matters more than dose} --- early layers destabilize into register
+basins, late layers are token bias (at high dose the injected concept's
+token fragment loops literally: the late network is a mouth, not a
+mind); (ii) \emph{guards are throttles, not medicine}; (iii)
+\emph{moving-reference repulsion is self-limiting} --- collapse
+requires a fixed reference, which reframes the anchor law; (iv)
+\emph{aligned models are a different carrier} --- forced continuation
+past the turn end manufactures degeneration that no operator caused;
+(v) judged-surprise instruments punish degeneration (they cannot be
+gamed by noise), but they refuse some degenerate text outright, which
+costs coverage and must be reported.
+
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Activation steering.} Additive steering vectors
+\citep{turner2023actadd,panickssery2023caa}, truthfulness intervention
+\citep{li2023iti}, representation engineering \citep{zou2023repe}, SAE
+features \citep{cunningham2023sae}, function vectors
+\citep{todd2023function} and refusal-direction ablation
+\citep{arditi2024refusal} steer style, safety and factual behavior;
+industrial agents already use such edits routinely for control
+\citep{chen2026automated}. STARS \citep{zhu2026stars} is closest in
+spirit --- multiple orthogonal steering directions for diverse
+generation --- but evaluates without a prompt-matched rival or a
+deception-resistant judge protocol, and uses translations only.
+\citet{mishra2026nonsurjective} prove steered states are unreachable by
+prompts but do not test their value; our parity-not-superiority result
+is the first value measurement in that opened space, and it constrains
+easy versions of the fertility hypothesis. Weight-space analogues ---
+task arithmetic \citep{ilharco2022task}, creativity weight-steering
+\citep{schapiro2026creativityneuro} --- edit the persistent model where
+we perturb the transient thought.
+
+\paragraph{Mechanistic intervention.} Causal tracing and model editing
+record and modify internal routes to \emph{explain} behavior
+\citep{meng2022rome}; our route-blocking screen inverts the direction
+--- recording a route to \emph{forbid} it --- and reports the first
+calibration of how much of a trajectory can be blocked before the
+faculty, not the idea, is removed.
+
+\paragraph{Decoding-time control.} Degeneration under maximization
+\citep{holtzman2019degeneration} anticipates our salad regimes;
+contrastive decoding \citep{li2022contrastive} and proxy tuning
+\citep{liu2024proxy} intervene through logits of a second model, a
+surface channel our late-layer results effectively reproduce
+(late-layer injection $\approx$ token bias); the mid-network channel
+studied here is precisely what logit-level methods cannot reach.
+
+\paragraph{The program.} Protocol, habituation and interruption from
+\citet{ono2026interrupting}; consolidation, tails and the attractor
+from \citet{ono2026mass}; the operator-package factorial from the
+companion verified-search paper. The AAR study
+\citep{chen2026automated} independently reproduces the program's
+telemetry (method monocultures, flat idea diversity under climbing
+scores, capability anchors) at industrial scale in an
+alignment-mitigation setting --- a mass regime, complementary to the
+frontier questions here.
+
+\section{Discussion and limitations}
+\label{sec:discussion}
+
+\paragraph{What parity means.} A new channel into the model's ongoing
+thought exists, is dosable and reversible, spends no context, is
+invisible in the text, and matches the best prompt-side intervention
+under a judge panel that cannot see either intervention. What it does
+not mean: superiority. The strong fertility hypothesis --- that
+prompt-unreachable states yield value prompts cannot --- remains open;
+our continuous-injection null and the state$\approx$prompt tie in the
+easy setting are its first constraining data points.
+
+\paragraph{Experience versus value.} The dissociation is the finding we
+expect to age best: state operators changed what a judge experiences
+and left untouched what a verifier prices. Any proposal that
+inference-time steering will unlock discovery must now say why its
+mechanism differs from the ones measured here.
+
+\paragraph{Limitations.} The ten premises are reused across this
+paper's batteries (each analysis pre-registered before its data, but
+adaptation risk accumulates and is declared); the judge panel is a
+single instrument family (its test--retest behavior was measured in
+\citealp{ono2026interrupting}); generality is established across scale,
+not family; doses and layers were calibrated on the origin model and
+transferred by convention (50\% depth, premise-norm units) rather than
+per-model tuning; and the verified domain is one task family. The
+temporal law's mechanism (why 32-token pulses integrate where constant
+pressure degrades) is characterized spectrally but not causally.
+
+\paragraph{Future work.} A protocol for aligned carriers; per-model
+calibration for cross-family tests; the strong fertility test on a
+carrier where the pulse and the word are both at ceiling; and
+substrate-level questions --- consolidating the search's schematic
+memory rather than its winners, and cross-model state transfer ---
+that the present results motivate but do not touch.
+
+\section*{Reproducibility}
+The operator algebra, both backends, every generation and judging
+script, all cells, judge verdicts, and the dated pre-registrations are
+released at \url{https://github.com/RobertoOno/interrupting-the-loop}.
+All confirmatory analyses were committed as code before their data
+existed.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

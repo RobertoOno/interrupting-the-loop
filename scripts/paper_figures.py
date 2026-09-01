@@ -148,3 +148,69 @@ for name, dests in (("fig_c_mean_vs_best.png", ["paper2/figures"]),
         (ROOT / d).mkdir(parents=True, exist_ok=True)
         shutil.copy2(OUT / name, ROOT / d / name)
 print("wrote and synced fig_c_mean_vs_best.png, fig_n_tails.png, fig_f23_cube.png")
+
+# ---- Paper 4, fig 1: the temporal law (H2 dose curve + PULSE pair) ----
+fig, axes = plt.subplots(1, 3, figsize=(8.6, 2.6), gridspec_kw={"width_ratios": [1.15, 1.15, 0.9]})
+alphas = [0.1, 0.25, 0.5, 0.75, 1.0, 1.5]
+s_cont = [1.95, 2.38, 1.72, 1.62, 1.78, 0.85]
+c_cont = [4.92, 4.57, 4.37, 3.53, 2.77, 1.38]
+for ax, ys, base, ttl in ((axes[0], s_cont, 2.38, "judged surprise"), (axes[1], c_cont, 4.83, "judged coherence")):
+    ax.plot(alphas, ys, color=VERM, lw=1.6, marker="o", ms=3.5)
+    ax.axhline(base, color=GRAY, lw=0.9, ls="--")
+    ax.annotate("plain baseline", (alphas[-1], base), xytext=(-2, 4), textcoords="offset points",
+                ha="right", fontsize=7.5, color=GRAY)
+    ax.set_title(ttl + " (continuous)", fontsize=9); ax.set_xlabel(r"dose $\alpha$")
+axes[0].set_ylim(0.4, 5.4); axes[1].set_ylim(0.4, 5.4)
+ax = axes[2]
+bars = ax.bar([0, 1], [1.88, 2.78], color=[GRAY, BLUE], width=0.6)
+ax.set_xticks([0, 1]); ax.set_xticklabels(["habit", "pulsed"], fontsize=8)
+for b, v in zip(bars, (1.88, 2.78)):
+    ax.annotate(f"{v:.2f}", (b.get_x() + 0.3, v), xytext=(0, 2), textcoords="offset points", ha="center", fontsize=7.5)
+ax.annotate("p = 0.006", (0.5, 3.0), ha="center", fontsize=8, color=BLUE)
+ax.set_title("same vectors, pulsed", fontsize=9); ax.set_ylim(0.4, 5.4); ax.set_yticks([])
+fig.tight_layout(); fig.savefig(OUT / "fig_p4_templaw.png", bbox_inches="tight"); plt.close(fig)
+
+# ---- Paper 4, fig 2: guards license dose (the ladder to parity) ----
+fig, ax = plt.subplots(figsize=(4.4, 2.7))
+ax.plot([1.0, 1.5, 2.0], [2.10, 3.23, 3.40], color=BLUE, lw=1.6, marker="o", ms=4.5)
+ax.scatter([1.0], [2.78], color=PURPLE, marker="s", s=34, zorder=3)
+ax.annotate("unguarded pulse", (1.0, 2.78), xytext=(8, -2), textcoords="offset points", fontsize=8, color=PURPLE)
+ax.annotate("guarded ladder", (1.5, 3.23), xytext=(8, -10), textcoords="offset points", fontsize=8, color=BLUE)
+ax.axhline(3.64, color=GRAY, lw=0.9, ls="--")
+ax.annotate("text interruption (3.64)", (2.0, 3.64), xytext=(-2, 4), textcoords="offset points", ha="right", fontsize=8, color="#333333")
+ax.set_xlabel(r"dose $\alpha$ (guarded)"); ax.set_ylabel("judged surprise"); ax.set_ylim(1.8, 4.1)
+ax.set_xticks([1.0, 1.5, 2.0])
+fig.tight_layout(); fig.savefig(OUT / "fig_p4_ladder.png", bbox_inches="tight"); plt.close(fig)
+
+# ---- Paper 4, fig 3: silent orbits and their removal (from runs/spectral npz) ----
+def _detrended(a, smooth=21):
+    import numpy as _np
+    pad = smooth // 2
+    padded = _np.pad(a, pad, mode="edge")
+    base = _np.array([_np.median(padded[i:i + smooth]) for i in range(len(a))])
+    return a - base
+try:
+    import numpy as _np
+    cells = [("state_band__tr_L18_a0.5_s0.npz", "literal loop (P=7)", VERM),
+             ("state_pulse__p0_habit.npz", "habituated: the silent orbit (P=30)", BLUE),
+             ("state_pulse__p0_inter.npz", "interrupted: flat", GREEN)]
+    fig, axes = plt.subplots(1, 3, figsize=(8.6, 2.4), sharey=True)
+    for ax, (f, ttl, col) in zip(axes, cells):
+        z = _np.load(ROOT / "runs/spectral" / f)
+        d = _detrended(z["a_state"])[:150]
+        ax.plot(range(1, len(d) + 1), d, color=col, lw=1.1)
+        ax.set_title(ttl, fontsize=8.5); ax.set_xlabel(r"lag $\tau$ (tokens)")
+        ax.axhline(0, color="#999999", lw=0.6)
+    axes[0].set_ylabel("detrended state autocorr.")
+    fig.tight_layout(); fig.savefig(OUT / "fig_p4_spectra.png", bbox_inches="tight"); plt.close(fig)
+    print("fig_p4_spectra ok")
+except FileNotFoundError as e:
+    print("fig_p4_spectra SKIPPED:", e)
+
+import shutil as _sh
+for name in ("fig_p4_templaw.png", "fig_p4_ladder.png", "fig_p4_spectra.png"):
+    src = OUT / name
+    if src.exists():
+        (ROOT / "paper4/figures").mkdir(parents=True, exist_ok=True)
+        _sh.copy2(src, ROOT / "paper4/figures" / name)
+print("paper4 figures synced")
