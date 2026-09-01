@@ -62,6 +62,11 @@ def main() -> None:
     p.add_argument("--inject-rotate", action="store_true")
     p.add_argument("--inject-every", type=int, default=300)
     p.add_argument("--pulse-len", type=int, default=32)
+    # R4 shams (review of paper 4, M3): same schedule/dose/guards, direction
+    # = random unit vector, or the subject direction with coordinates shuffled
+    p.add_argument("--pulse-source", choices=["concept", "random", "shuffle"], default="concept")
+    # R4 comparator (M8): paper-1 reset — context = premise + new subject only
+    p.add_argument("--reset-on-inject", action="store_true")
     p.add_argument("--anchor", action="store_true")
     p.add_argument("--keep-norm", action="store_true")
     p.add_argument("--habit", action="store_true")
@@ -127,10 +132,18 @@ def main() -> None:
         v = torch.tensor(d / (np.linalg.norm(d) + 1e-12), dtype=torch.float32, device=device)
     pulse_dirs = []
     if a.op == "pulse":
+        import zlib
+        rng = np.random.default_rng(a.rng_seed * 100003 + zlib.crc32(seed.encode()))
         for k in KICKS:
             d = mean_state(k) - prem_np
-            pulse_dirs.append(torch.tensor(d / (np.linalg.norm(d) + 1e-12),
-                                           dtype=torch.float32, device=device))
+            d = d / (np.linalg.norm(d) + 1e-12)
+            if a.pulse_source == "random":
+                d = rng.standard_normal(d.shape)
+                d = d / np.linalg.norm(d)
+            elif a.pulse_source == "shuffle":
+                d = d[rng.permutation(d.shape[0])]
+            pulse_dirs.append(torch.tensor(d, dtype=torch.float32, device=device))
+    disp = {"cos": [], "rel": []}  # effective displacement after guards (M7)
     inj_pool = [k + " " for k in KICKS] if a.inject_rotate else []
     assert a.op != "prompt" or inj_pool, "--op prompt needs --inject-rotate (ported subset)"
 
@@ -177,11 +190,15 @@ def main() -> None:
             hf = h.float()
             pre = so.norms(hf, torch)
             tgt = so.coord(hf, prem, torch)
+            h0 = hf[0, -1]
             hf = so.translate(hf, active_v, a.alpha * state_scale)
             if a.anchor:
                 hf = so.restore_coord(hf, prem, tgt, torch)
             if a.keep_norm:
                 hf = so.renorm(hf, pre, torch)
+            h1 = hf[0, -1]
+            disp["cos"].append(float(torch.nn.functional.cosine_similarity(h0, h1, dim=0)))
+            disp["rel"].append(float((h1 - h0).norm() / (h0.norm() + 1e-12)))
             return hf.to(h.dtype)
         hook_op["fn"] = fn
 
@@ -216,8 +233,11 @@ def main() -> None:
         if a.op == "prompt" and n_gen % a.inject_every == 0 and n_gen < a.max_tokens:
             txt = inj_pool[len(reseeds) % len(inj_pool)]
             tids = tok(txt, add_special_tokens=False).input_ids
-            reseeds.append([n_gen, txt, {"pos": len(ids)}])
-            logits, past = forward(tids, past)
+            reseeds.append([n_gen, txt, {"pos": len(ids), "reset": a.reset_on_inject}])
+            if a.reset_on_inject:
+                logits, past = forward(seed_ids + tids, None)
+            else:
+                logits, past = forward(tids, past)
             ids.extend(tids)
             recent.extend(tids)
             gen_mask.extend([False] * len(tids))
@@ -255,7 +275,12 @@ def main() -> None:
              "model": a.model, "temp": a.temp, "top_p": a.top_p, "rng_seed": a.rng_seed,
              "inject_every": a.inject_every if a.op in ("prompt", "pulse") else None,
              "pulse_len": a.pulse_len if a.op == "pulse" else None,
+             "pulse_source": a.pulse_source if a.op == "pulse" else None,
+             "reset_on_inject": a.reset_on_inject if a.op == "prompt" else None,
              "state_scale": round(state_scale, 4),
+             "disp_n": len(disp["cos"]),
+             "disp_cos_mean": round(float(np.mean(disp["cos"])), 4) if disp["cos"] else None,
+             "disp_rel_mean": round(float(np.mean(disp["rel"])), 4) if disp["rel"] else None,
              "clean_nll_mean": round(float(np.mean(gen_nll)), 4),
              "clean_nll_p90": round(float(np.percentile(gen_nll, 90)), 4),
              "distinct4": round(distinct4, 4)}
