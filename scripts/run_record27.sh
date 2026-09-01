@@ -48,11 +48,11 @@ echo "instalando vLLM (pode levar ~4 min)"
 $SSH 'export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       python3 -m venv --system-site-packages /workspace/.sv 2>/dev/null; \
       /workspace/.sv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
-      /workspace/.sv/bin/pip install -q vllm ninja 2>&1 | tail -3; echo VLLM-OK' || exit 6
+      /workspace/.sv/bin/pip install -q vllm ninja flashinfer-python 2>&1 | tail -3; echo VLLM-OK' || exit 6
 
 echo "subindo servidor (download ~55GB + carga; paciência)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" root@"$IP" \
-  "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 VLLM_FLASH_ATTN_VERSION=2 && \
+  "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 VLLM_ATTENTION_BACKEND=FLASHINFER && \
    setsid /workspace/.sv/bin/python -m vllm.entrypoints.openai.api_server \
      --model $MODEL_ID --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
      > /workspace/vllm.log 2>&1 </dev/null" </dev/null
