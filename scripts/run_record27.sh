@@ -81,7 +81,7 @@ done
 
 R=runs/frontier/record27; mkdir -p $R
 search() {  # $1 = smoke|full
-  if [ "$1" = "smoke" ]; then GENS=2; SPL=2; OUTD=$R/beatavg_E_smoke; else GENS=50; SPL=6; OUTD=$R/beatavg_E600; fi
+  if [ "$1" = "smoke" ]; then GENS=2; SPL=2; OUTD=$R/beatavg_E_smoke; rm -rf "$OUTD" "$OUTD.log"; else GENS=50; SPL=6; OUTD=$R/beatavg_E600; fi
   echo "RECORD27 busca ($1: gens=$GENS spl=$SPL) $(date)"
   .venv/bin/python scripts/frontier_search.py --problem beatavg --chat --max-tokens 1400 \
     --temp 0.8 --gens $GENS --samples $SPL --islands 2 \
