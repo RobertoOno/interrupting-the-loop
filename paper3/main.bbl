@@ -1,4 +1,4 @@
-\begin{thebibliography}{17}
+\begin{thebibliography}{18}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,15 @@ Bradley Brown, Jordan Juravsky, Ryan Ehrlich, Ronald Clark, Quoc~V. Le,
   Christopher R{\'e}, and Azalia Mirhoseini.
 \newblock Large language monkeys: Scaling inference compute with repeated
   sampling, 2024.
+
+\bibitem[Chen et~al.(2026)Chen, Wen, and Kirchner]{chen2026automated}
+Yueh-Han Chen, Jiaxin Wen, and Jan~Hendrik Kirchner.
+\newblock Automated researchers can reliably mitigate alignment failures.
+\newblock Anthropic Alignment Science technical report, 2026.
+\newblock URL
+  \url{https://www-cdn.anthropic.com/7b1c44894e980876479947dcdd40716278aeeffd/automated-alignment-researchers-august-2026.pdf}.
+\newblock Code:
+  \url{https://github.com/YuehHanChen/automated_alignment_researcher}.
 
 \bibitem[Georgiev et~al.(2025)Georgiev, G{\'o}mez-Serrano, Tao, and
   Wagner]{georgiev2025exploration}
