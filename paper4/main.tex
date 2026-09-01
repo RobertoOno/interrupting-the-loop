@@ -128,8 +128,12 @@ This paper does that. Its contributions:
 Every confirmatory analysis below was pre-registered (grid, primary
 contrast, guards, verdict tiers) and written as code before the data
 existed; exploratory screens are labeled as such. All deltas are paired
-per premise, with exact sign-flip tests ($2^{10}$ for ten premises) and
-bootstrap 95\% CIs. The ten confirmatory premises of
+per premise, with exact sign-flip tests ($2^{10}$ for ten premises;
+Monte-Carlo sign-flip for thirty) and bootstrap 95\% CIs over
+premises. Each battery declares one primary contrast, tested at
+$\alpha=0.05$ without correction, and a family of secondaries reported
+with Benjamini--Hochberg $q$ values over that family; a coherence guard
+(median paired coherence change $> -1.0$) accompanies every primary. The ten confirmatory premises of
 \citet{ono2026interrupting} are reused across this paper's batteries
 (they are not held out from anything here); the equivalence extension
 adds twenty further premises from the same source.
@@ -288,11 +292,13 @@ one-carrier test in the text).}
 \section{Guards license dose; indistinguishable from the written word}
 \label{sec:parity}
 
-Pulsing at higher dose without protection costs coherence ($-1.01$
-against text interruption, $p=0.049$). The pre-registered guard test
+The unguarded pulse at dose 1.0 pays in coherence ($-1.01$
+\ci{-1.85}{-0.23} against text interruption, two-sided $p=0.049$)
+while trailing it in surprise ($-0.86$ \ci{-1.76}{+0.02},
+$p=0.10$). The pre-registered guard test
 shows the guards do \emph{not} repair this: at equal dose, anchor +
-norm shell change coherence by $+0.02$ ($p=0.50$) while weakening the
-effective push (clean NLL $2.53 \to 1.83$). What they do is license
+norm shell change coherence by $+0.02$ \ci{-0.65}{+0.63} ($p=0.50$)
+while weakening the effective push (clean NLL $2.53 \to 1.83$). What they do is license
 dose: under guards the ladder $\alpha = 1.0 \to 1.5 \to 2.0$ climbs
 monotonically in judged surprise ($2.10 \to 3.23 \to 3.40$) at roughly
 constant coherence (Fig.~\ref{fig:ladder}). Because the guards act
@@ -384,12 +390,14 @@ extension includes that reset comparator on the ten premises
 
 Two declared secondaries returned honest negatives. A first-version
 rotor (rotating the premise--subject plane, $\theta=0.8$) underperforms
-text interruption ($-1.53$, $p=0.014$; a later cheap screen located its
-useful range at $\theta \in [1.2, 1.6]$ --- an untuned operator, not a
-dead one). And the program's own registered prediction failed: pulsed
-state repulsion \emph{without} an anchor did not degenerate (its
-coherence was the highest of the state arms), refusing the fourth
-appearance of the anchor law; a stress screen then showed why ---
+text interruption ($-1.53$ \ci{-2.43}{-0.63}, $p=0.014$, BH
+$q=0.055$; a later cheap screen located its useful range at $\theta
+\in [1.2, 1.6]$ --- an untuned operator, not a dead one). And the
+program's own registered prediction failed: pulsed state repulsion
+\emph{without} an anchor did not degenerate --- anchored minus
+unanchored coherence $-0.53$ \ci{-1.18}{+0.02}, the wrong sign for the
+prediction --- refusing the fourth appearance of the anchor law; a
+stress screen then showed why ---
 repulsion from a \emph{moving} mean is self-limiting, because the
 reference chases the state. The anchor law, as established in weights
 and behavior, is about fixed references.
@@ -453,10 +461,10 @@ family; family-generality is open}.
 \toprule
 model & pulse $-$ habit (primary) & pulse $-$ inter & verdict \\
 \midrule
-Qwen3-8B (origin) & $+0.90$, $p=0.006$ & $-0.24$, $p=0.53$ & indistinguishable \\
-Qwen3-14B & $+1.08$, $p=0.002$ & $+0.005$, $p=0.99$ & tie of means \\
-Qwen3.8-27B (aligned) & \multicolumn{2}{c}{carrier breaks under forced continuation} & no reading \\
-OLMo-2-13B & $-0.09$, $p=0.78$ & --- & null (register basin) \\
+Qwen3-8B (origin) & $+0.90$ \ci{+0.45}{+1.33}, $p=0.006$ & $-0.24$ \ci{-0.94}{+0.47}, $p=0.53$ & indistinguishable \\
+Qwen3-14B & $+1.08$ \ci{+0.57}{+1.62}, $p=0.002$ & $+0.005$ \ci{-0.44}{+0.43}, $p=0.99$ & tie of means \\
+Qwen3.8-27B (aligned) & $+0.20$ \ci{+0.02}{+0.38}, $p=0.041$ & $+0.14$ \ci{-0.03}{+0.31}, $p=0.16$ & no reading (carrier breaks) \\
+OLMo-2-13B & $-0.09$ \ci{-0.32}{+0.11}, $p=0.78$ & $-0.09$ \ci{-0.37}{+0.11}, $p=0.68$ & null (register basin) \\
 \bottomrule
 \end{tabular}
 \caption{\textbf{The generality ladder.} Judged-surprise contrasts,
