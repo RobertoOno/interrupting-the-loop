@@ -48,11 +48,11 @@ echo "instalando vLLM (pode levar ~4 min)"
 $SSH 'export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       python3 -m venv --system-site-packages /workspace/.sv 2>/dev/null; \
       /workspace/.sv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
-      /workspace/.sv/bin/pip install -q vllm ninja >/dev/null 2>&1; echo VLLM-OK' || exit 6
+      /workspace/.sv/bin/pip install -q vllm ninja 2>&1 | tail -3; echo VLLM-OK' || exit 6
 
 echo "subindo servidor (download ~55GB + carga; paciência)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" root@"$IP" \
-  "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
+  "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 VLLM_FLASH_ATTN_VERSION=2 && \
    setsid /workspace/.sv/bin/python -m vllm.entrypoints.openai.api_server \
      --model $MODEL_ID --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.92 \
      > /workspace/vllm.log 2>&1 </dev/null" </dev/null
@@ -67,7 +67,8 @@ while :; do
   i=$((i+1))
   curl -s --max-time 5 "http://localhost:$LPORT/v1/models" 2>/dev/null | grep -q "Qwen3.8" && { echo "SERVIDOR PRONTO"; break; }
   [ $((i % 20)) -eq 0 ] && $SSH 'tail -1 /workspace/vllm.log' 2>/dev/null
-  [ $i -ge 120 ] && { echo "servidor nunca respondeu; vllm.log:"; $SSH 'tail -15 /workspace/vllm.log'; exit 7; }
+  [ $i -ge 120 ] && { echo "servidor nunca respondeu; resgatando vllm.log completo"; \
+    scp -i "$KEY" -o StrictHostKeyChecking=no -P "$PORT" root@"$IP":/workspace/vllm.log runs/record27_vllm_fail.log 2>/dev/null; exit 7; }
   sleep 15
 done
 
