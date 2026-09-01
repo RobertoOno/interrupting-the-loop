@@ -282,7 +282,9 @@ def main():
     if a.oai_base != "none":
         import json as _json
         import urllib.request as _ur
-        _sys_prompt = "You are an expert at writing short, correct, self-contained Python programs for mathematical constructions."
+        _sys_prompt = ("You are an expert at writing short, correct, self-contained Python programs for mathematical constructions. "
+                       "Write the program directly: no derivations, analysis or step-by-step reasoning inside comments "
+                       "(a one-line comment per idea at most). The code block must be complete.")
         def api(message, max_tokens):
             try:
                 body = _json.dumps({
