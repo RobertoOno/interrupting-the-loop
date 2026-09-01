@@ -207,8 +207,126 @@ try:
 except FileNotFoundError as e:
     print("fig_p4_spectra SKIPPED:", e)
 
+# ---- Paper 4 revision (review M5/Q1): per-premise points and the 57-cell band map ----
+import json as _json
+import numpy as _np2
+
+
+def _cellmeans(run, dim):
+    recs = _json.loads((ROOT / "runs" / run / "rejudge_gen.json").read_text())
+    by = {}
+    for r in recs:
+        if r.get(dim) is not None:
+            by.setdefault(r["cell"], []).append(r[dim])
+    return {c: sum(v) / len(v) for c, v in by.items()}
+
+
+try:
+    S2, C2 = _cellmeans("state_h2", "surprise"), _cellmeans("state_h2", "coherence")
+    SP = _cellmeans("state_pulse", "surprise")
+    anames = [("0.1", 0.1), ("0.25", 0.25), ("0.5", 0.5), ("0.75", 0.75), ("1", 1.0), ("1.5", 1.5)]
+    rng = _np2.random.default_rng(0)
+    fig, axes = plt.subplots(1, 3, figsize=(8.6, 2.7), gridspec_kw={"width_ratios": [1.15, 1.15, 0.9]})
+    for ax, M, ttl in ((axes[0], S2, "judged surprise"), (axes[1], C2, "judged coherence")):
+        means = []
+        for an, av in anames:
+            ys = [M[f"p{i}_L18_a{an}"] for i in range(10) if f"p{i}_L18_a{an}" in M]
+            ax.scatter(av + rng.uniform(-0.03, 0.03, len(ys)), ys, s=9, color=GRAY, alpha=0.55, zorder=2)
+            means.append(sum(ys) / len(ys))
+        ax.plot([a for _, a in anames], means, color=VERM, lw=1.6, marker="o", ms=3.5, zorder=3)
+        base = [M[f"p{i}_bare"] for i in range(10) if f"p{i}_bare" in M]
+        ax.axhline(sum(base) / len(base), color=GRAY, lw=0.9, ls="--")
+        ax.annotate("plain baseline", (1.5, sum(base) / len(base)), xytext=(-2, 4), textcoords="offset points",
+                    ha="right", fontsize=7.5, color=GRAY)
+        ax.set_title(ttl + " (continuous, plain carrier)", fontsize=8.5); ax.set_xlabel(r"dose $\alpha$")
+        ax.set_ylim(0.4, 5.6)
+    ax = axes[2]
+    for i in range(10):
+        h, p_ = SP.get(f"p{i}_habit"), SP.get(f"p{i}_pulse")
+        if h is not None and p_ is not None:
+            ax.plot([0, 1], [h, p_], color=GRAY, lw=0.7, alpha=0.6)
+            ax.scatter([0, 1], [h, p_], s=10, color=[GRAY, BLUE], zorder=3)
+    hm = _np2.mean([SP[f"p{i}_habit"] for i in range(10)]); pm = _np2.mean([SP[f"p{i}_pulse"] for i in range(10)])
+    ax.plot([0, 1], [hm, pm], color=BLUE, lw=2.2, marker="_", ms=14, zorder=4)
+    ax.set_xticks([0, 1]); ax.set_xticklabels(["habit", "pulsed"], fontsize=8); ax.set_xlim(-0.4, 1.4)
+    ax.annotate(f"{hm:.2f}", (0, hm), xytext=(-18, 0), textcoords="offset points", fontsize=7.5, color=GRAY)
+    ax.annotate(f"{pm:.2f}  p = 0.006", (1, pm), xytext=(6, 0), textcoords="offset points", fontsize=7.5, color=BLUE)
+    ax.set_title("same vectors, pulsed (habituated)", fontsize=8.5); ax.set_ylim(0.4, 5.6); ax.set_yticks([])
+    fig.tight_layout(); fig.savefig(OUT / "fig_p4_templaw.png", bbox_inches="tight"); plt.close(fig)
+
+    # ladder with per-premise points
+    fig, ax = plt.subplots(figsize=(4.6, 2.8))
+    ladder = [(1.0, "pulseG"), (1.5, "pulseG15"), (2.0, "pulseG20")]
+    for x, arm in ladder:
+        ys = [SP[f"p{i}_{arm}"] for i in range(10) if f"p{i}_{arm}" in SP]
+        ax.scatter([x + rng.uniform(-0.04, 0.04) for _ in ys], ys, s=10, color=BLUE, alpha=0.4, zorder=2)
+    ax.plot([x for x, _ in ladder], [_np2.mean([SP[f"p{i}_{arm}"] for i in range(10)]) for _, arm in ladder],
+            color=BLUE, lw=1.8, marker="o", ms=5, zorder=4)
+    ys = [SP[f"p{i}_pulse"] for i in range(10)]
+    ax.scatter([1.0 + rng.uniform(-0.04, 0.04) for _ in ys], ys, s=10, color=PURPLE, alpha=0.4, marker="s", zorder=2)
+    ax.scatter([1.0], [_np2.mean(ys)], color=PURPLE, marker="s", s=40, zorder=5)
+    ax.annotate("unguarded pulse", (1.0, _np2.mean(ys)), xytext=(8, -3), textcoords="offset points", fontsize=8, color=PURPLE)
+    ax.annotate("guarded ladder", (1.5, _np2.mean([SP[f"p{i}_pulseG15"] for i in range(10)])), xytext=(8, -12),
+                textcoords="offset points", fontsize=8, color=BLUE)
+    yi = [SP[f"p{i}_inter"] for i in range(10)]
+    ax.scatter([2.35 + rng.uniform(-0.03, 0.03) for _ in yi], yi, s=10, color="#333333", alpha=0.4, zorder=2)
+    ax.axhline(_np2.mean(yi), color=GRAY, lw=0.9, ls="--")
+    ax.annotate(f"text interruption ({_np2.mean(yi):.2f})", (2.42, _np2.mean(yi)), xytext=(0, 4), textcoords="offset points",
+                ha="right", fontsize=8, color="#333333")
+    ax.set_xlabel(r"dose $\alpha$ (guarded)   |   inter"); ax.set_ylabel("judged surprise"); ax.set_ylim(0.8, 5.4)
+    ax.set_xticks([1.0, 1.5, 2.0, 2.35]); ax.set_xticklabels(["1.0", "1.5", "2.0", "inter"])
+    fig.tight_layout(); fig.savefig(OUT / "fig_p4_ladder.png", bbox_inches="tight"); plt.close(fig)
+    print("fig_p4_templaw / ladder with per-premise points ok")
+except FileNotFoundError as e:
+    print("per-premise figures SKIPPED:", e)
+
+# the 57-cell band map (exploratory, proxies) + the judged H2 grid
+try:
+    layers, alphas_b = [6, 18, 30], [0.25, 0.5, 1, 2, 4, 8]
+    grid = {"clean_nll_mean": _np2.full((3, 6), _np2.nan), "distinct4": _np2.full((3, 6), _np2.nan)}
+    for li, L in enumerate(layers):
+        for ai, a in enumerate(alphas_b):
+            an = str(a).rstrip("0").rstrip(".") if isinstance(a, float) else str(a)
+            vals = {k: [] for k in grid}
+            for s in range(3):
+                f = ROOT / "runs/state_band" / f"tr_L{L}_a{an}_s{s}" / "state.json"
+                if f.exists():
+                    st = _json.loads(f.read_text())
+                    for k in grid:
+                        vals[k].append(st[k])
+            for k in grid:
+                if vals[k]:
+                    grid[k][li, ai] = _np2.mean(vals[k])
+    jl, ja = [14, 18, 22], [("0.25", 0.25), ("0.5", 0.5), ("0.75", 0.75)]
+    jg = {"surprise": _np2.full((3, 3), _np2.nan), "coherence": _np2.full((3, 3), _np2.nan)}
+    for dim, M in (("surprise", S2), ("coherence", C2)):
+        for li, L in enumerate(jl):
+            for ai, (an, _) in enumerate(ja):
+                ys = [M[f"p{i}_L{L}_a{an}"] for i in range(10) if f"p{i}_L{L}_a{an}" in M]
+                if ys:
+                    jg[dim][li, ai] = _np2.mean(ys)
+    fig, axes = plt.subplots(1, 4, figsize=(10.2, 2.5), gridspec_kw={"width_ratios": [1.3, 1.3, 0.9, 0.9]})
+    panels = [(axes[0], grid["clean_nll_mean"], layers, [str(a) for a in alphas_b], "clean NLL (proxy, 57 cells)", "Reds"),
+              (axes[1], grid["distinct4"], layers, [str(a) for a in alphas_b], "distinct-4 (proxy, 57 cells)", "Blues_r"),
+              (axes[2], jg["surprise"], jl, [a for a, _ in ja], "judged surprise (H2)", "Blues"),
+              (axes[3], jg["coherence"], jl, [a for a, _ in ja], "judged coherence (H2)", "Greens")]
+    for ax, G, rows, cols, ttl, cmap in panels:
+        im = ax.imshow(G, cmap=cmap, aspect="auto")
+        ax.set_xticks(range(len(cols))); ax.set_xticklabels(cols, fontsize=7.5)
+        ax.set_yticks(range(len(rows))); ax.set_yticklabels([f"L{r}" for r in rows], fontsize=7.5)
+        ax.set_title(ttl, fontsize=8.5); ax.set_xlabel(r"dose $\alpha$", fontsize=8)
+        for i in range(G.shape[0]):
+            for j in range(G.shape[1]):
+                if not _np2.isnan(G[i, j]):
+                    ax.text(j, i, f"{G[i, j]:.2f}", ha="center", va="center", fontsize=6.5,
+                            color="white" if (G[i, j] - _np2.nanmin(G)) / (_np2.nanmax(G) - _np2.nanmin(G) + 1e-9) > 0.6 else "black")
+    fig.tight_layout(); fig.savefig(OUT / "fig_p4_bandmap.png", bbox_inches="tight"); plt.close(fig)
+    print("fig_p4_bandmap ok")
+except Exception as e:
+    print("fig_p4_bandmap SKIPPED:", e)
+
 import shutil as _sh
-for name in ("fig_p4_templaw.png", "fig_p4_ladder.png", "fig_p4_spectra.png"):
+for name in ("fig_p4_templaw.png", "fig_p4_ladder.png", "fig_p4_spectra.png", "fig_p4_bandmap.png"):
     src = OUT / name
     if src.exists():
         (ROOT / "paper4/figures").mkdir(parents=True, exist_ok=True)
