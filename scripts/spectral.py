@@ -49,6 +49,17 @@ def autocorr_state(H: np.ndarray, max_lag: int) -> np.ndarray:
                      for t in range(1, max_lag + 1)])
 
 
+def autocorr_bin(x: np.ndarray, max_lag: int) -> np.ndarray:
+    """Autocorrelation of a 0/1 series (sentence-boundary indicator): the
+    rhythm of sentences, the null a state period has to beat (review Q4)."""
+    m = x.mean()
+    var = m - m * m
+    n = len(x)
+    if var <= 1e-9:
+        return np.zeros(max_lag)
+    return np.array([float(((x[:n - t] * x[t:]).mean() - m * m) / var) for t in range(1, max_lag + 1)])
+
+
 def autocorr_tok(ids: list[int], max_lag: int) -> np.ndarray:
     a = np.asarray(ids)
     n = len(a)
@@ -108,11 +119,13 @@ def main() -> None:
         H = np.concatenate(states, axis=0)[1:]
         A_s = autocorr_state(H, a.max_lag)
         A_t = autocorr_tok(ids[1:], a.max_lag)
+        punct = np.array([1.0 if any(ch in tokenizer.decode([t]) for ch in ".!?\n") else 0.0 for t in ids[1:]])
+        A_p = autocorr_bin(punct, a.max_lag)
         ps, prs = dominant(A_s)
         pt, prt = dominant(A_t)
         name = f"{cell.parent.name}/{cell.name}"
         np.savez_compressed(a.out / f"{cell.parent.name}__{cell.name}.npz",
-                            a_state=A_s, a_tok=A_t, layer=a.layer)
+                            a_state=A_s, a_tok=A_t, a_punct=A_p, layer=a.layer)
         print(f"{name:>28} | {pt:5d} {prt:8.3f} | {ps:5d} {prs:8.3f}   ({len(ids)} tok, {time.time()-t0:.0f}s)", flush=True)
     print("SPECTRAL DONE", flush=True)
 

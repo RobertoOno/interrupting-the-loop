@@ -115,6 +115,45 @@ for arm in ARMS:
     L.append(f"| {arm} | {len(C[arm])} | {len(ok)} | {len({c['hash'] for c in ok})} "
              f"| {finds} | {min(gaps):+.5f} |")
 
+# ---- full ledger per arm (paper-4 review, M6): what the search produced ----
+L.append("\n## Full ledger per arm (review M6)\n")
+L.append("| arm | candidates | valid | valid rate | distinct programs | mean train gap | median train gap | best train gap | finds |")
+L.append("|---|---|---|---|---|---|---|---|---|")
+for arm in ARMS:
+    allc = list(C[arm].values())
+    ok = [c for c in allc if c.get("ok") and c.get("train") is not None]
+    gaps = np.array([c["train"] - min(c["bf_train"], c["ff_train"]) for c in ok])
+    L.append(f"| {arm} | {len(allc)} | {len(ok)} | {len(ok) / max(1, len(allc)):.2f} | {len({c['hash'] for c in ok})} "
+             f"| {gaps.mean():+.5f} | {np.median(gaps):+.5f} | {gaps.min():+.5f} | {sum(1 for c in ok if c.get('find'))} |")
+
+# ---- headroom split: variants where the carrier (none) had NOT reached the classics ----
+L.append("\n## Headroom split (review M6): kick − none within variants where `none` still had room\n")
+L.append("A variant has *headroom* when the none arm's best train gap is > 0 (the classics not yet matched); "
+         "otherwise it sits at the floor and no arm can improve the measure.\n")
+L.append("| subgroup | n variants | kick − none Δ [CI] | p (exact sign-flip, <0) | ang − none Δ [CI] |")
+L.append("|---|---|---|---|---|")
+for label, cond in (("headroom (none gap > 0)", lambda g: g > 1e-9), ("floor (none gap ≤ 0)", lambda g: g <= 1e-9)):
+    dk, da = [], []
+    for which, vi in VARIANTS:
+        g0 = best_gap(C["none"], which, vi, "train")
+        gk = best_gap(C["pulse_kick"], which, vi, "train")
+        ga = best_gap(C["pulse_ang"], which, vi, "train")
+        if g0 is None or not cond(g0):
+            continue
+        if gk is not None:
+            dk.append(gk - g0)
+        if ga is not None:
+            da.append(ga - g0)
+    if dk:
+        o, lo4, hi4, p4 = signflip(np.asarray(dk), "less")
+        sa = ""
+        if da:
+            oa, loa, hia, _ = signflip(np.asarray(da), "two")
+            sa = f"{oa:+.5f} [{loa:+.5f}, {hia:+.5f}]"
+        L.append(f"| {label} | {len(dk)} | {o:+.5f} [{lo4:+.5f}, {hi4:+.5f}] | {p4:.4f} | {sa} |")
+    else:
+        L.append(f"| {label} | 0 | — | — | — |")
+
 out = ROOT / "docs/APPENDIX_BCONF.md"
 out.write_text("\n".join(L) + "\n")
 print("\n".join(L))

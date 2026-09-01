@@ -23,3 +23,20 @@ Pre-registered PLANO 2026-08-30 ~17h30 (analysis written before the data). 3 arm
 | none | 293 | 165 | 165 | 2 | -0.00334 |
 | pulse_kick | 278 | 121 | 120 | 1 | -0.00334 |
 | pulse_ang | 308 | 161 | 157 | 3 | -0.00334 |
+
+## Full ledger per arm (review M6)
+
+| arm | candidates | valid | valid rate | distinct programs | mean train gap | median train gap | best train gap | finds |
+|---|---|---|---|---|---|---|---|---|
+| none | 293 | 165 | 0.56 | 165 | +0.02154 | +0.00324 | -0.00334 | 2 |
+| pulse_kick | 278 | 121 | 0.44 | 120 | +0.01936 | +0.00114 | -0.00334 | 1 |
+| pulse_ang | 308 | 161 | 0.52 | 157 | +0.02424 | +0.00341 | -0.00334 | 3 |
+
+## Headroom split (review M6): kick − none within variants where `none` still had room
+
+A variant has *headroom* when the none arm's best train gap is > 0 (the classics not yet matched); otherwise it sits at the floor and no arm can improve the measure.
+
+| subgroup | n variants | kick − none Δ [CI] | p (exact sign-flip, <0) | ang − none Δ [CI] |
+|---|---|---|---|---|
+| headroom (none gap > 0) | 0 | — | — | — |
+| floor (none gap ≤ 0) | 16 | +0.00014 [+0.00000, +0.00036] | 1.0000 | +0.00014 [-0.00032, +0.00075] |
