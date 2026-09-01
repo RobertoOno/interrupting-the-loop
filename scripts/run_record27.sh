@@ -48,7 +48,7 @@ echo "instalando vLLM (pode levar ~4 min)"
 $SSH 'export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       python3 -m venv --system-site-packages /workspace/.sv 2>/dev/null; \
       /workspace/.sv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
-      /workspace/.sv/bin/pip install -q vllm >/dev/null 2>&1; echo VLLM-OK' || exit 6
+      /workspace/.sv/bin/pip install -q vllm ninja >/dev/null 2>&1; echo VLLM-OK' || exit 6
 
 echo "subindo servidor (download ~55GB + carga; paciência)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" root@"$IP" \
