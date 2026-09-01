@@ -54,7 +54,7 @@ echo "subindo servidor (download ~55GB + carga; paciência)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" root@"$IP" \
   "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 VLLM_FLASH_ATTN_VERSION=2 && \
    setsid /workspace/.sv/bin/python -m vllm.entrypoints.openai.api_server \
-     --model $MODEL_ID --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.92 \
+     --model $MODEL_ID --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.92 --max-num-seqs 64 \
      > /workspace/vllm.log 2>&1 </dev/null" </dev/null
 
 ssh -f -N -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" -L $LPORT:localhost:8000 root@"$IP" </dev/null
