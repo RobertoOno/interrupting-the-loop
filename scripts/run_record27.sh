@@ -52,7 +52,7 @@ $SSH 'export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
 
 echo "subindo servidor (download ~55GB + carga; paciência)"
 ssh -f -i "$KEY" -o StrictHostKeyChecking=no -p "$PORT" root@"$IP" \
-  "export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
+  "export PATH=/workspace/.sv/bin:\$PATH HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
    setsid /workspace/.sv/bin/python -m vllm.entrypoints.openai.api_server \
      --model $MODEL_ID --port 8000 --max-model-len 8192 --gpu-memory-utilization 0.92 \
      > /workspace/vllm.log 2>&1 </dev/null" </dev/null
