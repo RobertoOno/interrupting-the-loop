@@ -155,7 +155,12 @@ def extract_program(text: str, entry: str) -> str | None:
             cut = min(cut, mm.start())
     text = text[:cut]
     if not re.search(rf"^def {entry}\(", text, re.M):
-        return None
+        # tolerate an indented definition (a numbered list, a stray tab): dedent from that line on
+        mi = re.search(rf"^([ \t]+)def {entry}\(", text, re.M)
+        if not mi:
+            return None
+        ind = mi.group(1)
+        text = "\n".join(l[len(ind):] if l.startswith(ind) else l for l in text[mi.start():].splitlines())
     lines = text.rstrip().splitlines()
     for _ in range(40):
         src = "\n".join(lines) + "\n"
@@ -409,6 +414,7 @@ def main():
                 rec["code"] = code
                 if code is None:
                     rec["error"] = "no function"
+                    rec["raw"] = text[:3000]  # keep the evidence (RECORD-27B: every proposal rejected, 2026-09-01)
                 else:
                     h = hashlib.md5(re.sub(r"\s+", " ", code).encode()).hexdigest()[:12]
                     rec["hash"] = h

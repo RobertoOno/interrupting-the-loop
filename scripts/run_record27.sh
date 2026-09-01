@@ -93,7 +93,8 @@ search() {  # $1 = smoke|full
 }
 if [ "$MODE" = "both" ]; then
   search smoke
-  grep -qE "valid [1-9]" $R/beatavg_E_smoke.log || { echo "fumaça sem programa válido; E600 NÃO lançado"; exit 8; }
+  grep -qE "valid [1-9]" $R/beatavg_E_smoke.log || { echo "fumaça sem programa válido; E600 NÃO lançado. Primeira resposta bruta:"; \
+    .venv/bin/python -c "import json; r=[json.loads(l) for l in open('$R/beatavg_E_smoke/history.jsonl')]; print(r[0].get('error'), '|', repr(r[0].get('raw',''))[:1500])"; exit 8; }
   search full
 else
   search "$MODE"
