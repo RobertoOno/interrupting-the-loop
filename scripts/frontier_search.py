@@ -244,6 +244,8 @@ def main():
     ap.add_argument("--problem", choices=sorted(PROBLEMS), required=True)
     ap.add_argument("--model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit"); ap.add_argument("--adapter", default="none")
     ap.add_argument("--api-model", default="none", help="Bedrock model id (e.g. anthropic.claude-opus-5): propose via API instead of the local model; implies chat-style prompts")
+    ap.add_argument("--oai-base", default="none", help="OpenAI-compatible base URL (e.g. http://localhost:18000/v1): propose via HTTP server; implies chat-style prompts")
+    ap.add_argument("--oai-model", default="served", help="model name sent to the OpenAI-compatible server")
     ap.add_argument("--gens", type=int, default=10); ap.add_argument("--samples", type=int, default=8)
     ap.add_argument("--islands", type=int, default=2); ap.add_argument("--elites", type=int, default=3)
     ap.add_argument("--novelty", choices=["none", "score", "behavior"], default="none",
@@ -270,6 +272,22 @@ def main():
         def api(message, max_tokens):
             try:
                 return _bc.chat(a.api_model, "You are an expert at writing short, correct, self-contained Python programs for mathematical constructions.", message, max_tokens=max_tokens)
+            except Exception as exc:
+                return f"(api error: {str(exc)[:80]})"
+    if a.oai_base != "none":
+        import json as _json
+        import urllib.request as _ur
+        _sys_prompt = "You are an expert at writing short, correct, self-contained Python programs for mathematical constructions."
+        def api(message, max_tokens):
+            try:
+                body = _json.dumps({
+                    "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
+                    "messages": [{"role": "system", "content": _sys_prompt},
+                                 {"role": "user", "content": message}]}).encode()
+                req = _ur.Request(a.oai_base.rstrip("/") + "/chat/completions", data=body,
+                                  headers={"Content-Type": "application/json"})
+                with _ur.urlopen(req, timeout=600) as resp:
+                    return _json.loads(resp.read())["choices"][0]["message"]["content"]
             except Exception as exc:
                 return f"(api error: {str(exc)[:80]})"
     # one model process at a time: a second 30B instance exhausts unified memory (machine rebooted 2026-08-22)
