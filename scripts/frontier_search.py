@@ -282,12 +282,19 @@ def main():
             try:
                 body = _json.dumps({
                     "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
+                    # Qwen3-family chat templates think by default: the reasoning came back
+                    # as plain text before '</think>' and starved the 1400-token budget
+                    # (RECORD-27B, 0 valid programs in 7 generations, 2026-09-01)
+                    "chat_template_kwargs": {"enable_thinking": False},
                     "messages": [{"role": "system", "content": _sys_prompt},
                                  {"role": "user", "content": message}]}).encode()
                 req = _ur.Request(a.oai_base.rstrip("/") + "/chat/completions", data=body,
                                   headers={"Content-Type": "application/json"})
                 with _ur.urlopen(req, timeout=600) as resp:
-                    return _json.loads(resp.read())["choices"][0]["message"]["content"]
+                    text = _json.loads(resp.read())["choices"][0]["message"]["content"] or ""
+                if "</think>" in text:  # defensive: never let reasoning residue reach the extractor
+                    text = text.split("</think>", 1)[1]
+                return text
             except Exception as exc:
                 return f"(api error: {str(exc)[:80]})"
     # one model process at a time: a second 30B instance exhausts unified memory (machine rebooted 2026-08-22)

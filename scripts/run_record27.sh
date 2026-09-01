@@ -93,7 +93,7 @@ search() {  # $1 = smoke|full
 }
 if [ "$MODE" = "both" ]; then
   search smoke
-  grep -q "DONE best" $R/beatavg_E_smoke.log || { echo "fumaça sem resultado; E600 NÃO lançado"; exit 8; }
+  grep -qE "valid [1-9]" $R/beatavg_E_smoke.log || { echo "fumaça sem programa válido; E600 NÃO lançado"; exit 8; }
   search full
 else
   search "$MODE"
