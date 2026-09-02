@@ -84,7 +84,7 @@ def stream_ids_and_injections(cell_dir: Path, tokenizer):
 
 def windows_generated(cell_dir: Path, tokenizer, length: int = 96, margin: int = 32,
                       earlier_tokens: int = 600, grid: int = 150,
-                      offsets: tuple = (32, 160, 300, 450, 600, 750)) -> list[dict]:
+                      offsets: tuple = (32, 160, 300, 450, 600, 750), pseudo: tuple | None = None) -> list[dict]:
     """Review windows made only of model-generated tokens (the external review's
     protocol): in interrupted cells, one window per segment starting `margin`
     tokens after the injection and `length` long, only if it fits before the
@@ -94,6 +94,12 @@ def windows_generated(cell_dir: Path, tokenizer, length: int = 96, margin: int =
     does). Returns kind='gen' with 'since' = tokens since the last injection."""
     ids, pts, seed = stream_ids_and_injections(cell_dir, tokenizer)
     n = len(ids)
+    if not pts and pseudo:
+        # matched layout (paper-4 review, round 3): treat each state burst (or, in the
+        # carrier, the same positions) as an injection of `ninj` tokens at k*every, so
+        # windows fall at +32/+160 after the burst END, exactly as in interrupted cells
+        every, ninj = pseudo
+        pts = [(k * every, ninj) for k in range(1, n // every) if k * every + ninj < n]
     starts = []
     if pts:
         for i, (pos, n_inj) in enumerate(pts):

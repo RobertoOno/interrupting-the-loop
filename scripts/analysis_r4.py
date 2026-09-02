@@ -103,6 +103,13 @@ def power_tost(sd, n, margin):
     return float(stats.norm.cdf((margin - half) / se) - stats.norm.cdf(-(margin - half) / se))
 
 
+def tci_top(d, conf=0.95):
+    from scipy import stats
+    n = len(d); m = d.mean(); se = d.std(ddof=1) / math.sqrt(max(1, n))
+    tc = stats.t.ppf(0.5 + conf / 2, n - 1) if n > 1 else float("nan")
+    return m, m - tc * se, m + tc * se
+
+
 def bh(ps):
     ps = np.asarray(ps, float)
     order = np.argsort(ps)
@@ -260,6 +267,48 @@ if len(d5) > 10:
         m, lo_, hi_ = tci(dd)
         g = paired(a_, b_, "coherence")
         L.append(f"| {name} | {o:+.3f} | [{lo_:+.3f}, {hi_:+.3f}] | {pp:.4f} | {len(dd)} | {float(np.median(g)):+.2f} ({'ok' if np.median(g) > -1.0 else 'FAIL'}) |")
+
+# ---------------- round 3 (N2): matched-layout re-judging ----------------
+MF = R / "rejudge_matched.json"
+if MF.exists() and json.loads(MF.read_text()):
+    mres = json.loads(MF.read_text())
+
+    def cm2(src, cell, dim, since_set=None, step_pred=None):
+        v = [r[dim] for r in src if r["cell"] == cell and r.get(dim) is not None
+             and (since_set is None or r.get("since") in since_set)
+             and (step_pred is None or step_pred(r["step"]))]
+        return float(np.mean(v)) if v else None
+
+    L.append("\n## Matched-layout re-judging (round 3, N2): pulseG20 and habit judged at +32/+160 after each burst end\n")
+    L.append("Text interruption keeps its already-judged +32/+160 windows; the state arm and the carrier are re-judged at the same offsets after the end of each burst (pseudo-injections at 300k, length 32). Unit = premise, 30 premises.\n")
+    for dim in DIMS:
+        d = np.array([cm2(mres, f"{p}_pulseG20", dim, {32, 160}) - cm2(res, f"{p}_inter", dim, {32, 160})
+                      for p in PREMS if cm2(mres, f"{p}_pulseG20", dim, {32, 160}) is not None and cm2(res, f"{p}_inter", dim, {32, 160}) is not None])
+        if not len(d):
+            continue
+        o, _, _, pp = signflip(d, "two"); m, tlo, thi = tci_top(d)
+        line = f"- pulseG20 − inter, {dim}: Δ {o:+.3f}, 95% t-CI [{tlo:+.3f}, {thi:+.3f}], two-sided p = {pp:.4f}, n = {len(d)}"
+        if dim == "surprise":
+            t75, t50 = tost(d, M_PRE), tost(d, M_REP)
+            line += f"; TOST ±0.75 p = {t75['p_tost']:.4f} ({'EQUIVALENT' if t75['equiv'] else 'not shown'}), ±0.5 p = {t50['p_tost']:.4f} ({'equivalent' if t50['equiv'] else 'not shown'})"
+        L.append(line)
+    for dim in DIMS:
+        d = np.array([cm2(mres, f"{p}_pulseG20", dim, {32, 160}) - cm2(mres, f"{p}_habit", dim, {32, 160})
+                      for p in PREMS if cm2(mres, f"{p}_pulseG20", dim, {32, 160}) is not None and cm2(mres, f"{p}_habit", dim, {32, 160}) is not None])
+        if len(d):
+            o, _, _, pp = signflip(d, "greater" if dim == "surprise" else "two"); m, tlo, thi = tci_top(d)
+            L.append(f"- pulseG20 − habit (matched), {dim}: Δ {o:+.3f}, 95% t-CI [{tlo:+.3f}, {thi:+.3f}], p = {pp:.4f}")
+
+    def offmean(arm, src, dim, **kw):
+        v = [cm2(src, f"{p}_{arm}", dim, **kw) for p in PREMS]; v = [x for x in v if x is not None]
+        return f"{np.mean(v):.2f}" if v else "—"
+    for dim in DIMS:
+        L.append(f"\n### {dim} by offset from the intervention end (mean over premises)\n")
+        L.append("| arm | +0 (burst end, grid) | +32 | +160 | +182 (grid) |")
+        L.append("|---|---|---|---|---|")
+        L.append(f"| inter | — | {offmean('inter', res, dim, since_set={32})} | {offmean('inter', res, dim, since_set={160})} | — |")
+        for arm in ("pulseG20", "habit"):
+            L.append(f"| {arm} | {offmean(arm, res, dim, step_pred=lambda s: s >= 300 and (s - 32) % 300 == 0)} | {offmean(arm, mres, dim, since_set={32})} | {offmean(arm, mres, dim, since_set={160})} | {offmean(arm, res, dim, step_pred=lambda s: (s - 32) % 300 != 0)} |")
 
 # ---------------- M7: effective displacement ----------------
 L.append("\n## Effective displacement after guards (M7) — mean over fired tokens, per arm\n")

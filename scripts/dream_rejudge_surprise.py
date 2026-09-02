@@ -40,6 +40,9 @@ def main() -> None:
     p.add_argument("--skip-from", nargs="*", default=None, help="also skip windows already present in these results files (other workers)")
     p.add_argument("--order", choices=["forward", "reverse", "random"], default="forward",
                    help="processing order; random (seeded) lets a third worker fill in between a forward and a reverse worker")
+    p.add_argument("--pseudo-every", type=int, default=0, help="matched layout: pseudo-injections every N tokens for cells without text injections")
+    p.add_argument("--pseudo-len", type=int, default=32, help="length of the pseudo-injection (the burst)")
+    p.add_argument("--cells-regex", default=None, help="only cells whose directory name matches this regex")
     p.add_argument("--protocol", choices=["events", "gen"], default="events",
                    help="events: windows at recorded review points (160 tokens, may contain injected text); "
                         "gen: generated-only windows (96 tokens, 32 after each injection, none crossing an injection)")
@@ -54,8 +57,10 @@ def main() -> None:
     items = []
     for d in sorted(x for x in args.run_dir.iterdir() if x.is_dir() and (x / "run.json").exists()):
         cond = d.name.split("_", 1)[1]
+        if args.cells_regex and not __import__("re").search(args.cells_regex, d.name):
+            continue
         if args.protocol == "gen":
-            wins = windows_generated(d, tokenizer)
+            wins = windows_generated(d, tokenizer, pseudo=((args.pseudo_every, args.pseudo_len) if args.pseudo_every else None))
             # cap per (cell, offset): 6 windows evenly spread per 'since' value
             by_kind = {}
             for w in wins:
