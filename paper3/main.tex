@@ -395,7 +395,18 @@ obtained with 2025-era proposers; we read this as locating the
 wall, not as ranking systems across model generations) and plateaus
 there for 17 generations. (iv) \emph{Verifier time}: tripling the
 sandbox budget to 60 seconds, so heavier optimizers can run, moves the
-plateau by $+0.0002$.
+plateau by $+0.0002$. (v) \emph{Proposer generation} (pre-registered
+after review): a current-generation open-weight proposer, Qwen3.8-27B
+served locally in non-reasoning mode with a 3000-token budget, under
+the identical 600-sample loop at $L{=}5000$ reaches 0.3876 --- between
+the local model (0.3816) and Claude (0.3897) --- and its best
+construction is the same sparse-atom family, now with the exact
+objective, L-BFGS weight refinement and coordinate descent on atom
+positions; 60\% of its valid samples exceed the local model's whole
+plateau, its generation zero shows no near-plateau (best 0.351, like
+the local model and unlike Claude), so the gain is the search's, and
+its validity rate is 61\% (wrong-length outputs and timeouts). The
+wall survived a newer proposer by 0.013.
 
 The constructions are legible. The local model's best is a bimodal sparse
 measure of 16 atoms (half the mass on $\{0,1,2,3\}$, geometrically
@@ -411,8 +422,8 @@ numerically, while the \citet{bellec2024beat} construction is a
 multiscale, recursively structured sequence of discrete measures whose
 analysis shows a finitely supported measure cannot be optimal; the
 family-hint conditions below name that structure. Within the settings
-tested, grid and time changes did not move the result and a stronger
-proposer moved it without closing the gap; these plateaus motivated the
+tested, grid and time changes did not move the result and two stronger
+proposers moved it without closing the gap; these plateaus motivated the
 hypothesis that what remained was the construction family, an idea. The
 family-hint experiment below tests and qualifies that interpretation.
 
