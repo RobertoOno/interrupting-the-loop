@@ -561,7 +561,7 @@ family; family-generality is open}.
 \toprule
 model & pulse $-$ habit (primary) & pulse $-$ inter & verdict \\
 \midrule
-Qwen3-8B (origin, 10 premises, MLX) & $+0.90$ \ci{+0.45}{+1.33}, $p=0.006$ & $-0.24$ \ci{-0.94}{+0.47}, $p=0.53$ & indistinguishable \\
+Qwen3-8B (origin, 10 premises, MLX) & $+0.90$ \ci{+0.45}{+1.33}, $p=0.006$ & $-0.24$ \ci{-1.11}{+0.62}$^{t}$, $p=0.53$ & indistinguishable \\
 Qwen3-8B (30 premises, PyTorch) & $+0.93$ \ci{+0.49}{+1.36}, $p=0.0002$ & $-0.29$ \ci{-0.73}{+0.17}, $p=0.23$ & equivalent ($\pm0.75$) \\
 Qwen3-14B & $+1.08$ \ci{+0.57}{+1.62}, $p=0.002$ & $+0.005$ \ci{-0.44}{+0.43}, $p=0.99$ & tie of means \\
 Qwen3.8-27B (aligned) & $+0.20$ \ci{+0.02}{+0.38}, $p=0.041$ & $+0.14$ \ci{-0.03}{+0.31}, $p=0.16$ & no reading (carrier breaks) \\
@@ -571,11 +571,13 @@ OLMo-2-13B & $-0.09$ \ci{-0.32}{+0.11}, $p=0.78$ & $-0.09$ \ci{-0.37}{+0.11}, $p
 \caption{\textbf{The generality ladder.} Judged-surprise contrasts,
 paired over the ten premises; doses in premise-norm units and layers at
 50\% depth, carried over by convention without retuning. ``Tie'' means
-indistinguishable at $n=10$, not equivalence.}
+indistinguishable at $n=10$, not equivalence. Intervals are percentile
+bootstraps except the one marked $t$ (95\% $t$ interval; the percentile
+interval for that contrast, \ci{-0.94}{+0.47}, matches a 90\% $t$ interval).}
 \label{tab:ladder}
 \end{table}
 
-\section{The mechanism: silent orbits, flattened spectra}
+\section{Spectra: orbits, sentence rhythm, and what flattening survives}
 \label{sec:mechanism}
 
 Why does the pulse work where pressure fails? A measurement study
