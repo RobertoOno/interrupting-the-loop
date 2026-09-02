@@ -19,7 +19,7 @@
 \newcommand{\ci}[2]{[#1,\,#2]}
 \newcommand{\rfour}[1]{\textcolor{red}{[R4: #1]}}
 
-\title{Pulsed, Not Pressed:\\ State-Space Injection Matches the Judged Surprise\\ of Text Interruption in Open-Ended Generation}
+\title{Pulsed, Not Pressed:\\ What State-Space Injection Buys in Open-Ended Generation,\\ and for How Long}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
 \date{}
@@ -30,39 +30,39 @@
 \begin{abstract}
 A research program on machine novelty has intervened at three depths of
 a language model --- the token distribution, the context, and the
-weights --- and measured the limit of each. This paper opens the fourth:
-the residual stream during live generation. We introduce a rank-1/2
-operator algebra on hidden states (translations toward model-derived
-concept directions, closed-form rotors, projections, repulsion from a
-moving mean; an anchor and a norm shell as guards; doses in units of the
-premise-state norm) and evaluate it on Qwen3-8B-Base under a
-deception-resistant protocol: a blind judge scores surprise, connection
-and coherence (0--10) on windows of generated-only text, paired over
-premises, every confirmatory analysis pre-registered. Four pre-registered
-findings and one descriptive. (i)~Continuous injection has no fertile
-band --- more dose, less judged surprise on the plain carrier, and no
-gain at the two doses tested on the habituated one --- while the same
-directions pulsed for 32 tokens every 300 on a habituated carrier raise
-it; on one carrier with the same directions, thirty premises, pulsing
-beats pressing at equal per-token dose (the pressed arm collapses
-coherence), while at equal integrated dose the difference is not
-significant. (ii)~Guards change what a dose does rather than
-admitting a larger one; at guarded dose 2.0 the pulse is equivalent to
-text interruption in judged surprise within a pre-registered margin of
-$\pm0.75$ on thirty premises, averaged over the cell and without
-spending a token of the stream --- but its effect peaks at the burst
-and decays faster than text's, so at matched offsets after the
-intervention it trails by a third of a point and equivalence is not
-established; it also trails text in connection and coherence, and
-trails the reset variant of interruption. (iii)~Sham pulses in random or shuffled
-directions displace the state more and produce far less, and a blind
-manipulation check finds the injected subject in the text: the
-direction's content carries the effect. (iv)~The surprise pattern
-replicates in-family at 14B. (v)~Descriptively, the guarded pulse
-carries the flattest state trajectory in the battery, though much of the
-habituated carrier's ``silent orbit'' is the rhythm of sentences. We
-release the instrument, every cell, every verdict and the dated
-pre-registrations.
+weights --- and measured the limit of each. This paper opens the fourth,
+the residual stream during live generation, and asks what an
+intervention there buys. We introduce a rank-1/2 operator algebra on
+hidden states (translations toward model-derived concept directions,
+rotors, projections, repulsion; an anchor and a norm shell as guards;
+doses in units of the premise-state norm) and evaluate it on
+Qwen3-8B-Base under a deception-resistant protocol: a blind judge
+scores surprise, connection and coherence (0--10) on windows of
+generated-only text, paired over premises, every confirmatory analysis
+pre-registered. (i)~\emph{Pulsed, not pressed}: on one habituated
+carrier with the same rotating directions, thirty premises, injecting
+for 32 tokens every 300 raises judged surprise where continuous
+injection at the same per-token dose collapses coherence without
+raising it; at equal integrated dose the difference is not
+significant. (ii)~\emph{The direction's content carries the effect}:
+sham pulses in random or shuffled directions displace the state more
+and produce far less, and a blind manipulation check finds the injected
+subject in the text. (iii)~\emph{What it buys against the written
+subject}: averaged over the cell, the guarded pulse at dose 2.0 is
+equivalent to text interruption in judged surprise within a
+pre-registered $\pm0.75$, without spending a token of the stream; but
+its effect peaks at the burst and fades within about 150 tokens where
+text's persists, so at matched offsets it trails by a third of a point
+and equivalence is not established, and it trails text in connection
+and coherence and the reset variant of interruption. Guards change what
+a dose does rather than admitting a larger one. (iv)~The surprise
+pattern replicates in-family at 14B. (v)~Descriptively, the guarded
+pulse carries the flattest state trajectory, though much of the
+carrier's ``silent orbit'' is the rhythm of sentences. The series'
+verdict on inference-time fertility: latent injection buys a short,
+content-specific burst of judged novelty at a coherence cost --- not
+more than the written word. We release the instrument, every cell,
+every verdict and the dated pre-registrations.
 \end{abstract}
 
 \section{Introduction}
@@ -110,14 +110,18 @@ This paper does that. Its contributions:
   beats pressing at equal per-token dose (the pressed arm collapses
   coherence), while at equal integrated dose the difference is not
   significant.
-\item \textbf{Equivalence in surprise, at a cost} (\S\ref{sec:parity}):
-  the guarded pulse at dose 2.0 is equivalent to text interruption in
-  judged surprise within $\pm0.75$ on thirty premises averaged over the
-  cell, but decays faster after the intervention (at matched offsets
-  equivalence is not established), and trails it in connection and
-  coherence and the reset variant of interruption; sham pulses show the direction's content, not the
-  perturbation, carries the effect. The surprise pattern replicates
-  in-family at 14B (\S\ref{sec:generality}).
+\item \textbf{The content carries the effect} (\S\ref{sec:parity}):
+  sham pulses in random or shuffled directions, which displace the
+  state more, produce far less than the real pulse, and a blind
+  manipulation check finds the injected subject in the generated text.
+\item \textbf{What the pulse buys against the written word}
+  (\S\ref{sec:parity}): averaged over the cell, the guarded pulse at
+  dose 2.0 is equivalent to text interruption in judged surprise within
+  $\pm0.75$ on thirty premises; its effect peaks at the burst and fades
+  within about 150 tokens where text's persists, so at matched offsets
+  equivalence is not established; and it trails text in connection and
+  coherence and trails the reset variant of interruption. The surprise
+  pattern replicates in-family at 14B (\S\ref{sec:generality}).
 \item \textbf{A spectral description} (\S\ref{sec:mechanism}): across
   the whole battery, with the rhythm of sentences as the null, the
   guarded pulse carries the flattest state trajectory; the single-cell
@@ -331,7 +335,7 @@ test in the text).}
 \label{fig:templaw}
 \end{figure}
 
-\section{Guards change what a dose does; equivalent in judged surprise}
+\section{Guards change what a dose does; what the pulse buys against the written word}
 \label{sec:parity}
 
 The unguarded pulse at dose 1.0 pays in coherence ($-1.01$
@@ -426,8 +430,7 @@ $3.67$ at $+160$); the pulse's coherence cost is front-loaded ($3.47$
 at the burst's end, recovering to $4.33$ by $+182$). Averaged over the
 cell (the pre-registered primary), the two arms are equivalent within
 $\pm0.75$; at matched offsets the pulse trails by a third of a point
-and equivalence is not established. Both statements are true, and the
-title should be read with the second in mind. The other two
+and equivalence is not established. Both statements are true; the paper claims the weaker one. The other two
 dimensions do not tie: the pulse trails text interruption in connection
 ($-0.52$ \ci{-0.96}{-0.09}, $p=0.03$) and in coherence ($-0.90$
 \ci{-1.20}{-0.57}, $p<0.0001$) --- the ``identical connection'' of the
@@ -869,19 +872,28 @@ frontier questions here.
 \section{Discussion and limitations}
 \label{sec:discussion}
 
-\paragraph{What equivalence means.} A new channel into the model's
-ongoing thought exists, is dosable and reversible, spends no context,
-is invisible in the text, and --- within $\pm0.75$ on thirty premises,
-averaged over the cell --- produces judged surprise equivalent to the
-preserved-context interruption it was modeled on, with an effect that
-peaks at the burst and fades faster than the written subject's. It does so by carrying the subject
-(the shams fail; the manipulation check finds the subject in the text)
-and at a cost the text channel does not pay: lower connection, lower
-coherence, and a clear deficit against the reset interruption. What it
-does not mean: superiority. The strong fertility hypothesis --- that
-prompt-unreachable states yield value prompts cannot --- remains open;
-our continuous-injection null and the state$\approx$prompt tie in the
-easy setting are its first constraining data points.
+\paragraph{What the state channel buys.} A new channel into the
+model's ongoing thought exists, is dosable and reversible, spends no
+context, and is invisible in the text. What it buys, measured against
+the written subject it was modeled on: a burst of judged surprise that
+matches the text's at its peak and fades within about 150 tokens,
+equivalent within $\pm0.75$ on the cell average and short of
+equivalence at matched offsets; carried by the subject's meaning (the
+shams fail; the manipulation check finds the subject in the text); and
+paid for in connection and coherence, with a clear deficit against the
+reset interruption. This is the state chapter of a four-substrate
+series --- token, context, weights, state --- and its verdict on the
+inference-time fertility hypothesis is the one the abstract states:
+latent injection buys a short, content-specific burst of judged
+novelty at a coherence cost, not more than the written word. The strong
+hypothesis --- that prompt-unreachable states yield value prompts
+cannot --- remains open; the continuous-injection null and the
+peak-and-decay of the pulse are its first constraining data points.
+One implication reaches beyond creativity: an intervention in the
+state is largely invisible to a text-level monitor --- the injected
+subject was named in 14--23\% of judged windows when injected as
+state, against 34--49\% when written --- which matters for models that
+move their reasoning into the latent channel.
 
 \paragraph{Experience versus value.} We had hoped to report a
 dissociation --- state operators changing what a judge experiences
