@@ -19,7 +19,7 @@
 \newcommand{\ci}[2]{[#1,\,#2]}
 \newcommand{\rfour}[1]{\textcolor{red}{[R4: #1]}}
 
-\title{Pulsed, Not Pressed: State-Space Injection Matches\\ Text Interruption in Open-Ended Generation}
+\title{Pulsed, Not Pressed: State-Space Injection Matches the Surprise\\ of Text Interruption in Open-Ended Generation}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
 \date{}
@@ -42,16 +42,23 @@ Pre-registered findings, all paired over premises. (i)~\emph{Temporal
 regime}: continuous injection lowers judged surprise as dose rises
 ($p=0.81$ against, coherence collapsing), while the same directions
 pulsed for 32 tokens every 300 on a habituated carrier raise it
-($+0.90$, $p=0.006$); a one-carrier test with matched integrated dose
-\rfour{R4a (b)} separates the regime from the carrier. (ii)~Geometric
-guards do not repair damage; they license dose --- and at guarded dose
-2.0 the pulse is statistically indistinguishable from the best
-prompt-side intervention we know, text interruption ($3.40$ vs $3.64$,
-two-sided $p=0.53$ on ten premises; equivalence test on thirty premises
-\rfour{R4b TOST}), with identical connection and without spending a
-token of the stream; sham pulses in random or shuffled directions
-\rfour{R4a (a)}. (iii)~The pattern replicates in-family at 14B with an
-exact tie ($3.48$ vs $3.48$). (iv)~Descriptively, the guarded pulse
+($+0.90$, $p=0.006$; $+0.93$, $p=0.0002$ on thirty premises). On one
+carrier with the same rotating directions, continuous injection at the
+pulse's per-token dose collapses coherence without raising surprise,
+at its integrated dose it is inert, and the paired pulse-minus-continuous
+contrast is positive but not significant at ten premises ($+0.33$,
+$p=0.27$). (ii)~Geometric guards do not repair damage; they change what
+a dose does --- and at guarded dose 2.0 the pulse is \emph{equivalent}
+to text interruption in judged surprise within a pre-registered margin
+of $\pm0.75$ on thirty premises (TOST $p=0.028$, power $0.87$; not
+within $\pm0.5$), without spending a token of the stream. It trails
+text in connection ($-0.52$, $p=0.03$) and coherence ($-0.90$,
+$p<0.001$), and trails the reset variant of interruption in surprise
+($-0.58$, $p=0.04$). Sham pulses in random or shuffled directions,
+which displace the state more, produce far less ($-0.65$ and $-1.13$
+against the real pulse, $p=0.03$ and $0.001$): the content of the
+direction carries the effect. (iii)~The surprise pattern replicates
+in-family at 14B with a tie of means ($3.48$ vs $3.48$). (iv)~Descriptively, the guarded pulse
 carries the flattest state trajectory in the battery (state
 autocorrelation prominence $-0.029$ against the carrier, $p=0.006$),
 but the habituated carrier's ``silent orbit'' turns out to be largely
@@ -105,17 +112,20 @@ This paper does that. Its contributions:
   directions, geometric guards, and a dimensionless dose unit; dual
   MLX/PyTorch backends, bit-identical on the algebra.
 \item \textbf{The temporal contrast} (\S\ref{sec:temporal}): continuous
-  injection has no fertile band --- more dose, less judged surprise ---
-  while the same vectors, pulsed, raise judged surprise; a one-carrier
-  test with the same rotating directions at duty cycles 100\% and
-  32/300 \rfour{R4a (b)} isolates the schedule from the carrier.
-\item \textbf{Indistinguishability} (\S\ref{sec:parity}): guards trade
-  repair for dose, and the guarded pulse at dose 2.0 is statistically
-  indistinguishable from text interruption on judged surprise, with
-  identical connection, on ten premises; an equivalence test on thirty
-  \rfour{R4b} and sham pulses \rfour{R4a (a)} bound the claim. The
-  pattern replicates in-family at 14B with an exact tie
-  (\S\ref{sec:generality}).
+  injection has no fertile band --- more dose, less judged surprise, on
+  the plain carrier and on the habituated one --- while the same
+  vectors, pulsed, climb a dose ladder; on one carrier with identical
+  rotating directions the head-to-head pulse-minus-continuous contrast
+  is positive but not significant at ten premises, and the two regimes
+  fail in opposite ways (pressing degenerates; diluted pressing is
+  inert).
+\item \textbf{Equivalence in surprise, at a cost} (\S\ref{sec:parity}):
+  the guarded pulse at dose 2.0 is equivalent to text interruption in
+  judged surprise within $\pm0.75$ on thirty premises, trails it in
+  connection and coherence, and trails the reset variant of
+  interruption; sham pulses show the direction's content, not the
+  perturbation, carries the effect. The surprise pattern replicates
+  in-family at 14B (\S\ref{sec:generality}).
 \item \textbf{A spectral description} (\S\ref{sec:mechanism}): across
   the whole battery, with the rhythm of sentences as the null, the
   guarded pulse carries the flattest state trajectory; the single-cell
@@ -257,9 +267,23 @@ that settles it puts both regimes on the habituated carrier with the
 of 32 in 300 at $\alpha=1.0$ against continuous injection at
 $\alpha=1.0$ (the per-token dose of the pulse) and at $\alpha=0.107$
 (its integrated dose), paired over the ten premises, one-sided
-(pulse $>$ continuous). \rfour{R4a (b): the two contrasts, CIs, $p$,
-coherence guard.} This is the temporal claim of the paper; the
-plain-carrier dose--response above remains a boundary result.
+(pulse $>$ continuous). The result is a trend, not a confirmation:
+pulse minus continuous $+0.33$ \ci{-0.63}{+1.30} ($p=0.27$) at equal
+per-token dose and $+0.28$ \ci{-0.12}{+0.70} ($p=0.13$) at equal
+integrated dose. What the test does establish is the asymmetry of the
+two regimes on the same carrier. Continuous injection at $\alpha=1.0$
+leaves surprise at the carrier's level ($+0.07$ \ci{-0.71}{+0.86})
+while collapsing coherence ($2.66$ against the carrier's $4.69$; clean
+NLL $4.4$) --- and, by the manipulation check below, it does carry the
+subject into the text (43\% of windows), as degenerate prose about it.
+At $\alpha=0.107$ it is inert ($+0.13$ \ci{-0.38}{+0.63}, coherence
+intact). The pulsed regime, meanwhile, climbs its unguarded dose
+ladder: $+0.40$ ($p=0.13$), $+0.48$ ($p=0.035$), $+0.86$ ($p=0.043$)
+at $\alpha = 1.0, 1.5, 2.0$, and $+1.04$ ($p=0.012$) guarded at 2.0.
+Pressing degenerates, diluted pressing does nothing, pulsing climbs;
+the head-to-head at equal dose is a direction we could not certify at
+ten premises. The plain-carrier dose--response above remains a
+boundary result.
 
 \begin{figure}[t]
 \centering
@@ -298,16 +322,45 @@ while trailing it in surprise ($-0.86$ \ci{-1.76}{+0.02},
 $p=0.10$). The pre-registered guard test
 shows the guards do \emph{not} repair this: at equal dose, anchor +
 norm shell change coherence by $+0.02$ \ci{-0.65}{+0.63} ($p=0.50$)
-while weakening the effective push (clean NLL $2.53 \to 1.83$). What they do is license
-dose: under guards the ladder $\alpha = 1.0 \to 1.5 \to 2.0$ climbs
-monotonically in judged surprise ($2.10 \to 3.23 \to 3.40$) at roughly
-constant coherence (Fig.~\ref{fig:ladder}). Because the guards act
-after the operator, the nominal dose overstates the displacement they
-leave behind; we therefore report the \emph{effective} displacement
+while weakening the effective push (clean NLL $2.53 \to 1.83$). Under guards the
+ladder $\alpha = 1.0 \to 1.5 \to 2.0$ climbs monotonically in judged
+surprise ($2.10 \to 3.23 \to 3.40$) at roughly constant coherence
+(Fig.~\ref{fig:ladder}). Because the guards act after the operator,
+the nominal dose overstates the displacement they leave behind; the
+extension battery therefore logged the \emph{effective} displacement
 per burst position --- the cosine between the pre- and post-operator
-state and the relative norm of the change --- for every state arm
-\rfour{R4a (d): table of cos and $\lVert\Delta h\rVert/\lVert
-h\rVert$ by dose and guard}.
+state and the relative norm of the change (Table~\ref{tab:disp}). The
+guarded pulse at dose 2.0 leaves the same displacement magnitude as the
+unguarded pulse at dose 1.0 ($\lVert\Delta h\rVert/\lVert h\rVert$
+$0.75$ in both) and yields $2.6\times$ its surprise gain ($+1.04$
+against $+0.40$ over the carrier); the unguarded pulse at 2.0 displaces
+twice as much ($1.53$) for less ($+0.86$). So the guards do not
+``license dose'' in the sense of admitting a larger push; they change
+the composition of the same push --- off the premise coordinate, on the
+norm shell --- and that composition is what the judge rewards.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lccccc}
+\toprule
+arm & $\alpha$ & guards & $\cos(h_{\rm pre},h_{\rm post})$ & $\lVert\Delta h\rVert/\lVert h\rVert$ & $\Delta$ surprise vs carrier \\
+\midrule
+pulse & 1.0 & none & $0.81$ & $0.75$ & $+0.40$ ($p=0.13$) \\
+pulse & 1.5 & none & $0.69$ & $1.13$ & $+0.48$ ($p=0.035$) \\
+pulse & 2.0 & none & $0.59$ & $1.53$ & $+0.86$ ($p=0.043$) \\
+pulse & 2.0 & anchor + norm shell & $0.72$ & $0.75$ & $+1.04$ ($p=0.012$) \\
+sham, random direction & 2.0 & anchor + norm shell & $0.56$ & $0.94$ & $+0.39$ ($p=0.19$) \\
+sham, shuffled direction & 2.0 & anchor + norm shell & $0.56$ & $0.94$ & $-0.09$ ($p=0.81$) \\
+continuous & 1.0 & none & $0.81$ & $0.77$ & $+0.07$ ($p=0.91$) \\
+continuous & 0.107 & none & $1.00$ & $0.08$ & $+0.13$ ($p=0.67$) \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Effective displacement and its yield.} Means over
+fired positions and ten premises (extension battery, one backend);
+surprise contrasts paired against the habituated carrier, exact
+two-sided sign-flip.}
+\label{tab:disp}
+\end{table}
 
 At the top of that ladder sits the pre-registered comparison against
 the program's strongest prompt-side intervention. Guarded pulse at
@@ -321,15 +374,28 @@ does not fit inside any margin narrower than $\pm 0.95$. The
 pre-registered extension therefore reran the trio --- habituated
 baseline, guarded pulse, text interruption --- on thirty premises on
 one backend, with an equivalence margin of $\pm 0.75$ fixed in advance
-(two one-sided tests; $\pm 0.5$ reported as well). \rfour{R4b: $\Delta$,
-CI95, IC90, TOST $p$ at $\pm0.75$ and $\pm0.5$, power at the observed
-SD; pulse $-$ habit replication; fresh-only replication.} What the
-claim then is: a subject placed into the model's stream as pure
-activation --- invisible in the text, spending no tokens, continuously
-dosable --- produces judged surprise that a blind panel cannot
-distinguish from writing the subject down, within the stated margin.
-What it is not: superiority, or evidence that the state reaches value
-no prompt reaches (\S\ref{sec:discussion}).
+(two one-sided tests; $\pm 0.5$ reported as well). On the thirty
+premises the difference is $-0.29$ \ci{-0.73}{+0.17} (two-sided
+$p=0.23$), the 90\% interval \ci{-0.68}{+0.11} lies inside the
+pre-registered band (TOST $p=0.028$; power to show $\pm0.75$
+equivalence at the observed paired SD of $1.27$: $0.87$) and not inside
+$\pm0.5$ ($p=0.18$); removing self-copied windows changes nothing
+($-0.29$, TOST $p=0.029$). Both interventions replicate against the
+carrier on the same thirty premises (pulse $+0.93$ \ci{+0.49}{+1.36},
+$p=0.0002$; text $+1.22$ \ci{+0.80}{+1.65}, $p<0.0001$), and the
+surprise contrast reproduces across backends on the original ten
+premises (MLX 8-bit $-0.24$, PyTorch bf16 $-0.29$). The other two
+dimensions do not tie: the pulse trails text interruption in connection
+($-0.52$ \ci{-0.96}{-0.09}, $p=0.03$) and in coherence ($-0.90$
+\ci{-1.20}{-0.57}, $p<0.0001$) --- the ``identical connection'' of the
+ten-premise battery did not survive the extension. What the claim then
+is: a subject placed into the model's stream as pure activation ---
+invisible in the text, spending no tokens, continuously dosable ---
+produces judged surprise equivalent, within $\pm0.75$ on a 1--5 scale,
+to writing the subject down, at a measurable cost in how connected and
+how coherent the resulting text reads. What it is not: superiority, or
+evidence that the state reaches value no prompt reaches
+(\S\ref{sec:discussion}).
 
 \paragraph{Does the content of the pulse matter?} A pulse could work
 by carrying a subject or merely by perturbing a habituated orbit. Two
@@ -337,9 +403,14 @@ pre-registered shams keep everything about the guarded pulse --- dose
 2.0, schedule, guards, rotation --- and replace the direction: a random
 unit vector per subject, and the subject's own direction with its
 coordinates shuffled (same norm and entry distribution, no meaning in
-the model's basis). \rfour{R4a (a): pulseG20 $-$ sham\_rand and $-$
-sham\_shuf, one-sided, with the shams' own contrast against the
-carrier.} A blind manipulation check completes the picture: for every
+the model's basis). Both shams displace the state \emph{more} than the
+real pulse (Table~\ref{tab:disp}) and yield far less: the real pulse
+beats the random-direction sham by $+0.65$ \ci{+0.13}{+1.18}
+(one-sided $p=0.029$, BH $q=0.07$) and the shuffled-direction sham by
+$+1.13$ \ci{+0.65}{+1.65} ($p=0.001$, $q=0.005$); against the carrier
+the shams themselves move $+0.39$ ($p=0.19$) and $-0.09$ ($p=0.81$).
+The subject's direction, not the perturbation of an orbit, carries the
+effect. A blind manipulation check completes the picture: for every
 judged window that follows an intervention (the same $300k{+}32$
 windows the surprise judge graded), a separate judge call names which
 of the four subjects, if any, the window engages, with the options
@@ -353,10 +424,13 @@ times in 14, $p=0.002$), against zero on the carrier; the weak state
 arms --- unguarded pulse, guarded pulse at dose 1.0, repulsion, rotor
 --- transfer nothing detectable (2--8\%). Content transfer by the
 pulse is therefore real, dose-dependent under guards, and about half
-as frequent as by text; the pulse matches text interruption in judged
-surprise while placing its subject in the text less often, which
-leaves room for a perturbation component that the shams above
-measure.
+as frequent as by text (in the extension battery, on the other
+backend: text 34\%, guarded pulse 14\%, reset interruption 17\%,
+continuous injection at $\alpha=1.0$ 43\% --- the subject arrives, in
+degenerate prose --- and the two shams 3--5\%, the carrier's base
+rate). The pulse matches text interruption in judged surprise while
+placing its subject in the text less often; the shams show that what
+it does place there is what matters.
 
 \begin{table}[t]
 \centering\small
@@ -385,8 +459,14 @@ is the strongest prompt-side intervention of the original study
 \emph{among those that keep the context}; its reset variant --- the
 context replaced by the premise and the new subject at every period ---
 scored as well or better in coherence there. The pre-registered
-extension includes that reset comparator on the ten premises
-\rfour{R4a (c): pulseG20 $-$ reset\_inter, two-sided}.
+extension includes that reset comparator on the ten premises, and it
+is the strongest arm of the battery: $+1.62$ over the carrier in
+surprise with the highest coherence ($5.13$). The guarded pulse trails
+it by $-0.58$ \ci{-0.99}{-0.09} (two-sided $p=0.043$, BH $q=0.07$)
+with the coherence guard failing ($-1.01$). Against the strongest
+prompt-side intervention we know, then, the state channel is not at
+parity; it is equivalent in surprise to the preserved-context
+interruption and short of the reset one.
 
 Two declared secondaries returned honest negatives. A first-version
 rotor (rotating the premise--subject plane, $\theta=0.8$) underperforms
@@ -461,7 +541,8 @@ family; family-generality is open}.
 \toprule
 model & pulse $-$ habit (primary) & pulse $-$ inter & verdict \\
 \midrule
-Qwen3-8B (origin) & $+0.90$ \ci{+0.45}{+1.33}, $p=0.006$ & $-0.24$ \ci{-0.94}{+0.47}, $p=0.53$ & indistinguishable \\
+Qwen3-8B (origin, 10 premises, MLX) & $+0.90$ \ci{+0.45}{+1.33}, $p=0.006$ & $-0.24$ \ci{-0.94}{+0.47}, $p=0.53$ & indistinguishable \\
+Qwen3-8B (30 premises, PyTorch) & $+0.93$ \ci{+0.49}{+1.36}, $p=0.0002$ & $-0.29$ \ci{-0.73}{+0.17}, $p=0.23$ & equivalent ($\pm0.75$) \\
 Qwen3-14B & $+1.08$ \ci{+0.57}{+1.62}, $p=0.002$ & $+0.005$ \ci{-0.44}{+0.43}, $p=0.99$ & tie of means \\
 Qwen3.8-27B (aligned) & $+0.20$ \ci{+0.02}{+0.38}, $p=0.041$ & $+0.14$ \ci{-0.03}{+0.31}, $p=0.16$ & no reading (carrier breaks) \\
 OLMo-2-13B & $-0.09$ \ci{-0.32}{+0.11}, $p=0.78$ & $-0.09$ \ci{-0.37}{+0.11}, $p=0.68$ & null (register basin) \\
@@ -701,12 +782,15 @@ frontier questions here.
 \section{Discussion and limitations}
 \label{sec:discussion}
 
-\paragraph{What indistinguishability means.} A new channel into the
-model's ongoing thought exists, is dosable and reversible, spends no
-context, is invisible in the text, and --- within the pre-registered
-margin \rfour{R4b verdict} --- produces judged surprise a blind panel
-cannot tell from the best prompt-side intervention. What it does not
-mean: superiority. The strong fertility hypothesis --- that
+\paragraph{What equivalence means.} A new channel into the model's
+ongoing thought exists, is dosable and reversible, spends no context,
+is invisible in the text, and --- within $\pm0.75$ on thirty premises
+--- produces judged surprise equivalent to the preserved-context
+interruption it was modeled on. It does so by carrying the subject
+(the shams fail; the manipulation check finds the subject in the text)
+and at a cost the text channel does not pay: lower connection, lower
+coherence, and a clear deficit against the reset interruption. What it
+does not mean: superiority. The strong fertility hypothesis --- that
 prompt-unreachable states yield value prompts cannot --- remains open;
 our continuous-injection null and the state$\approx$prompt tie in the
 easy setting are its first constraining data points.
@@ -731,7 +815,11 @@ convention (50\% depth, premise-norm units) rather than per-model
 tuning; the verified domain is one task family and, as reported, had
 no headroom. The plain-carrier dose--response and the habituated pulse
 differ in carrier as well as schedule; the one-carrier test of
-\S\ref{sec:temporal} is the only clean temporal contrast. The mechanism
+\S\ref{sec:temporal} is the only clean temporal contrast, and at ten
+premises it certifies the asymmetry of failure modes, not the
+head-to-head difference. The equivalence result holds for judged
+surprise only, at the $\pm0.75$ margin only, and against the
+preserved-context interruption only. The mechanism
 (why 32-token pulses raise judged surprise where constant pressure
 degrades) is characterized spectrally, not causally.
 
@@ -767,8 +855,8 @@ spectra (\S\ref{sec:mechanism}) & replay of the 90 H1 cells & 90 & --- & measure
 generality, Qwen3-14B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 30 & 190 & pre-registered \\
 generality, Qwen3.8-27B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 30 & 146 & pre-registered \\
 generality, OLMo-2-13B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 30 & 156 & pre-registered \\
-R4a: shams, one-carrier, reset, dose (\S\ref{sec:temporal}--\ref{sec:parity}) & habituated / PyTorch bf16 & 80 & \rfour{n} & pre-registered \\
-R4b: equivalence on 30 premises (\S\ref{sec:parity}) & habituated / PyTorch bf16 & 90 & \rfour{n} & pre-registered \\
+extension R4a: shams, one-carrier, reset, dose (\S\ref{sec:temporal}--\ref{sec:parity}) & habituated / PyTorch bf16 & 80 & 487 & pre-registered \\
+extension R4b: equivalence on 30 premises (\S\ref{sec:parity}) & habituated / PyTorch bf16 & 90 & 569 & pre-registered \\
 \bottomrule
 \end{tabular}
 \caption{\textbf{Provenance.} Each battery with its carrier and
