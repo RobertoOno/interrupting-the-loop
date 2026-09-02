@@ -338,3 +338,44 @@ for name in ("fig_p4_templaw.png", "fig_p4_ladder.png", "fig_p4_spectra.png", "f
         (ROOT / "paper4/figures").mkdir(parents=True, exist_ok=True)
         _sh.copy2(src, ROOT / "paper4/figures" / name)
 print("paper4 figures synced")
+
+# ---- Paper 4 (review round 4): decay by offset from the intervention end ----
+try:
+    import json as _j4, numpy as _n4
+    _res = _j4.loads((ROOT / "runs/r4/rejudge_gen.json").read_text())
+    _mat = _j4.loads((ROOT / "runs/r4/rejudge_matched.json").read_text())
+    _PREMS = [f"{p}{i}" for p in "nog" for i in range(10)]
+    def _cm(src, cell, dim, since=None, pred=None):
+        v = [r[dim] for r in src if r["cell"] == cell and r.get(dim) is not None
+             and (since is None or r.get("since") == since) and (pred is None or pred(r["step"]))]
+        return _n4.mean(v) if v else None
+    def _series(arm, dim):
+        pts = []
+        if arm == "inter":
+            spec = [(32, _res, dict(since=32)), (160, _res, dict(since=160))]
+        else:
+            spec = [(0, _res, dict(pred=lambda s: s >= 300 and (s - 32) % 300 == 0)), (32, _mat, dict(since=32)),
+                    (160, _mat, dict(since=160)), (182, _res, dict(pred=lambda s: (s - 32) % 300 != 0))]
+        for off, src, kw in spec:
+            v = _n4.array([x for x in (_cm(src, f"{p}_{arm}", dim, **kw) for p in _PREMS) if x is not None])
+            idx = _n4.random.default_rng(0).integers(0, len(v), (5000, len(v)))
+            lo, hi = _n4.percentile(v[idx].mean(1), [2.5, 97.5])
+            pts.append((off, v.mean(), lo, hi))
+        return pts
+    fig, axes = plt.subplots(1, 3, figsize=(8.8, 2.6))
+    for ax, dim in zip(axes, ("surprise", "connection", "coherence")):
+        for arm, col, lab in (("inter", "#333333", "text interruption"), ("pulseG20", BLUE, "guarded pulse 2.0"), ("habit", GRAY, "habituated carrier")):
+            pts = _series(arm, dim)
+            xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
+            ax.errorbar(xs, ys, yerr=[[p[1] - p[2] for p in pts], [p[3] - p[1] for p in pts]], color=col, lw=1.5, marker="o", ms=4, capsize=3, label=lab)
+        if dim == "surprise":
+            ax.annotate("burst end:\nno text counterpart", (0, 4.03), xytext=(6, 10), textcoords="offset points", fontsize=7, color=BLUE)
+        ax.set_title(f"judged {dim}", fontsize=9); ax.set_xlabel("offset after intervention end (tokens)")
+        ax.set_xticks([0, 32, 160, 182]); ax.set_xticklabels(["0", "32", "160", "182"], fontsize=8)
+    axes[0].legend(fontsize=7, loc="lower left", frameon=False)
+    fig.tight_layout(); fig.savefig(OUT / "fig_p4_decay.png", bbox_inches="tight"); plt.close(fig)
+    (ROOT / "paper4/figures").mkdir(parents=True, exist_ok=True)
+    _sh.copy2(OUT / "fig_p4_decay.png", ROOT / "paper4/figures/fig_p4_decay.png")
+    print("fig_p4_decay ok")
+except Exception as e:
+    print("fig_p4_decay SKIPPED:", e)

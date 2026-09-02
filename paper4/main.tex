@@ -19,7 +19,7 @@
 \newcommand{\ci}[2]{[#1,\,#2]}
 \newcommand{\rfour}[1]{\textcolor{red}{[R4: #1]}}
 
-\title{Pulsed, Not Pressed:\\ What State-Space Injection Buys in Open-Ended Generation,\\ and for How Long}
+\title{Pulsed, Not Pressed:\\ What State-Space Injection Buys in Open-Ended Generation,\\ and What It Costs}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
 \date{}
@@ -50,18 +50,21 @@ and produce far less, and a blind manipulation check finds the injected
 subject in the text. (iii)~\emph{What it buys against the written
 subject}: averaged over the cell, the guarded pulse at dose 2.0 is
 equivalent to text interruption in judged surprise within a
-pre-registered $\pm0.75$, without spending a token of the stream; but
-its effect peaks at the burst and fades within about 150 tokens where
-text's persists, so at matched offsets it trails by a third of a point
-and equivalence is not established, and it trails text in connection
-and coherence and the reset variant of interruption. Guards change what
-a dose does rather than admitting a larger one. (iv)~The surprise
+pre-registered $\pm0.75$, without spending a token of the stream; at
+offsets matched to the text's, however, it trails by about a third of a
+point throughout, with the same decay, and equivalence is not
+established --- the cell average is lifted by the window at the burst's
+end, which text is never judged at. It also trails text in connection
+and coherence and the reset variant of interruption; its coherence
+cost is front-loaded and fades within about 150 tokens. Guards change
+what a dose does rather than admitting a larger one. (iv)~The surprise
 pattern replicates in-family at 14B. (v)~Descriptively, the guarded
 pulse carries the flattest state trajectory, though much of the
 carrier's ``silent orbit'' is the rhythm of sentences. The series'
-verdict on inference-time fertility: latent injection buys a short,
-content-specific burst of judged novelty at a coherence cost --- not
-more than the written word. We release the instrument, every cell,
+verdict on inference-time fertility: latent injection buys a
+content-specific gain in judged novelty that trails the written word's
+by a third of a point at every offset, at a coherence cost that fades
+within about 150 tokens --- not more than the written word. We release the instrument, every cell,
 every verdict and the dated pre-registrations.
 \end{abstract}
 
@@ -117,10 +120,11 @@ This paper does that. Its contributions:
 \item \textbf{What the pulse buys against the written word}
   (\S\ref{sec:parity}): averaged over the cell, the guarded pulse at
   dose 2.0 is equivalent to text interruption in judged surprise within
-  $\pm0.75$ on thirty premises; its effect peaks at the burst and fades
-  within about 150 tokens where text's persists, so at matched offsets
-  equivalence is not established; and it trails text in connection and
-  coherence and trails the reset variant of interruption. The surprise
+  $\pm0.75$ on thirty premises; at offsets matched to the text's it
+  trails by about a third of a point throughout, with the same decay,
+  and equivalence is not established; it trails text in connection and
+  coherence and trails the reset variant of interruption, and its
+  coherence cost fades within about 150 tokens. The surprise
   pattern replicates in-family at 14B (\S\ref{sec:generality}).
 \item \textbf{A spectral description} (\S\ref{sec:mechanism}): across
   the whole battery, with the rhythm of sentences as the null, the
@@ -422,15 +426,25 @@ $-0.34$ \ci{-0.89}{+0.20} (two-sided $p=0.21$), with the equivalence
 test just short of its criterion (TOST $\pm0.75$ $p=0.069$; $\pm0.5$
 $p=0.28$), while the pulse's gain over the carrier at those offsets is
 intact ($+0.95$ \ci{+0.41}{+1.49}, $p=0.0006$). The offset curve
-explains the difference (Table~\ref{tab:decay}): the pulse's judged
-surprise peaks in the window that begins at the burst's end ($4.03$)
-and decays within about 150 tokens ($3.70$ at $+32$, $3.40$ at
-$+160$), while text interruption's holds longer ($4.09$ at $+32$,
-$3.67$ at $+160$); the pulse's coherence cost is front-loaded ($3.47$
-at the burst's end, recovering to $4.33$ by $+182$). Averaged over the
+(Table~\ref{tab:decay}, Fig.~\ref{fig:decay}) explains why the two
+analyses disagree. Relative to the carrier at the same position, the
+pulse's gain is $+1.20$ in the window that begins at the burst's end,
+$+0.99$ at $+32$ and $+0.90$ at $+160$; text's is $+1.38$ at $+32$ and
+$+1.17$ at $+160$. The two gains decay at the same rate (about
+$-0.003$ per token end to end); the pulse simply trails by about a
+third of a point at every matched offset. What lifts the cell average
+to equivalence is the burst-end window: two of the six grid windows of
+a state cell begin there, the pulse's best offset, and the text arm has
+no judged counterpart for it (its earliest judged offset is $+32$, and
+the window that would begin at the end of the injected sentence is
+never graded). What is short-lived is the cost, not the gain: the
+pulse's coherence deficit against the carrier is $-1.40$ at the burst's
+end, $-1.05$ at $+32$, $-0.82$ at $+160$ and $-0.64$ at $+182$, while
+text's coherence never falls below the carrier's. Averaged over the
 cell (the pre-registered primary), the two arms are equivalent within
 $\pm0.75$; at matched offsets the pulse trails by a third of a point
-and equivalence is not established. Both statements are true; the paper claims the weaker one. The other two
+and equivalence is not established. Both statements are true; the
+paper claims the weaker one. The other two
 dimensions do not tie: the pulse trails text interruption in connection
 ($-0.52$ \ci{-0.96}{-0.09}, $p=0.03$) and in coherence ($-0.90$
 \ci{-1.20}{-0.57}, $p<0.0001$) --- the ``identical connection'' of the
@@ -445,24 +459,37 @@ evidence that the state reaches value no prompt reaches
 
 \begin{table}[t]
 \centering\small
-\begin{tabular}{lcccc|cc}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccc|cc|cccc}
 \toprule
- & \multicolumn{4}{c|}{judged surprise} & \multicolumn{2}{c}{coherence} \\
-arm & burst end & $+32$ & $+160$ & $+182$ & $+32$ & $+182$ \\
+ & \multicolumn{4}{c|}{judged surprise} & \multicolumn{2}{c|}{connection} & \multicolumn{4}{c}{coherence} \\
+arm & burst end & $+32$ & $+160$ & $+182$ & $+32$ & $+160$ & burst end & $+32$ & $+160$ & $+182$ \\
 \midrule
-text interruption & --- & $4.09$ & $3.67$ & --- & $4.97$ & --- \\
-guarded pulse, $\alpha{=}2.0$ & $4.03$ & $3.70$ & $3.40$ & $3.42$ & $3.57$ & $4.33$ \\
-habituated carrier & $2.83$ & $2.71$ & $2.50$ & $2.62$ & $4.62$ & $4.97$ \\
+text interruption & --- & $4.09$ & $3.67$ & --- & $2.71$ & $2.91$ & --- & $4.97$ & $4.89$ & --- \\
+guarded pulse, $\alpha{=}2.0$ & $4.03$ & $3.70$ & $3.40$ & $3.42$ & $2.24$ & $2.23$ & $3.47$ & $3.57$ & $4.02$ & $4.33$ \\
+habituated carrier & $2.83$ & $2.71$ & $2.50$ & $2.62$ & $2.04$ & $1.94$ & $4.87$ & $4.62$ & $4.84$ & $4.97$ \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \caption{\textbf{Decay by offset from the intervention.} Mean judged
 scores over thirty premises at windows beginning at the stated offset
 after the end of the injected sentence (text) or of the burst (pulse;
 the carrier at the same positions). The $+32$/$+160$ state windows are
 the matched re-judging; ``burst end'' and $+182$ come from the original
-grid.}
+grid. Text is never judged at the end of its injected sentence.}
 \label{tab:decay}
 \end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\linewidth]{fig_p4_decay.png}
+\caption{\textbf{Decay by offset.} The three judged dimensions against
+the offset after the intervention end, thirty premises, bootstrap 95\%
+CIs of the mean over premises. Surprise: a near-constant gap between
+the pulse and text at matched offsets, both decaying alike; the
+burst-end point has no text counterpart. Coherence: the pulse's cost
+is front-loaded and recovers.}
+\label{fig:decay}
+\end{figure}
 
 \paragraph{Does the content of the pulse matter?} A pulse could work
 by carrying a subject or merely by perturbing a habituated orbit. Two
@@ -853,7 +880,7 @@ such models the question this paper asks of the residual stream ---
 what an intervention there buys relative to the written word --- stops
 being a question about steering and becomes one about the model's
 primary channel of thought; and the property we measure, that a state
-injection is largely invisible to a text-level monitor
+injection is harder to read off the text than a written one
 (\S\ref{sec:parity}), acquires a monitoring dimension.
 
 \paragraph{Mechanistic intervention.} Causal tracing and model editing
@@ -887,25 +914,28 @@ frontier questions here.
 \paragraph{What the state channel buys.} A new channel into the
 model's ongoing thought exists, is dosable and reversible, spends no
 context, and is invisible in the text. What it buys, measured against
-the written subject it was modeled on: a burst of judged surprise that
-matches the text's at its peak and fades within about 150 tokens,
-equivalent within $\pm0.75$ on the cell average and short of
-equivalence at matched offsets; carried by the subject's meaning (the
-shams fail; the manipulation check finds the subject in the text); and
-paid for in connection and coherence, with a clear deficit against the
-reset interruption. This is the state chapter of a four-substrate
+the written subject it was modeled on: a gain in judged surprise that
+trails the text's by about a third of a point at every matched offset
+and decays at the same rate (equivalent within $\pm0.75$ on the cell
+average, which the burst-end window lifts; short of equivalence at
+matched offsets); carried by the subject's meaning (the shams fail; the
+manipulation check finds the subject in the text); and paid for in
+connection and in a coherence cost that is front-loaded and fades
+within about 150 tokens, with a clear deficit against the reset
+interruption. This is the state chapter of a four-substrate
 series --- token, context, weights, state --- and its verdict on the
 inference-time fertility hypothesis is the one the abstract states:
-latent injection buys a short, content-specific burst of judged
-novelty at a coherence cost, not more than the written word. The strong
-hypothesis --- that prompt-unreachable states yield value prompts
-cannot --- remains open; the continuous-injection null and the
-peak-and-decay of the pulse are its first constraining data points.
-One implication reaches beyond creativity: an intervention in the
-state is largely invisible to a text-level monitor --- the injected
-subject was named in 14--23\% of judged windows when injected as
-state, against 34--49\% when written --- which matters for models that
-move their reasoning into the latent channel.
+latent injection buys a content-specific gain in judged novelty that
+trails the written word's at every offset, at a coherence cost that
+fades, not more than the written word. The strong hypothesis --- that
+prompt-unreachable states yield value prompts cannot --- remains open;
+the continuous-injection null and the constant deficit of the pulse are
+its first constraining data points. One implication reaches beyond
+creativity: an intervention in the state is harder to read off the
+text than a written one --- the injected subject was named in 14--23\%
+of judged windows when injected as state, against 34--49\% when
+written --- which matters for models that move their reasoning into
+the latent channel.
 
 \paragraph{Experience versus value.} We had hoped to report a
 dissociation --- state operators changing what a judge experiences
@@ -942,7 +972,8 @@ dose and only a trend at equal integrated dose. The equivalence result holds for
 surprise only, at the $\pm0.75$ margin only, against the
 preserved-context interruption only, and for the cell-averaged
 windows: at offsets matched to the text arm's it is not established
-($p=0.07$), because the pulse's effect decays faster. The mechanism
+($p=0.07$), because two of the six grid windows of a state cell fall at
+the pulse's best offset, which the text arm is never judged at. The mechanism
 (why 32-token pulses raise judged surprise where constant pressure
 degrades) is characterized spectrally, not causally.
 
