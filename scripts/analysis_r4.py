@@ -265,7 +265,8 @@ if manip.exists():
     L.append("| arm | windows | hit rate | 'none of these' |")
     L.append("|---|---|---|---|")
     for c, v in sorted(m.items()):
-        L.append(f"| {c} | {v['n']} | {v['hit']:.2f} | {v['none']:.2f} |")
+        hit = f"{v['hit']:.2f}" if v.get("hit") is not None else "— (no subject)"
+        L.append(f"| {c} | {v['n']} | {hit} | {v['none']:.2f} |")
 
 out = ROOT / "docs/APPENDIX_R4.md"
 out.write_text("\n".join(L) + "\n")
