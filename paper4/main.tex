@@ -844,6 +844,18 @@ architecture --- rotary position embeddings \citep{su2024roformer}
 rotate query--key pairs by position --- but ours act on content
 directions, not positions.
 
+\paragraph{Latent computation.} Recurrent-depth and looped transformers
+move computation from tokens into the residual stream: a learned router
+decides how many times a token passes through shared blocks
+\citep{bae2025mor}, or a recurrent block is unrolled at test time to
+scale reasoning without emitting text \citep{geiping2025recurrent}. In
+such models the question this paper asks of the residual stream ---
+what an intervention there buys relative to the written word --- stops
+being a question about steering and becomes one about the model's
+primary channel of thought; and the property we measure, that a state
+injection is largely invisible to a text-level monitor
+(\S\ref{sec:parity}), acquires a monitoring dimension.
+
 \paragraph{Mechanistic intervention.} Causal tracing and model editing
 record and modify internal routes to \emph{explain} behavior
 \citep{meng2022rome}; our route-blocking screen inverts the direction
