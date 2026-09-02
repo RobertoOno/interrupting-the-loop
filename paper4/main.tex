@@ -49,9 +49,12 @@ coherence), while at equal integrated dose the difference is not
 significant. (ii)~Guards change what a dose does rather than
 admitting a larger one; at guarded dose 2.0 the pulse is equivalent to
 text interruption in judged surprise within a pre-registered margin of
-$\pm0.75$ on thirty premises, without spending a token of the stream ---
-while trailing it in connection and coherence, and trailing the reset
-variant of interruption. (iii)~Sham pulses in random or shuffled
+$\pm0.75$ on thirty premises, averaged over the cell and without
+spending a token of the stream --- but its effect peaks at the burst
+and decays faster than text's, so at matched offsets after the
+intervention it trails by a third of a point and equivalence is not
+established; it also trails text in connection and coherence, and
+trails the reset variant of interruption. (iii)~Sham pulses in random or shuffled
 directions displace the state more and produce far less, and a blind
 manipulation check finds the injected subject in the text: the
 direction's content carries the effect. (iv)~The surprise pattern
@@ -109,9 +112,10 @@ This paper does that. Its contributions:
   significant.
 \item \textbf{Equivalence in surprise, at a cost} (\S\ref{sec:parity}):
   the guarded pulse at dose 2.0 is equivalent to text interruption in
-  judged surprise within $\pm0.75$ on thirty premises, trails it in
-  connection and coherence, and trails the reset variant of
-  interruption; sham pulses show the direction's content, not the
+  judged surprise within $\pm0.75$ on thirty premises averaged over the
+  cell, but decays faster after the intervention (at matched offsets
+  equivalence is not established), and trails it in connection and
+  coherence and the reset variant of interruption; sham pulses show the direction's content, not the
   perturbation, carries the effect. The surprise pattern replicates
   in-family at 14B (\S\ref{sec:generality}).
 \item \textbf{A spectral description} (\S\ref{sec:mechanism}): across
@@ -203,8 +207,10 @@ grid offset by 32 (positions $150g{+}32$), six windows per cell evenly
 spread --- so in state arms two of the six begin right after a burst
 ($+32$) and four sit 182 tokens after one. No window contains injected
 tokens or overlaps a burst; the judge also sees the 600 preceding tokens
-as context. The primary contrasts use all judged windows; \S\ref{sec:parity}
-reports the sensitivity to restricting both arms to the $+32$ windows.
+as context. The primary contrasts use all judged windows; because the two layouts
+differ, \S\ref{sec:parity} also re-judges the state arm and the carrier
+at exactly the text arm's offsets ($+32$ and $+160$ after each burst
+end).
 The judge is Claude Opus 5 (Amazon Bedrock), $k{=}5$ independent calls
 per window, per-dimension median, on 0--10 scales of surprise,
 connection and coherence; its test--retest behavior was measured in the
@@ -402,10 +408,26 @@ $\pm0.5$ ($p=0.18$); removing self-copied windows changes nothing
 carrier on the same thirty premises (pulse $+0.93$ \ci{+0.49}{+1.36},
 $p=0.0002$; text $+1.22$ \ci{+0.80}{+1.65}, $p<0.0001$), and the
 surprise contrast reproduces across backends on the original ten
-premises (MLX 8-bit $-0.24$, PyTorch bf16 $-0.29$). Restricting both
-arms to the windows that begin 32 tokens after an intervention (two per
-state cell, four per interrupted cell) moves the difference to $-0.06$
-\ci{-0.63}{+0.52} (TOST $\pm0.75$ $p=0.010$; $\pm0.5$ $p=0.064$). The other two
+premises (MLX 8-bit $-0.24$, PyTorch bf16 $-0.29$). The judged
+windows of the two arms do not sit at the same distance from the
+intervention, however (\S\ref{sec:instrument}), and the comparison is
+sensitive to that. Re-judging the state arm and the carrier at exactly
+the text arm's offsets --- 32 and 160 tokens after the end of each
+burst, 420 new windows, the same judge --- gives a larger deficit:
+$-0.34$ \ci{-0.89}{+0.20} (two-sided $p=0.21$), with the equivalence
+test just short of its criterion (TOST $\pm0.75$ $p=0.069$; $\pm0.5$
+$p=0.28$), while the pulse's gain over the carrier at those offsets is
+intact ($+0.95$ \ci{+0.41}{+1.49}, $p=0.0006$). The offset curve
+explains the difference (Table~\ref{tab:decay}): the pulse's judged
+surprise peaks in the window that begins at the burst's end ($4.03$)
+and decays within about 150 tokens ($3.70$ at $+32$, $3.40$ at
+$+160$), while text interruption's holds longer ($4.09$ at $+32$,
+$3.67$ at $+160$); the pulse's coherence cost is front-loaded ($3.47$
+at the burst's end, recovering to $4.33$ by $+182$). Averaged over the
+cell (the pre-registered primary), the two arms are equivalent within
+$\pm0.75$; at matched offsets the pulse trails by a third of a point
+and equivalence is not established. Both statements are true, and the
+title should be read with the second in mind. The other two
 dimensions do not tie: the pulse trails text interruption in connection
 ($-0.52$ \ci{-0.96}{-0.09}, $p=0.03$) and in coherence ($-0.90$
 \ci{-1.20}{-0.57}, $p<0.0001$) --- the ``identical connection'' of the
@@ -417,6 +439,27 @@ to writing the subject down, at a measurable cost in how connected and
 how coherent the resulting text reads. What it is not: superiority, or
 evidence that the state reaches value no prompt reaches
 (\S\ref{sec:discussion}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lcccc|cc}
+\toprule
+ & \multicolumn{4}{c|}{judged surprise} & \multicolumn{2}{c}{coherence} \\
+arm & burst end & $+32$ & $+160$ & $+182$ & $+32$ & $+182$ \\
+\midrule
+text interruption & --- & $4.09$ & $3.67$ & --- & $4.97$ & --- \\
+guarded pulse, $\alpha{=}2.0$ & $4.03$ & $3.70$ & $3.40$ & $3.42$ & $3.57$ & $4.33$ \\
+habituated carrier & $2.83$ & $2.71$ & $2.50$ & $2.62$ & $4.62$ & $4.97$ \\
+\bottomrule
+\end{tabular}
+\caption{\textbf{Decay by offset from the intervention.} Mean judged
+scores over thirty premises at windows beginning at the stated offset
+after the end of the injected sentence (text) or of the burst (pulse;
+the carrier at the same positions). The $+32$/$+160$ state windows are
+the matched re-judging; ``burst end'' and $+182$ come from the original
+grid.}
+\label{tab:decay}
+\end{table}
 
 \paragraph{Does the content of the pulse matter?} A pulse could work
 by carrying a subject or merely by perturbing a habituated orbit. Two
@@ -828,9 +871,10 @@ frontier questions here.
 
 \paragraph{What equivalence means.} A new channel into the model's
 ongoing thought exists, is dosable and reversible, spends no context,
-is invisible in the text, and --- within $\pm0.75$ on thirty premises
---- produces judged surprise equivalent to the preserved-context
-interruption it was modeled on. It does so by carrying the subject
+is invisible in the text, and --- within $\pm0.75$ on thirty premises,
+averaged over the cell --- produces judged surprise equivalent to the
+preserved-context interruption it was modeled on, with an effect that
+peaks at the burst and fades faster than the written subject's. It does so by carrying the subject
 (the shams fail; the manipulation check finds the subject in the text)
 and at a cost the text channel does not pay: lower connection, lower
 coherence, and a clear deficit against the reset interruption. What it
@@ -871,8 +915,10 @@ differ in carrier as well as schedule; the one-carrier test of
 \S\ref{sec:temporal} is the only clean temporal contrast; at thirty
 premises it certifies the head-to-head difference at equal per-token
 dose and only a trend at equal integrated dose. The equivalence result holds for judged
-surprise only, at the $\pm0.75$ margin only, and against the
-preserved-context interruption only. The mechanism
+surprise only, at the $\pm0.75$ margin only, against the
+preserved-context interruption only, and for the cell-averaged
+windows: at offsets matched to the text arm's it is not established
+($p=0.07$), because the pulse's effect decays faster. The mechanism
 (why 32-token pulses raise judged surprise where constant pressure
 degrades) is characterized spectrally, not causally.
 
@@ -912,6 +958,7 @@ generality, OLMo-2-13B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 30
 extension R4a: shams, one-carrier, reset, dose (\S\ref{sec:temporal}--\ref{sec:parity}) & habituated / PyTorch bf16 & 80 & 487 & pre-registered \\
 extension R4b: equivalence on 30 premises (\S\ref{sec:parity}) & habituated / PyTorch bf16 & 90 & 569 & pre-registered \\
 extension R5: continuous arms on 30 premises (\S\ref{sec:temporal}) & habituated / PyTorch bf16 & 60 & 357 & pre-registered \\
+matched-offset re-judging of pulse and carrier (\S\ref{sec:parity}) & same cells, re-judged & 60 & 420 & pre-registered (secondary) \\
 \bottomrule
 \end{tabular}}
 \caption{\textbf{Provenance.} Each battery with its carrier and

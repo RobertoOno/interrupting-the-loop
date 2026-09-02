@@ -71,6 +71,41 @@ pulseG20 − inter on the same 10 premises: MLX -0.243, torch -0.286 (n = 10).
 | cont_a0107 − habit | +0.256 | [-0.086, +0.597] | 0.1428 | 30 | -0.25 (ok) |
 | pulse_u10 − habit | +0.406 | [+0.040, +0.771] | 0.0142 | 30 | -0.67 (ok) |
 
+## Matched-layout re-judging (round 3, N2): pulseG20 and habit judged at +32/+160 after each burst end
+
+Text interruption keeps its already-judged +32/+160 windows; the state arm and the carrier are re-judged at the same offsets after the end of each burst (pseudo-injections at 300k, length 32). Unit = premise, 30 premises.
+
+- pulseG20 − inter, surprise: Δ -0.344, 95% t-CI [-0.889, +0.201], two-sided p = 0.2076, n = 30; TOST ±0.75 p = 0.0690 (not shown), ±0.5 p = 0.2809 (not shown)
+- pulseG20 − inter, connection: Δ -0.563, 95% t-CI [-1.086, -0.041], two-sided p = 0.0359, n = 30
+- pulseG20 − inter, coherence: Δ -1.176, 95% t-CI [-1.546, -0.806], two-sided p = 0.0000, n = 30
+- pulseG20 − habit (matched), surprise: Δ +0.952, 95% t-CI [+0.412, +1.493], p = 0.0006
+- pulseG20 − habit (matched), connection: Δ +0.238, 95% t-CI [-0.240, +0.717], p = 0.3253
+- pulseG20 − habit (matched), coherence: Δ -0.957, 95% t-CI [-1.335, -0.579], p = 0.0000
+
+### surprise by offset from the intervention end (mean over premises)
+
+| arm | +0 (burst end, grid) | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | — | 4.09 | 3.67 | — |
+| pulseG20 | 4.03 | 3.70 | 3.40 | 3.42 |
+| habit | 2.83 | 2.71 | 2.50 | 2.62 |
+
+### connection by offset from the intervention end (mean over premises)
+
+| arm | +0 (burst end, grid) | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | — | 2.71 | 2.91 | — |
+| pulseG20 | 2.34 | 2.24 | 2.23 | 2.25 |
+| habit | 2.23 | 2.04 | 1.94 | 2.06 |
+
+### coherence by offset from the intervention end (mean over premises)
+
+| arm | +0 (burst end, grid) | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | — | 4.97 | 4.89 | — |
+| pulseG20 | 3.47 | 3.57 | 4.02 | 4.33 |
+| habit | 4.87 | 4.62 | 4.84 | 4.97 |
+
 ## Effective displacement after guards (M7) — mean over fired tokens, per arm
 
 | arm | α | guards | fired/cell | cos(h_pre, h_post) | ‖Δh‖/‖h‖ |
