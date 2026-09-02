@@ -236,6 +236,31 @@ for arm in ("habit", "inter", "reset_inter", "pulseG20", "sham_rand", "sham_shuf
              f"{armmean(arm, 'connection', NPREM)[0]:.2f} | {armmean(arm, 'coherence', NPREM)[0]:.2f} | "
              f"{np.mean(nll) if nll else float('nan'):.3f} | {np.mean(d4) if d4 else float('nan'):.3f} |")
 
+# ---------------- R5 (round 2): one-carrier temporal contrast on 30 premises ----------------
+def tci(d, conf=0.95):
+    from scipy import stats
+    n = len(d); m = d.mean(); se = d.std(ddof=1) / math.sqrt(max(1, n))
+    tc = stats.t.ppf(0.5 + conf / 2, n - 1) if n > 1 else float("nan")
+    return m, m - tc * se, m + tc * se
+
+d5 = paired("pulse_u10", "cont_a1", "surprise")
+if len(d5) > 10:
+    L.append("\n## R5 (round 2, pre-registered): pulse versus continuous on one carrier, 30 premises\n")
+    L.append("| contrast | Δ surprise | CI95 (t) | p (one-sided > 0, MC sign-flip) | n | coherence guard (median Δ) |")
+    L.append("|---|---|---|---|---|---|")
+    for name, a_, b_, alt in (("(1) pulse_u10 − cont_a1", "pulse_u10", "cont_a1", "greater"),
+                              ("(2) pulse_u10 − cont_a0107", "pulse_u10", "cont_a0107", "greater"),
+                              ("cont_a1 − habit", "cont_a1", "habit", "two"),
+                              ("cont_a0107 − habit", "cont_a0107", "habit", "two"),
+                              ("pulse_u10 − habit", "pulse_u10", "habit", "greater")):
+        dd = paired(a_, b_, "surprise")
+        if not len(dd):
+            continue
+        o, _, _, pp = signflip(dd, alt)
+        m, lo_, hi_ = tci(dd)
+        g = paired(a_, b_, "coherence")
+        L.append(f"| {name} | {o:+.3f} | [{lo_:+.3f}, {hi_:+.3f}] | {pp:.4f} | {len(dd)} | {float(np.median(g)):+.2f} ({'ok' if np.median(g) > -1.0 else 'FAIL'}) |")
+
 # ---------------- M7: effective displacement ----------------
 L.append("\n## Effective displacement after guards (M7) — mean over fired tokens, per arm\n")
 L.append("| arm | α | guards | fired/cell | cos(h_pre, h_post) | ‖Δh‖/‖h‖ |")

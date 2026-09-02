@@ -48,6 +48,13 @@ cell() {  # pool index arm
 if [ "$MODE" = "smoke" ]; then
   NTOK=400; R=runs/r4_smoke
   for arm in sham_rand cont_a0107 reset_inter pulseG20; do cell n 0 $arm; done
+elif [ "$MODE" = "r5" ]; then
+  # review round 2, R5: the one-carrier temporal contrast on all 30 premises
+  for pool in o g; do
+    for i in 0 1 2 3 4 5 6 7 8 9; do
+      for arm in cont_a1 cont_a0107 pulse_u10; do cell $pool $i $arm; done
+    done
+  done
 else
   for pool in n o g; do
     for i in 0 1 2 3 4 5 6 7 8 9; do
