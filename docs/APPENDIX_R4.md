@@ -61,6 +61,16 @@ pulseG20 − inter on the same 10 premises: MLX -0.243, torch -0.286 (n = 10).
 | cont_a1 | 2.55 (n=10) | +0.073 [-0.708, +0.857] | 0.9062 | 1.50 | 2.66 | 4.368 | 0.991 |
 | cont_a0107 | 2.60 (n=10) | +0.125 [-0.384, +0.625] | 0.6680 | 1.95 | 4.42 | 2.315 | 0.912 |
 
+## R5 (round 2, pre-registered): pulse versus continuous on one carrier, 30 premises
+
+| contrast | Δ surprise | CI95 (t) | p (one-sided > 0, MC sign-flip) | n | coherence guard (median Δ) |
+|---|---|---|---|---|---|
+| (1) pulse_u10 − cont_a1 | +0.481 | [+0.012, +0.950] | 0.0226 | 30 | +1.70 (ok) |
+| (2) pulse_u10 − cont_a0107 | +0.150 | [-0.193, +0.493] | 0.1979 | 30 | -0.08 (ok) |
+| cont_a1 − habit | -0.076 | [-0.504, +0.353] | 0.7219 | 30 | -2.42 (FAIL) |
+| cont_a0107 − habit | +0.256 | [-0.086, +0.597] | 0.1428 | 30 | -0.25 (ok) |
+| pulse_u10 − habit | +0.406 | [+0.040, +0.771] | 0.0142 | 30 | -0.67 (ok) |
+
 ## Effective displacement after guards (M7) — mean over fired tokens, per arm
 
 | arm | α | guards | fired/cell | cos(h_pre, h_post) | ‖Δh‖/‖h‖ |
@@ -78,12 +88,12 @@ pulseG20 − inter on the same 10 premises: MLX -0.243, torch -0.286 (n = 10).
 
 | arm | windows | mean k | premises |
 |---|---|---|---|
-| cont_a0107 | 60 | 4.98 | 10 |
-| cont_a1 | 59 | 4.78 | 10 |
+| cont_a0107 | 180 | 4.99 | 30 |
+| cont_a1 | 177 | 4.78 | 30 |
 | habit | 180 | 4.99 | 30 |
 | inter | 209 | 4.80 | 30 |
 | pulseG20 | 180 | 4.79 | 30 |
-| pulse_u10 | 60 | 4.95 | 10 |
+| pulse_u10 | 179 | 4.95 | 30 |
 | pulse_u15 | 60 | 5.00 | 10 |
 | pulse_u20 | 60 | 4.78 | 10 |
 | reset_inter | 70 | 4.86 | 10 |
@@ -94,13 +104,13 @@ pulseG20 − inter on the same 10 premises: MLX -0.243, torch -0.286 (n = 10).
 
 | arm | windows | hit rate | 'none of these' |
 |---|---|---|---|
-| cont_a0107 | 40 | 0.12 | 0.75 |
-| cont_a1 | 37 | 0.43 | 0.38 |
+| cont_a0107 | 120 | 0.11 | 0.73 |
+| cont_a1 | 115 | 0.44 | 0.35 |
 | habit | 120 | — (no subject) | 0.84 |
 | inter | 120 | 0.34 | 0.47 |
-| pulseG20 | 116 | 0.14 | 0.57 |
-| pulse_u10 | 39 | 0.15 | 0.64 |
-| pulse_u15 | 39 | 0.08 | 0.72 |
+| pulseG20 | 119 | 0.14 | 0.55 |
+| pulse_u10 | 117 | 0.10 | 0.69 |
+| pulse_u15 | 40 | 0.10 | 0.70 |
 | pulse_u20 | 35 | 0.14 | 0.57 |
 | reset_inter | 40 | 0.17 | 0.72 |
 | sham_rand | 40 | 0.05 | 0.80 |

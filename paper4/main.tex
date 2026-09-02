@@ -42,9 +42,10 @@ premises, every confirmatory analysis pre-registered. Four pre-registered
 findings and one descriptive. (i)~Continuous injection has no fertile
 band --- more dose, less judged surprise, on both carriers tested ---
 while the same directions pulsed for 32 tokens every 300 on a
-habituated carrier raise it and climb a dose ladder where the continuous
-regime degenerates or is inert (the head-to-head at equal dose is a
-trend at ten premises). (ii)~Guards change what a dose does rather than
+habituated carrier raise it; on one carrier with the same directions,
+thirty premises, pulsing beats pressing at equal per-token dose (the
+pressed arm collapses coherence), while at equal integrated dose the
+diluted press is inert and the difference is a trend. (ii)~Guards change what a dose does rather than
 admitting a larger one; at guarded dose 2.0 the pulse is equivalent to
 text interruption in judged surprise within a pre-registered margin of
 $\pm0.75$ on thirty premises, without spending a token of the stream ---
@@ -102,10 +103,10 @@ This paper does that. Its contributions:
   injection has no fertile band --- more dose, less judged surprise, on
   the plain carrier and on the habituated one --- while the same
   vectors, pulsed, climb a dose ladder; on one carrier with identical
-  rotating directions the head-to-head pulse-minus-continuous contrast
-  is positive but not significant at ten premises, and the two regimes
-  fail in opposite ways (pressing degenerates; diluted pressing is
-  inert).
+  rotating directions, thirty premises, pulsing beats pressing at equal
+  per-token dose (the pressed arm collapses coherence), while at equal
+  integrated dose the diluted press is inert and the difference is a
+  trend.
 \item \textbf{Equivalence in surprise, at a cost} (\S\ref{sec:parity}):
   the guarded pulse at dose 2.0 is equivalent to text interruption in
   judged surprise within $\pm0.75$ on thirty premises, trails it in
@@ -255,10 +256,11 @@ four new-subject texts used by text interruption, on the
 passed). Text interruption replicates in the same battery ($+1.76$,
 $p=0.0029$), anchoring the instrument. One caution from the extension
 batteries (\S\ref{sec:parity}): on the PyTorch backend the same
-unguarded pulse gives $+0.40$ ($p=0.13$), while the guarded pulse at
-dose 2.0 gives $+1.04$ ($p=0.012$) and $+0.93$ on thirty premises
-($p=0.0002$). The robust form of the finding is the guarded pulse; the
-unguarded pulse at dose 1.0 is fragile across backends.
+unguarded pulse gives $+0.40$ ($p=0.13$ at ten premises; $+0.41$,
+$p=0.014$ at thirty), while the guarded pulse at dose 2.0 gives $+1.04$
+($p=0.012$) and $+0.93$ on thirty premises ($p=0.0002$). The robust,
+large form of the finding is the guarded pulse; the unguarded pulse at
+dose 1.0 is a smaller effect whose size depends on the backend.
 
 \paragraph{The confound, and the one-carrier test.} The two results
 above differ in more than schedule: the continuous battery ran on the
@@ -270,22 +272,27 @@ that settles it puts both regimes on the habituated carrier with the
 of 32 in 300 at $\alpha=1.0$ against continuous injection at
 $\alpha=1.0$ (the per-token dose of the pulse) and at $\alpha=0.107$
 (its integrated dose), paired over the ten premises, one-sided
-(pulse $>$ continuous). The result is a trend, not a confirmation:
-pulse minus continuous $+0.33$ \ci{-0.63}{+1.30} ($p=0.27$) at equal
-per-token dose and $+0.28$ \ci{-0.12}{+0.70} ($p=0.13$) at equal
-integrated dose. What the test does establish is the asymmetry of the
-two regimes on the same carrier. Continuous injection at $\alpha=1.0$
-leaves surprise at the carrier's level ($+0.07$ \ci{-0.71}{+0.86})
-while collapsing coherence ($2.66$ against the carrier's $4.69$; clean
-NLL $4.4$) --- and, by the manipulation check below, it does carry the
-subject into the text (43\% of windows), as degenerate prose about it.
-At $\alpha=0.107$ it is inert ($+0.13$ \ci{-0.38}{+0.63}, coherence
-intact). The pulsed regime, meanwhile, climbs its unguarded dose
-ladder: $+0.40$ ($p=0.13$), $+0.48$ ($p=0.035$), $+0.86$ ($p=0.043$)
-at $\alpha = 1.0, 1.5, 2.0$, and $+1.04$ ($p=0.012$) guarded at 2.0.
-Pressing degenerates, diluted pressing does nothing, pulsing climbs;
-the head-to-head at equal dose is a direction we could not certify at
-ten premises. The plain-carrier dose--response above remains a
+(pulse $>$ continuous). On the ten confirmatory premises the contrasts were a trend ($+0.33$
+\ci{-0.63}{+1.30}, $p=0.27$, at equal per-token dose; $+0.28$
+\ci{-0.12}{+0.70}, $p=0.13$, at equal integrated dose). The
+pre-registered extension to thirty premises (same backend, same
+directions) settles the first: at equal per-token dose the pulse beats
+continuous injection by $+0.48$ (95\% $t$ interval \ci{+0.01}{+0.95},
+one-sided $p=0.023$), with the coherence guard passing by a wide margin
+($+1.70$) --- because the continuous arm collapses coherence ($-2.42$
+against the carrier) while leaving surprise where it was ($-0.08$
+\ci{-0.50}{+0.35}), and, by the manipulation check, carries the subject
+into the text (44\% of windows) as degenerate prose about it. At equal
+integrated dose the diluted continuous arm is neither harmful nor
+useful ($+0.26$ \ci{-0.09}{+0.60} against the carrier, coherence
+intact), and the pulse's advantage over it is not significant ($+0.15$
+\ci{-0.19}{+0.49}, $p=0.20$). The unguarded pulse itself is a modest,
+significant effect at thirty premises ($+0.41$ \ci{+0.04}{+0.77},
+$p=0.014$). Pressing at the pulse's dose degenerates; pressing at its
+integrated dose does nothing; pulsing raises judged surprise with
+coherence intact. That is the temporal claim of the paper, and its
+limit: pulsed beats pressed at equal per-token dose, not at equal
+integrated dose. The plain-carrier dose--response above remains a
 boundary result.
 
 \begin{figure}[t]
@@ -856,9 +863,9 @@ backend only. The judge was the same model on both, called on different
 dates. Bit-identical operators do not imply comparable generation across
 weight precisions. The plain-carrier dose--response and the habituated pulse
 differ in carrier as well as schedule; the one-carrier test of
-\S\ref{sec:temporal} is the only clean temporal contrast, and at ten
-premises it certifies the asymmetry of failure modes, not the
-head-to-head difference. The equivalence result holds for judged
+\S\ref{sec:temporal} is the only clean temporal contrast; at thirty
+premises it certifies the head-to-head difference at equal per-token
+dose and only a trend at equal integrated dose. The equivalence result holds for judged
 surprise only, at the $\pm0.75$ margin only, and against the
 preserved-context interruption only. The mechanism
 (why 32-token pulses raise judged surprise where constant pressure
@@ -899,6 +906,7 @@ generality, Qwen3.8-27B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 3
 generality, OLMo-2-13B (\S\ref{sec:generality}) & habituated / PyTorch bf16 & 30 & 156 & pre-registered \\
 extension R4a: shams, one-carrier, reset, dose (\S\ref{sec:temporal}--\ref{sec:parity}) & habituated / PyTorch bf16 & 80 & 487 & pre-registered \\
 extension R4b: equivalence on 30 premises (\S\ref{sec:parity}) & habituated / PyTorch bf16 & 90 & 569 & pre-registered \\
+extension R5: continuous arms on 30 premises (\S\ref{sec:temporal}) & habituated / PyTorch bf16 & 60 & 357 & pre-registered \\
 \bottomrule
 \end{tabular}}
 \caption{\textbf{Provenance.} Each battery with its carrier and
