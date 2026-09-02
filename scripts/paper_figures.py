@@ -247,6 +247,12 @@ try:
             ax.plot([0, 1], [h, p_], color=GRAY, lw=0.7, alpha=0.6)
             ax.scatter([0, 1], [h, p_], s=10, color=[GRAY, BLUE], zorder=3)
     hm = _np2.mean([SP[f"p{i}_habit"] for i in range(10)]); pm = _np2.mean([SP[f"p{i}_pulse"] for i in range(10)])
+    # bootstrap CI (over premises) of each mean, as error bars (review round 2, minor 8)
+    _hv = _np2.array([SP[f"p{i}_habit"] for i in range(10)]); _pv = _np2.array([SP[f"p{i}_pulse"] for i in range(10)])
+    _idx = rng.integers(0, 10, (10000, 10))
+    for x, v in ((0, _hv), (1, _pv)):
+        lo_, hi_ = _np2.percentile(v[_idx].mean(1), [2.5, 97.5])
+        ax.errorbar([x], [v.mean()], yerr=[[v.mean() - lo_], [hi_ - v.mean()]], color=(GRAY if x == 0 else BLUE), capsize=4, lw=1.4, zorder=5)
     ax.plot([0, 1], [hm, pm], color=BLUE, lw=2.2, marker="_", ms=14, zorder=4)
     ax.set_xticks([0, 1]); ax.set_xticklabels(["habit", "pulsed"], fontsize=8); ax.set_xlim(-0.4, 1.4)
     ax.annotate(f"{hm:.2f}", (0, hm), xytext=(-18, 0), textcoords="offset points", fontsize=7.5, color=GRAY)
