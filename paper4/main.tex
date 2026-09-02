@@ -19,7 +19,7 @@
 \newcommand{\ci}[2]{[#1,\,#2]}
 \newcommand{\rfour}[1]{\textcolor{red}{[R4: #1]}}
 
-\title{Pulsed, Not Pressed: State-Space Injection Matches the Judged Surprise\\ of Text Interruption in Open-Ended Generation}
+\title{Pulsed, Not Pressed:\\ State-Space Injection Matches the Judged Surprise\\ of Text Interruption in Open-Ended Generation}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
 \date{}
@@ -40,12 +40,13 @@ deception-resistant protocol: a blind judge scores surprise, connection
 and coherence (0--10) on windows of generated-only text, paired over
 premises, every confirmatory analysis pre-registered. Four pre-registered
 findings and one descriptive. (i)~Continuous injection has no fertile
-band --- more dose, less judged surprise, on both carriers tested ---
-while the same directions pulsed for 32 tokens every 300 on a
-habituated carrier raise it; on one carrier with the same directions,
-thirty premises, pulsing beats pressing at equal per-token dose (the
-pressed arm collapses coherence), while at equal integrated dose the
-diluted press is inert and the difference is a trend. (ii)~Guards change what a dose does rather than
+band --- more dose, less judged surprise on the plain carrier, and no
+gain at the two doses tested on the habituated one --- while the same
+directions pulsed for 32 tokens every 300 on a habituated carrier raise
+it; on one carrier with the same directions, thirty premises, pulsing
+beats pressing at equal per-token dose (the pressed arm collapses
+coherence), while at equal integrated dose the difference is not
+significant. (ii)~Guards change what a dose does rather than
 admitting a larger one; at guarded dose 2.0 the pulse is equivalent to
 text interruption in judged surprise within a pre-registered margin of
 $\pm0.75$ on thirty premises, without spending a token of the stream ---
@@ -56,10 +57,9 @@ manipulation check finds the injected subject in the text: the
 direction's content carries the effect. (iv)~The surprise pattern
 replicates in-family at 14B. (v)~Descriptively, the guarded pulse
 carries the flattest state trajectory in the battery, though much of the
-habituated carrier's ``silent orbit'' is the rhythm of sentences. A
-verified code-search battery, reported in full, had no headroom. We map
-the boundaries and release the instrument, every cell, every verdict and
-the dated pre-registrations.
+habituated carrier's ``silent orbit'' is the rhythm of sentences. We
+release the instrument, every cell, every verdict and the dated
+pre-registrations.
 \end{abstract}
 
 \section{Introduction}
@@ -100,13 +100,13 @@ This paper does that. Its contributions:
   directions, geometric guards, and a dimensionless dose unit; dual
   MLX/PyTorch backends, bit-identical on the algebra.
 \item \textbf{The temporal contrast} (\S\ref{sec:temporal}): continuous
-  injection has no fertile band --- more dose, less judged surprise, on
-  the plain carrier and on the habituated one --- while the same
-  vectors, pulsed, climb a dose ladder; on one carrier with identical
-  rotating directions, thirty premises, pulsing beats pressing at equal
-  per-token dose (the pressed arm collapses coherence), while at equal
-  integrated dose the diluted press is inert and the difference is a
-  trend.
+  injection has no fertile band --- more dose, less judged surprise on
+  the plain carrier, no gain at the two doses tested on the habituated
+  one --- while the same vectors, pulsed, climb a dose ladder; on one
+  carrier with identical rotating directions, thirty premises, pulsing
+  beats pressing at equal per-token dose (the pressed arm collapses
+  coherence), while at equal integrated dose the difference is not
+  significant.
 \item \textbf{Equivalence in surprise, at a cost} (\S\ref{sec:parity}):
   the guarded pulse at dose 2.0 is equivalent to text interruption in
   judged surprise within $\pm0.75$ on thirty premises, trails it in
@@ -283,14 +283,15 @@ one-sided $p=0.023$), with the coherence guard passing by a wide margin
 against the carrier) while leaving surprise where it was ($-0.08$
 \ci{-0.50}{+0.35}), and, by the manipulation check, carries the subject
 into the text (44\% of windows) as degenerate prose about it. At equal
-integrated dose the diluted continuous arm is neither harmful nor
-useful ($+0.26$ \ci{-0.09}{+0.60} against the carrier, coherence
-intact), and the pulse's advantage over it is not significant ($+0.15$
-\ci{-0.19}{+0.49}, $p=0.20$). The unguarded pulse itself is a modest,
+integrated dose the diluted continuous arm is harmless and not
+significantly useful ($+0.26$ \ci{-0.09}{+0.60} against the carrier,
+$p=0.14$, coherence intact --- a positive trend of about the unguarded
+pulse's own size), and the pulse's advantage over it is not significant
+($+0.15$ \ci{-0.19}{+0.49}, $p=0.20$). The unguarded pulse itself is a modest,
 significant effect at thirty premises ($+0.41$ \ci{+0.04}{+0.77},
 $p=0.014$). Pressing at the pulse's dose degenerates; pressing at its
-integrated dose does nothing; pulsing raises judged surprise with
-coherence intact. That is the temporal claim of the paper, and its
+integrated dose is indistinguishable from pulsing at this sample size;
+pulsing raises judged surprise with coherence intact. That is the temporal claim of the paper, and its
 limit: pulsed beats pressed at equal per-token dose, not at equal
 integrated dose. The plain-carrier dose--response above remains a
 boundary result.
@@ -411,7 +412,7 @@ dimensions do not tie: the pulse trails text interruption in connection
 ten-premise battery did not survive the extension. What the claim then
 is: a subject placed into the model's stream as pure activation ---
 invisible in the text, spending no tokens, continuously dosable ---
-produces judged surprise equivalent, within $\pm0.75$ on a 1--5 scale,
+produces judged surprise equivalent, within $\pm0.75$ on the 0--10 scale,
 to writing the subject down, at a measurable cost in how connected and
 how coherent the resulting text reads. What it is not: superiority, or
 evidence that the state reaches value no prompt reaches
@@ -435,9 +436,10 @@ judge is not marking them down for damage. The clean result is the
 shuffled sham, which keeps the direction's norm and coordinate
 statistics and loses only its meaning; the random-direction sham is
 consistent with it. The subject's direction, not the perturbation of an
-orbit, carries the effect. A blind manipulation check completes the picture: for every
-judged window that follows an intervention (the same $300k{+}32$
-windows the surprise judge graded), a separate judge call names which
+orbit, carries the effect. A blind manipulation check completes the picture: for the four windows
+per cell that begin at the end of each burst or injection (positions
+$300k{+}32$; the surprise judge graded two of these per state cell), a
+separate judge call names which
 of the four subjects, if any, the window engages, with the options
 shuffled per window (chance 25\% among picks); text interruption is the
 positive control and the habituated carrier gives the base rate
@@ -628,9 +630,12 @@ also falls in the winning arm ($0.095$ against $0.132$), and per-premise
 changes in state and punctuation prominence correlate ($r \approx 0.6$),
 so part of the state flattening is the sentence rhythm flattening.
 Masking the punctuation period ($\pm20\%$) leaves a residual state
-flattening for the guarded pulse at 2.0 ($-0.023$ \ci{-0.048}{+0.002},
-exact $p=0.010$) and at 1.5 ($p=0.02$), not for interruption
-($p=0.08$). We therefore retract the general form of the claim: the
+flattening for the guarded pulse at 2.0 (mean $-0.023$; exact sign-flip
+$p=0.010$, i.e.\ nearly every premise moves the same way, while the 95\%
+$t$ interval \ci{-0.048}{+0.002} touches zero because two premises
+carry most of the magnitude) and at 1.5 ($p=0.02$), not for
+interruption ($p=0.08$); this section is descriptive, and the exact
+test is the statement we make. We therefore retract the general form of the claim: the
 interventions a judge rewards are not all spectral flatteners, and the
 habituated ``silent orbit'' is largely the rhythm of sentences. The
 specific form --- the winning state arm carries the flattest trajectory
