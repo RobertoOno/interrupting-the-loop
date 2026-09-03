@@ -43,7 +43,7 @@ except BaseException as e:
 print(json.dumps(res))
 ''')
 
-def run_candidate(code: str, module: str, entry: str, args: tuple, timeout_s: int = 20, mem_bytes: int = 2 * 1024**3, prelude: str = "") -> dict:
+def run_candidate(code: str, module: str, entry: str, args: tuple, timeout_s: int = 20, mem_bytes: int = 8 * 1024**3, prelude: str = "") -> dict:
     """`prelude` (optional) is executed before the candidate in the same namespace (e.g. the elite programs
     shown in the prompt under their renamed entry points), so a candidate may call or reuse them."""
     if f"def {entry}(" not in code:
@@ -56,7 +56,9 @@ def run_candidate(code: str, module: str, entry: str, args: tuple, timeout_s: in
         rp = Path(td) / "run.py"
         rp.write_text(RUNNER.format(src=src, timeout=int(timeout_s), mem=int(mem_bytes), code_path=str(cp), module=module, entry=entry, args=args))
         try:
-            proc = subprocess.run([sys.executable, "-I", str(rp)], capture_output=True, text=True, timeout=timeout_s + 5)
+            import os as _os
+            _env = dict(_os.environ, OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1")
+            proc = subprocess.run([sys.executable, "-I", str(rp)], capture_output=True, text=True, timeout=timeout_s + 5, env=_env)
         except subprocess.TimeoutExpired:
             return {"ok": False, "error": "hard timeout"}
         line = (proc.stdout.strip().splitlines() or [""])[-1]
