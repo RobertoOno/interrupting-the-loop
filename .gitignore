@@ -8,3 +8,4 @@ runs/
 paper/arxiv/
 paper/arxiv_bundle.tar.gz
 scripts/publish/
+docs/t5/corpus.jsonl

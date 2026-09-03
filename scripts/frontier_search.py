@@ -217,7 +217,7 @@ def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict
         text = "".join(o.text for o in stream_generate(model, tok, tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True), max_tokens=max_tokens, sampler=sampler))
         text = text.replace("```python", "").replace("```", "")
     else:
-        text = "# What worked:" + "".join(o.text for o in stream_generate(model, tok, "\n".join(cue), max_tokens=max_tokens, sampler=sampler))
+        text = "# What worked:" + (model.plain("\n".join(cue), max_tokens) if hasattr(model, "plain") else "".join(o.text for o in stream_generate(model, tok, "\n".join(cue), max_tokens=max_tokens, sampler=sampler)))
     lines = []
     for ln in text.splitlines():
         if ln.strip() == "":
@@ -241,7 +241,7 @@ def write_agenda(model, tok, sampler, P: dict, best: dict, max_tokens: int = 60,
         user = cue.rsplit("\n", 1)[0] + "\n\nIn ONE sentence: what is the single structural obstacle that keeps this construction from a better score? Reply with the sentence only."
         text = "".join(o.text for o in stream_generate(model, tok, tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True), max_tokens=max_tokens, sampler=sampler))
     else:
-        text = "".join(o.text for o in stream_generate(model, tok, cue, max_tokens=max_tokens, sampler=sampler))
+        text = model.plain(cue, max_tokens) if hasattr(model, "plain") else "".join(o.text for o in stream_generate(model, tok, cue, max_tokens=max_tokens, sampler=sampler))
     return text.strip().split("\n")[0].strip(" #")[:200]
 
 def main():
@@ -263,6 +263,11 @@ def main():
     ap.add_argument("--verify-timeout", type=int, default=20, help="sandbox time limit per candidate (seconds)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     ap.add_argument("--hint", default="none", help="text appended to the problem statement in every prompt (family-hint battery)")
+    ap.add_argument("--torch-model", default="none", help="T5: propose with a PyTorch model (HF id) through pulse_proposer; base-model prompt path")
+    ap.add_argument("--pulse-npz", default="none", help="T5: directions file from state_map.py dirs")
+    ap.add_argument("--pulse-which", default="none", help="T5: own | whisper | sham | none")
+    ap.add_argument("--pulse-alpha", type=float, default=2.0); ap.add_argument("--pulse-guard", action="store_true")
+    ap.add_argument("--pulse-every", type=int, default=300); ap.add_argument("--pulse-len", type=int, default=32)
     ap.add_argument("--seed-file", default="none", help="file whose contents replace the problem's seed program")
     a = ap.parse_args()
     P = dict(PROBLEMS[a.problem])
@@ -346,7 +351,18 @@ def main():
     if others and api is None and not os.environ.get("CM_ALLOW_MULTI"):   # API-only runs load no local model
         print("REFUSING TO START: another model process is running (set CM_ALLOW_MULTI=1 to override):\n  " + "\n  ".join(o[:120] for o in others), flush=True)
         sys.exit(3)
-    if api is None:
+    torch_prop = None
+    if a.torch_model != "none":
+        from pulse_proposer import PulseProposer
+        import numpy as _np
+        dirs = []
+        if a.pulse_npz != "none" and a.pulse_which != "none":
+            z = _np.load(a.pulse_npz); dirs = [z[a.pulse_which]]
+        torch_prop = PulseProposer(a.torch_model, dirs=dirs, alpha=a.pulse_alpha, guard=a.pulse_guard, every=a.pulse_every,
+                                   burst=a.pulse_len, temp=a.temp, min_p=a.min_p)
+        model, tok = torch_prop, torch_prop.tok
+        print(f"torch proposer {a.torch_model}: pulse={a.pulse_which} alpha={a.pulse_alpha} guard={a.pulse_guard} layer={torch_prop.L}", flush=True)
+    elif api is None:
         from mlx_lm import load, stream_generate
         from mlx_lm.sample_utils import make_sampler
         model, tok = load(str(Path(a.model).expanduser()), adapter_path=(None if a.adapter == "none" else a.adapter))
@@ -364,7 +380,7 @@ def main():
         st = json.loads(state_p.read_text()); islands = st["islands"]; gen0 = st["gen"] + 1
     best = max(e["score"] for isl in islands for e in isl)
     print(f"{a.problem}: seed score {seed_res['score']:.4f}; best known {P['best_known']}; resume at gen {gen0}", flush=True)
-    sampler = None if api else make_sampler(temp=a.temp, min_p=a.min_p)
+    sampler = None if (api or torch_prop is not None) else make_sampler(temp=a.temp, min_p=a.min_p)
     for g in range(gen0, a.gens):
         t0 = time.time(); n_ok = n_new = 0
         for k, isl in enumerate(islands):
@@ -414,8 +430,10 @@ def main():
             if api is not None:
                 with _cf.ThreadPoolExecutor(max_workers=min(6, a.samples)) as ex:
                     api_texts = list(ex.map(lambda _: api(prompt_used, a.max_tokens), range(a.samples)))
+            if torch_prop is not None:
+                api_texts = torch_prop.generate(prompt_used, a.max_tokens, n=a.samples)
             for s in range(a.samples):
-                text = api_texts[s] if api is not None else "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
+                text = api_texts[s] if (api is not None or torch_prop is not None) else "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
                 if a.chat or api is not None:
                     full = text
                 else:
