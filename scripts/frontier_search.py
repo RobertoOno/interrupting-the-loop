@@ -209,7 +209,8 @@ def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict
         cue.append("# Recent valid but weak attempts (score):\n" + "\n".join(f"#   {r['score']:.6f}" for r in lows) + "\n")
     cue.append("# Lab notebook (what has worked, what failed and why, and the single open question that blocks "
                "progress; terse, as comments):\n# What worked:")
-    from mlx_lm import stream_generate
+    if not hasattr(model, "plain"):
+        from mlx_lm import stream_generate
     if chat:
         user = ("\n".join(cue[:-1]) + "\n\nWrite a terse lab notebook for this line of attack, as Python comment lines only "
                 "(max 10 lines): '# What worked:', '# What failed and why:', '# Open question:'. Base it ONLY on the programs "
@@ -236,7 +237,8 @@ def write_recap(model, tok, sampler, P: dict, isl: list[dict], recent: list[dict
 def write_agenda(model, tok, sampler, P: dict, best: dict, max_tokens: int = 60, chat: bool = False) -> str:
     cue = (f'"""{P["statement"]}"""\n# Current best program (score {best["score"]:.6f}):\n{best["code"]}\n'
            "# The one structural obstacle that keeps this construction from a better score is:")
-    from mlx_lm import stream_generate
+    if not hasattr(model, "plain"):
+        from mlx_lm import stream_generate
     if chat:
         user = cue.rsplit("\n", 1)[0] + "\n\nIn ONE sentence: what is the single structural obstacle that keeps this construction from a better score? Reply with the sentence only."
         text = "".join(o.text for o in stream_generate(model, tok, tok.apply_chat_template([{"role": "user", "content": user}], tokenize=False, add_generation_prompt=True), max_tokens=max_tokens, sampler=sampler))
