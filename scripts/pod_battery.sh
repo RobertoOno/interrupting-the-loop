@@ -83,7 +83,7 @@ echo "preparando ambiente remoto"
 $SSH 'cd /workspace/creative-machine && export HF_HOME=/workspace/hf-cache HF_HUB_DISABLE_XET=1 && \
       python3 -m venv --system-site-packages .pod-venv 2>/dev/null; \
       .pod-venv/bin/pip install -q --upgrade pip >/dev/null 2>&1; \
-      .pod-venv/bin/pip install -q transformers accelerate numpy $EXTRA_PIP >/dev/null 2>&1; \
+      .pod-venv/bin/pip install -q transformers accelerate numpy '"$EXTRA_PIP"' >/dev/null 2>&1; \
       .pod-venv/bin/pip install -q -e . >/dev/null 2>&1; echo SETUP-OK' || exit 6
 
 echo "lançando cadeia (destacada, ssh -f)"
