@@ -9,3 +9,6 @@ paper/arxiv/
 paper/arxiv_bundle.tar.gz
 scripts/publish/
 docs/t5/corpus.jsonl
+docs/t5/map.npz
+docs/t5/dirs.npz
+docs/t5/fit.json

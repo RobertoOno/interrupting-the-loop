@@ -373,6 +373,9 @@ def main():
     hist = out / "history.jsonl"; state_p = out / "state.json"
     rng = random.Random(a.seed)
     seed_res = run_candidate(P["seed_program"], P["module"], P["entry"], P["args"], timeout_s=a.verify_timeout)
+    if "score" not in seed_res:
+        print(f"SEED EVALUATION FAILED: {json.dumps(seed_res)[:600]}", flush=True)
+        sys.exit(4)
     islands = [[{"code": P["seed_program"], "score": seed_res["score"], "hash": "seed", "sig": seed_res.get("sig", "")}] for _ in range(a.islands)]
     recent_by_island = [[] for _ in range(a.islands)]
     gen0 = 0
