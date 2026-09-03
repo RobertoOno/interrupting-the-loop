@@ -152,3 +152,10 @@ The experiments, analyses and text were produced by the author working with
 Claude (Anthropic) as a programming and writing assistant inside Claude Code;
 every decision, result and claim was reviewed by the author, and the dated
 notebook records the trail.
+
+## Papers
+
+1. *Interrupting the Loop* — arXiv:2608.19893
+2. *Moving the Mean Toward the Known Good, Not Beyond It* — arXiv:2608.28886
+3. *Operator Packages, Proposer Strength, and Construction-Family Plateaus in Office-Scale Verified Search* — Zenodo DOI 10.5281/zenodo.22280391 (arXiv submission under moderation)
+4. *Pulsed, Not Pressed: What State-Space Injection Buys in Open-Ended Generation, and What It Costs* — Zenodo DOI 10.5281/zenodo.22280784
