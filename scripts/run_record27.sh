@@ -82,10 +82,10 @@ done
 R=runs/frontier/record27; mkdir -p $R
 search() {  # $1 = smoke|full ; $2 = problem (default beatavg) ; $3 = gens for full (default 50)
   PROB="${2:-beatavg}"; GF="${3:-50}"
-  if [ "$1" = "smoke" ]; then GENS=2; SPL=2; OUTD=$R/${PROB}_E_smoke; rm -rf "$OUTD" "$OUTD.log"; else GENS=$GF; SPL=6; OUTD=$R/${PROB}_E$((GF*12)); fi
-  echo "RECORD27 busca ($1 $PROB: gens=$GENS spl=$SPL) $(date)"
+  if [ "$1" = "smoke" ]; then G=2; SPL=2; OUTD=$R/${PROB}_E_smoke; rm -rf "$OUTD" "$OUTD.log"; else G=$GF; SPL=6; OUTD=$R/${PROB}_E$((GF*12)); fi
+  echo "RECORD27 busca ($1 $PROB: gens=$G spl=$SPL) $(date)"
   .venv/bin/python scripts/frontier_search.py --problem "$PROB" --chat --max-tokens 3000 \
-    --temp 0.8 --gens $GENS --samples $SPL --islands 2 \
+    --temp 0.8 --gens $G --samples $SPL --islands 2 \
     --memory schema --agenda --novelty behavior --repel-prompt \
     --oai-base "http://localhost:$LPORT/v1" --oai-model "$MODEL_ID" \
     --out $OUTD > $OUTD.log 2>&1
@@ -96,7 +96,7 @@ if [ "$MODE" = "multi" ]; then
   # T1: several problems on the same server pod; PROBLEMS and GENS from the environment
   for PROB in ${PROBLEMS:-maxmin16 heiltri11}; do
     search smoke "$PROB"
-    if grep -qE "valid [1-9]" $R/${PROB}_E_smoke.log; then search full "$PROB" "${GENS:-25}"; else echo "fumaça de $PROB sem programa válido; pulando"; fi
+    if grep -qE "valid [1-9]" $R/${PROB}_E_smoke.log; then search full "$PROB" "${GENS_FULL:-25}"; else echo "fumaça de $PROB sem programa válido; pulando"; fi
   done
 elif [ "$MODE" = "both" ]; then
   search smoke
