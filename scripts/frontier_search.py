@@ -287,16 +287,26 @@ def main():
                        "(a one-line comment per idea at most). The code block must be complete.")
         def api(message, max_tokens):
             try:
-                body = _json.dumps({
+                _local = "localhost" in a.oai_base or "127.0.0.1" in a.oai_base
+                _payload = {
                     "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
+                    "messages": [{"role": "system", "content": _sys_prompt},
+                                 {"role": "user", "content": message}]}
+                if _local:
                     # Qwen3-family chat templates think by default: the reasoning came back
                     # as plain text before '</think>' and starved the 1400-token budget
                     # (RECORD-27B, 0 valid programs in 7 generations, 2026-09-01)
-                    "chat_template_kwargs": {"enable_thinking": False},
-                    "messages": [{"role": "system", "content": _sys_prompt},
-                                 {"role": "user", "content": message}]}).encode()
-                req = _ur.Request(a.oai_base.rstrip("/") + "/chat/completions", data=body,
-                                  headers={"Content-Type": "application/json"})
+                    _payload["chat_template_kwargs"] = {"enable_thinking": False}
+                else:
+                    # hosted OpenAI-compatible endpoints (OpenRouter): answers, not chains of thought
+                    _payload["reasoning"] = {"enabled": False}
+                body = _json.dumps(_payload).encode()
+                _hdr = {"Content-Type": "application/json"}
+                import os as _os
+                _key = _os.environ.get("OAI_API_KEY") or _os.environ.get("OPENROUTER_API_KEY")
+                if _key and not _local:
+                    _hdr["Authorization"] = f"Bearer {_key}"
+                req = _ur.Request(a.oai_base.rstrip("/") + "/chat/completions", data=body, headers=_hdr)
                 with _ur.urlopen(req, timeout=600) as resp:
                     text = _json.loads(resp.read())["choices"][0]["message"]["content"] or ""
                 if "</think>" in text:  # defensive: never let reasoning residue reach the extractor

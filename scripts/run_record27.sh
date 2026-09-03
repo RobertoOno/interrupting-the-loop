@@ -80,18 +80,25 @@ while :; do
 done
 
 R=runs/frontier/record27; mkdir -p $R
-search() {  # $1 = smoke|full
-  if [ "$1" = "smoke" ]; then GENS=2; SPL=2; OUTD=$R/beatavg_E_smoke; rm -rf "$OUTD" "$OUTD.log"; else GENS=50; SPL=6; OUTD=$R/beatavg_E600; fi
-  echo "RECORD27 busca ($1: gens=$GENS spl=$SPL) $(date)"
-  .venv/bin/python scripts/frontier_search.py --problem beatavg --chat --max-tokens 3000 \
+search() {  # $1 = smoke|full ; $2 = problem (default beatavg) ; $3 = gens for full (default 50)
+  PROB="${2:-beatavg}"; GF="${3:-50}"
+  if [ "$1" = "smoke" ]; then GENS=2; SPL=2; OUTD=$R/${PROB}_E_smoke; rm -rf "$OUTD" "$OUTD.log"; else GENS=$GF; SPL=6; OUTD=$R/${PROB}_E$((GF*12)); fi
+  echo "RECORD27 busca ($1 $PROB: gens=$GENS spl=$SPL) $(date)"
+  .venv/bin/python scripts/frontier_search.py --problem "$PROB" --chat --max-tokens 3000 \
     --temp 0.8 --gens $GENS --samples $SPL --islands 2 \
     --memory schema --agenda --novelty behavior --repel-prompt \
     --oai-base "http://localhost:$LPORT/v1" --oai-model "$MODEL_ID" \
     --out $OUTD > $OUTD.log 2>&1
   echo "busca terminou: $(grep -E 'DONE best' $OUTD.log | tail -1)"
-  echo "RECORD27 DONE ($1) $(date)"
+  echo "RECORD27 DONE ($1 $PROB) $(date)"
 }
-if [ "$MODE" = "both" ]; then
+if [ "$MODE" = "multi" ]; then
+  # T1: several problems on the same server pod; PROBLEMS and GENS from the environment
+  for PROB in ${PROBLEMS:-maxmin16 heiltri11}; do
+    search smoke "$PROB"
+    if grep -qE "valid [1-9]" $R/${PROB}_E_smoke.log; then search full "$PROB" "${GENS:-25}"; else echo "fumaça de $PROB sem programa válido; pulando"; fi
+  done
+elif [ "$MODE" = "both" ]; then
   search smoke
   grep -qE "valid [1-9]" $R/beatavg_E_smoke.log || { echo "fumaça sem programa válido; E600 NÃO lançado. Primeira resposta bruta:"; \
     .venv/bin/python -c "import json; r=[json.loads(l) for l in open('$R/beatavg_E_smoke/history.jsonl')]; print(r[0].get('error'), '|', repr(r[0].get('raw',''))[:1500])"; exit 8; }
