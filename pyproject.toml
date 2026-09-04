@@ -12,6 +12,7 @@ dependencies = ["numpy>=1.24"]
 [project.optional-dependencies]
 mlx = ["mlx-lm>=0.21"]
 dev = ["pytest>=8"]
+bedrock = ["anthropic[bedrock]==1.4.0"]
 analysis = ["scipy>=1.10", "numpy>=1.24"]  # analysis scripts (scripts/analysis_*.py, bits ladder, audits): Mann-Whitney, FFT, optimizers
 
 [tool.setuptools.packages.find]
