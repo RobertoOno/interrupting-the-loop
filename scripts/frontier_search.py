@@ -252,6 +252,7 @@ def main():
     ap.add_argument("--model", default="~/models/mlx/Qwen3-30B-A3B-Base-8bit"); ap.add_argument("--adapter", default="none")
     ap.add_argument("--api-model", default="none", help="Bedrock model id (e.g. anthropic.claude-opus-5): propose via API instead of the local model; implies chat-style prompts")
     ap.add_argument("--oai-base", default="none", help="OpenAI-compatible base URL (e.g. http://localhost:18000/v1): propose via HTTP server; implies chat-style prompts")
+    ap.add_argument("--oai-completions", action="store_true", help="use /completions with the raw prompt (base models served by vLLM) instead of /chat/completions")
     ap.add_argument("--oai-model", default="served", help="model name sent to the OpenAI-compatible server")
     ap.add_argument("--gens", type=int, default=10); ap.add_argument("--samples", type=int, default=8)
     ap.add_argument("--islands", type=int, default=2); ap.add_argument("--elites", type=int, default=3)
@@ -295,11 +296,18 @@ def main():
         def api(message, max_tokens):
             try:
                 _local = "localhost" in a.oai_base or "127.0.0.1" in a.oai_base
-                _payload = {
-                    "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
-                    "messages": [{"role": "system", "content": _sys_prompt},
-                                 {"role": "user", "content": message}]}
-                if _local:
+                if a.oai_completions:
+                    # base model: the prompt is the FunSearch-style text itself (as on the MLX path), no chat template
+                    _payload = {"model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp, "min_p": a.min_p,
+                                "prompt": message, "stop": ["\n# Version", "\n```", "\nif __name__"]}
+                else:
+                    _payload = {
+                        "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
+                        "messages": [{"role": "system", "content": _sys_prompt},
+                                     {"role": "user", "content": message}]}
+                if a.oai_completions:
+                    pass
+                elif _local:
                     # Qwen3-family chat templates think by default: the reasoning came back
                     # as plain text before '</think>' and starved the 1400-token budget
                     # (RECORD-27B, 0 valid programs in 7 generations, 2026-09-01)
@@ -313,9 +321,11 @@ def main():
                 _key = _os.environ.get("OAI_API_KEY") or _os.environ.get("OPENROUTER_API_KEY")
                 if _key and not _local:
                     _hdr["Authorization"] = f"Bearer {_key}"
-                req = _ur.Request(a.oai_base.rstrip("/") + "/chat/completions", data=body, headers=_hdr)
+                _ep = "/completions" if a.oai_completions else "/chat/completions"
+                req = _ur.Request(a.oai_base.rstrip("/") + _ep, data=body, headers=_hdr)
                 with _ur.urlopen(req, timeout=600) as resp:
-                    text = _json.loads(resp.read())["choices"][0]["message"]["content"] or ""
+                    _ch = _json.loads(resp.read())["choices"][0]
+                    text = (_ch.get("text") if a.oai_completions else _ch["message"]["content"]) or ""
                 if "</think>" in text:  # defensive: never let reasoning residue reach the extractor
                     text = text.split("</think>", 1)[1]
                 return text
