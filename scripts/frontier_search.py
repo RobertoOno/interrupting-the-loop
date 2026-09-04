@@ -299,7 +299,7 @@ def main():
                 if a.oai_completions:
                     # base model: the prompt is the FunSearch-style text itself (as on the MLX path), no chat template
                     _payload = {"model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp, "min_p": a.min_p,
-                                "prompt": message, "stop": ["\n# Version", "\n```", "\nif __name__"]}
+                                "prompt": message, "stop": ["\n# Version", "\n# Improved version", "\nif __name__", "\n\"\"\""]}
                 else:
                     _payload = {
                         "model": a.oai_model, "max_tokens": max_tokens, "temperature": a.temp,
@@ -432,8 +432,10 @@ def main():
             user_msg = (prompt.rsplit(f"def {P['entry']}(", 1)[0].rstrip() + "\n\n"
                         f"Write the improved version now: a complete, self-contained Python program defining `def {P['entry']}(...)` "
                         f"(plus any helpers/imports it needs), returning the construction. Reply with ONE ```python code block and nothing else.")
-            if api is not None:
+            if api is not None and not a.oai_completions:
                 prompt_used = user_msg
+            elif api is not None:
+                prompt_used = prompt   # raw completions (base model on vLLM): the FunSearch text ending in `def entry(`
             elif a.chat:
                 prompt_used = tok.apply_chat_template([{"role": "user", "content": user_msg}], tokenize=False, add_generation_prompt=True)
             else:
@@ -449,7 +451,7 @@ def main():
                 api_texts = torch_prop.generate(prompt_used, a.max_tokens, n=a.samples)
             for s in range(a.samples):
                 text = api_texts[s] if (api is not None or torch_prop is not None) else "".join(o.text for o in stream_generate(model, tok, prompt_used, max_tokens=a.max_tokens, sampler=sampler))
-                if a.chat or api is not None:
+                if a.chat or (api is not None and not a.oai_completions):
                     full = text
                 else:
                     # the prompt ends with `def entry(`; some models repeat the header instead of continuing it
