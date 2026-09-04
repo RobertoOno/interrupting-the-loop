@@ -3,6 +3,8 @@ __pycache__/
 *.egg-info/
 .venv/
 .pytest_cache/
+.lake/
+lake-manifest.json
 runs/
 .DS_Store
 paper/arxiv/
