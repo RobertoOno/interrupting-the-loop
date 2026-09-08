@@ -1,5 +1,10 @@
 # Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models
 
+**Current research / retomada:** [ESTADO_ATUAL.md](ESTADO_ATUAL.md) (PT-BR)
+summarizes the current questions, completed stages and next deliverable in this
+working repository. The description below documents the original study; the
+full research history is retained in [docs/PLANO.md](docs/PLANO.md).
+
 Code, data and paper for a study of where novelty comes from when a base
 language model writes with **no task** — feeding on its own output — and which
 of the operations usually credited for it survive measurement.
