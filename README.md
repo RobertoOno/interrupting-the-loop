@@ -125,7 +125,11 @@ or `OPENROUTER_API_KEY`. Nothing in this repository contains credentials.
 Every run's per-step telemetry, text, token stream with exact event and
 injection positions, and every judgment (`rejudge_gen.json`, generated-only windows;
 `rejudge_surprise.json`, event windows) live under
-`runs/` (released as an archive with the paper, not tracked in git). The
+`runs/` (not tracked in git). They are released as GitHub Release archives that unpack
+into the `runs/` layout the analysis scripts expect: [`run-data-v1`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v1)
+(papers 1–3: every logged candidate of every reported run) and
+[`run-data-v2`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v2)
+(paper 4: the R4/R5, pulse, band-map, B-CONF, H2, screen, spectral and generality batteries). The
 human-rating packs in `docs/blind/` contain the rated windows without
 condition labels; the keys are not public.
 
