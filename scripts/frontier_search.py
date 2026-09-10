@@ -173,17 +173,33 @@ def extract_program(text: str, entry: str) -> str | None:
             lines.pop()
     return None
 
+def statement_for_gen(base: str, hint: str | None, hint_gens: int, g: int) -> str:
+    """The problem statement shown at generation g: the hint is appended in every generation (hint_gens < 0) or only
+    in generations < hint_gens (a transient hint, Programa 4)."""
+    if hint is None or (hint_gens >= 0 and g >= hint_gens):
+        return base
+    return base + "\n\nHint: " + hint
+
+def shown_elites(P: dict, elites: list[dict], memory: str = "verbatim", recap: str | None = None, pinned: dict | None = None) -> list[dict]:
+    """The programs shown in the prompt, in prompt order: the elites (only the best under schematic memory), then the
+    pinned seed if it is no longer among them (Programa 4: a persistent seed). Used for both the prompt and the prelude."""
+    es = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
+    if memory == "schema" and recap:
+        es = es[:1]
+    if pinned is not None and all(e.get("hash") != pinned.get("hash") and e["code"] != pinned["code"] for e in es):
+        es = es + [pinned]
+    return es
+
 def build_prompt(P: dict, elites: list[dict], memory: str = "verbatim", recap: str | None = None,
-                 agenda: str | None = None, repel: list[str] | None = None) -> str:
+                 agenda: str | None = None, repel: list[str] | None = None, pinned: dict | None = None) -> str:
     """verbatim: statement + top programs (FunSearch-style). schema: statement + the model's own compressed
     lab notebook (what worked / what failed / open question) + the single best program. agenda: an extra
     line naming the obstacle to attack. repel: constructions (signatures/scores) that must NOT be repeated."""
     better = "higher" if P["maximize"] else "lower"
     parts = [f'"""{P["statement"]}"""\n']
-    es = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
+    es = shown_elites(P, elites, memory, recap, pinned)
     if memory == "schema" and recap:
         parts.append("# Lab notebook of this line of attack so far:\n" + recap.rstrip() + "\n")
-        es = es[:1]
     for i, e in enumerate(es):
         parts.append(f"# Version {i} (score {e['score']:.6f}):\n{e['code'].replace('def ' + P['entry'], 'def ' + P['entry'] + '_v' + str(i))}\n")
     if repel:
@@ -266,6 +282,9 @@ def main():
     ap.add_argument("--verify-timeout", type=int, default=20, help="sandbox time limit per candidate (seconds)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     ap.add_argument("--hint", default="none", help="text appended to the problem statement in every prompt (family-hint battery)")
+    ap.add_argument("--hint-file", default="none", help="file whose contents are the hint text (multi-line hints; Programa 4: a program handed in the hint slot)")
+    ap.add_argument("--hint-gens", type=int, default=-1, help="show the hint only in generations < N (-1 = every generation; Programa 4: a transient hint)")
+    ap.add_argument("--pin-seed", action="store_true", help="always show the seed program in the prompt as an extra version, even after the elites displace it (Programa 4: a persistent seed)")
     ap.add_argument("--torch-model", default="none", help="T5: propose with a PyTorch model (HF id) through pulse_proposer; base-model prompt path")
     ap.add_argument("--pulse-npz", default="none", help="T5: directions file from state_map.py dirs")
     ap.add_argument("--pulse-which", default="none", help="T5: own | whisper | sham | none")
@@ -276,8 +295,10 @@ def main():
     P = dict(PROBLEMS[a.problem])
     if a.seed_file != "none":
         P["seed_program"] = Path(a.seed_file).read_text()
-    if a.hint != "none":
-        P["statement"] = P["statement"] + "\n\nHint: " + a.hint
+    if a.hint_file != "none":
+        a.hint = Path(a.hint_file).read_text().rstrip()
+    base_statement = P["statement"]; hint_text = None if a.hint == "none" else a.hint
+    P["statement"] = statement_for_gen(base_statement, hint_text, a.hint_gens, 0)
     api = None
     if a.api_model != "none":
         from creative_machine.blend import BedrockClient
@@ -396,8 +417,10 @@ def main():
     best = max(e["score"] for isl in islands for e in isl)
     print(f"{a.problem}: seed score {seed_res['score']:.4f}; best known {P['best_known']}; resume at gen {gen0}", flush=True)
     sampler = None if (api or torch_prop is not None) else make_sampler(temp=a.temp, min_p=a.min_p)
+    pinned = {"code": P["seed_program"], "score": seed_res["score"], "hash": "seed", "sig": seed_res.get("sig", "")} if a.pin_seed else None
     for g in range(gen0, a.gens):
         t0 = time.time(); n_ok = n_new = 0
+        P["statement"] = statement_for_gen(base_statement, hint_text, a.hint_gens, g)
         for k, isl in enumerate(islands):
             elites = sorted(isl, key=lambda e: e["score"], reverse=P["maximize"])[: a.elites]
             if api is not None:
@@ -419,10 +442,8 @@ def main():
                 recap = write_recap(model, tok, sampler, P, isl, recent_by_island[k], chat=a.chat) if a.memory == "schema" else None
                 agenda = write_agenda(model, tok, sampler, P, elites[0], chat=a.chat) if a.agenda else None
             repel = [f"score {e['score']:.6f}, signature {e.get('sig','')}" for e in elites] if a.repel_prompt else None
-            prompt = build_prompt(P, elites, a.memory, recap, agenda, repel)
-            shown = sorted(elites, key=lambda e: e["score"], reverse=P["maximize"])
-            if a.memory == "schema" and recap:
-                shown = shown[:1]
+            prompt = build_prompt(P, elites, a.memory, recap, agenda, repel, pinned)
+            shown = shown_elites(P, elites, a.memory, recap, pinned)
             prelude = "\n\n".join(e["code"].replace("def " + P["entry"], "def " + P["entry"] + "_v" + str(i)) for i, e in enumerate(shown))
             if recap or agenda:
                 with open(out / "notebook.jsonl", "a") as f:
