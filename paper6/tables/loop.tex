@@ -1,0 +1,21 @@
+\begin{tabular}{lcccccc}
+\toprule
+arm & L1 & L2 & L3 & L4 & L5 & E \\
+\midrule
+\multicolumn{7}{l}{\emph{no thinking (16{,}384 tokens, $T$ 0.7)}} \\
+base & 4/24 & 0/24 & 0/24 & 0/24 & 1/24 & 0/24 \\
+own: 60 own proofs of L1--L3 (iteration 1) & 24/24 & 0/24 & 1/24 & 0/24 & 0/24 & 0/24 \\
+curm: the reference proofs of the same 60 cells & 24/24 & 0/24 & 13/24 & 0/24 & 0/24 & 0/24 \\
+own2: 135 own proofs, cumulative (iteration 2) & 19/24 & 0/24 & 1/24 & 0/24 & 16/24 & 24/24 \\
+curm2: the reference proofs of the same 135 cells & 24/24 & 1/24 & 13/24 & 8/24 & 24/24 & 24/24 \\
+p2: reference proofs of all six steps (288) & 24/24 & 1/24 & 7/24 & 24/24 & 24/24 & 24/24 \\
+\midrule
+\multicolumn{7}{l}{\emph{thinking (131{,}072 tokens, $T$ 1.0)}} \\
+base & -- & 6/24 & 8/24 & 9/24 & 10/24 & 12/24 \\
+own (iteration 1) & -- & 21/24 & 19/24 & -- & -- & -- \\
+curm & -- & 17/24 & 18/24 & -- & -- & -- \\
+own2 (iteration 2) & -- & 20/24 & 17/24 & 6/24 & 22/24 & 22/24 \\
+curm2 & -- & 16/24 & 11/24 & 6/24 & 24/24 & 24/24 \\
+p2 & -- & 19/24 & 18/24 & -- & -- & -- \\
+\bottomrule
+\end{tabular}

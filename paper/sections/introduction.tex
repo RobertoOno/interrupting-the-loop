@@ -84,9 +84,9 @@ away: injecting the premise or the stream's own past is as bad as not
 interrupting, a boundary without a new subject adds nothing detectable, and
 a boundary that asks for continuity hurts. It must be new each time: a fixed
 rotation of four sentences makes the model replay its own earlier segments,
-which a window judge cannot see. It works whether the earlier text is kept
-in the model's context or dropped, and dropped scores higher, in part
-because the model cannot replay. A clock is as good a metronome as the
+which a window judge does not recognize as replay. It works whether the
+earlier text is kept in the model's context or dropped, and dropped scores
+higher, in part because the model cannot replay. A clock is as good a metronome as the
 salience monitor at the same rate, and no period beats a break every
 150--300 tokens on the generated text itself. We also show what the
 interruption does not do. Read as whole documents, none of these streams
@@ -94,9 +94,10 @@ builds an integrated or developing text, and the interrupted stream reads as
 a sequence of restarts; the operator acts on windows, not on wholes. On a
 problem with a verifier it multiplies valid, distinct candidates without
 improving the best of them. The ladder replicates on three generator models
-from two families and under a second judge family, its ordering is
-reproduced by independent human readers, and a pre-registered replication on
-ten new premises confirms the primary contrast. Finally we look inside the
+from two families and under a second judge family, its ordering on surprise
+is reproduced by independent human readers on windows of the first protocol,
+and a pre-registered replication on ten new premises confirms the primary
+contrast. Finally we look inside the
 network, descriptively. Residual-stream geometry at 13 sampled layers shows
 that bare generation moves least at every sampled layer, that judged
 surprise co-varies with surface departure over deep continuity, and that
@@ -113,7 +114,7 @@ the interruption that scores best barely moves the deep state.
   compose into a whole. With them, the protocol that corrects them:
   generated-only windows, fresh-only estimates, a document-level judgment,
   the premise as the unit, a pipeline test--retest, a second judge family
-  and human readers.
+  and, on first-protocol windows, human readers.
 \item \textbf{A controlled characterization of the interruption.} Which part
   of an interruption carries the effect (the new subject; not the boundary,
   not the kept context), its content, timing and period, replications on
@@ -130,5 +131,8 @@ the interruption that scores best barely moves the deep state.
   and undetectable at the level of ideas, a null on improbable inputs, and a
   descriptive residual-stream analysis.
 \end{enumerate}
-Code, per-run data, judgments, human-rating packs and the dated laboratory
-notebook are released with the paper.
+Code, the human-rating packs and the dated laboratory notebook are in the
+public repository; the run data and LLM judgments are in an evidence deposit
+(\href{https://doi.org/\evidencedoi}{doi:\evidencedoi}). Individual human
+ratings are not released, to protect rater anonymity; only aggregate
+statistics are reported.

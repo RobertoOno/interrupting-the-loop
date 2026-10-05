@@ -18,11 +18,15 @@
 \setlength{\parskip}{0.25em}
 \emergencystretch=1em
 \newcommand{\ci}[2]{[#1,\,#2]}
+% Zenodo DOIs, filled at deposit: this version (v2) and the evidence deposit (run data and judgments).
+\newcommand{\thisdoi}{10.5281/zenodo.23163706}
+\newcommand{\evidencedoi}{10.5281/zenodo.23163299}
+\newcommand{\doilink}[1]{\href{https://doi.org/#1}{#1}}
 
 \title{Moving the Mean Toward the Known Good, Not Beyond It:\\ What Inference-Time Interventions and Weight Consolidation\\ Buy in Open-Ended Generation}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{}
+\date{\small Version 2, 5 October 2026 (arXiv:2608.28886v2; Zenodo \doilink{\thisdoi}), with the corrections listed after the abstract.\\ Version 1: 28 August 2026 (arXiv:2608.28886v1; Zenodo \doilink{10.5281/zenodo.22714136}).}
 
 \begin{document}
 \maketitle
@@ -40,21 +44,49 @@ fresh seeds and a never-consulted held-out set read exactly once: the
 mean was nearly identical in all three lineages ($-2.0$, $-1.8$, $-1.9$),
 and after aggregating within held-out variant all seven evaluable
 variants favored consolidation ($p=0.008$). The best observed candidate
-moved \emph{to} the classic heuristic's level, exactly (0.021028 in all
-three lineages, for attract and for the random control alike), and never
-beyond it. A matched SFT-only control shows
+moved \emph{to} the classic heuristic's level, exactly (0.021028, the
+lowest variant's classic level, in all three lineages, for attract and
+for the random control alike); attract never went beyond its variant's
+classic level, while the random control did in 7 of 24 lineage-variant
+cells. A matched SFT-only control shows
 the supervised anchor, not repulsion from bad candidates, does the
 concentrating (96\% of candidates land exactly at the classic
-heuristic's level). The tails cut both ways: consolidation lowers the
+heuristic's level). On far families the tails cut both ways: consolidation lowers the
 per-candidate rate of better-than-classic candidates (10\% to 3.9\%)
 while its larger production yields more such candidates absolutely (5
 against 1, on few events). As motivation we report the inference-time
 ledger that led here: a model-written schematic recap buys judged
 document integration and nothing buys development; a verifier written
 into the stream is imitated, 16.4 fabricated verdict lines per notebook.
-Mean quality among valid candidates can be bought and replicated; the
+In this arrangement (an 8-bit model in MLX, five cycles), mean quality
+among valid candidates can be bought and replicated; under attraction the
 observed best goes to the classic and, so far, never beyond it.
 \end{abstract}
+
+{\small\noindent\textbf{Changes in version 2.} An audit of version 1
+against the run data and the notebook found errors, corrected here.
+(i) The replication's ``no beyond-classic candidate anywhere'' was wrong
+for the random control: 14 of its 529 valid candidates beat their
+variant's classic level (7 of 24 lineage-variant cells, margins
+0.0009--0.0037), as did 1 of the base's 147; attract's 432 did not
+(abstract, Sections~\ref{sec:intro}, \ref{sec:related},
+\ref{sec:consolidation}, \ref{sec:discussion}, \ref{sec:conclusion},
+Table~\ref{tab:crep}). (ii) The SFT-only adapter's far-family mean was
+the pooled value (0.1278); per family it is 0.0786, close to the anchored
+arm's, so ``generalizes worst'' is withdrawn. (iii) Smaller statements
+and numbers: strict finds before the final cycle (rare, not absent); the
+captions of Table~\ref{tab:c} and Figure~\ref{fig:meanbest}; the
+anchored arm as one of four with no far better-than-classic candidate;
+per-variant and per-family values in three rows of
+Table~\ref{tab:ladder}; the base's
+far yield per notebook (0.06); three ranges; ``favoring attract'' for
+negative differences; registration dates, with an SFT-only row
+(Table~\ref{tab:provenance2}). (iv) Version 1 placed all run data and
+judgments in the repository, but those of batteries M, M+, S and V were
+not public; they are now in an evidence deposit, and the judging dates
+are 18--20 August.
+(v) Added: a limitation on a later bf16/PyTorch run, a statement on AI
+assistance and on who read the drafts, and bibliography fixes.\par}
 
 \section{Introduction}
 \label{sec:intro}
@@ -113,12 +145,12 @@ find the same mean shift in each ($-2.0$, $-1.8$, $-1.9$ points; all
 seven evaluable variants favor consolidation, $p=0.008$) and the same
 convergence of the best, exactly at the classic level in every lineage;
 a matched SFT-only control shows the supervised anchor, not the
-repulsion term, does the in-family concentrating, while the repulsion
-term substantially changes out-of-family behavior.
-(3) The tails, both ways: the per-candidate better-than-classic rate is
-highest in the untrained base while attraction's larger production
+repulsion term, does the in-family concentrating, and out of family the
+two anchored adapters are close (0.0786 vs 0.0758).
+(3) The tails, both ways: on the far families the per-candidate
+better-than-classic rate is highest in the untrained base while attraction's larger production
 yields more absolute tail events; pass@$k$ against the classics is zero
-on the held-out within-family variants. (4) As motivation, the inference-time ledger: a model-written
+for base, attract and random on the first held-out set at cycle five. (4) As motivation, the inference-time ledger: a model-written
 schematic recap gives the program's highest document integration at no
 local cost, a verifier written into the stream is imitated rather than
 used (16.4 fabricated verdict lines per notebook), and no injection
@@ -172,9 +204,9 @@ the tails alike.
 \paragraph{Verified search.} FunSearch \citep{romeraparedes2024funsearch}
 and AlphaEvolve \citep{novikov2025alphaevolve} pair an untrained proposal
 model with a hard evaluator and many samples, without fine-tuning the
-proposer. Our results are consistent with that choice: the untrained prior
-has the highest rate of better-than-classic candidates, and every
-consolidation we ran lowered it.
+proposer. Our results are consistent with that choice: on the far
+families, the untrained prior has the highest rate of better-than-classic
+candidates, and every consolidation we ran lowered it.
 
 \paragraph{Memory, tension, and the judge.} Schematic memory as
 reconstruction \citep{bartlett1932remembering}; unfinished tasks as
@@ -317,7 +349,7 @@ reserved tokens) and without measuring imitation.
 \section{Consolidation: moving the prior}
 \label{sec:consolidation}
 
-\paragraph{Design (pre-registered 2026-08-21, extensions 2026-08-22).}
+\paragraph{Design (pre-registered 2026-08-21, extensions 2026-08-21 and 2026-08-22).}
 Qwen3-8B-Base (8-bit), QLoRA (rank 8, 16 layers, lr $10^{-5}$, batch 2,
 prompt masked, $\approx$4 epochs over the consolidation set). Domain: a
 family of small-item bin-packing distributions in which best fit is
@@ -377,7 +409,8 @@ set; test instances): candidates per arm and cycle, mean test excess of
 valid candidates (cell means over variants), the same relative to the
 better of best fit and first fit, the best candidate, the distinct/valid
 ratio and the share of literal copies of the arm's training set. The
-value-filtered adapter lowers the mean without moving the best.}
+value-filtered adapter lowers the mean; its best reaches the classic
+level and stays there.}
 \label{tab:c}
 \end{table}
 
@@ -387,10 +420,11 @@ value-filtered adapter lowers the mean without moving the best.}
 \caption{The title of this paper, as data (held-out variants, never in any
 training set; cycle 0 is the shared pre-consolidation base). Left: mean
 excess over the lower bound falls under attraction and nowhere else.
-Right: the trained arms' best sits at the 0.0311 classic level from the
-first cycle, while the base's best fluctuates above it (0.0317--0.0414).
-Consolidation moves the mean; the trained arms reach but do not exceed
-the classic level.}
+Right: from the second cycle the trained arms' best stays within 0.0005
+of the 0.0311 classic level, while the base's best fluctuates above it
+(0.0317--0.0414). Consolidation moves the mean; attraction reaches but
+does not exceed the classic level, while the random control dips below
+it at cycles 2 and 4.}
 \label{fig:meanbest}
 \end{figure}
 
@@ -401,16 +435,18 @@ direction consistent (7 of 8 variants better) and the cycle-2 contrast
 supported ($-0.0153$, $p=0.016$); a pre-registered extension to five cycles
 closed it: $-0.0170$ \ci{-0.0268}{-0.0079}, $p=0.008$, the attract arm
 ending at 3.86\% mean excess, 0.74 points above the better classic
-heuristic, against 5.6--6.4\% for the base. C2: attract vs random,
+heuristic, against 5.3--6.4\% for the base. C2: attract vs random,
 $-0.0138$ ($p=0.035$) at cycle 3 and $-0.0309$ ($p=0.004$) at cycle 5: the
 value filter matters. The random control hurts at cycle 1 ($+1.5$ points
 over base: consolidating mediocre functions makes the next ones worse) and
-is neutral to harmful later. C3: strict finds are zero in every arm and
-cycle, and the best candidate per variant is nearly the same in every arm
+is neutral to harmful later. C3: strict finds are rare (at most 1.7\%,
+attract at cycle 4) and zero in every arm at the final cycle, and the
+best candidate per variant is nearly the same in every arm
 ($\approx$3.1\% excess, the level of best fit): the ceiling did not move.
 C4: no collapse over five cycles; the distinct/valid ratio is 0.97--1.00
-throughout, literal copies of the training set 1--16\% (attract); every
-adapter makes the model write 3.6--4$\times$ more functions per notebook.
+throughout, literal copies of the training set 1--16\% (attract); both
+adapters make the model write 3.4--6.5$\times$ as many valid functions
+per notebook as the base.
 Far transfer: on six distributions of other families the final attract
 adapter equals the base on the mean ($+0.001$, $p=0.69$; $n=5$ of the six
 far families; the base arm produced no valid candidate in one) and beats
@@ -431,11 +467,11 @@ verifier has approved.
 adapter (cycle-5 lineage) & cand. & mean exc. & at classic & levels & mean exc. & $>$ classics \\
 \midrule
 base (none) & 47 & 0.0556 & 20\% & 0.81 & 0.0838 & 10.0\% \\
-random & 287 & 0.0695 & 15\% & -- & 0.1004 & 0.0\% \\
-repel-early (DPO, 20 steps) & 71 & 0.0721 & 30\% & -- & 0.0994 & 2.0\% \\
+random & 287 & 0.0695 & 16\% & -- & 0.1004 & 0.0\% \\
+repel-early (DPO, 20 steps) & 71 & 0.0721 & 34\% & -- & 0.0994 & 2.4\% \\
 attract (SFT on value) & 226 & 0.0386 & 72\% & 0.14 & 0.0803 & 3.9\% \\
 repel-anch (DPO + anchor) & 144 & \textbf{0.0311} & 100\% & 0.07 & \textbf{0.0758} & 0.0\% \\
-sft-only (anchor term alone) & 78 & 0.0317 & 96\% & -- & 0.1278 & 0.0\% \\
+sft-only (anchor term alone) & 78 & 0.0319 & 97\% & -- & 0.0786 & 0.0\% \\
 qd (SFT on niche elites) & 293 & 0.0598 & 25\% & 0.33 & 0.1012 & 0.6\% \\
 repel-mode (DPO, from attractor) & 62 & 0.0792 & 2\% & 0.50 & 0.0935 & 0.0\% \\
 repel (DPO, unanchored) & 13 & 0.1056 & 0\% & -- & -- & -- \\
@@ -444,7 +480,9 @@ repel (DPO, unanchored) & 13 & 0.1056 & 0\% & -- & -- & -- \\
 \caption{The ladder of adapters. Held-out: mean test excess of valid
 candidates, share scoring exactly at the level of the better classic
 heuristic, distinct score levels per valid candidate; far families: mean
-excess and share of candidates better than the classics. The mass walks
+excess and share of candidates better than the classics. Means and shares
+are averaged over variants (held-out) or families (far), as in
+Table~\ref{tab:c}; candidate counts are totals. The mass walks
 onto the known attractor; attraction lowers the far-family tail rate per
 valid candidate while raising absolute tail yield through production.
 Rows below attract are single-lineage mechanistic follow-ups.}
@@ -464,13 +502,14 @@ level of the better classic heuristic. The best candidate does not move
 ($0.0311$ in both arms), and the reason is the finding: \textbf{every}
 held-out candidate of the anchored-repulsion adapter scores exactly at the
 best-fit level (all are monotone ``fullest bin'' variants), against 72\%
-for attraction, 15--20\% for the base and the random control, 30\% for an
+for attraction, 16--20\% for the base and the random control, 34\% for an
 early-stopped plain DPO (otherwise worse than attraction, $+0.034$,
 $p=0.008$) and 0\% for the degenerate one (Table~\ref{tab:ladder}).
 Hash-level diversity survives (1.00); functional diversity does not. On the
 far families the anchored adapter is the best arm on the mean (7.6\% vs
-8.4\% base) because ``be best fit'' is good everywhere, and the only arm
-with no candidate better than the classics.
+8.4\% base) because ``be best fit'' is good everywhere, and, with the
+random control, the SFT-only anchor and mode repulsion, one of four arms
+with no candidate better than the classics (Table~\ref{tab:ladder}).
 
 \begin{figure}[t]
 \centering
@@ -487,7 +526,7 @@ the counts above them are pooled events over all candidates, a different
 aggregation (base: 10.0\% macro but 1/18 = 5.6\% pooled; attraction:
 3.9\% macro, 5/156 = 3.2\% pooled). Both rest on 0--5 events per arm
 and are preliminary. Per notebook, attraction's absolute tail yield is
-higher than the base's (0.28 vs 0.08). Competence per candidate is
+higher than the base's (0.28 vs 0.06). Competence per candidate is
 bought with idiosyncrasy; total yield depends on production.}
 \label{fig:tails}
 \end{figure}
@@ -520,17 +559,18 @@ The anchored objective
 combines repulsion from the worst candidates with a supervised term on
 the chosen ones; which half concentrates the policy? The matched control
 (same pairs, same 80 steps, same learning rate and data order, the DPO
-term removed) answers: the supervised anchor alone concentrates 96\% of
-held-out candidates exactly at the classic level (anchored: 100\%;
-attraction: 72\%), at mean excess 0.0317 against the anchored arm's
+term removed) answers: the supervised anchor alone puts 75 of its 78
+held-out candidates (96\%; 97\% as a mean over variants,
+Table~\ref{tab:ladder}) exactly at the classic level (anchored: 100\%;
+attraction: 72\%), at mean excess 0.0319 against the anchored arm's
 0.0311. Repelling the bad was never the mover; supervised attraction to
 the chosen does nearly all the concentrating, and the repulsion term
-adds the last four points. On the far families the SFT-only adapter has
-the worst mean of any arm (0.1278) and no better-than-classic candidate:
-the concentration it buys generalizes worst (0.1278 against the
-anchored arm's 0.0758): supervised attraction drives the in-family
-concentration, while the DPO term substantially changes out-of-family
-behavior.
+adds the last few points. On the far families the SFT-only adapter
+averages 0.0786 (per-family mean; 0.1278 pooled, dominated by one
+family), close to the anchored arm's 0.0758 and below the base's 0.0838,
+with no better-than-classic candidate: the supervised anchor drives the
+concentration in and out of the family; the DPO term adds little out of
+it.
 
 \paragraph{Independent replication across three lineages.} The
 confirmation battery re-ran the whole procedure three times: independent
@@ -540,12 +580,15 @@ every earlier set, generated and read exactly once after cycle five.
 Table~\ref{tab:crep} and Figure~\ref{fig:crep} give the design's
 answer. The mean moves in every lineage by nearly the same amount
 ($-0.0196$, $-0.0176$, $-0.0188$; pooled $-0.0187$
-\ci{-0.0308}{-0.0080}, aggregated by held-out variant, positive in all
-seven evaluable variants, exact sign-flip $p=0.008$, hierarchical
+\ci{-0.0308}{-0.0080}, aggregated by held-out variant, favoring attract
+in all seven evaluable variants, exact sign-flip $p=0.008$, hierarchical
 bootstrap over lineages and variants); attract beats the random control
-in each ($-0.0149$ pooled, $p=0.016$); and the best converges in all: the adapters' best lands exactly at the
-classic level (0.021028) in each lineage, with no beyond-classic
-candidate anywhere. Production replicates
+in each ($-0.0149$ pooled, $p=0.016$); and the best converges in all: the
+adapters' best lands exactly at the classic level (0.021028, that of the
+lowest variant) in each lineage. Per variant, attract never passes its
+variant's classic level, while the random control does with 14
+candidates (7 of 24 lineage-variant cells, margins 0.0009--0.0037) and
+the base with one. Production replicates
 too: the base wrote 33--63 valid candidates per lineage against the
 adapters' 108--205, and in one variant of one lineage the base produced
 no valid candidate at all (the eighth variant is therefore excluded from
@@ -559,8 +602,9 @@ eight variants favoring attract, $p=0.0039$ under either bound, so the
 conditioning was conservative. Second, a three-effect decomposition: the
 random control also reaches the best of 0.021028 in every lineage, so
 generic self-training plus increased valid production suffices to
-\emph{reach} the classic level; value filtering is what the
-distributional mean shift requires.
+\emph{reach} the classic level (and, in seven lineage-variant cells, to
+pass it by at most 0.004); value filtering is what the distributional
+mean shift requires.
 
 \begin{table}[t]
 \centering\footnotesize
@@ -582,10 +626,11 @@ lineage & arm & candidates & valid & mean excess & best & $\Delta$ vs base \\
 \end{tabular}
 \caption{The replication battery on the never-consulted held-out set
 (means averaged over the seven common variants; $\Delta$ = per-lineage
-variant-averaged difference to base). Three independent runs of the
-whole procedure produce three nearly identical effects on the mean and
-the same movement of the best: to the classic level, in every arm that
-trains, and never beyond it.}
+variant-averaged difference to base; best = minimum over all held-out
+variants). Three independent runs of the whole procedure produce three
+nearly identical effects on the mean and the same movement of the best:
+to the classic level, in every arm that trains, and never beyond it
+under attract.}
 \label{tab:crep}
 \end{table}
 
@@ -614,10 +659,10 @@ these objectives keep is diversity of the mediocre. Across every
 consolidation we ran, the per-valid-candidate rate of better-than-classic
 candidates on new families is highest in the untrained base (10\% as a
 mean over families; pooled, 1 of 18 candidates) and falls with training
-(attract 3.9\%, pooled 5 of 156; every other adapter $\le 2\%$, pooled
+(attract 3.9\%, pooled 5 of 156; every other adapter $\le 2.4\%$, pooled
 0--1 events). The absolute yield points the other way: because
 consolidation multiplies valid production, attraction delivered five
-better-than-classic candidates against the base's one, 0.28 against 0.08
+better-than-classic candidates against the base's one, 0.28 against 0.06
 per notebook, across two families against one. Both readings rest on zero
 to five events per arm and are preliminary; what they jointly say is that
 consolidation concentrates each candidate toward the known good while
@@ -640,10 +685,13 @@ of a never-seen variant onto the known good, and an anchored repulsion from
 the bad moves it there exactly. Two things nothing we tried produced:
 measurable document progression (three injections, selection, a verifier
 in the stream and a judge-gated review all leave development near 2/10)
-and a beyond-classic candidate under the evaluated bin-packing budgets
+and, under the evaluated bin-packing budgets, a held-out candidate
+measurably beyond the classic from any value-filtered or anchored adapter
 (five cycles of attraction, four kinds of repulsion and a
-quality-diversity consolidation all leave the best observed
-within-family level where it was).
+quality-diversity consolidation leave the best observed held-out level
+at the classic or above it, none passing it by more than $10^{-4}$; the
+held-out candidates beyond it, by 0.0009--0.0037, came from the
+untrained base and the random control).
 
 \paragraph{The bit distance (a conceptual model consistent with, not
 demonstrated by, these data).} A generative model is a distribution, not a
@@ -697,7 +745,7 @@ original lineage's primary
 contrast missed $\alpha$ at the registered third cycle ($p=0.11$) and
 closed only in a sequential-analysis sense at the extension to five
 ($p=0.008$), the held-out set having been consulted at both looks; its
-base arm varies by seed; candidate counts differ by arm (47--334), so the
+base arm varies by seed; candidate counts differ by arm (42--334), so the
 observed best is not an equal-budget comparison of tails (the matched-$k$
 analyses in the results address this); the far families
 are six (paired $n=5$) and the tail rates rest on tens of candidates; the
@@ -712,7 +760,17 @@ $n{=}8$, underpowered alone); excluding the far
 family in which the base produced no valid candidate treats a production
 failure as missing data, so the paired far contrast is conditioned on
 validity; the selection criterion admits lucky candidates (training finds lose on
-test), which is why the primary measure is the mean and not the best. The
+test), which is why the primary measure is the mean and not the best. A
+later run (laboratory notebook, 2--3 September 2026; the appendices
+\texttt{APPENDIX\_T2.md} and \texttt{APPENDIX\_T2\_8B.md} are in the evidence
+deposit) repeated the consolidation on the same domain in
+bf16 on PyTorch with three cycles (Qwen3-14B-Base and Qwen3-8B-Base) and
+reproduced neither the base's far-family tail rate (0--5\% per cycle,
+against 10\% here) nor attraction's mean shift on the held-out variants
+(attract minus base between $-0.9$ and $+0.6$ points per cycle); the
+claim that mean quality can be bought and replicated holds for the 8-bit
+MLX arrangement with five cycles, and we have not separated which of
+backend, precision, model size or number of cycles it depends on. The
 negative results are resolution-bounded nulls, not proofs of absence; the
 tail finding in particular deserves replication at a larger sample and on a
 domain with more headroom.
@@ -738,24 +796,44 @@ level without any repulsion term);
 keeping the tails kept the mediocre. In this lineage the untrained base
 had the highest per-candidate better-than-classic rate on the evaluated
 far families, while attraction's larger production delivered more
-absolute tail events; the best statistic improved to the classic level
-and no beyond-classic candidate appeared. Mean candidate
-quality among valid candidates can be bought; the observed best moves
-to the classic heuristic and not beyond it, in every lineage. And the central remaining question, whether
+absolute tail events; the best statistic improved to the classic level,
+and attraction produced no candidate measurably beyond the classic on
+the held-out variants. In this arrangement (an 8-bit model in MLX, five
+cycles), mean candidate quality among valid candidates can be bought;
+under attraction the observed best moves to the classic heuristic and
+not beyond it, in every lineage. And the central remaining question, whether
 the procedure replicates or the effect was a peculiarity of one training
 path, is now answered: three independent lineages, fresh seeds, five
 cycles fixed in advance, a second held-out set read exactly once, and
 the same result three times, $-2.0$, $-1.8$ and $-1.9$ points of mean
-excess against the base (aggregated by held-out variant, positive in
-seven evaluable variants, $p=0.008$), and the same convergence of the
-best: in every lineage the adapters' best candidate lands exactly on the
-classic heuristic's level (0.021028) and no arm produces a
-beyond-classic candidate. The best statistic itself improves from the
+excess against the base (aggregated by held-out variant, favoring
+attract in all seven evaluable variants, $p=0.008$), and the same
+convergence of the best: in every lineage the adapters' best candidate
+lands exactly on the classic heuristic's level (0.021028), and attract
+produces no beyond-classic candidate (the random control 14, the base
+one). The best statistic itself improves from the
 base's 0.0243--0.0247 to that level, an attractor reading rather than an
 immobility one; the exact sign-flip on the variant-paired best
 difference does not resolve it ($-0.004$, $p=0.094$; the hierarchical
 bootstrap interval \ci{-0.011}{-0.000} reflects a different aggregation
 and should be read as descriptive).
+
+\paragraph{Acknowledgements and tooling.} The experiments, analyses and
+text of this paper were produced by the author working with an AI
+assistant (Claude, Anthropic; model Fable 5 for version 1, August 2026,
+and Opus 5.5 for the corrections of version 2, October 2026) inside the
+Claude Code environment. The assistant wrote and ran the code, operated
+the data collection under the author's direction and drafted the
+manuscript; every design decision, result and claim was reviewed by the
+author, who is responsible for the content. A colleague read the drafts
+of version 1 in five rounds between 24 and 28 August 2026, and the
+responses to each round are dated in the laboratory notebook; this was a
+colleague's reading, not peer review. The corrections of version 2 come
+from a read-only audit of version 1 against the run data and the
+notebook, carried out by instances of the same assistant and approved by
+the author. The LLM judge (Claude Opus~5 on Amazon Bedrock) is part of
+the instrument; generators and fine-tuning ran locally on Apple silicon
+via MLX.
 
 \appendix
 \section{Reproducibility and experimental provenance}
@@ -768,16 +846,19 @@ and should be read as descriptive).
 \toprule
 battery & registered & data seen & primary & status \\
 \midrule
-M/M+ (memory, tension) & 2026-08-19 & paper-1 batteries & schema vs verbatim & supported \\
-S, V (selection, verifier) & 2026-08-19 & M & held-out gain & null; fabr.\ verdicts \\
+S (selection) & 2026-08-19 & paper-1 batteries & held-out gain & null \\
+M/M+ (memory, tension) & 2026-08-20 & paper-1, S & schema vs verbatim & supported \\
+V (verifier) & 2026-08-20 & M, S & held-out gain & null; fabr.\ verdicts \\
 C cycles 1--3 & 2026-08-21 & none & attract vs base (c3) & not supported ($p=0.11$) \\
-C cycles 4--5 & 2026-08-22 & c3 result & attract vs base (c5) & sequential, $p=0.008$ \\
-C-repel, N (tails) & 2026-08-22 & C & keep the tails & degenerate / not kept \\
+C cycles 4--5 & 2026-08-21 & c3 result & attract vs base (c5) & sequential, $p=0.008$ \\
+C-repel, N (tails) & 2026-08-21/22 & C & keep the tails & degenerate / not kept \\
 Matched-$k$ analyses & 2026-08-24 & all C & best-of-$k$, pass@$k$ & reported \\
 C-rep (3 lineages) & 2026-08-26 & all above & replication & mean yes; best to classic \\
+SFT-only control & 2026-08-27 & all above & at-classic share & the anchor concentrates \\
 \bottomrule
 \end{tabular}
-\caption{Order of registrations and looks. The cycle-5 result is a
+\caption{Order of registrations and looks (dates from the commit history;
+M+ was registered after the M result). The cycle-5 result is a
 prospective sequential extension, not an independent confirmation; the
 independent lineages with never-consulted held-outs are the confirmation
 battery.}
@@ -785,8 +866,8 @@ battery.}
 \end{table}
 
 \begin{sloppypar}
-Code, run data, judgments, pre-registrations and the dated laboratory
-notebook are in the repository of the companion study
+Code, pre-registrations and the dated laboratory notebook are in the
+repository of the companion study
 (\url{https://github.com/RobertoOno/interrupting-the-loop}): the oracle arms
 (\texttt{schema\_reseed}, \texttt{anomaly\_reseed}, \texttt{agenda\_reseed}
 in \texttt{scripts/dream\_run.py}), battery S
@@ -797,7 +878,12 @@ in \texttt{scripts/dream\_run.py}), battery S
 \texttt{run\_n.sh}) and the analyses that generate the tables
 (\texttt{docs/APPENDIX\_GEN.md}, \texttt{APPENDIX\_S.md},
 \texttt{APPENDIX\_V.md}, \texttt{APPENDIX\_C*.md}, \texttt{APPENDIX\_N.md}).
-Judging used \texttt{anthropic.claude-opus-5} on Amazon Bedrock (20--21
+The candidate records of batteries C and C-rep are in the release
+\texttt{run-data-v1} of that repository (Zenodo
+\doilink{10.5281/zenodo.22714138}); the run data and judgments of every
+battery reported here, including M, M+, S and V, are in the evidence
+deposit \doilink{\evidencedoi}.
+Judging used \texttt{anthropic.claude-opus-5} on Amazon Bedrock (18--20
 August 2026) under the prompts of the companion study; fine-tuning used
 \texttt{mlx\_lm} (QLoRA on the 8-bit model, peak 14\,GB, about 8 minutes
 per adapter) and a small DPO trainer in MLX released with the code. Every

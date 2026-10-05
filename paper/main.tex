@@ -27,6 +27,10 @@
 \newcommand{\dcoh}{coherence}
 \newcommand{\ci}[2]{[#1,\,#2]}
 \newcommand{\todo}[1]{\textcolor{red}{[#1]}}
+% Zenodo DOIs, filled in at deposit time: this version of the paper, and the
+% evidence deposit (run data and LLM judgments).
+\newcommand{\thisdoi}{10.5281/zenodo.23163693}
+\newcommand{\evidencedoi}{10.5281/zenodo.23163299}
 
 \title{Interrupting the Loop:\\
 Periodic Subject Changes Raise Judged Surprise and Connection\\
@@ -34,7 +38,8 @@ in Base Language Models}
 \author{Roberto I. Ono Filho\\
 Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{Preprint, \today}
+\date{Version 2, 5 October 2026 (version 1: 20 August 2026, arXiv:2608.19893v1)\\
+Zenodo \href{https://doi.org/\thisdoi}{doi:\thisdoi}; the changes are listed at the end of the main text}
 
 \begin{document}
 \maketitle
@@ -55,11 +60,50 @@ Independent researcher\\
 
 \paragraph{Acknowledgements and tooling.} The experiments, analyses and text of this
 paper were produced by the author working with Claude (Anthropic) as a
-programming and writing assistant inside the Claude Code environment; every
-design decision, result and claim was reviewed by the author, and the dated
-laboratory notebook, code and per-run data are public in the repository.
+programming and writing assistant inside the Claude Code environment, and the
+corrections of version~2 were prepared the same way; every design decision,
+result and claim was reviewed by the author. The code and the dated
+laboratory notebook are public in the repository, and the run data and LLM
+judgments are in the evidence deposit
+(\href{https://doi.org/\evidencedoi}{doi:\evidencedoi}).
 Judges were run on Amazon Bedrock and OpenRouter; generators ran locally on
 Apple silicon via MLX.
+
+\paragraph{Changes in version 2.} This version corrects version~1 (20 August
+2026); no conclusion changes. Version~1 is the preprint; what the text calls
+the first version of this study is the earlier, pre-review draft that used
+the event-window protocol (\texttt{docs/PAPER\_DREAM.md} in the repository).
+(i)~Status: the second round of human ratings, described in version~1 as in
+progress, was prepared but not run. (ii)~Human validation: the human readers rated only surprise and coherence, on windows
+of the first protocol, which could contain the injected sentence; the
+introduction and the conclusion now state that scope, and the agreement with
+the second judge family is given for both of its samples. (iii)~Self-copy:
+the abstract ran together two measures, the share of post-interruption
+windows that are replay (65--80\% at periods 150--300) and the share whose
+source lies beyond the judge's horizon (62\% at period 300); they are now
+separate. (iv)~Numbers: the main-text numbers of Section~\ref{sec:loop} and
+of the appendix text now match the appendix tables. In version~1 some had been computed before the last re-judged
+windows were added; most differences are below 0.1 points and none exceeds
+0.3. With the final values the fresh-only effect on connection is +0.7 to
++0.9 (version~1: +0.8), the fresh-only effect on surprise is only slightly
+smaller than the all-windows one (version~1: about one point smaller), and
+the fresh-only connection gain on the other generators is now reported, three
+counts of premises moving the same way are given as the final values show them
+(for example eight of ten, not every premise, for reset against preserved context on
+surprise), and differences on coherence once said to have intervals that include
+zero are described as not significant at $n=10$. For rater privacy, the individual
+raters' means and agreements are now given as ranges and the payment without
+amounts. Three statements were corrected: the salience-timed stitch was called the
+arm the judge rates lowest, which held only under the first protocol;
+``two to three points'' of surprise on all windows holds against bare
+generation, not against habituation; and the abstract said that a paragraph
+break adds nothing detectable ``on fresh text'', for which no contrast is
+reported (the all-windows contrast is).
+(v)~Availability: version~1 said that the per-run data, judgments and rater
+files were released with the repository; they were not. The run data and the
+LLM judgments are now in the evidence deposit, and individual human ratings
+are not released, to protect rater anonymity. A duplicated table caption and
+a table reference that pointed to the wrong table were fixed.
 
 \bibliographystyle{plainnat}
 \bibliography{references}

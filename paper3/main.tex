@@ -16,11 +16,14 @@
 \graphicspath{{figures/}}
 \setlength{\parskip}{0.25em}
 \newcommand{\ci}[2]{[#1,\,#2]}
+% Zenodo DOIs to fill in at deposit time: this version (v4) and the evidence deposit of this paper.
+\newcommand{\thisdoi}{10.5281/zenodo.23163677}
+\newcommand{\evidencedoi}{10.5281/zenodo.23163299}
 
 \title{Operator Packages, Proposer Strength, and\\ Construction-Family Plateaus in\\ Office-Scale Verified Search}
 \author{Roberto I. Ono Filho\\ Independent researcher\\
 \texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
-\date{}
+\date{Version 4, 5 October 2026 (arXiv v2). v3: 11 September 2026 (Zenodo); v2: 3 September 2026 (Zenodo); v1: 28 August 2026 (arXiv v1).\\ arXiv:2609.29636; Zenodo DOI of this version \href{https://doi.org/\thisdoi}{\thisdoi} (all versions: \href{https://doi.org/10.5281/zenodo.22280391}{10.5281/zenodo.22280391}).\\ The changes in version 4 are listed after the abstract.}
 
 \begin{document}
 \maketitle
@@ -39,8 +42,9 @@ factorial with two replicates favours the primary contrast in a nominal
 two-stage analysis: the composition closes more of the seed-to-record
 gap ($+0.196$ \ci{+0.059}{+0.343}; nominal pooled $p=0.023$,
 stage-combination $p\approx 0.08$; median per-problem effect $+0.045$;
-robust to removing the seed floor from the metric). Repulsion raises construction-hash diversity everywhere
-($+0.31$, $p=0.0039$; partly a manipulation check, since the operator
+robust to removing the seed floor from the metric). Repulsion raises
+construction-hash diversity in eight of nine problems ($+0.31$,
+one-sided $p=0.0039$; partly a manipulation check, since the operator
 optimizes a relative of this quantity). The factorial finds no positive
 memory-by-repulsion interaction and bounds any such interaction to about
 $\pm 0.04$: the gain decomposes additively, the notebook package
@@ -49,16 +53,43 @@ arm that never collapses (0 of 18 runs), with a mean $0.025$ below the
 full composition's, a difference unresolved at $n=9$. A frontier proposer under the identical
 loop reaches in tens of samples what the local model does not in
 hundreds, and in single scoping runs its gains arrive without the
-operators (differences at most $0.003$). The search stalls
-after closing $\approx$92\% of the gap toward the best published
-construction on the flagship problem, and the registered family-hint
-test gives the stall its first reading: named in words, the reference
-family is adopted and loses; handed as code, it is optimized but its
-best tested finite-grid implementation remains below the plateau
-reached unaided. The loop transported and optimized the idea it was
-handed; no unaided run produced it. We release the harness,
-every candidate, and the dated pre-registrations.
+operators (differences at most $0.001$ at equal grid). The searches
+stall after closing 85--92\% of the gap toward the best published
+construction on the flagship problem, and a later analysis
+(Section~\ref{sec:records}, added in v3) reads that plateau as a
+resolution limit: the reference value is a continuum limit and the
+unaided long-run finals already carry its family's structure. In the
+registered family-hint test the family named in words is adopted and
+loses; handed as code, it is optimized, but our best finite-grid
+encoding stays below the plateau reached unaided. We release the
+harness, every candidate, and the dated pre-registrations.
 \end{abstract}
+
+{\small
+\paragraph{Changes in version 4.} Corrections; no registered test or
+verdict changes. (1)~Repulsion raised construction-hash diversity in
+eight of nine problems (Heilbronn $-0.04$) and in 16 of 18 replicates,
+not ``everywhere'' or ``in every problem and replicate'' as versions 1--3
+said; $p=0.0039$ is one-sided and is the $p$ of one adverse cell, not
+the minimum attainable ($1/512$). (2)~On beat-the-average the three
+values compared lie at 85--92\% of the seed-to-reference gap, not
+92--98\%. (3)~The abstract, Sections~\ref{sec:hint}
+and~\ref{sec:discussion} and the Conclusion now agree with the note
+added in version~3 (the plateau read as a resolution limit): the family
+signature is absent in the three registered no-hint runs, but the same
+classifier labels five of the sixteen unaided factorial finals
+in-family. (4)~Grids are named in the proposer comparison: Claude's
+0.3897 is at $L{=}20000$; at $L{=}5000$ its composed arm reached 0.3872
+in a later run, which the 27B matches; the frontier-strength operator
+differences are at most 0.001 at equal grid. (5)~The 27B was served with
+vLLM on a rented H100, not locally. (6)~The note is labelled as added in
+version~3, not version~2; ``the limit was not resolution'' is replaced;
+three proposers, not two; nine problems, not six; 68 pages (67
+problems); one typo; the provenance table gains the 27B battery and
+reports the interaction as not supported; references updated.
+(7)~Data availability now points to the Zenodo deposits
+(Appendix~\ref{app:repro}), and a statement on the use of an AI
+assistant was added.\par}
 
 \section{Introduction}
 \label{sec:intro}
@@ -96,8 +127,8 @@ verified-search loop, grown from a $5{\times}6{\times}2$ ablation to the
 complete $2^3{\times}9{\times}2$ factorial: the composition reaches
 $+0.196$ (nominal $p=0.023$ over the two-stage sequence; robust to the
 metric's seed floor), behavioural repulsion buys construction-hash
-diversity in every problem and replicate ($p=0.0039$), and no single
-package avoids every failure mode.
+diversity in eight of nine problems and 16 of 18 replicates
+($p=0.0039$), and no single package avoids every failure mode.
 (2) A revision, by the completed factorial, of this program's recurring
 \emph{anchoring pattern}: the factorial finds no positive
 memory$\times$repulsion interaction and bounds any such interaction to
@@ -113,14 +144,17 @@ diversity without accumulated direction does not compound.
 model under the identical loop and budget, on the same problem,
 locating the residual gap in the proposer rather than in the loop, with a
 frontier-strength scoping run in which the single-run operator
-differences are at most $0.001$--$0.003$.
+differences are at most $0.001$ at equal grid.
 (5) An honest calibration of office-scale verified search: the composed
 arm closes a median $0.71$ of the seed-to-reference gap (per-problem
 $0.10$--$0.99$; two problems sit at plateaus every arm shares), the
 tested grid and verifier-time changes did not improve the result, a
 stronger proposer raised and accelerated the flagship plateau without
-closing the final gap, and the construction family remains the leading
-suspect for the binding constraint.
+closing the final gap. A note added in version~3
+(Section~\ref{sec:records}) reads the flagship plateau as a resolution limit of the
+verifier's grid rather than a family boundary: the reference value is a
+continuum limit, finite-grid members of its family cap near 0.389, and the
+loop finals already carry the family's structure.
 
 \section{Related work}
 \label{sec:related}
@@ -164,9 +198,9 @@ behaviour descriptor.
 this work, \citet{chen2026automated} ran LLM ``automated alignment
 researchers'' that propose and train post-training fixes for ten
 alignment failures. Their harness independently converges on the organs
-studied here---a persistent memory file carried across fresh sessions
+studied here (a persistent memory file carried across fresh sessions
 and a shared finding forum, whose removal costs the most headroom in
-their ablation---and their telemetry shows each failure collapsing into
+their ablation), and their telemetry shows each failure collapsing into
 a single dominant method family while idea diversity stays flat or
 declines as scores climb. A novelty-rejection variant raises the novelty
 of accepted methods but yields mixed downstream gains, mirroring the
@@ -277,8 +311,8 @@ see.}
 Pre-registered contrasts (exact paired sign-flip over problems, cells =
 problems, pooled replicates). The original six-problem battery put the
 primary contrast at the design's resolution floor ($+0.199$, $p=0.0625$;
-with six cells and one adverse problem the exact test cannot go below
-$4/64$); the prospectively registered nine-problem extension supports it:
+with six cells, one adverse problem and one tie the exact test cannot go
+below $4/64$); the prospectively registered nine-problem extension supports it:
 \textbf{F1} (primary), E vs A on frac: $+0.196$ \ci{+0.059}{+0.343},
 $p=0.023$ over the combined nine problems. We report the stages
 separately, since the combination is a two-look sequence rather than an
@@ -295,8 +329,8 @@ every arm meets the same plateau it rises to $+0.252$ at the same $p$
 leave-one-problem-out means span $+0.153$ to $+0.224$, with large gains
 on four problems, little on four, and one small loss.
 \textbf{F4}, D vs A on construction-hash diversity: $+0.307$
-\ci{+0.149}{+0.477}, $p=0.0039$, the minimum attainable $p$, positive
-in all nine problems in both replicates. \textbf{F6} (the anchor), E vs
+\ci{+0.149}{+0.477}, $p=0.0039$ (one-sided), positive in eight of nine
+problems (Heilbronn $-0.04$) and in 16 of 18 replicates. \textbf{F6} (the anchor), E vs
 D: $+0.137$ \ci{-0.047}{+0.382}, $p=0.156$: not supported as a
 pairwise contrast; the factorial below resolves what it was measuring.
 F2 (auc): $+0.115$, $p=0.070$: the composed arm's advantage builds late.
@@ -331,8 +365,8 @@ repulsion ($+0.011$) near zero on frac. The decomposition is exact
 ($E-A = 2\,(\beta_M+\beta_A+\beta_R+\beta_{MAR}) = 0.196$): the
 nominal pooled composite gain splits as roughly $58\%$ notebook, $16\%$
 agenda, $12\%$ repulsion and $14\%$ three-way (a descriptive
-decomposition with wide per-term intervals); at $n=9$ the total
-total is directionally supported, the parts remain unresolved. Two
+decomposition with wide per-term intervals); at $n=9$ the total is
+directionally supported, the parts remain unresolved. Two
 patterns in the cube are worth the trip. First, each
 operator has one job (Table~\ref{tab:factorial}, Figure~\ref{fig:cube}): the four memory-on
 cells hold the four best mean fracs, while every repulsion-on cell sits
@@ -373,7 +407,7 @@ configuration that avoided all of them in these runs.
 \includegraphics[width=0.86\linewidth]{fig_f4_proposer_curve.png}
 \caption{Beat-the-average under the same loop (arm E): fraction of the
 seed-to-record gap closed per verified sample. The local 30B at two grid
-resolutions; Claude Opus~5; dotted lines mark AlphaEvolve's reported value
+resolutions; Claude Opus~5 at $L{=}20000$; dotted lines mark AlphaEvolve's reported value
 (0.3890) and the best known (0.400695, Bellec--Fritz).}
 \label{fig:curve}
 \end{figure}
@@ -388,18 +422,24 @@ distance 16 left both local arms \emph{worse} than their own 120-sample
 runs on a fresh seed: seed variance dominates budget there too.)
 (ii) \emph{Grid}: refining the pmf grid from
 $L{=}5000$ to $L{=}20000$ at equal budget makes the local proposer
-\emph{worse} (0.3561): the limit was not resolution. (iii)
+\emph{worse} (0.3561): a finer grid did not help this proposer's search
+(the note below explains why the ceiling itself rises only slowly with
+the resolution). (iii)
 \emph{Proposer}: Claude Opus~5 under the identical loop reaches 0.3897
+(at $L{=}20000$)
 within $\sim$100 samples (just above the repository's published value,
 obtained with 2025-era proposers; we read this as locating the
 wall, not as ranking systems across model generations) and plateaus
 there for 17 generations. (iv) \emph{Verifier time}: tripling the
 sandbox budget to 60 seconds, so heavier optimizers can run, moves the
 plateau by $+0.0002$. (v) \emph{Proposer generation} (pre-registered
-after review): a current-generation open-weight proposer, Qwen3.8-27B
-served locally in non-reasoning mode with a 3000-token budget, under
-the identical 600-sample loop at $L{=}5000$ reaches 0.3876 --- between
-the local model (0.3816) and Claude (0.3897) --- and its best
+on 1 September 2026, after version~1): a current-generation open-weight
+proposer, Qwen3.8-27B served with vLLM on a rented H100 (search and
+verifier local) in non-reasoning mode with a 3000-token budget (the
+earlier proposers had 1400), under the identical 600-sample loop at
+$L{=}5000$ reaches 0.3876, between the local model (0.3816) and Claude
+at $L{=}20000$ (0.3897); at $L{=}5000$ Claude's composed arm reached
+0.3872 in a later run, so at equal grid the 27B matches it. Its best
 construction is the same sparse-atom family, now with the exact
 objective, L-BFGS weight refinement and coordinate descent on atom
 positions; 60\% of its valid samples exceed the local model's whole
@@ -413,11 +453,12 @@ measure of 16 atoms (half the mass on $\{0,1,2,3\}$, geometrically
 spaced atoms at the top), with the strategy stated in comments. Claude's
 best implements an exact sparse-atom objective with an analytic gradient
 and a multiplicative-weights refinement. The frontier proposer and AlphaEvolve's published value sit within
-0.0007 of each other; the local model stalls about 0.008 behind them.
-All three lie at 92--98\% of the seed-to-reference gap toward a
-reference whose construction evidently lies outside the
-sparse-atom family every language model proposes. More precisely: the
-candidates of both proposers are small finitely supported measures found
+0.0007 of each other; the local model, at $L{=}5000$, stalls about 0.008 behind them.
+All three lie at 85--92\% of the seed-to-reference gap toward a
+reference whose construction we read, at the time, as lying outside the
+sparse-atom family every language model proposes (the note below
+revises that reading). More precisely: the
+candidates of all three proposers are small finitely supported measures found
 numerically, while the \citet{bellec2024beat} construction is a
 multiscale, recursively structured sequence of discrete measures whose
 analysis shows a finitely supported measure cannot be optimal; the
@@ -426,6 +467,41 @@ tested, grid and time changes did not move the result and two stronger
 proposers moved it without closing the gap; these plateaus motivated the
 hypothesis that what remained was the construction family, an idea. The
 family-hint experiment below tests and qualifies that interpretation.
+
+\paragraph{Note added in v3: the wall is the grid's resolution.} A later
+analysis of the archived beat-the-average finals (3--4 September 2026;
+appendix and scripts in Zenodo 10.5281/zenodo.22713807,
+Appendix~\ref{app:repro}) changes the reading of this plateau. The
+reference value 0.400695 is the continuum limit of a self-similar scale
+mixture \citep[Prop.~3.3]{bellec2024beat}; the single dyadic ladder
+gives 0.3804 in the continuum and 0.3814 with optimised weights.
+Hand-written finite-grid members of the mixture family score 0.3850 at
+$L{=}5000$, 0.3867 at $L{=}20000$ and 0.3888 at $L{=}4{,}000{,}000$,
+rising slowly with the resolution. The loop finals of the 27B at
+$L{=}5000$ (0.3876) and of the frontier proposer at $L{=}20000$ (0.3899,
+a later run) already carry the family's structure (a dyadic ladder at
+the top, a smaller copy of the ladder near zero, and split atoms that
+break the ties the continuum construction exploits) and exceed our
+hand-written members at the same grid. The structure is read by
+inspection of the atoms: under the signature classifier registered in
+Section~\ref{sec:hint}, of these finals only the local 30B's (0.3816,
+600 samples) receives the ladder label, while the 27B's and the
+frontier proposer's fall in the sparse-other class; so ``no unaided run
+matched the signature'' (the three registered no-hint runs, by the
+classifier) and ``the finals carry the structure'' (the long-run
+finals, by inspection) are both true. The family was therefore not
+outside what the proposers produce; what none of them can reach on a
+finite grid is the continuum limit. This also explains the twist of
+Section~\ref{sec:hint}: our strongest hand-written encoding, 0.374, sits
+below the mixture's 0.385 at $L{=}5000$, so the family handed as code was
+a weaker member of a family the loop already had. On this problem the
+binding constraint is the resolution of the grid, not an idea; the other
+two shared plateaus (isosceles-free, $180!$) remain candidate family
+boundaries. To our knowledge, no language-model system has reported
+more than about 0.390 on this problem. On other problems (circle packing, max--min distance) a
+bandit study of compute allocation over evolutionary trajectories with
+open models measured the same lock-in to the first family a run reaches
+\citep{xing2026base}.
 
 A second problem sharpens where such ideas live. On max--min distance 16,
 the frontier proposer under the same loop emits \emph{in generation
@@ -440,13 +516,14 @@ lacks. The pre-registered scoping runs make the same point from the
 other side, on all three registered problems. On beat-the-average, the
 bare, memory-only and repulsion-only arms land within $0.001$ of one
 another ($0.3871$, $0.3866$, $0.3876$; single runs, estimation only) and
-within $0.003$ of the composed arm's $0.3897$. On max--min distance and
+within $0.001$ of the composed arm at the same grid ($0.3872$; the
+$0.3897$ above is at $L{=}20000$). On max--min distance and
 on the Heilbronn problem every arm converges to an identical value
 ($12.889230$ and $0.036530$ respectively; the Heilbronn reference in our
 registry floors the reported figure, so that value reaches the frozen
 reference and supports no exceedance claim). At frontier strength the
-single-run operator differences are at most $0.001$--$0.003$ everywhere
-we measured them: the nominal gains are a local-proposer phenomenon,
+single-run operator differences are at most $0.001$ at equal grid
+everywhere we measured them: the nominal gains are a local-proposer phenomenon,
 and whether the collapse insurance survives at this strength remains
 untested (single runs; the frontier proposer's own run-to-run noise is
 unestimated).
@@ -461,10 +538,10 @@ family: (a) no hint; (b) a generic hint; (c) a structural hint naming
 the family without parameters; (d) a crude in-family seed program
 (initial score 0.2734); (e) a \emph{strong in-family seed}, our best
 tested finite-grid instantiation of the family (0.3742; on this grid
-with strict inequality, notably \emph{below} the 0.3816 sparse-atom
-plateau, a fact measured and registered before launch --- the condition
-supplies an author-implemented finite approximation, not the theoretical
-multiscale construction itself).
+with strict inequality, notably \emph{below} the 0.3816 plateau of the
+unaided 600-sample run, a fact measured and registered before launch;
+the condition supplies an author-implemented finite approximation, not
+the theoretical multiscale construction itself).
 
 \begin{table}[t]
 \centering\footnotesize
@@ -496,9 +573,9 @@ constructions carry the family signature, so the model obeyed, entered a
 family that is inferior at this grid, and paid about $0.025$ for it.
 Handed the family as code, the loop optimizes it ($+0.085$ from the
 crude seed, above the no-hint endpoint in three of three seeds) and
-stays loyal to it (no strong-seed run deserted to the better sparse
-family). No unaided candidate in the three registered 120-sample runs
-matched the family signature. Two caveats bound the reading: the
+stays loyal to it (no strong-seed run deserted to the sparse
+constructions of the unaided runs). No unaided candidate in the three
+registered no-hint runs matched the family signature. Two caveats bound the reading: the
 historical $0.3816$ comes from a different battery under strong seed
 variance, so the strong seed's $0.375$ exceeds the \emph{contemporary}
 no-hint $0.352$ descriptively while trailing the historical best; and
@@ -507,7 +584,7 @@ mix family advantage with starting-point advantage (matched-score sparse
 seeds and paraphrased or deliberately wrong hints are the registered
 next controls). Within those bounds the registered hypothesis was not
 supported: handing the idea, in words or in this finite encoding, did
-not cross the last mile under this budget --- our tested finite-grid
+not cross the last mile under this budget; our tested finite-grid
 encoding of the idea was not sufficient to close the gap, which leaves
 open whether the theoretical family, a richer encoding, or a larger
 budget would. What the experiment does establish is a division of
@@ -550,12 +627,13 @@ optimization, and prompt-space search.
 
 \paragraph{The proposer comparison and the plateau.} On this one problem,
 the frontier proposer is far more efficient in verifier evaluations
-($+0.008$ absolute over the local model's 600-sample best, reached with
-roughly $20\times$ fewer verified samples), and
+($+0.008$ absolute over the local model's 600-sample best, at
+$L{=}20000$ against $L{=}5000$, and $+0.006$ at equal grid in a later
+run; reached with roughly $20\times$ fewer verified samples), and
 everything we tried after it moved little (grid, time, more samples:
 $+0.0002$). This is a sample-efficiency comparison on one problem under
 one harness, not yet a proposer-strength curve; replications on further
-problems are planned, and reasoning effort, ensembles, alternative
+problems were planned but not run, and reasoning effort, ensembles, alternative
 representations and thousand-sample budgets all remain untested
 explanations. The shared plateau suggests, consistently with our
 consolidation results \citep{ono2026mass}, that search over a fixed prior
@@ -564,7 +642,13 @@ stalls at the best family member, a hypothesis to test rather than
 assert. Section~\ref{sec:hint} put that hypothesis to a registered test; the
 short answer is that a verbal specification of the reference family was
 followed and lost, while an executable in-family seed was optimized, and
-no unaided run produced the family signature. This is the question
+no unaided candidate in the three registered no-hint runs produced the
+family signature (applied later to all archived finals, the same
+classifier labels five of the sixteen unaided 120-sample factorial
+finals in-family). (The note in
+Section~\ref{sec:records} revises this for the flagship problem: the long-run
+finals do carry the family's structure, and the plateau is the grid's
+resolution limit.) This is the question
 \citet{georgiev2025exploration} report answering with an expert in the
 loop, from the other side.
 
@@ -594,9 +678,10 @@ battery & registered & data already seen & primary & status \\
 F ($5{\times}6{\times}2$) & 2026-08-22 & none & E$>$A frac & $p=0.0625$ (floor) \\
 F-ext ladder & 2026-08-23 & F & budget/grid/proposer & descriptive \\
 F-ext2 ($n{=}9$) & 2026-08-24 & F, ladder & E$>$A frac & $p=0.023$ combined \\
-$2^3$ completion & 2026-08-24 & F, ext2 partial & M$\times$R $>0$ & rejected ($p=0.47$) \\
+$2^3$ completion & 2026-08-24 & F, ext2 partial & M$\times$R $>0$ & not supported ($p=0.47$) \\
 Frontier scoping & 2026-08-26 & all above & estimation only & operators $\approx$ null \\
 Family hint & 2026-08-27 & all above & optimize-once-given & yes as code, no as words \\
+27B proposer (v) & 2026-09-01 & all above & wall holds vs breaks & holds (0.3876) \\
 \bottomrule
 \end{tabular}
 \caption{Order of registrations and looks. The nine-problem primary
@@ -633,10 +718,11 @@ retrospective AST-structure metric, invariant to renaming and
 independent of that signature, is directionally consistent on the runs
 with logged code: D-on arms 0.67--0.87 distinct structures per valid
 candidate against 0.38--0.39 for A and B on the matched problems; paired
-D$-$A $+0.27$ at the $n{=}3$ resolution floor); the six
-problems satisfy criteria fixed before any runs (cheap exact verifier,
+D$-$A $+0.27$ at the $n{=}3$ resolution floor); the nine problems (six
+chosen before any runs, three added by the pre-registered extension under
+the same criteria) satisfy criteria fixed before any runs (cheap exact verifier,
 short-function candidates, known headroom; the universe of 68 candidate
-problems
+pages (67 problems)
 and per-problem ratings are in the released reconnaissance table) but were
 not sampled randomly, so the exact tests quantify sign consistency
 within this selected suite and do not license random-sample
@@ -667,40 +753,83 @@ the parsimonious recipe these data support. Repulsion alone enforces
 behavioural non-duplication by construction and was the best single
 package exactly where the valid manifold is wide; and on the one problem
 where we compared them, a frontier proposer reached a higher value with
-roughly $20\times$ fewer verifier evaluations. On beat-the-average both
-proposers stalled inside one small finite-support construction family,
-below a multiscale reference; the other plateaus are consistent with,
-but do not establish, analogous family boundaries. Whether
-crossing that boundary requires what we have informally called an idea
+roughly $20\times$ fewer verifier evaluations. On beat-the-average all
+three proposers stalled below a multiscale reference whose value is a continuum
+limit; the note added in version~3 reads that plateau as the resolution limit of
+the grid, with the reference's family already in the loop's finals, and
+the other plateaus as candidate family boundaries not yet established.
+Whether crossing such a boundary requires what we have informally called an idea
 was put to a registered test on the flagship problem: the idea, handed
 in words, was followed and lost; handed as code, it was optimized, but
 our best tested finite-grid instantiation remained below the plateau the
-models reach unaided. Under the three registered runs the loop moved the
-idea it was handed and produced no candidate matching its signature
-unaided; our finite encoding of the idea was not sufficient to close the
-gap here. Whether the last mile of these searches is an idea, the
+models reach unaided. In the registered test the loop moved the idea it
+was handed, and its three no-hint runs produced no candidate matching
+the idea's signature; our finite encoding of the idea was not sufficient
+to close the gap here. Whether the last mile of these searches is an idea, the
 question this program has carried informally, remains open, now with its
 first measured answer.
 
+\paragraph{Acknowledgements and use of AI.} The experiments, analyses
+and text of this paper were produced by the author working with an AI
+assistant (Claude, Anthropic) inside the Claude Code environment: the
+assistant wrote and ran the code, operated the runs under the author's
+direction and drafted the manuscript. Per the commit trailers, the
+assistant models were mainly Claude Fable~5 (August 2026) and Claude
+Fable~5.1 (September 2026); the corrections of version~4 were made with
+Claude Opus~5.5. Every design decision, result and claim was reviewed
+by the author, who is responsible for the content. Before version~1 a
+colleague read the drafts in five rounds (24--28 August 2026), and the
+comments were applied before submission; the reading adjustments of
+version~3 came from a cross-reading of the series by another AI-assistant
+session, checked against the sources. Neither is peer review,
+and the paper has not been peer reviewed. Claude Opus~5, the frontier
+proposer under test, belongs to the experiments, not to the tooling.
+
 \appendix
-\section{Reproducibility}
+\section{Reproducibility and data availability}
 \label{app:repro}
 
-Code, run data, the dated laboratory notebook with every
-pre-registration and amendment, and the analyses that generate every
-table are in the repository of the program
-(\url{https://github.com/RobertoOno/interrupting-the-loop}): the search
-harness (\texttt{scripts/frontier\_search.py}), the problem verifiers
-(\texttt{src/creative\_machine/domains/}), the batteries
-(\texttt{run\_f*.sh}, \texttt{run\_hint.sh}), the analyses
-(\texttt{frontier\_analysis.py}, \texttt{analysis\_23.py}) and the
-generated appendices (\texttt{docs/APPENDIX\_F*.md},
-\texttt{APPENDIX\_HINT.md}). Every candidate of every reported run is
-logged in the released run data. Proposing used
-\texttt{Qwen3-Coder-30B-A3B-Instruct} (8-bit, MLX) locally and
-\texttt{anthropic.claude-opus-5} on Amazon Bedrock for the frontier
-comparison; every hypothesis, amendment and result is dated in
-\texttt{docs/PLANO.md}.
+\begin{sloppypar}
+Code: \url{https://github.com/RobertoOno/interrupting-the-loop}, the
+repository of the program, with the search
+harness (\path{scripts/frontier_search.py}), the problem verifiers
+(\path{src/creative_machine/domains/}), the batteries
+(\path{run_f*.sh}, \path{run_hint.sh}), the analyses
+(\path{frontier_analysis.py}, \path{analysis_23.py}), the
+generated appendices (\path{docs/APPENDIX_F*.md},
+\path{APPENDIX_HINT.md}) and the dated laboratory notebook
+(\path{docs/PLANO.md}, in Portuguese) with the pre-registrations and
+amendments of the batteries through the family-hint test. Run data and
+the later notebook entries are in three Zenodo deposits.
+(i)~The release \texttt{run-data-v1} of the repository, deposited with
+\texttt{run-data-v2} as
+\href{https://doi.org/10.5281/zenodo.22714138}{10.5281/zenodo.22714138}:
+every logged candidate (\texttt{history.jsonl}, \path{best.py}) of the
+factorial with its replicate and extension batteries, of the frontier
+scoping runs and of the family-hint test.
+(ii)~The evidence deposit of the later programs of this series
+(programs 5--7),
+\href{https://doi.org/10.5281/zenodo.22713807}{10.5281/zenodo.22713807}:
+the ladder runs, rungs (i)--(iv) in \path{runs/frontier/record} and
+the proposer-generation rung (v) in \path{runs/frontier/record27}
+(with \path{run_record27.sh}); the scoping runs again
+(\path{runs/frontier/FP}); and the analysis behind the note in
+Section~\ref{sec:records} (\path{docs/APPENDIX_P2_FAMILY.md},
+\path{family_beatavg.py}, \path{bf_ladder_limit.py},
+\path{bf_mixture_grid.py}) with its dated notebook entry.
+(iii)~The evidence deposit of this paper,
+\href{https://doi.org/\evidencedoi}{\evidencedoi}: the frontier
+proposer's later composed-arm run at $L{=}5000$
+(\path{runs/frontier/claude/beatavg_E300}) and the notebook entries
+made after version~1 that the other deposits lack (the pre-registration,
+amendments and single read of rung (v), and the entries behind the
+equal-grid comparison). Together the three deposits hold every
+candidate of every reported run. Proposing used
+\texttt{Qwen3-Coder-30B-A3B-Instruct} (8-bit, MLX) locally,
+\texttt{Qwen3.8-27B} served with vLLM on a rented H100 for rung (v),
+and \texttt{anthropic.claude-opus-5} on Amazon Bedrock for the frontier
+comparison.
+\end{sloppypar}
 
 \bibliographystyle{plainnat}
 \bibliography{references}

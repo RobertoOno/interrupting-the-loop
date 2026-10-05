@@ -14,7 +14,8 @@ Frederic~C. Bartlett.
 Pengxiang Cai, Tianchen Fang, Xiaohan Li, Qingyuan Zeng, Guocong Li, and Jintai
   Chen.
 \newblock Curriculum reinforcement learning can incentivize reasoning capacity
-  in llms beyond the base model, 2026.
+  in {LLMs} beyond the base model, 2026.
+\newblock arXiv:2606.22317.
 
 \bibitem[Gulcehre et~al.(2023)Gulcehre, Paine, Srinivasan, Konyushkova, Weerts,
   Sharma, Siddhant, Ahern, Wang, Gu, Macherey, Doucet, Firat, and
@@ -23,6 +24,7 @@ Caglar Gulcehre, Tom~Le Paine, Srivatsan Srinivasan, Ksenia Konyushkova, Lotte
   Weerts, Abhishek Sharma, Aditya Siddhant, Alex Ahern, Miaosen Wang, Chenjie
   Gu, Wolfgang Macherey, Arnaud Doucet, Orhan Firat, and Nando de~Freitas.
 \newblock Reinforced self-training ({ReST}) for language modeling, 2023.
+\newblock arXiv:2308.08998.
 
 \bibitem[Lehman and Stanley(2011)]{lehman2011novelty}
 Joel Lehman and Kenneth~O. Stanley.
@@ -34,11 +36,12 @@ Joel Lehman and Kenneth~O. Stanley.
 \bibitem[Mouret and Clune(2015)]{mouret2015mapelites}
 Jean-Baptiste Mouret and Jeff Clune.
 \newblock Illuminating search spaces by mapping elites, 2015.
+\newblock arXiv:1504.04909.
 
 \bibitem[Novikov et~al.(2025)]{novikov2025alphaevolve}
 Alexander Novikov et~al.
-\newblock Alphaevolve: A coding agent for scientific and algorithmic discovery,
-  2025.
+\newblock {AlphaEvolve}: A coding agent for scientific and algorithmic
+  discovery, 2025.
 \newblock Google DeepMind; arXiv:2506.13131.
 
 \bibitem[Ono~Filho(2026)]{ono2026interrupting}
@@ -73,11 +76,13 @@ J{\"u}rgen Schmidhuber.
 \newblock \emph{IEEE Transactions on Autonomous Mental Development}, 2\penalty0
   (3):\penalty0 230--247, 2010.
 
-\bibitem[Singh et~al.(2023)Singh, Co-Reyes, Agarwal, Stanton, Yang,
+\bibitem[Singh et~al.(2023)Singh, Co-Reyes, Agarwal, Anand, Patil,
   et~al.]{singh2023restem}
-Avi Singh, John~D. Co-Reyes, Rishabh Agarwal, Ankesh Stanton, Kai Yang, et~al.
+Avi Singh, John~D. Co-Reyes, Rishabh Agarwal, Ankesh Anand, Piyush Patil,
+  et~al.
 \newblock Beyond human data: Scaling self-training for problem-solving with
   language models, 2023.
+\newblock arXiv:2312.06585.
 
 \bibitem[Stanley and Lehman(2015)]{stanley2015greatness}
 Kenneth~O. Stanley and Joel Lehman.
@@ -89,11 +94,13 @@ Kenneth~O. Stanley and Joel Lehman.
 Jens Tuyls, Dylan~J. Foster, Akshay Krishnamurthy, and Jordan~T. Ash.
 \newblock Representation-based exploration for language models: From test-time
   to post-training, 2025.
+\newblock arXiv:2510.11686.
 
 \bibitem[Wan et~al.(2025)]{wan2025loongflow}
 Chunhui Wan et~al.
-\newblock Loongflow: Directed evolutionary search via a cognitive
+\newblock {LoongFlow}: Directed evolutionary search via a cognitive
   plan-execute-summarize paradigm, 2025.
+\newblock arXiv:2512.24077.
 
 \bibitem[Yue et~al.(2025)Yue, Chen, Lu, Zhao, Wang, Yue, Song, and
   Huang]{yue2025rlvr}
@@ -106,7 +113,7 @@ Yang Yue, Zhiqi Chen, Rui Lu, Andrew Zhao, Zhaokai Wang, Yang Yue, Shiji Song,
 
 \bibitem[Zeigarnik(1927)]{zeigarnik1927behalten}
 Bluma Zeigarnik.
-\newblock Das behalten erledigter und unerledigter handlungen.
+\newblock {Das Behalten erledigter und unerledigter Handlungen}.
 \newblock \emph{Psychologische Forschung}, 9:\penalty0 1--85, 1927.
 
 \bibitem[Zelikman et~al.(2022)Zelikman, Wu, Mu, and Goodman]{zelikman2022star}

@@ -129,9 +129,13 @@ injection positions, and every judgment (`rejudge_gen.json`, generated-only wind
 into the `runs/` layout the analysis scripts expect: [`run-data-v1`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v1)
 (papers 1–3: every logged candidate of every reported run) and
 [`run-data-v2`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v2)
-(paper 4: the R4/R5, pulse, band-map, B-CONF, H2, screen, spectral and generality batteries). The
+(paper 4: the R4/R5, pulse, band-map, B-CONF, H2, screen, spectral and generality batteries), both archived
+as Zenodo [10.5281/zenodo.22714138](https://doi.org/10.5281/zenodo.22714138). The generated texts and LLM-judge
+verdicts of paper 1, the remaining batteries of papers 2 and 4, the missing records of paper 3, the evidence archives
+of paper 6, the code and appendices added after 10 September 2026 and the dated pre-registration entries are in the
+evidence deposit [10.5281/zenodo.23163299](https://doi.org/10.5281/zenodo.23163299) (October 2026). The
 human-rating packs in `docs/blind/` contain the rated windows without
-condition labels; the keys are not public.
+condition labels; the keys are not public, and individual human ratings are not released.
 
 ## License
 
@@ -159,7 +163,15 @@ notebook records the trail.
 
 ## Papers
 
-1. *Interrupting the Loop* — arXiv:2608.19893
-2. *Moving the Mean Toward the Known Good, Not Beyond It* — arXiv:2608.28886
-3. *Operator Packages, Proposer Strength, and Construction-Family Plateaus in Office-Scale Verified Search* — Zenodo DOI 10.5281/zenodo.22280391 (arXiv submission under moderation)
-4. *Pulsed, Not Pressed: What State-Space Injection Buys in Open-Ended Generation, and What It Costs* — Zenodo DOI 10.5281/zenodo.22280784
+Corrected versions of October 2026 (each lists its changes):
+
+1. *Interrupting the Loop* — arXiv:2608.19893; version 2 at Zenodo [10.5281/zenodo.23163693](https://doi.org/10.5281/zenodo.23163693)
+2. *Moving the Mean Toward the Known Good, Not Beyond It* — arXiv:2608.28886; version 2 at Zenodo [10.5281/zenodo.23163706](https://doi.org/10.5281/zenodo.23163706)
+3. *Operator Packages, Proposer Strength, and Construction-Family Plateaus in Office-Scale Verified Search* — arXiv:2609.29636; version 4 at Zenodo [10.5281/zenodo.23163677](https://doi.org/10.5281/zenodo.23163677)
+4. *What State-Space Injection Buys in Open-Ended Generation, and What It Costs* — version 4 at Zenodo [10.5281/zenodo.23163708](https://doi.org/10.5281/zenodo.23163708)
+5. *Operable Form, Not Stimulus* — Zenodo [10.5281/zenodo.22714792](https://doi.org/10.5281/zenodo.22714792)
+6. *Fine-Tuning a Language Model on Its Own Verified Lean Proofs* (report) — Zenodo [10.5281/zenodo.23163729](https://doi.org/10.5281/zenodo.23163729); source in `paper6/`
+- *What a Windowed LLM Judge Cannot See* (short paper on the evaluation of paper 1) — Zenodo [10.5281/zenodo.23163731](https://doi.org/10.5281/zenodo.23163731); source in `paper/short/`
+
+On 5 October 2026 the history of this repository was rewritten to remove the names, payments and countries of the
+human raters from the notebook `docs/PLANO.md`; nothing else changed.

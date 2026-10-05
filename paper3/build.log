@@ -1,7 +1,13 @@
 note: Running TeX ...
+warning: main.tex:391: Underfull \hbox (badness 10000) in paragraph at lines 355--391
+warning: main.bbl:30: Underfull \hbox (badness 10000) in paragraph at lines 23--30
 note: Running BibTeX on main.aux ...
 note: Rerunning TeX because bibtex was run ...
-note: Rerunning TeX because "main.aux" changed ...
+warning: main.tex:391: Underfull \hbox (badness 10000) in paragraph at lines 355--391
+warning: main.bbl:30: Underfull \hbox (badness 10000) in paragraph at lines 23--30
+warning: warnings were issued by the TeX engine; use --print and/or --keep-logs for details.
 note: Running xdvipdfmx ...
-note: Writing `main.pdf` (143.8955078125 KiB)
-note: Skipped writing 3 intermediate files (use --keep-intermediates to keep them)
+note: Writing `main.out` (1.814453125 KiB)
+note: Writing `main.bbl` (6.3095703125 KiB)
+note: Writing `main.aux` (12.5693359375 KiB)
+note: Writing `main.pdf` (291.423828125 KiB)

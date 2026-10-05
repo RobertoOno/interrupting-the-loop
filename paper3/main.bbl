@@ -1,4 +1,4 @@
-\begin{thebibliography}{18}
+\begin{thebibliography}{19}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -7,8 +7,8 @@
 
 \bibitem[Bellec and Fritz(2024)]{bellec2024beat}
 Pierre~C. Bellec and Tobias Fritz.
-\newblock Optimizing over iid distributions and the beat the average game,
-  2024.
+\newblock Optimizing over iid distributions and the {Beat the Average} game.
+\newblock arXiv:2412.15179, 2024.
 \newblock v5, 2025.
 
 \bibitem[Brown et~al.(2024)Brown, Juravsky, Ehrlich, Clark, Le, R{\'e}, and
@@ -16,7 +16,8 @@ Pierre~C. Bellec and Tobias Fritz.
 Bradley Brown, Jordan Juravsky, Ryan Ehrlich, Ronald Clark, Quoc~V. Le,
   Christopher R{\'e}, and Azalia Mirhoseini.
 \newblock Large language monkeys: Scaling inference compute with repeated
-  sampling, 2024.
+  sampling.
+\newblock arXiv:2407.21787, 2024.
 
 \bibitem[Chen et~al.(2026)Chen, Wen, and Kirchner]{chen2026automated}
 Yueh-Han Chen, Jiaxin Wen, and Jan~Hendrik Kirchner.
@@ -30,7 +31,8 @@ Yueh-Han Chen, Jiaxin Wen, and Jan~Hendrik Kirchner.
 \bibitem[Georgiev et~al.(2025)Georgiev, G{\'o}mez-Serrano, Tao, and
   Wagner]{georgiev2025exploration}
 Bogdan Georgiev, Javier G{\'o}mez-Serrano, Terence Tao, and Adam~Zsolt Wagner.
-\newblock Mathematical exploration and discovery at scale, 2025.
+\newblock Mathematical exploration and discovery at scale.
+\newblock arXiv:2511.02864, 2025.
 
 \bibitem[Gurkan et~al.(2026)Gurkan, Stonedahl, and
   Wilensky]{gurkan2026mutation}
@@ -44,12 +46,14 @@ Can Gurkan, Forrest Stonedahl, and Uri Wilensky.
 \bibitem[Haji et~al.(2026)Haji, Delarosa~Quiros, and Najafirad]{haji2026memoir}
 Fatemeh Haji, Javier Delarosa~Quiros, and Peyman Najafirad.
 \newblock Memory-guided tree search with cross-branch knowledge transfer for
-  llm solver synthesis, 2026.
+  {LLM} solver synthesis.
+\newblock arXiv:2605.17539, 2026.
 
 \bibitem[Lange et~al.(2025)Lange, Imajuku, and Cetin]{lange2025shinka}
 Robert~Tjarko Lange, Yuki Imajuku, and Edoardo Cetin.
-\newblock Shinkaevolve: Towards open-ended and sample-efficient program
-  evolution, 2025.
+\newblock {ShinkaEvolve}: Towards open-ended and sample-efficient program
+  evolution.
+\newblock arXiv:2509.19349, 2025.
 
 \bibitem[Lehman and Stanley(2011)]{lehman2011novelty}
 Joel Lehman and Kenneth~O. Stanley.
@@ -60,17 +64,19 @@ Joel Lehman and Kenneth~O. Stanley.
 
 \bibitem[Liu et~al.(2026)Liu, Song, and Qi]{liu2026memevo}
 Aofan Liu, Shiyuan Song, and Yiyan Qi.
-\newblock $\varepsilon$-memevo: Adaptive cross-task memory transfer for llm
-  program evolution, 2026.
+\newblock $\varepsilon$-{MemEvo}: Adaptive cross-task memory transfer for {LLM}
+  program evolution.
+\newblock arXiv:2608.12522, 2026.
 
 \bibitem[Mouret and Clune(2015)]{mouret2015mapelites}
 Jean-Baptiste Mouret and Jeff Clune.
-\newblock Illuminating search spaces by mapping elites, 2015.
+\newblock Illuminating search spaces by mapping elites.
+\newblock arXiv:1504.04909, 2015.
 
 \bibitem[Novikov et~al.(2025)]{novikov2025alphaevolve}
 Alexander Novikov et~al.
-\newblock Alphaevolve: A coding agent for scientific and algorithmic discovery,
-  2025.
+\newblock {AlphaEvolve}: A coding agent for scientific and algorithmic
+  discovery, 2025.
 \newblock Google DeepMind; arXiv:2506.13131.
 
 \bibitem[Ono~Filho(2026{\natexlab{a}})]{ono2026interrupting}
@@ -84,8 +90,7 @@ Roberto~I. Ono~Filho.
 \newblock Moving the mean toward the known good, not beyond it: What
   inference-time interventions and weight consolidation buy in open-ended
   generation.
-\newblock arXiv e-print, submitted; announced concurrently with this paper,
-  2026{\natexlab{b}}.
+\newblock arXiv:2608.28886 [cs.CL], 2026{\natexlab{b}}.
 
 \bibitem[Romera-Paredes et~al.(2024)Romera-Paredes, Barekatain, Novikov, Balog,
   Kumar, Dupont, Ruiz, Ellenberg, Wang, Fawzi, Kohli, and
@@ -103,18 +108,31 @@ Bernardino Romera-Paredes, Mohammadamin Barekatain, Alexander Novikov, Matej
 Viktor Volkov, Valentin Khrulkov, Andrey~V. Galichin, Danil Sivtsov, Nikita
   Glazkov, Olga Volkova, Konstantin Pchelin, Iaroslav Bespalov, Dmitry~V.
   Dylov, Petr Anokhin, and Ivan Oseledets.
-\newblock Evomem: Memory-augmented evolution for code optimization, 2026.
+\newblock {EvoMem}: Memory-augmented evolution for code optimization.
+\newblock arXiv:2608.10795, 2026.
 
 \bibitem[Wan et~al.(2025)]{wan2025loongflow}
 Chunhui Wan et~al.
-\newblock Loongflow: Directed evolutionary search via a cognitive
-  plan-execute-summarize paradigm, 2025.
+\newblock {LoongFlow}: Directed evolutionary search via a cognitive
+  plan-execute-summarize paradigm.
+\newblock arXiv:2512.24077, 2025.
+
+\bibitem[Xing et~al.(2026)Xing, He, Wu, Yang, Luo, Fu, and
+  Nagarajan]{xing2026base}
+Sixue Xing, Haoyu He, Kerui Wu, Zhuo Yang, Haozheng Luo, Tianfan Fu, and Aarthy
+  Nagarajan.
+\newblock Compute allocation for self-evolving {LLMs}: From depth-breadth to
+  multi-armed bandits.
+\newblock arXiv:2605.29268, 2026.
+\newblock v3, 12 September 2026; v1 (28 May 2026) and v2 were titled
+  \emph{Compute Allocation in Evolutionary Search: From Depth-Breadth to
+  Multi-Armed Bandits}.
 
 \bibitem[Ye et~al.(2024)Ye, Wang, Cao, Berto, Hua, Kim, Park, and
   Song]{ye2024reevo}
 Haoran Ye, Jiarui Wang, Zhiguang Cao, Federico Berto, Chuanbo Hua, Haeyeon Kim,
   Jinkyoo Park, and Guojie Song.
-\newblock Reevo: Large language models as hyper-heuristics with reflective
+\newblock {ReEvo}: Large language models as hyper-heuristics with reflective
   evolution.
 \newblock In \emph{Advances in Neural Information Processing Systems}, 2024.
 \newblock arXiv:2402.01145.
