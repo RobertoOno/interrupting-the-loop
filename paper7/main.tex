@@ -1,0 +1,726 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{caption}
+\usepackage{array}
+\usepackage{url}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black}
+\hypersetup{pdftitle={Errata in AI-Executed Research: A Census of Six Papers, a Blind Replay of the Checks, and What the Record Says About Why},pdfauthor={Roberto I. Ono Filho}}
+% Deposit placeholders: fill before depositing.
+\newcommand{\reportdate}{22 October 2026}% date of this version
+\newcommand{\thisdoi}{\href{https://doi.org/10.5281/zenodo.23562924}{10.5281/zenodo.23562924}}% DOI of this report
+\captionsetup{font=small,labelfont=bf}
+\setlength{\parskip}{0.25em}
+\emergencystretch=1em
+\newcolumntype{R}[1]{>{\raggedright\arraybackslash}p{#1}}
+\input{numbers}
+
+\title{Errata in AI-Executed Research:\\ A Census of Six Papers, a Blind Replay of the Checks,\\ and What the Record Says About Why}
+\author{Roberto I. Ono Filho\\ Independent researcher\\
+\texttt{ono.roberto@gmail.com} \quad ORCID \href{https://orcid.org/0009-0006-8650-629X}{0009-0006-8650-629X}}
+\date{\small Report, version 1, \reportdate. Not peer reviewed. Zenodo: \thisdoi.}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In August and September 2026, an AI assistant (Claude, inside Claude Code) wrote the code, ran the experiments and drafted the
+papers of a research program directed by one person. An audit on 5 October found errata in all six of its documents (four
+public preprints, one submitted to a workshop, one draft report). We
+froze the versions that existed before the audit and replayed, blind, four kinds of check against the \NrefPrimary{} primary
+errata: a document-only review by six model families (two runs each), an audit of each paper against a snapshot of the project's
+records as they were when it was frozen, a mechanical number check and a citation check. Matching and adjudication were done
+by models too, and no step was validated by a person. One fresh review by Claude Opus~5.5
+catches \RecOpusAPct--\RecOpusBPct\% of the audited errata (about half of them through findings it rated of low severity),
+among them the five numerical inconsistencies a human workshop reviewer had found, and \PrecOpusA--\PrecOpusB{} of its high- and
+medium-severity findings are real errors: about half matched audited errata, and most of the others are new errors that two
+adjudicating models, Opus~5.5 itself and GPT-6.1 Sol, both confirmed. The twelve reviews together catch \RecConeAllPct\%, and all checks together \RecAllPct\%. What the checks miss is mostly what the text alone cannot
+show: in a post hoc coding of each erratum's status on the day of its freeze, the twelve reviews caught \RecConeDocPct\% of the
+errata decidable from the document and \RecConeRecPct\% of those that needed the records of the time, and the records-level audit,
+in one budget-capped run per document, \RecCtwoRecPct\%. Claims about the work itself (that an AI assistant did the work, that a
+count was registered, what a companion paper now says) are mostly of the second kind. A strict post hoc re-check of the matching,
+by two blind model judges, keeps \StrictKeptPct\% of the matcher's credits (an erratum credited to a check); under it one Opus
+review catches \StrictRecOpusRange\% of the audited errata and \StrictJudgeOpusA{} of the human reviewer's five, and the twelve
+reviews \StrictRecConeDocPct\% and \StrictRecConeRecPct\% of the two kinds. The replay also found about \NnewDedup{} errors the
+audit had missed, and Chao's capture--recapture estimator, best read here as indicative, puts the total at about \ChaoDedupN{} to
+\ChaoFamDedupN{} errors, depending on how the occasions are counted. Pilots on one synthetic study, in four presentations of up to
+\PilotTokLargeGpt{}k tokens (the largest with GPT-6.1 Sol only), then tested the writing step: given the whole record, Claude
+Opus~5.5 and GPT-6.1 Sol between them reconciled a stale draft with the final state in \PilotPapers{} papers without an error in the
+twelve claims scored in each, by an unvalidated automated scorer. These pilots, a floor result with later models, cannot show why our
+errors happened. They are consistent with the reading the assistant recorded in the notebook after them, on 6 October, from its
+dated entries of August and September: the errors came from the process, with papers frozen before the record settled, intentions
+written as facts and no reconciliation pass before deposit; the notebook itself also carried some of the errors. Three working
+rules follow.
+\end{abstract}
+
+\section{Introduction}
+
+Research agents now write code, run experiments and draft papers, and the bottleneck has moved from producing research to checking
+it: their claims are harder to verify than their code is to run \citep{ding2026verification}. Published AI papers already carry
+several objective mistakes each \citep{bianchi2025err}; AI-written papers add hallucinated numbers, references and experiments
+\citep{beel2025sakana,miyai2025jr,bianchi2025agents4science,miyai2026paperrecon}; and checkers, human or automated, catch a minority
+of known errors in most evaluations \citep{schroter2008errors,son2025spot,xi2025flaws,baumgartner2026scicoqa}, though recent agentic
+reviewers catch more of the errors injected into papers on purpose \citep{nguyen2026agenticreview}. What is still missing is an account,
+on a real program, of which errors reach publication and which checks would have caught them. The case studies of human-directed
+agents that exist do not replay checks on their errors or measure what each would have caught
+\citep{alzahrani2026persistent,nguyen2026physics,schwartz2026vibe}; the closest logs the errors an agent introduced in one program
+and how each was caught, and leaves unknown how many no check caught \citep{orden2026wrongclaim}.
+
+This report gives that account for one program. From August 2026, an AI assistant executed a research program on creativity and
+search in language models under the direction of one person, the author. The six documents studied here, frozen between 19 August
+and 27 September, are four preprints, a report and a short workshop paper
+\citep{ono2026paper1,ono2026paper2,ono2026paper3,ono2026paper4,ono2026paper6,ono2026short}; a fifth preprint, a synthesis, was
+audited only for errors inherited from papers~1 and~2 and is not part of the corpus.
+The program used pre-registration, single reads and death criteria, and kept a dated notebook and its code, documents and
+analyses under version control (the raw run data lived outside the repository). On 5 October an audit of the six documents, again done with the assistant, found errata in every one. We use
+that record to ask three questions: which kinds of error got through; how much each kind of check, replayed blind on the versions
+frozen before the audit, would have caught; and why the errors happened.
+
+The answers, in short. A single fresh review by a strong model catches about a third of the audited errata, including all
+\Njudge{} inconsistencies a human reviewer had found by the matcher's credits (\StrictJudgeOpusA{} under a strict re-check), and almost all of its high- and medium-severity findings were confirmed as real errors,
+by an adjudication in which the same model was one of two judges. Most of what the checks miss is what the text alone cannot show, and claims about the work itself are mostly of that kind.
+And in the pilots of Section~\ref{sec:why}, eleven papers written from one synthetic study, two current models given the record
+made none of these errors when they updated a draft. This cannot show why our errors happened, but it is consistent with the reading the assistant recorded in the notebook
+after the pilots, which places them in when and how the papers were written and frozen rather than in the writing itself.
+
+\section{The program and its record}
+
+The assistant wrote and ran all code, operated the data collection and drafted every paper; the author designed, decided and
+read. Per the commit trailers that carry one, the assistant models were mainly Claude Fable~5 (August) and Claude Fable~5.1
+(September), with Claude Opus~5 for part of the draft report. Papers were written while batteries were still running and were frozen
+for deposit soon after the last read. Five rounds of review of one paper and two of another were done by AI reviewer agents; one
+human colleague reviewed the drafts of papers~1 and~2; and two anonymous reviewers of a NeurIPS 2026 workshop reviewed the short paper,
+which was rejected for capacity with scores of 7 and 6.
+
+The audit of 5 October read each paper against the notebook, the appendices and the public releases, and checked the data for the
+items that changed a central claim. It found errata in all six documents. Some changed a declared finding: a claim that no arm
+produced a candidate beyond a classic baseline was false in the replication, and a diversity effect said to hold everywhere held in
+eight of nine problems. Others ran across papers: data-availability statements were false in four papers, and reviews by AI agents
+were called ``independent review'' in one paper and left undescribed in another. All documents were corrected and deposited on Zenodo the same day
+\citep{ono2026paper1,ono2026paper2,ono2026paper3,ono2026paper4,ono2026paper6,ono2026short}; the corrected papers~1--3 were
+submitted to arXiv as replacements on 22 October.
+
+\section{Method}
+\label{sec:method}
+
+The study was pre-registered (pre-registration v1) before any replayed check saw the frozen documents; six operational
+amendments followed, each with its reason (Section~\ref{sec:avail}), and when each was written is said below. Version~1 had already changed the design of the draft version~0 in nine
+points that came from the implementation, before any model call on project text: among them the records-level audit, cut from two models with 60
+tool calls and 250 thousand tokens each to one model with 40 calls and two million input tokens; a tenth class, METHOD; and the
+exclusion of errata that only appear in the compiled PDF. The taxonomy was written after the audits had been read. Amendments 1 and 3 were committed before the steps they changed.
+Amendment 2 was written as the replay began, which started while the matcher's validation set was still being generated; only
+the status, counts and cost of its cells were looked at until the matcher passed. Amendments 4--6 were written as or after their
+steps ran and were committed together with the results; with amendments 5 and 6 the matching script changed after the hash recorded
+at amendment 3; its final SHA-256 begins \texttt{\JudgingHashFinal}, and the deposit's README gives it whole.
+
+\paragraph{Corpus.} The six versions as they stood before the audit: paper~1 v1, paper~2 v1, paper~3 v3 and paper~4 v3, which
+were public, the short paper as submitted to the workshop, and the report's draft 0.4, not yet deposited. Each was exported from its git commit, flattened, with LaTeX
+comments blanked so a checker sees the text a reader of the PDF sees (not the figures or the rendered bibliography), and with
+its bibliography file appended.
+
+\paragraph{Reference set.} The errata of the 5 October audit and the five inconsistencies of the workshop reviewer, one item per
+defective statement, anchored by file and line in the frozen version (\Nomission{} items are omissions, with no line): \NrefAll{} items, of which \NrefPrimary{} enter the primary
+analysis (\NrefLowConf{} that the audit itself flagged as of low confidence and \NrefPdfOnly{} that only appear in the compiled PDF are
+kept out). Three minor items of paper~3 stay in, although the audit headed them ``Menores (baixa)'' (minor, low) on the scale it
+applied as confidence; when the set was fixed, before the replay, we read that label as their importance. Without them
+(\NrefNoLowThree{} items), one Opus review catches \RecOpusANoLowPct\% and \RecOpusBNoLowPct\%, the twelve reviews
+\RecConeNoLowPct\% and all checks \RecAllNoLowPct\%. The audit judged
+each item against the record of 5 October; whether each was already wrong on the day of its freeze was coded post hoc, during the
+review of this report (Section~\ref{sec:freeze}). Each item has one of ten
+classes (Table~\ref{tab:class}) and a severity: G1 changes a central or declared finding (\NsevGOne{} items), G2 changes a
+secondary claim or a number by more than rounding (\NsevGTwo), G3 is minor (\NsevGThree). The coding is by the assistant, the
+model family that wrote and audited the papers; a second coder from another family (GPT-6.1 Sol) agreed on the class in
+\AgreeClass\% of items ($\kappa=\KappaClass$) but only in \AgreeSev\% on severity ($\kappa=\KappaSev$), so severity results carry
+that caveat; as registered, the second coder's classes and severities enter a sensitivity analysis (Sections~\ref{sec:class}
+and~\ref{sec:preds}).
+
+\paragraph{Checks replayed.} No checker saw the reference set, the audit or any later version, and no model checker had web access;
+the citation check queried the arXiv and Crossref services.
+\begin{itemize}\setlength\itemsep{0pt}
+\item \textbf{C1, document-only review}: a fixed prompt, written after the audit (its categories chosen with the audit's findings known, which if anything
+favours the checks), that names the kinds of error without
+naming any erratum, asking for every error (numbers inconsistent with tables or
+appendix, unsupported or overbroad claims, contradictions, false statements about the work's status, data or review, citation
+problems), answered by six families: Claude Opus~5.5, GPT-6.1 Sol, Kimi~K3, DeepSeek~V3.2, Mistral Large~3 and
+Qwen3-Next-80B, two runs each, on Amazon Bedrock, at each provider's default sampling settings; the two runs are
+independent calls with the same prompt. The Claude calls used adaptive extended thinking and prompt caching; the other families ran
+with their default reasoning behaviour.
+\item \textbf{C2, records-level audit}: the same prompt plus read-only tools (list, read, search) over a snapshot of the
+repository at the version's commit, without reviews, audits, strategy, funding, field notes or publishing files (the release recipe among them) or
+the human rating packs, scrubbed of personal data (so an excluded file looked absent to it); Claude Opus~5.5, one run per document, at
+most 40 tool calls and two million input tokens counted cumulatively, cache reads included. Of the six audits, \CtwoForced{} reached
+the token cap after \CtwoForcedCallsLo{} to \CtwoForcedCallsHi{} calls and were asked to answer from what they had read; since every
+call re-reads the context, they had read at most about \CtwoDistinctLo{} to \CtwoDistinctHi{} thousand distinct tokens each (uncached
+input plus what was written to the cache).
+\item \textbf{C3, mechanical numbers}: every decimal in the body looked up in the document's own tables and appendix (the
+draft pre-registration also named the repository's appendix files; the frozen script, registered by its hash, looks only inside the
+document).
+\item \textbf{C4, citations}: every bibliography entry with an arXiv identifier or DOI checked for title, author surnames and
+primary category. It ran on all six documents, partially on \CfourPartial{} of them (some queries met rate limits or service errors), and \CfourNotReturned{} of
+its \CfourFindings{} findings, all counted in its precision, are identifiers the arXiv API did not return.
+\end{itemize}
+
+\paragraph{Matching and adjudication.} Each finding was matched to the reference set by a model outside the checkers (Claude
+Sonnet~5.5) with a fixed rubric: same statement and same defect, at any of the erratum's locations and whatever correction the finding
+proposed. The matcher was validated before use on \ValPos{} synthetic
+paraphrases of known errata and \ValNeg{} synthetic findings raising a minor, different concern about the same statement (recall
+\ValRecall, precision \ValPrecision); these were easier than the near misses the draft pre-registration described (the same passage
+with another defect, or the same defect elsewhere), and the validation did not test a substantive different concern about the same
+sentence, the confusion the strict re-check below found. Of \HandN{} real matches described at the time as drawn at random (the sample is archived; how it was drawn was not
+recorded), \HandCorrect{} were right when the assistant (Claude Opus~5.5) checked them one by one; no person checked the matches. Of the \NreplyCone{} C1 replies,
+\NparseRecovered{} could not be read as strict JSON, all from the three weakest families: \NparseLenient{} were read by a format-only parser fixed in an
+amendment before matching, and the other \NfreeText{} were matched as free text. The matcher left \NmatchUndecided{} findings without a decision;
+amendment 6, written after it had run, settled them from the format of its replies: \NmatchRecovered{} were recovered by re-reading
+them, \NmatchOmitted{} left out of complete replies were read as not matching (none from the Opus reviews or the records-level
+audit), and \NmatchFilled{} were matched in one more pass. Of the \Nfindings{} findings, the \NunmatchedHM{} unmatched ones that
+their checker rated high or medium were grouped into \Nclusters{} candidate errors and judged by two models (Claude Opus~5.5 and
+GPT-6.1 Sol) reading the document; a candidate counts as a new error when both say yes. Each answered yes, no or uncertain; they gave the same answer on
+\AdjAgree\% of candidates (\AdjBothNo{} both no, \Nnew{} both yes, \AdjBothUnc{} both uncertain), Opus said yes to \AdjOpusYes{} and
+GPT-6.1 Sol to \AdjGptYes, and \AdjEitherYes{} had at least one yes; the class and severity of a new error are the Opus
+adjudicator's. After a referee in the review of this report read some credited findings as raising a different concern about the
+same sentence (Appendix~\ref{app:review}), every match to a primary erratum (\StrictPairs{} pairs of a finding and an erratum) was judged again, each pair on
+its own and with the matcher's rubric (in one call per document for one judge, in one session for the other), by GPT-6.1 Sol and a fresh Claude Fable~5.1 agent, neither told which check produced a finding (though a mechanical
+check's findings show it in their form) and both blind to the freeze coding
+and each other. Under this strict credit a check keeps an erratum only if both judges say one of its findings identifies it.
+GPT-6.1 Sol accepted \StrictYesGpt{} pairs and the Fable agent, which by its own account read release statements leniently,
+\StrictYesFable; they agreed on \StrictJudgeAgree\%, and every pair GPT-6.1 Sol accepted the Fable agent accepted too, so strict credit is
+GPT-6.1 Sol's verdict. It keeps \StrictKept{} of the matcher's \StrictCredits{} credits (an
+erratum credited to a check), \StrictKeptPct\%. The re-check
+is post hoc, written down before the judges ran; the matcher's credits, with amendment 6, remain the primary result.
+
+\paragraph{Analysis.} Recall of each check on the primary reference set by class and severity, precision on high and medium
+findings, and Chao's lower-bound estimator \citep{chao1987} for the total number of errors, from which the number no occasion
+saw follows. Five predictions and a rule
+for continuing to a prospective study were registered. Recall by document for every check, the overlap between checks and the
+estimate by class, also registered, were left out of earlier drafts of this report and are in Appendix~\ref{app:registered}. The replay cost US\$\CostRone{} at upper-bound per-token rates.
+
+\section{Results}
+
+\subsection{One review catches about a third}
+
+\begin{table}[t]
+\centering\footnotesize
+\caption{Recall of each check on the \NrefPrimary{} primary errata, and precision on the high- and medium-severity findings: a
+finding is a real error when it matched an audited erratum or was confirmed as a new error by both adjudicators (Claude Opus~5.5 and
+GPT-6.1 Sol); ``matched'' counts only the first kind, and ``strict'' keeps only the matches that survive the strict re-check of
+Section~\ref{sec:method}, counting a finding whose match did not survive as false (a lower bound, rounded down). Two runs per family in C1, and ``either'' is their union; for C3 and C4,
+whose findings are all of low severity, precision is over all findings and a lower bound, since their unmatched findings were not
+adjudicated.}
+\label{tab:recall}
+\begin{tabular}{lrrrccc}
+\toprule
+check & run 1 & run 2 & either & precision & matched & strict \\
+\midrule
+C1 Claude Opus 5.5 & \RecOpusA{} (\RecOpusAPct\%) & \RecOpusB{} (\RecOpusBPct\%) & \RecOpusBoth & \PrecOpusA{} / \PrecOpusB & \PrecMOpusA{} / \PrecMOpusB & \PrecStrictOpusA{} / \PrecStrictOpusB \\
+C1 GPT-6.1 Sol & \RecGptA{} (\RecGptAPct\%) & \RecGptB{} (\RecGptBPct\%) & \RecGptBoth & \PrecGptA{} / \PrecGptB & \PrecMGptA{} / \PrecMGptB & \PrecStrictGptA{} / \PrecStrictGptB \\
+C1 Kimi K3 & \RecKimiA{} (\RecKimiAPct\%) & \RecKimiB{} (\RecKimiBPct\%) & \RecKimiBoth & \PrecKimiA{} / \PrecKimiB & \PrecMKimiA{} / \PrecMKimiB & \PrecStrictKimiA{} / \PrecStrictKimiB \\
+C1 Mistral Large 3 & \RecMistralA & \RecMistralB & \RecMistralBoth & \PrecMistralA{} / \PrecMistralB & \PrecMMistralA{} / \PrecMMistralB & \PrecStrictMistralA{} / \PrecStrictMistralB \\
+C1 Qwen3-Next-80B & \RecQwenA & \RecQwenB & \RecQwenBoth & \PrecQwenA{} / \PrecQwenB & \PrecMQwenA{} / \PrecMQwenB & \PrecStrictQwenA{} / \PrecStrictQwenB \\
+C1 DeepSeek V3.2 & \RecDeepseekA & \RecDeepseekB & \RecDeepseekBoth & \PrecDeepseekA{} / \PrecDeepseekB & \PrecMDeepseekA{} / \PrecMDeepseekB & \PrecStrictDeepseekA{} / \PrecStrictDeepseekB \\
+C2 Opus 5.5 with the records & \RecCtwo{} (\RecCtwoPct\%) & -- & -- & \PrecCtwo & \PrecMCtwo & \PrecStrictCtwo \\
+C3 numbers & \RecCthree & -- & -- & $\geq$\PrecCthreeK/\PrecCthreeN & & $\geq$\PrecStrictCthreeK/\PrecCthreeN \\
+C4 citations & \RecCfour & -- & -- & $\geq$\PrecCfourK/\PrecCfourN & & $\geq$\PrecStrictCfourK/\PrecCfourN \\
+\midrule
+C1, all twelve reviews & & & \RecConeAll{} (\RecConeAllPct\%) & & & \\
+all replayed checks & & & \RecAll{} (\RecAllPct\%) & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:recall} gives the main result. A single review by the strongest family catches about a third of the audited errata,
+and nearly all of its high- and medium-severity findings are real errors (Wilson 95\%: \PrecOpusALo--\PrecOpusAHi{} and
+\PrecOpusBLo--\PrecOpusBHi): about half of them matched audited errata
+(\PrecOpusAMatched{} of \PrecOpusAN{} and \PrecOpusBMatched{} of \PrecOpusBN), and most of the others were new errors that both
+adjudicators confirmed (\PrecOpusANew{} and \PrecOpusBNew), one of the adjudicators being Opus~5.5 itself. Recall and precision, though, count
+different findings: recall counts a finding of any severity, precision only those the checker rated high or medium. Of the
+\RecOpusA{} and \RecOpusB{} errata the two Opus runs caught, \RecLowOnlyOpusA{} and \RecLowOnlyOpusB{} were caught only through
+findings it rated low, which were never adjudicated (\NlowMatchedOpusA{} of its \NlowOpusA{} and \NlowMatchedOpusB{} of its
+\NlowOpusB{} low findings matched an erratum); a reader who acted only on its high- and medium-severity findings would have caught
+\RecHmOpusA{} and \RecHmOpusB{}, and over all its findings precision is at least \PrecAllOpusA{} and \PrecAllOpusB{}. The
+records-level audit caught \RecLowOnlyCtwo{} of its \RecCtwo{} only through low findings. Two more families reach \MidFamLoPct--\MidFamHiPct\% per run, with lower
+precision; three catch few errata, with low precision, and \NparseRecoveredWeak{} of their \NreplyWeak{} replies could not be read as
+strict JSON (Section~\ref{sec:method}). The records-level audit, with the same model and the repository of the time (notebook,
+appendices and scripts, not the raw run data), catches no more in total than a document-only review, but a different part: \CtwoOnlyVsOpus{} items that
+neither Opus review caught, while it missed \OpusOnlyVsCtwo{} that they did. Its precision counts one finding, the only one we found, that the snapshot's
+exclusions produced: the audit reported as missing the review reports that a paper said were archived, which had been left out of
+its snapshot (\PrecCtwoNoExcl{} without that finding).
+Pooling every review and check reaches \RecAllPct\%. Under the strict re-check the two Opus runs catch \StrictRecOpusA{}
+and \StrictRecOpusB, the twelve reviews \StrictRecCone{} (\StrictRecConePct\%), the records-level audit \StrictRecCtwo{} and all checks
+\StrictRecAll{} (\StrictRecAllPct\%).
+With \NrefPrimary{} items, one run's recall carries a wide interval (Opus: \RecOpusALo--\RecOpusAHi{} and \RecOpusBLo--\RecOpusBHi,
+Wilson 95\%); on the same errata the two runs disagree on \OpusOnlyA{} items one way and \OpusOnlyB{} the other (exact McNemar
+$p=\McNemarOpusP$), so no difference between them is detectable at this size. Recall varies by document: the two Opus runs together caught \RecOpusEitherPshort{} of the \NprimDocPshort{} errata in the short paper
+(\SizeKcPshort{}k characters as sent) but \RecOpusEitherPone{} of \NprimDocPone{} in paper~1 (\SizeKcPone{}k) and
+\RecOpusEitherPsix{} of \NprimDocPsix{} in the draft report (\SizeKcPsix{}k).
+
+\subsection{What nothing catches}
+\label{sec:class}
+
+\begin{table}[t]
+\centering\small
+\caption{Primary errata by class, and how many the twelve reviews (C1) and all replayed checks caught.}
+\label{tab:class}
+\begin{tabular}{R{2.1cm}R{7.4cm}rrr}
+\toprule
+class & what it is & $n$ & C1 & all \\
+\midrule
+INTERNAL & contradiction inside the document & \NclassInternal & \ByClassConeInternal & \ByClassAllInternal \\
+NUM & number differs from the record or the appendix & \NclassNum & \ByClassConeNum & \ByClassAllNum \\
+SCOPE & claim broader than what was measured & \NclassScope & \ByClassConeScope & \ByClassAllScope \\
+META & false claim about artifacts, review or registration & \NclassMeta & \ByClassConeMeta & \ByClassAllMeta \\
+MIX & two measures reported as one & \NclassMix & \ByClassConeMix & \ByClassAllMix \\
+TYPO & typographical error & \NclassTypo & \ByClassConeTypo & \ByClassAllTypo \\
+METHOD & inaccurate description of what was done & \NclassMethod & \ByClassConeMethod & \ByClassAllMethod \\
+STATUS & false statement about the progress of the work & \NclassStatus & \ByClassConeStatus & \ByClassAllStatus \\
+PROP & error inherited from a companion paper & \NclassProp & \ByClassConeProp & \ByClassAllProp \\
+CITE & bibliographic error & \NclassCite & \ByClassConeCite & \ByClassAllCite \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:class} shows where the checks fail. Every internal contradiction was caught by at least one review (\StrictByClassConeInternal{} of the \NclassInternal{} under
+the strict re-check). Claims about
+the work itself were not: of the \NclassMeta{} META items, the reviews and the records-level audit together caught
+\ByClassAllMeta, or \ByClassAllMetaNoNorm{} of \NclassMetaNoNorm{} without the \NnormDep{} omissions of an AI-use statement, errata only
+under a requirement the audit adopted and that no check was asked about; no check caught either STATUS item or either PROP item, and one of the STATUS items was defensible when its paper was frozen
+(Section~\ref{sec:freeze}). Of the \Nmissed{} errata that no replayed check caught (\NmissedNoNorm{} without those omissions),
+\MissedMeta{} are META, \MissedScope{} SCOPE, \MissedTypo{} TYPO, \MissedMix{} MIX, \MissedStatus{} STATUS, \MissedNum{} NUM,
+\MissedMethod{} METHOD and \MissedProp{} PROP. The META, STATUS and PROP items among them are statements a reader cannot check
+against the text, for example three papers that do not say an AI assistant wrote their code and text, a count computed after the fact listed
+as registered, a design note described as having a registered stopping rule, released data said to hold a battery they lack, and
+what a companion paper now says.
+
+By the first coder's severities, the records-level audit sees the central errors best: it caught \GoneCtwo{} of the \NsevGOne{} G1
+items, against \GoneOpusA{} and \GoneOpusB{} for the two Opus reviews; all checks together caught \GoneAll{} (under the strict re-check \StrictGoneCtwo, \StrictGoneOpusA,
+\StrictGoneOpusB{} and \StrictGoneAll). This does not survive the
+registered sensitivity analysis with the second coder's severities, which agree poorly with the first and count \NsevGOneB{} G1
+items: of those, the records-level audit catches \GoneCtwoB, the two Opus reviews \GoneOpusAB{} and \GoneOpusBB, the twelve reviews
+\GoneConeB{} and all checks \GoneAllB.
+
+\subsection{What the document can show}
+\label{sec:freeze}
+
+\begin{table}[t]
+\centering\small
+\caption{Post hoc: recall on the \NfreezeDoc{} errata that were wrong at the freeze and decidable from the document, and on the
+\NfreezeRec{} that were wrong at the freeze but decidable only from the records of the time, with the matcher's credits and with
+the credits that survive the strict re-check (Section~\ref{sec:method}).}
+\label{tab:freeze}
+\begin{tabular}{lrrrr}
+\toprule
+ & \multicolumn{2}{c}{matcher} & \multicolumn{2}{c}{strict re-check} \\
+check & document & records & document & records \\
+\midrule
+C1 Claude Opus 5.5, run 1 & \RecOpusADoc{} (\RecOpusADocPct\%) & \RecOpusARec{} (\RecOpusARecPct\%) & \StrictRecOpusADoc{} (\StrictRecOpusADocPct\%) & \StrictRecOpusARec{} (\StrictRecOpusARecPct\%) \\
+C1 Claude Opus 5.5, run 2 & \RecOpusBDoc{} (\RecOpusBDocPct\%) & \RecOpusBRec{} (\RecOpusBRecPct\%) & \StrictRecOpusBDoc{} (\StrictRecOpusBDocPct\%) & \StrictRecOpusBRec{} (\StrictRecOpusBRecPct\%) \\
+C1, all twelve reviews & \RecConeDoc{} (\RecConeDocPct\%) & \RecConeRec{} (\RecConeRecPct\%) & \StrictRecConeDoc{} (\StrictRecConeDocPct\%) & \StrictRecConeRec{} (\StrictRecConeRecPct\%) \\
+C2 Opus 5.5 with the records & \RecCtwoDoc{} (\RecCtwoDocPct\%) & \RecCtwoRec{} (\RecCtwoRecPct\%) & \StrictRecCtwoDoc{} (\StrictRecCtwoDocPct\%) & \StrictRecCtwoRec{} (\StrictRecCtwoRecPct\%) \\
+all replayed checks & \RecAllDoc{} (\RecAllDocPct\%) & \RecAllRec{} (\RecAllRecPct\%) & \StrictRecAllDoc{} (\StrictRecAllDocPct\%) & \StrictRecAllRec{} (\StrictRecAllRecPct\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The audit read each frozen version against the record of 5 October, so an erratum may have been invisible to any check of its
+frozen version. During the review of this report two fresh agents (Claude Fable~5.1 and Claude Opus~5.5), blind to each other and
+to every result of the replay, coded each primary erratum from the frozen text, the git history, the notebook and the audit's description of the
+defect as wrong at the freeze and decidable from the document, wrong at the freeze but decidable only from the records of the time, or wrong only because
+of something that happened later. They agreed on \FreezeAgree{} of \NrefPrimary{} items ($\kappa=\FreezeKappa$); the
+\FreezeAdjudicated{} disagreements were settled on the records by the assistant that drafted this report, which knew the replay
+results (the reasons are archived). One of the second coder's codes was supplied on request, after its first answer left the item
+out, and the tallies in its note differ from its array, which is what we used. Read with each coder's own codes instead (the first,
+then the second), the twelve reviews catch \RecConeDocPctCoderA\% and \RecConeDocPctCoderB\% of the errata decidable from the document and
+\RecConeRecPctCoderA\% and \RecConeRecPctCoderB\% of the records-only ones, and the records-level audit \RecCtwoRecPctCoderA\% and
+\RecCtwoRecPctCoderB\% of the latter; under the strict re-check the twelve reviews keep \StrictRecConeRecCoderA{} of the first coder's
+\NfreezeRecCoderA{} records-only errata and \StrictRecConeRecCoderB{} of the second's \NfreezeRecCoderB, against \StrictRecConeRec{} of
+\NfreezeRec{} with the settled codes. In all, \NfreezeDoc{} errata were decidable from the document, \NfreezeRec{}
+needed the records and \NfreezeLater{} became false later: the second human round, which was ready and waiting for raters when paper~1
+called it in progress, and was never run; read instead as an intention written as a fact, it too would count as wrong at the
+freeze (\NfreezeRecAlt{} needing the records). We keep the coders' code: ``are released'' could be checked as false on the day,
+while ``in progress'' could describe a round being prepared. Of the \NfreezeRec{}, \NnormDep{} are omissions of an AI-use statement, errata
+only under a requirement the audit adopted; without them \NfreezeRecNoNorm{} need the records. This analysis was not registered;
+it was added after the single read.
+
+Table~\ref{tab:freeze} splits the main result along that line. A single Opus review catches more than half of what the document can
+show and little of what it cannot (\RecOpusARec{} and \RecOpusBRec{} of \NfreezeRec); the twelve reviews together catch \RecConeDocPct\% of the first kind and \RecConeRecPct\% of
+the second, or \StrictRecConeDocPct\% and \StrictRecConeRecPct\% under the strict re-check, which removes most of the reviews' credits
+for the second kind (\StrictRecConeRec{} of \RecConeRec{} survive; with either judge alone, \StrictRecConeRecPctGpt\% and
+\StrictRecConeRecPctFable\%). One of the \StrictRecConeRec, a release claim of paper~1, survives through a free-text reply from Mistral
+Large~3 that reports a 404 error from the repository's address, a check a checker without web access could not have made, like
+the tool results never obtained that \citet{gurram2026agentprop} describes; without it \StrictRecConeRecNoFab{} of \NfreezeRec{} survive
+(\StrictRecConeRecNoFabPct\%). The records-level audit had the repository of that date but not the raw run data, the git history or outside records;
+by a coding of the coders' evidence done by the same assistant, knowing the results (archived; \NrecSnapRevised{} item was recoded in
+the fifth review round, when a referee showed that the audit had decided it from files in its snapshot), \NrecSnap{} of the
+\NfreezeRec{} could be decided from its snapshot, and it caught \RecCtwoRecSnap{} of those (a catch shows that the snapshot
+could decide the item, so every catch is among them by construction). Its tool calls named the notebook in
+every run (\CtwoNbMin{} to \CtwoNbMax{} times; \CtwoNbPsix{} for the draft report, the document with the most errata, whose run also
+made \CtwoNbPsixDirSearch{} searches over folders that hold it). Of the \NworkClaims{} claims about the work itself,
+\NworkClaimsDoc{} were decidable from the text and all were caught; \NworkClaimsRec{} needed the records and \WorkRecCaught{} of those
+were caught by some check; \WorkRecSnap{} of the \NworkClaimsRec{} were decidable from the audit's snapshot, and the records-level
+audit itself caught \WorkRecSnapCtwo{} of them; \NworkClaimsLater{} became false later. Of the \Nmissed{} errata no check caught,
+\MissedRec{} needed the records (\MissedRecWork{} of them claims about the work), \MissedDoc{} were decidable from the document
+(\MissedDocGone{} of them central, or \MissedDocGoneB{} by the second coder's severities) and \MissedLater{} became false later.
+
+\subsection{The human reviewer's errors}
+
+The short paper reached the workshop with five numerical inconsistencies, which one of its two reviewers found. A fresh Opus~5.5
+review of the submitted version catches all \Njudge, in run 1 (\JudgeOpusA) and in run 2 (\JudgeOpusB); GPT-6.1 Sol catches
+\JudgeGptA{} and \JudgeGptB, Kimi~K3 \JudgeKimiA{} and \JudgeKimiB, the records-level audit \JudgeCtwo. The strict re-check of
+Section~\ref{sec:method} rejects every finding paired with the fifth, an agreement range that mixed two samples, so under it Opus
+keeps \StrictJudgeOpusA{} and \StrictJudgeOpusB, GPT-6.1 Sol \StrictJudgeGptA{} and \StrictJudgeGptB, Kimi~K3 \StrictJudgeKimiA{} and
+\StrictJudgeKimiB, and the records-level audit \StrictJudgeCtwo.
+
+\subsection{Errors the audit missed, and how many remain}
+\label{sec:chao}
+
+The adjudication confirmed \Nnew{} errors that the audit of 5 October had not listed: \NewInternal{} internal contradictions,
+\NewScope{} overbroad claims, \NewNum{} number errors and \NewOther{} others; \NewSevGOne{} central (G1), \NewSevGTwo{} G2 and
+\NewSevGThree{} G3.
+GPT-6.1 Sol found \NewByGpt{} of them (\NewGptOnly{} that no other check found), Kimi~K3 \NewByKimi, Opus~5.5 \NewByOpus{} and
+the records-level audit \NewByCtwo. Because GPT-6.1 Sol is also one of the two adjudicators, its share may be inflated by
+self-preference; each new error still needed the other adjudicator's agreement. The candidates were findings the matcher had left unmatched, and no
+second pass checked them against the audited errata. A referee in this report's review found that one, from Kimi~K3's first run, is an audited erratum the matcher had
+missed (the short paper's claim that its effect ended about one point smaller, one of the human reviewer's five, so that run caught
+\JudgeKimiADedup{} of them, not \JudgeKimiA), and that three restate parts of audit items the reference set kept as one item; so the
+replay found about \NnewDedup{} new errors.
+
+Over the \ChaoS{} errors of the primary set and the new ones, counted across all occasions (the audit, the workshop reviewer and
+every replayed check), \ChaoFone{} were seen by exactly one occasion and \ChaoFtwo{} by exactly two. Chao's estimator of a lower bound
+gives \ChaoNexact{} errors (the 1987 form; with the factor $(t-1)/t$ for $t=\ChaoT$ occasions, \ChaoNt), so by this estimate all of
+us together saw about \ChaoCover\% of them, and about \ChaoUnseen{} remain unseen. The capture histories are not
+alike: an audited erratum is
+caught by a matched finding of any severity, a new error only by a finding its checker rated high or medium, since low findings were
+never adjudicated, which adds to the new errors seen once. Chao's variance
+formula, which treats the occasions as independent, gives an approximate 95\% interval of \ChaoLo--\ChaoHi; the estimate is not a
+guaranteed bound. The occasions are not exchangeable: the audit defined the primary set, and over the replayed checks
+alone, which saw \ChaoReplayedS{} of the \ChaoS{} errors known, the same estimator gives \ChaoReplayedN{}, fewer than are already
+known: it counts only errors those checks could catch, and the \ChaoOnlyHist{} seen only by the audit or the workshop reviewer may lie
+outside their reach. With occasions this dependent, all of these estimates are better read as indicative than as bounds. The
+pre-registration's text defined the occasions per family (the audit, each model family of C1 with its two runs together, C2, C3 and
+C4: $t=\ChaoFamT$; another of its passages adds the workshop reviewer), while the frozen analysis script counted each run and the
+workshop reviewer; we did not notice the difference until the fifth review round. Per family (the audit as an occasion holding the \ChaoAuditN{}
+primary errata it found, and the workshop reviewer's five counting only where a replayed check caught them), \ChaoFamFone{} errors
+were seen once
+and \ChaoFamFtwo{} twice, and the estimate is \ChaoFamNexact{} (interval \ChaoFamLo--\ChaoFamHi; coverage \ChaoFamCover\%, about
+\ChaoFamUnseen{} unseen), or \ChaoFamHNexact{} with the workshop reviewer as an eleventh occasion. All of them estimate a
+lower bound, and counting per family gives the larger. They rest on the matcher's credits; with the strict ones, per run, the
+estimate is \StrictChaoNexact. With the duplicate above merged, they are \ChaoDedupNexact{} per run and \ChaoFamDedupNexact{} per
+family.
+
+\subsection{A second opinion}
+
+Is it better to run the strongest reviewer twice, or once together with another family? The comparison below is descriptive; with
+\NrefPrimary{} items no difference is claimed. On the primary errata, two Opus runs
+catch \SecSame; one Opus run with one run of another family catches \SecCross{} on average, \SecCrossGpt{} with GPT-6.1 Sol,
+\SecCrossKimi{} with Kimi~K3 and \SecCrossWeakLo--\SecCrossWeakHi{} with the three weaker families, so Opus with GPT-6.1 Sol catches
+slightly more than two Opus runs, while the average over families catches fewer. Counting the new errors too, the average flips (\SecSameU{} against \SecCrossU), driven by GPT-6.1 Sol (\SecCrossGptU), whose own findings it helped to
+adjudicate. Here a second opinion from another family paid off only when that family was strong for the task, as in the planted-error experiment
+of \citet{song2026second}, where a top-tier cross-model reviewer added to a same-model review and a lightweight one did not, though there too
+the gain could not be separated from the second reviewer's own strength.
+
+\subsection{The registered predictions}
+\label{sec:preds}
+
+Three of the five predictions failed, and the failures are informative. We expected document-only reviews to catch at most 20\% of
+META and STATUS items because those need the records; pooled, they caught a proportion of \PredOne{} (\PredOneNoNorm{} without the
+omissions of an AI-use statement, \StrictPredOne{} under the strict re-check). We expected the records-level audit to catch at least half of them; it caught \PredTwo{}
+(\PredTwoNoNorm; \StrictPredTwo{} strict). We expected the mechanical number check to catch half of the NUM items with low precision;
+it caught \PredThreeRec, with a precision of at least \PrecCthreeK{} in \PrecCthreeN{} (about 0.03: the findings that matched an
+audited erratum). Prediction five held: no single check exceeded 50\% recall (the
+best reached \PredFive). Prediction four held only when the new errors are counted (above); the frozen analysis script, which also counted the items kept
+out of the primary set, scored it as holding (\PredFourSame{} against \PredFourCross). With the second coder's classes the first three
+come out the same (\PredOneB, \PredTwoB{} and \PredThreeRecB{} on its \NclassNumB{} NUM items). Access to the records, used this way
+(one run, with a token cap that cut three of the six audits short), caught few claims about the work: \WorkRecSnapCtwo{} of the
+\WorkRecSnap{} that our post hoc coding finds decidable from its snapshot (Section~\ref{sec:freeze}). The
+pre-registration made a prospective planted-error study conditional on a class in which a cheap or records-level check beats the
+pooled reviews by 0.3 in recall; only CITE met that condition, a class of two items that the citation check caught and the reviews
+did not. The rule said when such a study would be justified, not that it would run; we judged two items too thin a basis and did
+not run it, and the pilots of Section~\ref{sec:why} ask a different question.
+
+\section{What the record says about why}
+\label{sec:why}
+
+One reading of these results is that the writing step fails: a model updating a draft copies a superseded value or keeps a stale
+status. Models do bind stale values in long, changing contexts \citep{wang2025interference,guo2026update}. Before testing writing
+rules on that premise, we piloted it on synthetic study records built with the traps that caught us: a draft written from a first
+read, a notebook with superseded runs, an analysis announced and cancelled, a release that left out the individual judgments,
+reviews by AI agents, a companion paper corrected later, a model run that differed from the plan, and a hypothesis registered
+after the data. Each record has twelve required claims with known truth, scored by Kimi~K3. The pilots were run before the
+writing-rules study's protocol was frozen, and it never was; the validation of the scorer that its draft planned (sixty claims
+labelled one by one by the assistant, blind to the arm, before any result was read) was not done, so the scores are an unvalidated model's, checked only by the assistant's
+reading of three papers.
+
+The writers were Claude Opus~5.5 and GPT-6.1 Sol. The tasks were to make the draft consistent with the final record (\PilotPapersFull{} papers), or only to
+``update the draft with the final results'' (\PilotPapersNarrow), or, in one paper, to edit the prose while the harness filled the numbers and keyed
+claims from the artifacts. The records are one synthetic study, with the same values and the same twelve required claims, in four
+presentations: narrated (the truth written in the notebook), at \PilotTokSmallGpt--\PilotTokSmallOpus{}k tokens as counted by the
+provider; the same narrated record with distractor entries added, at \PilotTokMidOpus{}k and \PilotTokLargeGpt{}k tokens (Opus~5.5
+returned an overload error four times on the largest, which was run with GPT-6.1 Sol only); or
+silent: the release contents only in a file listing, the reviewers' nature only in the reviews' headers, the model run only in a
+run configuration, and the cancelled analysis only by its absence.
+
+Across \PilotPapers{} papers and \PilotFacts{} required claims (the same twelve in each paper) there were \PilotErrors{} errors and \PilotOmitted{} omissions. Asked
+only to update the results, the writers also corrected the release, review, status, model, registration and companion claims; in
+the silent record they inferred from the absence that the analysis never ran, read the release listing, and recognised the
+reviewers as AI agents from the headers. The assistant read three of these papers against their scores. With the baseline already at zero errors, the full
+writing-rules study would most likely have hit the same floor, and was not run.
+
+The pilots do not show why our errors happened: the papers were written by earlier models (Fable~5 and~5.1, with Opus~5 for part of the
+draft report) from a less legible notebook, in Portuguese, larger at most freezes than the records Opus~5.5 completed in the pilots
+(Section~\ref{sec:limits}). What they show is that two current models, writing with a legible synthetic record in context, made none of these errors in
+\PilotFacts{} required claims (\PilotFactsHarness{} of them in the paper whose numbers the harness filled), and the notebook shows how
+the papers were actually written. The pilots are consistent with the reading the assistant recorded in the notebook after them, on 6 October,
+which places the errors in the process; the reading is post hoc, and the process facts it names come from the notebook's dated
+entries and the audit. One caveat: the record was not always right, and the notebook itself carried
+at least two of the errata (on 18 August it called the fresh-text surprise effect about one point smaller, and on 25 August the
+diversity effect positive in all nine cells). The process:
+\begin{itemize}\setlength\itemsep{0pt}
+\item papers were written while batteries were still being re-judged, and frozen before the record settled, so provisional
+numbers stayed in the body while the regenerated appendix carried the final ones;
+\item intentions were written as facts (``are released'', ``is in progress'') and never revisited when the release went out
+without the judgments or the second human round was dropped;
+\item no reconciliation pass against the final record was run before deposit or announcement;
+\item companion papers were updated one at a time, so errors propagated between them.
+\end{itemize}
+The records-level audit saw each frozen version with the repository of its own date. By our coding, \WorkRecSnap{} of the
+\NworkClaimsRec{} claims about the work that needed the records could be decided from that snapshot, though it caught only \WorkRecSnapCtwo{} of
+them, and \WorkRecNoSnap{} rested on
+artifacts it did not have, the contents of a release and the git history; one more, the human round described as in progress, became
+false only after the freeze.
+
+\section{Three working rules}
+
+The rules below come from one program and are offered as hypotheses for others to test, not as findings.
+
+\begin{enumerate}\setlength\itemsep{0pt}
+\item \textbf{Do not write an intention as a fact.} ``Will be released'' until the release exists; ``planned'' until the run has
+run. A claim about the work's own state is true only when written, so it must be written after the fact.
+\item \textbf{Reconcile before every deposit, and again after any change.} Give a strong model the paper and the whole final
+record and ask for the version consistent with it; in our pilots, writers given the whole record of one synthetic study made no errors in the
+\PilotFacts{} required claims scored (the same twelve in each paper), \PilotFactsFull{} of them under this instruction (automated scoring; the assistant read three of the papers). The pass is only as good as the record, and here the notebook itself carried some
+of the errata. Repeat it for every published paper
+that a later change touches, companions included.
+\item \textbf{Run a fresh review before submitting.} One review by the strongest available model, on the document alone, would
+have caught about a third of the audited errata (about half of them only through findings it rated of low severity, so
+all of its findings should be read), more than half of those the document itself could show, and all \Njudge{}
+inconsistencies the human reviewer found by the matcher's credits (\StrictJudgeOpusA{} under the strict re-check), with almost all of its
+high- and medium-severity findings confirmed as real errors, by an adjudication in which the same model was one of two judges. Add a
+second strong family if one is available; a weak one adds noise.
+\end{enumerate}
+Generating every number from the artifacts is the design of data-to-paper \citep{ifargan2024datatopaper}; locking claims to
+approved evidence removed fabricated citations in a controlled test, with preliminary evidence for reported results
+\citep{jha2026paperpilot}, ResearchLoop admits claims to a paper through a ledger bound to evidence \citep{xia2026researchloop}, and
+deterministic checks caught seeded defects \citep{nam2026gates}. This report's numbers are generated from the archived evidence. But construction only passes on what the
+artifacts say: it helps where a manifest of the work's state exists and is kept current, which in this program it was not.
+
+\section{Related work}
+
+Errors in published AI papers have been counted with automated checkers \citep{bianchi2025err}; errors in AI-written papers with
+reconstruction and audits \citep{miyai2026paperrecon,beel2025sakana,miyai2025jr,bianchi2025agents4science}; and the verification
+gap of autonomous research agents has been surveyed \citep{ding2026verification}. Benchmarks of error detection report low recall
+for automated reviewers \citep{son2025spot,xi2025flaws,baumgartner2026scicoqa}, though on errors injected into real arXiv papers the
+best agentic review system caught 71.6\% and the union of six models 83.3\% \citep{nguyen2026agenticreview}, AI reviewers whose criticisms overlap far more than
+human reviewers' do \citep{kim2026reviewers}, a benefit from a strong second model, but not a lightweight one, on planted errors \citep{song2026second}, and, for human reviewers,
+about 2.6 to 3 of 9 planted major errors found \citep{schroter2008errors}. Agents overclaim what they did \citep{smyth2026overclaiming}
+and assert tool results they never obtained \citep{gurram2026agentprop}. In the automated alignment researchers of \citet{chen2026aar} the agent does not
+write its own scores: a separate evaluator produces them; evidence-locked writing removed
+fabricated citations in a controlled test \citep{jha2026paperpilot}, ResearchLoop admits claims to a paper through a ledger bound to
+evidence \citep{xia2026researchloop}, and deterministic gates catch seeded
+defects that a single LLM review misses \citep{nam2026gates}. Human decision gates, together with deterministic data work, cut
+critical failures in AI-assisted social science \citep{zhu2026attention}. The single-investigator case studies closest to ours report events and the practices that caught them, without replaying checks
+or measuring what each would have caught
+\citep{alzahrani2026persistent,nguyen2026physics,schwartz2026vibe}. Closest of all, \citet{orden2026wrongclaim} logs 58 errors an
+AI agent introduced in one research program over 51 days, coded by the mechanism that caught each and how far it had travelled:
+no single mechanism caught a majority, an audit by another agent of the same family caught the most, and in four the archive
+itself carried the error forward, as our notebook did. It counts only errors that were caught, so it cannot say what each check
+would have missed or how many no check caught. What this report adds is a census of the errata in six
+documents of one program, four of them public, with a dated notebook and its code and texts under version control, tied to a blind
+replay of the checks, with an estimate of what everyone
+missed and a test of the writing step on synthetic records.
+
+\section{Limitations}
+\label{sec:limits}
+
+This is one program, one assistant family and six documents, not a sample of AI-assisted research. The reference set comes from an
+audit by the same family that wrote the papers, and the coder, the matcher and one adjudicator are from that family too; the other
+families and the capture--recapture estimate soften this without removing it, and the precision of the strongest reviewer rests
+in part on new errors that its own model helped to confirm. Severity coding agreed poorly across coders. No step
+was validated by a person: the reference set, its coding, the check of the matcher, one adjudicator and the reading of the pilot papers
+are model work. The coding of each erratum's status at its freeze is post hoc and by two model agents of the same family as the audit,
+the matcher and one adjudicator, with their disagreements settled by the drafting assistant. Document-only reviews were credited with \RecConeRec{}
+errata coded as decidable only from the records; the strict re-check keeps \StrictRecConeRec{} of them, so most of those credits came
+from a generous matcher, and the re-check's judges are models too, which accepted one credit resting on a check its checker could not
+have made. The matcher's recall on real findings was not measured. In the
+assistant's check of the matcher, the \HandOpusN{} sampled matches of Opus findings were all right, and \HandOtherCorrect{} of the
+\HandOtherN{} of the other checks' findings were. The direct test of the writing step, giving the reconciliation pass the
+real frozen drafts with their own snapshots, was not run. Precision is not comparable across checks, since it counts only matched or doubly adjudicated findings, C3 and C4
+were never adjudicated, and its denominator is each checker's own severity labelling, which varied from \HmShareMin\% to \HmShareMax\% of a family's
+findings rated high or medium (Opus \HmShareOpus\%, GPT-6.1 Sol \HmShareGpt\%). The records-level audit ran once, with a tool and token budget that cut three of its six runs short, and
+without the raw data. The synthetic records are one study, the same twelve facts in
+four presentations, legible in a way real notebooks are not; their scoring is automated (Kimi~K3), with three papers read by the assistant, the
+pilot writers are later models than the ones that wrote the papers, and records beyond \PilotTokLargeGpt{}k tokens as counted by the provider were not tested. Counted with one tokenizer (cl100k),
+the largest pilot is \PilotTokLargeCl{}k and our notebook measured \NbTokFirst{}k to \NbTokLast{}k at the six freezes, so the largest
+pilot covers its size at \NbFreezesUnderPilot{} of them for GPT-6.1 Sol and at \NbFreezesUnderPilotOpus{} for Opus~5.5 (whose largest
+completed record, \PilotTokMidOpus{}k tokens by the provider's count, is \PilotTokLargeOpusCl{}k in cl100k), though not its legibility or its
+language (Portuguese). Papers~1--3 were public on arXiv, and the public mirror of the repository carried the notebook to
+28 August, before the replay; the checkers had no web access, but whether these texts were in their training data is unknown. The
+author directed the work under study, and the assistant that drafted this report is a later model of the family whose errors it
+counts.
+
+\section{Availability, use of AI and acknowledgements}
+\label{sec:avail}
+
+The pre-registration (v1 and its six operational amendments), the audit of 5 October (the consolidated document and the five
+per-paper audits the reference set cites, in Portuguese), the reference set, the scripts and the evidence of the replay and
+of the pilots (raw responses, some redacted as said below, with the size of each request, matches, adjudications, captures, analyses, SHA-256 manifests), the post hoc coding of
+Section~\ref{sec:freeze} and the archive of this report's review rounds are in the author's research repository, which is private, and the frozen
+versions of the six documents as the checks saw them (flattened texts with their line maps and bibliography files) were exported from its commits by \texttt{scripts/r1\_freeze.py}, so the
+deposit is where these flattened texts become public (four of the documents were public already, the short paper as submitted and the
+draft report were not); all of it, the frozen versions included, is deposited with this report, with the final hash of every script; the requests
+of the document-only and mechanical checks are rebuilt by the scripts from the frozen documents (for paper~1 the deposited copy is
+redacted, so its rebuilt requests differ slightly from those sent), while the records-level audit's
+also held what its tools returned from the snapshots: for those the logs keep each call and the size of its result, and the
+snapshots are not deposited (below). In the deposited copies, the per-rater statistics of paper~1 v1 (each rater's mean and
+agreement with the judge, which with the raters' profiles in order identified each rater, and the agreement between each pair of
+raters on surprise) and the payment values are redacted, as in its corrected version (which gives the statistics as ranges), there
+and wherever a scan of everything deposited, raw logs and the review archive included, finds them: in five checker responses (in
+one of them, Kimi~K3's first run, only in the reasoning its raw log keeps) and the files derived from them; a colleague's name in two of the audit documents, the workshop reviewer's anonymous handle and a private term in one script
+are redacted too, and a list (\texttt{REDACTIONS.json}) gives the hash of
+each redacted file before and after. The records-level audit's snapshots of the repository are not deposited, since
+they hold the whole repository of those dates, the notebook included (the audit's responses quote some of its lines); their SHA-256
+manifest is, but the records-level audit cannot be rerun from the deposit.
+The freeze script also depends on a private file of scrubbing rules, so the deposited flattened texts and the snapshots' manifest,
+rather than the script, are what a reader can reuse. Individual human ratings from the series remain unreleased to protect
+rater anonymity.
+
+Before deposit, this report was itself put through rule~3 in rounds of review; Appendix~\ref{app:review} lists what
+each found; every finding was corrected here or answered in the archived triage of its round.
+
+The replay, the pilots and this report
+were produced by the author working with an AI assistant (Claude, Anthropic; model Claude
+Opus~5.5, October 2026) inside the Claude Code environment: the assistant wrote and ran the code, operated the runs under the
+author's direction and drafted the text; the author decided the questions and the design and is responsible for the content. The
+checker, matcher and adjudicator models were run on Amazon Bedrock. Thanks to the colleague who read the series' drafts, and to the
+workshop reviewer whose five findings are the human baseline of this report.
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\appendix
+\section{The review of this report}
+\label{app:review}
+
+Before deposit, this report was put through rule~3 in rounds (in the archive, the second round is round~1, and so on). The
+first (fresh reviews by Claude Opus~5.5 and GPT-6.1 Sol)
+found one wrong count, an overstated causal conclusion and several overbroad phrasings. The second (a referee review with an audit
+against the records by Claude Fable~5.1, and document reviews by GPT-6.1 Sol and Kimi~K3) found, among smaller things, five errors
+of the kinds this report counts: examples of uncaught errata that had been caught, a check of the matcher described as done by hand
+that was the assistant's, a character count given as tokens, drafts called published, and an availability statement that promised
+raw requests which are not archived; its questions prompted the post hoc analysis of Section~\ref{sec:freeze}. The third (a new
+referee review with an audit against the records by a fresh Claude Fable~5.1 agent, and new document reviews by GPT-6.1 Sol and
+Kimi~K3) found that amendments 4--6 had been written after their steps, that the records-level audit lacked some of the records
+the text said it had, that the notebook itself carried some errata, and smaller things. The fourth (a third fresh referee, Claude Fable~5.1, and
+new document reviews by GPT-6.1 Sol and Kimi~K3) found that the closing sentence of Section~5 contradicted Section~\ref{sec:freeze},
+that a coding we did ourselves stood undisclosed behind a number in the abstract, and that the frozen paper~1 carried rater passages
+to be redacted before deposit, among smaller things. The fifth (a fourth fresh referee, Claude Fable~5.1, and new document reviews
+by GPT-6.1 Sol and Kimi~K3) found that the capture--recapture occasions departed from the pre-registration's text, that the
+registered sensitivity analyses with the second coder were missing, and that the headline precision mixed audited errata with new
+errors that the scored model had helped to confirm, among smaller things. The sixth (a fifth fresh referee and new
+document reviews by GPT-6.1 Sol and Kimi~K3) found that what we had called the notebook's account of why the errors happened was
+the assistant's own reading, recorded after the pilots, and smaller things, among them a matching amendment the text did not
+mention. The seventh (a sixth fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found a closely related study we had
+not cited, three omissions counted among the errata nothing catches that no check had been asked about, an availability sentence
+that did not fit the records-level audit, and smaller things. The eighth (a seventh fresh referee and new document reviews by GPT-6.1
+Sol and Kimi~K3) found that the matcher had credited document-only reviews with errata through findings that raised a different
+concern about the same sentence, which led to the strict re-check of Section~\ref{sec:method}, and that a sentence on the adjudicators' agreement
+left out their third answer, among smaller things. The ninth
+(an eighth fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found that the strict re-check had not been applied
+to precision, that the pilots' unfrozen protocol and unvalidated scorer were not stated, that the frozen texts come from a private
+repository, and a related benchmark we had not cited, among smaller things. The tenth
+(a ninth fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found that recall and precision counted different
+findings, about half of a review's catches coming through findings it rated low, among smaller things. The eleventh (a tenth
+fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found that the matcher's validation had used easier negatives
+than the pre-registration's draft described, that one more checker response and the agreement between each pair of raters carried
+per-rater data to be redacted, and that a sentence on the notebook's size contradicted the size comparison, among smaller things. The twelfth (an
+eleventh fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found that the claim about the human reviewer's five
+had not been carried through the strict re-check, and smaller things, among them percentages rounded half to even. The
+thirteenth (a twelfth fresh referee and new document reviews by GPT-6.1 Sol and Kimi~K3) found that one of the new errors was an
+audited erratum the matcher had missed, that the four pilot records were one study, and that one credit surviving the strict re-check
+rested on a check its checker could not have made, among smaller things. The review stopped there, by the author's decision: every
+round had found something, the later ones only secondary errors, so this report surely still carries some. A fresh agent then
+checked only that round's changes, recomputing every new number, and found three small points of wording and consistency, corrected
+here.
+
+\section{Registered measures not discussed in the text}
+\label{app:registered}
+
+The pre-registration also listed recall by document for every check, the overlap between the checks' catches and Chao's estimate by
+class. Table~\ref{tab:bydoc} gives recall by document. The overlaps (Jaccard, on the primary errata) are \JacOpusRuns{} between the
+two Opus runs, \JacOpusGpt{} between Opus and GPT-6.1 Sol (either run of each), \JacOpusCtwo{} between Opus and the records-level
+audit, and \JacConeCtwo{} between the twelve reviews and the records-level audit (\JacConeCtwoInter{} of the \JacConeCtwoUnion{}
+errata either caught). Table~\ref{tab:chaoclass} gives Chao's estimate by
+class over all occasions, as in Section~\ref{sec:chao}; a new error takes the class the Opus adjudicator gave it, and the estimate
+is unstable for the small classes.
+
+\begin{table}[h]
+\centering\small
+\caption{Primary errata caught by each check in each document. P1--P4 are papers 1--4, PS the short paper and P6 the draft
+report; the number of primary errata of each document is under its name.}
+\label{tab:bydoc}
+\begin{tabular}{lrrrrrr}
+\toprule
+check & P1 & PS & P2 & P3 & P4 & P6 \\
+ & \NprimDocPone & \NprimDocPshort & \NprimDocPtwo & \NprimDocPthree & \NprimDocPfour & \NprimDocPsix \\
+\midrule
+C1 Claude Opus 5.5, run 1 & \DocRecOpusAPone & \DocRecOpusAPshort & \DocRecOpusAPtwo & \DocRecOpusAPthree & \DocRecOpusAPfour & \DocRecOpusAPsix \\
+C1 Claude Opus 5.5, run 2 & \DocRecOpusBPone & \DocRecOpusBPshort & \DocRecOpusBPtwo & \DocRecOpusBPthree & \DocRecOpusBPfour & \DocRecOpusBPsix \\
+C1 GPT-6.1 Sol, run 1 & \DocRecGptAPone & \DocRecGptAPshort & \DocRecGptAPtwo & \DocRecGptAPthree & \DocRecGptAPfour & \DocRecGptAPsix \\
+C1 GPT-6.1 Sol, run 2 & \DocRecGptBPone & \DocRecGptBPshort & \DocRecGptBPtwo & \DocRecGptBPthree & \DocRecGptBPfour & \DocRecGptBPsix \\
+C1 Kimi K3, run 1 & \DocRecKimiAPone & \DocRecKimiAPshort & \DocRecKimiAPtwo & \DocRecKimiAPthree & \DocRecKimiAPfour & \DocRecKimiAPsix \\
+C1 Kimi K3, run 2 & \DocRecKimiBPone & \DocRecKimiBPshort & \DocRecKimiBPtwo & \DocRecKimiBPthree & \DocRecKimiBPfour & \DocRecKimiBPsix \\
+C1 Mistral Large 3, run 1 & \DocRecMistralAPone & \DocRecMistralAPshort & \DocRecMistralAPtwo & \DocRecMistralAPthree & \DocRecMistralAPfour & \DocRecMistralAPsix \\
+C1 Mistral Large 3, run 2 & \DocRecMistralBPone & \DocRecMistralBPshort & \DocRecMistralBPtwo & \DocRecMistralBPthree & \DocRecMistralBPfour & \DocRecMistralBPsix \\
+C1 Qwen3-Next-80B, run 1 & \DocRecQwenAPone & \DocRecQwenAPshort & \DocRecQwenAPtwo & \DocRecQwenAPthree & \DocRecQwenAPfour & \DocRecQwenAPsix \\
+C1 Qwen3-Next-80B, run 2 & \DocRecQwenBPone & \DocRecQwenBPshort & \DocRecQwenBPtwo & \DocRecQwenBPthree & \DocRecQwenBPfour & \DocRecQwenBPsix \\
+C1 DeepSeek V3.2, run 1 & \DocRecDeepseekAPone & \DocRecDeepseekAPshort & \DocRecDeepseekAPtwo & \DocRecDeepseekAPthree & \DocRecDeepseekAPfour & \DocRecDeepseekAPsix \\
+C1 DeepSeek V3.2, run 2 & \DocRecDeepseekBPone & \DocRecDeepseekBPshort & \DocRecDeepseekBPtwo & \DocRecDeepseekBPthree & \DocRecDeepseekBPfour & \DocRecDeepseekBPsix \\
+\midrule
+C1, all twelve reviews & \DocRecConePone & \DocRecConePshort & \DocRecConePtwo & \DocRecConePthree & \DocRecConePfour & \DocRecConePsix \\
+C2 Opus 5.5 with the records & \DocRecCtwoPone & \DocRecCtwoPshort & \DocRecCtwoPtwo & \DocRecCtwoPthree & \DocRecCtwoPfour & \DocRecCtwoPsix \\
+C3 numbers & \DocRecCthreePone & \DocRecCthreePshort & \DocRecCthreePtwo & \DocRecCthreePthree & \DocRecCthreePfour & \DocRecCthreePsix \\
+C4 citations & \DocRecCfourPone & \DocRecCfourPshort & \DocRecCfourPtwo & \DocRecCfourPthree & \DocRecCfourPfour & \DocRecCfourPsix \\
+all replayed checks & \DocRecAllPone & \DocRecAllPshort & \DocRecAllPtwo & \DocRecAllPthree & \DocRecAllPfour & \DocRecAllPsix \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering\small
+\caption{Chao's lower-bound estimate by class: errors seen (primary errata and new errors), estimate and the share seen.}
+\label{tab:chaoclass}
+\begin{tabular}{lrrr}
+\toprule
+class & seen & estimate & seen of estimate \\
+\midrule
+INTERNAL & \ChaoClassInternalS & \ChaoClassInternalN & \ChaoClassInternalCover\% \\
+NUM & \ChaoClassNumS & \ChaoClassNumN & \ChaoClassNumCover\% \\
+SCOPE & \ChaoClassScopeS & \ChaoClassScopeN & \ChaoClassScopeCover\% \\
+META & \ChaoClassMetaS & \ChaoClassMetaN & \ChaoClassMetaCover\% \\
+MIX & \ChaoClassMixS & \ChaoClassMixN & \ChaoClassMixCover\% \\
+TYPO & \ChaoClassTypoS & \ChaoClassTypoN & \ChaoClassTypoCover\% \\
+METHOD & \ChaoClassMethodS & \ChaoClassMethodN & \ChaoClassMethodCover\% \\
+STATUS & \ChaoClassStatusS & \ChaoClassStatusN & \ChaoClassStatusCover\% \\
+PROP & \ChaoClassPropS & \ChaoClassPropN & \ChaoClassPropCover\% \\
+CITE & \ChaoClassCiteS & \ChaoClassCiteN & \ChaoClassCiteCover\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

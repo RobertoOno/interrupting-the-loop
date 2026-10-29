@@ -1,0 +1,45 @@
+{
+ "mode": "a7_wall_confirmation",
+ "walls": {
+  "W1": {
+   "base_none": {
+    "n": 48,
+    "k": 6,
+    "instances": 6
+   },
+   "own2_none": {
+    "n": 48,
+    "k": 30,
+    "instances": 6
+   },
+   "base_ref": {
+    "n": 24,
+    "k": 19,
+    "instances": 6
+   },
+   "curm2_none": {
+    "n": 18,
+    "k": 0,
+    "instances": 6
+   },
+   "complete_base": true,
+   "wall_confirmed": false,
+   "own2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.5,
+    "p": 0.015625,
+    "rise": true
+   },
+   "curm2_vs_base_descriptive": {
+    "n_instances": 6,
+    "mean_rate_diff": -0.125,
+    "p": 1.0,
+    "rise": false
+   },
+   "verdict": "not_a_wall_at_scale"
+  }
+ },
+ "n_not_observed": 1,
+ "crossed": [],
+ "verdict": "no_crossing"
+}

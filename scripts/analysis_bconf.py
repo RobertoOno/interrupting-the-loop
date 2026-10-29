@@ -126,6 +126,19 @@ for arm in ARMS:
     L.append(f"| {arm} | {len(allc)} | {len(ok)} | {len(ok) / max(1, len(allc)):.2f} | {len({c['hash'] for c in ok})} "
              f"| {gaps.mean():+.5f} | {np.median(gaps):+.5f} | {gaps.min():+.5f} | {sum(1 for c in ok if c.get('find'))} |")
 
+# ---- round-5 review (M8): valid programs per variant, paired kick − none over the 16 variants ----
+L.append("\n## Valid programs per variant (review round 5): wildcard − none, paired over the 16 variants\n")
+def n_valid(cands, which, vi):
+    return sum(1 for c in cands.values() if c.get("ok") and c["which"] == which and c["variant"] == vi)
+rows_v = [(f"{which}_v{vi}", n_valid(C["none"], which, vi), n_valid(C["pulse_kick"], which, vi), n_valid(C["pulse_ang"], which, vi)) for which, vi in VARIANTS]
+dv = np.array([k - n for _, n, k, _ in rows_v], float)
+o_v, lo_v, hi_v, p_v = signflip(dv, "two")
+L.append(f"kick − none, valid programs per variant: Δ {o_v:+.2f} [{lo_v:+.2f}, {hi_v:+.2f}] per variant, exact two-sided sign-flip p = {p_v:.4f}, n = {len(dv)} "
+         f"(variants where kick < none: {int(np.sum(dv < 0))}, > none: {int(np.sum(dv > 0))}, equal: {int(np.sum(dv == 0))}).")
+L.append("\n| variant | none valid | wildcard valid | domain valid |")
+L.append("|---|---|---|---|")
+for name, n_, k_, a_ in rows_v:
+    L.append(f"| {name} | {n_} | {k_} | {a_} |")
 # ---- headroom split: variants where the carrier (none) had NOT reached the classics ----
 L.append("\n## Headroom split (review M6): kick − none within variants where `none` still had room\n")
 L.append("A variant has *headroom* when the none arm's best train gap is > 0 (the classics not yet matched); "

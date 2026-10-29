@@ -1,0 +1,16 @@
+{
+  "allowed_outputs": [
+    "Solution.lean"
+  ],
+  "condition": "no_bridge",
+  "copied_hashes": {
+    "TASK.md": "f0b24c4da7b41df2c37d792591ff413fb52ff84e880ae85921d227522e1fa78e",
+    "World/Base.lean": "2860e389f11db6e66ef58243428f17ff6e55f4914b12378214d69b1257d5c916",
+    "World/ChallengeEvaluation.lean": "8fe270e8e355f6f88e936e5669eca6ee0867a051f5ce0aec7aac3a3186674d2f",
+    "lakefile.toml": "3238a6caacd01094de7c3bfcf8dc9e5ba734e146a4295f49193df678c9860afc",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "path": "/Users/robertoonofilho/wrk/creative-machine/runs/p3/calibration/p3a_conceptual_headroom_v3/C3_A0B95ED6D79D/workspace",
+  "role": "evaluator",
+  "world_id": "CAL3_I_E87C49876088749B"
+}

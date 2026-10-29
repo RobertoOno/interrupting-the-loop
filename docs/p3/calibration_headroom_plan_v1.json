@@ -1,0 +1,117 @@
+{
+  "agent": {
+    "codex_cli_version": "codex-cli 0.153.1",
+    "codex_executable_sha256": "0cf2d42e90ddd50fa5b7eedd5d72f109b68d33e5a6ce7c3fc2c87e4180edcd59",
+    "max_parallel": 2,
+    "model": "gpt-5.6-sol",
+    "prompt": "Read TASK.md and complete the task exactly. Use the local Lean toolchain to check your final answer. Work only inside this workspace, do not use external information, and do not ask questions.",
+    "prompt_sha256": "acfc2dc3c4b62b6d9f927580a627a34d32e5d72b131b126e2f5cc31c3f27bd87",
+    "reasoning_effort": "high",
+    "service_tier": "account_default",
+    "timeout_seconds": 600
+  },
+  "cells": [
+    {
+      "cell_id": "HC_1AC2A61FAF",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "ordinal": 1,
+      "world": "worlds/calibration/CAL_T1_E2CCC255",
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_B4FFC43975",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "ordinal": 2,
+      "world": "worlds/calibration/CAL_T1_E2CCC255",
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_2563346216",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "ordinal": 3,
+      "world": "worlds/calibration/CAL_T2_15CCB41E",
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_CF5FCD8835",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "ordinal": 4,
+      "world": "worlds/calibration/CAL_T2_15CCB41E",
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_129121EFF2",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "ordinal": 5,
+      "world": "worlds/calibration/CAL_T1_E2CCC255",
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_EB3C417179",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "ordinal": 6,
+      "world": "worlds/calibration/CAL_T2_15CCB41E",
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_5A0E378D4B",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "ordinal": 7,
+      "world": "worlds/calibration/CAL_T1_E2CCC255",
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_4C1C4FF438",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "ordinal": 8,
+      "world": "worlds/calibration/CAL_T2_15CCB41E",
+      "world_id": "CAL_T2_15CCB41E"
+    }
+  ],
+  "decision_rule": {
+    "if_baseline_ceiling": "Redesign harder disposable worlds; do not weaken the model to manufacture an effect.",
+    "if_infrastructure_failure": "Do not inspect aggregate outcomes; diagnose and rerun only the same failed cell with identical input.",
+    "if_oracle_floor": "Inspect protocol and difficulty on disposable worlds before considering one preregistered stronger budget.",
+    "pass": {
+      "complete_pairs": 4,
+      "no_bridge_successes_at_most": 2,
+      "oracle_bridge_successes_at_least": 3,
+      "paired_gain_count_at_least": 2
+    }
+  },
+  "notes": [
+    "These two worlds are permanently excluded from the main sample.",
+    "This stage runs evaluators only: four no-bridge cells and four oracle-bridge cells.",
+    "There are no automatic retries and no model comparison.",
+    "The model identifier is an alias because the available catalog exposes no dated snapshot; the CLI version and executable hash are therefore frozen as additional provenance.",
+    "The custom command permission profile denies filesystem reads outside the exact cell workspace except for minimal system paths and the Lean runtime; command network and optional external tools are disabled."
+  ],
+  "plan_id": "p3a_calibration_headroom_v1",
+  "randomization": {
+    "algorithm": "Python random.Random(MT19937), shuffle once",
+    "label": "P3A calibration headroom v1 2026-09-04",
+    "seed_sha256": "9f2d02c62c113ecdcb2103fcbbbdd08eceecd29c7e9be84abf19f52c8fb5323a"
+  },
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_CALLS",
+  "worlds": [
+    {
+      "manifest_sha256": "b9f64c03ebcd099cf50ce3d66cb3ab50f340993f4bc95553e3393a5cc4f1f893",
+      "path": "worlds/calibration/CAL_T1_E2CCC255",
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "manifest_sha256": "2dcf57b4920975aae86e532d517dc25f23b1dd5451ebed41bf0f2406c53a3d21",
+      "path": "worlds/calibration/CAL_T2_15CCB41E",
+      "world_id": "CAL_T2_15CCB41E"
+    }
+  ]
+}

@@ -8,11 +8,33 @@ on:
 jobs:
   pytest:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: pip install -e ".[dev]"
+      - run: pip install -e ".[dev,analysis]"
       # Core is pure numpy; MLX-dependent tests skip themselves off Apple silicon.
       - run: python -m pytest -q
+      - name: Regenerate delivered numerical outputs
+        run: |
+          python scripts/paper5_tables.py
+          python scripts/paper6_tables.py
+          python scripts/r1_report_numbers.py --help
+          git diff --exit-code -- paper5/tables paper6/tables
+  p3-snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        group: [core, rehearsal, audit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev,analysis]"
+      - name: Test the hash-pinned P3 runtime
+        run: python scripts/test_p3_snapshot.py --group ${{ matrix.group }}

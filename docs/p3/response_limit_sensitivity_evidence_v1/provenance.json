@@ -1,0 +1,130 @@
+{
+  "commit": "032cc01b1c8bdc8151d9be3817a1368a6fd6445b",
+  "environment": {
+    "anthropic": "1.4.0",
+    "boto3": "1.43.89",
+    "botocore": "1.43.89",
+    "python": "3.14.6",
+    "sandbox_binary_sha256": "0cf2d42e90ddd50fa5b7eedd5d72f109b68d33e5a6ce7c3fc2c87e4180edcd59"
+  },
+  "preflight": {
+    "cells": [
+      {
+        "cell_id": "S16_DA44DEED14FB_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_70E94CC300F1_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_A0B95ED6D79D_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_DA44DEED14FB_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_34444F10C6FB_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_E82B730AE2FC_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_4BEC90270000_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_E82B730AE2FC_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_0EDE37B732AD_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_34444F10C6FB_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_0EDE37B732AD_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_70E94CC300F1_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_4D8415A8C7D4_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_4BEC90270000_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_4D8415A8C7D4_16384",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      },
+      {
+        "cell_id": "S16_A0B95ED6D79D_8192",
+        "lean_ok": true,
+        "network_denied": true,
+        "ok": true,
+        "outside_read_denied": true
+      }
+    ],
+    "model_calls": 0,
+    "ok": true
+  },
+  "process_pid": 59949,
+  "started_at": "2026-09-08T02:40:13.521402+00:00"
+}

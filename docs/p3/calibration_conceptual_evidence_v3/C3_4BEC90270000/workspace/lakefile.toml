@@ -1,0 +1,11 @@
+name = "cal3_i_e87c49876088749b"
+version = "1.0.0"
+
+[[lean_lib]]
+name = "World"
+
+[[lean_lib]]
+name = "Hidden"
+
+[[lean_lib]]
+name = "Sources"

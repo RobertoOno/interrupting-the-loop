@@ -1,0 +1,37 @@
+{
+  "cell": {
+    "cell_id": "S16_DA44DEED14FB_8192",
+    "condition": "no_bridge",
+    "holdout": 2,
+    "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+    "ordinal": 4,
+    "output_per_request": 8192,
+    "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+    "world_id": "CAL3_R_F76437525B190ECB"
+  },
+  "result": {
+    "cost_basis": "regional standard list rates; excludes tax/private discounts; cache writes conservatively at 1h rate",
+    "cost_usd_at_published_rates": 0.233233,
+    "elapsed_seconds": 96.51145745802205,
+    "error": null,
+    "infrastructure_failure": false,
+    "input_reserved": 2615,
+    "output_reserved": 8192,
+    "reported_models": [
+      "claude-opus-5"
+    ],
+    "requests": 1,
+    "session_cost_ceiling_usd": 1.65,
+    "status": "output_limit",
+    "target_solved": false,
+    "tokens": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 1446,
+      "output_tokens": 8192
+    },
+    "uncertain_request": false,
+    "verification": [],
+    "workspace_audit_errors": []
+  }
+}

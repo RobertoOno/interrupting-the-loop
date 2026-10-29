@@ -1,0 +1,62 @@
+{
+  "cells": [
+    {
+      "cell_id": "C3_34444F10C6FB",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_E82B730AE2FC",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_0EDE37B732AD",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_4D8415A8C7D4",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_DA44DEED14FB",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_A0B95ED6D79D",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_4BEC90270000",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    },
+    {
+      "cell_id": "C3_70E94CC300F1",
+      "lean_ok": true,
+      "network_denied": true,
+      "ok": true,
+      "outside_read_denied": true
+    }
+  ],
+  "model_calls": 0,
+  "ok": true
+}

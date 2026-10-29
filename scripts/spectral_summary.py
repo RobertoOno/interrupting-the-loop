@@ -79,6 +79,58 @@ def main() -> None:
                      f"{r['prom_punct']:.3f} |" if r["prom_punct"] is not None else
                      f"| {r['cell']} | {r['P_state']} | {r['prom_state']:.3f} | {r['P_tok']} | {r['prom_tok']:.3f} | — | — |")
         L.append("")
+    # ---- round-5 review (m16): paired contrasts vs the habituated carrier, the punctuation-masked residual, and the
+    # coupling between state and punctuation flattening; unit = premise (cells p<i>_<arm> vs p<i>_habit), exact sign-flip
+    import itertools
+
+    def dominant_masked(curve, p_punct, min_period=5, smooth=21, band=0.2):
+        """dominant() with the lags within +-band of the cell's punctuation period excluded."""
+        if p_punct is None:
+            return dominant(curve, min_period, smooth)
+        pad = smooth // 2
+        padded = np.pad(curve, pad, mode="edge")
+        base = np.array([np.median(padded[i:i + smooth]) for i in range(len(curve))])
+        d = curve - base
+        lo, hi = (1 - band) * p_punct, (1 + band) * p_punct
+        best_lag, best = 0, 0.0
+        for i in range(min_period - 1, len(d) - 1):
+            lag = i + 1
+            if lo <= lag <= hi:
+                continue
+            if d[i] > d[i - 1] and d[i] >= d[i + 1] and d[i] > best:
+                best, best_lag = float(d[i]), lag
+        return best_lag, best
+
+    def signflip2(d):
+        obs = d.mean(); n = len(d)
+        cnt = sum(1 for sg in itertools.product((1, -1), repeat=n) if abs((d * np.array(sg)).mean()) >= abs(obs) - 1e-12)
+        return cnt / 2 ** n
+
+    for run in sorted({r["run"] for r in rows}):
+        rr = [r for r in rows if r["run"] == run]
+        prem = lambda c: c.split("_", 1)[0]
+        habit = {prem(r["cell"]): r for r in rr if r["arm"] == "habit"}
+        if len(habit) < 3:
+            continue
+        masked = {}
+        for r in rr:
+            z = np.load(args.spectral / f"{run}__{r['cell']}.npz")
+            masked[r["cell"]] = dominant_masked(z["a_state"], r["P_punct"])[1]
+        L.append(f"### {run} - paired contrasts against the habituated carrier (unit = premise; exact two-sided sign-flip; bootstrap CI)")
+        L.append("")
+        L.append("| arm | n pairs | D state prominence [CI] | p | D punct prominence | r(Dstate, Dpunct) | D state prominence, punctuation band masked (+-20%) | p (masked) |")
+        L.append("|---|---|---|---|---|---|---|---|")
+        for arm in sorted({r["arm"] for r in rr if r["arm"] != "habit"}):
+            pairs = [(r, habit[prem(r["cell"])]) for r in rr if r["arm"] == arm and prem(r["cell"]) in habit]
+            if len(pairs) < 3:
+                continue
+            ds = np.array([a["prom_state"] - b["prom_state"] for a, b in pairs])
+            dp = np.array([(a["prom_punct"] or 0) - (b["prom_punct"] or 0) for a, b in pairs])
+            dm = np.array([masked[a["cell"]] - masked[b["cell"]] for a, b in pairs])
+            m, lo, hi = ci(ds)
+            rcoef = float(np.corrcoef(ds, dp)[0, 1]) if len(ds) > 2 and dp.std() > 0 else float("nan")
+            L.append(f"| {arm} | {len(ds)} | {m:+.3f} [{lo:+.3f}, {hi:+.3f}] | {signflip2(ds):.3f} | {dp.mean():+.3f} | {rcoef:+.2f} | {dm.mean():+.3f} | {signflip2(dm):.3f} |")
+        L.append("")
     out = ROOT / "docs/APPENDIX_SPECTRA.md"
     out.write_text("\n".join(L) + "\n")
     print("\n".join(L))

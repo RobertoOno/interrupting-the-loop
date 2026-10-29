@@ -1,0 +1,153 @@
+{
+  "agent": {
+    "aws_profile": "main-account",
+    "aws_region": "us-east-1",
+    "effort": "high",
+    "input_usd_per_million": 5.5,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 20000,
+    "max_turns": 12,
+    "model": "anthropic.claude-opus-5",
+    "output_per_request": 8192,
+    "output_usd_per_million": 27.5,
+    "request_timeout_seconds": 120.0,
+    "timeout_seconds": 600.0
+  },
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "cells": [
+    {
+      "cell_id": "BC_C0FB9C72F7",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "ordinal": 1,
+      "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+      "world_id": "CAL2_T1_6A99B5D87E404DF3"
+    },
+    {
+      "cell_id": "BC_73AEED3587",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "ordinal": 2,
+      "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+      "world_id": "CAL2_T1_6A99B5D87E404DF3"
+    },
+    {
+      "cell_id": "BC_A8BF25F181",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "ordinal": 3,
+      "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+      "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+    },
+    {
+      "cell_id": "BC_50EF266A89",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "ordinal": 4,
+      "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+      "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+    },
+    {
+      "cell_id": "BC_AD8E6806F7",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "ordinal": 5,
+      "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+      "world_id": "CAL2_T1_6A99B5D87E404DF3"
+    },
+    {
+      "cell_id": "BC_E4D3D45D09",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "ordinal": 6,
+      "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+      "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+    },
+    {
+      "cell_id": "BC_B522C28346",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "ordinal": 7,
+      "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+      "world_id": "CAL2_T1_6A99B5D87E404DF3"
+    },
+    {
+      "cell_id": "BC_17217E6C90",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "ordinal": 8,
+      "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+      "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+    }
+  ],
+  "created_at": "2026-09-04T23:25:16.189288+00:00",
+  "environment": {
+    "anthropic": "1.4.0",
+    "boto3": "1.43.89",
+    "botocore": "1.43.89",
+    "python": "3.14.6",
+    "sandbox_binary_sha256": "0cf2d42e90ddd50fa5b7eedd5d72f109b68d33e5a6ce7c3fc2c87e4180edcd59"
+  },
+  "gate_rule": {
+    "baseline_at_most": 2,
+    "complete_pairs": 4,
+    "net_gain_at_least": 2,
+    "oracle_at_least": 3
+  },
+  "harness_sha256": {
+    "scripts/p3_bedrock.py": "6602fa296c1d2a6a440b0b4a690ed06a8f914f208165377cacf164e18b243242",
+    "src/creative_machine/formal_routes/bedrock_calibration.py": "16a705afa0108a88c38f585e80d094345d0c1af69fc29c6533c47ad153bd1589",
+    "src/creative_machine/formal_routes/bedrock_runner.py": "036d5665cdb35b2c62b225fe862432678ad65c7a9adca7a75fbd79d5716bfc7b",
+    "src/creative_machine/formal_routes/codex_runner.py": "d0c54367ad2b3a066bd5b9ab9e52a97893de2f1fa403493660cd2392869ad897",
+    "src/creative_machine/formal_routes/generator.py": "b10adeb8f27c32cf8c3ab942b1b7f5050ecb0d3d2a142f527386ff15df011a10",
+    "src/creative_machine/formal_routes/lean_sandbox.py": "ca5eba7cad9a081c80253030cdfd6c97e7b21460772662890438d60a9ed87caf",
+    "src/creative_machine/formal_routes/submission.py": "50a1199d56487e951806d538d1cd80293fc09a10e0ae33f4d5409c98fbadc1b5",
+    "src/creative_machine/formal_routes/validation.py": "79264bbc0036cb2fd3a1c28efb95b42ccbdfcef345db7451ae35cadd1ac68789",
+    "src/creative_machine/formal_routes/workspace.py": "52f6b122b38a3b0bda1a4c97c1ae40290a5dc44b5767addef5d2b250f06b15e1"
+  },
+  "max_parallel": 2,
+  "max_total_cost_usd": 15.0,
+  "notes": [
+    "Calibration only; both worlds permanently excluded from main.",
+    "New provider, proof-tool harness and standard Lean axiom policy; not a matched model comparison to v1.",
+    "No automatic model retries, fallbacks, external tools, or model-visible outcomes from other cells.",
+    "Token-count reservations include 10% plus 1024 tokens; unknown charges retain full reservation.",
+    "Application budget at published regional rates; taxes and negotiated discounts excluded."
+  ],
+  "order_seed": 6896352382442589087,
+  "plan_id": "p3a_bedrock_headroom_v2",
+  "provider": "bedrock-mantle",
+  "reserved_worst_case_usd": 13.2,
+  "schema_version": 1,
+  "status": "FROZEN",
+  "system_prompt_sha256": "d4d87f3fbcd7677815aa2579faf461a3324070faf82c441d24d67296a9c677cf",
+  "tool_schema_sha256": "8b8579ce83e11ff2a77c1f53dd833f55c1218d82e301a3068c3b6e12d0296580",
+  "worlds": [
+    {
+      "manifest_sha256": "def37a18dac954c46ffcffd1d2deffc98cd565a645a0e037949ff57910d58dd0",
+      "path": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+      "seed": 7681370580892798451,
+      "source_words": {
+        "relevant": 649,
+        "sham": 649
+      },
+      "template": "T1",
+      "world_id": "CAL2_T1_6A99B5D87E404DF3"
+    },
+    {
+      "manifest_sha256": "92c4c92d1f2007c909342d4333dda5b854686f713fbd5166b334eced1c71f5f1",
+      "path": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+      "seed": 11429167193411672655,
+      "source_words": {
+        "relevant": 503,
+        "sham": 503
+      },
+      "template": "T2",
+      "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+    }
+  ]
+}

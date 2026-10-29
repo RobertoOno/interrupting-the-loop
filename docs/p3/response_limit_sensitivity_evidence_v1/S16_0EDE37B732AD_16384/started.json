@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-08T02:47:40.041273+00:00",
+  "cell": {
+    "cell_id": "S16_0EDE37B732AD_16384",
+    "condition": "oracle_bridge",
+    "holdout": 2,
+    "model_input_sha256": "89223629480f0e813dd8e55ae97a68f4da0265f440bd0250954bf652725a9d98",
+    "ordinal": 11,
+    "output_per_request": 16384,
+    "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+    "world_id": "CAL3_R_F76437525B190ECB"
+  }
+}

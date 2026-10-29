@@ -111,3 +111,16 @@ Detrended local-peak reader (spectral.py); unit = cell; bootstrap CIs over cells
 | p9_repelN | 154 | 0.008 | 62 | 0.007 | 283 | 0.104 |
 | p9_rotor | 72 | 0.009 | 8 | 0.008 | 46 | 0.098 |
 
+### state_pulse - paired contrasts against the habituated carrier (unit = premise; exact two-sided sign-flip; bootstrap CI)
+
+| arm | n pairs | D state prominence [CI] | p | D punct prominence | r(Dstate, Dpunct) | D state prominence, punctuation band masked (+-20%) | p (masked) |
+|---|---|---|---|---|---|---|---|
+| inter | 10 | -0.023 [-0.057, +0.004] | 0.221 | -0.014 | +0.63 | -0.021 | 0.084 |
+| pulse | 10 | -0.004 [-0.047, +0.047] | 0.771 | +0.005 | +0.95 | -0.005 | 0.781 |
+| pulseG | 10 | +0.014 [-0.012, +0.050] | 0.574 | +0.025 | +0.82 | +0.021 | 0.371 |
+| pulseG15 | 10 | -0.027 [-0.052, -0.007] | 0.021 | -0.032 | +0.62 | -0.023 | 0.021 |
+| pulseG20 | 10 | -0.029 [-0.057, -0.008] | 0.006 | -0.037 | +0.61 | -0.023 | 0.010 |
+| repelA | 10 | -0.018 [-0.046, -0.000] | 0.121 | -0.019 | +0.59 | -0.019 | 0.082 |
+| repelN | 10 | -0.012 [-0.042, +0.008] | 0.643 | -0.017 | +0.66 | -0.013 | 0.381 |
+| rotor | 10 | +0.039 [-0.011, +0.131] | 0.914 | +0.036 | +0.99 | +0.011 | 0.928 |
+

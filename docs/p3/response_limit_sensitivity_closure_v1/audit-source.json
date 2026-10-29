@@ -1,0 +1,541 @@
+{
+  "all_checks": [
+    {
+      "cell": {
+        "cell_id": "S16_DA44DEED14FB_16384",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+        "ordinal": 1,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.458513",
+      "elapsed_seconds": 178.55468445795123,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 16384
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_70E94CC300F1_16384",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "2db0316d4053573567ccb3bd11cc67cbad1582343525566610938ac3bb04ee19",
+        "ordinal": 2,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.0760925",
+      "elapsed_seconds": 28.96099808299914,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "55f687f29b4d26ace25231ab744f810b25981f705ddb3cfe4dc3936072e95847",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1980,
+        "output_tokens": 2371
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_A0B95ED6D79D_16384",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "ce261dde1cd8ded3134fe88c6df7faca372d9bf911775d176fc57bcccdb447a5",
+        "ordinal": 3,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.276958",
+      "elapsed_seconds": 111.27373770799022,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout1Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "5212e474578c6e3004780a39afb579de029d398dc6a2d62d38af703691403aa0",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1701,
+        "output_tokens": 9731
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_DA44DEED14FB_8192",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+        "ordinal": 4,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.233233",
+      "elapsed_seconds": 96.51145745802205,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_34444F10C6FB_16384",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "15d0da32f303e58cb0efdba922a25e6205c9400439b6735b4a9e9110b8c5514e",
+        "ordinal": 5,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.3285645",
+      "elapsed_seconds": 133.3700477500679,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "ecabd5c927a80d42626f357dcd89752916bf362c19676be81f54f24134e219de",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1699,
+        "output_tokens": 11608
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_E82B730AE2FC_16384",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "e9d21a8a11f742e1c04c3192d78cb3fb591bcc53845f4ef6efa714c88e28102e",
+        "ordinal": 6,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.458513",
+      "elapsed_seconds": 190.1418697090121,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 16384
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_4BEC90270000_8192",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "980294fc1570e29977e0b4ea3294f5f2163f3f07f75fa25cadeab90a7da26d7d",
+        "ordinal": 7,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.1006335",
+      "elapsed_seconds": 39.400757499970496,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout1Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "6dc3f380cd8ca21cd5fa10dce29202083982a3e921a54d7ca2ab5cd20e7e3a0e",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1982,
+        "output_tokens": 3263
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_E82B730AE2FC_8192",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "e9d21a8a11f742e1c04c3192d78cb3fb591bcc53845f4ef6efa714c88e28102e",
+        "ordinal": 8,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.233233",
+      "elapsed_seconds": 93.26710300007835,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_0EDE37B732AD_8192",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "89223629480f0e813dd8e55ae97a68f4da0265f440bd0250954bf652725a9d98",
+        "ordinal": 9,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.0555335",
+      "elapsed_seconds": 18.494167208089493,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout2Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+          },
+          "source_sha256": "593ff0ff11ff852d2f16d5b34caa63f33ad61d17c42f958e184212d244139873",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 1522
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_34444F10C6FB_8192",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "15d0da32f303e58cb0efdba922a25e6205c9400439b6735b4a9e9110b8c5514e",
+        "ordinal": 10,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.2346245",
+      "elapsed_seconds": 92.44521745794918,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1699,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_0EDE37B732AD_16384",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "89223629480f0e813dd8e55ae97a68f4da0265f440bd0250954bf652725a9d98",
+        "ordinal": 11,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.0800085",
+      "elapsed_seconds": 28.366768666892312,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout2Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+          },
+          "source_sha256": "aa97c55186d645bc949bc3b792f59132e788c1697f6619c503c51ee54e4b2323",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 2412
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_70E94CC300F1_8192",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "2db0316d4053573567ccb3bd11cc67cbad1582343525566610938ac3bb04ee19",
+        "ordinal": 12,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.03751",
+      "elapsed_seconds": 14.98342195909936,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "396ce2ee238fc97805aeee899e5ab8dfe794335c069dc4c5886b870a20ccda6a",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1980,
+        "output_tokens": 968
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_4D8415A8C7D4_8192",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "9935a18bef09d4afdff3463824b7146cfd8c98c75a448c35fa0c27c0813c5e32",
+        "ordinal": 13,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.046321",
+      "elapsed_seconds": 15.281876791967079,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout1Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+          },
+          "source_sha256": "b2d2ad891cf0141e88b17e551f126841ccbf42ceb96c767a415052be17a15835",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 1187
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_4BEC90270000_16384",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "980294fc1570e29977e0b4ea3294f5f2163f3f07f75fa25cadeab90a7da26d7d",
+        "ordinal": 14,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.090761",
+      "elapsed_seconds": 33.85200262500439,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout1Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+          },
+          "source_sha256": "5c92a4500f7ccd997f7152793c2e39c0400d1183735b73539ef87142560c0aa9",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1982,
+        "output_tokens": 2904
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_4D8415A8C7D4_16384",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "9935a18bef09d4afdff3463824b7146cfd8c98c75a448c35fa0c27c0813c5e32",
+        "ordinal": 15,
+        "output_per_request": 16384,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd": "0.0574585",
+      "elapsed_seconds": 19.923275249893777,
+      "proofs": [
+        {
+          "matches_online": true,
+          "recheck": {
+            "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+            "errors": [],
+            "ok": true,
+            "solution_valid": true,
+            "stderr": "",
+            "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout1Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+          },
+          "source_sha256": "e6dc457efd191c6a613a5eb12614f82534cfe20cdf8c5a1dbbf968ed9ccbce25",
+          "turn": 1
+        }
+      ],
+      "requests": 1,
+      "status": "solved",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 1592
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "S16_A0B95ED6D79D_8192",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "ce261dde1cd8ded3134fe88c6df7faca372d9bf911775d176fc57bcccdb447a5",
+        "ordinal": 16,
+        "output_per_request": 8192,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd": "0.2346355",
+      "elapsed_seconds": 90.88876083295327,
+      "proofs": [],
+      "requests": 1,
+      "status": "output_limit",
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1701,
+        "output_tokens": 8192
+      }
+    }
+  ],
+  "decision": "robust_under_tested_response_limits_prepare_transfer_not_main_admission",
+  "exact_cost_usd_at_frozen_rates": "3.0025930",
+  "freeze_commit": "032cc01b1c8bdc8151d9be3817a1368a6fd6445b",
+  "fresh_proofs_checked": 10,
+  "harness_files_verified": 30,
+  "independent_gates": {
+    "16384": {
+      "baseline": 2,
+      "oracle": 4,
+      "pairs": 4,
+      "passed": true
+    },
+    "8192": {
+      "baseline": 0,
+      "oracle": 4,
+      "pairs": 4,
+      "passed": true
+    }
+  },
+  "limits": [
+    "Fresh execution of the same frozen Lean checker, not an independent theorem prover or model replication.",
+    "Per-request wall-clock timestamps were not logged; timeout configuration is checked in frozen sources and session elapsed totals.",
+    "Two exposed worlds, dependent siblings, one session per cell. No principal sample, invention or mechanism claim."
+  ],
+  "model_calls": 0,
+  "ok": true,
+  "plan_id": "p3a_response_limit_sensitivity_v1",
+  "raw_files_verified": 199,
+  "raw_manifest_sha256": "54dac480dc5db78273a1593ee00e3b7d6f041407287c60a657860dec19bed57a"
+}

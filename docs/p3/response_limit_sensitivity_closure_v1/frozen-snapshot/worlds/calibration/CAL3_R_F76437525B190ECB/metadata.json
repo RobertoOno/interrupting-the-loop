@@ -1,0 +1,154 @@
+{
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "artifact_hashes": {
+    "Hidden/AdaptedRelevant.lean": "fcc00771b4121f7cc1f3f0cd7469b9edcb9ecd3ca458cfcfe2c06f016f560bc9",
+    "Hidden/AdaptedSham.lean": "863047af96f61fe3672ae47383637fa85b19253bd8f564768295287bd82e1e25",
+    "Hidden/Diagnostics.lean": "7c5c3fb09cb0d55a514dacadabf180b50b7d9c5acea9346f30f7b4c606d9d20a",
+    "Hidden/Oracle.lean": "3ba03cee4d73c22ac7984e828a1d6fe2995d46361cdcc260e170bcc0f96e7f51",
+    "Hidden/OracleChecks.lean": "6f1877404b6accbbb2116accdc9f3eef4111d1ecb898893524eadab5771126f7",
+    "Hidden/ShamChecks.lean": "f8a43e31206e57ae64af3a7a8fe94790bcc3e3949a481ae4dc23bd5eea035f3a",
+    "Hidden/SourceChecks.lean": "fadaf56bd53d06e22321eb5356b1f937bca84a2ee8ce1478298b68f37c922ae4",
+    "Sources/Relevant.lean": "5a92e22546f0ffa98181b941762ded4aed6ac17cd477d6a1bcc31e02d5278be6",
+    "Sources/Relevant.md": "2d36bedfc894683f0a5cf0641ad5f6aa0a5bc5dac3ba97a9901a2f5767107649",
+    "Sources/Sham.lean": "0476a5de8d5b6caa9991683ee86b1b1474e2810037c99d9e10595c71cf2cd282",
+    "Sources/Sham.md": "113bf5e6c7299a412bed1e22db2c0e2d48a590f202fdb40ea8b1febe669062db",
+    "World/Base.lean": "ce0353c3a4f92a08a24c11d068c65b33a4d0b1b240a5278abeca6e60d7cfe3a2",
+    "World/ChallengeVisible.lean": "448c122e42f848eac953d5dd569ae36c7b423860cc0bdcc325b8f0281cf4b39f",
+    "World/Holdout1.lean": "0087215ac50ac6018fe4d81220f457cdf5ff622f1271b0213fef34159ea7cf7f",
+    "World/Holdout2.lean": "27a1a0d5e85e3b2bb745c00ea4ee6c0f4210a6d76953cd02bfa0ae1becb01454",
+    "lakefile.toml": "a482ba993737f46a5884955f16f1e5c674342152f602a1821a991bc5c8e857c7",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "eligible_for_calibration": true,
+  "eligible_for_main": false,
+  "family": "representation",
+  "generator": "calibration_worlds_v3",
+  "generator_version": "1.0.0",
+  "hidden_files": [
+    "Hidden/AdaptedRelevant.lean",
+    "Hidden/AdaptedSham.lean",
+    "Hidden/Diagnostics.lean",
+    "Hidden/Oracle.lean",
+    "Hidden/OracleChecks.lean",
+    "Hidden/ShamChecks.lean",
+    "Hidden/SourceChecks.lean",
+    "Sources/Relevant.lean",
+    "Sources/Relevant.md",
+    "Sources/Sham.lean",
+    "Sources/Sham.md",
+    "World/Holdout1.lean",
+    "World/Holdout2.lean"
+  ],
+  "lean_checks": {
+    "axiom_audits": {
+      "Hidden/Diagnostics.lean": 13,
+      "Hidden/OracleChecks.lean": 3,
+      "Hidden/ShamChecks.lean": 10,
+      "Hidden/SourceChecks.lean": 3,
+      "Sources/Relevant.lean": 9,
+      "Sources/Sham.lean": 9
+    },
+    "must_compile": [
+      "Hidden/AdaptedRelevant.lean",
+      "Hidden/Diagnostics.lean",
+      "Hidden/Oracle.lean",
+      "Hidden/OracleChecks.lean",
+      "Hidden/ShamChecks.lean",
+      "Hidden/SourceChecks.lean",
+      "Sources/Relevant.lean",
+      "Sources/Sham.lean",
+      "World/Base.lean",
+      "World/ChallengeVisible.lean",
+      "World/Holdout1.lean",
+      "World/Holdout2.lean"
+    ],
+    "must_fail": [
+      "Hidden/AdaptedSham.lean"
+    ]
+  },
+  "parameters": {
+    "candidate_orbit_counts": [
+      3,
+      56,
+      161
+    ],
+    "excluded_orbit_count": 45,
+    "excluded_orbits_sha256": "756f2c345cd6f0bcbb8402119b2ee128e0efb0945170cfced7fd9a2f5178668d",
+    "pairs": [
+      [
+        "aabbba",
+        "baabab"
+      ],
+      [
+        "aabbabba",
+        "baaabbab"
+      ],
+      [
+        "aabbabab",
+        "baaabbba"
+      ]
+    ],
+    "sampling_unit": "qualifying_literal_orbit",
+    "strata": [
+      [
+        6,
+        "different_at_10"
+      ],
+      [
+        8,
+        "same_action"
+      ],
+      [
+        8,
+        "any"
+      ]
+    ],
+    "variation": "new_word_pairs_same_known_relation"
+  },
+  "phase": "calibration",
+  "provenance": {
+    "development_registry_sha256": "6d3433c4bd5165ffa6e07ffb51bb7aa441f44d42b1f4eb382f6b6f11a082e2e8",
+    "generator_sha256": "1af598e60065f7464da7ef628dff1e68f2c6a6ded928957f50f371a4d90acd28",
+    "previous_generator_sha256": "9ca3eec62a7e0f09a1ee372b71d6af91c5e351876a45e927943a33807c863213",
+    "prototype_manifest_sha256": "d19399b3396cafb4c387a2f93f34e15642f875e1a6aa2fa483ba8a3a200eaf93",
+    "source_assets_sha256": {
+      "RepresentationRelevant.lean": "875c9ccfee4b22c44c2f2850ae0d72bf55eb83515a370238906639d8e6392964",
+      "RepresentationSham.lean": "48e788b1b4db81f384b3d8a0f677bd46865979d01041a7ebffce26e4ccb9bb36"
+    }
+  },
+  "public_files": [
+    "lakefile.toml",
+    "lean-toolchain",
+    "World/Base.lean",
+    "World/ChallengeVisible.lean"
+  ],
+  "roles": {
+    "holdout_statements": [
+      "Holdout1Statement",
+      "Holdout2Statement"
+    ],
+    "namespace": "P3.CAL3_R_F76437525B190ECB",
+    "oracle_bridge": "oracle_bridge",
+    "visible_statement": "VisibleStatement"
+  },
+  "schema_version": 1,
+  "seed": "88eccde948655e9b",
+  "source_matching": {
+    "difficulty_matched": false,
+    "relative_word_gap": 0.006369426751592357,
+    "tokenizer_matched": false,
+    "words": {
+      "Relevant": 628,
+      "Sham": 624
+    }
+  },
+  "sources_ready": true,
+  "status": "CALIBRATION_ONLY",
+  "structural_novelty_claimed": false,
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "world_id": "CAL3_R_F76437525B190ECB"
+}

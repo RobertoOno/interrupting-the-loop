@@ -1,0 +1,17 @@
+{
+  "allowed_outputs": [
+    "Solution.lean"
+  ],
+  "condition": "oracle_bridge",
+  "copied_hashes": {
+    "Bridge.lean": "84f88745dadc769725ec6c973b929c433c2d6adf8a9719394b3cd8e2c6b2cda0",
+    "TASK.md": "80bfb7b37bbf4c51318b133526394a8140711368b05f1810f3a026cd623465e6",
+    "World/Base.lean": "2860e389f11db6e66ef58243428f17ff6e55f4914b12378214d69b1257d5c916",
+    "World/ChallengeEvaluation.lean": "45a4aa71f4de8e1a7965c4587611a55d0ef0a0ca4ab7e43a8dde71cb9b595b16",
+    "lakefile.toml": "3238a6caacd01094de7c3bfcf8dc9e5ba734e146a4295f49193df678c9860afc",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "path": "/Users/robertoonofilho/wrk/creative-machine/runs/p3/calibration/p3a_conceptual_headroom_v3/C3_70E94CC300F1/workspace",
+  "role": "evaluator",
+  "world_id": "CAL3_I_E87C49876088749B"
+}

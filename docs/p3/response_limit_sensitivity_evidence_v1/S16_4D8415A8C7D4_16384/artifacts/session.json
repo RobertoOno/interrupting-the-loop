@@ -1,0 +1,34 @@
+{
+  "status": "solved",
+  "target_solved": true,
+  "requests": 1,
+  "infrastructure_failure": false,
+  "error": null,
+  "uncertain_request": false,
+  "tokens": {
+    "input_tokens": 2487,
+    "output_tokens": 1592,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0
+  },
+  "cost_usd_at_published_rates": 0.0574585,
+  "cost_basis": "regional standard list rates; excludes tax/private discounts; cache writes conservatively at 1h rate",
+  "input_reserved": 3760,
+  "output_reserved": 1592,
+  "session_cost_ceiling_usd": 1.65,
+  "elapsed_seconds": 19.923275249893777,
+  "verification": [
+    {
+      "ok": true,
+      "solution_valid": true,
+      "errors": [],
+      "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout1Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n",
+      "stderr": "",
+      "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution"
+    }
+  ],
+  "workspace_audit_errors": [],
+  "reported_models": [
+    "claude-opus-5"
+  ]
+}

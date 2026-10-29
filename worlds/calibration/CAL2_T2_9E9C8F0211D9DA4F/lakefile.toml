@@ -1,0 +1,8 @@
+name = "p3_cal2_t2_9e9c8f0211d9da4f"
+version = "0.1.0"
+
+[[lean_lib]]
+name = "World"
+
+[[lean_lib]]
+name = "Hidden"

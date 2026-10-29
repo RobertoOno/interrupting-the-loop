@@ -1,0 +1,98 @@
+{
+  "artifact_hashes": {
+    "Hidden/AutomationGrind.lean": "2229483c3f4033eb3ce32521b747d55f70b4734c8d817b4263848baca4af89f5",
+    "Hidden/AutomationSimp.lean": "f054d8423ce89f0118a3fae5e10e2991ae08d2dd33574c458deed47da75ed0f7",
+    "Hidden/NonVacuity.lean": "02934c011013f3bc42155ad18febe47721740e6bfe9a72014dacf8a08e503552",
+    "Hidden/Oracle.lean": "382711e823156c1e7628047e38aa64365ee5ea406a256e917d2828672782501d",
+    "Hidden/OracleChecks.lean": "2638b37ea8ff4b782324cd496beeffe1ff3f99f9f56eae2b19de5b823e53fcf4",
+    "Hidden/RelevantAdapter.lean": "ceacabe13f281e526b9b01ed1e63b7f9482df5cf79554a161d6e48a8b7289085",
+    "Hidden/RelevantSource.lean": "6df2389ee7f520585493d8592d432bc18bd5ef9199e8e3008e53ba92cd7af695",
+    "Hidden/ShamAdapter.lean": "42de3546ff59b9966800fe4c92cd04e4b96d06192c018b58c2bcd6e6357b1dcc",
+    "Hidden/ShamSource.lean": "6198c79a0d6b2104abc58eaa11c93de27348ae906a122e44bfde2f0ee5d01baf",
+    "Sources/Relevant.md": "c06f14498648624e0acbfd4e67699298c166a33518780289379b47aa90903340",
+    "Sources/Sham.md": "4bf92c107676a2345ba37ddb7f135d680f2d011eb97ffcb5a8e9de2e8ff6d64c",
+    "World/Base.lean": "d0419930fdfdc6a5dc67a2cb822a16e78d85318a8b287aa8fa56d044a92c0d33",
+    "World/ChallengeVisible.lean": "845f165ae86bd3b1ec60acee1415dabde4aa1eeff4b0ffa107c9d102c0550450",
+    "World/Holdout1.lean": "64768ecc3bbd35bd6f95b2be433b90181f71c87c954a5ab887b7deed56c67a04",
+    "World/Holdout2.lean": "d69b095988554afc46027f4f3741c7981bf025fd64cf512de6bb3229c0629c92",
+    "lakefile.toml": "648dda39e27a70b0697b2359ff5b464438ab7f3fcaf046cffe75cc7a01766978",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "eligible_for_main": false,
+  "generator_version": "0.2.0",
+  "hidden_files": [
+    "Hidden/AutomationGrind.lean",
+    "Hidden/AutomationSimp.lean",
+    "Hidden/NonVacuity.lean",
+    "Hidden/Oracle.lean",
+    "Hidden/OracleChecks.lean",
+    "Hidden/RelevantAdapter.lean",
+    "Hidden/RelevantSource.lean",
+    "Hidden/ShamAdapter.lean",
+    "Hidden/ShamSource.lean",
+    "World/Holdout1.lean",
+    "World/Holdout2.lean"
+  ],
+  "lean_checks": {
+    "axiom_audits": {
+      "Hidden/NonVacuity.lean": 1,
+      "Hidden/OracleChecks.lean": 4,
+      "Hidden/RelevantSource.lean": 1,
+      "Hidden/ShamSource.lean": 1
+    },
+    "must_compile": [
+      "World/Base.lean",
+      "World/ChallengeVisible.lean",
+      "World/Holdout1.lean",
+      "World/Holdout2.lean",
+      "Hidden/Oracle.lean",
+      "Hidden/OracleChecks.lean",
+      "Hidden/RelevantSource.lean",
+      "Hidden/ShamSource.lean",
+      "Hidden/RelevantAdapter.lean",
+      "Hidden/NonVacuity.lean"
+    ],
+    "must_fail": [
+      "Hidden/ShamAdapter.lean",
+      "Hidden/AutomationSimp.lean",
+      "Hidden/AutomationGrind.lean"
+    ]
+  },
+  "phase": "calibration",
+  "public_files": [
+    "lakefile.toml",
+    "lean-toolchain",
+    "World/Base.lean",
+    "World/ChallengeVisible.lean",
+    "Sources/Relevant.md",
+    "Sources/Sham.md"
+  ],
+  "roles": {
+    "commutation_predicate": "q_dowole",
+    "eval_function": "q_zawasi",
+    "fork_constructor": "q_dituca",
+    "holdout_statements": [
+      "Holdout1Statement",
+      "Holdout2Statement"
+    ],
+    "leaf_constructor": "q_cobize",
+    "map_function": "q_docecu",
+    "namespace": "P3.CAL_T2_15CCB41E",
+    "oracle_bridge": "oracle_bridge",
+    "relevant_source_namespace": "S_xeyiqa",
+    "sham_source_namespace": "S_tidolu",
+    "tree_type": "Q_jabika",
+    "visible_statement": "VisibleStatement"
+  },
+  "schema_version": 1,
+  "seed_hex": "15ccb41e67d0ca58",
+  "source_balance": {
+    "relevant_chars": 1221,
+    "relevant_words": 252,
+    "sham_chars": 1219,
+    "sham_words": 252
+  },
+  "template": "T2",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "world_id": "CAL_T2_15CCB41E"
+}

@@ -1,0 +1,18 @@
+\begin{tabular}{llll rrrr}
+\toprule
+arm & content & slot & persistence & median & range & family & family g0 \\
+\midrule
+nohint & --- & --- & --- & 0.3581 & 0.3411--0.3744 & 0.09 & 0.00 \\
+words & words & hint & persistent & 0.3408 & 0.3393--0.3478 & 0.76 & 0.14 \\
+words\_g0 & words & hint & gen.\ 0 only & 0.3405 & 0.3377--0.3429 & 0.10 & 0.30 \\
+wordseed & words & seed & transient & 0.3377 & 0.3319--0.3407 & 0.02 & 0.00 \\
+wordseed\_pin & words & seed & pinned & 0.3461 & 0.3295--0.3630 & 0.07 & 0.00 \\
+famseed & crude code & seed & transient & 0.3626 & 0.3579--0.3700 & 0.27 & 0.39 \\
+famseed\_pin & crude code & seed & pinned & 0.3611 & 0.3389--0.3815 & 0.29 & 0.29 \\
+codehint & crude code & hint & persistent & 0.3731 & 0.3704--0.3746 & 0.86 & 0.48 \\
+codehint\_g0 & crude code & hint & gen.\ 0 only & 0.3717 & 0.3650--0.3808 & 0.29 & 0.54 \\
+famseed\_words & crude code + words & seed + hint & persistent & 0.3446 & 0.3409--0.3473 & 0.86 & 0.80 \\
+selfseed & own code from the words & seed & by merit & 0.3506 & 0.3424--0.3720 & 0.17 & 0.33 \\
+oracle & best hand code & seed & by merit & 0.3777 & 0.3742--0.3816 & 0.39 & 0.31 \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,160 @@
+{
+  "calibration_gate_passed": false,
+  "cells": [
+    {
+      "cell_id": "HC_1AC2A61FAF",
+      "condition": "oracle_bridge",
+      "elapsed_seconds": 46.86112483299803,
+      "holdout": 1,
+      "infrastructure_failure": false,
+      "ordinal": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cached_input_tokens": 52352,
+        "input_tokens": 76440,
+        "output_tokens": 1363,
+        "reasoning_output_tokens": 311
+      },
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_B4FFC43975",
+      "condition": "no_bridge",
+      "elapsed_seconds": 37.453236792003736,
+      "holdout": 2,
+      "infrastructure_failure": false,
+      "ordinal": 2,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cached_input_tokens": 40576,
+        "input_tokens": 52649,
+        "output_tokens": 1176,
+        "reasoning_output_tokens": 372
+      },
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_2563346216",
+      "condition": "oracle_bridge",
+      "elapsed_seconds": 50.72264891699888,
+      "holdout": 1,
+      "infrastructure_failure": false,
+      "ordinal": 3,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cached_input_tokens": 52864,
+        "input_tokens": 78322,
+        "output_tokens": 1384,
+        "reasoning_output_tokens": 323
+      },
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_CF5FCD8835",
+      "condition": "no_bridge",
+      "elapsed_seconds": 43.718220124952495,
+      "holdout": 1,
+      "infrastructure_failure": false,
+      "ordinal": 4,
+      "status": "unsolved",
+      "target_solved": false,
+      "tokens": {
+        "cached_input_tokens": 41216,
+        "input_tokens": 65178,
+        "output_tokens": 1240,
+        "reasoning_output_tokens": 321
+      },
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_129121EFF2",
+      "condition": "oracle_bridge",
+      "elapsed_seconds": 67.62293504097033,
+      "holdout": 2,
+      "infrastructure_failure": false,
+      "ordinal": 5,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cached_input_tokens": 89856,
+        "input_tokens": 104902,
+        "output_tokens": 1903,
+        "reasoning_output_tokens": 640
+      },
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_EB3C417179",
+      "condition": "no_bridge",
+      "elapsed_seconds": 42.322606250003446,
+      "holdout": 2,
+      "infrastructure_failure": false,
+      "ordinal": 6,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cached_input_tokens": 52096,
+        "input_tokens": 64844,
+        "output_tokens": 1074,
+        "reasoning_output_tokens": 150
+      },
+      "world_id": "CAL_T2_15CCB41E"
+    },
+    {
+      "cell_id": "HC_5A0E378D4B",
+      "condition": "no_bridge",
+      "elapsed_seconds": 41.51604633301031,
+      "holdout": 1,
+      "infrastructure_failure": false,
+      "ordinal": 7,
+      "status": "unsolved",
+      "target_solved": false,
+      "tokens": {
+        "cached_input_tokens": 51712,
+        "input_tokens": 64198,
+        "output_tokens": 1244,
+        "reasoning_output_tokens": 261
+      },
+      "world_id": "CAL_T1_E2CCC255"
+    },
+    {
+      "cell_id": "HC_4C1C4FF438",
+      "condition": "oracle_bridge",
+      "elapsed_seconds": 49.642106832994614,
+      "holdout": 2,
+      "infrastructure_failure": false,
+      "ordinal": 8,
+      "status": "unsolved",
+      "target_solved": false,
+      "tokens": {
+        "cached_input_tokens": 42240,
+        "input_tokens": 78753,
+        "output_tokens": 1435,
+        "reasoning_output_tokens": 308
+      },
+      "world_id": "CAL_T2_15CCB41E"
+    }
+  ],
+  "cells_total": 8,
+  "cells_valid": 8,
+  "complete_pairs": 4,
+  "gate_rule": {
+    "complete_pairs": 4,
+    "no_bridge_successes_at_most": 2,
+    "oracle_bridge_successes_at_least": 3,
+    "paired_gain_count_at_least": 2
+  },
+  "infrastructure_failures": 0,
+  "mean_paired_gain": 0.25,
+  "model": "gpt-5.6-sol",
+  "no_bridge_successes": 2,
+  "oracle_bridge_successes": 3,
+  "paired_gain_count": 1,
+  "plan_id": "p3a_calibration_headroom_v1",
+  "reasoning_effort": "high",
+  "schema_version": 1,
+  "timeout_seconds": 600.0
+}

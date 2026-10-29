@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "status": "DEVELOPMENT_EXPOSURES_NOT_A_CALIBRATION_PLAN",
+  "generator_version": "0.1.0",
+  "generator_sha256": "9ca3eec62a7e0f09a1ee372b71d6af91c5e351876a45e927943a33807c863213",
+  "hand_authored_prototypes_excluded": ["DEV_INVARIANT_V3", "DEV_REPRESENTATION_V3"],
+  "persisted_generated_worlds_excluded": ["DEV3_I_43BE3D3CA20476F1", "DEV3_R_CD4DC332561F4980"],
+  "all_known_development_seeds_by_family": {
+    "invariant": [
+      "0000000000000000",
+      "43be3d3ca20476f1",
+      "fffffffffffffffe",
+      "ffffffffffffffff"
+    ],
+    "representation": [
+      "0000000000000000",
+      "0000000000000001",
+      "0000000000000002",
+      "0000000000000003",
+      "0000000000000004",
+      "0000000000000005",
+      "0000000000000006",
+      "0000000000000007",
+      "0000000000000008",
+      "0000000000000009",
+      "000000000000000a",
+      "000000000000000b",
+      "000000000000000c",
+      "000000000000000d",
+      "000000000000000e",
+      "000000000000000f",
+      "cd4dc332561f4980",
+      "fffffffffffffffe",
+      "ffffffffffffffff"
+    ]
+  },
+  "additional_literal_pair_used_in_tests": [["aaabbb", "babbaa"]],
+  "exclusion_policy": "Before future calibration or main sampling, regenerate these development inputs with the recorded generator/assets and exclude repeated mathematical instances, not just seeds or namespaces. For representation apply at least the recorded literal pair orbit; this does not establish algebraic independence. For invariant do not describe affine changes as new routes. Also exclude every v1/v2 calibration fixture under its original frozen generator. This inventory grants no main or calibration eligibility.",
+  "model_outcome_selection": false
+}

@@ -1,0 +1,45 @@
+{
+  "messages": [
+    {
+      "content": "FILE SOURCE.md\n# Worked example\n\nA separate formal problem and its complete proof.\n\n```lean\nimport Std\n\nnamespace Source\n\ninductive Mark where\n  | l\n  | r\nderiving DecidableEq, Repr\n\nopen Mark\n\ninductive Related : List Mark \u2192 List Mark \u2192 Prop where\n  | refl (w) : Related w w\n  | exchange (p s) : Related (p ++ [l, r] ++ s) (p ++ [r, l] ++ s)\n  | symm {u v} : Related u v \u2192 Related v u\n  | trans {u v w} : Related u v \u2192 Related v w \u2192 Related u w\n\nabbrev Point := Int \u00d7 Int\n\ndef action : Mark \u2192 Point \u2192 Point\n  | l, (x, y) => (x + 1, y)\n  | r, (x, y) => (x, y + 1)\n\ndef inverseAction : Mark \u2192 Point \u2192 Point\n  | l, (x, y) => (x - 1, y)\n  | r, (x, y) => (x, y - 1)\n\ntheorem action_inverse (m : Mark) (q : Point) : action m (inverseAction m q) = q := by\n  cases m <;> cases q <;> simp [action, inverseAction]\n\ntheorem inverse_action (m : Mark) (q : Point) : inverseAction m (action m q) = q := by\n  cases m <;> cases q <;> simp [action, inverseAction]\n\ndef run : List Mark \u2192 Point \u2192 Point\n  | [], q => q\n  | m :: w, q => run w (action m q)\n\ndef undo : List Mark \u2192 Point \u2192 Point\n  | [], q => q\n  | m :: w, q => inverseAction m (undo w q)\n\ntheorem run_append (u v : List Mark) (q : Point) : run (u ++ v) q = run v (run u q) := by\n  induction u generalizing q with\n  | nil => rfl\n  | cons m u ih => exact ih (action m q)\n\ntheorem run_undo (w : List Mark) (q : Point) : run w (undo w q) = q := by\n  induction w generalizing q with\n  | nil => rfl\n  | cons m w ih => simpa only [run, undo, action_inverse] using ih q\n\ntheorem undo_run (w : List Mark) (q : Point) : undo w (run w q) = q := by\n  induction w generalizing q with\n  | nil => rfl\n  | cons m w ih => simp only [run, undo, ih, inverse_action]\n\ntheorem exchange_action (q : Point) : run [l, r] q = run [r, l] q := by\n  cases q\n  simp only [run, action] <;> (apply Prod.ext <;> dsimp <;> omega)\n\ntheorem related_action {u v : List Mark} (h : Related u v) (q : Point) : run u q = run v q := by\n  induction h generalizing q with\n  | refl => rfl\n  | exchange p s =>\n      simp only [run_append]\n      exact congrArg (run s) (exchange_action (run p q))\n  | symm _ ih => exact (ih q).symm\n  | trans _ _ ih1 ih2 => exact (ih1 q).trans (ih2 q)\n\ntheorem bridge (p s u v : List Mark)\n    (h : Related (p ++ u ++ s) (p ++ v ++ s)) (q : Point) : run u q = run v q := by\n  have mapped := related_action h (undo p q)\n  simp only [run_append, run_undo] at mapped\n  have cancelled := congrArg (undo s) mapped\n  simpa only [undo_run] using cancelled\n\ntheorem source_solution : \u2200 p s, \u00ac Related\n    (p ++ [l, l, l, r, r, r] ++ s) (p ++ [r, r, r, r, l, l] ++ s) := by\n  intro p s h\n  have mapped := bridge p s [l, l, l, r, r, r] [r, r, r, r, l, l] h (0, 1)\n  exact (by decide : run [l, l, l, r, r, r] (0, 1) \u2260 run [r, r, r, r, l, l] (0, 1)) mapped\n\nend Source\n```\n\n\nFILE TASK.md\nProve the frozen visible statement. Produce exactly two files:\n- Bridge.lean imports only World.Base and declares theorem candidate_bridge.\n- Solution.lean imports World.ChallengeVisible and Bridge and declares\n  theorem candidate_solution : P3.CAL3_R_F76437525B190ECB.VisibleStatement.\nBoth declarations may be global or inside exactly namespace P3.CAL3_R_F76437525B190ECB.\nDo not change the supplied files.\n\nThe two files are checked separately. A valid bridge remains valid even if the\nvisible solution is absent or rejected. Only Bridge.lean can be passed onward;\ndo not include the visible solution, source text, or conversation in that file.\nUse ordinary Lean proofs and helper definitions, with no Mathlib. Only propext,\nQuot.sound, and Classical.choice are allowed as transitive axiom dependencies.\nNo new axioms, admitted proofs, custom syntax/notation, metaprogramming, or hash\ncommands are allowed. The only permitted set_option names are maxRecDepth and\nmaxHeartbeats. Imports must be unmodified import commands at the beginning of\neach file, one command per line. Each file may contain at most 100000 UTF-8 bytes.\nThe required declaration must be a public theorem, with exactly one of the\nallowed names (global or in the supplied world namespace), not a definition.\n\n\nFILE World/Base.lean\nimport Std\n\nnamespace P3.CAL3_R_F76437525B190ECB\n\ninductive Mark where\n  | a\n  | b\nderiving DecidableEq, Repr\n\nopen Mark\n\ninductive Related : List Mark \u2192 List Mark \u2192 Prop where\n  | refl (w) : Related w w\n  | exchange (p s) : Related (p ++ [a, b, a] ++ s) (p ++ [b, a, b] ++ s)\n  | symm {u v} : Related u v \u2192 Related v u\n  | trans {u v w} : Related u v \u2192 Related v w \u2192 Related u w\n\nend P3.CAL3_R_F76437525B190ECB\n\n\nFILE World/ChallengeVisible.lean\nimport World.Base\n\nnamespace P3.CAL3_R_F76437525B190ECB\nopen Mark\n\ndef VisibleStatement : Prop :=\n  \u2200 (p s : List Mark),\n    \u00ac Related (p ++ [a, a, b, b, b, a] ++ s) (p ++ [b, a, a, b, a, b] ++ s)\n\nend P3.CAL3_R_F76437525B190ECB\n\n\nFILE lakefile.toml\nname = \"cal3_r_f76437525b190ecb\"\nversion = \"1.0.0\"\n\n[[lean_lib]]\nname = \"World\"\n\n[[lean_lib]]\nname = \"Hidden\"\n\n[[lean_lib]]\nname = \"Sources\"\n\n\nFILE lean-toolchain\nleanprover/lean4:v4.33.1\n",
+      "role": "user"
+    }
+  ],
+  "model": "anthropic.claude-opus-5",
+  "output_config": {
+    "effort": "high"
+  },
+  "system": "You are a Lean proof-solving agent in a controlled experiment.\nAll available files are in the user message. Follow TASK.md exactly, using Lean\n4.33.1 and Std, without Mathlib. Work only on the supplied visible task.\nUse check_submission to submit complete Bridge.lean and Solution.lean contents.\nBoth fields are required; use null for solution_source to explicitly omit it.\nEach call replaces both previous files. There is no shell, external information,\nfilesystem-reading tool, or other task available. Submit one tool call at a time.\nThe checker verifies the bridge and visible solution separately. You may revise\nafter a rejection. Verification of both ends the session immediately. A valid\nbridge can remain eligible if the visible solution fails or is absent.\nThe FINAL candidate is the LAST complete check_submission, not the best or last\nvalid earlier revision. All revisions are recorded. Later invalid complete\nsubmissions replace earlier valid ones. Text outside a complete tool submission\ndoes not replace files. A malformed tool call invalidates the session output.\nNo automatic continuation follows an answer without a tool call or a truncated\nresponse. Work within the fixed budget and prioritize verifiable outputs.\nOnly standard propext, Quot.sound, and Classical.choice axiom dependencies are\npermitted. No admitted proofs, new axioms, custom notation, hash commands,\nmetaprogramming, unsafe declarations, or changes to supplied inputs. Only\nmaxRecDepth/maxHeartbeats options may be adjusted. Each source is at most\n100000 UTF-8 bytes. Put only the reusable intermediary and its required helpers\nin Bridge.lean, not the visible solution, source text, or conversation.\n",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "tool_choice": {
+    "disable_parallel_tool_use": true,
+    "type": "auto"
+  },
+  "tools": [
+    {
+      "description": "Replace both output files and check bridge and visible proof separately. Both valid ends the session.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "bridge_source": {
+            "type": "string"
+          },
+          "solution_source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "bridge_source",
+          "solution_source"
+        ],
+        "type": "object"
+      },
+      "name": "check_submission"
+    }
+  ]
+}

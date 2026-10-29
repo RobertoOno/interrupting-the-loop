@@ -310,6 +310,81 @@ if MF.exists() and json.loads(MF.read_text()):
         for arm in ("pulseG20", "habit"):
             L.append(f"| {arm} | {offmean(arm, res, dim, step_pred=lambda s: s >= 300 and (s - 32) % 300 == 0)} | {offmean(arm, mres, dim, since_set={32})} | {offmean(arm, mres, dim, since_set={160})} | {offmean(arm, res, dim, step_pred=lambda s: (s - 32) % 300 != 0)} |")
 
+# ---------------- round 5 (review of 11/09): reanalyses pre-declared in PLANO (N2b) ----------------
+L.append("\n## Round-5 reanalyses (pre-declared in PLANO, 2026-09-11; no new generation)\n")
+# (i) R5 contrast (1) and (2) on the 20 premises generated AFTER the R4a read (pools o and g)
+FRESH = [f"{k}{i}" for k in "og" for i in range(10)]
+L.append("### R5 on the 20 premises added after the R4a read (pools original + expository; sensitivity to the two-look design)\n")
+L.append("| contrast | Δ surprise | CI95 (t) | p (one-sided > 0, MC sign-flip) | n | coherence guard (median Δ) |")
+L.append("|---|---|---|---|---|---|")
+for name, a_, b_ in (("(1) pulse_u10 − cont_a1", "pulse_u10", "cont_a1"), ("(2) pulse_u10 − cont_a0107", "pulse_u10", "cont_a0107")):
+    dd = paired(a_, b_, "surprise", FRESH)
+    if len(dd):
+        o, _, _, pp = signflip(dd, "greater"); m, lo_, hi_ = tci(dd); g = paired(a_, b_, "coherence", FRESH)
+        L.append(f"| {name} | {o:+.3f} | [{lo_:+.3f}, {hi_:+.3f}] | {pp:.4f} | {len(dd)} | {float(np.median(g)):+.2f} ({'ok' if np.median(g) > -1.0 else 'FAIL'}) |")
+dd10 = paired("pulse_u10", "cont_a1", "surprise", NPREM)
+if len(dd10):
+    o, _, _, pp = signflip(dd10, "greater"); m, lo_, hi_ = tci(dd10)
+    L.append(f"\nFor reference, contrast (1) on the 10 confirmatory premises alone (read on 02/09 before the extension): Δ {o:+.3f} [{lo_:+.3f}, {hi_:+.3f}], p = {pp:.4f}.")
+# (i-b) guards versus dose: pulseG20 − pulse_u10 (same effective displacement), paired, 10 confirmatory premises
+dg = paired("pulseG20", "pulse_u10", "surprise", NPREM)
+if len(dg):
+    o, lo_, hi_, pp = signflip(dg, "two"); m, tlo, thi = tci_top(dg)
+    L.append(f"\n- guarded pulse at 2.0 minus unguarded pulse at 1.0 (equal effective displacement), surprise, paired over the 10 confirmatory premises: Δ {o:+.3f}, 95% t-CI [{tlo:+.3f}, {thi:+.3f}], exact two-sided p = {pp:.4f}")
+# (ii) coherence guard (median paired Δ) for the equivalence contrasts
+L.append("\n### Coherence guard (median paired Δ coherence > −1.0) for the equivalence contrasts\n")
+gc = paired("pulseG20", "inter", "coherence")
+L.append(f"- R4b, all windows, pulseG20 − inter: median Δ coherence {float(np.median(gc)):+.2f} ({'ok' if np.median(gc) > -1.0 else 'FAIL'}); mean {gc.mean():+.3f}, n = {len(gc)}")
+# (iii) does the surprise deficit track the coherence deficit? per-premise regression of Δsurprise on Δcoherence (pulseG20 − inter)
+ds_ = paired("pulseG20", "inter", "surprise"); dc_ = paired("pulseG20", "inter", "coherence")
+if len(ds_) == len(dc_) and len(ds_) > 3:
+    from scipy import stats as _st
+    reg = _st.linregress(dc_, ds_)
+    L.append(f"- per-premise regression of Δ surprise on Δ coherence (pulseG20 − inter, n = {len(ds_)}): slope {reg.slope:+.3f} (p = {reg.pvalue:.3f}), r = {reg.rvalue:+.2f}; "
+             f"intercept (Δ surprise at Δ coherence = 0) {reg.intercept:+.3f}")
+# (iv) the +0 text windows (N2b): text judged at the end of its injected sentence
+T0 = R / "rejudge_text0.json"
+if T0.exists() and json.loads(T0.read_text()) and (R / "rejudge_matched.json").exists():
+    t0 = json.loads(T0.read_text()); mres_ = json.loads((R / "rejudge_matched.json").read_text())
+
+    def cmw(src, cell, dim, pred):
+        v = [r[dim] for r in src if r["cell"] == cell and r.get(dim) is not None and pred(r)]
+        return float(np.mean(v)) if v else None
+    burst_end = lambda r: r["step"] >= 300 and (r["step"] - 32) % 300 == 0
+    L.append("\n### N2b: text interruption judged at +0 (window beginning at the end of the injected sentence; 30 premises, 4 windows per cell)\n")
+    L.append(f"Windows judged: {len(t0)} in {len({r['cell'] for r in t0})} cells; mean k {np.mean([r['k'] for r in t0]):.2f}.\n")
+    for dim in DIMS:
+        d0 = np.array([cmw(t0, f"{p}_inter", dim, lambda r: True) - cmw(res, f"{p}_pulseG20", dim, burst_end)
+                       for p in PREMS if cmw(t0, f"{p}_inter", dim, lambda r: True) is not None and cmw(res, f"{p}_pulseG20", dim, burst_end) is not None])
+        if len(d0):
+            o, _, _, pp = signflip(d0, "two"); m, tlo, thi = tci_top(d0)
+            L.append(f"- (a) inter(+0) − pulseG20(+0, burst-end grid windows), {dim}: Δ {o:+.3f}, 95% t-CI [{tlo:+.3f}, {thi:+.3f}], two-sided p = {pp:.4f}, n = {len(d0)}")
+    # (b) fully matched cell means over {+0, +32, +160}: pulseG20 = grid burst-end (+0) + matched (+32, +160); inter = text0 (+0) + gen (+32, +160)
+    def cell_full(p, arm):
+        if arm == "inter":
+            v = [r["surprise"] for r in t0 if r["cell"] == f"{p}_inter" and r.get("surprise") is not None] + \
+                [r["surprise"] for r in res if r["cell"] == f"{p}_inter" and r.get("since") in (32, 160) and r.get("surprise") is not None]
+        else:
+            v = [r["surprise"] for r in res if r["cell"] == f"{p}_{arm}" and r.get("surprise") is not None and burst_end(r)] + \
+                [r["surprise"] for r in mres_ if r["cell"] == f"{p}_{arm}" and r.get("since") in (32, 160) and r.get("surprise") is not None]
+        return float(np.mean(v)) if v else None
+    for dim_note, arm_b in (("pulseG20 − inter", "inter"),):
+        dfull = np.array([cell_full(p, "pulseG20") - cell_full(p, "inter") for p in PREMS if cell_full(p, "pulseG20") is not None and cell_full(p, "inter") is not None])
+        if len(dfull):
+            o, _, _, pp = signflip(dfull, "two"); m, tlo, thi = tci_top(dfull); t75, t50 = tost(dfull, M_PRE), tost(dfull, M_REP)
+            L.append(f"- (b) fully matched cell means over {{+0, +32, +160}}, pulseG20 − inter, surprise: Δ {o:+.3f}, 95% t-CI [{tlo:+.3f}, {thi:+.3f}], two-sided p = {pp:.4f}, n = {len(dfull)}; "
+                     f"TOST ±0.75 p = {t75['p_tost']:.4f} ({'EQUIVALENT' if t75['equiv'] else 'not shown'}), ±0.5 p = {t50['p_tost']:.4f} ({'equivalent' if t50['equiv'] else 'not shown'}); "
+                     f"paired SD {t75['sd']:.3f}; power at Δ = 0: {power_tost(t75['sd'], len(dfull), M_PRE):.2f}")
+    # (c) decay table with the +0 column for text
+    for dim in DIMS:
+        L.append(f"\n#### {dim} by offset from the intervention end, with text at +0 (mean over premises)\n")
+        L.append("| arm | +0 | +32 | +160 | +182 (grid) |")
+        L.append("|---|---|---|---|---|")
+        v0 = [cmw(t0, f"{p}_inter", dim, lambda r: True) for p in PREMS]; v0 = [x for x in v0 if x is not None]
+        L.append(f"| inter | {np.mean(v0):.2f} | {offmean('inter', res, dim, since_set={32})} | {offmean('inter', res, dim, since_set={160})} | — |")
+        for arm in ("pulseG20", "habit"):
+            L.append(f"| {arm} | {offmean(arm, res, dim, step_pred=lambda s: s >= 300 and (s - 32) % 300 == 0)} | {offmean(arm, mres_, dim, since_set={32})} | {offmean(arm, mres_, dim, since_set={160})} | {offmean(arm, res, dim, step_pred=lambda s: (s - 32) % 300 != 0)} |")
+
 # ---------------- M7: effective displacement ----------------
 L.append("\n## Effective displacement after guards (M7) — mean over fired tokens, per arm\n")
 L.append("| arm | α | guards | fired/cell | cos(h_pre, h_post) | ‖Δh‖/‖h‖ |")

@@ -1,177 +1,47 @@
-# Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models
+# Language-model generation and verified search
 
-Code, data and paper for a study of where novelty comes from when a base
-language model writes with **no task** — feeding on its own output — and which
-of the operations usually credited for it survive measurement.
+Published papers, reports and reproducibility code by Roberto I. Ono Filho, independent researcher ([ORCID 0009-0006-8650-629X](https://orcid.org/0009-0006-8650-629X)). The series studies generation, verified search, consolidation, the use of supplied information and the reliability of AI-assisted research.
 
-**Paper**: [arXiv:2608.19893](https://arxiv.org/abs/2608.19893) ([`paper/main.pdf`](paper/main.pdf); LaTeX source in `paper/`, the
-master; the earlier Markdown/HTML drafts in `docs/` are frozen at v1.) All
-tables of the primary analysis: [`docs/APPENDIX_GEN.md`](docs/APPENDIX_GEN.md). **Lab notebook**, every decision and
-result dated: [`docs/PLANO.md`](docs/PLANO.md) (Portuguese; an English
-translation, `docs/NOTEBOOK.md`, accompanies the public release).
+Start with [REPRODUCING.md](REPRODUCING.md) for installation, offline tests, data restoration and paper-output commands. The [public research record](NOTEBOOK.md) links dated protocols and immutable evidence. [Publication notes](docs/PUBLICATION_NOTES.md) distinguish delivered versions from later qualifications.
 
-## The finding, in one paragraph
+## Papers and reports
 
-We tested three hypotheses with one measurement stack (base models run
-locally, LLM judges from another model family with *k*-sample medians and a
-measured instrument, the premise as the unit of inference, verbatim novelty
-against a public training corpus). **The sampler**: an entropy-banded
-anti-probable decoder doubles *n*-gram novelty against the training corpus
-and cuts verbatim training blocks 4x, but shows no detectable effect on judged
-surprise or connection. **The prompt**: inputs built to sit far from any human
-prompt show no benefit under the operationalizations we tested. **The loop**:
-forced continuation from a base model degenerates; a cognitively inspired loop
-revives it, and taking the loop apart over 24 conditions locates most of the
-effect in one operation, a *new subject injected every few hundred tokens*
-(an interruption) into a stream whose literal repetition is damped
-(habituation). On windows of generated, fresh text, the interruption raises
-judged surprise by 1.2-1.4 points and connection by 0.8 over habituation
-alone (Qwen3-30B-A3B-Base, ten premises, paired permutation tests), replicated
-on three base models from two families, a post-trained model, an unquantized
-model and a second genre, and confirmed by a pre-registered replication on new
-premises. Controls: a bare paragraph break does nothing, a continuity
-connective hurts, a reset context does at least as well as a kept one, the
-salience monitor, the in-loop judge and a judge-gated Review run with a gate
-that opens add nothing, and no arm builds an integrated document. **The
-instrument**: three things a windowed LLM judge could not see changed the
-first version of this study (the injected sentence scored as the model's own;
-the model replaying its own earlier segments from beyond the judge's horizon;
-local gains that do not compose), and the protocol that corrects them
-(generated-only windows, fresh-only estimates, a document-level reading, the
-premise as the unit, a pipeline test-retest, a second judge family, human
-readers) is, we think, the most general thing here. This characterizes a
-simple, controllable intervention and the instrument needed to measure it
-honestly; it does not establish a general mechanism of creativity.
+The PDF and LaTeX sources in each directory correspond to the delivered version below.
 
-**Revision note (2026-08-18/19).** After an external review, the study was
-re-analyzed with generated-only windows and the premise as the unit, extended
-with a control battery, a pre-registered confirmatory battery, a
-document-level judgment, a self-copy analysis, replications on more models and
-a second genre, and a judge-gated Review run with a gate that opens. The
-earlier claims about a best rhythm (~300 tokens), about the interruption's
-yield growing with the thread it breaks, about memory as an ingredient and
-about salience as a poor metronome did not survive; the numbers in the paper
-are the new ones.
+1. **Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models** — [paper/](paper/), corrected version 2; [arXiv:2608.19893](https://arxiv.org/abs/2608.19893), [Zenodo 23163693](https://doi.org/10.5281/zenodo.23163693).
+2. **Moving the Mean Toward the Known Good, Not Beyond It** — [paper2/](paper2/), corrected version 2; [arXiv:2608.28886](https://arxiv.org/abs/2608.28886), [Zenodo 23163706](https://doi.org/10.5281/zenodo.23163706).
+3. **Operator Packages, Proposer Strength, and Construction-Family Plateaus in Office-Scale Verified Search** — [paper3/](paper3/), paper version 4; [arXiv:2609.29636](https://arxiv.org/abs/2609.29636), [Zenodo 23163677](https://doi.org/10.5281/zenodo.23163677).
+4. **What State-Space Injection Buys in Open-Ended Generation, and What It Costs** — [paper4/](paper4/), version 4; [Zenodo 23163708](https://doi.org/10.5281/zenodo.23163708).
+5. **Operable Form, Not Stimulus: What Seven Pre-Registered Programs Say a Language Model Does with the Ideas It Is Handed, and Where Stimulating It Had a Ceiling** — [paper5/](paper5/), version 1, 11 September; [Zenodo 22714792](https://doi.org/10.5281/zenodo.22714792).
+6. **Fine-Tuning a Language Model on Its Own Verified Lean Proofs: Transfer, Generalisation and Saturation Across Three Iterations** — [paper6/](paper6/), report version 1; [Zenodo 23163729](https://doi.org/10.5281/zenodo.23163729). A frozen report, not submitted to a venue.
+7. **Errata in AI-Executed Research: A Census of Six Papers, a Blind Replay of the Checks, and What the Record Says About Why** — [paper7/](paper7/), report deposited on 22 October; [Zenodo 23562924](https://doi.org/10.5281/zenodo.23562924).
 
-## Layout
+The short evaluation paper **What a Windowed LLM Judge Cannot See** is in [paper/short/](paper/short/), [Zenodo 23163731](https://doi.org/10.5281/zenodo.23163731).
 
-```
-paper/                LaTeX source of the paper (tectonic main.tex → main.pdf)
-docs/                 PAPER_DREAM.md (working draft, EN) · PAPER_DREAM_pt.md (PT) ·
-                      PLANO.md (lab notebook) · APPENDIX_*.md (auto-generated tables) ·
-                      figures/ · references.bib · blind/ (human-rating packs, no labels)
-src/creative_machine/
-  sampler.py, config.py       entropy-banded anti-probable sampler (pure numpy), habituation, bridge
-  dream.py                    the reverie loop: interruption, forgetting, salience-timed re-encounter
-  salience.py                 salience monitor (jump / crystallization / recurrence / stagnation)
-  blend.py                    judges (Bedrock, OpenRouter): surprise/connection/coherence rubric
-  novelty.py, evaluator.py    infini-gram novelty vs training corpus; perplexity judge; detectors
-  prompt_space.py             sentence embeddings, distance to real prompts
-  adapters/mlx_lm.py          MLX generation adapter
-  domains/                    verified-search domain (online bin packing)
-scripts/
-  dream_run.py                one cell: premise → 4,500-token stream under a condition
-  dream_battery2.py           resumable batteries (b2 / b3 / confirm / families), thermal logging
-  dream_rejudge_surprise.py   offline judging (Opus k=5), generated-only or event windows, several workers
-  hidden_states.py            residual-stream capture (13 layers, logit lens, injection depth)
-  hidden_analysis.py          N1–N3 analyses and figures
-  analysis_gen.py             primary analysis: generated-only windows, cell as unit, permutation tests
-  analysis.py, analysis_b2.py trajectories.py   event-protocol tables and figures (descriptive)
-  judge_agreement.py          second judge family vs Opus
-  blind_pack.py, blind_pack3.py, blind_score.py   human blind-rating packs (rounds 1 and 2) and scoring
-  build_manuscript.py         self-contained HTML manuscript (EN/PT)
-tests/                        117 tests, synthetic distributions (run anywhere)
-runs/                         (not in git) per-cell text, token stream, events, judgments
-```
+## Code and data
 
-## Reproducing
+- `src/creative_machine/`: sampling, generation, evaluation, verified-search domains and the formal-route instruments used by the published work.
+- `scripts/`: experimental runners, frozen readers, table and figure generators, and the public-data restorer.
+- `tests/`: synthetic and optional integration tests for the published code.
+- `docs/`: selected protocols, single-read appendices and compact numerical results. The historical notebook excerpt and agent instructions are frozen; use the public record above for navigation.
 
-Mac with Apple silicon (48 GB) is what everything ran on; the sampler core and
-tests are pure numpy and run anywhere.
+Raw evidence is distributed through versioned deposits rather than committed into this tree:
 
-```bash
-python3 -m venv .venv && .venv/bin/pip install -e ".[dev,mlx]"
-.venv/bin/python -m pytest                      # 117 tests
-```
+- [10.5281/zenodo.22714138](https://doi.org/10.5281/zenodo.22714138): the original `run-data-v1` and `run-data-v2` releases for papers 1–4, also in [GitHub releases](https://github.com/RobertoOno/interrupting-the-loop/releases).
+- [10.5281/zenodo.22713807](https://doi.org/10.5281/zenodo.22713807): the three programs underlying paper 5, with their protocols, code, Lean worlds, runs and verifier reports.
+- [10.5281/zenodo.23163299](https://doi.org/10.5281/zenodo.23163299): October correction evidence for papers 1–4 and 6, including missing runs, LLM judgments, analysis code and dated pre-registration excerpts.
+- [10.5281/zenodo.23562924](https://doi.org/10.5281/zenodo.23562924): paper 7, its redacted replay evidence, frozen documents, R2 pilots and review record.
 
-Base models, quantized locally to 8-bit into `~/models/mlx/`
-(`mlx_lm convert -q --q-bits 8`): Qwen3-30B-A3B-Base, Qwen3-8B-Base, OLMo-2-13B.
+Each deposit documents its checksums, redactions and omissions. Individual human ratings and identity keys are withheld. Model adapters and large hidden-state tensors have recorded hashes where they are not distributed. Some historical reproduction steps require private records; their limits are explicit in [REPRODUCING.md](REPRODUCING.md).
 
-One cell of the loop (a premise, 4,500 tokens, an interruption every 300 tokens):
+This public tree is a curated export. [The export manifest](docs/PUBLIC_EXPORT_MANIFEST.json) identifies the deposited sources and SHA-256 of exported files. Historical protocol commits refer to the private research history; they need not resolve here. On 5 October the older public history was rewritten to remove identifying details about human raters.
 
-```bash
-.venv/bin/python scripts/dream_run.py --control bare_reseed --clock-every 300 \
-  --seed-text "The town had two clocks, and nobody remembered which one had been right first." \
-  --tokens 4500 --no-judge --review-clock 150 --out runs/demo/s0_clock300
-```
+## Interpretation and later qualifications
 
-The batteries of the paper (resumable, overnight-safe), then offline judging
-and the residual-stream capture:
+The studies report effects within their tasks, models and budgets. In particular, the 18–19 October follow-ups showed that the P3 recipient could solve without the supplied bridge when given a larger output budget: in those development worlds the bridge bought token efficiency. Resource-censored sessions must be distinguished from completed failures. See [publication notes](docs/PUBLICATION_NOTES.md) before extending earlier claims.
 
-```bash
-python scripts/dream_battery2.py --battery b2 --out runs/dream_b2
-AWS_PROFILE=<your-bedrock-profile> python scripts/dream_rejudge_surprise.py runs/dream_b2 --k 5 --protocol gen
-python scripts/hidden_states.py runs/dream_b2 && python scripts/hidden_analysis.py runs/dream_b2 --tag b2
-python scripts/analysis_gen.py                                 # primary tables and figures
-python scripts/analysis.py && python scripts/analysis_b2.py    # event-protocol tables (descriptive)
-```
+## License, citation and use of AI
 
-Judges run on Amazon Bedrock (Claude Opus 5 / Sonnet 5) and OpenRouter (Kimi
-K2.6); the OpenRouter key goes in `~/.config/creative-machine/openrouter_key`
-or `OPENROUTER_API_KEY`. Nothing in this repository contains credentials.
+The repository's [MIT license](LICENSE) covers the code. The data deposits specify their own licenses and attribution requirements. Cite the versioned paper or report and the data DOI used for an analysis.
 
-## Data
-
-Every run's per-step telemetry, text, token stream with exact event and
-injection positions, and every judgment (`rejudge_gen.json`, generated-only windows;
-`rejudge_surprise.json`, event windows) live under
-`runs/` (not tracked in git). They are released as GitHub Release archives that unpack
-into the `runs/` layout the analysis scripts expect: [`run-data-v1`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v1)
-(papers 1–3: every logged candidate of every reported run) and
-[`run-data-v2`](https://github.com/RobertoOno/interrupting-the-loop/releases/tag/run-data-v2)
-(paper 4: the R4/R5, pulse, band-map, B-CONF, H2, screen, spectral and generality batteries), both archived
-as Zenodo [10.5281/zenodo.22714138](https://doi.org/10.5281/zenodo.22714138). The generated texts and LLM-judge
-verdicts of paper 1, the remaining batteries of papers 2 and 4, the missing records of paper 3, the evidence archives
-of paper 6, the code and appendices added after 10 September 2026 and the dated pre-registration entries are in the
-evidence deposit [10.5281/zenodo.23163299](https://doi.org/10.5281/zenodo.23163299) (October 2026). The
-human-rating packs in `docs/blind/` contain the rated windows without
-condition labels; the keys are not public, and individual human ratings are not released.
-
-## License
-
-Code and documentation are released under the MIT License (see `LICENSE`).
-
-## Citation
-
-```
-@misc{ono2026interrupting,
-  title  = {Interrupting the Loop: Periodic Subject Changes Raise Judged Surprise and Connection in Base Language Models},
-  author = {Ono Filho, Roberto I.},
-  year   = {2026},
-  eprint = {2608.19893},
-  archivePrefix = {arXiv},
-  primaryClass = {cs.CL},
-  url    = {https://arxiv.org/abs/2608.19893},
-  note   = {ORCID 0009-0006-8650-629X}
-}
-```
-
-The experiments, analyses and text were produced by the author working with
-Claude (Anthropic) as a programming and writing assistant inside Claude Code;
-every decision, result and claim was reviewed by the author, and the dated
-notebook records the trail.
-
-## Papers
-
-Corrected versions of October 2026 (each lists its changes):
-
-1. *Interrupting the Loop* — arXiv:2608.19893; version 2 at Zenodo [10.5281/zenodo.23163693](https://doi.org/10.5281/zenodo.23163693)
-2. *Moving the Mean Toward the Known Good, Not Beyond It* — arXiv:2608.28886; version 2 at Zenodo [10.5281/zenodo.23163706](https://doi.org/10.5281/zenodo.23163706)
-3. *Operator Packages, Proposer Strength, and Construction-Family Plateaus in Office-Scale Verified Search* — arXiv:2609.29636; version 4 at Zenodo [10.5281/zenodo.23163677](https://doi.org/10.5281/zenodo.23163677)
-4. *What State-Space Injection Buys in Open-Ended Generation, and What It Costs* — version 4 at Zenodo [10.5281/zenodo.23163708](https://doi.org/10.5281/zenodo.23163708)
-5. *Operable Form, Not Stimulus* — Zenodo [10.5281/zenodo.22714792](https://doi.org/10.5281/zenodo.22714792)
-6. *Fine-Tuning a Language Model on Its Own Verified Lean Proofs* (report) — Zenodo [10.5281/zenodo.23163729](https://doi.org/10.5281/zenodo.23163729); source in `paper6/`
-- *What a Windowed LLM Judge Cannot See* (short paper on the evaluation of paper 1) — Zenodo [10.5281/zenodo.23163731](https://doi.org/10.5281/zenodo.23163731); source in `paper/short/`
-
-On 5 October 2026 the history of this repository was rewritten to remove the names, payments and countries of the
-human raters from the notebook `docs/PLANO.md`; nothing else changed.
+The experiments, analyses and manuscripts were produced by the author working with Claude (Anthropic) as a programming and writing assistant inside Claude Code. The author decided the questions and designs and is responsible for the published work; the individual manuscripts document their use of AI and review status. This repository update was prepared with Codex (OpenAI).

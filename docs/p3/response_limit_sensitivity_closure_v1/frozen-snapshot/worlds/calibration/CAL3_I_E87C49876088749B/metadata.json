@@ -1,0 +1,126 @@
+{
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "artifact_hashes": {
+    "Hidden/AdaptedRelevant.lean": "1c7dfd8224a83f7e8354e6c3c5a1806e02640f2b92339ee8a370101a4a6c8752",
+    "Hidden/AdaptedSham.lean": "2bd35f3afbf35f776e77270dfb6fa1347deba3944b7a2157f19f9576c7abc8c9",
+    "Hidden/Diagnostics.lean": "7f7d349e383469c825f72e2a666d7ebd91bd2655c0346999749c5eaccb545912",
+    "Hidden/Oracle.lean": "84f88745dadc769725ec6c973b929c433c2d6adf8a9719394b3cd8e2c6b2cda0",
+    "Hidden/OracleChecks.lean": "d7a14552767283e83a3792fbb49eecb9397ed4108dec8bf8e15991e408aa62c4",
+    "Hidden/SourceChecks.lean": "cacdbce97885afbfb08211535e0964e972738ffc36355db866409867de9e8ffb",
+    "Sources/Relevant.lean": "8c367c73a3a1b6d224a744647df86070b7757ceb2ccb83d1d846d6496a7b8364",
+    "Sources/Relevant.md": "9291b757630386f458d11149b429f45d977507e51a1142009bd52931283ecb78",
+    "Sources/Sham.lean": "e77721e4030f842802450b7ee9ea242abbc2ed91e7a20fc520d3521c40cfd953",
+    "Sources/Sham.md": "81978b6e165a18e3beda87f7e24edda2a08b0838924fd6d407cf1bb8c587d1e7",
+    "World/Base.lean": "2860e389f11db6e66ef58243428f17ff6e55f4914b12378214d69b1257d5c916",
+    "World/ChallengeVisible.lean": "ac445f4d35df27630125c4ef305fa52e019d74d45c18e6687b7e2aa2a2b927e7",
+    "World/Holdout1.lean": "8fe270e8e355f6f88e936e5669eca6ee0867a051f5ce0aec7aac3a3186674d2f",
+    "World/Holdout2.lean": "45a4aa71f4de8e1a7965c4587611a55d0ef0a0ca4ab7e43a8dde71cb9b595b16",
+    "lakefile.toml": "3238a6caacd01094de7c3bfcf8dc9e5ba734e146a4295f49193df678c9860afc",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "eligible_for_calibration": true,
+  "eligible_for_main": false,
+  "family": "invariant",
+  "generator": "calibration_worlds_v3",
+  "generator_version": "1.0.0",
+  "hidden_files": [
+    "Hidden/AdaptedRelevant.lean",
+    "Hidden/AdaptedSham.lean",
+    "Hidden/Diagnostics.lean",
+    "Hidden/Oracle.lean",
+    "Hidden/OracleChecks.lean",
+    "Hidden/SourceChecks.lean",
+    "Sources/Relevant.lean",
+    "Sources/Relevant.md",
+    "Sources/Sham.lean",
+    "Sources/Sham.md",
+    "World/Holdout1.lean",
+    "World/Holdout2.lean"
+  ],
+  "lean_checks": {
+    "axiom_audits": {
+      "Hidden/Diagnostics.lean": 7,
+      "Hidden/OracleChecks.lean": 3,
+      "Hidden/SourceChecks.lean": 4,
+      "Sources/Relevant.lean": 3,
+      "Sources/Sham.lean": 3
+    },
+    "must_compile": [
+      "Hidden/AdaptedRelevant.lean",
+      "Hidden/Diagnostics.lean",
+      "Hidden/Oracle.lean",
+      "Hidden/OracleChecks.lean",
+      "Hidden/SourceChecks.lean",
+      "Sources/Relevant.lean",
+      "Sources/Sham.lean",
+      "World/Base.lean",
+      "World/ChallengeVisible.lean",
+      "World/Holdout1.lean",
+      "World/Holdout2.lean"
+    ],
+    "must_fail": [
+      "Hidden/AdaptedSham.lean"
+    ]
+  },
+  "parameters": {
+    "conserved_value": 13,
+    "exclusion_key": {
+      "conserved_value": 13,
+      "target_forms": "zero_x_negative_diagonal_equal_coordinates"
+    },
+    "initial_parameter": 3,
+    "offsets": [
+      -2,
+      1,
+      -4
+    ],
+    "unit_shears": true,
+    "variation": "different_conserved_value_not_n_or_offsets_alone"
+  },
+  "phase": "calibration",
+  "provenance": {
+    "development_registry_sha256": "6d3433c4bd5165ffa6e07ffb51bb7aa441f44d42b1f4eb382f6b6f11a082e2e8",
+    "generator_sha256": "1af598e60065f7464da7ef628dff1e68f2c6a6ded928957f50f371a4d90acd28",
+    "previous_generator_sha256": "9ca3eec62a7e0f09a1ee372b71d6af91c5e351876a45e927943a33807c863213",
+    "prototype_manifest_sha256": "6a4a438d0affa0a1ce0adc520516082ba246b50caf508ae0db7cd63e7367fe1a",
+    "source_assets_sha256": {
+      "InvariantRelevant.lean": "6d4ef560d15974567fc4d64bf5cb22b689cda5d5c9ac3d8b9a11ec76ed146e9d",
+      "InvariantSham.lean": "571ca2694b4cb96e903f7001af9063ac97f95ca5ab9dfb846c9da2cd4ee78381"
+    }
+  },
+  "public_files": [
+    "lakefile.toml",
+    "lean-toolchain",
+    "World/Base.lean",
+    "World/ChallengeVisible.lean"
+  ],
+  "roles": {
+    "holdout_statements": [
+      "Holdout1Statement",
+      "Holdout2Statement"
+    ],
+    "namespace": "P3.CAL3_I_E87C49876088749B",
+    "oracle_bridge": "oracle_bridge",
+    "visible_statement": "VisibleStatement"
+  },
+  "schema_version": 1,
+  "seed": "0ba106e49c63867a",
+  "source_matching": {
+    "difficulty_matched": false,
+    "relative_word_gap": 0.012861736334405145,
+    "tokenizer_matched": false,
+    "words": {
+      "Relevant": 307,
+      "Sham": 311
+    }
+  },
+  "sources_ready": true,
+  "status": "CALIBRATION_ONLY",
+  "structural_novelty_claimed": false,
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "world_id": "CAL3_I_E87C49876088749B"
+}

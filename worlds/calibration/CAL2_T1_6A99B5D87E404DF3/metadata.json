@@ -1,0 +1,125 @@
+{
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "artifact_hashes": {
+    "Hidden/AutomationGrind.lean": "9861ea67eb0e7c4861d95edd28baf243c29ec461ef3acbcbb8a72e646fe0f91c",
+    "Hidden/AutomationSimp.lean": "0aee0c13d7a3e7fca61e07f5e6789348664efd1ea2f82d3f3ee7854966c2d6d4",
+    "Hidden/NonVacuity.lean": "df85564493e654cbe964907cab5467979be3a67bf4c49ad15e2dd0c4da290ec3",
+    "Hidden/Oracle.lean": "1b6a6951672cdb4754086ef80b9dae7d7b5bdb3d39b68ef15d95649b8a7af8a4",
+    "Hidden/OracleChecks.lean": "c4863f7c0a17488944b503407ee93fb2ecc6a0a94fc0f136a2647316f39a6f6f",
+    "Hidden/RelevantAdapter.lean": "0632ea8a9ea9b45875e2f5c1c5af2ee3738d2831bb80a5ca7820e542b37a3da9",
+    "Hidden/RelevantSource.lean": "fb198580d2ac1c5186f26558f8a07f56c793902a7063d7baf48b956b1a871ce0",
+    "Hidden/ShamAdapter.lean": "d3331f0a2cd3c77bf71ce1b2c66509f28c69e895f6c878114f6ca6a9b69dc4c1",
+    "Hidden/ShamSource.lean": "239b7834ba9b738301b3de134683e4518c2df709c748ce5d7083c104873c6639",
+    "Sources/Relevant.md": "4b28c91ee643372639915734e385555e1e22e1d598091492c7289f43b2b0c9b3",
+    "Sources/Sham.md": "e7d26d2296da49a32d8edb117823ab6f83d851ae904c4dfaf15b17e47ab1c6f6",
+    "World/Base.lean": "141c548bf92c917462ecef0ce18786589f9c5e7a97f374f1552dfc5b55f5bd34",
+    "World/ChallengeVisible.lean": "afd72591f9c3db31b62ffb4368ae9acb3c419c71f0960fadf5e72481104849a9",
+    "World/Holdout1.lean": "12088243b6094d07a9f3083d7eb10b594a9b3c7f9187ef870f2d7083a945ff7b",
+    "World/Holdout2.lean": "81ac30fd07ac42119d4eded6b04e050ff9b2dbb834c3f1e57552f40d22a6c9fc",
+    "lakefile.toml": "153b4569f439fdadbcb3cd28e5c0a3ea638440aaf9464f3d2e633b69268aa512",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "difficulty": "hard",
+  "eligible_for_main": false,
+  "generator_version": "0.3.0",
+  "hidden_files": [
+    "Hidden/AutomationGrind.lean",
+    "Hidden/AutomationSimp.lean",
+    "Hidden/NonVacuity.lean",
+    "Hidden/Oracle.lean",
+    "Hidden/OracleChecks.lean",
+    "Hidden/RelevantAdapter.lean",
+    "Hidden/RelevantSource.lean",
+    "Hidden/ShamAdapter.lean",
+    "Hidden/ShamSource.lean",
+    "World/Holdout1.lean",
+    "World/Holdout2.lean"
+  ],
+  "lean_checks": {
+    "axiom_audits": {
+      "Hidden/NonVacuity.lean": 1,
+      "Hidden/OracleChecks.lean": 4,
+      "Hidden/RelevantSource.lean": 1,
+      "Hidden/ShamSource.lean": 1
+    },
+    "must_compile": [
+      "World/Base.lean",
+      "World/ChallengeVisible.lean",
+      "World/Holdout1.lean",
+      "World/Holdout2.lean",
+      "Hidden/Oracle.lean",
+      "Hidden/OracleChecks.lean",
+      "Hidden/RelevantSource.lean",
+      "Hidden/ShamSource.lean",
+      "Hidden/RelevantAdapter.lean",
+      "Hidden/NonVacuity.lean"
+    ],
+    "must_fail": [
+      "Hidden/ShamAdapter.lean",
+      "Hidden/AutomationSimp.lean",
+      "Hidden/AutomationGrind.lean"
+    ]
+  },
+  "phase": "calibration",
+  "public_files": [
+    "lakefile.toml",
+    "lean-toolchain",
+    "World/Base.lean",
+    "World/ChallengeVisible.lean",
+    "Sources/Relevant.md",
+    "Sources/Sham.md"
+  ],
+  "roles": {
+    "braid_constructor": "q_civiva",
+    "edge_constructors": [
+      "q_biluva",
+      "q_jovobo",
+      "q_temifa",
+      "q_yalaja",
+      "q_kepeza"
+    ],
+    "halt_constructor": "q_kebida",
+    "holdout_statements": [
+      "Holdout1Statement",
+      "Holdout2Statement"
+    ],
+    "join_constructor": "q_qarocu",
+    "law_fields": [
+      "q_yuqipo",
+      "q_musiba",
+      "q_fivigi",
+      "q_dociru",
+      "q_hudoju"
+    ],
+    "laws_type": "Q_tumuho",
+    "mode_constructors": [
+      "q_noseke",
+      "q_licagu",
+      "q_nuyiqu",
+      "q_zotibu",
+      "q_gomuna"
+    ],
+    "mode_type": "Q_jiburo",
+    "namespace": "P3.CAL2_T1_6A99B5D87E404DF3",
+    "oracle_bridge": "oracle_bridge",
+    "relevant_source_namespace": "S_sulomu",
+    "route_type": "Q_gajayo",
+    "sham_source_namespace": "S_jifexi",
+    "visible_statement": "VisibleStatement"
+  },
+  "schema_version": 1,
+  "seed_hex": "6a99b5d87e404df3",
+  "source_balance": {
+    "relevant_chars": 3010,
+    "relevant_words": 649,
+    "sham_chars": 3010,
+    "sham_words": 649
+  },
+  "template": "T1",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "world_id": "CAL2_T1_6A99B5D87E404DF3"
+}

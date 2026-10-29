@@ -106,6 +106,57 @@ Text interruption keeps its already-judged +32/+160 windows; the state arm and t
 | pulseG20 | 3.47 | 3.57 | 4.02 | 4.33 |
 | habit | 4.87 | 4.62 | 4.84 | 4.97 |
 
+## Round-5 reanalyses (pre-declared in PLANO, 2026-09-11; no new generation)
+
+### R5 on the 20 premises added after the R4a read (pools original + expository; sensitivity to the two-look design)
+
+| contrast | Δ surprise | CI95 (t) | p (one-sided > 0, MC sign-flip) | n | coherence guard (median Δ) |
+|---|---|---|---|---|---|
+| (1) pulse_u10 − cont_a1 | +0.558 | [+0.062, +1.054] | 0.0150 | 20 | +1.78 (ok) |
+| (2) pulse_u10 − cont_a0107 | +0.087 | [-0.393, +0.568] | 0.3670 | 20 | -0.17 (ok) |
+
+For reference, contrast (1) on the 10 confirmatory premises alone (read on 02/09 before the extension): Δ +0.327 [-0.843, +1.497], p = 0.2695.
+
+- guarded pulse at 2.0 minus unguarded pulse at 1.0 (equal effective displacement), surprise, paired over the 10 confirmatory premises: Δ +0.642, 95% t-CI [-0.100, +1.383], exact two-sided p = 0.0938
+
+### Coherence guard (median paired Δ coherence > −1.0) for the equivalence contrasts
+
+- R4b, all windows, pulseG20 − inter: median Δ coherence -1.02 (FAIL); mean -0.896, n = 30
+- per-premise regression of Δ surprise on Δ coherence (pulseG20 − inter, n = 30): slope -0.519 (p = 0.047), r = -0.37; intercept (Δ surprise at Δ coherence = 0) -0.752
+
+### N2b: text interruption judged at +0 (window beginning at the end of the injected sentence; 30 premises, 4 windows per cell)
+
+Windows judged: 120 in 30 cells; mean k 4.85.
+
+- (a) inter(+0) − pulseG20(+0, burst-end grid windows), surprise: Δ +1.212, 95% t-CI [+0.752, +1.673], two-sided p = 0.0000, n = 30
+- (a) inter(+0) − pulseG20(+0, burst-end grid windows), connection: Δ +0.896, 95% t-CI [+0.391, +1.400], two-sided p = 0.0012, n = 30
+- (a) inter(+0) − pulseG20(+0, burst-end grid windows), coherence: Δ +1.383, 95% t-CI [+1.003, +1.764], two-sided p = 0.0000, n = 30
+- (b) fully matched cell means over {+0, +32, +160}, pulseG20 − inter, surprise: Δ -0.727, 95% t-CI [-1.186, -0.269], two-sided p = 0.0029, n = 30; TOST ±0.75 p = 0.4602 (not shown), ±0.5 p = 0.8408 (not shown); paired SD 1.227; power at Δ = 0: 0.90
+
+#### surprise by offset from the intervention end, with text at +0 (mean over premises)
+
+| arm | +0 | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | 5.25 | 4.09 | 3.67 | — |
+| pulseG20 | 4.03 | 3.70 | 3.40 | 3.42 |
+| habit | 2.83 | 2.71 | 2.50 | 2.62 |
+
+#### connection by offset from the intervention end, with text at +0 (mean over premises)
+
+| arm | +0 | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | 3.24 | 2.71 | 2.91 | — |
+| pulseG20 | 2.34 | 2.24 | 2.23 | 2.25 |
+| habit | 2.23 | 2.04 | 1.94 | 2.06 |
+
+#### coherence by offset from the intervention end, with text at +0 (mean over premises)
+
+| arm | +0 | +32 | +160 | +182 (grid) |
+|---|---|---|---|---|
+| inter | 4.85 | 4.97 | 4.89 | — |
+| pulseG20 | 3.47 | 3.57 | 4.02 | 4.33 |
+| habit | 4.87 | 4.62 | 4.84 | 4.97 |
+
 ## Effective displacement after guards (M7) — mean over fired tokens, per arm
 
 | arm | α | guards | fired/cell | cos(h_pre, h_post) | ‖Δh‖/‖h‖ |

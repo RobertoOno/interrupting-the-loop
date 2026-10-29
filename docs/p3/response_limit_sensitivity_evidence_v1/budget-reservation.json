@@ -1,0 +1,9 @@
+{
+  "at": "2026-09-07T23:40:13.451896-03:00",
+  "committed_today_usd": "30.0",
+  "daily_limit_usd": "150",
+  "event": "reserve",
+  "run_id": "p3a_response_limit_sensitivity_v1",
+  "timezone": "America/Sao_Paulo",
+  "usd": "30.0"
+}

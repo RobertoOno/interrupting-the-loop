@@ -1,0 +1,94 @@
+{
+ "mode": "a7_wall_screen",
+ "candidates": {
+  "W1": {
+   "schema": "pell_mod (Pell form mod p)",
+   "base_none": {
+    "n": 8,
+    "k": 0,
+    "instances_with_solve": 0
+   },
+   "base_ref": {
+    "n": 8,
+    "k": 6,
+    "instances_with_solve": 2
+   },
+   "own2_none": {
+    "n": 8,
+    "k": 7,
+    "instances_with_solve": 2
+   },
+   "complete": true,
+   "class": "wall_candidate",
+   "early_crossing_signal": true
+  },
+  "W2": {
+   "schema": "plane_lattice (trap: exact linear invariant does not separate)",
+   "base_none": {
+    "n": 8,
+    "k": 4,
+    "instances_with_solve": 2
+   },
+   "base_ref": {
+    "n": 8,
+    "k": 7,
+    "instances_with_solve": 2
+   },
+   "own2_none": {
+    "n": 8,
+    "k": 3,
+    "instances_with_solve": 2
+   },
+   "complete": true,
+   "class": "not_a_wall",
+   "early_crossing_signal": false
+  },
+  "W3": {
+   "schema": "hyperbolic4 (4 fields, 4 offsets)",
+   "base_none": {
+    "n": 8,
+    "k": 2,
+    "instances_with_solve": 1
+   },
+   "base_ref": {
+    "n": 8,
+    "k": 8,
+    "instances_with_solve": 2
+   },
+   "own2_none": {
+    "n": 8,
+    "k": 7,
+    "instances_with_solve": 2
+   },
+   "complete": true,
+   "class": "not_a_wall",
+   "early_crossing_signal": false
+  },
+  "W4": {
+   "schema": "lattice_mod_p (large prime modulus)",
+   "base_none": {
+    "n": 8,
+    "k": 3,
+    "instances_with_solve": 2
+   },
+   "base_ref": {
+    "n": 8,
+    "k": 7,
+    "instances_with_solve": 2
+   },
+   "own2_none": {
+    "n": 8,
+    "k": 7,
+    "instances_with_solve": 2
+   },
+   "complete": true,
+   "class": "not_a_wall",
+   "early_crossing_signal": false
+  }
+ },
+ "n_not_observed": 0,
+ "wall_candidates": [
+  "W1"
+ ],
+ "verdict": "walls_found"
+}

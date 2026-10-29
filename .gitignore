@@ -14,3 +14,13 @@ docs/t5/corpus.jsonl
 docs/t5/map.npz
 docs/t5/dirs.npz
 docs/t5/fit.json
+
+# Restored versioned evidence stays in the data deposits, outside the Git tree.
+.reproduction-data/
+docs/*_evidence_v*/
+docs/r1/
+docs/r2/
+worlds/
+docs/p2/
+docs/transfer_library/
+docs/slot/

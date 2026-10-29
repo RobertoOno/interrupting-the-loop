@@ -1,0 +1,12 @@
+{
+  "command": [
+    "/Users/robertoonofilho/wrk/creative-machine/.venv/bin/python",
+    "-u",
+    "/Users/robertoonofilho/wrk/creative-machine/scripts/p3_run_budgeted_sensitivity_v1.py",
+    "--worker"
+  ],
+  "commit": "032cc01b1c8bdc8151d9be3817a1368a6fd6445b",
+  "log": "/Users/robertoonofilho/wrk/creative-machine/runs/p3/sensitivity/p3a_response_limit_sensitivity_v1.log",
+  "plan_id": "p3a_response_limit_sensitivity_v1",
+  "requested_at": "2026-09-08T02:40:01.118028+00:00"
+}

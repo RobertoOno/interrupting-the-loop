@@ -1,0 +1,51 @@
+{
+  "audit_code_sha256": "a3b9aa146b25c5782d62c00816acbe9bec0467c0bdef5e7f708432a7b06933cf",
+  "base_sha256": "024e2682acb74e4087d90de266bb4fb42d54f812587bfd8db09d3fdbaf1135bc",
+  "equal_reachability_verified": true,
+  "exclusions": {
+    "calibration_invariant_levels": [
+      5,
+      7,
+      11,
+      13,
+      17,
+      19
+    ],
+    "development_seeds": [
+      "9300000000000001",
+      "9300000000000002"
+    ],
+    "excluded_invariant_levels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "model_calls": 0,
+    "old_short_holdout_remaining": 0,
+    "remaining_after_all_declared_development": [
+      {
+        "length": 6,
+        "literal_orbits": 3,
+        "requirement": "different_at_10"
+      },
+      {
+        "length": 8,
+        "literal_orbits": 56,
+        "requirement": "same_action"
+      },
+      {
+        "length": 8,
+        "literal_orbits": 162,
+        "requirement": "any"
+      }
+    ],
+    "replacement_holdout_remaining_after_old_development": 59,
+    "structural_novelty_claimed": false
+  },
+  "generator_sha256": "1af598e60065f7464da7ef628dff1e68f2c6a6ded928957f50f371a4d90acd28",
+  "model_calls": 0,
+  "proof_audit": "'DevelopmentPreflight.seed_next' depends on axioms: [propext, Classical.choice, Quot.sound]\n'DevelopmentPreflight.seed_previous' depends on axioms: [propext, Classical.choice, Quot.sound]\n'DevelopmentPreflight.reaches_trans' does not depend on any axioms\n'DevelopmentPreflight.from_zero' depends on axioms: [propext, Classical.choice, Quot.sound]\n'DevelopmentPreflight.to_zero' depends on axioms: [propext, Classical.choice, Quot.sound]\n'DevelopmentPreflight.same_reachable_set' depends on axioms: [propext, Classical.choice, Quot.sound]\n",
+  "proof_sha256": "6efe71ed8f097341e57e3d9fdbaa21427fa1b88138a6fffecf0d2a4a4b29f6c4",
+  "stderr": ""
+}

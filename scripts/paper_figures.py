@@ -312,10 +312,10 @@ try:
                 if ys:
                     jg[dim][li, ai] = _np2.mean(ys)
     fig, axes = plt.subplots(1, 4, figsize=(10.2, 2.5), gridspec_kw={"width_ratios": [1.3, 1.3, 0.9, 0.9]})
-    panels = [(axes[0], grid["clean_nll_mean"], layers, [str(a) for a in alphas_b], "clean NLL (proxy, 57 cells)", "Reds"),
-              (axes[1], grid["distinct4"], layers, [str(a) for a in alphas_b], "distinct-4 (proxy, 57 cells)", "Blues_r"),
-              (axes[2], jg["surprise"], jl, [a for a, _ in ja], "judged surprise (H2)", "Blues"),
-              (axes[3], jg["coherence"], jl, [a for a, _ in ja], "judged coherence (H2)", "Greens")]
+    panels = [(axes[0], grid["clean_nll_mean"], layers, [str(a) for a in alphas_b], "map (unjudged): clean NLL", "Reds"),
+              (axes[1], grid["distinct4"], layers, [str(a) for a in alphas_b], "map (unjudged): distinct-4", "Blues_r"),
+              (axes[2], jg["surprise"], jl, [a for a, _ in ja], "H2 (judged): surprise", "Blues"),
+              (axes[3], jg["coherence"], jl, [a for a, _ in ja], "H2 (judged): coherence", "Greens")]
     for ax, G, rows, cols, ttl, cmap in panels:
         im = ax.imshow(G, cmap=cmap, aspect="auto")
         ax.set_xticks(range(len(cols))); ax.set_xticklabels(cols, fontsize=7.5)
@@ -324,8 +324,9 @@ try:
         for i in range(G.shape[0]):
             for j in range(G.shape[1]):
                 if not _np2.isnan(G[i, j]):
-                    ax.text(j, i, f"{G[i, j]:.2f}", ha="center", va="center", fontsize=6.5,
-                            color="white" if (G[i, j] - _np2.nanmin(G)) / (_np2.nanmax(G) - _np2.nanmin(G) + 1e-9) > 0.6 else "black")
+                    _rgba = plt.get_cmap(cmap)((G[i, j] - _np2.nanmin(G)) / (_np2.nanmax(G) - _np2.nanmin(G) + 1e-9))
+                    _lum = 0.299 * _rgba[0] + 0.587 * _rgba[1] + 0.114 * _rgba[2]
+                    ax.text(j, i, f"{G[i, j]:.2f}", ha="center", va="center", fontsize=6.5, color="white" if _lum < 0.5 else "black")
     fig.tight_layout(); fig.savefig(OUT / "fig_p4_bandmap.png", bbox_inches="tight"); plt.close(fig)
     print("fig_p4_bandmap ok")
 except Exception as e:
@@ -344,6 +345,8 @@ try:
     import json as _j4, numpy as _n4
     _res = _j4.loads((ROOT / "runs/r4/rejudge_gen.json").read_text())
     _mat = _j4.loads((ROOT / "runs/r4/rejudge_matched.json").read_text())
+    _t0f = ROOT / "runs/r4/rejudge_text0.json"   # round 5: the text arm judged at +0
+    _t0 = _j4.loads(_t0f.read_text()) if _t0f.exists() else []
     _PREMS = [f"{p}{i}" for p in "nog" for i in range(10)]
     def _cm(src, cell, dim, since=None, pred=None):
         v = [r[dim] for r in src if r["cell"] == cell and r.get(dim) is not None
@@ -352,10 +355,10 @@ try:
     def _series(arm, dim):
         pts = []
         if arm == "inter":
-            spec = [(32, _res, dict(since=32)), (160, _res, dict(since=160))]
+            spec = ([(0, _t0, dict())] if _t0 else []) + [(32, _res, dict(since=32)), (160, _res, dict(since=160))]
         else:
             spec = [(0, _res, dict(pred=lambda s: s >= 300 and (s - 32) % 300 == 0)), (32, _mat, dict(since=32)),
-                    (160, _mat, dict(since=160)), (182, _res, dict(pred=lambda s: (s - 32) % 300 != 0))]
+                    (160, _mat, dict(since=160)), (150, _res, dict(pred=lambda s: (s - 32) % 300 != 0))]
         for off, src, kw in spec:
             v = _n4.array([x for x in (_cm(src, f"{p}_{arm}", dim, **kw) for p in _PREMS) if x is not None])
             idx = _n4.random.default_rng(0).integers(0, len(v), (5000, len(v)))
@@ -368,11 +371,11 @@ try:
             pts = _series(arm, dim)
             xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
             ax.errorbar(xs, ys, yerr=[[p[1] - p[2] for p in pts], [p[3] - p[1] for p in pts]], color=col, lw=1.5, marker="o", ms=4, capsize=3, label=lab)
-        if dim == "surprise":
+        if dim == "surprise" and not _t0:
             ax.annotate("burst end:\nno text counterpart", (0, 4.03), xytext=(6, 10), textcoords="offset points", fontsize=7, color=BLUE)
         ax.set_title(f"judged {dim}", fontsize=9); ax.set_xlabel("offset after intervention end (tokens)")
-        ax.set_xticks([0, 32, 160, 182]); ax.set_xticklabels(["0", "32", "160", "182"], fontsize=8)
-    axes[0].legend(fontsize=7, loc="lower left", frameon=False)
+        ax.set_xticks([0, 32, 160]); ax.set_xticklabels(["0", "32", "160"], fontsize=8)
+    axes[0].legend(fontsize=7, loc="upper right", frameon=False)
     fig.tight_layout(); fig.savefig(OUT / "fig_p4_decay.png", bbox_inches="tight"); plt.close(fig)
     (ROOT / "paper4/figures").mkdir(parents=True, exist_ok=True)
     _sh.copy2(OUT / "fig_p4_decay.png", ROOT / "paper4/figures/fig_p4_decay.png")

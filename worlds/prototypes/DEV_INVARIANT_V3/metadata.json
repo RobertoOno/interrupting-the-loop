@@ -1,0 +1,67 @@
+{
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "artifact_hashes": {
+    "Hidden/Diagnostics.lean": "fa98c95f1cfad67abb4befadacba45612ebae26f16aa41175eeb74fffcc12f84",
+    "Hidden/Oracle.lean": "845bdf791cb856fbd785f43b2aee6e7ee0f8b1668e47dca1f459565a16906cdf",
+    "Hidden/OracleChecks.lean": "33783eb6c5e959ea2647fdce2d973d49a4887b01b5a7339c692b0fbdef313a17",
+    "World/Base.lean": "024e2682acb74e4087d90de266bb4fb42d54f812587bfd8db09d3fdbaf1135bc",
+    "World/ChallengeVisible.lean": "30b378e8639dd3c7fdb63c0120b19b504ba5ea0c4f127ad64a2ef4edb74cc186",
+    "World/Holdout1.lean": "8eee03004926c8e0203ce8e63f9e8d28c4fd8d7679dd50f2ac334eccb2cb149b",
+    "World/Holdout2.lean": "3581c0b3de58f1ef4ebb0b93754a234bcfdcca91f03fb30cdde2072577ed9272",
+    "lakefile.toml": "191b965f7befa48dcb5ec11dc37ff45778b1a5421e50c41811b887e9f7c38d77",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "eligible_for_calibration": false,
+  "eligible_for_main": false,
+  "hidden_files": [
+    "Hidden/Diagnostics.lean",
+    "Hidden/Oracle.lean",
+    "Hidden/OracleChecks.lean",
+    "World/Holdout1.lean",
+    "World/Holdout2.lean"
+  ],
+  "lean_checks": {
+    "axiom_audits": {
+      "Hidden/Diagnostics.lean": 8,
+      "Hidden/OracleChecks.lean": 4
+    },
+    "must_compile": [
+      "World/Base.lean",
+      "World/ChallengeVisible.lean",
+      "World/Holdout1.lean",
+      "World/Holdout2.lean",
+      "Hidden/Oracle.lean",
+      "Hidden/OracleChecks.lean",
+      "Hidden/Diagnostics.lean"
+    ],
+    "must_fail": []
+  },
+  "phase": "prototype",
+  "prototype_version": "0.1.0",
+  "public_files": [
+    "lakefile.toml",
+    "lean-toolchain",
+    "World/Base.lean",
+    "World/ChallengeVisible.lean"
+  ],
+  "roles": {
+    "holdout_statements": [
+      "Holdout1Statement",
+      "Holdout2Statement"
+    ],
+    "namespace": "P3.DEV_INVARIANT_V3",
+    "oracle_bridge": "oracle_bridge",
+    "visible_statement": "VisibleStatement"
+  },
+  "route": "quadratic_conservation",
+  "sampling": "hand_authored_not_randomly_sampled",
+  "schema_version": 1,
+  "sources_ready": false,
+  "status": "DEVELOPMENT_ONLY",
+  "toolchain": "leanprover/lean4:v4.33.1",
+  "world_id": "DEV_INVARIANT_V3"
+}

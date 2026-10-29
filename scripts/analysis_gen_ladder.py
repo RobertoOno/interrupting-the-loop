@@ -89,6 +89,16 @@ def model_block(tag: str):
         else:
             row.append("| — | — |")
         L.append("".join(row))
+    # round-5 review (M6): judge coverage per arm — scheduled windows (6 per grid cell, 4 + 3 per interrupted cell),
+    # windows with at least one verdict, windows dropped (every k call refused or unparsable), mean k among survivors
+    L.append("\n| arm | scheduled windows | judged | dropped | mean k (judged) | k = 5 | k ≤ 2 |")
+    L.append("|---|---|---|---|---|---|---|")
+    for arm in ("habit", "pulse", "inter"):
+        rs = [r for r in res if r["cond"] == arm]
+        sched = (7 if arm == "inter" else 6) * len(PREMS)
+        ks = [r["k"] for r in rs]
+        L.append(f"| {arm} | {sched} | {len(rs)} | {sched - len(rs)} ({(sched - len(rs)) / sched:.0%}) | "
+                 f"{np.mean(ks):.2f} | {sum(k == 5 for k in ks)} | {sum(k <= 2 for k in ks)} |")
     return L
 
 

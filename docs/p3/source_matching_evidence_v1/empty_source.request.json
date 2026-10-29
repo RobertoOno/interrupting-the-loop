@@ -1,0 +1,45 @@
+{
+  "messages": [
+    {
+      "content": "FILE SOURCE.md\n",
+      "role": "user"
+    }
+  ],
+  "model": "anthropic.claude-opus-5",
+  "output_config": {
+    "effort": "high"
+  },
+  "system": "You are a Lean proof-solving agent in a controlled experiment.\nAll available files are in the user message. Follow TASK.md exactly, using Lean\n4.33.1 and Std, without Mathlib. Work only on the supplied visible task.\nUse check_submission to submit complete Bridge.lean and Solution.lean contents.\nBoth fields are required; use null for solution_source to explicitly omit it.\nEach call replaces both previous files. There is no shell, external information,\nfilesystem-reading tool, or other task available. Submit one tool call at a time.\nThe checker verifies the bridge and visible solution separately. You may revise\nafter a rejection. Verification of both ends the session immediately. A valid\nbridge can remain eligible if the visible solution fails or is absent.\nThe FINAL candidate is the LAST complete check_submission, not the best or last\nvalid earlier revision. All revisions are recorded. Later invalid complete\nsubmissions replace earlier valid ones. Text outside a complete tool submission\ndoes not replace files. A malformed tool call invalidates the session output.\nNo automatic continuation follows an answer without a tool call or a truncated\nresponse. Work within the fixed budget and prioritize verifiable outputs.\nOnly standard propext, Quot.sound, and Classical.choice axiom dependencies are\npermitted. No admitted proofs, new axioms, custom notation, hash commands,\nmetaprogramming, unsafe declarations, or changes to supplied inputs. Only\nmaxRecDepth/maxHeartbeats options may be adjusted. Each source is at most\n100000 UTF-8 bytes. Put only the reusable intermediary and its required helpers\nin Bridge.lean, not the visible solution, source text, or conversation.\n",
+  "thinking": {
+    "type": "adaptive"
+  },
+  "tool_choice": {
+    "disable_parallel_tool_use": true,
+    "type": "auto"
+  },
+  "tools": [
+    {
+      "description": "Replace both output files and check bridge and visible proof separately. Both valid ends the session.",
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "bridge_source": {
+            "type": "string"
+          },
+          "solution_source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "bridge_source",
+          "solution_source"
+        ],
+        "type": "object"
+      },
+      "name": "check_submission"
+    }
+  ]
+}

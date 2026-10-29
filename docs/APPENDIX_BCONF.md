@@ -32,6 +32,29 @@ Pre-registered PLANO 2026-08-30 ~17h30 (analysis written before the data). 3 arm
 | pulse_kick | 278 | 121 | 0.44 | 120 | +0.01936 | +0.00114 | -0.00334 | 1 |
 | pulse_ang | 308 | 161 | 0.52 | 157 | +0.02424 | +0.00341 | -0.00334 | 3 |
 
+## Valid programs per variant (review round 5): wildcard − none, paired over the 16 variants
+
+kick − none, valid programs per variant: Δ -2.75 [-4.69, -0.75] per variant, exact two-sided sign-flip p = 0.0228, n = 16 (variants where kick < none: 11, > none: 4, equal: 1).
+
+| variant | none valid | wildcard valid | domain valid |
+|---|---|---|---|
+| train_v0 | 18 | 10 | 14 |
+| train_v1 | 14 | 9 | 17 |
+| train_v2 | 7 | 7 | 9 |
+| train_v3 | 20 | 10 | 12 |
+| train_v4 | 16 | 11 | 9 |
+| train_v5 | 11 | 10 | 14 |
+| train_v6 | 9 | 7 | 9 |
+| train_v7 | 6 | 7 | 8 |
+| train_v8 | 11 | 4 | 8 |
+| train_v9 | 7 | 2 | 3 |
+| far_v0 | 11 | 6 | 10 |
+| far_v1 | 4 | 3 | 9 |
+| far_v2 | 5 | 10 | 17 |
+| far_v3 | 7 | 9 | 8 |
+| far_v4 | 14 | 9 | 8 |
+| far_v5 | 5 | 7 | 6 |
+
 ## Headroom split (review M6): kick − none within variants where `none` still had room
 
 A variant has *headroom* when the none arm's best train gap is > 0 (the classics not yet matched); otherwise it sits at the floor and no arm can improve the measure.

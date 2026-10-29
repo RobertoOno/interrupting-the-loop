@@ -1,0 +1,184 @@
+{
+  "agent": {
+    "aws_profile": "main-account",
+    "aws_region": "us-east-1",
+    "effort": "high",
+    "input_usd_per_million": 5.5,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 20000,
+    "max_turns": 12,
+    "model": "anthropic.claude-opus-5",
+    "output_per_request": 8192,
+    "output_usd_per_million": 27.5,
+    "request_timeout_seconds": 120.0,
+    "timeout_seconds": 600.0
+  },
+  "allowed_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "cells": [
+    {
+      "cell_id": "C3_34444F10C6FB",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "model_input_sha256": "15d0da32f303e58cb0efdba922a25e6205c9400439b6735b4a9e9110b8c5514e",
+      "ordinal": 1,
+      "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+      "world_id": "CAL3_I_E87C49876088749B"
+    },
+    {
+      "cell_id": "C3_E82B730AE2FC",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "model_input_sha256": "e9d21a8a11f742e1c04c3192d78cb3fb591bcc53845f4ef6efa714c88e28102e",
+      "ordinal": 2,
+      "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+      "world_id": "CAL3_R_F76437525B190ECB"
+    },
+    {
+      "cell_id": "C3_0EDE37B732AD",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "model_input_sha256": "89223629480f0e813dd8e55ae97a68f4da0265f440bd0250954bf652725a9d98",
+      "ordinal": 3,
+      "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+      "world_id": "CAL3_R_F76437525B190ECB"
+    },
+    {
+      "cell_id": "C3_4D8415A8C7D4",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "model_input_sha256": "9935a18bef09d4afdff3463824b7146cfd8c98c75a448c35fa0c27c0813c5e32",
+      "ordinal": 4,
+      "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+      "world_id": "CAL3_R_F76437525B190ECB"
+    },
+    {
+      "cell_id": "C3_DA44DEED14FB",
+      "condition": "no_bridge",
+      "holdout": 2,
+      "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+      "ordinal": 5,
+      "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+      "world_id": "CAL3_R_F76437525B190ECB"
+    },
+    {
+      "cell_id": "C3_A0B95ED6D79D",
+      "condition": "no_bridge",
+      "holdout": 1,
+      "model_input_sha256": "ce261dde1cd8ded3134fe88c6df7faca372d9bf911775d176fc57bcccdb447a5",
+      "ordinal": 6,
+      "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+      "world_id": "CAL3_I_E87C49876088749B"
+    },
+    {
+      "cell_id": "C3_4BEC90270000",
+      "condition": "oracle_bridge",
+      "holdout": 1,
+      "model_input_sha256": "980294fc1570e29977e0b4ea3294f5f2163f3f07f75fa25cadeab90a7da26d7d",
+      "ordinal": 7,
+      "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+      "world_id": "CAL3_I_E87C49876088749B"
+    },
+    {
+      "cell_id": "C3_70E94CC300F1",
+      "condition": "oracle_bridge",
+      "holdout": 2,
+      "model_input_sha256": "2db0316d4053573567ccb3bd11cc67cbad1582343525566610938ac3bb04ee19",
+      "ordinal": 8,
+      "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+      "world_id": "CAL3_I_E87C49876088749B"
+    }
+  ],
+  "created_at": "2026-09-05T03:08:41.038209+00:00",
+  "environment": {
+    "anthropic": "1.4.0",
+    "boto3": "1.43.89",
+    "botocore": "1.43.89",
+    "python": "3.14.6",
+    "sandbox_binary_sha256": "0cf2d42e90ddd50fa5b7eedd5d72f109b68d33e5a6ce7c3fc2c87e4180edcd59"
+  },
+  "gate_rule": {
+    "baseline_at_most": 2,
+    "complete_pairs": 4,
+    "net_gain_at_least": 2,
+    "oracle_at_least": 3
+  },
+  "harness_sha256": {
+    "docs/p3/development_exclusions_v3.json": "6d3433c4bd5165ffa6e07ffb51bb7aa441f44d42b1f4eb382f6b6f11a082e2e8",
+    "scripts/p3_bedrock.py": "6602fa296c1d2a6a440b0b4a690ed06a8f914f208165377cacf164e18b243242",
+    "scripts/p3_calibration_v3.py": "035c5548bbc4be2ae69bad5f07cee79fbe2e9bd1bbc7646779159b4aa6c7f150",
+    "src/creative_machine/formal_routes/assets/conceptual_v3/InvariantRelevant.lean": "6d4ef560d15974567fc4d64bf5cb22b689cda5d5c9ac3d8b9a11ec76ed146e9d",
+    "src/creative_machine/formal_routes/assets/conceptual_v3/InvariantSham.lean": "571ca2694b4cb96e903f7001af9063ac97f95ca5ab9dfb846c9da2cd4ee78381",
+    "src/creative_machine/formal_routes/assets/conceptual_v3/RepresentationRelevant.lean": "875c9ccfee4b22c44c2f2850ae0d72bf55eb83515a370238906639d8e6392964",
+    "src/creative_machine/formal_routes/assets/conceptual_v3/RepresentationSham.lean": "48e788b1b4db81f384b3d8a0f677bd46865979d01041a7ebffce26e4ccb9bb36",
+    "src/creative_machine/formal_routes/bedrock_calibration.py": "16a705afa0108a88c38f585e80d094345d0c1af69fc29c6533c47ad153bd1589",
+    "src/creative_machine/formal_routes/bedrock_runner.py": "036d5665cdb35b2c62b225fe862432678ad65c7a9adca7a75fbd79d5716bfc7b",
+    "src/creative_machine/formal_routes/calibration.py": "812bf6baabfac4994f803af29d935f995643f15cbb3000b6827bcb033b4e2460",
+    "src/creative_machine/formal_routes/calibration_protocol_v3.py": "a13536ad9945f8d3c64040cf964fcf3478d91db114e4eca5ca1784fb0348ece4",
+    "src/creative_machine/formal_routes/calibration_review_v3.py": "e1440c80f7b88cfda364921307c335acbe216501f2658246c8103606f2039da7",
+    "src/creative_machine/formal_routes/calibration_worlds_v3.py": "1af598e60065f7464da7ef628dff1e68f2c6a6ded928957f50f371a4d90acd28",
+    "src/creative_machine/formal_routes/codex_runner.py": "d0c54367ad2b3a066bd5b9ab9e52a97893de2f1fa403493660cd2392869ad897",
+    "src/creative_machine/formal_routes/conceptual_generator.py": "9ca3eec62a7e0f09a1ee372b71d6af91c5e351876a45e927943a33807c863213",
+    "src/creative_machine/formal_routes/conceptual_review.py": "3853d58247fd77f0286d14d624a496ed786356a4c5410405ad0699bab64c62bc",
+    "src/creative_machine/formal_routes/generator.py": "b10adeb8f27c32cf8c3ab942b1b7f5050ecb0d3d2a142f527386ff15df011a10",
+    "src/creative_machine/formal_routes/lean_sandbox.py": "ca5eba7cad9a081c80253030cdfd6c97e7b21460772662890438d60a9ed87caf",
+    "src/creative_machine/formal_routes/prototypes.py": "d440947bd67155605f7a804f57d9730e920e0a69de2be9320bb60afc76403168",
+    "src/creative_machine/formal_routes/submission.py": "50a1199d56487e951806d538d1cd80293fc09a10e0ae33f4d5409c98fbadc1b5",
+    "src/creative_machine/formal_routes/validation.py": "79264bbc0036cb2fd3a1c28efb95b42ccbdfcef345db7451ae35cadd1ac68789",
+    "src/creative_machine/formal_routes/workspace.py": "52f6b122b38a3b0bda1a4c97c1ae40290a5dc44b5767addef5d2b250f06b15e1"
+  },
+  "last_small_calibration_before_domain_reassessment": true,
+  "local_evidence": {
+    "path": "docs/p3/calibration_local_review_v3.json",
+    "sha256": "b95bc73e7013e1b9111e283980dab9102bbe082d7e93fc4eecaee0e033736896"
+  },
+  "max_parallel": 2,
+  "max_total_cost_usd": 15.0,
+  "notes": [
+    "Known mathematical families; neither structural novelty nor invention is tested.",
+    "No proposers, main sample, P3B, internal-model probes, or pods in this freeze.",
+    "Same v2 model-facing prompt, tool, model, effort, limits, and standard Lean axiom policy.",
+    "Invariant levels exclude development components; literal word orbits exclude all declared development inputs.",
+    "Longer first sibling fixes an exhausted stratum; no selection uses model outcomes.",
+    "No retries/fallbacks or automatic refreezes; run directory must be new."
+  ],
+  "order_seed": 3895846615922331583,
+  "plan_id": "p3a_conceptual_headroom_v3",
+  "pricing": {
+    "base_input_usd_per_million": 5.0,
+    "base_output_usd_per_million": 25.0,
+    "basis": "standard regional list rates; excludes taxes/private discounts; not an AWS-enforced billing cap",
+    "checked_on": "2026-09-04",
+    "regional_multiplier": 1.1,
+    "sources": [
+      "https://platform.claude.com/docs/en/about-claude/pricing",
+      "https://platform.claude.com/docs/en/build-with-claude/claude-in-amazon-bedrock"
+    ]
+  },
+  "provider": "bedrock-mantle",
+  "reserved_worst_case_usd": 13.2,
+  "run_directory": "runs/p3/calibration/p3a_conceptual_headroom_v3",
+  "schema_version": 1,
+  "status": "FROZEN",
+  "system_prompt_sha256": "d4d87f3fbcd7677815aa2579faf461a3324070faf82c441d24d67296a9c677cf",
+  "tool_schema_sha256": "8b8579ce83e11ff2a77c1f53dd833f55c1218d82e301a3068c3b6e12d0296580",
+  "worlds": [
+    {
+      "family": "invariant",
+      "manifest_sha256": "5e72983e62ae3b23f6680706cfb901a3d0d895fba3b5662f904f2abe3a5ca1bb",
+      "path": "worlds/calibration/CAL3_I_E87C49876088749B",
+      "seed": "0ba106e49c63867a",
+      "world_id": "CAL3_I_E87C49876088749B"
+    },
+    {
+      "family": "representation",
+      "manifest_sha256": "3259ff76a4b35bd4eb3419bd5b7abd4207ee0eb908aad4737d3891680a755906",
+      "path": "worlds/calibration/CAL3_R_F76437525B190ECB",
+      "seed": "88eccde948655e9b",
+      "world_id": "CAL3_R_F76437525B190ECB"
+    }
+  ]
+}

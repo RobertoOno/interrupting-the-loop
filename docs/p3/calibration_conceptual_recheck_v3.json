@@ -1,0 +1,98 @@
+{
+  "aggregate_matches": true,
+  "checks": [
+    {
+      "cell_id": "C3_34444F10C6FB",
+      "matches_original": true,
+      "original_solved": true,
+      "recheck": {
+        "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      },
+      "submitted_candidate": true
+    },
+    {
+      "cell_id": "C3_E82B730AE2FC",
+      "matches_original": true,
+      "original_solved": false,
+      "submitted_candidate": false
+    },
+    {
+      "cell_id": "C3_0EDE37B732AD",
+      "matches_original": true,
+      "original_solved": true,
+      "recheck": {
+        "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout2Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+      },
+      "submitted_candidate": true
+    },
+    {
+      "cell_id": "C3_4D8415A8C7D4",
+      "matches_original": true,
+      "original_solved": true,
+      "recheck": {
+        "declaration": "P3.CAL3_R_F76437525B190ECB.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\n\nP3.CAL3_R_F76437525B190ECB.evaluation_solution : P3.CAL3_R_F76437525B190ECB.Holdout1Statement\n'P3.CAL3_R_F76437525B190ECB.evaluation_solution' depends on axioms: [propext, Quot.sound]\n"
+      },
+      "submitted_candidate": true
+    },
+    {
+      "cell_id": "C3_DA44DEED14FB",
+      "matches_original": true,
+      "original_solved": false,
+      "submitted_candidate": false
+    },
+    {
+      "cell_id": "C3_A0B95ED6D79D",
+      "matches_original": true,
+      "original_solved": false,
+      "submitted_candidate": false
+    },
+    {
+      "cell_id": "C3_4BEC90270000",
+      "matches_original": true,
+      "original_solved": true,
+      "recheck": {
+        "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout1Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      },
+      "submitted_candidate": true
+    },
+    {
+      "cell_id": "C3_70E94CC300F1",
+      "matches_original": true,
+      "original_solved": true,
+      "recheck": {
+        "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      },
+      "submitted_candidate": true
+    }
+  ],
+  "estimated_cost_recomputed_from_response_tokens_usd": "1.3573450",
+  "model_calls": 0,
+  "ok": true,
+  "raw_files_verified": 92,
+  "usage_matches_raw_responses": true
+}

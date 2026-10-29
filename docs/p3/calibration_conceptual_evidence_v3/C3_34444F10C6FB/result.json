@@ -1,0 +1,56 @@
+{
+  "cell": {
+    "cell_id": "C3_34444F10C6FB",
+    "condition": "no_bridge",
+    "holdout": 2,
+    "model_input_sha256": "15d0da32f303e58cb0efdba922a25e6205c9400439b6735b4a9e9110b8c5514e",
+    "ordinal": 1,
+    "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+    "world_id": "CAL3_I_E87C49876088749B"
+  },
+  "result": {
+    "cost_basis": "regional standard list rates; excludes tax/private discounts; cache writes conservatively at 1h rate",
+    "cost_usd_at_published_rates": 0.2755555,
+    "elapsed_seconds": 89.72813149995636,
+    "error": null,
+    "infrastructure_failure": false,
+    "input_reserved": 14023,
+    "output_reserved": 7843,
+    "reported_models": [
+      "claude-opus-5",
+      "claude-opus-5"
+    ],
+    "requests": 2,
+    "session_cost_ceiling_usd": 1.65,
+    "status": "solved",
+    "target_solved": true,
+    "tokens": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 10886,
+      "output_tokens": 7843
+    },
+    "uncertain_request": false,
+    "verification": [
+      {
+        "declaration": null,
+        "errors": [
+          "Lean rejected Solution.lean: Solution.lean:12:2: error: Too many variable names provided at alternative `refl`: 1 provided, but 0 expected"
+        ],
+        "ok": false,
+        "solution_valid": false,
+        "stderr": "",
+        "stdout": "Solution.lean:12:2: error: Too many variable names provided at alternative `refl`: 1 provided, but 0 expected\n"
+      },
+      {
+        "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      }
+    ],
+    "workspace_audit_errors": []
+  }
+}

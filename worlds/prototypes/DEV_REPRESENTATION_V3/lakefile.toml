@@ -1,0 +1,8 @@
+name = "p3_dev_representation_v3"
+version = "0.1.0"
+
+[[lean_lib]]
+name = "World"
+
+[[lean_lib]]
+name = "Hidden"

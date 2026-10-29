@@ -43,6 +43,10 @@ def main() -> None:
     p.add_argument("--pseudo-every", type=int, default=0, help="matched layout: pseudo-injections every N tokens for cells without text injections")
     p.add_argument("--pseudo-len", type=int, default=32, help="length of the pseudo-injection (the burst)")
     p.add_argument("--cells-regex", default=None, help="only cells whose directory name matches this regex")
+    p.add_argument("--offsets", type=int, nargs="+", default=None,
+                   help="gen protocol: window offsets after each injection end (default 32 160 300 450 600 750); "
+                        "e.g. --offsets 0 --margin 0 judges the window that begins at the injection end")
+    p.add_argument("--margin", type=int, default=32, help="gen protocol: minimum offset (default 32)")
     p.add_argument("--protocol", choices=["events", "gen"], default="events",
                    help="events: windows at recorded review points (160 tokens, may contain injected text); "
                         "gen: generated-only windows (96 tokens, 32 after each injection, none crossing an injection)")
@@ -60,7 +64,10 @@ def main() -> None:
         if args.cells_regex and not __import__("re").search(args.cells_regex, d.name):
             continue
         if args.protocol == "gen":
-            wins = windows_generated(d, tokenizer, pseudo=((args.pseudo_every, args.pseudo_len) if args.pseudo_every else None))
+            kw = {"pseudo": ((args.pseudo_every, args.pseudo_len) if args.pseudo_every else None), "margin": args.margin}
+            if args.offsets:
+                kw["offsets"] = tuple(args.offsets)
+            wins = windows_generated(d, tokenizer, **kw)
             # cap per (cell, offset): 6 windows evenly spread per 'since' value
             by_kind = {}
             for w in wins:

@@ -1,0 +1,202 @@
+{
+  "baseline_successes": 1,
+  "behavioral_gate_tested": true,
+  "cells": [
+    {
+      "cell": {
+        "cell_id": "C3_34444F10C6FB",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "15d0da32f303e58cb0efdba922a25e6205c9400439b6735b4a9e9110b8c5514e",
+        "ordinal": 1,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd_at_published_rates": 0.2755555,
+      "error": null,
+      "requests": 2,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 10886,
+        "output_tokens": 7843
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_E82B730AE2FC",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "e9d21a8a11f742e1c04c3192d78cb3fb591bcc53845f4ef6efa714c88e28102e",
+        "ordinal": 2,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd_at_published_rates": 0.233233,
+      "error": null,
+      "requests": 1,
+      "status": "output_limit",
+      "target_solved": false,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_0EDE37B732AD",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "89223629480f0e813dd8e55ae97a68f4da0265f440bd0250954bf652725a9d98",
+        "ordinal": 3,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd_at_published_rates": 0.068706,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 2001
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_4D8415A8C7D4",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "9935a18bef09d4afdff3463824b7146cfd8c98c75a448c35fa0c27c0813c5e32",
+        "ordinal": 4,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd_at_published_rates": 0.068926,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2487,
+        "output_tokens": 2009
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_DA44DEED14FB",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+        "ordinal": 5,
+        "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+        "world_id": "CAL3_R_F76437525B190ECB"
+      },
+      "cost_usd_at_published_rates": 0.233233,
+      "error": null,
+      "requests": 1,
+      "status": "output_limit",
+      "target_solved": false,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1446,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_A0B95ED6D79D",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "model_input_sha256": "ce261dde1cd8ded3134fe88c6df7faca372d9bf911775d176fc57bcccdb447a5",
+        "ordinal": 6,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd_at_published_rates": 0.2346355,
+      "error": null,
+      "requests": 1,
+      "status": "output_limit",
+      "target_solved": false,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1701,
+        "output_tokens": 8192
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_4BEC90270000",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "model_input_sha256": "980294fc1570e29977e0b4ea3294f5f2163f3f07f75fa25cadeab90a7da26d7d",
+        "ordinal": 7,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd_at_published_rates": 0.163086,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1982,
+        "output_tokens": 5534
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "C3_70E94CC300F1",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "model_input_sha256": "2db0316d4053573567ccb3bd11cc67cbad1582343525566610938ac3bb04ee19",
+        "ordinal": 8,
+        "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+        "world_id": "CAL3_I_E87C49876088749B"
+      },
+      "cost_usd_at_published_rates": 0.07997,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 1980,
+        "output_tokens": 2512
+      }
+    }
+  ],
+  "cells_total": 8,
+  "cells_valid": 8,
+  "complete_pairs": 4,
+  "cost_usd_at_published_rates": 1.357345,
+  "freeze_commit": "6d159a5245f4b83951ce178303a1953616fb908f",
+  "gate_passed": true,
+  "main_sample_started": false,
+  "model": "anthropic.claude-opus-5",
+  "net_gain": 3,
+  "oracle_successes": 4,
+  "plan_id": "p3a_conceptual_headroom_v3",
+  "schema_version": 1,
+  "structural_novelty_claimed": false,
+  "tokens": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 24415,
+    "output_tokens": 44475
+  },
+  "uncertain_requests": 0
+}

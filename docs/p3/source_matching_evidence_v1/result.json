@@ -1,0 +1,39 @@
+{
+  "count_requests": 11,
+  "empty_source_input_tokens": 1005,
+  "families": {
+    "invariant": {
+      "full_initial_input_tokens": {
+        "C2": 2928,
+        "D": 2926,
+        "D0": 2226
+      },
+      "source_incremental_tokens": {
+        "C2": 691,
+        "D": 689
+      },
+      "symmetric_relative_gap": 0.002898550724637681,
+      "within_tolerance": true
+    },
+    "representation": {
+      "full_initial_input_tokens": {
+        "C2": 3302,
+        "D": 3306,
+        "D0": 1967
+      },
+      "source_incremental_tokens": {
+        "C2": 1324,
+        "D": 1328
+      },
+      "symmetric_relative_gap": 0.0030165912518853697,
+      "within_tolerance": true
+    }
+  },
+  "inference_calls": 0,
+  "main_sample_admitted": false,
+  "matching_passed": true,
+  "next_step": "continue_prospective_batch_preparation",
+  "plan_id": "p3_source_matching_v1",
+  "scope": "Native input estimates, not billed usage, semantic equality, or model outcomes.",
+  "status": "complete"
+}

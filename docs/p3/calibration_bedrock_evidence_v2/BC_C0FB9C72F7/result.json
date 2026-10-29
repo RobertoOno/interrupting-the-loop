@@ -1,0 +1,44 @@
+{
+  "cell": {
+    "cell_id": "BC_C0FB9C72F7",
+    "condition": "no_bridge",
+    "holdout": 1,
+    "ordinal": 1,
+    "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+    "world_id": "CAL2_T1_6A99B5D87E404DF3"
+  },
+  "result": {
+    "cost_basis": "regional standard list rates; excludes tax/private discounts; cache writes conservatively at 1h rate",
+    "cost_usd_at_published_rates": 0.057519,
+    "elapsed_seconds": 18.055823749979027,
+    "error": null,
+    "infrastructure_failure": false,
+    "input_reserved": 4009,
+    "output_reserved": 1549,
+    "reported_models": [
+      "claude-opus-5"
+    ],
+    "requests": 1,
+    "session_cost_ceiling_usd": 1.65,
+    "status": "solved",
+    "target_solved": true,
+    "tokens": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 2713,
+      "output_tokens": 1549
+    },
+    "uncertain_request": false,
+    "verification": [
+      {
+        "declaration": "P3.CAL2_T1_6A99B5D87E404DF3.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\nP3.CAL2_T1_6A99B5D87E404DF3.evaluation_solution : P3.CAL2_T1_6A99B5D87E404DF3.Holdout1Statement\n'P3.CAL2_T1_6A99B5D87E404DF3.evaluation_solution' does not depend on any axioms\n"
+      }
+    ],
+    "workspace_audit_errors": []
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-08T02:40:13.521858+00:00",
+  "cell": {
+    "cell_id": "S16_DA44DEED14FB_16384",
+    "condition": "no_bridge",
+    "holdout": 2,
+    "model_input_sha256": "802808269e3548344fcf49cf2604571f6c3d6845d34b9f425cd4d4627b0eb38c",
+    "ordinal": 1,
+    "output_per_request": 16384,
+    "world": "worlds/calibration/CAL3_R_F76437525B190ECB",
+    "world_id": "CAL3_R_F76437525B190ECB"
+  }
+}

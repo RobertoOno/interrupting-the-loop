@@ -1,0 +1,41 @@
+{
+  "system": "You are a Lean proof-solving agent in a controlled experiment.\nAll available files are supplied in the user message. Follow TASK.md exactly.\nUse check_solution to submit the complete contents of Solution.lean and receive\ncompiler feedback. You may revise it after a rejection. A verified solution ends\nthe session automatically. No shell, external information, or other files exist\nfor this task. Do not ask questions. Use Lean 4.33.1, without Mathlib.\nProve the exact frozen statement. Only the standard Lean axioms propext,\nClassical.choice, and Quot.sound are allowed as transitive dependencies. sorryAx\nis forbidden. Compiler success alone is insufficient; the checker also checks\nthe exact statement and full axiom audit. Do not use\nmetaprogramming, new axioms, unsafe declarations, or change supplied inputs.\nOnly submit one check_solution call at a time. Local helper lemmas in Solution.lean\nare permitted. Work within the fixed session budget; prioritize a valid proof.\n",
+  "tools": [
+    {
+      "name": "check_solution",
+      "description": "Replace Solution.lean with this complete source and check its exact type and axiom dependencies. A valid proof finishes the session.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "source"
+        ],
+        "additionalProperties": false
+      }
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "FILE TASK.md\n```\nProve P3.CAL3_I_E87C49876088749B.Holdout1Statement from World/ChallengeEvaluation.lean.\nNo bridge is supplied.\nSolution.lean must import only World.ChallengeEvaluation.\nDeclare theorem evaluation_solution with exactly that frozen statement type, either\nglobally or inside exactly namespace P3.CAL3_I_E87C49876088749B.\nWrite only Solution.lean; do not edit supplied files or any bridge.\n\n```\n\nFILE World/Base.lean\n```\nimport Std\n\nnamespace P3.CAL3_I_E87C49876088749B\n\nstructure State where\n  x : Int\n  y : Int\n  z : Int\nderiving DecidableEq, Repr\n\ndef move1 (s : State) : State := ⟨s.x + 2 * s.y + s.z - 2 * (1) - (-4), s.y + s.z - (-4), s.z⟩\ndef move2 (s : State) : State := ⟨s.x - 2 * s.y + s.z + 2 * (1) - (-4), s.y - s.z + (-4), s.z⟩\ndef move3 (s : State) : State := ⟨s.x, s.x + s.y - (-2), s.x + 2 * s.y + s.z - (-2) - 2 * (1)⟩\ndef move4 (s : State) : State := ⟨s.x, s.y - s.x + (-2), s.x - 2 * s.y + s.z - (-2) + 2 * (1)⟩\n\ninductive Step : State → State → Prop where\n  | first (s) : Step s (move1 s)\n  | second (s) : Step s (move2 s)\n  | third (s) : Step s (move3 s)\n  | fourth (s) : Step s (move4 s)\n\ninductive Reaches : State → State → Prop where\n  | refl (s) : Reaches s s\n  | tail {s t u} : Reaches s t → Step t u → Reaches s u\n\ndef start : State := ⟨20, 4, -3⟩\n\nend P3.CAL3_I_E87C49876088749B\n\n```\n\nFILE World/ChallengeEvaluation.lean\n```\nimport World.Base\n\nnamespace P3.CAL3_I_E87C49876088749B\n\ndef Holdout1Statement : Prop :=\n  ∀ (a b : Int), ¬ Reaches start ⟨a + (-2), b + (1), -a + (-4)⟩\n\nend P3.CAL3_I_E87C49876088749B\n\n```\n\nFILE lakefile.toml\n```\nname = \"cal3_i_e87c49876088749b\"\nversion = \"1.0.0\"\n\n[[lean_lib]]\nname = \"World\"\n\n[[lean_lib]]\nname = \"Hidden\"\n\n[[lean_lib]]\nname = \"Sources\"\n\n```\n\nFILE lean-toolchain\n```\nleanprover/lean4:v4.33.1\n\n```"
+    }
+  ],
+  "config": {
+    "model": "anthropic.claude-opus-5",
+    "aws_profile": "main-account",
+    "aws_region": "us-east-1",
+    "effort": "high",
+    "max_turns": 12,
+    "timeout_seconds": 600.0,
+    "request_timeout_seconds": 120.0,
+    "max_input_tokens": 200000,
+    "max_output_tokens": 20000,
+    "output_per_request": 8192,
+    "input_usd_per_million": 5.5,
+    "output_usd_per_million": 27.5
+  }
+}

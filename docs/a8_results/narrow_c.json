@@ -1,0 +1,201 @@
+{
+ "mode": "a8_curation_narrowing",
+ "families": {
+  "W1": {
+   "schema": "pell_mod",
+   "base": {
+    "n": 18,
+    "k": 0,
+    "instances": 6,
+    "rate": 0.0
+   },
+   "own2": {
+    "n": 18,
+    "k": 13,
+    "instances": 6,
+    "rate": 0.7222222222222222
+   },
+   "curm2": {
+    "n": 18,
+    "k": 0,
+    "instances": 6,
+    "rate": 0.0
+   },
+   "curm2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.0,
+    "p_rise": 1.0,
+    "p_fall": 1.0,
+    "rise": false,
+    "fall": false
+   },
+   "own2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.7222222222222222,
+    "p_rise": 0.015625,
+    "p_fall": 1.0,
+    "rise": true,
+    "fall": false
+   },
+   "own2_vs_curm2": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.7222222222222222,
+    "p_rise": 0.015625,
+    "p_fall": 1.0,
+    "rise": true,
+    "fall": false
+   },
+   "floor_for_fall": true
+  },
+  "W2": {
+   "schema": "plane_lattice",
+   "base": {
+    "n": 18,
+    "k": 6,
+    "instances": 6,
+    "rate": 0.3333333333333333
+   },
+   "own2": {
+    "n": 18,
+    "k": 11,
+    "instances": 6,
+    "rate": 0.6111111111111112
+   },
+   "curm2": {
+    "n": 18,
+    "k": 7,
+    "instances": 6,
+    "rate": 0.3888888888888889
+   },
+   "curm2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.05555555555555555,
+    "p_rise": 0.5,
+    "p_fall": 0.875,
+    "rise": false,
+    "fall": false
+   },
+   "own2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.27777777777777773,
+    "p_rise": 0.125,
+    "p_fall": 1.0,
+    "rise": false,
+    "fall": false
+   },
+   "own2_vs_curm2": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.2222222222222222,
+    "p_rise": 0.0625,
+    "p_fall": 1.0,
+    "rise": false,
+    "fall": false
+   },
+   "floor_for_fall": false
+  },
+  "W3": {
+   "schema": "hyperbolic4",
+   "base": {
+    "n": 18,
+    "k": 5,
+    "instances": 6,
+    "rate": 0.2777777777777778
+   },
+   "own2": {
+    "n": 18,
+    "k": 14,
+    "instances": 6,
+    "rate": 0.7777777777777778
+   },
+   "curm2": {
+    "n": 18,
+    "k": 3,
+    "instances": 6,
+    "rate": 0.16666666666666666
+   },
+   "curm2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": -0.11111111111111109,
+    "p_rise": 0.8125,
+    "p_fall": 0.375,
+    "rise": false,
+    "fall": false
+   },
+   "own2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.5,
+    "p_rise": 0.03125,
+    "p_fall": 1.0,
+    "rise": true,
+    "fall": false
+   },
+   "own2_vs_curm2": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.611111111111111,
+    "p_rise": 0.03125,
+    "p_fall": 0.984375,
+    "rise": true,
+    "fall": false
+   },
+   "floor_for_fall": false
+  },
+  "W4": {
+   "schema": "lattice_mod_p",
+   "base": {
+    "n": 18,
+    "k": 4,
+    "instances": 6,
+    "rate": 0.2222222222222222
+   },
+   "own2": {
+    "n": 18,
+    "k": 14,
+    "instances": 6,
+    "rate": 0.7777777777777778
+   },
+   "curm2": {
+    "n": 18,
+    "k": 6,
+    "instances": 6,
+    "rate": 0.3333333333333333
+   },
+   "curm2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.11111111111111112,
+    "p_rise": 0.375,
+    "p_fall": 0.84375,
+    "rise": false,
+    "fall": false
+   },
+   "own2_vs_base": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.5555555555555556,
+    "p_rise": 0.03125,
+    "p_fall": 1.0,
+    "rise": true,
+    "fall": false
+   },
+   "own2_vs_curm2": {
+    "n_instances": 6,
+    "mean_rate_diff": 0.4444444444444444,
+    "p_rise": 0.078125,
+    "p_fall": 0.984375,
+    "rise": false,
+    "fall": false
+   },
+   "floor_for_fall": true
+  }
+ },
+ "n_not_observed": 0,
+ "rules": {
+  "P_narrow": false,
+  "P_generalise": true,
+  "families_narrowed": [],
+  "families_generalised": [
+   "W1",
+   "W3",
+   "W4"
+  ]
+ },
+ "verdict": "self_generalises_only"
+}

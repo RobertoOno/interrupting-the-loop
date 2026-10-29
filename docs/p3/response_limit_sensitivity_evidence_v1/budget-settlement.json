@@ -1,0 +1,7 @@
+{
+  "at": "2026-09-07T23:50:43.960493-03:00",
+  "basis": "reported tokens at frozen list rates; not invoice",
+  "event": "settle",
+  "run_id": "p3a_response_limit_sensitivity_v1",
+  "usd": "3.002593"
+}

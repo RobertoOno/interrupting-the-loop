@@ -1,0 +1,8 @@
+# Preserve the byte-level inputs used by frozen protocol hashes.
+reproduction/p3_snapshot/** -text
+docs/p3/** -text
+worlds/** -text
+src/creative_machine/formal_routes/** -text
+# These delivered appendices retain their original trailing blank lines.
+docs/APPENDIX_P3_*.md whitespace=-blank-at-eof
+docs/APPENDIX_SLOT.md whitespace=-blank-at-eof

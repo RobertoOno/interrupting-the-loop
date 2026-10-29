@@ -5,15 +5,15 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "creative-machine"
 version = "0.1.0"
-description = "Fertile-error machine: entropy-adaptive anti-probable decoding with a coherence guard"
+description = "Published language-model generation and verified-search experiments"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24"]
 
 [project.optional-dependencies]
 mlx = ["mlx-lm>=0.21"]
-dev = ["pytest>=8"]
+dev = ["pytest>=8", "sympy>=1.12", "safetensors>=0.4"]
 bedrock = ["anthropic[bedrock]==1.4.0"]
-analysis = ["scipy>=1.10", "numpy>=1.24"]  # analysis scripts (scripts/analysis_*.py, bits ladder, audits): Mann-Whitney, FFT, optimizers
+analysis = ["scipy>=1.10", "numpy>=1.24", "matplotlib>=3.7"]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -21,3 +21,5 @@ where = ["src"]
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
+# P3 has its own hash-pinned runtime and CI job; see REPRODUCING.md.
+addopts = "--ignore-glob=tests/test_p3_*.py"

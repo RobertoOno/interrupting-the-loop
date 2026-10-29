@@ -1,0 +1,46 @@
+{
+  "cell": {
+    "cell_id": "S16_70E94CC300F1_8192",
+    "condition": "oracle_bridge",
+    "holdout": 2,
+    "model_input_sha256": "2db0316d4053573567ccb3bd11cc67cbad1582343525566610938ac3bb04ee19",
+    "ordinal": 12,
+    "output_per_request": 8192,
+    "world": "worlds/calibration/CAL3_I_E87C49876088749B",
+    "world_id": "CAL3_I_E87C49876088749B"
+  },
+  "result": {
+    "cost_basis": "regional standard list rates; excludes tax/private discounts; cache writes conservatively at 1h rate",
+    "cost_usd_at_published_rates": 0.03751,
+    "elapsed_seconds": 14.98342195909936,
+    "error": null,
+    "infrastructure_failure": false,
+    "input_reserved": 3202,
+    "output_reserved": 968,
+    "reported_models": [
+      "claude-opus-5"
+    ],
+    "requests": 1,
+    "session_cost_ceiling_usd": 1.65,
+    "status": "solved",
+    "target_solved": true,
+    "tokens": {
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "input_tokens": 1980,
+      "output_tokens": 968
+    },
+    "uncertain_request": false,
+    "verification": [
+      {
+        "declaration": "P3.CAL3_I_E87C49876088749B.evaluation_solution",
+        "errors": [],
+        "ok": true,
+        "solution_valid": true,
+        "stderr": "",
+        "stdout": "\n\nP3.CAL3_I_E87C49876088749B.evaluation_solution : P3.CAL3_I_E87C49876088749B.Holdout2Statement\n'P3.CAL3_I_E87C49876088749B.evaluation_solution' depends on axioms: [propext, Classical.choice, Quot.sound]\n"
+      }
+    ],
+    "workspace_audit_errors": []
+  }
+}

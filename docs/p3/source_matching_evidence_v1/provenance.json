@@ -1,0 +1,19 @@
+{
+  "aws_profile": "main-account",
+  "aws_region": "us-east-1",
+  "base_url": "https://bedrock-mantle.us-east-1.api.aws/anthropic",
+  "client_class": "anthropic.lib.bedrock._mantle.AnthropicBedrockMantle",
+  "commit_before_counts": "ab9573a617e646e0098795b14324812170547837",
+  "endpoint_path": "/v1/messages/count_tokens",
+  "injected_client": false,
+  "max_retries": 0,
+  "packages": {
+    "anthropic": "1.4.0",
+    "boto3": "1.43.89",
+    "botocore": "1.43.89",
+    "httpx2": "2.12.0"
+  },
+  "plan_sha256": "bdaa42d196d15e58b6bbb045468b9056b1b4c14332c0859eff6a15ddf5ee2aea",
+  "python": "3.14.6",
+  "started_at": "2026-09-08T06:44:20.181215+00:00"
+}

@@ -1,0 +1,190 @@
+{
+  "baseline_successes": 4,
+  "cells": [
+    {
+      "cell": {
+        "cell_id": "BC_C0FB9C72F7",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "ordinal": 1,
+        "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+        "world_id": "CAL2_T1_6A99B5D87E404DF3"
+      },
+      "cost_usd_at_published_rates": 0.057519,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2713,
+        "output_tokens": 1549
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_73AEED3587",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "ordinal": 2,
+        "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+        "world_id": "CAL2_T1_6A99B5D87E404DF3"
+      },
+      "cost_usd_at_published_rates": 0.050413,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2691,
+        "output_tokens": 1295
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_A8BF25F181",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "ordinal": 3,
+        "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+        "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+      },
+      "cost_usd_at_published_rates": 0.0206635,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2707,
+        "output_tokens": 210
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_50EF266A89",
+        "condition": "no_bridge",
+        "holdout": 1,
+        "ordinal": 4,
+        "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+        "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+      },
+      "cost_usd_at_published_rates": 0.0768185,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2177,
+        "output_tokens": 2358
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_AD8E6806F7",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "ordinal": 5,
+        "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+        "world_id": "CAL2_T1_6A99B5D87E404DF3"
+      },
+      "cost_usd_at_published_rates": 0.0273405,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 3261,
+        "output_tokens": 342
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_E4D3D45D09",
+        "condition": "oracle_bridge",
+        "holdout": 2,
+        "ordinal": 6,
+        "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+        "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+      },
+      "cost_usd_at_published_rates": 0.021285,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2780,
+        "output_tokens": 218
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_B522C28346",
+        "condition": "oracle_bridge",
+        "holdout": 1,
+        "ordinal": 7,
+        "world": "worlds/calibration/CAL2_T1_6A99B5D87E404DF3",
+        "world_id": "CAL2_T1_6A99B5D87E404DF3"
+      },
+      "cost_usd_at_published_rates": 0.023804,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 3283,
+        "output_tokens": 209
+      }
+    },
+    {
+      "cell": {
+        "cell_id": "BC_17217E6C90",
+        "condition": "no_bridge",
+        "holdout": 2,
+        "ordinal": 8,
+        "world": "worlds/calibration/CAL2_T2_9E9C8F0211D9DA4F",
+        "world_id": "CAL2_T2_9E9C8F0211D9DA4F"
+      },
+      "cost_usd_at_published_rates": 0.11363,
+      "error": null,
+      "requests": 1,
+      "status": "solved",
+      "target_solved": true,
+      "tokens": {
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "input_tokens": 2250,
+        "output_tokens": 3682
+      }
+    }
+  ],
+  "cells_total": 8,
+  "cells_valid": 8,
+  "complete_pairs": 4,
+  "cost_usd_at_published_rates": 0.3914735,
+  "gate_passed": false,
+  "model": "anthropic.claude-opus-5",
+  "net_gain": 0,
+  "oracle_successes": 4,
+  "plan_id": "p3a_bedrock_headroom_v2",
+  "schema_version": 1,
+  "tokens": {
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "input_tokens": 21862,
+    "output_tokens": 9863
+  },
+  "uncertain_requests": 0
+}

@@ -1,0 +1,16 @@
+{
+  "allowed_outputs": [
+    "Solution.lean"
+  ],
+  "condition": "no_bridge",
+  "copied_hashes": {
+    "TASK.md": "d617cbbb55e1dc14d9209060c0015c7e66c58dfeabb24fd0612d7c3fb8212e6d",
+    "World/Base.lean": "ce0353c3a4f92a08a24c11d068c65b33a4d0b1b240a5278abeca6e60d7cfe3a2",
+    "World/ChallengeEvaluation.lean": "0087215ac50ac6018fe4d81220f457cdf5ff622f1271b0213fef34159ea7cf7f",
+    "lakefile.toml": "a482ba993737f46a5884955f16f1e5c674342152f602a1821a991bc5c8e857c7",
+    "lean-toolchain": "3aac669c7a910ec2389f4e4f921b605adf6ebf2d1e0c9b9cd0be4d33f3f5db71"
+  },
+  "path": "/Users/robertoonofilho/wrk/creative-machine/runs/p3/sensitivity/p3a_response_limit_sensitivity_v1/S16_E82B730AE2FC_16384/workspace",
+  "role": "evaluator",
+  "world_id": "CAL3_R_F76437525B190ECB"
+}

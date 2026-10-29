@@ -16,6 +16,12 @@ Pre-registered PLANO 2026-08-31. Per model: does pulse − habit replicate, and 
 | pulse | 1.34 | 0.54 | 0.46 | 3.15 | 0.986 |
 | inter | 1.43 | 0.67 | 0.57 | 2.64 | 0.966 |
 
+| arm | scheduled windows | judged | dropped | mean k (judged) | k = 5 | k ≤ 2 |
+|---|---|---|---|---|---|---|
+| habit | 60 | 53 | 7 (12%) | 4.42 | 39 | 6 |
+| pulse | 60 | 43 | 17 (28%) | 4.72 | 37 | 2 |
+| inter | 70 | 60 | 10 (14%) | 4.03 | 35 | 13 |
+
 ## qwen14
 
 | contrast | Δ [CI] | p | guard | verdict |
@@ -29,6 +35,12 @@ Pre-registered PLANO 2026-08-31. Per model: does pulse − habit replicate, and 
 | pulse | 3.48 | 2.10 | 5.10 | 3.11 | 0.960 |
 | inter | 3.48 | 2.42 | 5.26 | 2.42 | 0.957 |
 
+| arm | scheduled windows | judged | dropped | mean k (judged) | k = 5 | k ≤ 2 |
+|---|---|---|---|---|---|---|
+| habit | 60 | 60 | 0 (0%) | 4.98 | 59 | 0 |
+| pulse | 60 | 60 | 0 (0%) | 4.97 | 59 | 0 |
+| inter | 70 | 70 | 0 (0%) | 4.94 | 68 | 1 |
+
 ## qwen38
 
 | contrast | Δ [CI] | p | guard | verdict |
@@ -41,3 +53,9 @@ Pre-registered PLANO 2026-08-31. Per model: does pulse − habit replicate, and 
 | habit | 1.21 | 0.60 | 0.26 | 1.91 | 0.962 |
 | pulse | 1.41 | 0.60 | 0.47 | 2.20 | 0.932 |
 | inter | 1.27 | 0.80 | 0.48 | 2.02 | 0.950 |
+
+| arm | scheduled windows | judged | dropped | mean k (judged) | k = 5 | k ≤ 2 |
+|---|---|---|---|---|---|---|
+| habit | 60 | 45 | 15 (25%) | 4.53 | 37 | 4 |
+| pulse | 60 | 47 | 13 (22%) | 4.68 | 42 | 3 |
+| inter | 70 | 54 | 16 (23%) | 4.54 | 38 | 2 |
