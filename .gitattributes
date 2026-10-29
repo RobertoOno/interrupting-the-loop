@@ -6,3 +6,5 @@ src/creative_machine/formal_routes/** -text
 # These delivered appendices retain their original trailing blank lines.
 docs/APPENDIX_P3_*.md whitespace=-blank-at-eof
 docs/APPENDIX_SLOT.md whitespace=-blank-at-eof
+# Generated programs are supplied byte-for-byte as experimental inputs.
+docs/hint/seed_self_s*.py -text whitespace=-blank-at-eol,-blank-at-eof

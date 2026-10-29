@@ -4173,6 +4173,38 @@
     "docs/p3/AWS_LIMITE_DIARIO.md": {
       "source": "explicit public fixture for an omitted private operational note; not historical bytes",
       "sha256": "eb8ca8dec742f50a4e0bc41f685bcf5f8da3614faa08da3577b012ce375fdf80"
+    },
+    "docs/hint/README.md": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/README.md",
+      "sha256": "4daf3fad049fdb95630ef0f4b0ef3b8d9f43a26e2b8dd3910f0cd1a4d457e604"
+    },
+    "docs/hint/hint_code_poor.txt": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/hint_code_poor.txt",
+      "sha256": "050e1abb6623cbe166f2a03da2c534822ca56273385be40f378b696af3462135"
+    },
+    "docs/hint/seed_family_oracle.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_family_oracle.py",
+      "sha256": "84703722b84661d14bc96125261a7594cf3fd5619779288858c5ca6f92697753"
+    },
+    "docs/hint/seed_family_poor.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_family_poor.py",
+      "sha256": "883dc292ebc4c370f9f550aa5af09fb5d155f3836116f6e8a6f1eed5cb7bac29"
+    },
+    "docs/hint/seed_self_s11.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_self_s11.py",
+      "sha256": "148ccd1030f982db92bd7d9075602e7234d6a80f8125a397ee7875da2e1719e9"
+    },
+    "docs/hint/seed_self_s12.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_self_s12.py",
+      "sha256": "ae650f006e3b587bbc5ae385c180d7733fe152c1b4f0d7f832af67bd50abed54"
+    },
+    "docs/hint/seed_self_s13.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_self_s13.py",
+      "sha256": "7c077b9bcf24a629ee1a1c254f38c1713eb4dfca124c9f01d22e02f6d3973705"
+    },
+    "docs/hint/seed_words.py": {
+      "source": "22713807-program7_factorial.tar.gz:program7_factorial/docs/hint/seed_words.py",
+      "sha256": "fb82692616032cc4ea20319c0deae503d8b64e5671d4d54284d784e2aa9510e6"
     }
   }
 }
